@@ -1989,6 +1989,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
@@ -2006,9 +2015,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/menu').then(function (response) {
-        var menu = response.data;
-        var listGenders = [];
-        var listCategories = [];
+        // массив с изначальной датой
+        var menu = response.data; // выборка на гендер
+
+        var listGenders = []; // выборка на категории
+
+        var listCategories = []; // проходимся по массиву с общими данными и пушим в верхние массивы, выбираем категории меню для 1 уровня 
 
         for (var i in menu) {
           if (menu[i].categories_menu_lvlmenu === 1) {
@@ -2021,11 +2033,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           if (menu[i].sex_name === null) continue;
           listGenders.push(menu[i].sex_name);
           listCategories.push(menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : ''));
-        }
+        } // Выбираем уникальные гендеры
+
 
         var genders = new Set(listGenders);
         var gendersObj = {};
-        var lastMenu = {};
+        var lastMenu = {}; // Определяем гендеры в разных массивах, объектаъ
 
         var _iterator = _createForOfIteratorHelper(genders),
             _step;
@@ -2035,7 +2048,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             var _i3 = _step.value;
             gendersObj[_i3] = [];
             lastMenu[_i3] = {};
-          }
+          } // Пушим данным по гендарным различиям
+
         } catch (err) {
           _iterator.e(err);
         } finally {
@@ -2056,10 +2070,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           } finally {
             _iterator2.f();
           }
-        }
+        } // Выбираем уникальные категории
+
 
         var categories = new Set(listCategories);
-        var categoriesObj = {};
+        var categoriesObj = {}; // Распределяем категории по гендеру
 
         for (var _i2 in lastMenu) {
           var _iterator3 = _createForOfIteratorHelper(categories),
@@ -2722,8 +2737,17 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("nav", [
+    _c("ul", { class: _vm.menu - 1 }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("li", [_vm._v("LAPPINALLE")]),
+      _vm._v(" "),
+      _c("li")
+    ]),
+    _vm._v(" "),
     _c(
       "ul",
+      { class: _vm.menu - 2 },
       _vm._l(_vm.topMenu, function(link, i) {
         return _c(
           "router-link",
@@ -2757,6 +2781,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "ul",
+      { class: _vm.menu - 3 },
       _vm._l(_vm.lastMenu, function(value, catg, i) {
         return _c(
           "router-link",
@@ -2802,7 +2827,18 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("form", [
+        _c("input", { attrs: { type: "search", placeholder: "Поиск" } })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 

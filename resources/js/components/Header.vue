@@ -1,6 +1,15 @@
 <template>
   <nav>
-      <ul>
+      <ul v-bind:class="menu-1">
+          <li>
+              <form>
+                  <input type="search" placeholder="Поиск">
+              </form>
+          </li>
+          <li>LAPPINALLE</li>
+          <li></li>
+      </ul>
+      <ul v-bind:class="menu-2">
           <router-link
                 v-for="(link, i) in topMenu"
                 :key="i"
@@ -12,7 +21,7 @@
                     <a href="#" @mouseover="hoverTopMenu(link.title)">{{link.title}}</a>
                 </router-link>
       </ul>
-      <ul>
+      <ul v-bind:class="menu-3">
           <router-link v-for="(value, catg, i) in lastMenu" 
           :key="i"
           tag="li"
@@ -54,10 +63,16 @@ export default {
             axios
             .get('/api/menu')
             .then(response => {
+                // массив с изначальной датой
                 let menu = response.data;
+
+                // выборка на гендер
                 let listGenders = [];
+
+                // выборка на категории
                 let listCategories = [];
                 
+                // проходимся по массиву с общими данными и пушим в верхние массивы, выбираем категории меню для 1 уровня 
                 for (let i in menu) {
 
                     if (menu[i].categories_menu_lvlmenu === 1) {
@@ -73,15 +88,18 @@ export default {
                     listCategories.push(menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : ''));
                 }
 
+                // Выбираем уникальные гендеры
                 let genders = new Set(listGenders);
                 let gendersObj = {}
                 let lastMenu = {};
 
+                // Определяем гендеры в разных массивах, объектаъ
                 for (let i of genders) {
                     gendersObj[i] = [];
                     lastMenu[i] = {};
                 }
 
+                // Пушим данным по гендарным различиям
                 for (let i in menu){
 
                     for (let k of genders){
@@ -90,9 +108,11 @@ export default {
                     }
                 }
                 
+                // Выбираем уникальные категории
                 let categories = new Set(listCategories);
                 let categoriesObj = {};
 
+                // Распределяем категории по гендеру
                 for (let i in lastMenu) {
                     
                     for (let k of categories) {
@@ -133,6 +153,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang = "scss">
 
 </style>
