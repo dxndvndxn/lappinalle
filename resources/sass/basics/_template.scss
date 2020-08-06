@@ -1,0 +1,17 @@
+//Layoys
+.container{
+    @include template(0px, 60px);
+}
+
+//Grid template
+.grid-nav-top{
+    @include grid-temp(1fr, 1fr, 1fr);
+}
+.grid-nav-bottom{
+    @include grid-temp(0px, 1fr, 0px);
+}
+
+//Flexin
+.flexin-center{
+    @include flexin(center);
+}

@@ -1,0 +1,37 @@
+@mixin template($when, $count){
+    @if $when == 0px {
+        margin: 0 $count;
+    } @else {
+        @media screen and (max-width: $when){
+            margin: 0 $count;
+        }
+    }
+}
+
+@mixin grid-temp($one, $two, $three){
+    display: grid;
+
+    @if $three == 0px {
+        grid-template-columns: $one $two;
+    } @else {
+        grid-template-columns: $one $two $three;
+    }
+}
+
+@mixin flexin($flexin){
+    display: flex;
+    justify-content: $flexin;
+}
+
+@mixin border($where, $count, $clr){
+    border-#{$where}: $count solid $clr;
+}
+
+@mixin ptSans($weight){
+    font-family: 'PT Sans', sans-serif;
+    font-weight: $weight;
+}
+@mixin ptGot($weight){
+    font-family: 'Gotham Pro', sans-serif;
+    font-weight: $weight;
+}

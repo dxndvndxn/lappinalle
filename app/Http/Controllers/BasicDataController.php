@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use DB;
+
 class BasicDataController extends Controller
 {
     public function index(){
@@ -13,12 +13,12 @@ class BasicDataController extends Controller
         ->leftJoin('sex', 'categories_menu.sex_id', '=', 'sex.sex_id')
         ->leftJoin('departments_menu', 'departments_menu.categories_menu_id', '=', 'categories_menu.categories_menu_id')
         ->leftJoin('departments', 'departments_menu.departments_id', '=', 'departments.departments_id')
-         ->get(); 
+         ->get();
          $objectToArray = [];
          foreach ($categories as $catg){
              $newArr = (array)$catg;
              unset(
-             $newArr['categories_menu_id'], 
+             $newArr['categories_menu_id'],
              $newArr['categories_menu_show'],
              $newArr['sex_id'],
              $newArr['categories_id'],
@@ -28,7 +28,9 @@ class BasicDataController extends Controller
             );
              array_push($objectToArray, $newArr);
          }
-
+//         $menuCook = new Cookie();
+//         $menuCook->
+//        cookie('menu', $objectToArray, 5);
         return $objectToArray;
     }
 }

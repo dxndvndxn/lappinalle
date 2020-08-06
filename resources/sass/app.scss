@@ -1,2 +1,19 @@
-
-
+@import "setup/variables";
+@import "setup/mixins";
+@import "basics/template";
+@import "basics/classes";
+@import "components/header";
+@import "components/footer";
+@import "~normalize-scss/sass/normalize";
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+@font-face {
+    font-family: 'Gotham Pro';
+    src: url('../fonts/GothamPro-Black.eot');
+    src: local('Gotham Pro Black'), local('GothamPro-Black'),
+    url('../fonts/GothamPro-Black.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/GothamPro-Black.woff') format('woff'),
+    url('../fonts/GothamPro-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+@include normalize();

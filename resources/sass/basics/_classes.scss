@@ -1,0 +1,51 @@
+.width-300{
+    width: 300px;
+}
+.width-500{
+    width: 500px;
+}
+.width-600{
+    width: 600px;
+}
+.width-700{
+    width: 700px;
+}
+.width-800{
+    width: 800px;
+}
+.width-900{
+    width: 900px;
+}
+.width-1000{
+    width: 1000px;
+}
+.width-default{
+    width: 100%;
+}
+
+.active-top-menu{
+    padding-bottom: 3px;
+    border-bottom: 3px solid #fff;
+}
+
+.active-catg{
+    background-color: $ocean;
+    position: relative;
+
+    &:after{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: -100%;
+        background-color: $ocean;
+        z-index: -1;
+    }
+    a{
+        color: $palepurpp !important;
+    }
+}
+.sale{
+    color: $purpp !important;
+}

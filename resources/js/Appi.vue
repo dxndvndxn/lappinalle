@@ -1,15 +1,15 @@
 <template>
-   <div>
+    <div>
         <component :is='layout'>
             <router-view></router-view>
         </component>
-   </div>
+    </div>
 </template>
 
 <script>
     import MainLayout from "./layouts/MainLayout";
     export default {
-        name: "App",
+        name: "Appi",
         components: {
             MainLayout
         },
@@ -20,3 +20,7 @@
         }
     }
 </script>
+
+<style scoped>
+
+</style>

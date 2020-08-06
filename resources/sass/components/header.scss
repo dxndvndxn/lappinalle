@@ -1,0 +1,144 @@
+@import "../setup/variables";
+@import "../setup/extends";
+
+nav{
+    ul{
+        @extend %ul;
+    }
+    .menu-top{
+        background-color: $palepurpp;
+        padding: 30px 0 20px;
+    }
+    .nav-search{
+        .search{
+            display: flex;
+            width: 188px;
+            input{
+                background-color: $palepurpp;
+                border: none;
+                outline: none;
+                @include border(bottom, 2px, #fff);
+                font-size: $regFz + 2px;
+                width: 100%;
+                color: #fff;
+                appearance: none;
+                @include ptSans(400);
+                &::placeholder{
+                    color: #fff;
+                    @include ptSans(400);
+                }
+            }
+            label{
+                cursor: pointer;
+                @include border(bottom, 2px, #fff);
+            }
+        }
+    }
+    .logo{
+        text-transform: uppercase;
+        a{
+            color: #fff;
+            font-size: $bigFz;
+            text-decoration: none;
+            position: relative;
+            @include ptGot(700);
+            &:before{
+                content: '';
+                position: absolute;
+                width: 33px;
+                height: 6px;
+                background-color: #fff;
+                right: -43px;
+                top: 35%;
+            }
+            &:after{
+                content: '';
+                position: absolute;
+                width: 33px;
+                height: 6px;
+                background-color: #fff;
+                left: -43px;
+                top: 35%;
+            }
+        }
+    }
+    .nav-icons{
+        @include flexin(flex-end);
+        .nav-icons-items{
+            @include flexin(space-between);
+            align-items: baseline;
+            width: 170px;
+            li{
+                display: flex;
+                a{
+                    img{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    .menu-middle{
+        background-color: $paleblue;
+        @include flexin(center);
+        padding: 27px 0;
+    }
+    .genders{
+        @include flexin(space-between);
+        @include ptSans(700);
+        font-size: $bigFz;
+        li{
+            a{
+                color: #fff;
+                text-decoration: none;
+            }
+        }
+    }
+
+    .menu-wrap{
+        position: relative;
+    }
+    .menu-bottom{
+        @include grid-temp(50% , 50%, 0px);
+        @include ptSans(400);
+        position: absolute;
+        width: 100%;
+
+        .menu-categories{
+            width: 100%;
+            background-color: #fff;
+            //margin-left: -45px;
+            padding-top: 20px;
+            li{
+                text-align: right;
+                padding: 15px 30px 15px 0;
+                a{
+                    font-size: $regFz;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                    color: #000;
+                }
+            }
+        }
+        .menu-departments{
+            background-color: $ocean;
+            padding-left: 50px;
+            padding-top: 20px;
+            li{
+                &:not(:first-child){
+                    padding: 10px 0 0;
+                }
+                &:first-child{
+                    padding: 15px 0 0;
+                }
+                a{
+                    text-decoration: none;
+                    font-size: $regFz - 2px;
+                    color: $grey;
+                }
+            }
+        }
+    }
+}
+
