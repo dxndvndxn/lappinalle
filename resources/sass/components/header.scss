@@ -118,6 +118,15 @@ nav{
                     text-transform: uppercase;
                     text-decoration: none;
                     color: #000;
+                    position: relative;
+                    &:after{
+                        position: absolute;
+                        content: '';
+                        width: 30px;
+                        height: 100%;
+                        top: 0;
+                        right: -30px;
+                    }
                 }
             }
         }

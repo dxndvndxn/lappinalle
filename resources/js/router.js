@@ -1,24 +1,33 @@
 import Home from './views/Home'
-import Boys from './views/Boys'
-import Girls from './views/Girls'
+import Catalog from './views/Catalog'
 
 
 export default {
     mode: 'history',
-    routes: [{
+    routes: [
+        {
         path: '/',
+        name: 'Home',
         meta: { layout: 'Main'},
         component: Home
-    },
-    {
-        path: '/malchiki',
-        meta: { layout: 'Main'},
-        component: Boys
-    },
-    {
-        path: '/devochki',
-        meta: { layout: 'Main'},
-        component: Girls
-    }
+        },
+        {
+        path: '/:gender',
+        name: 'gender',
+        meta: { layout: 'Main' },
+        component: Catalog
+        },
+        {
+            path: '/:gender/:category',
+            name: 'category',
+            meta: { layout: 'Main' },
+            component: Catalog
+        },
+        {
+            path: '/:gender/:category/:department',
+            name: 'department',
+            meta: { layout: 'Main' },
+            component: Catalog
+        }
     ]
 }

@@ -3,7 +3,11 @@
       <header>
           <Header/>
       </header>
-      <router-view/>
+      <transition>
+          <keep-alive>
+              <router-view></router-view>
+          </keep-alive>
+      </transition>
       <footer>
           <Footer/>
       </footer>

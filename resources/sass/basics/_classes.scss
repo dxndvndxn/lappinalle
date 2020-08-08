@@ -27,7 +27,10 @@
     padding-bottom: 3px;
     border-bottom: 3px solid #fff;
 }
-
+.unactive-top-menu{
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+}
 .active-catg{
     background-color: $ocean;
     position: relative;

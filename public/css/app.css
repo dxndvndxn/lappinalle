@@ -56,6 +56,11 @@
   border-bottom: 3px solid #fff;
 }
 
+.unactive-top-menu {
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+}
+
 .active-catg {
   background-color: #e7eff8;
   position: relative;
@@ -242,6 +247,16 @@ nav .menu-bottom .menu-categories li a {
   text-transform: uppercase;
   text-decoration: none;
   color: #000;
+  position: relative;
+}
+
+nav .menu-bottom .menu-categories li a:after {
+  position: absolute;
+  content: "";
+  width: 30px;
+  height: 100%;
+  top: 0;
+  right: -30px;
 }
 
 nav .menu-bottom .menu-departments {
