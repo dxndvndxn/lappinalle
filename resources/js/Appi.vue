@@ -17,6 +17,12 @@
             layout(){
                 return this.$route.meta.layout + 'Layout'
             }
+        },
+        watch: {
+            $route(){
+                console.log(1)
+                //this.$store.dispatch('MakeCrumbs', this.$route.params);
+            }
         }
     }
 </script>

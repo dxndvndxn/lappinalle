@@ -6,16 +6,16 @@ export default {
     mode: 'history',
     routes: [
         {
-        path: '/',
-        name: 'Home',
-        meta: { layout: 'Main'},
-        component: Home
+            path: '/',
+            name: 'Home',
+            meta: { layout: 'Main'},
+            component: Home
         },
         {
-        path: '/:gender',
-        name: 'gender',
-        meta: { layout: 'Main' },
-        component: Catalog
+            path: '/:gender',
+            name: 'gender',
+            meta: { layout: 'Main' },
+            component: Catalog
         },
         {
             path: '/:gender/:category',

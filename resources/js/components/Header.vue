@@ -23,16 +23,24 @@
         <div class="menu-wrap" @mouseleave="unHoverTopMenu()">
             <div class="menu-middle">
                 <ul class="container genders" v-bind:class="returnWidth" >
-                    <router-link
-                        v-for="(gen, k) in $store.getters.topMenu"
+                    <li v-for="(gen, k) in $store.getters.topMenu"
                         :key="k"
-                        tag="li"
-                        :to="{name: 'gender', params: {gender: gen.url}}"
-                        :replace="true"
-                        :exact="true"
                     >
-                        <a href="#" @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</a>
-                    </router-link>
+                        <router-link :to="{name: 'gender', params: {gender: gen.url}}"
+                            >
+                            <span @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</span>
+                        </router-link>
+                    </li>
+<!--                    <router-link-->
+<!--                        v-for="(gen, k) in $store.getters.topMenu"-->
+<!--                        :key="k"-->
+<!--                        tag="li"-->
+<!--                        :to="{name: 'gender', params: {gender: gen.url}}"-->
+<!--                        :replace="true"-->
+<!--                        :exact="true"-->
+<!--                    >-->
+<!--                        <a href="#" @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</a>-->
+<!--                    </router-link>-->
                 </ul>
             </div>
             <div class="menu-bottom" v-if="showMenu">
@@ -40,13 +48,15 @@
                     <li
                         v-for="(categ, value, i) in categories"
                         :key="i+'c'"
+                        :class="categ[0].hover ? 'active-catg' : null"
+                        @mouseleave="categ[0].hover = false"
                     >
-                        <router-link :to="{name: 'category', params: {gender: categ[0].sex_alias, category: categ[0].categories_alias}}">
-                            <span @mouseover="showDepartment(value, categories, categ)">{{value}}</span>
+                        <router-link :to="{name: 'category', params: {gender: categ[0].sex_alias, category: categ[0].categories_alias}}" >
+                            <span @mouseover="showDepartment(value, categories, categ)" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
                         </router-link>
                     </li>
                 </ul>
-                <ul class="menu-departments">
+                <ul class="menu-departments" @mouseover="hoverCategories()" @mouseleave="getChosenCategory !== null ? categories[getChosenCategory][0].hover = false : true">
                     <li  v-for="(depart, d) in getDepartments" :key="d+'d'">
                         <router-link :to="{name: 'department', params: {gender: depart.sex_alias, category: depart.categories_alias, department: depart.departments_alias}}">{{depart.department}}</router-link>
                     </li>
@@ -67,14 +77,13 @@
             showMenu: false,
             departments: null,
             chosenCatg: null,
-            categories: null
+            categories: null,
+            chosenGender: null
 
         }),
         methods: {
             // Наводим на главное меню
             hoverTopMenu(genderTitle, k){
-                // Выбранный гендер
-                this.chosenCatg = genderTitle;
 
                 // Получаем категории
                 this.categories = this.$store.getters.lastMenu[genderTitle];
@@ -89,28 +98,30 @@
                 this.showMenu = true;
 
                 // Делаем hover на topMenu
-                this.unHoverTopMenu();
+                for (let gen in this.$store.getters.topMenu) {
+
+                    this.$store.getters.topMenu[gen].hover = false;
+                }
 
                 this.$store.getters.topMenu[k].hover = true;
             },
 
             // Уводим с главного меню
             unHoverTopMenu(){
-
-                for (let gen in this.$store.getters.topMenu) {
-
-                    this.$store.getters.topMenu[gen].hover = false;
-                }
+                this.showMenu = false;
             },
 
             // Показываем подкатегории
             showDepartment(k, menu, categ){
                 this.departments = categ;
-                // this.hoverCatg = catg;
-                // menu[catg][0].hover = true;
-                console.log(k, menu, catg)
-            }
+                categ[0].hover = true;
+                this.chosenCatg = k;
+            },
 
+            // Оставляем hover на категориях, если переходим на поле с подкатегориями
+            hoverCategories(){
+                if (this.chosenCatg !== null) this.categories[this.chosenCatg][0].hover = true
+            },
         },
         // Получаем меню
         created(){
@@ -150,8 +161,8 @@
                 return resultWidth;
             },
 
-            // Следим за изменением выбранного гендера
-            getChosenGender(){
+            // Следим за изменением выбранной категории
+            getChosenCategory(){
                 return this.chosenCatg;
             },
 
