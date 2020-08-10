@@ -4,17 +4,20 @@ import axios from 'axios'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    state:() => ({
+    state:{
         topMenu: [],
         lastMenu: {},
-        errors: [],
-    }),
+        categAlias: {},
+        departAlias: {},
+        errors: null
+    },
     mutations: {
         // Получаем категории и подкатегории меню
-        getMenuDataMutate(state){
-            state.topMenu = [];
-            state.lastMenu = {};
-            axios.get('/api/menu')
+        async getMenuDataMutate(state){
+            // state.topMenu = [];
+            // state.lastMenu = {};
+
+            await axios.get('/api/menu')
                 .then(response => {
                     // массив с изначальной датой
                     let menu = response.data;
@@ -40,13 +43,15 @@ export default new Vuex.Store({
 
                         listGenders.push(menu[i].sex_name);
                         listCategories.push(menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : ''));
+                        state.categAlias[menu[i].categories_alias + (menu[i].season_alias !== null ? '-' + menu[i].season_alias : '')] = menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : '');
+                        if (menu[i].departments_alias !== null) state.departAlias[menu[i].departments_alias] = menu[i].departments_name;
                     }
 
                     // Выбираем уникальные гендеры
                     let genders = new Set(listGenders);
-                    let gendersObj = {}
+                    let gendersObj = {};
 
-                    // Определяем гендеры в разных массивах, объектаъ
+                    // Определяем гендеры в разных массивах, объекта
                     for (let i of genders) {
                         gendersObj[i] = [];
                         state.lastMenu[i] = {};
@@ -116,7 +121,7 @@ export default new Vuex.Store({
                 error = 'Упс что-то пошло не так';
                 state.errors = [];
                 state.errors.push(error)
-            })
+            });
         },
 
     },
@@ -131,6 +136,12 @@ export default new Vuex.Store({
         },
         lastMenu: (state) => {
             return state.lastMenu;
+        },
+        categAlias: (state) => {
+            return state.categAlias;
+        },
+        departAlias: (state) => {
+            return state.departAlias;
         }
     }
 })

@@ -85,6 +85,7 @@
   color: #bd5583 !important;
 }
 
+.crumbs ul,
 nav ul {
   margin: 0;
   padding: 0;
@@ -229,6 +230,7 @@ nav .menu-bottom {
   font-weight: 400;
   position: absolute;
   width: 100%;
+  z-index: 1;
 }
 
 nav .menu-bottom .menu-categories {
@@ -276,7 +278,7 @@ nav .menu-bottom .menu-departments li:first-child {
 nav .menu-bottom .menu-departments li a {
   text-decoration: none;
   font-size: 16px;
-  color: #7c7e81;
+  color: #585757;
 }
 
 footer {
@@ -343,6 +345,80 @@ footer .bottom-foot span:nth-child(1) {
   src: local("Gotham Pro Black"), local("GothamPro-Black"), url(/fonts/GothamPro-Black.eot?3309bc970fb9a0c54595de5973a365e9) format("embedded-opentype"), url(/fonts/GothamPro-Black.woff?d563ad87622a3dfeea9ff9ee22678caa) format("woff"), url(/fonts/GothamPro-Black.ttf?efb0c02a5dbe65a7115b477e74c7a661) format("truetype");
   font-weight: 900;
   font-style: normal;
+}
+
+.crumbs ul,
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bread {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  padding: 30px 0 40px;
+}
+
+.crumbs ul {
+  display: flex;
+  justify-content: center;
+}
+
+.crumbs ul li {
+  margin-right: 15px;
+  color: #585757;
+}
+
+.crumbs ul li:not(:last-child) {
+  position: relative;
+}
+
+.crumbs ul li:not(:last-child):after {
+  content: "";
+  position: absolute;
+  border-right: 1.7px solid #585757;
+  top: 0;
+  right: -7.5px;
+  height: 100%;
+}
+
+.crumbs ul li:last-child a {
+  color: #000;
+}
+
+.crumbs ul li a {
+  color: #585757;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.sort label {
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.sort form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sort select {
+  font-size: 16px;
+  border: none;
+  background-color: unset;
+  color: #848ccf;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  cursor: pointer;
+}
+
+.sort select option {
+  color: #848ccf;
 }
 
 /*! normalize-scss | MIT/GPLv2 License | bit.ly/normalize-scss */

@@ -1,0 +1,60 @@
+@import "../setup/variables";
+@import "../setup/extends";
+
+.bread{
+    @include grid-temp(1fr, 1fr, 1fr);
+    @include ptSans(400);
+    padding: 30px 0 40px;
+}
+.crumbs{
+    ul{
+        @extend %ul;
+        @include flexin(center);
+        li{
+            margin-right: 15px;
+            color: $grey;
+            &:not(:last-child){
+                position: relative;
+                &:after{
+                    content: '';
+                    position: absolute;
+                    @include border(right, 1.7px, $grey);
+                    top: 0;
+                    right: -7.5px;
+                    height: 100%;
+                }
+            }
+            &:last-child{
+                a{
+                    color: #000;
+                }
+            }
+            a{
+                color: $grey;
+                text-decoration: none;
+                font-size: $regFz;
+            }
+        }
+    }
+}
+.sort{
+    label{
+        display: flex;
+        align-items: center;
+        margin-right: 5px;
+    }
+    form{
+        @include flexin(flex-end)
+    }
+    select{
+        font-size: $regFz - 2px;
+        border: none;
+        background-color: unset;
+        color: $palepurpp;
+        appearance: none;
+        cursor: pointer;
+        option{
+            color: $palepurpp;
+        }
+    }
+}
