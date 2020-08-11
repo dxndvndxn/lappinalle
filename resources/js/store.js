@@ -9,6 +9,7 @@ export default new Vuex.Store({
         lastMenu: {},
         categAlias: {},
         departAlias: {},
+        sidebar: {},
         errors: null
     },
     mutations: {
@@ -44,7 +45,62 @@ export default new Vuex.Store({
                         listGenders.push(menu[i].sex_name);
                         listCategories.push(menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : ''));
                         state.categAlias[menu[i].categories_alias + (menu[i].season_alias !== null ? '-' + menu[i].season_alias : '')] = menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : '');
+
                         if (menu[i].departments_alias !== null) state.departAlias[menu[i].departments_alias] = menu[i].departments_name;
+
+                        state.sidebar[menu[i].sex_alias] = {
+                            sex_name: menu[i].sex_name,
+                        }
+                    }
+                    // Создаем основу на для sidebar категории
+                    for (let m in menu) {
+
+                        // Заполняем sidebar
+                        for (let i in state.sidebar){
+
+                            // Если гендер алиас из главной даты = гендеру из sidebar
+                            if (menu[m].sex_alias === i) {
+
+                                //Разбираем категории
+                                for (let categ in state.categAlias){
+
+                                    // Если категории из главной даты = категории из sidebar
+                                    if (menu[m].categories_alias + (menu[m].season_alias !== null ? '-' + menu[m].season_alias : '') === categ){
+                                        state.sidebar[i][categ] = {category_name: state.categAlias[categ]}
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    for (let m in menu) {
+
+                        // Заполняем sidebar
+                        for (let i in state.sidebar) {
+
+                            // Если гендер алиас из главной даты = гендеру из sidebar
+                            if (menu[m].sex_alias === i) {
+
+                                //Разбираем категории
+                                for (let categ in state.categAlias) {
+
+                                    // Если категории алиас = категориям алиас из главной даты
+                                    if (menu[m].categories_alias + (menu[m].season_alias !== null ? '-' + menu[m].season_alias : '') === categ){
+
+                                        // Разбираем подкатегории
+                                        for (let depart in state.departAlias) {
+
+                                            // Если подкатегории алиас = подкатегориям алиас из главной даты
+                                            if (menu[m].departments_alias === depart) {
+
+                                                // Записываем эти подкатегории
+                                                state.sidebar[i][categ][depart] = state.departAlias[depart]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     // Выбираем уникальные гендеры
@@ -142,6 +198,10 @@ export default new Vuex.Store({
         },
         departAlias: (state) => {
             return state.departAlias;
+        },
+        sidebar: (state) => {
+            return state.sidebar;
         }
+
     }
 })
