@@ -2010,8 +2010,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "CatalogCell"
+  name: "CatalogCell",
+  data: function data() {
+    return {
+      items: [{
+        name: "Комбинезоны",
+        price: '5400',
+        src: '../../img/item.png'
+      }, {
+        name: "Комбинезоны",
+        price: '5400',
+        src: '../../img/item.png'
+      }, {
+        name: "Комбинезоны",
+        price: '5400',
+        src: '../../img/item.png'
+      }, {
+        name: "Комбинезоны",
+        price: '5400',
+        src: '../../img/item.png'
+      }, {
+        name: "Комбинезоны",
+        price: '5400',
+        src: '../../img/item.png'
+      }, {
+        name: "Комбинезоны",
+        price: '5400',
+        src: '../../img/item.png'
+      }, {
+        name: "Комбинезоны",
+        price: '5400',
+        src: '../../img/item.png'
+      }, {
+        name: "Комбинезоны",
+        price: '5400',
+        src: '../../img/item.png'
+      }, {
+        name: "Комбинезоны",
+        price: '5400',
+        src: '../../img/item.png'
+      }]
+    };
+  }
 });
 
 /***/ }),
@@ -2269,24 +2318,126 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Sidebar",
-  props: ['sidebar'],
   data: function data() {
     return {
-      side: null
+      sizing: [{
+        val: 92,
+        name: 'sizeForShirts',
+        active: false
+      }, {
+        val: 94,
+        name: 'sizeForShirts',
+        active: false
+      }, {
+        val: 104,
+        name: 'sizeForShirts',
+        active: false
+      }, {
+        val: 111,
+        name: 'sizeForShirts',
+        active: false
+      }, {
+        val: 125,
+        name: 'sizeForShirts',
+        active: false
+      }, {
+        val: 122,
+        name: 'sizeForShirts',
+        active: false
+      }],
+      checkSale: null
     };
   },
   computed: {
     getSidebar: function getSidebar() {
-      this.side = this.$store.getters.sidebar;
-      console.log(this.side, 'Hi Mark');
-      return this.side;
+      return this.$store.getters.mySidebar;
+    }
+  },
+  methods: {
+    showDepartments: function showDepartments(categoryAlias, gen) {
+      this.$store.dispatch('showDepartments', {
+        categoryAlias: categoryAlias,
+        gen: gen
+      });
+    }
+  },
+  watch: {
+    getSidebar: function getSidebar(newVal, oldVal) {
+      console.log('Hi');
+      this.$store.dispatch('showDepartAfterUpdated', {
+        categoryAlias: this.$route.params.category,
+        gen: this.$route.params.gender,
+        newSidebar: newVal
+      });
     },
-    watch: {
-      side: function side(val) {
-        this.side = val;
+    $route: function $route(to, from) {
+      if (to.name === 'gender' || from.name === 'category') {
+        console.log(1);
+        this.$store.dispatch('backToCategory', {
+          gen: this.$route.params.gender
+        });
       }
+
+      if (to.name === 'category') {
+        this.showDepartments('showDepartments', {
+          categoryAlias: this.$route.params.category,
+          gen: this.$route.params.gender
+        });
+      }
+
+      if (to.name === 'department' || from.name === 'department') {
+        this.showDepartments('showDepartments', {
+          categoryAlias: this.$route.params.category,
+          gen: this.$route.params.gender
+        });
+      }
+
+      if (this.$route.params.category || this.$route.params.gender || this.$route.params.department) {
+        this.showDepartments('showDepartments', {
+          categoryAlias: this.$route.params.category,
+          gen: this.$route.params.gender
+        });
+      }
+
+      console.log(to.name, from.name);
     }
   }
 });
@@ -2304,6 +2455,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Header */ "./resources/js/components/Header.vue");
 /* harmony import */ var _components_Footer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Footer */ "./resources/js/components/Footer.vue");
+//
 //
 //
 //
@@ -2344,13 +2496,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
 /* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Sidebar */ "./resources/js/components/Sidebar.vue");
 /* harmony import */ var _components_CatalogCell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/CatalogCell */ "./resources/js/components/CatalogCell.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -2375,7 +2520,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
 
 
 
@@ -2394,15 +2538,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   components: {
-    Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__["default"],
     Sidebar: _components_Sidebar__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__["default"],
     CatalogCell: _components_CatalogCell__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  computed: _objectSpread({
+  computed: {
     genderMenu: function genderMenu() {
       return this.$store.getters.topMenu;
     }
-  }, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(['sidebar']))
+  }
 });
 
 /***/ }),
@@ -3830,7 +3974,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    { staticClass: "catalog-items" },
+    _vm._l(_vm.items, function(item, i) {
+      return _c("div", { staticClass: "item" }, [
+        _c("img", { attrs: { src: item.src, alt: "" } }),
+        _vm._v(" "),
+        _c("div", [
+          _vm._v("\n            " + _vm._s(item.name) + "\n        ")
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _vm._v("\n            " + _vm._s(item.price) + "\n        ")
+        ])
+      ])
+    }),
+    0
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -4190,35 +4351,222 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "catalog-sidebar" }, [
-    _vm._v(
-      "\n    " +
-        _vm._s(_vm.getSidebar) +
-        "\n    " +
-        _vm._s(_vm.sidebar) +
-        "\n    " +
-        _vm._s(_vm.side) +
-        "\n    "
-    ),
-    _c("dl", [
+    _vm.$route.params.gender && _vm.getSidebar
+      ? _c(
+          "ul",
+          { staticClass: "sidebar-category" },
+          _vm._l(_vm.getSidebar[_vm.$route.params.gender], function(
+            aliasData,
+            alias,
+            i
+          ) {
+            return aliasData.show_category || alias === "sex_name"
+              ? _c(
+                  "li",
+                  { key: i },
+                  [
+                    alias === "sex_name"
+                      ? _c(
+                          "router-link",
+                          {
+                            attrs: {
+                              to: {
+                                name: "gender",
+                                params: { gender: _vm.$route.params.gender }
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(aliasData) +
+                                "\n            "
+                            )
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    aliasData.show_category
+                      ? _c(
+                          "router-link",
+                          {
+                            attrs: {
+                              to: {
+                                name: "category",
+                                params: {
+                                  gender: _vm.$route.params.gender,
+                                  category: aliasData.category_alias
+                                }
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "span",
+                              {
+                                class:
+                                  _vm.$route.params.gender &&
+                                  _vm.$route.params.category
+                                    ? "gender-h"
+                                    : null,
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showDepartments(
+                                      aliasData.category_alias,
+                                      _vm.$route.params.gender,
+                                      i
+                                    )
+                                  }
+                                }
+                              },
+                              [_vm._v(_vm._s(aliasData.category_name))]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "ul",
+                              { staticClass: "sidebar-depart" },
+                              _vm._l(aliasData.departments, function(
+                                depart,
+                                i
+                              ) {
+                                return depart.depart_show
+                                  ? _c(
+                                      "li",
+                                      [
+                                        _c(
+                                          "router-link",
+                                          {
+                                            attrs: {
+                                              to: {
+                                                name: "department",
+                                                params: {
+                                                  gender:
+                                                    _vm.$route.params.gender,
+                                                  category:
+                                                    aliasData.category_alias,
+                                                  department:
+                                                    depart.depart_alias
+                                                }
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                            " +
+                                                _vm._s(depart.depart_name) +
+                                                "\n                        "
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  : _vm._e()
+                              }),
+                              0
+                            )
+                          ]
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                )
+              : _vm._e()
+          }),
+          0
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "sidebar-sizing" }, [
+      _c("span", [_vm._v("Размер")]),
+      _vm._v(" "),
       _c(
-        "dt",
-        { staticClass: "sidebar-gender" },
-        [
-          _c("router-link", {
-            attrs: {
-              to: {
-                name: "gender",
-                params: { gender: _vm.$route.params.gender }
+        "form",
+        { on: { submit: function($event) {} } },
+        _vm._l(_vm.sizing, function(size, s) {
+          return _c("input", {
+            class: size.active ? "active-size" : null,
+            attrs: { type: "button", value: size.val, name: size.name },
+            on: {
+              click: function($event) {
+                size.active = !size.active
               }
             }
           })
-        ],
-        1
+        }),
+        0
       )
+    ]),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "sidebar-sale" }, [
+      _c("form", { attrs: { action: "" } }, [
+        _c("label", { attrs: { for: "sale" } }, [_vm._v("Распродажа")]),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.checkSale,
+              expression: "checkSale"
+            }
+          ],
+          class: _vm.checkSale ? "active-size" : null,
+          attrs: { type: "checkbox", id: "sale" },
+          domProps: {
+            checked: Array.isArray(_vm.checkSale)
+              ? _vm._i(_vm.checkSale, null) > -1
+              : _vm.checkSale
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.checkSale,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.checkSale = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.checkSale = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.checkSale = $$c
+              }
+            }
+          }
+        })
+      ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "sidebar-price" }, [
+      _c("span", { staticClass: "price" }, [
+        _vm._v("\n            Цена\n        ")
+      ]),
+      _vm._v(" "),
+      _c("form", [
+        _c("label", { attrs: { for: "min" } }, [_vm._v("От")]),
+        _c("input", { attrs: { type: "number", id: "min", min: "1" } }),
+        _c("span", [_vm._v("₽")]),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "max" } }, [_vm._v("До")]),
+        _c("input", { attrs: { type: "number", id: "max", min: "1" } }),
+        _c("span", [_vm._v("₽")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -4246,7 +4594,7 @@ var render = function() {
     [
       _c("header", [_c("Header")], 1),
       _vm._v(" "),
-      _c("transition", [_c("keep-alive", [_c("router-view")], 1)], 1),
+      _c("router-view"),
       _vm._v(" "),
       _c("footer", [_c("Footer")], 1)
     ],
@@ -4342,11 +4690,7 @@ var render = function() {
     _c(
       "div",
       { staticClass: "catalog container" },
-      [
-        _c("Sidebar", { attrs: { side: _vm.sidebar } }),
-        _vm._v(" "),
-        _c("CatalogCell")
-      ],
+      [_c("Sidebar"), _vm._v(" "), _c("CatalogCell")],
       1
     )
   ])
@@ -21426,7 +21770,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function (_e) { function e(_x) { return _e.apply(this, arguments); } e.toString = function () { return _e.toString(); }; return e; }(function (e) { throw e; }), f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function (_e2) { function e(_x2) { return _e2.apply(this, arguments); } e.toString = function () { return _e2.toString(); }; return e; }(function (e) { didErr = true; err = e; }), f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
@@ -21446,7 +21790,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     lastMenu: {},
     categAlias: {},
     departAlias: {},
-    sidebar: {},
+    mySidebar: null,
     errors: null
   },
   mutations: {
@@ -21464,7 +21808,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
 
                   var listGenders = []; // выборка на категории
 
-                  var listCategories = []; // проходимся по массиву с общими данными и пушим в верхние массивы, выбираем категории меню для 1 уровня
+                  var listCategories = [];
+                  var sideBar = {}; // проходимся по массиву с общими данными и пушим в верхние массивы, выбираем категории меню для 1 уровня
 
                   for (var i in menu) {
                     if (menu[i].categories_menu_lvlmenu === 1) {
@@ -21480,7 +21825,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                     listCategories.push(menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : ''));
                     state.categAlias[menu[i].categories_alias + (menu[i].season_alias !== null ? '-' + menu[i].season_alias : '')] = menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : '');
                     if (menu[i].departments_alias !== null) state.departAlias[menu[i].departments_alias] = menu[i].departments_name;
-                    state.sidebar[menu[i].sex_alias] = {
+                    sideBar[menu[i].sex_alias] = {
                       sex_name: menu[i].sex_name
                     };
                   } // Создаем основу на для sidebar категории
@@ -21488,14 +21833,14 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
 
                   for (var m in menu) {
                     // Заполняем sidebar
-                    for (var _i in state.sidebar) {
+                    for (var _i in sideBar) {
                       // Если гендер алиас из главной даты = гендеру из sidebar
                       if (menu[m].sex_alias === _i) {
                         //Разбираем категории
                         for (var categ in state.categAlias) {
                           // Если категории из главной даты = категории из sidebar
                           if (menu[m].categories_alias + (menu[m].season_alias !== null ? '-' + menu[m].season_alias : '') === categ) {
-                            state.sidebar[_i][categ] = {
+                            sideBar[_i][categ] = {
                               category_name: state.categAlias[categ]
                             };
                           }
@@ -21506,7 +21851,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
 
                   for (var _m in menu) {
                     // Заполняем sidebar
-                    for (var _i2 in state.sidebar) {
+                    for (var _i2 in sideBar) {
                       // Если гендер алиас из главной даты = гендеру из sidebar
                       if (menu[_m].sex_alias === _i2) {
                         //Разбираем категории
@@ -21515,18 +21860,56 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                           if (menu[_m].categories_alias + (menu[_m].season_alias !== null ? '-' + menu[_m].season_alias : '') === _categ) {
                             // Разбираем подкатегории
                             for (var depart in state.departAlias) {
-                              // Если подкатегории алиас = подкатегориям алиас из главной даты
+                              sideBar[_i2][_categ].show_category = true; // Если подкатегории алиас = подкатегориям алиас из главной даты
+
                               if (menu[_m].departments_alias === depart) {
                                 // Записываем эти подкатегории
-                                state.sidebar[_i2][_categ][depart] = state.departAlias[depart];
+                                // sideBar[i][categ].departments = {depart_names: , depart_url: [sideBar[i][categ][depart]]}
+                                // sideBar[i][categ][depart] = state.departAlias[depart];
+                                sideBar[_i2][_categ].departments = [];
+                                sideBar[_i2][_categ].category_alias = menu[_m].categories_alias + (menu[_m].season_alias !== null ? '-' + menu[_m].season_alias : ''); // sideBar[i][categ].show = true;
                               }
                             }
                           }
                         }
                       }
                     }
-                  } // Выбираем уникальные гендеры
+                  }
 
+                  for (var _m2 in menu) {
+                    // Заполняем sidebar
+                    for (var _i3 in sideBar) {
+                      // Если гендер алиас из главной даты = гендеру из sidebar
+                      if (menu[_m2].sex_alias === _i3) {
+                        //Разбираем категории
+                        for (var _categ2 in state.categAlias) {
+                          // Если категории алиас = категориям алиас из главной даты
+                          if (menu[_m2].categories_alias + (menu[_m2].season_alias !== null ? '-' + menu[_m2].season_alias : '') === _categ2) {
+                            // Разбираем подкатегории
+                            for (var _depart in state.departAlias) {
+                              sideBar[_i3][_categ2].show_category = true; // Если подкатегории алиас = подкатегориям алиас из главной даты
+
+                              if (menu[_m2].departments_alias === _depart) {
+                                try {
+                                  sideBar[_i3][_categ2].departments.push({
+                                    depart_name: state.departAlias[_depart],
+                                    depart_alias: _depart,
+                                    depart_show: false
+                                  });
+                                } catch (e) {
+                                  console.log(e);
+                                } // Записываем эти подкатегории
+                                //sideBar[i][categ][departments].sideBar[i][categ][depart] = state.departAlias[depart]
+
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+
+                  state.mySidebar = sideBar; // Выбираем уникальные гендеры
 
                   var genders = new Set(listGenders);
                   var gendersObj = {}; // Определяем гендеры в разных массивах, объекта
@@ -21536,9 +21919,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
 
                   try {
                     for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                      var _i5 = _step.value;
-                      gendersObj[_i5] = [];
-                      state.lastMenu[_i5] = {};
+                      var _i6 = _step.value;
+                      gendersObj[_i6] = [];
+                      state.lastMenu[_i6] = {};
                     } // Пушим данным по гендарным различиям
 
                   } catch (err) {
@@ -21547,14 +21930,14 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                     _iterator.f();
                   }
 
-                  for (var _i3 in menu) {
+                  for (var _i4 in menu) {
                     var _iterator2 = _createForOfIteratorHelper(genders),
                         _step2;
 
                     try {
                       for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
                         var k = _step2.value;
-                        if (k === menu[_i3].sex_name) gendersObj[k].push(menu[_i3]);
+                        if (k === menu[_i4].sex_name) gendersObj[k].push(menu[_i4]);
                       }
                     } catch (err) {
                       _iterator2.e(err);
@@ -21567,14 +21950,14 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                   var categories = new Set(listCategories);
                   var categoriesObj = {}; // Распределяем категории по гендеру
 
-                  for (var _i4 in state.lastMenu) {
+                  for (var _i5 in state.lastMenu) {
                     var _iterator3 = _createForOfIteratorHelper(categories),
                         _step3;
 
                     try {
                       for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
                         var _k = _step3.value;
-                        state.lastMenu[_i4][_k] = [];
+                        state.lastMenu[_i5][_k] = [];
                         categoriesObj[_k] = [];
                       }
                     } catch (err) {
@@ -21642,12 +22025,97 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
           }
         }, _callee);
       }))();
+    },
+    sideBarDepartMutate: function sideBarDepartMutate(state, data) {
+      try {
+        for (var i in state.mySidebar[data.gen]) {
+          try {
+            state.mySidebar[data.gen][i].show_category = false;
+          } catch (e) {}
+
+          for (var setFal in state.mySidebar[data.gen][i].departments) {
+            state.mySidebar[data.gen][i].departments[setFal].depart_show = false;
+          }
+        }
+
+        try {
+          for (var setTrue in state.mySidebar[data.gen][data.categoryAlias].departments) {
+            state.mySidebar[data.gen][data.categoryAlias].departments[setTrue].depart_show = true;
+          }
+
+          state.mySidebar[data.gen][data.categoryAlias].show_category = true;
+        } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    sideBarDepartMutateAfterUpdated: function sideBarDepartMutateAfterUpdated(state, data) {
+      try {
+        if (data.categoryAlias === undefined) {
+          for (var i in data.newSidebar[data.gen]) {
+            if (i === 'sex_name') continue;
+            data.newSidebar[data.gen][i].show_category = true;
+          }
+        } else {
+          console.log(2);
+
+          for (var _i7 in data.newSidebar[data.gen]) {
+            try {
+              data.newSidebar[data.gen][_i7].show_category = false;
+            } catch (e) {}
+
+            for (var setFal in data.newSidebar[data.gen][_i7].departments) {
+              data.newSidebar[data.gen][_i7].departments[setFal].depart_show = false;
+            }
+          }
+
+          try {
+            for (var setTrue in data.newSidebar[data.gen][data.categoryAlias].departments) {
+              data.newSidebar[data.gen][data.categoryAlias].departments[setTrue].depart_show = true;
+            }
+
+            data.newSidebar[data.gen][data.categoryAlias].show_category = true;
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
+      state.mySidebar = data.newSidebar;
+    },
+    backToCategoryMutate: function backToCategoryMutate(state, data) {
+      try {
+        for (var i in state.mySidebar[data.gen]) {
+          if (i === 'sex_name') continue;
+          state.mySidebar[data.gen][i].show_category = true;
+
+          for (var setFal in state.mySidebar[data.gen][i].departments) {
+            state.mySidebar[data.gen][i].departments[setFal].depart_show = false;
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   },
   actions: {
     getMenuData: function getMenuData(_ref) {
       var commit = _ref.commit;
       commit('getMenuDataMutate');
+    },
+    showDepartments: function showDepartments(_ref2, data) {
+      var commit = _ref2.commit;
+      commit('sideBarDepartMutate', data);
+    },
+    showDepartAfterUpdated: function showDepartAfterUpdated(_ref3, data) {
+      var commit = _ref3.commit;
+      commit('sideBarDepartMutateAfterUpdated', data);
+    },
+    backToCategory: function backToCategory(_ref4, data) {
+      var commit = _ref4.commit;
+      commit('backToCategoryMutate', data);
     }
   },
   getters: {
@@ -21663,8 +22131,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     departAlias: function departAlias(state) {
       return state.departAlias;
     },
-    sidebar: function sidebar(state) {
-      return state.sidebar;
+    mySidebar: function mySidebar(state) {
+      return state.mySidebar;
     }
   }
 }));

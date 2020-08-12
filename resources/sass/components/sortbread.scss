@@ -2,7 +2,7 @@
 @import "../setup/extends";
 
 .bread{
-    @include grid-temp(1fr, 1fr, 1fr);
+    @include grid-temp(1fr, 2fr, 1fr);
     @include ptSans(400);
     padding: 30px 0 40px;
 }

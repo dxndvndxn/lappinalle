@@ -35,3 +35,7 @@
     font-family: 'Gotham Pro', sans-serif;
     font-weight: $weight;
 }
+@mixin variableColumns($count, $size){
+    display: grid;
+    grid-template-columns: repeat($count, $size);
+}

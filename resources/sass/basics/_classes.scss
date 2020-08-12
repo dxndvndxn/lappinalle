@@ -52,3 +52,13 @@
 .sale{
     color: $purpp !important;
 }
+.gender-h{
+    display: inline-block;
+    color: #000;
+    text-transform: uppercase;
+    @include ptSans(700);
+    margin-bottom: 20px;
+}
+.active-size{
+    background-color: $palepurpp !important;
+}

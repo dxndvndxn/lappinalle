@@ -1,0 +1,120 @@
+@import "../setup/variables";
+@import "../setup/extends";
+.catalog-sidebar{
+    @include ptSans(400);
+   a{
+       color: #000;
+       text-decoration: none;
+   }
+    ul{
+        @extend %ul;
+    }
+    .sidebar-category{
+        > li {
+            margin-bottom: 20px;
+            &:nth-child(1){
+                @include ptSans(700);
+                font-size: $regFz;
+                text-transform: uppercase;
+                margin-bottom: 60px;
+                span{
+                    color: #000;
+                }
+            }
+            &:last-child{
+                margin-bottom: 55px;
+            }
+        }
+    }
+    .sidebar-depart{
+        li{
+            margin-bottom: 20px;
+            a{
+                color: $grey;
+            }
+            &:nth-child(1){
+                @include ptSans(400);
+                font-size: $regFz - 2px;
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
+
+.sidebar-sizing {
+    margin-bottom: 55px;
+    span{
+        @include ptSans(700);
+        font-size: $regFz;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        display: inline-block;
+    }
+    form{
+        width: 230px;
+        box-sizing: border-box;
+        @include variableColumns(4, 1fr);
+        grid-column-gap: 5px;
+        grid-row-gap: 5px;
+        input{
+            color: #000;
+            background-color: $ocean;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+        }
+    }
+}
+
+.sidebar-price{
+    margin-bottom: 55px;
+    .price{
+        @include ptSans(700);
+        font-size: $regFz;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        display: inline-block;
+    }
+    form{
+        width: 210px;
+        @include variableColumns(3, 1fr);
+        grid-row-gap: 10px;
+        grid-column-gap: 15px;
+        input{
+            padding: 10px 0;
+            background-color: $ocean;
+            border: none;
+            appearance: none;
+            text-align: center;
+        }
+        label, span{
+            align-self: center;
+            @include ptSans(700);
+            font-size: $regFz;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+    }
+}
+
+.sidebar-sale{
+    form{
+        @include flexin(space-between);
+        width: 235px;
+    }
+    label{
+        @include ptSans(700);
+        font-size: $regFz + 2px;
+        color: $purpp;
+        text-transform: uppercase;
+        margin: auto 0;
+    }
+    input{
+        background-color: $ocean;
+        padding: 15px 0;
+        width: 56.8px;
+        height: 48.4px;
+        appearance: none;
+        cursor: pointer;
+    }
+}

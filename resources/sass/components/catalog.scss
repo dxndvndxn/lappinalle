@@ -1,0 +1,7 @@
+
+.catalog{
+    @include grid-temp(1fr, 2fr, 0px);
+}
+.catalog-items{
+    @include grid-temp(1fr, 1fr, 1fr);
+}

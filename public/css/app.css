@@ -85,7 +85,21 @@
   color: #bd5583 !important;
 }
 
+.gender-h {
+  display: inline-block;
+  color: #000;
+  text-transform: uppercase;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.active-size {
+  background-color: #848ccf !important;
+}
+
 .crumbs ul,
+.catalog-sidebar ul,
 nav ul {
   margin: 0;
   padding: 0;
@@ -339,6 +353,166 @@ footer .bottom-foot span:nth-child(1) {
   margin-right: 3%;
 }
 
+.catalog {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.catalog-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.crumbs ul,
+.catalog-sidebar ul,
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.catalog-sidebar {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+}
+
+.catalog-sidebar a {
+  color: #000;
+  text-decoration: none;
+}
+
+.catalog-sidebar .sidebar-category > li {
+  margin-bottom: 20px;
+}
+
+.catalog-sidebar .sidebar-category > li:nth-child(1) {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+}
+
+.catalog-sidebar .sidebar-category > li:nth-child(1) span {
+  color: #000;
+}
+
+.catalog-sidebar .sidebar-category > li:last-child {
+  margin-bottom: 55px;
+}
+
+.catalog-sidebar .sidebar-depart li {
+  margin-bottom: 20px;
+}
+
+.catalog-sidebar .sidebar-depart li a {
+  color: #585757;
+}
+
+.catalog-sidebar .sidebar-depart li:nth-child(1) {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.sidebar-sizing {
+  margin-bottom: 55px;
+}
+
+.sidebar-sizing span {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+  display: inline-block;
+}
+
+.sidebar-sizing form {
+  width: 230px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+}
+
+.sidebar-sizing form input {
+  color: #000;
+  background-color: #e7eff8;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.sidebar-price {
+  margin-bottom: 55px;
+}
+
+.sidebar-price .price {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+  display: inline-block;
+}
+
+.sidebar-price form {
+  width: 210px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row-gap: 10px;
+  grid-column-gap: 15px;
+}
+
+.sidebar-price form input {
+  padding: 10px 0;
+  background-color: #e7eff8;
+  border: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  text-align: center;
+}
+
+.sidebar-price form label,
+.sidebar-price form span {
+  align-self: center;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.sidebar-sale form {
+  display: flex;
+  justify-content: space-between;
+  width: 235px;
+}
+
+.sidebar-sale label {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #bd5583;
+  text-transform: uppercase;
+  margin: auto 0;
+}
+
+.sidebar-sale input {
+  background-color: #e7eff8;
+  padding: 15px 0;
+  width: 56.8px;
+  height: 48.4px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  cursor: pointer;
+}
+
 @font-face {
   font-family: "Gotham Pro";
   src: url(/fonts/GothamPro-Black.eot?3309bc970fb9a0c54595de5973a365e9);
@@ -348,7 +522,8 @@ footer .bottom-foot span:nth-child(1) {
 }
 
 .crumbs ul,
-nav ul {
+nav ul,
+.catalog-sidebar ul {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -356,7 +531,7 @@ nav ul {
 
 .bread {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr;
   font-family: "PT Sans", sans-serif;
   font-weight: 400;
   padding: 30px 0 40px;

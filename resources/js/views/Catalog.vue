@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="catalog container">
-            <Sidebar :side="sidebar"/>
+            <Sidebar/>
             <CatalogCell/>
         </div>
     </div>
@@ -26,7 +26,6 @@
     import Breadcrumbs from "../components/Breadcrumbs";
     import Sidebar from "../components/Sidebar";
     import CatalogCell from "../components/CatalogCell";
-    import { mapGetters } from 'vuex';
     export default {
         name: "Catalog",
         data: () => ({
@@ -34,13 +33,12 @@
             selected: ''
         }),
         components: {
-            Breadcrumbs, Sidebar, CatalogCell
+            Sidebar, Breadcrumbs, CatalogCell
         },
         computed: {
             genderMenu(){
                 return this.$store.getters.topMenu;
             },
-            ...mapGetters(['sidebar']),
         }
     }
 </script>
