@@ -1,5 +1,6 @@
 import Home from './views/Home'
 import Catalog from './views/Catalog'
+import Catalogitem from "./views/Catalogitem";
 
 
 export default {
@@ -28,6 +29,12 @@ export default {
             name: 'department',
             meta: { layout: 'Main' },
             component: Catalog
+        },
+        {
+            path: '/:gender/:category/:department/item-*',
+            name: 'item',
+            meta: { layout: 'Main' },
+            component: Catalogitem
         }
     ]
 }

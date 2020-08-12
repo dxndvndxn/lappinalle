@@ -1939,6 +1939,22 @@ __webpack_require__.r(__webpack_exports__);
     layout: function layout() {
       return this.$route.meta.layout + 'Layout';
     }
+  },
+  watch: {
+    $route: function $route(to, from) {
+      if (to.name === 'gender' || from.name === 'category') {
+        this.$store.dispatch('backToCategory', {
+          gen: this.$route.params.gender
+        });
+      }
+
+      if (to.name === 'category' || to.name === 'department' || to.name === 'item') {
+        this.$store.dispatch('showDepartments', {
+          categoryAlias: this.$route.params.category,
+          gen: this.$route.params.gender
+        });
+      }
+    }
   }
 });
 
@@ -1977,11 +1993,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Breadcrumbs",
-  props: ['genderMenu'],
   data: function data() {
-    return {
-      catalogCrumbs: null
-    };
+    return {};
   },
   computed: {
     getCategoriesAlias: function getCategoriesAlias() {
@@ -1989,6 +2002,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getDepartmentsAlias: function getDepartmentsAlias() {
       return this.$store.getters.departAlias;
+    },
+    genderMenu: function genderMenu() {
+      return this.$store.getters.topMenu;
     }
   }
 });
@@ -2018,6 +2034,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CatalogCell",
   data: function data() {
@@ -2025,39 +2044,57 @@ __webpack_require__.r(__webpack_exports__);
       items: [{
         name: "Комбинезоны",
         price: '5400',
-        src: '../../img/item.png'
+        src: '../../img/item.png',
+        link: 'malchiki/verhnjaodejda/kurtrko/item-1',
+        sale: null
       }, {
         name: "Комбинезоны",
         price: '5400',
-        src: '../../img/item.png'
+        src: '../../img/item.png',
+        link: 'malchiki/verhnjaodejda/kurtrko/item-1',
+        sale: 20
       }, {
         name: "Комбинезоны",
         price: '5400',
-        src: '../../img/item.png'
+        src: '../../img/item.png',
+        link: 'malchiki/verhnjaodejda/kurtrko/item-1',
+        sale: null
       }, {
         name: "Комбинезоны",
         price: '5400',
-        src: '../../img/item.png'
+        src: '../../img/item.png',
+        link: 'malchiki/verhnjaodejda/kurtrko/item-1',
+        sale: null
       }, {
         name: "Комбинезоны",
         price: '5400',
-        src: '../../img/item.png'
+        src: '../../img/item.png',
+        link: 'malchiki/verhnjaodejda/kurtrko/item-1',
+        sale: null
       }, {
         name: "Комбинезоны",
         price: '5400',
-        src: '../../img/item.png'
+        src: '../../img/item.png',
+        link: 'malchiki/verhnjaodejda/kurtrko/item-1',
+        sale: null
       }, {
         name: "Комбинезоны",
         price: '5400',
-        src: '../../img/item.png'
+        src: '../../img/item.png',
+        link: 'malchiki/verhnjaodejda/kurtrko/item-1',
+        sale: null
       }, {
         name: "Комбинезоны",
         price: '5400',
-        src: '../../img/item.png'
+        src: '../../img/item.png',
+        link: 'malchiki/verhnjaodejda/kurtrko/item-1',
+        sale: null
       }, {
         name: "Комбинезоны",
         price: '5400',
-        src: '../../img/item.png'
+        src: '../../img/item.png',
+        link: 'malchiki/verhnjaodejda/kurtrko/item-1',
+        sale: 30
       }]
     };
   }
@@ -2298,6 +2335,31 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pagination.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Pagination.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Pagination"
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Sidebar.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Sidebar.vue?vue&type=script&lang=js& ***!
@@ -2401,44 +2463,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     getSidebar: function getSidebar(newVal, oldVal) {
-      console.log('Hi');
       this.$store.dispatch('showDepartAfterUpdated', {
         categoryAlias: this.$route.params.category,
         gen: this.$route.params.gender,
         newSidebar: newVal
       });
-    },
-    $route: function $route(to, from) {
-      if (to.name === 'gender' || from.name === 'category') {
-        console.log(1);
-        this.$store.dispatch('backToCategory', {
-          gen: this.$route.params.gender
-        });
-      }
+    } // $route(to,from){
+    //     if (to.name === 'gender' || from.name === 'category') {
+    //         this.$store.dispatch('backToCategory', {gen: this.$route.params.gender})
+    //     }
+    //     if (to.name === 'category' || to.name === 'department' || to.name === 'item') {
+    //         console.log('hi mark')
+    //         this.$store.dispatch('showDepartments',{categoryAlias: this.$route.params.category, gen: this.$route.params.gender});
+    //     }
+    //
+    // }
 
-      if (to.name === 'category') {
-        this.showDepartments('showDepartments', {
-          categoryAlias: this.$route.params.category,
-          gen: this.$route.params.gender
-        });
-      }
-
-      if (to.name === 'department' || from.name === 'department') {
-        this.showDepartments('showDepartments', {
-          categoryAlias: this.$route.params.category,
-          gen: this.$route.params.gender
-        });
-      }
-
-      if (this.$route.params.category || this.$route.params.gender || this.$route.params.department) {
-        this.showDepartments('showDepartments', {
-          categoryAlias: this.$route.params.category,
-          gen: this.$route.params.gender
-        });
-      }
-
-      console.log(to.name, from.name);
-    }
   }
 });
 
@@ -2496,6 +2536,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
 /* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Sidebar */ "./resources/js/components/Sidebar.vue");
 /* harmony import */ var _components_CatalogCell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/CatalogCell */ "./resources/js/components/CatalogCell.vue");
+/* harmony import */ var _components_Pagination__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Pagination */ "./resources/js/components/Pagination.vue");
 //
 //
 //
@@ -2520,6 +2561,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
@@ -2540,12 +2583,245 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Sidebar: _components_Sidebar__WEBPACK_IMPORTED_MODULE_1__["default"],
     Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__["default"],
-    CatalogCell: _components_CatalogCell__WEBPACK_IMPORTED_MODULE_2__["default"]
+    CatalogCell: _components_CatalogCell__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Pagination: _components_Pagination__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Catalogitem.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Catalogitem.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
+/* harmony import */ var _components_Pagination__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Pagination */ "./resources/js/components/Pagination.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Catalogitem",
+  components: {
+    Pagination: _components_Pagination__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      itemTitle: "Комбинезон \"LAPPINALLE\"",
+      itemPrice: 5400,
+      itemPics: [{
+        img: '../../../img/pic2.png',
+        clicked: true,
+        video: true
+      }, {
+        img: '../../../img/pic4.png',
+        clicked: false
+      }, {
+        img: '../../../img/pic3.png',
+        clicked: false
+      }, {
+        img: '../../../img/pic2.png',
+        clicked: false
+      }, {
+        img: '../../../img/pic3.png',
+        clicked: false
+      }, {
+        img: '../../../img/pic4.png',
+        clicked: false
+      }, {
+        img: '../../../img/pic2.png',
+        clicked: false
+      }],
+      itemSizes: [{
+        sz: 92,
+        chozen: false
+      }, {
+        sz: 141,
+        chozen: false
+      }, {
+        sz: 110,
+        chozen: false
+      }, {
+        sz: 110,
+        chozen: false
+      }, {
+        sz: 11,
+        chozen: false
+      }, {
+        sz: 34,
+        chozen: false
+      }, {
+        sz: 92,
+        chozen: false
+      }, {
+        sz: 92,
+        chozen: false
+      }, {
+        sz: 92,
+        chozen: false
+      }, {
+        sz: 55,
+        chozen: false
+      }, {
+        sz: 21,
+        chozen: false
+      }, {
+        sz: 11,
+        chozen: false
+      }],
+      itemMainPic: '../../../img/pic2.png',
+      itemDesc: 'Мембранная ткань – это инновационный материал с избирательной проницаемостью. Обладает повышенными защитными\n' + 'свойствами. Используется для производства детской, спортивной одежды, экипировки приверженцев активного зимнего отдыха, представителей\n' + 'экстремальных профессий. Мембрана не промокает, не продувается, отталкивает грязь, дышит. Тело человека в среднем за сутки выделяет более полулитра\n' + 'влаги, которая накапливается на одежде изнутри, если нет выхода наружу. При активных движениях объем выделяющегося пота может достигать полутора\n' + 'литров. Введение мембран в состав защитных тканей позволяет выводить пары воды, не допуская при этом попадание внутрь влаги, ветра, дождя, снега.',
+      itemVideo: null,
+      userInfo: [{
+        reviewStar: 4,
+        userName: 'Налимка Дизайнер',
+        reviewDate: '25.07.2020',
+        reviewText: 'Ебал в рот ваш Лапиале. Где мой фен??'
+      }, {
+        reviewStar: 5,
+        userName: 'Налимка',
+        reviewDate: '25.07.2021',
+        reviewText: 'Владимир, магазин прекрасный. Этот ваш сингпейдж просто пушка.. Но где мой перезаклад?'
+      }, {
+        reviewStar: 3,
+        userName: 'Налимкин',
+        reviewDate: '25.07.2021',
+        reviewText: 'Владимир, магазин прекрасный. Этот ваш сингпейдж просто пушка.. Но где мой перезаклад?'
+      }],
+      chooseSvg: true,
+      clickedSize: []
+    };
+  },
+  methods: {
+    clickItemPic: function clickItemPic(i) {
+      this.itemMainPic = this.itemPics[i];
+
+      for (var ii in this.itemPics) {
+        this.itemPics[ii].clicked = false;
+      }
+
+      this.itemPics[i].clicked = true;
+    },
+    chozenSize: function chozenSize(i) {
+      this.itemSizes[i].chozen = true;
+      this.clickedSize = this.itemSizes.filter(function (size) {
+        return size.chozen !== false;
+      });
+    }
   },
   computed: {
-    genderMenu: function genderMenu() {
-      return this.$store.getters.topMenu;
+    getMainImg: function getMainImg() {
+      return this.itemMainPic;
+    },
+    getAllPics: function getAllPics() {
+      return this.itemPics;
     }
+  },
+  errorCaptured: function errorCaptured(err, vm, info) {
+    console.log(err);
+    console.log(vm);
+    console.log(info);
   }
 });
 
@@ -3978,17 +4254,36 @@ var render = function() {
     "div",
     { staticClass: "catalog-items" },
     _vm._l(_vm.items, function(item, i) {
-      return _c("div", { staticClass: "item" }, [
-        _c("img", { attrs: { src: item.src, alt: "" } }),
-        _vm._v(" "),
-        _c("div", [
-          _vm._v("\n            " + _vm._s(item.name) + "\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _vm._v("\n            " + _vm._s(item.price) + "\n        ")
-        ])
-      ])
+      return _c(
+        "div",
+        { staticClass: "item" },
+        [
+          _c("router-link", { attrs: { to: item.link } }, [
+            _c("img", { attrs: { src: item.src, alt: "" } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "item-title" }, [
+            _vm._v("\n            " + _vm._s(item.name) + "\n        ")
+          ]),
+          _vm._v(" "),
+          item.sale !== null
+            ? _c("div", { staticClass: "item-price" }, [
+                _c("span", { staticClass: "through-line" }, [
+                  _vm._v(_vm._s(item.price))
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "sale-price" }, [
+                  _vm._v(
+                    _vm._s(item.price - (item.sale / 100) * item.price) + " ₽"
+                  )
+                ])
+              ])
+            : _c("div", { staticClass: "item-price" }, [
+                _vm._v("\n            " + _vm._s(item.price) + " ₽\n        ")
+              ])
+        ],
+        1
+      )
     }),
     0
   )
@@ -4335,6 +4630,45 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pagination" }, [
+      _c("ul", [
+        _c("li", { staticClass: "this-page" }, [_vm._v("Страница")]),
+        _vm._v(" "),
+        _c("li", { staticClass: "pages" }, [_vm._v("1 2 3")]),
+        _vm._v(" "),
+        _c("li", { staticClass: "next-page" }, [_vm._v("Следующая страница")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Sidebar.vue?vue&type=template&id=81fbb27e&scoped=true&":
 /*!**********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Sidebar.vue?vue&type=template&id=81fbb27e&scoped=true& ***!
@@ -4413,8 +4747,7 @@ var render = function() {
                                   click: function($event) {
                                     return _vm.showDepartments(
                                       aliasData.category_alias,
-                                      _vm.$route.params.gender,
-                                      i
+                                      _vm.$route.params.gender
                                     )
                                   }
                                 }
@@ -4623,79 +4956,665 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        { staticClass: "bread container" },
+        [
+          _c("div"),
+          _vm._v(" "),
+          _c("Breadcrumbs"),
+          _vm._v(" "),
+          _c("div", { staticClass: "sort" }, [
+            _c("form", [
+              _c("label", { attrs: { for: "sort" } }, [_vm._v("Сортировать")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selected,
+                      expression: "selected"
+                    }
+                  ],
+                  attrs: { name: "sort", id: "sort" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selected = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("выбрать")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.sortBy, function(sort, s) {
+                    return _c("option", { domProps: { value: sort.value } }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(sort.name) +
+                          "\n                    "
+                      )
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "catalog container" },
+        [_c("Sidebar"), _vm._v(" "), _c("CatalogCell")],
+        1
+      ),
+      _vm._v(" "),
+      _c("Pagination")
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Catalogitem.vue?vue&type=template&id=cc59df46&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Catalogitem.vue?vue&type=template&id=cc59df46&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "catalog-item container" }, [
     _c(
       "div",
-      { staticClass: "bread container" },
-      [
-        _c("div"),
-        _vm._v(" "),
-        _c("Breadcrumbs", { attrs: { genderMenu: _vm.genderMenu } }),
-        _vm._v(" "),
-        _c("div", { staticClass: "sort" }, [
-          _c("form", [
-            _c("label", { attrs: { for: "sort" } }, [_vm._v("Сортировать")]),
-            _vm._v(" "),
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.selected,
-                    expression: "selected"
-                  }
-                ],
-                attrs: { name: "sort", id: "sort" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.selected = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
-                }
-              },
-              [
-                _c("option", { attrs: { disabled: "", value: "" } }, [
-                  _vm._v("выбрать")
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.sortBy, function(sort, s) {
-                  return _c("option", { domProps: { value: sort.value } }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(sort.name) +
-                        "\n                    "
-                    )
-                  ])
-                })
-              ],
-              2
-            )
-          ])
-        ])
-      ],
+      { staticClass: "bread" },
+      [_c("div"), _vm._v(" "), _c("Breadcrumbs"), _vm._v(" "), _c("div")],
       1
     ),
     _vm._v(" "),
+    _c("h1", { staticClass: "item-title" }, [
+      _vm._v("\n        " + _vm._s(_vm.itemTitle) + "\n    ")
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "item-info" }, [
+      _c(
+        "div",
+        { staticClass: "item-pics" },
+        _vm._l(_vm.getAllPics, function(img, i) {
+          return _c("div", { key: i, staticClass: "item-pic" }, [
+            img.video
+              ? _c(
+                  "svg",
+                  {
+                    attrs: {
+                      id: "cameraImPic",
+                      xmlns: "http://www.w3.org/2000/svg",
+                      viewBox: "0 0 413.19 358.83"
+                    }
+                  },
+                  [
+                    _c("defs"),
+                    _c("title", [_vm._v("icon_cam")]),
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M150.57,419.73c-3.12-1-6.25-1.89-9.34-3-3.87-1.33-6.63-4.17-9.34-7.09-4.86-5.24-6.47-11.5-6.46-18.46q.06-70.32,0-140.62c0-4.32.41-8.59,2.45-12.41,5.18-9.66,13.3-15,24.31-15.77,1-.07,2.09-.06,3.14-.06q120.42,0,240.86,0c8.7,0,16.39,2.5,22.32,9a27.17,27.17,0,0,1,7.52,19q-.18,70.64,0,141.28c0,9-3.62,16-10.16,21.68a26.11,26.11,0,0,1-13.09,5.91c-.65.11-1.28.32-1.92.48ZM275.7,240.31H156c-1,0-1.95,0-2.91.06-4.58.41-7.78,3.09-8.57,7.21a16.35,16.35,0,0,0-.18,3.13v140.6c0,.75,0,1.5.05,2.24a8.54,8.54,0,0,0,6.3,7.6,20.32,20.32,0,0,0,4.85.6q120.2,0,240.39,0a16.78,16.78,0,0,0,2.46-.06c5.29-.82,8.89-3.87,8.79-9.45,0-.45,0-.9,0-1.35V251.23a20.06,20.06,0,0,0-.06-2.69c-.37-2.69-1.29-5.2-4-6.27-2.23-.88-4.63-1.87-7-1.87Q335.9,240.22,275.7,240.31Z",
+                        transform: "translate(-125.43 -60.9)"
+                      }
+                    }),
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M348.48,204.43a75.79,75.79,0,0,1-34.64-9.33,77.74,77.74,0,0,1-21.13-17,70,70,0,0,1-9.82-15.1c-9.5-18.84-9.44-38.09-1.74-57.33a73.3,73.3,0,0,1,9.92-16.59,67.26,67.26,0,0,1,19.16-16.89A77.07,77.07,0,0,1,360.5,61.53a75.13,75.13,0,0,1,31.73,11.39A77.89,77.89,0,0,1,411.68,90.8c5.58,7.14,8.86,15.22,11.6,23.71a60.46,60.46,0,0,1,1,32.87c-2,8.29-4.94,16.42-9.9,23.54a76.25,76.25,0,0,1-20,20.19C381.23,199.91,366.67,204.4,348.48,204.43ZM350,78.78c-1.42.12-3.66.23-5.88.49-18.9,2.21-33.8,11.42-42.91,27.87-9.84,17.76-9.56,36.11,1.74,53.65A51.35,51.35,0,0,0,313.63,173a55.25,55.25,0,0,0,20.12,10.86c23.47,6.51,43.63.69,60.35-16.81a46.9,46.9,0,0,0,10.64-18.93c3.67-12,3.37-24-1.93-35.74a55.26,55.26,0,0,0-20.63-24.31C372.64,81.87,362.16,79,350,78.78Z",
+                        transform: "translate(-125.43 -60.9)"
+                      }
+                    }),
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M519.61,378.07V264c-2.23,1-4.39,1.88-6.5,2.89q-18.74,9-37.46,18-8.56,4.11-17.17,8.13c-5.37,2.5-11.13.38-13.06-4.73a8.79,8.79,0,0,1,4.45-11.17c4.36-2.28,8.83-4.34,13.28-6.45,4.17-2,8.38-3.85,12.54-5.84,9.07-4.36,18.12-8.77,27.18-13.14,7-3.37,14-6.66,21-10.05a10.6,10.6,0,0,1,11.42.75,8.11,8.11,0,0,1,3.24,5.92,15,15,0,0,1,.06,2c0,47.16-.06,94.32.06,141.47,0,6.8-5.27,10.22-10.16,9.87a15.4,15.4,0,0,1-5.28-1.66c-12.58-6-25.12-12.07-37.68-18.1q-14.81-7.11-29.64-14.17c-2-1-4.11-1.78-6.06-2.84-4.47-2.45-6.12-7.21-4.15-11.64a9.09,9.09,0,0,1,11.67-4.71c2.78,1.07,5.44,2.44,8.13,3.73,9.2,4.42,18.38,8.9,27.59,13.31,8.46,4.05,17,8,25.45,12.05C518.79,377.82,519.13,377.9,519.61,378.07Z",
+                        transform: "translate(-125.43 -60.9)"
+                      }
+                    }),
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M197.8,204.41a56.66,56.66,0,0,1-25.88-7.55,55.07,55.07,0,0,1-21-21.11c-8.8-15.66-8.81-31.7-1.56-47.65a50.48,50.48,0,0,1,20.19-22.45c15.86-9.55,32.69-11.52,50.32-5.55a56.5,56.5,0,0,1,20.6,12.65,53.65,53.65,0,0,1,10.22,13.72c8.3,15,8.14,30.5,1.47,45.83a51.91,51.91,0,0,1-19.83,22.77C222.67,201.34,212,204.51,197.8,204.41Zm4.13-89.7c-14.11.19-24.54,5.26-32.13,15.26-10.06,13.24-8.08,32.56,1.68,43.25,6.85,7.49,15,12,25,13,15.15,1.46,27.42-4.2,36-16.64,8.35-12.05,6.92-30.12-2.1-40.68C222.38,119.51,212.47,115.18,201.93,114.71Z",
+                        transform: "translate(-125.43 -60.9)"
+                      }
+                    }),
+                    _c("path", {
+                      attrs: { transform: "translate(-125.43 -60.9)" }
+                    })
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("img", {
+              class: img.clicked ? "clicked-pic" : null,
+              attrs: { src: img.img, alt: "" },
+              on: {
+                click: function($event) {
+                  return _vm.clickItemPic(i)
+                }
+              }
+            })
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "item-main-pic" }, [
+        _vm.getMainImg.video
+          ? _c("div", { staticClass: "main-icons" }, [
+              _c(
+                "svg",
+                {
+                  class: _vm.chooseSvg ? null : "fill-svg",
+                  attrs: {
+                    id: "3d",
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 468.29 326.47"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.chooseSvg = !_vm.chooseSvg
+                    }
+                  }
+                },
+                [
+                  _c("defs"),
+                  _c("title", [_vm._v("icon_3d")]),
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M458.8,294.47c-.43,3.09-1.39,5.43-.95,7.47,6.42,30.18-8.65,43.78-35.22,53.16-30.79,10.87-60,26.32-90.21,38.87-5.86,2.43-14.29,2.87-20,.5q-60-24.83-119.18-51.74c-4.93-2.26-9.73-10.47-10.13-16.25-2.14-30.76-1.87-30.22-30.54-41.33-16.45-6.37-33.49-12.9-47.72-23-24.93-17.73-25.42-44.18,0-60.9,19.14-12.6,41.67-20.45,63.48-28.14,10.76-3.79,16.49-7.73,14.35-19.54-3.57-19.65,4.52-30.11,23.21-37.22,36.28-13.8,71.46-30.55,107.41-45.28,5.32-2.18,13.12-1.88,18.48.4,36.28,15.44,72,32.26,108.36,47.44,13.09,5.46,20.67,12.44,17.53,27.28-4,18.69,5.77,24.46,21.93,29.22,18.85,5.55,38,13.17,54.25,24.07,27.42,18.36,27.13,45.54-.29,64.27C518.64,273.89,500.9,279.9,484.12,287,476,290.43,467.23,292.05,458.8,294.47ZM328.48,382.84c33.07-14.36,64.53-27.78,95.79-41.65C450.33,329.63,450.5,328.83,445,298c-25.67,1.76-51.15,11.26-77,6.32-.22-2.29-.44-4.59-.65-6.88l78.77-11.65V141.26c-23,9.68-45,18.52-66.61,28.15-17.22,7.67-40.51,12.09-49.18,25.72s-3.3,37-2.64,56c.62,17.6-6.5,37,10.2,50.9C325.77,315.53,324.24,329.05,328.48,382.84ZM260.43,252l56,32.4c0-17.56-2.08-31.87.41-45.31,6.35-34.28-6.64-52.64-39.37-62.94-28.17-8.86-54.59-23.4-83.82-36.33,0,47.69-.13,92,.26,136.39,0,3.46,3.27,9.48,5.77,9.92,19.36,3.41,38.91,5.74,60.73,8.72ZM438.06,131.09c-38.8-17.27-73.6-33-108.69-48.07-4.41-1.89-11-1.63-15.5.26-28.58,12-56.86,24.85-85.27,37.32-7.5,3.3-15.12,6.32-24.68,10.29,35.18,16,67.32,30.83,99.72,45.07,6.84,3,16.08,7.34,21.77,5C362.11,165.82,398.14,149,438.06,131.09Zm20.4,150.25c27.85-5.32,52.71-12.45,73-30.41,14.47-12.82,14.69-26,.41-38.71-20.64-18.41-46.11-25.24-73.41-30.69ZM182,177c-26.64,12.67-50.36,21.78-71.72,34.83C94.8,221.23,94,236,105.64,247.33c20.93,20.43,48.11,26.93,76.32,34.25Zm11.77,120.4c2.33,15.57-8.19,32.16,14.18,40.59,30,11.32,59,25.58,88.48,38.34,5.89,2.54,12.24,4,19.2,6.22V319.44l-55.35,32.32V306.64Zm127.74,4.37-49.81-29.5V331.4Z",
+                      transform: "translate(-85.95 -69.57)"
+                    }
+                  }),
+                  _c("path", {
+                    attrs: { transform: "translate(-85.95 -69.57)" }
+                  }),
+                  _c("path", {
+                    attrs: { transform: "translate(-85.95 -69.57)" }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "svg",
+                {
+                  class: _vm.chooseSvg ? "fill-svg" : null,
+                  attrs: {
+                    id: "camera",
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 413.19 358.83"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.chooseSvg = !_vm.chooseSvg
+                    }
+                  }
+                },
+                [
+                  _c("defs"),
+                  _c("title", [_vm._v("icon_cam")]),
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M150.57,419.73c-3.12-1-6.25-1.89-9.34-3-3.87-1.33-6.63-4.17-9.34-7.09-4.86-5.24-6.47-11.5-6.46-18.46q.06-70.32,0-140.62c0-4.32.41-8.59,2.45-12.41,5.18-9.66,13.3-15,24.31-15.77,1-.07,2.09-.06,3.14-.06q120.42,0,240.86,0c8.7,0,16.39,2.5,22.32,9a27.17,27.17,0,0,1,7.52,19q-.18,70.64,0,141.28c0,9-3.62,16-10.16,21.68a26.11,26.11,0,0,1-13.09,5.91c-.65.11-1.28.32-1.92.48ZM275.7,240.31H156c-1,0-1.95,0-2.91.06-4.58.41-7.78,3.09-8.57,7.21a16.35,16.35,0,0,0-.18,3.13v140.6c0,.75,0,1.5.05,2.24a8.54,8.54,0,0,0,6.3,7.6,20.32,20.32,0,0,0,4.85.6q120.2,0,240.39,0a16.78,16.78,0,0,0,2.46-.06c5.29-.82,8.89-3.87,8.79-9.45,0-.45,0-.9,0-1.35V251.23a20.06,20.06,0,0,0-.06-2.69c-.37-2.69-1.29-5.2-4-6.27-2.23-.88-4.63-1.87-7-1.87Q335.9,240.22,275.7,240.31Z",
+                      transform: "translate(-125.43 -60.9)"
+                    }
+                  }),
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M348.48,204.43a75.79,75.79,0,0,1-34.64-9.33,77.74,77.74,0,0,1-21.13-17,70,70,0,0,1-9.82-15.1c-9.5-18.84-9.44-38.09-1.74-57.33a73.3,73.3,0,0,1,9.92-16.59,67.26,67.26,0,0,1,19.16-16.89A77.07,77.07,0,0,1,360.5,61.53a75.13,75.13,0,0,1,31.73,11.39A77.89,77.89,0,0,1,411.68,90.8c5.58,7.14,8.86,15.22,11.6,23.71a60.46,60.46,0,0,1,1,32.87c-2,8.29-4.94,16.42-9.9,23.54a76.25,76.25,0,0,1-20,20.19C381.23,199.91,366.67,204.4,348.48,204.43ZM350,78.78c-1.42.12-3.66.23-5.88.49-18.9,2.21-33.8,11.42-42.91,27.87-9.84,17.76-9.56,36.11,1.74,53.65A51.35,51.35,0,0,0,313.63,173a55.25,55.25,0,0,0,20.12,10.86c23.47,6.51,43.63.69,60.35-16.81a46.9,46.9,0,0,0,10.64-18.93c3.67-12,3.37-24-1.93-35.74a55.26,55.26,0,0,0-20.63-24.31C372.64,81.87,362.16,79,350,78.78Z",
+                      transform: "translate(-125.43 -60.9)"
+                    }
+                  }),
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M519.61,378.07V264c-2.23,1-4.39,1.88-6.5,2.89q-18.74,9-37.46,18-8.56,4.11-17.17,8.13c-5.37,2.5-11.13.38-13.06-4.73a8.79,8.79,0,0,1,4.45-11.17c4.36-2.28,8.83-4.34,13.28-6.45,4.17-2,8.38-3.85,12.54-5.84,9.07-4.36,18.12-8.77,27.18-13.14,7-3.37,14-6.66,21-10.05a10.6,10.6,0,0,1,11.42.75,8.11,8.11,0,0,1,3.24,5.92,15,15,0,0,1,.06,2c0,47.16-.06,94.32.06,141.47,0,6.8-5.27,10.22-10.16,9.87a15.4,15.4,0,0,1-5.28-1.66c-12.58-6-25.12-12.07-37.68-18.1q-14.81-7.11-29.64-14.17c-2-1-4.11-1.78-6.06-2.84-4.47-2.45-6.12-7.21-4.15-11.64a9.09,9.09,0,0,1,11.67-4.71c2.78,1.07,5.44,2.44,8.13,3.73,9.2,4.42,18.38,8.9,27.59,13.31,8.46,4.05,17,8,25.45,12.05C518.79,377.82,519.13,377.9,519.61,378.07Z",
+                      transform: "translate(-125.43 -60.9)"
+                    }
+                  }),
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M197.8,204.41a56.66,56.66,0,0,1-25.88-7.55,55.07,55.07,0,0,1-21-21.11c-8.8-15.66-8.81-31.7-1.56-47.65a50.48,50.48,0,0,1,20.19-22.45c15.86-9.55,32.69-11.52,50.32-5.55a56.5,56.5,0,0,1,20.6,12.65,53.65,53.65,0,0,1,10.22,13.72c8.3,15,8.14,30.5,1.47,45.83a51.91,51.91,0,0,1-19.83,22.77C222.67,201.34,212,204.51,197.8,204.41Zm4.13-89.7c-14.11.19-24.54,5.26-32.13,15.26-10.06,13.24-8.08,32.56,1.68,43.25,6.85,7.49,15,12,25,13,15.15,1.46,27.42-4.2,36-16.64,8.35-12.05,6.92-30.12-2.1-40.68C222.38,119.51,212.47,115.18,201.93,114.71Z",
+                      transform: "translate(-125.43 -60.9)"
+                    }
+                  }),
+                  _c("path", {
+                    attrs: { transform: "translate(-125.43 -60.9)" }
+                  })
+                ]
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("img", { attrs: { src: _vm.getMainImg.img, calt: "" } })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item-main-info" }, [
+        _c("div", { staticClass: "item-main-wrap" }, [
+          _c("div", { staticClass: "item-main-price" }, [
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.itemPrice) +
+                " ₽\n                "
+            )
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "sizes" }, [_vm._v("Размеры")]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "item-main-sizes" },
+            _vm._l(_vm.itemSizes, function(size, s) {
+              return _c(
+                "button",
+                {
+                  class: size.chozen ? "active-size" : null,
+                  on: {
+                    click: function($event) {
+                      return _vm.chozenSize(s)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(size.sz) +
+                      "\n                    "
+                  )
+                ]
+              )
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "item-buttons" }, [
+            _c("button", { staticClass: "btn-cart" }, [
+              _vm._v("Добавить в корзину "),
+              _c(
+                "svg",
+                {
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 510.2 418.41"
+                  }
+                },
+                [
+                  _c("defs"),
+                  _c("title", [_vm._v("icon_kor")]),
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M552.72,93.5c-.77,3.55-1.1,7.26-2.39,10.61q-5.24,13.55-11.15,26.83-27,60.36-54.24,120.61a187.52,187.52,0,0,1-9.51,17.29c-6.51,11.1-16.9,15.39-29.17,16.13-3.11.19-6.24.2-9.36.2H210.66a62,62,0,0,0,8,17c7.14,10.51,16.82,15.78,29.82,15.75,64.81-.18,129.63-.09,194.44-.08a20.25,20.25,0,0,1,4.13.26,10.44,10.44,0,0,1,8.35,11.25,10.59,10.59,0,0,1-9.85,9.71c-1,.09-2.09.05-3.13.05-64.37,0-128.75-.15-193.13.08-21.91.08-38-9.46-49.64-27.46-6.72-10.41-10-22.12-13.3-33.94-8.74-31.45-17.85-62.8-27-94.14C148.26,145.41,136.94,107.22,125.7,69c-2.74-9.34-13.21-17.12-23.47-17.18-16-.1-32.1,0-48.15,0-5.21,0-9-2.42-10.77-6.68-2.75-6.75,2.06-14.52,9.38-14.52,21.17,0,42.34,0,63.49.62,5.3.14,10.77,1.88,15.75,3.89,7.21,2.92,11.72,8.75,13.81,16.27q29.14,104.75,58.18,209.5c.69,2.49,1.68,3.19,4.2,3.18q114.66-.1,229.31-.06c2.78,0,5.55-.18,8.32-.25,5.67-.14,10-2.41,12.64-7.61,5.07-10,10.53-19.91,15.16-30.16q27.33-60.5,54.14-121.22a48.89,48.89,0,0,0,3.56-13.48c.89-7-.71-8.5-7.75-8.55s-14.05.08-21.08.09q-58.95.06-117.91.09c-22.73,0-45.46-.08-68.19-.1L200,82.7c-6.46,0-10.43-2.71-11.84-8a10.46,10.46,0,0,1,8.09-13,25,25,0,0,1,4.66-.31q132.09.07,264.19.19c18.74,0,37.48-.22,56.22-.14a52.19,52.19,0,0,1,12.6,1.4c10.22,2.63,16.16,9.56,18.27,19.84.14.65.37,1.29.55,1.94Z",
+                      transform: "translate(-42.53 -30.59)"
+                    }
+                  }),
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M437.67,449c-4.33-1.14-8.81-1.9-13-3.5A49.57,49.57,0,0,1,437.16,350c26.07-3,50.22,15.1,54.56,40.83,4.41,26.13-12.49,51.39-38.13,57-1.83.4-3.67.78-5.51,1.17Zm-24.18-49.62a29.39,29.39,0,0,0,29.34,29.25c15.94-.07,29.24-13.38,29.16-29.19a29.25,29.25,0,1,0-58.5-.06Z",
+                      transform: "translate(-42.53 -30.59)"
+                    }
+                  }),
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M235.67,449c-5.22-1.5-10.69-2.42-15.61-4.6-20.4-9-31.76-30.29-28.6-52.74,2.94-20.83,20.25-38.15,41.44-41.46,27.06-4.22,53,14.75,56.84,41.67A49.75,49.75,0,0,1,247,448.55a8.76,8.76,0,0,0-1.46.45Zm4.85-78.92a29.28,29.28,0,1,0,.22,58.55c15.84-.11,29.07-13.29,29.09-29A29.38,29.38,0,0,0,240.52,370.08Z",
+                      transform: "translate(-42.53 -30.59)"
+                    }
+                  }),
+                  _c("path", {
+                    staticClass: "cls-1",
+                    attrs: {
+                      d:
+                        "M413.49,399.38a29.25,29.25,0,1,1,58.5.06c.08,15.81-13.22,29.12-29.16,29.19A29.39,29.39,0,0,1,413.49,399.38Z",
+                      transform: "translate(-42.53 -30.59)"
+                    }
+                  }),
+                  _c("path", {
+                    staticClass: "cls-1",
+                    attrs: {
+                      d:
+                        "M240.52,370.08a29.38,29.38,0,0,1,29.31,29.55c0,15.71-13.25,28.89-29.09,29a29.28,29.28,0,1,1-.22-58.55Z",
+                      transform: "translate(-42.53 -30.59)"
+                    }
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("button", { staticClass: "btn btn-buynow" }, [
+              _vm._v("Купить в 1 клик")
+            ])
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "item-description" }, [
+      _c("p", [
+        _c("span", { staticClass: "boldinfo" }, [
+          _vm._v("Информация о товаре: ")
+        ]),
+        _vm._v("\n            " + _vm._s(_vm.itemDesc) + "\n        ")
+      ])
+    ]),
+    _vm._v(" "),
     _c(
       "div",
-      { staticClass: "catalog container" },
-      [_c("Sidebar"), _vm._v(" "), _c("CatalogCell")],
+      { staticClass: "item-review" },
+      [
+        _c("h1", [_vm._v("Отзывы")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "review-wrap" }, [
+          _c(
+            "div",
+            { staticClass: "review-user-wrap" },
+            _vm._l(_vm.userInfo, function(inf, i) {
+              return _c("div", { staticClass: "review-user" }, [
+                _c(
+                  "div",
+                  { staticClass: "user-info" },
+                  [
+                    _vm._l(5, function(star, st) {
+                      return _c("span", { staticClass: "user-stars" }, [
+                        _c(
+                          "svg",
+                          {
+                            class: inf.reviewStar > st ? "filled" : null,
+                            attrs: {
+                              id: "Слой_1",
+                              "data-name": "Слой 1",
+                              xmlns: "http://www.w3.org/2000/svg",
+                              viewBox: "0 0 361.33 348.7"
+                            }
+                          },
+                          [
+                            _c("title", [_vm._v("icon_izb")]),
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
+                                transform: "translate(-139 -54.46)"
+                              }
+                            }),
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
+                                transform: "translate(-139 -54.46)"
+                              }
+                            })
+                          ]
+                        )
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "user-name" }, [
+                      _vm._v(" " + _vm._s(inf.userName) + "  / ")
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "user-date" }, [
+                      _vm._v(" " + _vm._s(inf.reviewDate))
+                    ])
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("p", { staticClass: "user-text" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(inf.reviewText) +
+                      "\n                    "
+                  )
+                ])
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "review-leave" }, [
+            _c("div", { staticClass: "leave-stars" }, [
+              _c(
+                "div",
+                { staticClass: "stars" },
+                [
+                  _vm._l(5, function(item) {
+                    return _c("span", [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "filled",
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            viewBox: "0 0 361.33 348.7"
+                          }
+                        },
+                        [
+                          _c("title", [_vm._v("icon_izb")]),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
+                              transform: "translate(-139 -54.46)"
+                            }
+                          }),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
+                              transform: "translate(-139 -54.46)"
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _vm._l(5, function(item) {
+                    return _c("span", [
+                      _c(
+                        "svg",
+                        {
+                          class: 4 >= item ? "filled" : null,
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            viewBox: "0 0 361.33 348.7"
+                          }
+                        },
+                        [
+                          _c("title", [_vm._v("icon_izb")]),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
+                              transform: "translate(-139 -54.46)"
+                            }
+                          }),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
+                              transform: "translate(-139 -54.46)"
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _vm._l(5, function(item) {
+                    return _c("span", [
+                      _c(
+                        "svg",
+                        {
+                          class: 3 >= item ? "filled" : null,
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            viewBox: "0 0 361.33 348.7"
+                          }
+                        },
+                        [
+                          _c("title", [_vm._v("icon_izb")]),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
+                              transform: "translate(-139 -54.46)"
+                            }
+                          }),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
+                              transform: "translate(-139 -54.46)"
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _vm._l(5, function(item) {
+                    return _c("span", [
+                      _c(
+                        "svg",
+                        {
+                          class: 2 >= item ? "filled" : null,
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            viewBox: "0 0 361.33 348.7"
+                          }
+                        },
+                        [
+                          _c("title", [_vm._v("icon_izb")]),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
+                              transform: "translate(-139 -54.46)"
+                            }
+                          }),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
+                              transform: "translate(-139 -54.46)"
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _vm._l(5, function(item) {
+                    return _c("span", [
+                      _c(
+                        "svg",
+                        {
+                          class: 1 >= item ? "filled" : null,
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            viewBox: "0 0 361.33 348.7"
+                          }
+                        },
+                        [
+                          _c("title", [_vm._v("icon_izb")]),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
+                              transform: "translate(-139 -54.46)"
+                            }
+                          }),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
+                              transform: "translate(-139 -54.46)"
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _vm._m(0)
+            ]),
+            _vm._v(" "),
+            _c("button", { staticClass: "leave-btn" }, [
+              _vm._v("Оставить отзыв")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("Pagination")
+      ],
       1
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "star-amount" }, [
+      _c("span", [_vm._v("(55)")]),
+      _vm._v(" "),
+      _c("span", [_vm._v("(51)")]),
+      _vm._v(" "),
+      _c("span", [_vm._v("(22)")]),
+      _vm._v(" "),
+      _c("span", [_vm._v("(4)")]),
+      _vm._v(" "),
+      _c("span", [_vm._v("(0)")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -21566,6 +22485,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Pagination.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/Pagination.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Pagination.vue?vue&type=template&id=d7acf176&scoped=true& */ "./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true&");
+/* harmony import */ var _Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pagination.vue?vue&type=script&lang=js& */ "./resources/js/components/Pagination.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "d7acf176",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Pagination.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Pagination.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/Pagination.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Pagination.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pagination.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Pagination.vue?vue&type=template&id=d7acf176&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Sidebar.vue":
 /*!*********************************************!*\
   !*** ./resources/js/components/Sidebar.vue ***!
@@ -21715,6 +22703,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./views/Home */ "./resources/js/views/Home.vue");
 /* harmony import */ var _views_Catalog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/Catalog */ "./resources/js/views/Catalog.vue");
+/* harmony import */ var _views_Catalogitem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/Catalogitem */ "./resources/js/views/Catalogitem.vue");
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -21747,6 +22737,13 @@ __webpack_require__.r(__webpack_exports__);
       layout: 'Main'
     },
     component: _views_Catalog__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }, {
+    path: '/:gender/:category/:department/item-*',
+    name: 'item',
+    meta: {
+      layout: 'Main'
+    },
+    component: _views_Catalogitem__WEBPACK_IMPORTED_MODULE_2__["default"]
   }]
 });
 
@@ -21808,12 +22805,18 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
 
                   var listGenders = []; // выборка на категории
 
-                  var listCategories = [];
-                  var sideBar = {}; // проходимся по массиву с общими данными и пушим в верхние массивы, выбираем категории меню для 1 уровня
+                  var listCategories = []; // Сайдбар
+
+                  var sideBar = {}; // Алиас для категорий
+
+                  var categoryAlias = {}; // Алиас для подкатегорий
+
+                  var departmentAlias = {};
+                  var topMenuGenders = []; // проходимся по массиву с общими данными и пушим в верхние массивы, выбираем категории меню для 1 уровня
 
                   for (var i in menu) {
                     if (menu[i].categories_menu_lvlmenu === 1) {
-                      state.topMenu.push({
+                      topMenuGenders.push({
                         title: menu[i].categories_name,
                         url: menu[i].categories_alias,
                         hover: false
@@ -21823,13 +22826,19 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                     if (menu[i].sex_name === null) continue;
                     listGenders.push(menu[i].sex_name);
                     listCategories.push(menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : ''));
-                    state.categAlias[menu[i].categories_alias + (menu[i].season_alias !== null ? '-' + menu[i].season_alias : '')] = menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : '');
-                    if (menu[i].departments_alias !== null) state.departAlias[menu[i].departments_alias] = menu[i].departments_name;
+                    categoryAlias[menu[i].categories_alias + (menu[i].season_alias !== null ? '-' + menu[i].season_alias : '')] = menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : '');
+                    if (menu[i].departments_alias !== null) departmentAlias[menu[i].departments_alias] = menu[i].departments_name;
                     sideBar[menu[i].sex_alias] = {
                       sex_name: menu[i].sex_name
                     };
-                  } // Создаем основу на для sidebar категории
+                  } // Меняем стейт меню гендер
 
+
+                  state.topMenu = topMenuGenders; // Меням стейт для категории алиас
+
+                  state.categAlias = categoryAlias; // Меням стейт для подкатегории алиас
+
+                  state.departAlias = departmentAlias; // Создаем основу на для sidebar категории
 
                   for (var m in menu) {
                     // Заполняем sidebar
@@ -21859,7 +22868,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                           // Если категории алиас = категориям алиас из главной даты
                           if (menu[_m].categories_alias + (menu[_m].season_alias !== null ? '-' + menu[_m].season_alias : '') === _categ) {
                             // Разбираем подкатегории
-                            for (var depart in state.departAlias) {
+                            for (var depart in departmentAlias) {
                               sideBar[_i2][_categ].show_category = true; // Если подкатегории алиас = подкатегориям алиас из главной даты
 
                               if (menu[_m].departments_alias === depart) {
@@ -21886,13 +22895,13 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                           // Если категории алиас = категориям алиас из главной даты
                           if (menu[_m2].categories_alias + (menu[_m2].season_alias !== null ? '-' + menu[_m2].season_alias : '') === _categ2) {
                             // Разбираем подкатегории
-                            for (var _depart in state.departAlias) {
+                            for (var _depart in departmentAlias) {
                               sideBar[_i3][_categ2].show_category = true; // Если подкатегории алиас = подкатегориям алиас из главной даты
 
                               if (menu[_m2].departments_alias === _depart) {
                                 try {
                                   sideBar[_i3][_categ2].departments.push({
-                                    depart_name: state.departAlias[_depart],
+                                    depart_name: departmentAlias[_depart],
                                     depart_alias: _depart,
                                     depart_show: false
                                   });
@@ -22057,8 +23066,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
             data.newSidebar[data.gen][i].show_category = true;
           }
         } else {
-          console.log(2);
-
           for (var _i7 in data.newSidebar[data.gen]) {
             try {
               data.newSidebar[data.gen][_i7].show_category = false;
@@ -22203,6 +23210,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Catalog_vue_vue_type_template_id_41cd806c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Catalog_vue_vue_type_template_id_41cd806c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Catalogitem.vue":
+/*!********************************************!*\
+  !*** ./resources/js/views/Catalogitem.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Catalogitem_vue_vue_type_template_id_cc59df46_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Catalogitem.vue?vue&type=template&id=cc59df46&scoped=true& */ "./resources/js/views/Catalogitem.vue?vue&type=template&id=cc59df46&scoped=true&");
+/* harmony import */ var _Catalogitem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Catalogitem.vue?vue&type=script&lang=js& */ "./resources/js/views/Catalogitem.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Catalogitem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Catalogitem_vue_vue_type_template_id_cc59df46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Catalogitem_vue_vue_type_template_id_cc59df46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "cc59df46",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Catalogitem.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Catalogitem.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/views/Catalogitem.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Catalogitem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Catalogitem.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Catalogitem.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Catalogitem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Catalogitem.vue?vue&type=template&id=cc59df46&scoped=true&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/views/Catalogitem.vue?vue&type=template&id=cc59df46&scoped=true& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Catalogitem_vue_vue_type_template_id_cc59df46_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Catalogitem.vue?vue&type=template&id=cc59df46&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Catalogitem.vue?vue&type=template&id=cc59df46&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Catalogitem_vue_vue_type_template_id_cc59df46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Catalogitem_vue_vue_type_template_id_cc59df46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

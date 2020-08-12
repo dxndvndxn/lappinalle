@@ -98,7 +98,53 @@
   background-color: #848ccf !important;
 }
 
+.through-line {
+  text-decoration: line-through;
+  color: #585757;
+  font-size: 17px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+}
+
+.sale-price {
+  color: #bd5583;
+}
+
+.filled {
+  fill: #bd5583;
+}
+
+.clicked-pic {
+  border: 1px solid #848ccf;
+}
+
+.video-pic {
+  position: relative;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.video-pic:after {
+  content: url(/images/icon_cam.svg?4cdf039a93be89a25d4e6947a353f32b);
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 0;
+  right: 0;
+}
+
+.btn {
+  background-color: #bd5583;
+  border: none;
+  color: #fff;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 .crumbs ul,
+.pagination ul,
 .catalog-sidebar ul,
 nav ul {
   margin: 0;
@@ -356,14 +402,45 @@ footer .bottom-foot span:nth-child(1) {
 .catalog {
   display: grid;
   grid-template-columns: 1fr 2fr;
+  margin-bottom: 55px;
 }
 
 .catalog-items {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-row-gap: 30px;
+  grid-column-gap: 30px;
+}
+
+.catalog-items .item {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.catalog-items .item a {
+  display: flex;
+  justify-content: center;
+}
+
+.catalog-items .item-title {
+  text-align: center;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  margin: 15px 0;
+  font-size: 16px;
+}
+
+.catalog-items .item-price {
+  text-align: center;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  color: #848ccf;
+  font-size: 20px;
 }
 
 .crumbs ul,
+.pagination ul,
 .catalog-sidebar ul,
 nav ul {
   margin: 0;
@@ -513,17 +590,45 @@ nav ul {
   cursor: pointer;
 }
 
-@font-face {
-  font-family: "Gotham Pro";
-  src: url(/fonts/GothamPro-Black.eot?3309bc970fb9a0c54595de5973a365e9);
-  src: local("Gotham Pro Black"), local("GothamPro-Black"), url(/fonts/GothamPro-Black.eot?3309bc970fb9a0c54595de5973a365e9) format("embedded-opentype"), url(/fonts/GothamPro-Black.woff?d563ad87622a3dfeea9ff9ee22678caa) format("woff"), url(/fonts/GothamPro-Black.ttf?efb0c02a5dbe65a7115b477e74c7a661) format("truetype");
-  font-weight: 900;
-  font-style: normal;
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 55px;
+}
+
+.pagination ul {
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination .this-page {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  color: #000;
+}
+
+.pagination .next-page {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  color: #93b5e1;
+}
+
+.pagination .next-page a {
+  color: #93b5e1;
+}
+
+.pagination .pages {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  color: #93b5e1;
+  margin: 0 25px;
 }
 
 .crumbs ul,
 nav ul,
-.catalog-sidebar ul {
+.catalog-sidebar ul,
+.pagination ul {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -535,6 +640,11 @@ nav ul,
   font-family: "PT Sans", sans-serif;
   font-weight: 400;
   padding: 30px 0 40px;
+}
+
+.crumbs {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
 }
 
 .crumbs ul {
@@ -594,6 +704,282 @@ nav ul,
 
 .sort select option {
   color: #848ccf;
+}
+
+.user-info .user-stars svg {
+  width: 30px;
+  height: 30px;
+}
+
+.item-title {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  margin: 0 0 30px;
+  text-align: center;
+}
+
+.item-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 70px;
+  height: 515px;
+}
+
+.item-pics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.item-pics::-webkit-scrollbar-track {
+  background-color: #93b5e1;
+}
+
+.item-pics::-webkit-scrollbar {
+  width: 18px;
+  background-color: #848ccf;
+}
+
+.item-pics::-webkit-scrollbar-thumb {
+  background-color: #848ccf;
+}
+
+.item-pics .item-pic {
+  position: relative;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.item-pics .item-pic img {
+  cursor: pointer;
+}
+
+.item-main-pic {
+  position: relative;
+}
+
+.item-main-pic .main-icons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-main-pic .main-icons svg {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  fill: #93b5e1;
+}
+
+.item-main-pic img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  width: 100%;
+}
+
+#cameraImPic {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  fill: #848ccf;
+}
+
+.fill-svg {
+  fill: #bd5583 !important;
+}
+
+.item-main-info {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.item-main-info .item-main-price {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  color: #000;
+  font-size: 36px;
+  margin-bottom: 40px;
+}
+
+.item-main-info .sizes {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  display: inline-block;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.item-main-info .item-main-sizes {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  margin-bottom: 100px;
+}
+
+.item-main-info .item-main-sizes button {
+  color: #000;
+  background-color: #e7eff8;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.item-main-info .item-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-cart {
+  border: 1px solid #bd5583;
+  background: none;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 15px 22px;
+  height: 50px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.btn-cart svg {
+  fill: #bd5583;
+  width: 30px;
+  height: 30px;
+}
+
+.btn-buynow {
+  padding: 15px 22px;
+  height: 50px;
+  box-sizing: border-box;
+}
+
+.item-description p {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.boldinfo {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 22px;
+}
+
+.item-review h1 {
+  text-align: center;
+  font-size: 33px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  margin: 60px 30px;
+}
+
+.review-wrap {
+  display: grid;
+  grid-template-columns: 75% 20%;
+  grid-column-gap: 5%;
+}
+
+.review-wrap .review-user {
+  margin-bottom: 60px;
+}
+
+.review-wrap .review-user .user-info {
+  margin-bottom: 30px;
+}
+
+.review-wrap .review-user .user-info .user-stars {
+  display: inline-block;
+  margin-right: 15px;
+  vertical-align: sub;
+}
+
+.review-wrap .review-user .user-info .user-stars:nth-child(5) {
+  margin-right: 45px;
+}
+
+.review-wrap .review-user .user-info .user-name {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.review-wrap .review-user .user-info .user-date {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.review-wrap .review-user .user-text {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  margin: 0;
+}
+
+.review-wrap .review-leave {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-wrap .review-leave .leave-stars {
+  display: grid;
+  grid-template-columns: 75% 20%;
+  margin-bottom: 30px;
+}
+
+.review-wrap .review-leave .leave-stars .stars {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.review-wrap .review-leave .leave-stars span svg {
+  height: 30px;
+  width: 30px;
+}
+
+.review-wrap .review-leave .leave-stars .star-amount {
+  display: grid;
+  grid-template-columns: 1fr;
+  font-size: 18px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+}
+
+.review-wrap .review-leave .leave-stars .star-amount span {
+  margin: auto;
+}
+
+.leave-btn {
+  background-color: #93b5e1;
+  color: #fff;
+  font-size: 18px;
+  height: 50px;
+  text-transform: uppercase;
+  border: none;
+}
+
+@font-face {
+  font-family: "Gotham Pro";
+  src: url(/fonts/GothamPro-Black.eot?3309bc970fb9a0c54595de5973a365e9);
+  src: local("Gotham Pro Black"), local("GothamPro-Black"), url(/fonts/GothamPro-Black.eot?3309bc970fb9a0c54595de5973a365e9) format("embedded-opentype"), url(/fonts/GothamPro-Black.woff?d563ad87622a3dfeea9ff9ee22678caa) format("woff"), url(/fonts/GothamPro-Black.ttf?efb0c02a5dbe65a7115b477e74c7a661) format("truetype");
+  font-weight: 900;
+  font-style: normal;
 }
 
 /*! normalize-scss | MIT/GPLv2 License | bit.ly/normalize-scss */

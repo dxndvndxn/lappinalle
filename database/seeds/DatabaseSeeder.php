@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
             ['departments_id' => 2, 'categories_menu_id' => 6],
             ['departments_id' => 2, 'categories_menu_id' => 13],
             ['departments_id' => 2, 'categories_menu_id' => 14],
-            // Термобелье 
+            // Термобелье
             ['departments_id' => 3, 'categories_menu_id' => 11],
             ['departments_id' => 3, 'categories_menu_id' => 12],
             // Флис
@@ -111,7 +111,7 @@ class DatabaseSeeder extends Seeder
             ['departments_id' => 8, 'categories_menu_id' => 8],
             ['departments_id' => 8, 'categories_menu_id' => 9],
             ['departments_id' => 8, 'categories_menu_id' => 10],
-            // Сапоги 
+            // Сапоги
             ['departments_id' => 9, 'categories_menu_id' => 15],
             ['departments_id' => 9, 'categories_menu_id' => 16],
             // Кеды
@@ -119,5 +119,15 @@ class DatabaseSeeder extends Seeder
             ['departments_id' => 10, 'categories_menu_id' => 16],
         ]);
 
+        DB::table('product')->insert([
+            [
+                'product_title' => 'Комбинезон Lappinalle',
+                'product_price' => '999999',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.'],
+                 'product_img' => 'img/item.png',
+                 'product_amount' => 67,
+                 'sex_id' => 1,
+                 'categories_id' => 3,
+            ]);
     }
 }

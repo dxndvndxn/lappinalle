@@ -7,7 +7,7 @@
                     {{aliasData}}
                 </router-link>
                 <router-link :to="{name: 'category', params: {gender: $route.params.gender, category: aliasData.category_alias}}" v-if="aliasData.show_category">
-                    <span @click="showDepartments(aliasData.category_alias, $route.params.gender, i)" v-bind:class="$route.params.gender && $route.params.category ? 'gender-h' : null">{{aliasData.category_name}}</span>
+                    <span @click="showDepartments(aliasData.category_alias, $route.params.gender)" v-bind:class="$route.params.gender && $route.params.category ? 'gender-h' : null">{{aliasData.category_name}}</span>
                     <ul class="sidebar-depart">
                         <li v-for="(depart, i) in aliasData.departments" v-if="depart.depart_show">
                             <router-link :to="{name: 'department', params: {gender: $route.params.gender, category: aliasData.category_alias, department: depart.depart_alias}}">
@@ -71,25 +71,18 @@
         },
         watch:{
             getSidebar(newVal, oldVal){
-                console.log('Hi')
                 this.$store.dispatch('showDepartAfterUpdated', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender, newSidebar: newVal})
             },
-            $route(to,from){
-                if (to.name === 'gender' || from.name === 'category') {
-                    console.log(1)
-                    this.$store.dispatch('backToCategory', {gen: this.$route.params.gender})
-                }
-                if (to.name === 'category') {
-                    this.showDepartments('showDepartments', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender})
-                }
-                if (to.name === 'department' || from.name === 'department') {
-                    this.showDepartments('showDepartments', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender})
-                }
-                if(this.$route.params.category || this.$route.params.gender || this.$route.params.department) {
-                    this.showDepartments('showDepartments', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender})
-                }
-                console.log(to.name, from.name)
-            }
+            // $route(to,from){
+            //     if (to.name === 'gender' || from.name === 'category') {
+            //         this.$store.dispatch('backToCategory', {gen: this.$route.params.gender})
+            //     }
+            //     if (to.name === 'category' || to.name === 'department' || to.name === 'item') {
+            //         console.log('hi mark')
+            //         this.$store.dispatch('showDepartments',{categoryAlias: this.$route.params.category, gen: this.$route.params.gender});
+            //     }
+            //
+            // }
         }
     }
 </script>

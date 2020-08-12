@@ -1,7 +1,30 @@
 
 .catalog{
     @include grid-temp(1fr, 2fr, 0px);
+    margin-bottom: 55px;
 }
 .catalog-items{
     @include grid-temp(1fr, 1fr, 1fr);
+    grid-row-gap: 30px;
+    grid-column-gap: 30px;
+    .item{
+        @include flexin(center);
+        flex-direction: column;
+        a{
+            display: flex;
+            justify-content: center;
+        }
+        &-title{
+            text-align: center;
+            @include ptSans(400);
+            margin: 15px 0;
+            font-size: $regFz - 2px;
+        }
+        &-price{
+            text-align: center;
+            @include ptSans(700);
+            color: $palepurpp;
+            font-size: $regFz + 2px;
+        }
+    }
 }

@@ -1,0 +1,25 @@
+.pagination{
+    @include flexin(center);
+    margin-bottom: 55px;
+    ul{
+        @extend %ul;
+        font-size: $regFz + 4px;
+        @include flexin(center);
+    }
+    .this-page{
+        @include ptSans(400);
+        color: #000;
+    }
+    .next-page{
+        @include ptSans(700);
+        color: $paleblue;
+        a{
+            color: $paleblue;
+        }
+    }
+    .pages{
+        @include ptSans(700);
+        color: $paleblue;
+        margin: 0 25px;
+    }
+}

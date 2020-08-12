@@ -23,9 +23,8 @@
 <script>
     export default {
         name: "Breadcrumbs",
-        props: ['genderMenu'],
         data: () => ({
-           catalogCrumbs: null,
+
         }),
         computed: {
             getCategoriesAlias(){
@@ -33,7 +32,10 @@
             },
             getDepartmentsAlias(){
                 return this.$store.getters.departAlias;
-            }
+            },
+            genderMenu(){
+                return this.$store.getters.topMenu;
+            },
         }
     }
 </script>

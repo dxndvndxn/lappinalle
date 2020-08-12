@@ -62,3 +62,39 @@
 .active-size{
     background-color: $palepurpp !important;
 }
+
+.through-line{
+    text-decoration: line-through ;
+    color: $grey;
+    font-size: $regFz - 1px;
+    @include ptSans(400);
+}
+.sale-price{
+    color: $purpp;
+}
+.filled{
+    fill: $purpp;
+}
+.clicked-pic{
+    border: 1px solid $palepurpp;
+}
+.video-pic{
+    position: relative;
+    width: fit-content;
+    &:after{
+        content: url("../../img/icon_cam.svg");
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: 0;
+        right: 0;
+
+    }
+}
+.btn{
+    background-color: $purpp;
+    border: none;
+    color: #fff;
+    @include ptSans(700);
+    text-transform: uppercase;
+}

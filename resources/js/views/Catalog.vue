@@ -2,7 +2,7 @@
     <div>
         <div class="bread container">
             <div></div>
-            <Breadcrumbs v-bind:genderMenu="genderMenu"/>
+            <Breadcrumbs/>
             <div class="sort">
                 <form>
                     <label for="sort">Сортировать</label>
@@ -19,6 +19,7 @@
             <Sidebar/>
             <CatalogCell/>
         </div>
+        <Pagination/>
     </div>
 </template>
 
@@ -26,6 +27,7 @@
     import Breadcrumbs from "../components/Breadcrumbs";
     import Sidebar from "../components/Sidebar";
     import CatalogCell from "../components/CatalogCell";
+    import Pagination from "../components/Pagination";
     export default {
         name: "Catalog",
         data: () => ({
@@ -33,12 +35,7 @@
             selected: ''
         }),
         components: {
-            Sidebar, Breadcrumbs, CatalogCell
-        },
-        computed: {
-            genderMenu(){
-                return this.$store.getters.topMenu;
-            },
+            Sidebar, Breadcrumbs, CatalogCell, Pagination
         }
     }
 </script>
