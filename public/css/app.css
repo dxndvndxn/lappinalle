@@ -241,6 +241,18 @@
   flex-direction: row-reverse;
 }
 
+.h-30 {
+  text-align: center;
+  font-size: 30px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#app {
+  content-visibility: auto;
+}
+
 .crumbs ul,
 .pagination ul,
 .catalog-sidebar ul,
@@ -1142,11 +1154,6 @@ nav ul,
 }
 
 .home-conveyor .home-slider h1 {
-  text-align: center;
-  font-size: 30px;
-  font-family: "PT Sans", sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
   margin: 0 0 45px;
 }
 
@@ -1215,6 +1222,137 @@ nav ul,
   font-weight: 700;
   margin: 0 80px;
   font-size: 20px;
+}
+
+.contacts {
+  margin: 0 270px 100px;
+}
+
+.contacts h1 {
+  margin: 80px 0 45px;
+}
+
+.contacts form {
+  display: grid;
+  grid-template-columns: 315px 315px;
+  grid-column-gap: 140px;
+  justify-content: center;
+}
+
+.contacts form input {
+  background: none;
+  border: none;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #585757;
+  border-bottom: 2px solid #848ccf;
+  margin-bottom: 40px;
+  height: 35px;
+}
+
+.contacts form input::-moz-placeholder {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #585757;
+}
+
+.contacts form input:-ms-input-placeholder {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #585757;
+}
+
+.contacts form input::-ms-input-placeholder {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #585757;
+}
+
+.contacts form input::placeholder {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #585757;
+}
+
+.contacts form button {
+  height: 50px;
+}
+
+.contacts form .contact {
+  display: flex;
+  flex-direction: column;
+}
+
+.contacts form textarea {
+  border: 2px solid #848ccf;
+  height: 190px;
+  resize: none;
+  padding: 2%;
+  width: 100%;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #585757;
+}
+
+.call,
+.mail {
+  margin-bottom: 80px;
+}
+
+.call svg,
+.mail svg {
+  margin-right: 35px;
+}
+
+.call a,
+.mail a {
+  color: #000;
+  text-decoration: none;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.call a svg,
+.mail a svg {
+  height: 46px;
+}
+
+.pay {
+  margin: 0 270px 100px;
+}
+
+.pay h1 {
+  margin-top: 80px;
+}
+
+.pay h2 {
+  font-size: 26px;
+  margin: 50px 0;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pay-icons {
+  display: flex;
+  justify-content: space-between;
+  border-top: 3px solid #848ccf;
+  border-bottom: 3px solid #848ccf;
+}
+
+.pay-icons img {
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 @font-face {

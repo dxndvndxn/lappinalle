@@ -120,14 +120,135 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('product')->insert([
-            [
-                'product_title' => 'Комбинезон Lappinalle',
+            // Верхняя одежада Зима комбинезоны мальчики и девочки
+            ['product_title' => 'Комбинезон мальчики Lappinalle',
+            'product_price' => '99959',
+            'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+            'product_img' => '../../img/item.png',
+            'product_amount' => 1,
+            'sex_id' => 1,
+            'categories_id' => 3,
+            'season_id' => 1,
+             'departments_id' => 1
+            ],
+            ['product_title' => 'Комбинезон девочки Lappinalle',
+                'product_price' => '9959',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/pic3.png',
+                'product_amount' => 11,
+                'sex_id' => 2,
+                'categories_id' => 3,
+                'season_id' => 1,
+                'departments_id' => 1
+            ],
+            ['product_title' => 'Куртки, парки мальчики Lappinalle',
+                'product_price' => '99959',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/pic2.png',
+                'product_amount' => 54,
+                'sex_id' => 1,
+                'categories_id' => 3,
+                'season_id' => 1,
+                'departments_id' => 2
+
+            ],
+            ['product_title' => 'Куртки, парки девочки Lappinalle',
+                'product_price' => '9995',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/pic1.png',
+                'product_amount' => 4,
+                'sex_id' => 2,
+                'categories_id' => 3,
+                'season_id' => 1,
+                'departments_id' => 2
+            ],
+
+
+            ['product_title' => 'Комбинезон мальчики весна-осень Lappinalle',
+                'product_price' => '9299',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/item.png',
+                'product_amount' => 1,
+                'sex_id' => 1,
+                'categories_id' => 3,
+                'season_id' => 2,
+                'departments_id' => 1
+            ],
+            ['product_title' => 'Комбинезон девочки весна-осень Lappinalle',
+                'product_price' => '9129',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/pic3.png',
+                'product_amount' => 11,
+                'sex_id' => 2,
+                'categories_id' => 3,
+                'season_id' => 2,
+                'departments_id' => 1
+            ],
+            ['product_title' => 'Куртки, парки мальчики весна Lappinalle',
+                'product_price' => '91239',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/pic2.png',
+                'product_amount' => 54,
+                'sex_id' => 1,
+                'categories_id' => 3,
+                'season_id' => 2,
+                'departments_id' => 2
+
+            ],
+            ['product_title' => 'Куртки, парки весна-осень девочки Lappinalle',
+                'product_price' => '3119',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/pic1.png',
+                'product_amount' => 4,
+                'sex_id' => 2,
+                'categories_id' => 3,
+                'season_id' => 2,
+                'departments_id' => 2
+            ],
+
+
+            ['product_title' => 'Шапки мальчики весна-осень Lappinalle',
+                'product_price' => '9231',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/item.png',
+                'product_amount' => 1,
+                'sex_id' => 1,
+                'categories_id' => 4,
+                'season_id' => 2,
+                'departments_id' => 7
+            ],
+            ['product_title' => 'Шапки девочки весна-осень Lappinalle',
+                'product_price' => '99123',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/pic3.png',
+                'product_amount' => 11,
+                'sex_id' => 2,
+                'categories_id' => 4,
+                'season_id' => 2,
+                'departments_id' => 7
+            ],
+            ['product_title' => 'Шлемы мальчики весна Lappinalle',
+                'product_price' => '4542',
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/pic2.png',
+                'product_amount' => 54,
+                'sex_id' => 1,
+                'categories_id' => 4,
+                'season_id' => 2,
+                'departments_id' => 8
+
+            ],
+            ['product_title' => 'Куртки, парки весна-осень девочки Lappinalle',
                 'product_price' => '999999',
-                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.'],
-                 'product_img' => 'img/item.png',
-                 'product_amount' => 67,
-                 'sex_id' => 1,
-                 'categories_id' => 3,
-            ]);
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../../img/pic1.png',
+                'product_amount' => 4,
+                'sex_id' => 2,
+                'categories_id' => 4,
+                'season_id' => 2,
+                'departments_id' => 8
+            ],
+
+        ]);
     }
 }

@@ -15,7 +15,7 @@
         </div>
         <div class="home-conveyor home-baner" v-for="(data, index, i) in sliderBanersData" :key="i">
             <div class="home-slider" v-if="data.name === 'Slider'">
-                <h1>{{data.h1}}</h1>
+                <h1 class="h-30">{{data.h1}}</h1>
                 <carousel :nav="true" :dots="false" :lazyLoad="true">
                     <div class="slide-wrap" v-for='(img, ii) in data.sliderData' :key="ii">
                         <router-link :to="img.sliderLink">

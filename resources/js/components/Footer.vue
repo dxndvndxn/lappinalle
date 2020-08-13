@@ -2,8 +2,8 @@
     <div class="footer">
         <dl class="left-foot">
             <dt>Услуги</dt>
-            <router-link tag="dd" to="/contacts"><a href="#">Контакты</a></router-link>
-            <router-link tag="dd" to="/payndelivery"><a href="#">Оплата и доставка</a></router-link>
+            <router-link tag="dd" to="/kontacty"><a href="#">Контакты</a></router-link>
+            <router-link tag="dd" to="/oplata"><a href="#">Оплата и доставка</a></router-link>
             <router-link tag="dd" to="/guaranteenreturn"><a href="#">Гарантии и возврат товара</a></router-link>
             <router-link tag="dd" to="/confidential"><a href="#">Политика конфедециальности</a></router-link>
         </dl>

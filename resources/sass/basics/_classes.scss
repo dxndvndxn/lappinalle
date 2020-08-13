@@ -182,3 +182,12 @@
 .fl-reverse{
     flex-direction: row-reverse;
 }
+.h-30{
+    text-align: center;
+    font-size: $bigFz + 6px;
+    @include ptSans(700);
+    text-transform: uppercase;
+}
+#app{
+    content-visibility: auto
+}

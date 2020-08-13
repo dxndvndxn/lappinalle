@@ -28,7 +28,7 @@
                     >
                         <router-link :to="{name: 'gender', params: {gender: gen.url}}"
                             >
-                            <span @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</span>
+                            <span @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'" @click="closeMenu">{{gen.title}}</span>
                         </router-link>
                     </li>
 <!--                    <router-link-->
@@ -52,12 +52,12 @@
                         @mouseleave="categ[0].hover = false"
                     >
                         <router-link :to="{name: 'category', params: {gender: categ[0].sex_alias, category: categ[0].categories_alias}}" >
-                            <span @mouseover="showDepartment(value, categories, categ)" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
+                            <span @mouseover="showDepartment(value, categories, categ)" @click="closeMenu()" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
                         </router-link>
                     </li>
                 </ul>
                 <ul class="menu-departments" @mouseover="hoverCategories()" @mouseleave="getChosenCategory !== null ? categories[getChosenCategory][0].hover = false : true">
-                    <li  v-for="(depart, d) in getDepartments" :key="d+'d'">
+                    <li  v-for="(depart, d) in getDepartments" :key="d+'d'" @click="closeMenu()">
                         <router-link :to="{name: 'department', params: {gender: depart.sex_alias, category: depart.categories_alias, department: depart.departments_alias}}">{{depart.department}}</router-link>
                     </li>
                 </ul>
@@ -66,6 +66,7 @@
 
             </div>
         </div>
+        <vue-progress-bar></vue-progress-bar>
     </nav>
 </template>
 
@@ -81,6 +82,9 @@
             chosenGender: null
 
         }),
+        beforeMount() {
+            this.$Progress.start();
+        },
         methods: {
             // Наводим на главное меню
             hoverTopMenu(genderTitle, k){
@@ -108,6 +112,7 @@
 
             // Уводим с главного меню
             unHoverTopMenu(){
+
                 for (let gen in this.$store.getters.topMenu) {
 
                     this.$store.getters.topMenu[gen].hover = false;
@@ -126,10 +131,15 @@
             hoverCategories(){
                 if (this.chosenCatg !== null) this.categories[this.chosenCatg][0].hover = true
             },
+
+            closeMenu(){
+                this.showMenu = false;
+            }
         },
         // Получаем меню
         created(){
             if (!this.$store.getters.lastMenu.length && !this.$store.getters.topMenu.length) this.$store.dispatch('getMenuData');
+            this.$Progress.finish();
         },
         // Котролируем ширину меню
         updated() {

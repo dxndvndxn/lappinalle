@@ -1,6 +1,8 @@
 import Home from './views/Home'
 import Catalog from './views/Catalog'
 import Catalogitem from "./views/Catalogitem";
+import Contacts from "./views/Contacts";
+import Pay from "./views/Pay";
 
 
 export default {
@@ -11,6 +13,18 @@ export default {
             name: 'Home',
             meta: { layout: 'Main'},
             component: Home
+        },
+        {
+            path: '/kontacty',
+            name: 'contact',
+            meta: { layout: 'Main' },
+            component: Contacts
+        },
+        {
+            path: '/oplata',
+            name: 'oplata',
+            meta: { layout: 'Main' },
+            component: Pay
         },
         {
             path: '/:gender',
@@ -36,5 +50,6 @@ export default {
             meta: { layout: 'Main' },
             component: Catalogitem
         }
+
     ]
 }

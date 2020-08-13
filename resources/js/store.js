@@ -15,7 +15,6 @@ export default new Vuex.Store({
     mutations: {
         // Получаем категории и подкатегории меню
         async getMenuDataMutate(state){
-
             await axios.get('/api/menu')
                 .then(response => {
                     // массив с изначальной датой

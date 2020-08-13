@@ -1,0 +1,61 @@
+.contacts{
+    margin: 0 270px 100px;
+    h1{
+        margin: 80px 0 45px;
+    }
+    form{
+        @include grid-temp(315px, 315px, 0px);
+        grid-column-gap: 140px;
+        justify-content: center;
+        input{
+            background: none;
+            border: none;
+            @include ptSans(400);
+            font-size: $regFz;
+            color: $grey;
+            border-bottom: 2px solid $palepurpp;
+            margin-bottom: 40px;
+            height: 35px;
+            &::placeholder{
+                @include ptSans(400);
+                font-size: $regFz;
+                color: $grey;
+            }
+        }
+        button{
+            height: 50px;
+        }
+        .contact{
+            display: flex;
+            flex-direction: column;
+        }
+        textarea{
+            border: 2px solid $palepurpp;
+            height: 190px;
+            resize: none;
+            padding: 2%;
+            width: 100%;
+            @include ptSans(400);
+            font-size: $regFz;
+            color: $grey;
+        }
+    }
+}
+.call, .mail{
+    margin-bottom: 80px;
+    svg{
+        margin-right: 35px;
+    }
+    a{
+        color: #000;
+        text-decoration: none;
+        @include ptSans(700);
+        font-size: $bigFz;
+        display: flex;
+        align-items: center;
+        svg{
+            height: 46px;
+        }
+    }
+}
+

@@ -54,10 +54,6 @@
     }
     .home-slider{
         h1{
-            text-align: center;
-            font-size: $bigFz + 6px;
-            @include ptSans(700);
-            text-transform: uppercase;
             margin: 0 0 45px;
         }
         .slide-title{
