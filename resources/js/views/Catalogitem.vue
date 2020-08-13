@@ -148,7 +148,7 @@
                 this.itemPics[i].clicked = true;
             },
             chozenSize(i){
-                this.itemSizes[i].chozen = true;
+                this.itemSizes[i].chozen = !this.itemSizes[i].chozen;
                 this.clickedSize = this.itemSizes.filter(size => size.chozen !== false);
             }
         },

@@ -115,7 +115,7 @@
 }
 
 .clicked-pic {
-  border: 1px solid #848ccf;
+  border: 1px solid #848ccf !important;
 }
 
 .video-pic {
@@ -141,6 +141,104 @@
   font-family: "PT Sans", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
+  cursor: pointer;
+}
+
+.fill-svg {
+  fill: #bd5583 !important;
+  transition: all ease-in-out 0.2s;
+  transform: scale(1.5);
+}
+
+.owl-nav {
+  position: absolute;
+  top: 50%;
+  width: 110%;
+  left: -5%;
+  display: flex;
+  justify-content: space-between;
+  z-index: -1;
+}
+
+.owl-nav:hover {
+  background: none;
+}
+
+.owl-nav .owl-prev,
+.owl-nav .owl-next {
+  font-size: 0 !important;
+}
+
+.owl-nav .owl-prev {
+  height: 9px;
+  width: 46px;
+  position: relative;
+  transform: rotate(90deg);
+  cursor: pointer;
+  background: none !important;
+  margin: 0;
+}
+
+.owl-nav .owl-prev:before {
+  transform: skew(0deg, 35deg);
+  content: "";
+  height: 45%;
+  width: 48%;
+  position: absolute;
+  top: 10px;
+  left: 0%;
+  background: #93b5e1;
+}
+
+.owl-nav .owl-prev:after {
+  transform: skew(0deg, -35deg);
+  content: "";
+  height: 45%;
+  width: 48%;
+  position: absolute;
+  top: 10px;
+  left: 48%;
+  background: #93b5e1;
+}
+
+.owl-nav .owl-next {
+  height: 9px;
+  width: 46px;
+  position: relative;
+  transform: rotate(270deg);
+  cursor: pointer;
+  background: none !important;
+  margin: 0;
+}
+
+.owl-nav .owl-next:before {
+  transform: skew(0deg, 35deg);
+  content: "";
+  height: 45%;
+  width: 48%;
+  position: absolute;
+  top: 10px;
+  left: 0%;
+  background: #93b5e1;
+}
+
+.owl-nav .owl-next:after {
+  transform: skew(0deg, -35deg);
+  content: "";
+  height: 45%;
+  width: 48%;
+  position: absolute;
+  top: 10px;
+  left: 48%;
+  background: #93b5e1;
+}
+
+.home-baner {
+  margin: 0 230px;
+}
+
+.fl-reverse {
+  flex-direction: row-reverse;
 }
 
 .crumbs ul,
@@ -755,6 +853,7 @@ nav ul,
 
 .item-pics .item-pic img {
   cursor: pointer;
+  border: 1px solid transparent;
 }
 
 .item-main-pic {
@@ -774,6 +873,7 @@ nav ul,
   height: 30px;
   cursor: pointer;
   fill: #93b5e1;
+  margin-bottom: 5px;
 }
 
 .item-main-pic img {
@@ -789,10 +889,6 @@ nav ul,
   top: 5px;
   right: 5px;
   fill: #848ccf;
-}
-
-.fill-svg {
-  fill: #bd5583 !important;
 }
 
 .item-main-info {
@@ -972,6 +1068,153 @@ nav ul,
   height: 50px;
   text-transform: uppercase;
   border: none;
+  cursor: pointer;
+}
+
+.slide-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.slide-wrap span {
+  text-align: center;
+}
+
+.slide-wrap img {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.home-baner {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-top: 30px;
+}
+
+.home-baner img {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.home-baner .baner-block {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #93b5e1;
+  padding: 55px 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+}
+
+.home-baner .baner-block h1 {
+  margin: 0 0 50px;
+  font-size: 50px;
+}
+
+.home-baner .baner-block h2 {
+  margin: 0 0 20px;
+  font-size: 30px;
+}
+
+.home-baner .baner-block h3 {
+  margin: 0 0 70px;
+  font-size: 20px;
+}
+
+.home-baner .baner-block button {
+  margin: 0 100px;
+  padding: 20px 25px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.home-conveyor {
+  margin-top: 50px;
+}
+
+.home-conveyor:last-child {
+  margin-bottom: 80px;
+}
+
+.home-conveyor .home-slider h1 {
+  text-align: center;
+  font-size: 30px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 45px;
+}
+
+.home-conveyor .home-slider .slide-title {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  margin: 20px 0 10px;
+}
+
+.home-conveyor .home-slider .slide-price {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #848ccf;
+}
+
+.sale-baner {
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+}
+
+.sale-baner .baner {
+  background-color: #93b5e1;
+  padding: 63px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sale-baner .baner h1 {
+  margin: 0;
+  font-size: 36px;
+}
+
+.sale-baner .baner-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sale-baner .baner span {
+  font-size: 36px;
+}
+
+.sale-baner .baner-sale {
+  text-align: center;
+}
+
+.sale-baner .baner-sale .sale-was {
+  text-decoration: line-through;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.sale-baner .baner-sale .sale-now {
+  font-size: 50px;
+  margin-bottom: 80px;
+}
+
+.sale-baner .baner button {
+  padding: 20px 40px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  margin: 0 80px;
+  font-size: 20px;
 }
 
 @font-face {

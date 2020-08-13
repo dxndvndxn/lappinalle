@@ -108,6 +108,10 @@
 
             // Уводим с главного меню
             unHoverTopMenu(){
+                for (let gen in this.$store.getters.topMenu) {
+
+                    this.$store.getters.topMenu[gen].hover = false;
+                }
                 this.showMenu = false;
             },
 

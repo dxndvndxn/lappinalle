@@ -76,7 +76,7 @@
     fill: $purpp;
 }
 .clicked-pic{
-    border: 1px solid $palepurpp;
+    border: 1px solid $palepurpp !important;
 }
 .video-pic{
     position: relative;
@@ -88,7 +88,6 @@
         height: 30px;
         top: 0;
         right: 0;
-
     }
 }
 .btn{
@@ -97,4 +96,89 @@
     color: #fff;
     @include ptSans(700);
     text-transform: uppercase;
+    cursor: pointer;
+}
+.fill-svg{
+    fill: $purpp !important;
+    transition: all ease-in-out .2s;
+    transform: scale(1.5);
+}
+.owl-nav{
+    position: absolute;
+    top: 50%;
+    width: 110%;
+    left: -5%;
+    display: flex;
+    justify-content: space-between;
+    z-index: -1;
+    &:hover{
+        background: none;
+    }
+    .owl-prev, .owl-next{
+        font-size: 0 !important;
+    }
+    .owl-prev{
+        height: 9px;
+        width: 46px;
+        position: relative;
+        transform: rotate(90deg);
+        cursor: pointer;
+        background: none !important;
+        margin: 0;
+        &:before{
+            transform: skew(0deg, 35deg);
+            content: "";
+            height: 45%;
+            width: 48%;
+            position: absolute;
+            top: 10px;
+            left: 0%;
+            background: $paleblue;
+        }
+        &:after{
+            transform: skew(0deg, -35deg);
+            content: "";
+            height: 45%;
+            width: 48%;
+            position: absolute;
+            top: 10px;
+            left: 48%;
+            background: $paleblue;
+        }
+    }
+    .owl-next{
+        height: 9px;
+        width: 46px;
+        position: relative;
+        transform: rotate(270deg);
+        cursor: pointer;
+        background: none !important;
+        margin: 0;
+        &:before{
+            transform: skew(0deg, 35deg);
+            content: "";
+            height: 45%;
+            width: 48%;
+            position: absolute;
+            top: 10px;
+            left: 0%;
+            background: $paleblue;
+        }
+        &:after{
+            transform: skew(0deg, -35deg);
+            content: "";
+            height: 45%;
+            width: 48%;
+            position: absolute;
+            top: 10px;
+            left: 48%;
+            background: $paleblue;
+        }
+    }
+}
+.home-baner{
+    margin: 0 230px
+}
+.fl-reverse{
+    flex-direction: row-reverse;
 }

@@ -57,7 +57,7 @@
                 {val: 125, name: 'sizeForShirts', active: false},
                 {val: 122, name: 'sizeForShirts', active: false},
                 ],
-            checkSale: null
+            checkSale: null,
         }),
         computed: {
             getSidebar(){
@@ -72,17 +72,7 @@
         watch:{
             getSidebar(newVal, oldVal){
                 this.$store.dispatch('showDepartAfterUpdated', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender, newSidebar: newVal})
-            },
-            // $route(to,from){
-            //     if (to.name === 'gender' || from.name === 'category') {
-            //         this.$store.dispatch('backToCategory', {gen: this.$route.params.gender})
-            //     }
-            //     if (to.name === 'category' || to.name === 'department' || to.name === 'item') {
-            //         console.log('hi mark')
-            //         this.$store.dispatch('showDepartments',{categoryAlias: this.$route.params.category, gen: this.$route.params.gender});
-            //     }
-            //
-            // }
+            }
         }
     }
 </script>
