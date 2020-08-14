@@ -3,7 +3,8 @@
         <dl class="left-foot">
             <dt>Услуги</dt>
             <router-link tag="dd" to="/kontacty"><a href="#">Контакты</a></router-link>
-            <router-link tag="dd" to="/oplata"><a href="#">Оплата и доставка</a></router-link>
+            <router-link tag="dd" to="/oplata"><a href="#">Оплата</a></router-link>
+            <router-link tag="dd" to="/dostavka"><a href="#">Доставка</a></router-link>
             <router-link tag="dd" to="/guaranteenreturn"><a href="#">Гарантии и возврат товара</a></router-link>
             <router-link tag="dd" to="/confidential"><a href="#">Политика конфедециальности</a></router-link>
         </dl>

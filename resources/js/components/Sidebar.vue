@@ -20,7 +20,7 @@
         </ul>
         <div class="sidebar-sizing">
             <span>Размер</span>
-            <form @submit="">
+            <form @submit.prevent="">
                 <input type="button" v-for="(size, s) in sizing"
                        v-bind:value="size.val"
                        v-bind:name="size.name"

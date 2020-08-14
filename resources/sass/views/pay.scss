@@ -1,5 +1,5 @@
 .pay{
-    margin: 0 270px 100px;
+    @include margins-template(0, 270px, 100px);
     h1{
         margin-top: 80px;
     }
@@ -11,8 +11,7 @@
         text-transform: uppercase;
     }
     &-icons{
-        display: flex;
-        justify-content: space-between;
+        @include flexin(space-between);
         @include border(top, 3px, $palepurpp);
         @include border(bottom, 3px, $palepurpp);
         img{

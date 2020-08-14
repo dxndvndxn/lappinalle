@@ -39,3 +39,12 @@
     display: grid;
     grid-template-columns: repeat($count, $size);
 }
+
+@mixin margins-template($up, $right, $bottom){
+    margin: $up $right $bottom;
+}
+
+@mixin flex-column($col){
+    display: flex;
+    flex-direction: $col;
+}

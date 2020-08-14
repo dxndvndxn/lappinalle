@@ -2,6 +2,6 @@
 use Illuminate\Support\Facades\Route;
 
 
-Auth::routes();
+//Auth::routes();
 
-Route::get('/{any}', 'HomeController@index')->where('any', '.*');
+Route::get('/{any}', 'HomeController@index')->where('any', '^(?!api\/)[\/\w\.-]*');

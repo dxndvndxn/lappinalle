@@ -1,0 +1,7 @@
+.reset{
+    @include margins-template(0, 270px, 100px);
+    form{
+        @include flex-column(column);
+        align-items: center;
+    }
+}

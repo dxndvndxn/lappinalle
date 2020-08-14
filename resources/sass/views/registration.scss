@@ -1,0 +1,25 @@
+.registration{
+    @include margins-template(0, 270px, 100px);
+    form{
+        @include flex-column(column);
+        align-items: center;
+        .check-agree{
+            width: 315px;
+            display: flex;
+            margin-bottom: 40px;
+            input{
+                @extend %checkbox;
+                width: 21%;
+                margin-right: 20px;
+            }
+            label{
+                @include ptSans(400);
+                text-transform: uppercase;
+                font-size: $bigFz -7px;
+                text-align: right;
+                width: 100%;
+                line-height: 1.5;
+            }
+        }
+    }
+}

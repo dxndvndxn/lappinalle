@@ -13,9 +13,9 @@
                 <router-link class="flexin-center logo" tag="li" to="/"><a href="#">Lappinalle</a></router-link>
                 <li class="nav-icons">
                     <ul class="nav-icons-items">
-                        <router-link tag="li" to="/cabinet"><a href=""><img src="../../img/cabinet.png" alt=""></a></router-link>
+                        <router-link tag="li" to="/login"><a href=""><img src="../../img/cabinet.png" alt=""></a></router-link>
                         <router-link tag="li" to="/bookmark"><a href=""><img src="../../img/bookmark.png" alt=""></a></router-link>
-                        <router-link tag="li" to="/cart"><a href=""><img src="../../img/cart.png" alt=""></a></router-link>
+                        <router-link tag="li" to="/korzina"><a href=""><img src="../../img/cart.png" alt=""></a></router-link>
                     </ul>
                 </li>
             </ul>
@@ -31,16 +31,6 @@
                             <span @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'" @click="closeMenu">{{gen.title}}</span>
                         </router-link>
                     </li>
-<!--                    <router-link-->
-<!--                        v-for="(gen, k) in $store.getters.topMenu"-->
-<!--                        :key="k"-->
-<!--                        tag="li"-->
-<!--                        :to="{name: 'gender', params: {gender: gen.url}}"-->
-<!--                        :replace="true"-->
-<!--                        :exact="true"-->
-<!--                    >-->
-<!--                        <a href="#" @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</a>-->
-<!--                    </router-link>-->
                 </ul>
             </div>
             <div class="menu-bottom" v-if="showMenu">

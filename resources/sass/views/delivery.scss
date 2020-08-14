@@ -1,0 +1,30 @@
+.delivery{
+    @include margins-template(0, 270px, 60px);
+    h1{
+        margin: 80px 0 50px ;
+    }
+    &-icons{
+        @include flexin(space-between);
+        @include border(top, 3px, $palepurpp);
+        @include border(bottom, 3px, $palepurpp);
+        padding: 30px 0;
+        margin-bottom: 70px;
+        img{
+            object-fit: contain;
+            cursor: pointer;
+        }
+    }
+    &-text{
+        @include ptSans(400);
+        font-size: $regFz;
+        line-height: 30px;
+        height: 150px;
+        overflow: hidden;
+        overflow-y: scroll;
+        @extend %scrollbar;
+        h3{
+            margin: 0 0 30px;
+            font-weight: 400 !important;
+        }
+    }
+}

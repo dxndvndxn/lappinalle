@@ -11,8 +11,8 @@
                         +7 (911) 123-45-67
                     </a>
                 </div>
-                <input type="text" v-model.trim="fio" class="put-name" placeholder="ФИО">
-                <input type="email" v-model.trim="email" class="put-tel" placeholder="E-MAIL">
+                <input type="text" v-model.trim="fio" class="classic-input" placeholder="ФИО">
+                <input type="email" v-model.trim="email" class="classic-input" placeholder="E-MAIL">
                 <button class="btn">Отправить</button>
             </div>
             <div class="email">

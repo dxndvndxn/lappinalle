@@ -110,11 +110,6 @@
         margin: auto 0;
     }
     input{
-        background-color: $ocean;
-        padding: 15px 0;
-        width: 56.8px;
-        height: 48.4px;
-        appearance: none;
-        cursor: pointer;
+        @extend %checkbox;
     }
 }
