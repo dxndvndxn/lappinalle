@@ -260,10 +260,7 @@
     font-size: $bigFz + 2px;
     position: relative;
     cursor: pointer;
-    a{
-        text-decoration: none;
-        padding-left: 30px;
-    }
+    padding-left: 30px;
 }
 .black{
     color: #000;
@@ -310,4 +307,8 @@
         left: 0px;
         background: $grey;
     }
+}
+.chozenDel{
+    background-color: $ocean;
+    border-bottom: 7px solid $purpp !important;
 }

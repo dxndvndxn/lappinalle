@@ -1,0 +1,51 @@
+.chozen-delivery{
+    &-header{
+        @include grid-temp(1fr, 1fr, 1fr);
+        h1{
+            margin: 0;
+        }
+    }
+    &-img{
+        @include flexin(space-between);
+        margin: 55px 0;
+        img{
+            object-fit: contain;
+            @include border(bottom, 7px, transparent);
+            cursor: pointer;
+            padding: 10px;
+        }
+    }
+    &-fill{
+        @include grid-temp(1fr, 2fr, 0px);
+        grid-column-gap: 25px;
+        margin-bottom: 100px;
+    }
+    &-btn{
+        grid-column: 1/3;
+        justify-self: center;
+    }
+    &-text{
+        p{
+            @include ptSans(400);
+            font-size: $bigFz + 2px;
+            margin: 0 0 30px;
+        }
+    }
+    &-price{
+        @include ptSans(400);
+        font-size: 34px;
+        span{
+            color: $palepurpp;
+            @include ptSans(700);
+
+        }
+    }
+    &-total{
+        @include ptSans(400);
+        font-size: 34px;
+        span{
+            color: $palepurpp;
+            @include ptSans(700);
+        }
+    }
+}

@@ -1,22 +1,21 @@
 <template>
     <span class="back">
-        <span v-if="getBackPage !== null">
-            <router-link :to="getBackPage" v-bind:class="color === 'grey' ? color : color">Назад</router-link>
+        <span @click="backTo()" v-bind:class="color === 'grey' ? color : color">
+            {{word}}
         </span>
-        <span v-else></span>
     </span>
 </template>
 
 <script>
     export default {
         name: "Back",
-        props: ['color'],
+        props: ['color','word'],
         data: () => ({
 
         }),
-        computed: {
-            getBackPage(){
-                return this.$store.getters.backPage;
+        methods: {
+            backTo(){
+                this.$router.go(-1);
             }
         }
     }

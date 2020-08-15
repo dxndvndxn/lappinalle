@@ -8,6 +8,8 @@ import Login from "./views/Login";
 import Registration from "./views/Registration";
 import Reset from "./views/Reset";
 import Cart from "./views/Cart";
+import Order from "./views/Order";
+import ChooseDelivery from "./views/ChooseDelivery";
 
 export default {
     mode: 'history',
@@ -59,6 +61,18 @@ export default {
             name: 'cart',
             meta: { layout: 'Main' },
             component: Cart
+        },
+        {
+            path: '/oformleniezakaza',
+            name: 'ordering',
+            meta: { layout: 'Main' },
+            component: Order
+        },
+        {
+            path: '/vybordostavki',
+            name: 'chooseDelivery',
+            meta: { layout: 'Main' },
+            component: ChooseDelivery
         },
         {
             path: '/:gender',

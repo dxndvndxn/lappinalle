@@ -358,10 +358,6 @@
   font-size: 26px;
   position: relative;
   cursor: pointer;
-}
-
-.back a {
-  text-decoration: none;
   padding-left: 30px;
 }
 
@@ -415,6 +411,11 @@
   top: 18px;
   left: 0px;
   background: #585757;
+}
+
+.chozenDel {
+  background-color: #e7eff8;
+  border-bottom: 7px solid #bd5583 !important;
 }
 
 .crumbs ul,
@@ -1831,6 +1832,90 @@ nav ul,
 
 .cart-total .total-price span {
   color: #93b5e1;
+}
+
+.order-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.order h1 {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.order .order-from {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 100px 0px 100px;
+}
+
+.chozen-delivery-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.chozen-delivery-header h1 {
+  margin: 0;
+}
+
+.chozen-delivery-img {
+  display: flex;
+  justify-content: space-between;
+  margin: 55px 0;
+}
+
+.chozen-delivery-img img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-bottom: 7px solid transparent;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.chozen-delivery-fill {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-column-gap: 25px;
+  margin-bottom: 100px;
+}
+
+.chozen-delivery-btn {
+  grid-column: 1/3;
+  justify-self: center;
+}
+
+.chozen-delivery-text p {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 26px;
+  margin: 0 0 30px;
+}
+
+.chozen-delivery-price {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 34px;
+}
+
+.chozen-delivery-price span {
+  color: #848ccf;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+}
+
+.chozen-delivery-total {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 34px;
+}
+
+.chozen-delivery-total span {
+  color: #848ccf;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
 }
 
 html,

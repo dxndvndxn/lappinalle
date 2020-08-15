@@ -10,7 +10,6 @@ export default new Vuex.Store({
         categAlias: {},
         departAlias: {},
         mySidebar: null,
-        backPage: null ?? JSON.parse(localStorage.getItem('backPage')),
         errors: null
     },
     mutations: {
@@ -321,10 +320,6 @@ export default new Vuex.Store({
                 console.log(e)
             }
         },
-        backPageMutate(state, backPage){
-            state.backPage = backPage;
-            localStorage.setItem('backPage', JSON.stringify(state.backPage))
-        }
     },
     actions: {
         getMenuData({commit}){
@@ -339,9 +334,6 @@ export default new Vuex.Store({
         backToCategory({commit}, data){
             commit('backToCategoryMutate', data);
         },
-        addBackPath({commit}, backPage){
-            commit('backPageMutate', backPage);
-        }
     },
     getters:{
         topMenu: (state) => {
@@ -358,9 +350,6 @@ export default new Vuex.Store({
         },
         mySidebar: (state) => {
             return state.mySidebar;
-        },
-        backPage: (state) => {
-            return state.backPage;
         }
 
     }
