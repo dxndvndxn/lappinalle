@@ -1977,8 +1977,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Back",
+  props: ['color'],
   data: function data() {
     return {};
   },
@@ -2566,6 +2570,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Cart",
@@ -2573,7 +2614,63 @@ __webpack_require__.r(__webpack_exports__);
     Back: _components_Back__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
-    return {};
+    return {
+      cartCards: [{
+        cardId: 1,
+        cardImg: '../../img/item.png',
+        cardName: 'Комбинезон "LAPPINALLE',
+        cardSize: 46,
+        cardAmount: 1,
+        cardPrice: 5400,
+        cardText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?'
+      }, {
+        cardId: 2,
+        cardImg: '../../img/item.png',
+        cardName: 'Комбинезон "LAPPINALLE',
+        cardSize: 46,
+        cardAmount: 1,
+        cardPrice: 5400,
+        cardText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?'
+      }, {
+        cardId: 3,
+        cardImg: '../../img/item.png',
+        cardName: 'Комбинезон "LAPPINALLE',
+        cardSize: 46,
+        cardAmount: 1,
+        cardPrice: 5400,
+        cardText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?'
+      }],
+      totalPrice: null
+    };
+  },
+  methods: {
+    countTotal: function countTotal(arr) {
+      var _this = this;
+
+      this.totalPrice = 0;
+      arr.forEach(function (val) {
+        _this.totalPrice += val.cardPrice * val.cardAmount;
+      });
+    },
+    itemPlus: function itemPlus(i) {
+      this.cartCards[i].cardAmount++;
+      this.countTotal(this.cartCards);
+    },
+    itemMinus: function itemMinus(i) {
+      if (this.cartCards[i].cardAmount > 1) {
+        this.cartCards[i].cardAmount--;
+        this.countTotal(this.cartCards);
+      }
+    },
+    removeCard: function removeCard(i) {
+      this.cartCards = this.cartCards.filter(function (item) {
+        return item.cardId !== i;
+      });
+      this.countTotal(this.cartCards);
+    }
+  },
+  created: function created() {
+    this.countTotal(this.cartCards);
   }
 });
 
@@ -4685,12 +4782,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "span",
-    { staticClass: "back" },
-    [_c("router-link", { attrs: { to: _vm.getBackPage } }, [_vm._v("Назад")])],
-    1
-  )
+  return _c("span", { staticClass: "back" }, [
+    _vm.getBackPage !== null
+      ? _c(
+          "span",
+          [
+            _c(
+              "router-link",
+              {
+                class: _vm.color === "grey" ? _vm.color : _vm.color,
+                attrs: { to: _vm.getBackPage }
+              },
+              [_vm._v("Назад")]
+            )
+          ],
+          1
+        )
+      : _c("span")
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -5577,14 +5686,14 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "cart" }, [
+  return _c("div", { staticClass: "cart container" }, [
     _c(
       "div",
-      { staticClass: "cart-head" },
+      { staticClass: "cart-head  h1-m50" },
       [
-        _c("Back"),
+        _c("Back", { attrs: { color: "grey" } }),
         _vm._v(" "),
-        _c("h1", [
+        _c("h1", { staticClass: "h1-bold-grey" }, [
           _vm._v("Корзина "),
           _c(
             "svg",
@@ -5639,7 +5748,99 @@ var render = function() {
         ])
       ],
       1
-    )
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "cart-cards" },
+      _vm._l(_vm.cartCards, function(card, c) {
+        return _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-img" }, [
+            _c("img", { attrs: { src: card.cardImg, alt: "" } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-info" }, [
+            _c("div", { staticClass: "card-name" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(card.cardName) +
+                  "\n                "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-counts" }, [
+              _c("div", { staticClass: "card-size" }, [
+                _vm._v("\n                        Размер: "),
+                _c("span", [_vm._v(" " + _vm._s(card.cardSize))])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-amount" }, [
+                _vm._v("\n                        Количество:  "),
+                _c("span", [_vm._v(" " + _vm._s(card.cardAmount))]),
+                _vm._v(" "),
+                _c("div", { staticClass: "change-amount" }, [
+                  _c("button", {
+                    staticClass: "change-plus",
+                    on: {
+                      click: function($event) {
+                        return _vm.itemPlus(c)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("button", {
+                    staticClass: "change-minus",
+                    on: {
+                      click: function($event) {
+                        return _vm.itemMinus(c)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-price" }, [
+                _vm._v("Цена: "),
+                _c("span", [
+                  _vm._v(_vm._s(card.cardAmount * card.cardPrice) + " ₽")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-desc" }, [
+              _vm._v(
+                "\n                   " +
+                  _vm._s(card.cardText) +
+                  "\n                "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-close" }, [
+            _c("span", {
+              staticClass: "close-btn",
+              on: {
+                click: function($event) {
+                  return _vm.removeCard(card.cardId)
+                }
+              }
+            })
+          ])
+        ])
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "cart-total" }, [
+      _c("div", { staticClass: "total-price" }, [
+        _vm._v("\n            Итого: "),
+        _c("span", [_vm._v(_vm._s(_vm.totalPrice) + " ₽")])
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "classic-btn-sz btn" }, [
+        _vm._v("Оформить заказ")
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -6978,11 +7179,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "classic-input",
-                attrs: {
-                  type: "password",
-                  placeholder: "Пароль",
-                  autocomplete: "Pass"
-                },
+                attrs: { type: "password", placeholder: "Пароль" },
                 domProps: { value: _vm.pass },
                 on: {
                   input: function($event) {
@@ -7008,11 +7205,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "classic-input",
-                attrs: {
-                  type: "password",
-                  placeholder: "Повторите пароль",
-                  autocomplete: "new-password"
-                },
+                attrs: { type: "password", placeholder: "Повторите пароль" },
                 domProps: { value: _vm.passRepeat },
                 on: {
                   input: function($event) {
@@ -24569,6 +24762,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 
 
+var _ref;
+
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function (_e) { function e(_x) { return _e.apply(this, arguments); } e.toString = function () { return _e.toString(); }; return e; }(function (e) { throw e; }), f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function (_e2) { function e(_x2) { return _e2.apply(this, arguments); } e.toString = function () { return _e2.toString(); }; return e; }(function (e) { didErr = true; err = e; }), f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -24590,7 +24785,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     categAlias: {},
     departAlias: {},
     mySidebar: null,
-    backPage: JSON.parse(localStorage.getItem('backPage')),
+    backPage: (_ref = null) !== null && _ref !== void 0 ? _ref : JSON.parse(localStorage.getItem('backPage')),
     errors: null
   },
   mutations: {
@@ -24915,24 +25110,24 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     }
   },
   actions: {
-    getMenuData: function getMenuData(_ref) {
-      var commit = _ref.commit;
+    getMenuData: function getMenuData(_ref2) {
+      var commit = _ref2.commit;
       commit('getMenuDataMutate');
     },
-    showDepartments: function showDepartments(_ref2, data) {
-      var commit = _ref2.commit;
+    showDepartments: function showDepartments(_ref3, data) {
+      var commit = _ref3.commit;
       commit('sideBarDepartMutate', data);
     },
-    showDepartAfterUpdated: function showDepartAfterUpdated(_ref3, data) {
-      var commit = _ref3.commit;
+    showDepartAfterUpdated: function showDepartAfterUpdated(_ref4, data) {
+      var commit = _ref4.commit;
       commit('sideBarDepartMutateAfterUpdated', data);
     },
-    backToCategory: function backToCategory(_ref4, data) {
-      var commit = _ref4.commit;
+    backToCategory: function backToCategory(_ref5, data) {
+      var commit = _ref5.commit;
       commit('backToCategoryMutate', data);
     },
-    addBackPath: function addBackPath(_ref5, backPage) {
-      var commit = _ref5.commit;
+    addBackPath: function addBackPath(_ref6, backPage) {
+      var commit = _ref6.commit;
       commit('backPageMutate', backPage);
     }
   },

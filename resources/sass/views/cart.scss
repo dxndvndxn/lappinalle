@@ -1,0 +1,161 @@
+.cart{
+    &-head{
+        @include grid-temp(1fr, 1fr, 1fr);
+        svg{
+            width: 45px;
+            height: 30px;
+            fill: $purpp;
+        }
+        h1{
+            margin: 0;
+            @include flexin(center);
+        }
+    }
+    &-cards{
+        height: 650px;
+        overflow: hidden;
+        overflow-y: scroll;
+        transform: scale(-1);
+        @include flex-column(column-reverse);
+        @extend %scrollbar;
+        margin: 60px 0;
+        .card{
+            @include grid-temp(1fr, 2.5fr, 0.5fr);
+            grid-column-gap: 10px;
+            transform: rotate(179.5deg);
+            margin-bottom: 50px;
+            &-img{
+                img{
+                    object-fit: contain;
+                }
+            }
+            &-info{
+                @include ptSans(400);
+                .card-name{
+                    font-size: $bigFz;
+                    margin-bottom: 40px;
+                }
+                .card-counts{
+                    @include flexin(space-between);
+                    font-size: $bigFz;
+                    margin-bottom: 40px;
+                    span{
+                        @include ptSans(700);
+                        color: $paleblue;
+                    }
+                    .card-amount{
+                        display: flex;
+                        span{
+                            margin: auto 10px;
+                            display: inline-flex;
+                        }
+                        .change-amount{
+                            @include flex-column(column);
+                            justify-content: space-between;
+                            position: relative;
+                            &:before{
+                                content: "";
+                                height: 1.5px;
+                                width: 14.5px;
+                                position: absolute;
+                                top: 13px;
+                                left: -2px;
+                                background: $grey;
+                            }
+                            button{
+                                background: none;
+                                border: none;
+                                cursor: pointer;
+                                &:first-child{
+                                    position: relative;
+                                    &:before{
+                                        transform: rotate(-45deg);
+                                        content: "";
+                                        height: 2.5px;
+                                        width: 10.5px;
+                                        position: absolute;
+                                        top: 5px;
+                                        left: -3.5px;
+                                        background: $grey;
+                                    }
+                                    &:after{
+                                        transform: rotate(45deg);
+                                        content: "";
+                                        height: 2.5px;
+                                        width: 10.5px;
+                                        position: absolute;
+                                        top: 5px;
+                                        left: 3.5px;
+                                        background: $grey;
+                                    }
+                                }
+                                &:last-child{
+                                    position: relative;
+                                    &:before{
+                                        transform: rotate(45deg);
+                                        content: "";
+                                        height: 2.5px;
+                                        width: 10.5px;
+                                        position: absolute;
+                                        top: -5px;
+                                        left: -3.5px;
+                                        background: $grey;
+                                    }
+                                    &:after{
+                                        transform: rotate(-45deg);
+                                        content: "";
+                                        height: 2.5px;
+                                        width: 10.5px;
+                                        position: absolute;
+                                        top: -5px;
+                                        left: 3.5px;
+                                        background: $grey;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            &-close{
+                position: relative;
+                .close-btn{
+                    height: 10.5px;
+                    width: 20.5px;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    cursor: pointer;
+                    &:before{
+                        transform: rotate(-45deg);
+                        content: "";
+                        height: 3.5px;
+                        width: 20.5px;
+                        background: $grey;
+                        position: absolute;
+                    }
+                    &:after{
+                        transform: rotate(45deg);
+                        content: "";
+                        height: 2.5px;
+                        width: 20.5px;
+                        background: $grey;
+                        position: absolute;
+                    }
+                }
+            }
+        }
+    }
+    &-total{
+        @include flexin(center);
+        margin-bottom: 70px;
+        .total-price{
+            @include ptSans(400);
+            font-size: 40px;
+            margin-right: 30px;
+            span{
+                color: $paleblue;
+            }
+        }
+    }
+}

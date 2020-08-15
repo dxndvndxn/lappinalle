@@ -10,7 +10,7 @@ export default new Vuex.Store({
         categAlias: {},
         departAlias: {},
         mySidebar: null,
-        backPage: JSON.parse(localStorage.getItem('backPage')),
+        backPage: null ?? JSON.parse(localStorage.getItem('backPage')),
         errors: null
     },
     mutations: {

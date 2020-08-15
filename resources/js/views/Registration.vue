@@ -5,8 +5,8 @@
             <form @submit.prevent="regIn()">
                 <input type="text" class="classic-input" v-model.trim="name" placeholder="Имя" autocomplete="on">
                 <input type="email" class="classic-input" v-model.trim="email" placeholder="E-mail" autocomplete="on">
-                <input type="password" class="classic-input" v-model.trim="pass" placeholder="Пароль" autocomplete="Pass">
-                <input type="password" class="classic-input" v-model.trim="passRepeat" placeholder="Повторите пароль" autocomplete="new-password">
+                <input type="password" class="classic-input" v-model.trim="pass" placeholder="Пароль">
+                <input type="password" class="classic-input" v-model.trim="passRepeat" placeholder="Повторите пароль">
                 <div class="check-agree">
                     <input v-model.trim="checkAgree" type="checkbox" id="agree" @click="checkAgree = !checkAgree"
                            v-bind:class="checkAgree ? 'active-size' : null">

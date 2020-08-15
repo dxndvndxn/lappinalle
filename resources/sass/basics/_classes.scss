@@ -184,13 +184,13 @@
 }
 .h-30{
     text-align: center;
-    font-size: $bigFz + 6px;
+    font-size: $bigFz + 4px;
     @include ptSans(700);
     text-transform: uppercase;
 }
 .h-30-ease{
     text-align: center;
-    font-size: $bigFz + 6px;
+    font-size: $bigFz + 4px;
     @include ptSans(400);
 }
 
@@ -244,4 +244,70 @@
     width: 315px;
     height: 50px;
 }
+.h1-bold-grey{
+    @include ptSans(700);
+    font-size: $bigFz + 4px;
+    color: $grey;
+    text-transform: uppercase;
+    text-align: center;
+}
+.h1-m50{
+    margin-top: 50px;
+}
 
+.back{
+    @include ptSans(400);
+    font-size: $bigFz + 2px;
+    position: relative;
+    cursor: pointer;
+    a{
+        text-decoration: none;
+        padding-left: 30px;
+    }
+}
+.black{
+    color: #000;
+    &:before{
+        transform: skew(45deg, -40deg);
+        content: "";
+        height: 3.5px;
+        width: 16.5px;
+        position: absolute;
+        top: 7px;
+        left: 0px;
+        background: #000;
+    }
+    &:after{
+        transform: skew(-45deg, 40deg);
+        content: "";
+        height: 3.5px;
+        width: 16.5px;
+        position: absolute;
+        top: 18px;
+        left: 0px;
+        background: #000;
+    }
+}
+.grey{
+    color: $grey;
+    &:before{
+        transform: skew(45deg, -40deg);
+        content: "";
+        height: 3.5px;
+        width: 16.5px;
+        position: absolute;
+        top: 7px;
+        left: 0px;
+        background: $grey;
+    }
+    &:after{
+        transform: skew(-45deg, 40deg);
+        content: "";
+        height: 3.5px;
+        width: 16.5px;
+        position: absolute;
+        top: 18px;
+        left: 0px;
+        background: $grey;
+    }
+}

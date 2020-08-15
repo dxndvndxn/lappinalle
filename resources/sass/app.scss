@@ -17,7 +17,11 @@
 @import "views/login";
 @import "views/registration";
 @import "views/reset";
+@import "views/cart";
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+html,body{
+    overflow-x: hidden;
+}
 @font-face {
     font-family: 'Gotham Pro';
     src: url('../fonts/GothamPro-Black.eot');

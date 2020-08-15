@@ -1,12 +1,16 @@
 <template>
     <span class="back">
-        <router-link :to="getBackPage">Назад</router-link>
+        <span v-if="getBackPage !== null">
+            <router-link :to="getBackPage" v-bind:class="color === 'grey' ? color : color">Назад</router-link>
+        </span>
+        <span v-else></span>
     </span>
 </template>
 
 <script>
     export default {
         name: "Back",
+        props: ['color'],
         data: () => ({
 
         }),
