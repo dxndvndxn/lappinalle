@@ -5,16 +5,6 @@
             margin: 0;
         }
     }
-    &-img{
-        @include flexin(space-between);
-        margin: 55px 0;
-        img{
-            object-fit: contain;
-            @include border(bottom, 7px, transparent);
-            cursor: pointer;
-            padding: 10px;
-        }
-    }
     &-fill{
         @include grid-temp(1fr, 2fr, 0px);
         grid-column-gap: 25px;
@@ -28,12 +18,13 @@
         p{
             @include ptSans(400);
             font-size: $bigFz + 2px;
-            margin: 0 0 30px;
+            margin: 0 0 60px;
         }
     }
     &-price{
         @include ptSans(400);
         font-size: 34px;
+        margin-bottom: 20px;
         span{
             color: $palepurpp;
             @include ptSans(700);

@@ -24,7 +24,7 @@
                     this.$store.dispatch('backToCategory', {gen: this.$route.params.gender})
                 }
                 if (to.name === 'category' || to.name === 'department' || to.name === 'item') {
-                    this.$store.dispatch('showDepartments',{categoryAlias: this.$route.params.category, gen: this.$route.params.gender});
+                    this.$store.dispatch('showDepartments', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender});
                 }
             }
         }

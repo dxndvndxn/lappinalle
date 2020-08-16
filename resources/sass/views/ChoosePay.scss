@@ -1,0 +1,13 @@
+.choose-pay{
+    &-header{
+        @include grid-temp(1fr, 1fr, 1fr);
+        h1{
+            margin: 0;
+        }
+    }
+    &-button{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 100px;
+    }
+}

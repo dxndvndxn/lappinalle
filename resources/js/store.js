@@ -10,7 +10,8 @@ export default new Vuex.Store({
         categAlias: {},
         departAlias: {},
         mySidebar: null,
-        errors: null
+        errors: null,
+        catalogData: null
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -269,6 +270,7 @@ export default new Vuex.Store({
             }
         },
         sideBarDepartMutateAfterUpdated(state, data){
+            console.log(data)
             try{
                 if(data.categoryAlias === undefined){
                     for (let i in data.newSidebar[data.gen]){
@@ -320,6 +322,23 @@ export default new Vuex.Store({
                 console.log(e)
             }
         },
+        async getCatalogDataMutate(state, data){
+            console.log(Object.keys(data).length)
+            switch (Object.keys(data).length) {
+                case 1:
+                    await axios.get(`/api/${data.gender}`)
+                        .then(response => {
+                            state.catalogData = response.data;
+                        });
+                    break;
+                case 2:
+                    await axios.get(`/api/${data.gender}/${data.category}`)
+                        .then(response => {
+                            state.catalogData = response.data;
+                        });
+                    break;
+            }
+        }
     },
     actions: {
         getMenuData({commit}){
@@ -334,6 +353,9 @@ export default new Vuex.Store({
         backToCategory({commit}, data){
             commit('backToCategoryMutate', data);
         },
+        getCatalogData({commit}, data){
+            commit('getCatalogDataMutate',data);
+        }
     },
     getters:{
         topMenu: (state) => {
@@ -350,6 +372,9 @@ export default new Vuex.Store({
         },
         mySidebar: (state) => {
             return state.mySidebar;
+        },
+        catalogData: (state) => {
+            return state.catalogData;
         }
 
     }

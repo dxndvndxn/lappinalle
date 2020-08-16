@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="returnCatalogData !== null && returnCatalogData.length">
         <div class="bread container">
             <div></div>
             <Breadcrumbs/>
@@ -17,7 +17,7 @@
         </div>
         <div class="catalog container">
             <Sidebar/>
-            <CatalogCell/>
+            <CatalogCell v-bind:catalogData="returnCatalogData"/>
         </div>
         <Pagination/>
     </div>
@@ -36,6 +36,33 @@
         }),
         components: {
             Sidebar, Breadcrumbs, CatalogCell, Pagination
+        },
+        methods: {
+          getCatalogData(){
+              this.$store.dispatch('getCatalogData', this.$route.params);
+          }
+        },
+        beforeMount() {
+            this.$Progress.start();
+            this.getCatalogData();
+        },
+        watch: {
+            $route(to, from){
+                if (to.name === 'gender') {
+                    this.$Progress.start();
+                    this.getCatalogData();
+                }
+                if (to.name === 'category') {
+                    this.$Progress.start();
+                    this.getCatalogData();
+                }
+            }
+        },
+        computed: {
+            returnCatalogData(){
+                this.$Progress.finish();
+                return this.$store.getters.catalogData;
+            }
         }
     }
 </script>

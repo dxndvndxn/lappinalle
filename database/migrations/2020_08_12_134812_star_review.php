@@ -21,7 +21,7 @@ class StarReview extends Migration
             $table->decimal('star_review_4', 1, 0);
             $table->decimal('star_review_5', 1, 0);
             $table->unsignedInteger('product_id')->nullable();
-            $table->foreign('product_id')->references('product_id')->on('product')->onDelete('cascade');
+            $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
         });
     }
 

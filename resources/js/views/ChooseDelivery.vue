@@ -3,10 +3,10 @@
         <div class="chozen-delivery-header h1-m50">
             <Back v-bind:color="'grey'" v-bind:word="'Контактная информация'"/><h1 class="h1-bold-grey">Способ доставки</h1>
         </div>
-        <div class="chozen-delivery-img">
-            <img :src="del.delImg" v-for="(del, i) in deliveries" v-bind:class="del.delChooze ? 'chozenDel' : null" alt="" @click="clickDel(i)">
+        <div class="chozen-delivery-img chozen-imgs">
+            <img :src="del.delImg" v-for="(del, i) in deliveries" v-bind:class="del.delChooze ? 'chozenImg' : null" alt="" @click="clickDel(i)">
         </div>
-        <form class="chozen-delivery-fill">
+        <form @submit.prevent="toPay" class="chozen-delivery-fill">
             <div class="fill-inputs">
                 <input type="text" class="classic-input" v-model.trim="street" placeholder="Улица" autocomplete="on">
                 <input type="text" class="classic-input" v-model.trim="house" placeholder="Дом" autocomplete="on">
@@ -80,6 +80,9 @@
                 this.chozenDel = i;
                 this.deliveries.forEach(el => el.delChooze = false);
                 this.deliveries[i].delChooze = true;
+            },
+            toPay(){
+                this.$router.push({name: 'choosePay'})
             }
         }
     }

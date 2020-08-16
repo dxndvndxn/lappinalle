@@ -21,7 +21,7 @@ class Reviews extends Migration
             $table->unsignedInteger('users_id')->nullable();
             $table->foreign('users_id')->references('users_id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('product_id')->nullable();
-            $table->foreign('product_id')->references('product_id')->on('product')->onDelete('cascade');
+            $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
         });
     }
 

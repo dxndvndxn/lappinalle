@@ -10,6 +10,9 @@ import Reset from "./views/Reset";
 import Cart from "./views/Cart";
 import Order from "./views/Order";
 import ChooseDelivery from "./views/ChooseDelivery";
+import ChoosePay from "./views/ChoosePay";
+import PaySuccess from "./views/PaySuccess";
+import Bookmark from "./views/Bookmark";
 
 export default {
     mode: 'history',
@@ -75,10 +78,34 @@ export default {
             component: ChooseDelivery
         },
         {
+            path: '/vyboroplaty',
+            name: 'choosePay',
+            meta: { layout: 'Main' },
+            component: ChoosePay
+        },
+        {
+            path: '/paysuccess',
+            name: 'paySuccess',
+            meta: { layout: 'Main' },
+            component: PaySuccess
+        },
+        {
+            path: '/izbrannoe',
+            name: 'bookmark',
+            meta: { layout: 'Main' },
+            component: Bookmark
+        },
+        {
             path: '/:gender',
             name: 'gender',
             meta: { layout: 'Main' },
             component: Catalog
+        },
+        {
+            path: '/:gender/item-:number',
+            name: 'item',
+            meta: { layout: 'Main' },
+            component: Catalogitem
         },
         {
             path: '/:gender/:category',

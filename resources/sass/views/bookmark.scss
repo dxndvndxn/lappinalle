@@ -1,0 +1,20 @@
+.bookmark{
+    &-header{
+        @include grid-temp(1fr, 1fr, 1fr);
+        svg{
+            width: 45px;
+            height: 30px;
+            fill: $purpp;
+        }
+        h1{
+            margin: 0 0 60px;
+            @include flexin(center);
+        }
+    }
+    &-text{
+        text-align: center;
+        @include ptSans(400);
+        font-size: $bigFz + 4px;
+        margin-bottom: 100px;
+    }
+}

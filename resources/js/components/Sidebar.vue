@@ -64,6 +64,9 @@
                 return this.$store.getters.mySidebar;
             }
         },
+        created(){
+            this.$store.dispatch('showDepartAfterUpdated', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender, newSidebar: this.getSidebar})
+        },
         methods:{
             showDepartments(categoryAlias, gen){
                 this.$store.dispatch('showDepartments', {categoryAlias, gen});
@@ -71,6 +74,7 @@
         },
         watch:{
             getSidebar(newVal, oldVal){
+                console.log(newVal)
                 this.$store.dispatch('showDepartAfterUpdated', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender, newSidebar: newVal})
             }
         }

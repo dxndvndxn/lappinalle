@@ -1,0 +1,16 @@
+.pay-success{
+    h1{
+        @include ptSans(700);
+        font-size: 40px;
+        text-align: center;
+    }
+    &-number{
+        color: $palepurpp;
+    }
+    &-text{
+        @include ptSans(400);
+        margin: 0 0 100px;
+        font-size: $bigFz + 4px;
+        text-align: center;
+    }
+}

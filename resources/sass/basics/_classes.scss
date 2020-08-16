@@ -308,7 +308,17 @@
         background: $grey;
     }
 }
-.chozenDel{
+.chozenImg{
     background-color: $ocean;
     border-bottom: 7px solid $purpp !important;
+}
+.chozen-imgs{
+    @include flexin(space-between);
+    margin: 55px 0;
+    img{
+        object-fit: contain;
+        @include border(bottom, 7px, transparent);
+        cursor: pointer;
+        padding: 10px;
+    }
 }

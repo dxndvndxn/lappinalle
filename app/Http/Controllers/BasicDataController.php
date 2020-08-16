@@ -28,9 +28,6 @@ class BasicDataController extends Controller
             );
              array_push($objectToArray, $newArr);
          }
-//         $menuCook = new Cookie();
-//         $menuCook->
-//        cookie('menu', $objectToArray, 5);
         return $objectToArray;
     }
 }

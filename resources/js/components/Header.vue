@@ -14,7 +14,7 @@
                 <li class="nav-icons">
                     <ul class="nav-icons-items">
                         <router-link tag="li" to="/login"><a href=""><img src="../../img/cabinet.png" alt=""></a></router-link>
-                        <router-link tag="li" to="/bookmark"><a href=""><img src="../../img/bookmark.png" alt=""></a></router-link>
+                        <router-link tag="li" to="/izbrannoe"><a href=""><img src="../../img/bookmark.png" alt=""></a></router-link>
                         <router-link tag="li" to="/korzina"><a href=""><img src="../../img/cart.png" alt=""></a></router-link>
                     </ul>
                 </li>
