@@ -108,6 +108,18 @@ export default {
             component: Catalogitem
         },
         {
+            path: '/:gender/:category/item-:number',
+            name: 'item',
+            meta: { layout: 'Main' },
+            component: Catalogitem
+        },
+        {
+            path: '/:gender/:category/:department/item-:number',
+            name: 'item',
+            meta: { layout: 'Main' },
+            component: Catalogitem
+        },
+        {
             path: '/:gender/:category',
             name: 'category',
             meta: { layout: 'Main' },
@@ -119,12 +131,6 @@ export default {
             meta: { layout: 'Main' },
             component: Catalog
         },
-        {
-            path: '/:gender/:category/:department/item-*',
-            name: 'item',
-            meta: { layout: 'Main' },
-            component: Catalogitem
-        }
 
     ]
 }

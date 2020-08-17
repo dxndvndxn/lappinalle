@@ -11,7 +11,9 @@ export default new Vuex.Store({
         departAlias: {},
         mySidebar: null,
         errors: null,
-        catalogData: null
+        catalogData: null,
+        catalogItem: null,
+        catalogItemReview: null
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -270,7 +272,6 @@ export default new Vuex.Store({
             }
         },
         sideBarDepartMutateAfterUpdated(state, data){
-            console.log(data)
             try{
                 if(data.categoryAlias === undefined){
                     for (let i in data.newSidebar[data.gen]){
@@ -323,7 +324,6 @@ export default new Vuex.Store({
             }
         },
         async getCatalogDataMutate(state, data){
-            console.log(Object.keys(data).length)
             switch (Object.keys(data).length) {
                 case 1:
                     await axios.get(`/api/${data.gender}`)
@@ -337,7 +337,62 @@ export default new Vuex.Store({
                             state.catalogData = response.data;
                         });
                     break;
+                case 3:
+                    await axios.get(`/api/${data.gender}/${data.category}/${data.department}`)
+                        .then(response => {
+                            state.catalogData = response.data;
+                        });
+                    break;
             }
+        },
+        async getItemDataMutate(state, data){
+            await axios.get(`/api/item-${data}`)
+                .then(response => {
+                    let itemData = response.data;
+                    let stateItemData = {};
+                    let stateItemReview = [];
+                    let pics = null;
+                    // Пробегаемся по массиву с данными
+                    // Первым элементом идёт сам товар
+                    // Присваем значения этого элемента @stateItemData
+                    itemData.forEach((el, i) => {
+                        if (i === 0) {
+                            stateItemData.itemTitle = el.product_title;
+                            stateItemData.itemPrice = el.product_price;
+                            pics = el.product_img.split(',');
+                            stateItemData.itemPics = [];
+
+                            // Пушим картинки
+                            pics.forEach((img, ii) => {
+                                if (ii === 0) {
+                                    stateItemData.itemPics.push({img: img, clicked: true})
+                                } else {
+                                    stateItemData.itemPics.push({img: img, clicked: false})
+                                }
+                            });
+
+                            // Если видео, то ставим его первым в массив с картинками, ставим ему ckicked true, скороее всего будет добавляться картинка как превье этого видео
+                            if (el.product_video !== null){
+                                stateItemData.itemPics[0].clicked = false;
+                                stateItemData.itemPics.unshift({video: el.product_video, clicked: true});
+                            }
+
+                            // Если sale
+                            if (el.product_sale !== null) stateItemData.itemSale = el.product_sale;
+
+                            stateItemData.itemDesc = el.product_description;
+                            stateItemData.itemPrice = el.product_price;
+
+                            state.catalogItem = stateItemData;
+                        }else{
+                            // Пушим отзывы
+                            stateItemReview.push(el)
+                        }
+                    });
+
+                    state.catalogItemReview = stateItemReview;
+
+                }).catch(errors => console.log(errors))
         }
     },
     actions: {
@@ -355,6 +410,9 @@ export default new Vuex.Store({
         },
         getCatalogData({commit}, data){
             commit('getCatalogDataMutate',data);
+        },
+        getItemData({commit}, data){
+            commit('getItemDataMutate', data);
         }
     },
     getters:{
@@ -375,6 +433,12 @@ export default new Vuex.Store({
         },
         catalogData: (state) => {
             return state.catalogData;
+        },
+        catalogItem: (state) => {
+            return state.catalogItem;
+        },
+        catalogItemReview: (state) => {
+            return state.catalogItemReview;
         }
 
     }

@@ -1,8 +1,10 @@
 <template>
-    <div class="catalog-item container">
+    <div class="catalog-item container" v-if="returnDataForItem !== null">
         <div class="bread"><div></div> <Breadcrumbs/> <div></div></div>
+        {{returnDataForItem}}
+        {{returnReviewForItem}}
         <h1 class="item-title">
-            {{itemTitle}}
+            {{returnDataForItem.itemTitle}}
         </h1>
         <div class="item-info">
             <div class="item-pics">
@@ -139,6 +141,11 @@
             chooseSvg: true,
             clickedSize: []
         }),
+       async created(){
+           this.$Progress.start();
+            await this.$store.dispatch('getItemData', this.$route.params.number);
+            this.$Progress.finish();
+        },
         methods: {
             clickItemPic(i){
                 this.itemMainPic = this.itemPics[i];
@@ -158,13 +165,14 @@
             },
             getAllPics(){
                 return this.itemPics;
+            },
+            returnDataForItem(){
+                return this.$store.getters.catalogItem;
+            },
+            returnReviewForItem(){
+                return this.$store.getters.catalogItemReview;
             }
         },
-        errorCaptured(err, vm, info) {
-            console.log(err)
-            console.log(vm)
-            console.log(info)
-        }
     }
 </script>
 

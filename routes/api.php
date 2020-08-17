@@ -21,8 +21,15 @@ use Illuminate\Support\Facades\Route;
 // Получаем базовые данные для приложения типа категори и т.д
 Route::get('/menu', 'BasicDataController@index');
 
+// Получем данные по определенному товару через гендер
+Route::get('/item-{number}', 'GetItemByGenderController@index');
+
 // Получаем данные для каталога по гнедеру
 Route::get('/{genders}', 'GenderController@index');
 
 // Получаем данные для каталога по категории
 Route::get('/{genders}/{categories}', 'CategoriesController@index');
+
+// Получаем данные для каталога по категории
+Route::get('/{genders}/{categories}/{departments}', 'DepartmentsController@index');
+

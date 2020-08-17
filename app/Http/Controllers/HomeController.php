@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {

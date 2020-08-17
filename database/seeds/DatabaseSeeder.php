@@ -119,7 +119,6 @@ class DatabaseSeeder extends Seeder
             ['departments_id' => 10, 'categories_menu_id' => 15],
             ['departments_id' => 10, 'categories_menu_id' => 16],
         ]);
-
         DB::table('products')->insert([
             // Верхняя одежада Зима комбинезоны мальчики и девочки
             ['product_title' => 'Комбинезон мальчики ЗИМА Lappinalle',
@@ -137,7 +136,7 @@ class DatabaseSeeder extends Seeder
             ['product_title' => 'Комбинезон девочки ЗИМА Lappinalle',
                 'product_price' => '9959',
                 'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
-                'product_img' => '../img/pic3.png',
+                'product_img' => '../img/pic2.png, ../img/pic4.png, ../img/pic3.png, ../img/pic2.png, ../img/pic3.png, ../img/pic4.png, ../img/pic2.png',
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
@@ -468,6 +467,60 @@ class DatabaseSeeder extends Seeder
                 'product_sale' => null
             ],
 
+        ]);
+        DB::table('users')->insert([
+            [
+                'users_name' => 'Налимка',
+                'users_surname' => 'Налимов',
+                'users_email' => 'nalimov@gmail.com',
+                'users_password' => '123456',
+            ],
+            [
+                'users_name' => 'Ольга FASPRO',
+                'users_surname' => 'FASPRO',
+                'users_email' => 'danjablooo1@gmail.com',
+                'users_password' => '349324212AP',
+            ],
+            [
+                'users_name' => 'Даня',
+                'users_surname' => 'Васильев',
+                'users_email' => 'danjablooo11@gmail.com',
+                'users_password' => '349324212AP',
+            ]
+        ]);
+        DB::table('reviews')->insert([
+            [
+                'reviews_text' => 'Я феновый наркоман и что дальше?',
+                'reviews_created' => Carbon::now()->format('Y-m-d H:i:s'),
+                'users_id' => 1,
+                'product_id' => 2,
+                'reviews_star' => 4,
+                'reviews_available' => 1
+            ],
+            [
+                'reviews_text' => 'Он долбаеб. Илья, где наша страничка вообще?',
+                'reviews_created' => Carbon::now()->format('Y-m-d H:i:s'),
+                'users_id' => 2,
+                'product_id' => 2,
+                'reviews_star' => 5,
+                'reviews_available' => 1
+            ],
+            [
+                'reviews_text' => 'Мдаа...',
+                'reviews_created' => Carbon::now()->format('Y-m-d H:i:s'),
+                'users_id' => 3,
+                'product_id' => 2,
+                'reviews_star' => 1,
+                'reviews_available' => 1
+            ],
+            [
+                'reviews_text' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam blanditiis dignissimos officia similique suscipit! Culpa eius enim fuga incidunt inventore ipsam ipsum iste sint ut? Quaerat sequi suscipit totam voluptate?',
+                'reviews_created' => Carbon::now()->format('Y-m-d H:i:s'),
+                'users_id' => 3,
+                'product_id' => 2,
+                'reviews_star' => 5,
+                'reviews_available' => 1
+            ]
         ]);
     }
 }

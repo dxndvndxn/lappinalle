@@ -18,6 +18,7 @@ class Reviews extends Migration
             $table->text('reviews_text')->collation('utf8_general_ci');
             $table->timestamp('reviews_created');
             $table->decimal('reviews_star', 1, 0);
+            $table->boolean('reviews_available')->default(0);
             $table->unsignedInteger('users_id')->nullable();
             $table->foreign('users_id')->references('users_id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('product_id')->nullable();

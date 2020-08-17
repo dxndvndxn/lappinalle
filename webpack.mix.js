@@ -15,3 +15,4 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .copyDirectory('resources/img', 'public/img')
     .copyDirectory('resources/fonts', 'public/fonts');
+// mix.browserSync('http://lappinalle.test/');

@@ -21,7 +21,6 @@ class Users extends Migration
             $table->timestamp('users_email_verified_at')->nullable();
             $table->string('users_password');
             $table->rememberToken();
-            $table->timestamps();
         });
     }
 

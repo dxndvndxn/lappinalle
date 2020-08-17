@@ -56,6 +56,10 @@
                     this.$Progress.start();
                     this.getCatalogData();
                 }
+                if (to.name === 'department') {
+                    this.$Progress.start();
+                    this.getCatalogData();
+                }
             }
         },
         computed: {

@@ -8,17 +8,21 @@
     grid-row-gap: 30px;
     grid-column-gap: 30px;
     .item{
-        @include flexin(center);
-        flex-direction: column;
+        //@include flexin(center);
+        //flex-direction: column;
         a{
-            display: flex;
-            justify-content: center;
+            @include flexin(center);
+            img{
+                width: 300px;
+                height: 300px;
+            }
         }
         &-title{
             text-align: center;
             @include ptSans(400);
             margin: 15px 0;
             font-size: $regFz - 2px;
+            line-height: 1.5;
         }
         &-price{
             text-align: center;

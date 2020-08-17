@@ -1,7 +1,7 @@
 <template>
     <div class="catalog-items">
         <div class="item" v-for="(item, i) in catalogData">
-            <router-link :to="{name: 'item', params: {number: item.product_id }}"><img v-bind:src="item.product_img" alt=""></router-link>
+            <router-link :to="{path: `item-${item.product_id}`}" :append="true"><img v-bind:src="item.product_img" alt=""></router-link>
             <div class="item-title">
                 {{item.product_title}}
             </div>

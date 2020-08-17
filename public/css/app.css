@@ -732,15 +732,14 @@ footer .bottom-foot span:nth-child(1) {
   grid-column-gap: 30px;
 }
 
-.catalog-items .item {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
 .catalog-items .item a {
   display: flex;
   justify-content: center;
+}
+
+.catalog-items .item a img {
+  width: 300px;
+  height: 300px;
 }
 
 .catalog-items .item-title {
@@ -749,6 +748,7 @@ footer .bottom-foot span:nth-child(1) {
   font-weight: 400;
   margin: 15px 0;
   font-size: 16px;
+  line-height: 1.5;
 }
 
 .catalog-items .item-price {
@@ -1067,9 +1067,6 @@ nav ul,
   border: none;
   background-color: unset;
   color: #848ccf;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
   cursor: pointer;
 }
 
@@ -1114,7 +1111,6 @@ nav ul,
 .item-pics .item-pic img {
   cursor: pointer;
   border: 1px solid transparent;
-  cursor: pointer;
 }
 
 .item-main-pic {
