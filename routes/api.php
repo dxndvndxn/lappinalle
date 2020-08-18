@@ -22,7 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/menu', 'BasicDataController@index');
 
 // Получем данные по определенному товару через гендер
-Route::get('/item-{number}', 'GetItemByGenderController@index');
+Route::get('/item-{number}', 'GetDataItemController@index');
+
+// Получем отзывы по товару
+Route::get('/itemsreview-{itemNumber}', 'GetItemReviewsController@index');
 
 // Получаем данные для каталога по гнедеру
 Route::get('/{genders}', 'GenderController@index');

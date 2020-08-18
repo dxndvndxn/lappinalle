@@ -16,7 +16,7 @@ class Reviews extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('reviews_id');
             $table->text('reviews_text')->collation('utf8_general_ci');
-            $table->timestamp('reviews_created');
+            $table->date('reviews_created');
             $table->decimal('reviews_star', 1, 0);
             $table->boolean('reviews_available')->default(0);
             $table->unsignedInteger('users_id')->nullable();

@@ -433,7 +433,6 @@
 }
 
 .crumbs ul,
-.pagination ul,
 .catalog-sidebar ul,
 nav ul {
   margin: 0;
@@ -760,7 +759,6 @@ footer .bottom-foot span:nth-child(1) {
 }
 
 .crumbs ul,
-.pagination ul,
 .catalog-sidebar ul,
 nav ul {
   margin: 0;
@@ -933,13 +931,16 @@ nav ul {
 .pagination {
   display: flex;
   justify-content: center;
-  margin-bottom: 55px;
+  padding: 0;
+  margin: 0 0 55px;
+  list-style: none;
 }
 
 .pagination ul {
   font-size: 22px;
   display: flex;
   justify-content: center;
+  list-style: none;
 }
 
 .pagination .this-page {
@@ -967,8 +968,7 @@ nav ul {
 
 .crumbs ul,
 nav ul,
-.catalog-sidebar ul,
-.pagination ul {
+.catalog-sidebar ul {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1095,10 +1095,18 @@ nav ul,
 }
 
 .item-pics {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  transform: rotate(180deg);
+  display: flex;
+  flex-direction: column-reverse;
   overflow-x: hidden;
   overflow-y: scroll;
+  padding-right: 5px;
+}
+
+.item-pics .wrap {
+  transform: scale(-1);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .item-pics .item-pic {
@@ -1111,6 +1119,9 @@ nav ul,
 .item-pics .item-pic img {
   cursor: pointer;
   border: 1px solid transparent;
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .item-main-pic {

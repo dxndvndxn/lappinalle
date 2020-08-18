@@ -490,8 +490,16 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('reviews')->insert([
             [
+                'reviews_text' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam blanditiis dignissimos officia similique suscipit! Culpa eius enim fuga incidunt inventore ipsam ipsum iste sint ut? Quaerat sequi suscipit totam voluptate?',
+                'reviews_created' => Carbon::now()->format('Y-m-d'),
+                'users_id' => 3,
+                'product_id' => 2,
+                'reviews_star' => 5,
+                'reviews_available' => 1
+            ],
+            [
                 'reviews_text' => 'Я феновый наркоман и что дальше?',
-                'reviews_created' => Carbon::now()->format('Y-m-d H:i:s'),
+                'reviews_created' => Carbon::now()->format('Y-m-d'),
                 'users_id' => 1,
                 'product_id' => 2,
                 'reviews_star' => 4,
@@ -499,7 +507,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'reviews_text' => 'Он долбаеб. Илья, где наша страничка вообще?',
-                'reviews_created' => Carbon::now()->format('Y-m-d H:i:s'),
+                'reviews_created' => Carbon::now()->format('Y-m-d'),
                 'users_id' => 2,
                 'product_id' => 2,
                 'reviews_star' => 5,
@@ -507,20 +515,12 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'reviews_text' => 'Мдаа...',
-                'reviews_created' => Carbon::now()->format('Y-m-d H:i:s'),
+                'reviews_created' => Carbon::now()->format('Y-m-d'),
                 'users_id' => 3,
                 'product_id' => 2,
                 'reviews_star' => 1,
                 'reviews_available' => 1
             ],
-            [
-                'reviews_text' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam blanditiis dignissimos officia similique suscipit! Culpa eius enim fuga incidunt inventore ipsam ipsum iste sint ut? Quaerat sequi suscipit totam voluptate?',
-                'reviews_created' => Carbon::now()->format('Y-m-d H:i:s'),
-                'users_id' => 3,
-                'product_id' => 2,
-                'reviews_star' => 5,
-                'reviews_available' => 1
-            ]
         ]);
     }
 }

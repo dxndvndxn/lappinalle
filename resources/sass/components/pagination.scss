@@ -1,10 +1,12 @@
 .pagination{
     @include flexin(center);
-    margin-bottom: 55px;
+   padding: 0;
+    margin: 0 0 55px;
+    list-style: none;
     ul{
-        @extend %ul;
         font-size: $regFz + 4px;
         @include flexin(center);
+        list-style: none;
     }
     .this-page{
         @include ptSans(400);

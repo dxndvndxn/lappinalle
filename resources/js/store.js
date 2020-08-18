@@ -13,7 +13,9 @@ export default new Vuex.Store({
         errors: null,
         catalogData: null,
         catalogItem: null,
-        catalogItemReview: null
+        catalogItemReview: null,
+        catalogItemStars: null,
+        catalogItemReviewCount: null
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -117,11 +119,8 @@ export default new Vuex.Store({
                                             if (menu[m].departments_alias === depart) {
 
                                                 // Записываем эти подкатегории
-                                                // sideBar[i][categ].departments = {depart_names: , depart_url: [sideBar[i][categ][depart]]}
-                                                // sideBar[i][categ][depart] = state.departAlias[depart];
                                                 sideBar[i][categ].departments = [];
                                                 sideBar[i][categ].category_alias = menu[m].categories_alias + (menu[m].season_alias !== null ? '-' + menu[m].season_alias : '');
-                                                // sideBar[i][categ].show = true;
                                             }
                                         }
                                     }
@@ -157,9 +156,6 @@ export default new Vuex.Store({
                                                 }catch (e) {
                                                     console.log(e)
                                                 }
-                                                // Записываем эти подкатегории
-                                                //sideBar[i][categ][departments].sideBar[i][categ][depart] = state.departAlias[depart]
-
                                             }
                                         }
                                     }
@@ -208,17 +204,6 @@ export default new Vuex.Store({
 
                             for (let c of categories) {
 
-                                // if (c === (gendersObj[g][gg].season_name !== null ? gendersObj[g][gg].categories_name + ' ' + gendersObj[g][gg].season_name : gendersObj[g][gg].categories_name) && gendersObj[g][gg].sex_name === g) {
-                                //     state.lastMenu[g][c].push({
-                                //         department: gendersObj[g][gg].departments_name,
-                                //         departments_alias: gendersObj[g][gg].season_alias !== null
-                                //             ? gendersObj[g][gg].sex_alias + '/' + gendersObj[g][gg].categories_alias + '-' + gendersObj[g][gg].season_alias + (gendersObj[g][gg].departments_alias !== null ? '/' : '') + (gendersObj[g][gg].departments_alias ?? '')
-                                //             : gendersObj[g][gg].sex_alias + '/' + gendersObj[g][gg].categories_alias + (gendersObj[g][gg].departments_alias !== null ? '/' : '') + (gendersObj[g][gg].departments_alias ?? ''),
-                                //         category: c,
-                                //         hover: false,
-                                //         categories_alias: gendersObj[g][gg].season_alias !== null ? gendersObj[g][gg].sex_alias + '/' + gendersObj[g][gg].categories_alias + '-' + gendersObj[g][gg].season_alias : gendersObj[g][gg].sex_alias + '/' + gendersObj[g][gg].categories_alias}
-                                //     );
-                                // }
                                 if (c === (gendersObj[g][gg].season_name !== null ? gendersObj[g][gg].categories_name + ' ' + gendersObj[g][gg].season_name : gendersObj[g][gg].categories_name) && gendersObj[g][gg].sex_name === g) {
                                     state.lastMenu[g][c].push({
                                         department: gendersObj[g][gg].departments_name,
@@ -246,6 +231,7 @@ export default new Vuex.Store({
                 state.errors.push(error)
             });
         },
+
         sideBarDepartMutate(state, data){
             try{
                 for (let i in state.mySidebar[data.gen]){
@@ -271,6 +257,7 @@ export default new Vuex.Store({
                 console.log(e)
             }
         },
+
         sideBarDepartMutateAfterUpdated(state, data){
             try{
                 if(data.categoryAlias === undefined){
@@ -307,6 +294,7 @@ export default new Vuex.Store({
             }
             state.mySidebar = data.newSidebar;
         },
+
         backToCategoryMutate(state, data){
             try{
                 for (let i in state.mySidebar[data.gen]){
@@ -323,6 +311,8 @@ export default new Vuex.Store({
                 console.log(e)
             }
         },
+
+        // Получаем дату в каталог
         async getCatalogDataMutate(state, data){
             switch (Object.keys(data).length) {
                 case 1:
@@ -345,54 +335,74 @@ export default new Vuex.Store({
                     break;
             }
         },
+
+        // Получаем дату для товара
         async getItemDataMutate(state, data){
             await axios.get(`/api/item-${data}`)
                 .then(response => {
                     let itemData = response.data;
                     let stateItemData = {};
-                    let stateItemReview = [];
                     let pics = null;
+                    let stars = {
+                        5: [],
+                        4: [],
+                        3: [],
+                        2: [],
+                        1: [],
+                    };
                     // Пробегаемся по массиву с данными
                     // Первым элементом идёт сам товар
-                    // Присваем значения этого элемента @stateItemData
-                    itemData.forEach((el, i) => {
-                        if (i === 0) {
-                            stateItemData.itemTitle = el.product_title;
-                            stateItemData.itemPrice = el.product_price;
-                            pics = el.product_img.split(',');
+                    // Присваеваем значения этого элемента @stateItemData
+                    for (let el in itemData){
+
+                        if (el == 0) {
+                            stateItemData.itemTitle = itemData[el].product_title;
+                            stateItemData.itemPrice = itemData[el].product_price;
+                            pics = itemData[el].product_img.split(',');
                             stateItemData.itemPics = [];
 
                             // Пушим картинки
                             pics.forEach((img, ii) => {
                                 if (ii === 0) {
-                                    stateItemData.itemPics.push({img: img, clicked: true})
+                                    stateItemData.itemPics.push({img: img, clicked: true, video: false})
                                 } else {
-                                    stateItemData.itemPics.push({img: img, clicked: false})
+                                    stateItemData.itemPics.push({img: img, clicked: false, video: false})
                                 }
                             });
 
                             // Если видео, то ставим его первым в массив с картинками, ставим ему ckicked true, скороее всего будет добавляться картинка как превье этого видео
-                            if (el.product_video !== null){
+                            if (itemData[el].product_video !== null){
                                 stateItemData.itemPics[0].clicked = false;
-                                stateItemData.itemPics.unshift({video: el.product_video, clicked: true});
+                                stateItemData.itemPics.unshift({video: itemData[el].product_video, clicked: true});
                             }
 
                             // Если sale
-                            if (el.product_sale !== null) stateItemData.itemSale = el.product_sale;
+                            if (itemData[el].product_sale !== null) stateItemData.itemSale = itemData[el].product_sale;
+                            else stateItemData.itemSale = false;
 
-                            stateItemData.itemDesc = el.product_description;
-                            stateItemData.itemPrice = el.product_price;
+                            stateItemData.itemDesc = itemData[el].product_description;
+                            stateItemData.itemPrice = itemData[el].product_price;
 
                             state.catalogItem = stateItemData;
-                        }else{
-                            // Пушим отзывы
-                            stateItemReview.push(el)
+                        }else if (el === 'stars'){
+                            itemData[el].forEach(element => {
+                                stars[element.reviews_star].push(element.reviews_star)
+                            });
                         }
-                    });
-
-                    state.catalogItemReview = stateItemReview;
+                    }
+                    state.catalogItemStars = stars;
 
                 }).catch(errors => console.log(errors))
+        },
+
+        // Получаем отзывы
+        async getItemReviewsMutate(state, data){
+            await axios.get(`http://lappinalle.test/api/itemsreview-${data.item}?page=${data.page}`)
+                .then(response => {
+                    let reviews = response.data;
+                    state.catalogItemReview = reviews.data;
+                    state.catalogItemReviewCount = reviews.total
+                })
         }
     },
     actions: {
@@ -413,6 +423,9 @@ export default new Vuex.Store({
         },
         getItemData({commit}, data){
             commit('getItemDataMutate', data);
+        },
+        getItemReviews({commit}, data){
+            commit('getItemReviewsMutate', data);
         }
     },
     getters:{
@@ -439,6 +452,12 @@ export default new Vuex.Store({
         },
         catalogItemReview: (state) => {
             return state.catalogItemReview;
+        },
+        catalogItemStars: state => {
+            return state.catalogItemStars;
+        },
+        catalogItemReviewCount: state => {
+            return state.catalogItemReviewCount;
         }
 
     }

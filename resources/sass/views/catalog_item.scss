@@ -18,16 +18,24 @@
     height: 515px;
 }
 .item-pics{
-    @include grid-temp(1fr, 1fr, 0px);
+    transform: rotate(180deg);
+    @include flex-column(column-reverse);
     overflow-x: hidden;
     overflow-y: scroll;
     @extend %scrollbar;
+    padding-right: 5px;
+    .wrap{
+        transform: scale(-1);
+        @include grid-temp(1fr, 1fr, 0px);
+    }
     .item-pic{
         position: relative;
         width: fit-content;
         img{
             cursor: pointer;
             border: 1px solid transparent;
+            width: 100%;
+            object-fit: contain;
         }
     }
 }

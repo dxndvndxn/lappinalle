@@ -2779,16 +2779,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
-/* harmony import */ var _components_Pagination__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Pagination */ "./resources/js/components/Pagination.vue");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
 //
 //
 //
@@ -2888,41 +2879,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Catalogitem",
   components: {
-    Pagination: _components_Pagination__WEBPACK_IMPORTED_MODULE_2__["default"],
-    Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
-      itemTitle: "Комбинезон \"LAPPINALLE\"",
-      itemPrice: 5400,
-      itemPics: [{
-        img: '../../../img/pic2.png',
-        clicked: true,
-        video: true
-      }, {
-        img: '../../../img/pic4.png',
-        clicked: false
-      }, {
-        img: '../../../img/pic3.png',
-        clicked: false
-      }, {
-        img: '../../../img/pic2.png',
-        clicked: false
-      }, {
-        img: '../../../img/pic3.png',
-        clicked: false
-      }, {
-        img: '../../../img/pic4.png',
-        clicked: false
-      }, {
-        img: '../../../img/pic2.png',
-        clicked: false
-      }],
+      mainPic: 0,
       itemSizes: [{
         sz: 92,
         chozen: false
@@ -2960,82 +2957,69 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         sz: 11,
         chozen: false
       }],
-      itemMainPic: '../../../img/pic2.png',
-      itemDesc: 'Мембранная ткань – это инновационный материал с избирательной проницаемостью. Обладает повышенными защитными\n' + 'свойствами. Используется для производства детской, спортивной одежды, экипировки приверженцев активного зимнего отдыха, представителей\n' + 'экстремальных профессий. Мембрана не промокает, не продувается, отталкивает грязь, дышит. Тело человека в среднем за сутки выделяет более полулитра\n' + 'влаги, которая накапливается на одежде изнутри, если нет выхода наружу. При активных движениях объем выделяющегося пота может достигать полутора\n' + 'литров. Введение мембран в состав защитных тканей позволяет выводить пары воды, не допуская при этом попадание внутрь влаги, ветра, дождя, снега.',
-      itemVideo: null,
-      userInfo: [{
-        reviewStar: 4,
-        userName: 'Налимка Дизайнер',
-        reviewDate: '25.07.2020',
-        reviewText: 'Ебал в рот ваш Лапиале. Где мой фен??'
-      }, {
-        reviewStar: 5,
-        userName: 'Налимка',
-        reviewDate: '25.07.2021',
-        reviewText: 'Владимир, магазин прекрасный. Этот ваш сингпейдж просто пушка.. Но где мой перезаклад?'
-      }, {
-        reviewStar: 3,
-        userName: 'Налимкин',
-        reviewDate: '25.07.2021',
-        reviewText: 'Владимир, магазин прекрасный. Этот ваш сингпейдж просто пушка.. Но где мой перезаклад?'
-      }],
       chooseSvg: true,
-      clickedSize: []
+      clickedSize: [],
+      pageReview: 1
     };
   },
   created: function created() {
-    var _this = this;
+    this.$Progress.start(); // Получаем данные товара
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _this.$Progress.start();
+    this.$store.dispatch('getItemData', this.$route.params.number); //Получаем отзывы
 
-              _context.next = 3;
-              return _this.$store.dispatch('getItemData', _this.$route.params.number);
+    this.getItemReview(+this.$route.query.page || 1); // Получаем данные о пагинации
 
-            case 3:
-              _this.$Progress.finish();
-
-            case 4:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }))();
+    this.$Progress.finish();
+    this.pageReview = +this.$route.query.page || 1;
   },
   methods: {
+    // Кликаем по фотографии товара
     clickItemPic: function clickItemPic(i) {
-      this.itemMainPic = this.itemPics[i];
-
-      for (var ii in this.itemPics) {
-        this.itemPics[ii].clicked = false;
-      }
-
-      this.itemPics[i].clicked = true;
+      this.mainPic = i;
+      this.returnDataForItem.itemPics.forEach(function (el) {
+        return el.clicked = false;
+      });
+      this.returnDataForItem.itemPics[i].clicked = true;
     },
     chozenSize: function chozenSize(i) {
       this.itemSizes[i].chozen = !this.itemSizes[i].chozen;
       this.clickedSize = this.itemSizes.filter(function (size) {
         return size.chozen !== false;
       });
+    },
+    getItemReview: function getItemReview(page) {
+      var reviewData = {
+        item: this.$route.params.number,
+        page: page
+      };
+      this.$store.dispatch('getItemReviews', reviewData);
+    },
+    pageChange: function pageChange(page) {
+      this.pageReview = page;
+      this.getItemReview(this.pageReview);
+      this.$router.push("".concat(this.$route.path, "?page=").concat(this.pageReview));
     }
   },
   computed: {
-    getMainImg: function getMainImg() {
-      return this.itemMainPic;
-    },
-    getAllPics: function getAllPics() {
-      return this.itemPics;
-    },
     returnDataForItem: function returnDataForItem() {
       return this.$store.getters.catalogItem;
     },
     returnReviewForItem: function returnReviewForItem() {
-      return this.$store.getters.catalogItemReview;
+      if (this.$store.getters.catalogItemReview !== null) return this.$store.getters.catalogItemReview.reverse();
+    },
+    returnCatalogItemStars: function returnCatalogItemStars() {
+      return this.$store.getters.catalogItemStars;
+    },
+    reviewsTotalPages: function reviewsTotalPages() {
+      return this.$store.getters.catalogItemReviewCount;
+    },
+    updatedPage: {
+      get: function get() {
+        return this.pageReview;
+      },
+      set: function set(val) {
+        this.pageReview = val;
+      }
     }
   }
 });
@@ -6379,13 +6363,7 @@ var render = function() {
           [_c("div"), _vm._v(" "), _c("Breadcrumbs"), _vm._v(" "), _c("div")],
           1
         ),
-        _vm._v(
-          "\n    " +
-            _vm._s(_vm.returnDataForItem) +
-            "\n    " +
-            _vm._s(_vm.returnReviewForItem) +
-            "\n    "
-        ),
+        _vm._v(" "),
         _c("h1", { staticClass: "item-title" }, [
           _vm._v(
             "\n        " + _vm._s(_vm.returnDataForItem.itemTitle) + "\n    "
@@ -6393,75 +6371,77 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "item-info" }, [
-          _c(
-            "div",
-            { staticClass: "item-pics" },
-            _vm._l(_vm.getAllPics, function(img, i) {
-              return _c("div", { key: i, staticClass: "item-pic" }, [
-                img.video
-                  ? _c(
-                      "svg",
-                      {
-                        attrs: {
-                          id: "cameraImPic",
-                          xmlns: "http://www.w3.org/2000/svg",
-                          viewBox: "0 0 413.19 358.83"
-                        }
-                      },
-                      [
-                        _c("defs"),
-                        _c("title", [_vm._v("icon_cam")]),
-                        _c("path", {
+          _c("div", { ref: "itemImgs", staticClass: "item-pics" }, [
+            _c(
+              "div",
+              { staticClass: "wrap" },
+              _vm._l(_vm.returnDataForItem.itemPics, function(img, i) {
+                return _c("div", { key: i, staticClass: "item-pic" }, [
+                  img.video
+                    ? _c(
+                        "svg",
+                        {
                           attrs: {
-                            d:
-                              "M150.57,419.73c-3.12-1-6.25-1.89-9.34-3-3.87-1.33-6.63-4.17-9.34-7.09-4.86-5.24-6.47-11.5-6.46-18.46q.06-70.32,0-140.62c0-4.32.41-8.59,2.45-12.41,5.18-9.66,13.3-15,24.31-15.77,1-.07,2.09-.06,3.14-.06q120.42,0,240.86,0c8.7,0,16.39,2.5,22.32,9a27.17,27.17,0,0,1,7.52,19q-.18,70.64,0,141.28c0,9-3.62,16-10.16,21.68a26.11,26.11,0,0,1-13.09,5.91c-.65.11-1.28.32-1.92.48ZM275.7,240.31H156c-1,0-1.95,0-2.91.06-4.58.41-7.78,3.09-8.57,7.21a16.35,16.35,0,0,0-.18,3.13v140.6c0,.75,0,1.5.05,2.24a8.54,8.54,0,0,0,6.3,7.6,20.32,20.32,0,0,0,4.85.6q120.2,0,240.39,0a16.78,16.78,0,0,0,2.46-.06c5.29-.82,8.89-3.87,8.79-9.45,0-.45,0-.9,0-1.35V251.23a20.06,20.06,0,0,0-.06-2.69c-.37-2.69-1.29-5.2-4-6.27-2.23-.88-4.63-1.87-7-1.87Q335.9,240.22,275.7,240.31Z",
-                            transform: "translate(-125.43 -60.9)"
+                            id: "cameraImPic",
+                            xmlns: "http://www.w3.org/2000/svg",
+                            viewBox: "0 0 413.19 358.83"
                           }
-                        }),
-                        _c("path", {
-                          attrs: {
-                            d:
-                              "M348.48,204.43a75.79,75.79,0,0,1-34.64-9.33,77.74,77.74,0,0,1-21.13-17,70,70,0,0,1-9.82-15.1c-9.5-18.84-9.44-38.09-1.74-57.33a73.3,73.3,0,0,1,9.92-16.59,67.26,67.26,0,0,1,19.16-16.89A77.07,77.07,0,0,1,360.5,61.53a75.13,75.13,0,0,1,31.73,11.39A77.89,77.89,0,0,1,411.68,90.8c5.58,7.14,8.86,15.22,11.6,23.71a60.46,60.46,0,0,1,1,32.87c-2,8.29-4.94,16.42-9.9,23.54a76.25,76.25,0,0,1-20,20.19C381.23,199.91,366.67,204.4,348.48,204.43ZM350,78.78c-1.42.12-3.66.23-5.88.49-18.9,2.21-33.8,11.42-42.91,27.87-9.84,17.76-9.56,36.11,1.74,53.65A51.35,51.35,0,0,0,313.63,173a55.25,55.25,0,0,0,20.12,10.86c23.47,6.51,43.63.69,60.35-16.81a46.9,46.9,0,0,0,10.64-18.93c3.67-12,3.37-24-1.93-35.74a55.26,55.26,0,0,0-20.63-24.31C372.64,81.87,362.16,79,350,78.78Z",
-                            transform: "translate(-125.43 -60.9)"
-                          }
-                        }),
-                        _c("path", {
-                          attrs: {
-                            d:
-                              "M519.61,378.07V264c-2.23,1-4.39,1.88-6.5,2.89q-18.74,9-37.46,18-8.56,4.11-17.17,8.13c-5.37,2.5-11.13.38-13.06-4.73a8.79,8.79,0,0,1,4.45-11.17c4.36-2.28,8.83-4.34,13.28-6.45,4.17-2,8.38-3.85,12.54-5.84,9.07-4.36,18.12-8.77,27.18-13.14,7-3.37,14-6.66,21-10.05a10.6,10.6,0,0,1,11.42.75,8.11,8.11,0,0,1,3.24,5.92,15,15,0,0,1,.06,2c0,47.16-.06,94.32.06,141.47,0,6.8-5.27,10.22-10.16,9.87a15.4,15.4,0,0,1-5.28-1.66c-12.58-6-25.12-12.07-37.68-18.1q-14.81-7.11-29.64-14.17c-2-1-4.11-1.78-6.06-2.84-4.47-2.45-6.12-7.21-4.15-11.64a9.09,9.09,0,0,1,11.67-4.71c2.78,1.07,5.44,2.44,8.13,3.73,9.2,4.42,18.38,8.9,27.59,13.31,8.46,4.05,17,8,25.45,12.05C518.79,377.82,519.13,377.9,519.61,378.07Z",
-                            transform: "translate(-125.43 -60.9)"
-                          }
-                        }),
-                        _c("path", {
-                          attrs: {
-                            d:
-                              "M197.8,204.41a56.66,56.66,0,0,1-25.88-7.55,55.07,55.07,0,0,1-21-21.11c-8.8-15.66-8.81-31.7-1.56-47.65a50.48,50.48,0,0,1,20.19-22.45c15.86-9.55,32.69-11.52,50.32-5.55a56.5,56.5,0,0,1,20.6,12.65,53.65,53.65,0,0,1,10.22,13.72c8.3,15,8.14,30.5,1.47,45.83a51.91,51.91,0,0,1-19.83,22.77C222.67,201.34,212,204.51,197.8,204.41Zm4.13-89.7c-14.11.19-24.54,5.26-32.13,15.26-10.06,13.24-8.08,32.56,1.68,43.25,6.85,7.49,15,12,25,13,15.15,1.46,27.42-4.2,36-16.64,8.35-12.05,6.92-30.12-2.1-40.68C222.38,119.51,212.47,115.18,201.93,114.71Z",
-                            transform: "translate(-125.43 -60.9)"
-                          }
-                        }),
-                        _c("path", {
-                          attrs: { transform: "translate(-125.43 -60.9)" }
-                        })
-                      ]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("img", {
-                  class: img.clicked ? "clicked-pic" : null,
-                  attrs: { src: img.img, alt: "" },
-                  on: {
-                    click: function($event) {
-                      return _vm.clickItemPic(i)
+                        },
+                        [
+                          _c("defs"),
+                          _c("title", [_vm._v("icon_cam")]),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M150.57,419.73c-3.12-1-6.25-1.89-9.34-3-3.87-1.33-6.63-4.17-9.34-7.09-4.86-5.24-6.47-11.5-6.46-18.46q.06-70.32,0-140.62c0-4.32.41-8.59,2.45-12.41,5.18-9.66,13.3-15,24.31-15.77,1-.07,2.09-.06,3.14-.06q120.42,0,240.86,0c8.7,0,16.39,2.5,22.32,9a27.17,27.17,0,0,1,7.52,19q-.18,70.64,0,141.28c0,9-3.62,16-10.16,21.68a26.11,26.11,0,0,1-13.09,5.91c-.65.11-1.28.32-1.92.48ZM275.7,240.31H156c-1,0-1.95,0-2.91.06-4.58.41-7.78,3.09-8.57,7.21a16.35,16.35,0,0,0-.18,3.13v140.6c0,.75,0,1.5.05,2.24a8.54,8.54,0,0,0,6.3,7.6,20.32,20.32,0,0,0,4.85.6q120.2,0,240.39,0a16.78,16.78,0,0,0,2.46-.06c5.29-.82,8.89-3.87,8.79-9.45,0-.45,0-.9,0-1.35V251.23a20.06,20.06,0,0,0-.06-2.69c-.37-2.69-1.29-5.2-4-6.27-2.23-.88-4.63-1.87-7-1.87Q335.9,240.22,275.7,240.31Z",
+                              transform: "translate(-125.43 -60.9)"
+                            }
+                          }),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M348.48,204.43a75.79,75.79,0,0,1-34.64-9.33,77.74,77.74,0,0,1-21.13-17,70,70,0,0,1-9.82-15.1c-9.5-18.84-9.44-38.09-1.74-57.33a73.3,73.3,0,0,1,9.92-16.59,67.26,67.26,0,0,1,19.16-16.89A77.07,77.07,0,0,1,360.5,61.53a75.13,75.13,0,0,1,31.73,11.39A77.89,77.89,0,0,1,411.68,90.8c5.58,7.14,8.86,15.22,11.6,23.71a60.46,60.46,0,0,1,1,32.87c-2,8.29-4.94,16.42-9.9,23.54a76.25,76.25,0,0,1-20,20.19C381.23,199.91,366.67,204.4,348.48,204.43ZM350,78.78c-1.42.12-3.66.23-5.88.49-18.9,2.21-33.8,11.42-42.91,27.87-9.84,17.76-9.56,36.11,1.74,53.65A51.35,51.35,0,0,0,313.63,173a55.25,55.25,0,0,0,20.12,10.86c23.47,6.51,43.63.69,60.35-16.81a46.9,46.9,0,0,0,10.64-18.93c3.67-12,3.37-24-1.93-35.74a55.26,55.26,0,0,0-20.63-24.31C372.64,81.87,362.16,79,350,78.78Z",
+                              transform: "translate(-125.43 -60.9)"
+                            }
+                          }),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M519.61,378.07V264c-2.23,1-4.39,1.88-6.5,2.89q-18.74,9-37.46,18-8.56,4.11-17.17,8.13c-5.37,2.5-11.13.38-13.06-4.73a8.79,8.79,0,0,1,4.45-11.17c4.36-2.28,8.83-4.34,13.28-6.45,4.17-2,8.38-3.85,12.54-5.84,9.07-4.36,18.12-8.77,27.18-13.14,7-3.37,14-6.66,21-10.05a10.6,10.6,0,0,1,11.42.75,8.11,8.11,0,0,1,3.24,5.92,15,15,0,0,1,.06,2c0,47.16-.06,94.32.06,141.47,0,6.8-5.27,10.22-10.16,9.87a15.4,15.4,0,0,1-5.28-1.66c-12.58-6-25.12-12.07-37.68-18.1q-14.81-7.11-29.64-14.17c-2-1-4.11-1.78-6.06-2.84-4.47-2.45-6.12-7.21-4.15-11.64a9.09,9.09,0,0,1,11.67-4.71c2.78,1.07,5.44,2.44,8.13,3.73,9.2,4.42,18.38,8.9,27.59,13.31,8.46,4.05,17,8,25.45,12.05C518.79,377.82,519.13,377.9,519.61,378.07Z",
+                              transform: "translate(-125.43 -60.9)"
+                            }
+                          }),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M197.8,204.41a56.66,56.66,0,0,1-25.88-7.55,55.07,55.07,0,0,1-21-21.11c-8.8-15.66-8.81-31.7-1.56-47.65a50.48,50.48,0,0,1,20.19-22.45c15.86-9.55,32.69-11.52,50.32-5.55a56.5,56.5,0,0,1,20.6,12.65,53.65,53.65,0,0,1,10.22,13.72c8.3,15,8.14,30.5,1.47,45.83a51.91,51.91,0,0,1-19.83,22.77C222.67,201.34,212,204.51,197.8,204.41Zm4.13-89.7c-14.11.19-24.54,5.26-32.13,15.26-10.06,13.24-8.08,32.56,1.68,43.25,6.85,7.49,15,12,25,13,15.15,1.46,27.42-4.2,36-16.64,8.35-12.05,6.92-30.12-2.1-40.68C222.38,119.51,212.47,115.18,201.93,114.71Z",
+                              transform: "translate(-125.43 -60.9)"
+                            }
+                          }),
+                          _c("path", {
+                            attrs: { transform: "translate(-125.43 -60.9)" }
+                          })
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("img", {
+                    class: img.clicked ? "clicked-pic" : null,
+                    attrs: { src: img.img, alt: "" },
+                    on: {
+                      click: function($event) {
+                        return _vm.clickItemPic(i)
+                      }
                     }
-                  }
-                })
-              ])
-            }),
-            0
-          ),
+                  })
+                ])
+              }),
+              0
+            )
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "item-main-pic" }, [
-            _vm.getMainImg.video
+            _vm.returnDataForItem.itemPics[_vm.mainPic].video
               ? _c("div", { staticClass: "main-icons" }, [
                   _c(
                     "svg",
@@ -6551,18 +6531,35 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("img", { attrs: { src: _vm.getMainImg.img, calt: "" } })
+            _c("img", {
+              attrs: {
+                src: _vm.returnDataForItem.itemPics[_vm.mainPic].img,
+                calt: ""
+              }
+            })
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "item-main-info" }, [
             _c("div", { staticClass: "item-main-wrap" }, [
-              _c("div", { staticClass: "item-main-price" }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.itemPrice) +
-                    " ₽\n                "
-                )
-              ]),
+              _vm.returnDataForItem.itemSale
+                ? _c("div", { staticClass: "item-main-price sale" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(
+                          _vm.returnDataForItem.itemPrice -
+                            (_vm.returnDataForItem.itemSale / 100) *
+                              _vm.returnDataForItem.itemPrice
+                        ) +
+                        " ₽\n                "
+                    )
+                  ])
+                : _c("div", { staticClass: "item-main-price" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.returnDataForItem.itemPrice) +
+                        " ₽\n                "
+                    )
+                  ]),
               _vm._v(" "),
               _c("span", { staticClass: "sizes" }, [_vm._v("Размеры")]),
               _vm._v(" "),
@@ -6660,7 +6657,11 @@ var render = function() {
             _c("span", { staticClass: "boldinfo" }, [
               _vm._v("Информация о товаре: ")
             ]),
-            _vm._v("\n            " + _vm._s(_vm.itemDesc) + "\n        ")
+            _vm._v(
+              "\n            " +
+                _vm._s(_vm.returnDataForItem.itemDesc) +
+                "\n        "
+            )
           ])
         ]),
         _vm._v(" "),
@@ -6674,7 +6675,7 @@ var render = function() {
               _c(
                 "div",
                 { staticClass: "review-user-wrap" },
-                _vm._l(_vm.userInfo, function(inf, i) {
+                _vm._l(_vm.returnReviewForItem, function(inf, i) {
                   return _c("div", { staticClass: "review-user" }, [
                     _c(
                       "div",
@@ -6685,7 +6686,7 @@ var render = function() {
                             _c(
                               "svg",
                               {
-                                class: inf.reviewStar > st ? "filled" : null,
+                                class: inf.reviews_star > st ? "filled" : null,
                                 attrs: {
                                   id: "Слой_1",
                                   "data-name": "Слой 1",
@@ -6715,11 +6716,19 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("span", { staticClass: "user-name" }, [
-                          _vm._v(" " + _vm._s(inf.userName) + "  / ")
+                          _vm._v(" " + _vm._s(inf.users_name) + "  / ")
                         ]),
                         _vm._v(" "),
                         _c("span", { staticClass: "user-date" }, [
-                          _vm._v(" " + _vm._s(inf.reviewDate))
+                          _vm._v(
+                            " " +
+                              _vm._s(
+                                inf.reviews_created
+                                  .split("-")
+                                  .reverse()
+                                  .join("-")
+                              )
+                          )
                         ])
                       ],
                       2
@@ -6728,7 +6737,7 @@ var render = function() {
                     _c("p", { staticClass: "user-text" }, [
                       _vm._v(
                         "\n                        " +
-                          _vm._s(inf.reviewText) +
+                          _vm._s(inf.reviews_text) +
                           "\n                    "
                       )
                     ])
@@ -6906,7 +6915,72 @@ var render = function() {
                     2
                   ),
                   _vm._v(" "),
-                  _vm._m(0)
+                  _c(
+                    "div",
+                    { staticClass: "star-amount" },
+                    [
+                      _vm._l(_vm.returnCatalogItemStars, function(el, star, i) {
+                        return star == 5
+                          ? _c("span", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(el.length) +
+                                  "\n                        "
+                              )
+                            ])
+                          : _vm._e()
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.returnCatalogItemStars, function(el, star, i) {
+                        return star == 4
+                          ? _c("span", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(el.length) +
+                                  "\n                        "
+                              )
+                            ])
+                          : _vm._e()
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.returnCatalogItemStars, function(el, star, i) {
+                        return star == 3
+                          ? _c("span", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(el.length) +
+                                  "\n                        "
+                              )
+                            ])
+                          : _vm._e()
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.returnCatalogItemStars, function(el, star, i) {
+                        return star == 2
+                          ? _c("span", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(el.length) +
+                                  "\n                        "
+                              )
+                            ])
+                          : _vm._e()
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.returnCatalogItemStars, function(el, star, i) {
+                        return star == 1
+                          ? _c("span", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(el.length) +
+                                  "\n                        "
+                              )
+                            ])
+                          : _vm._e()
+                      })
+                    ],
+                    2
+                  )
                 ]),
                 _vm._v(" "),
                 _c("button", { staticClass: "leave-btn" }, [
@@ -6915,31 +6989,33 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("Pagination")
+            _c("paginate", {
+              attrs: {
+                "page-count": _vm.reviewsTotalPages / 3,
+                "click-handler": _vm.pageChange,
+                "prev-text": "Назад",
+                "next-text": "Следующая страница",
+                "page-class": "pages",
+                "prev-class": "this-page",
+                "next-class": "next-page",
+                "active-class": "sale",
+                "container-class": "pagination"
+              },
+              model: {
+                value: _vm.updatedPage,
+                callback: function($$v) {
+                  _vm.updatedPage = $$v
+                },
+                expression: "updatedPage"
+              }
+            })
           ],
           1
         )
       ])
     : _vm._e()
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "star-amount" }, [
-      _c("span", [_vm._v("(55)")]),
-      _vm._v(" "),
-      _c("span", [_vm._v("(51)")]),
-      _vm._v(" "),
-      _c("span", [_vm._v("(22)")]),
-      _vm._v(" "),
-      _c("span", [_vm._v("(4)")]),
-      _vm._v(" "),
-      _c("span", [_vm._v("(0)")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -23496,6 +23572,17 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/vuejs-paginate/dist/index.js":
+/*!***************************************************!*\
+  !*** ./node_modules/vuejs-paginate/dist/index.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){return function(e){function t(s){if(n[s])return n[s].exports;var a=n[s]={exports:{},id:s,loaded:!1};return e[s].call(a.exports,a,a.exports,t),a.loaded=!0,a.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";function s(e){return e&&e.__esModule?e:{default:e}}var a=n(1),i=s(a);e.exports=i.default},function(e,t,n){n(2);var s=n(6)(n(7),n(8),"data-v-82963a40",null);e.exports=s.exports},function(e,t,n){var s=n(3);"string"==typeof s&&(s=[[e.id,s,""]]);n(5)(s,{});s.locals&&(e.exports=s.locals)},function(e,t,n){t=e.exports=n(4)(),t.push([e.id,"a[data-v-82963a40]{cursor:pointer}",""])},function(e,t){e.exports=function(){var e=[];return e.toString=function(){for(var e=[],t=0;t<this.length;t++){var n=this[t];n[2]?e.push("@media "+n[2]+"{"+n[1]+"}"):e.push(n[1])}return e.join("")},e.i=function(t,n){"string"==typeof t&&(t=[[null,t,""]]);for(var s={},a=0;a<this.length;a++){var i=this[a][0];"number"==typeof i&&(s[i]=!0)}for(a=0;a<t.length;a++){var r=t[a];"number"==typeof r[0]&&s[r[0]]||(n&&!r[2]?r[2]=n:n&&(r[2]="("+r[2]+") and ("+n+")"),e.push(r))}},e}},function(e,t,n){function s(e,t){for(var n=0;n<e.length;n++){var s=e[n],a=c[s.id];if(a){a.refs++;for(var i=0;i<a.parts.length;i++)a.parts[i](s.parts[i]);for(;i<s.parts.length;i++)a.parts.push(l(s.parts[i],t))}else{for(var r=[],i=0;i<s.parts.length;i++)r.push(l(s.parts[i],t));c[s.id]={id:s.id,refs:1,parts:r}}}}function a(e){for(var t=[],n={},s=0;s<e.length;s++){var a=e[s],i=a[0],r=a[1],o=a[2],l=a[3],u={css:r,media:o,sourceMap:l};n[i]?n[i].parts.push(u):t.push(n[i]={id:i,parts:[u]})}return t}function i(e,t){var n=g(),s=C[C.length-1];if("top"===e.insertAt)s?s.nextSibling?n.insertBefore(t,s.nextSibling):n.appendChild(t):n.insertBefore(t,n.firstChild),C.push(t);else{if("bottom"!==e.insertAt)throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");n.appendChild(t)}}function r(e){e.parentNode.removeChild(e);var t=C.indexOf(e);t>=0&&C.splice(t,1)}function o(e){var t=document.createElement("style");return t.type="text/css",i(e,t),t}function l(e,t){var n,s,a;if(t.singleton){var i=v++;n=h||(h=o(t)),s=u.bind(null,n,i,!1),a=u.bind(null,n,i,!0)}else n=o(t),s=d.bind(null,n),a=function(){r(n)};return s(e),function(t){if(t){if(t.css===e.css&&t.media===e.media&&t.sourceMap===e.sourceMap)return;s(e=t)}else a()}}function u(e,t,n,s){var a=n?"":s.css;if(e.styleSheet)e.styleSheet.cssText=b(t,a);else{var i=document.createTextNode(a),r=e.childNodes;r[t]&&e.removeChild(r[t]),r.length?e.insertBefore(i,r[t]):e.appendChild(i)}}function d(e,t){var n=t.css,s=t.media,a=t.sourceMap;if(s&&e.setAttribute("media",s),a&&(n+="\n/*# sourceURL="+a.sources[0]+" */",n+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(a))))+" */"),e.styleSheet)e.styleSheet.cssText=n;else{for(;e.firstChild;)e.removeChild(e.firstChild);e.appendChild(document.createTextNode(n))}}var c={},p=function(e){var t;return function(){return"undefined"==typeof t&&(t=e.apply(this,arguments)),t}},f=p(function(){return/msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase())}),g=p(function(){return document.head||document.getElementsByTagName("head")[0]}),h=null,v=0,C=[];e.exports=function(e,t){t=t||{},"undefined"==typeof t.singleton&&(t.singleton=f()),"undefined"==typeof t.insertAt&&(t.insertAt="bottom");var n=a(e);return s(n,t),function(e){for(var i=[],r=0;r<n.length;r++){var o=n[r],l=c[o.id];l.refs--,i.push(l)}if(e){var u=a(e);s(u,t)}for(var r=0;r<i.length;r++){var l=i[r];if(0===l.refs){for(var d=0;d<l.parts.length;d++)l.parts[d]();delete c[l.id]}}}};var b=function(){var e=[];return function(t,n){return e[t]=n,e.filter(Boolean).join("\n")}}()},function(e,t){e.exports=function(e,t,n,s){var a,i=e=e||{},r=typeof e.default;"object"!==r&&"function"!==r||(a=e,i=e.default);var o="function"==typeof i?i.options:i;if(t&&(o.render=t.render,o.staticRenderFns=t.staticRenderFns),n&&(o._scopeId=n),s){var l=o.computed||(o.computed={});Object.keys(s).forEach(function(e){var t=s[e];l[e]=function(){return t}})}return{esModule:a,exports:i,options:o}}},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={props:{value:{type:Number},pageCount:{type:Number,required:!0},forcePage:{type:Number},clickHandler:{type:Function,default:function(){}},pageRange:{type:Number,default:3},marginPages:{type:Number,default:1},prevText:{type:String,default:"Prev"},nextText:{type:String,default:"Next"},breakViewText:{type:String,default:"…"},containerClass:{type:String},pageClass:{type:String},pageLinkClass:{type:String},prevClass:{type:String},prevLinkClass:{type:String},nextClass:{type:String},nextLinkClass:{type:String},breakViewClass:{type:String},breakViewLinkClass:{type:String},activeClass:{type:String,default:"active"},disabledClass:{type:String,default:"disabled"},noLiSurround:{type:Boolean,default:!1},firstLastButton:{type:Boolean,default:!1},firstButtonText:{type:String,default:"First"},lastButtonText:{type:String,default:"Last"},hidePrevNext:{type:Boolean,default:!1}},beforeUpdate:function(){void 0!==this.forcePage&&this.forcePage!==this.selected&&(this.selected=this.forcePage)},computed:{selected:{get:function(){return this.value||this.innerValue},set:function(e){this.innerValue=e}},pages:function(){var e=this,t={};if(this.pageCount<=this.pageRange)for(var n=0;n<this.pageCount;n++){var s={index:n,content:n+1,selected:n===this.selected-1};t[n]=s}else{for(var a=Math.floor(this.pageRange/2),i=function(n){var s={index:n,content:n+1,selected:n===e.selected-1};t[n]=s},r=function(e){var n={disabled:!0,breakView:!0};t[e]=n},o=0;o<this.marginPages;o++)i(o);var l=0;this.selected-a>0&&(l=this.selected-1-a);var u=l+this.pageRange-1;u>=this.pageCount&&(u=this.pageCount-1,l=u-this.pageRange+1);for(var d=l;d<=u&&d<=this.pageCount-1;d++)i(d);l>this.marginPages&&r(l-1),u+1<this.pageCount-this.marginPages&&r(u+1);for(var c=this.pageCount-1;c>=this.pageCount-this.marginPages;c--)i(c)}return t}},data:function(){return{innerValue:1}},methods:{handlePageSelected:function(e){this.selected!==e&&(this.innerValue=e,this.$emit("input",e),this.clickHandler(e))},prevPage:function(){this.selected<=1||this.handlePageSelected(this.selected-1)},nextPage:function(){this.selected>=this.pageCount||this.handlePageSelected(this.selected+1)},firstPageSelected:function(){return 1===this.selected},lastPageSelected:function(){return this.selected===this.pageCount||0===this.pageCount},selectFirstPage:function(){this.selected<=1||this.handlePageSelected(1)},selectLastPage:function(){this.selected>=this.pageCount||this.handlePageSelected(this.pageCount)}}}},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,n=e._self._c||t;return e.noLiSurround?n("div",{class:e.containerClass},[e.firstLastButton?n("a",{class:[e.pageLinkClass,e.firstPageSelected()?e.disabledClass:""],attrs:{tabindex:"0"},domProps:{innerHTML:e._s(e.firstButtonText)},on:{click:function(t){e.selectFirstPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.selectFirstPage():null}}}):e._e(),e._v(" "),e.firstPageSelected()&&e.hidePrevNext?e._e():n("a",{class:[e.prevLinkClass,e.firstPageSelected()?e.disabledClass:""],attrs:{tabindex:"0"},domProps:{innerHTML:e._s(e.prevText)},on:{click:function(t){e.prevPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.prevPage():null}}}),e._v(" "),e._l(e.pages,function(t){return[t.breakView?n("a",{class:[e.pageLinkClass,e.breakViewLinkClass,t.disabled?e.disabledClass:""],attrs:{tabindex:"0"}},[e._t("breakViewContent",[e._v(e._s(e.breakViewText))])],2):t.disabled?n("a",{class:[e.pageLinkClass,t.selected?e.activeClass:"",e.disabledClass],attrs:{tabindex:"0"}},[e._v(e._s(t.content))]):n("a",{class:[e.pageLinkClass,t.selected?e.activeClass:""],attrs:{tabindex:"0"},on:{click:function(n){e.handlePageSelected(t.index+1)},keyup:function(n){return"button"in n||!e._k(n.keyCode,"enter",13)?void e.handlePageSelected(t.index+1):null}}},[e._v(e._s(t.content))])]}),e._v(" "),e.lastPageSelected()&&e.hidePrevNext?e._e():n("a",{class:[e.nextLinkClass,e.lastPageSelected()?e.disabledClass:""],attrs:{tabindex:"0"},domProps:{innerHTML:e._s(e.nextText)},on:{click:function(t){e.nextPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.nextPage():null}}}),e._v(" "),e.firstLastButton?n("a",{class:[e.pageLinkClass,e.lastPageSelected()?e.disabledClass:""],attrs:{tabindex:"0"},domProps:{innerHTML:e._s(e.lastButtonText)},on:{click:function(t){e.selectLastPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.selectLastPage():null}}}):e._e()],2):n("ul",{class:e.containerClass},[e.firstLastButton?n("li",{class:[e.pageClass,e.firstPageSelected()?e.disabledClass:""]},[n("a",{class:e.pageLinkClass,attrs:{tabindex:e.firstPageSelected()?-1:0},domProps:{innerHTML:e._s(e.firstButtonText)},on:{click:function(t){e.selectFirstPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.selectFirstPage():null}}})]):e._e(),e._v(" "),e.firstPageSelected()&&e.hidePrevNext?e._e():n("li",{class:[e.prevClass,e.firstPageSelected()?e.disabledClass:""]},[n("a",{class:e.prevLinkClass,attrs:{tabindex:e.firstPageSelected()?-1:0},domProps:{innerHTML:e._s(e.prevText)},on:{click:function(t){e.prevPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.prevPage():null}}})]),e._v(" "),e._l(e.pages,function(t){return n("li",{class:[e.pageClass,t.selected?e.activeClass:"",t.disabled?e.disabledClass:"",t.breakView?e.breakViewClass:""]},[t.breakView?n("a",{class:[e.pageLinkClass,e.breakViewLinkClass],attrs:{tabindex:"0"}},[e._t("breakViewContent",[e._v(e._s(e.breakViewText))])],2):t.disabled?n("a",{class:e.pageLinkClass,attrs:{tabindex:"0"}},[e._v(e._s(t.content))]):n("a",{class:e.pageLinkClass,attrs:{tabindex:"0"},on:{click:function(n){e.handlePageSelected(t.index+1)},keyup:function(n){return"button"in n||!e._k(n.keyCode,"enter",13)?void e.handlePageSelected(t.index+1):null}}},[e._v(e._s(t.content))])])}),e._v(" "),e.lastPageSelected()&&e.hidePrevNext?e._e():n("li",{class:[e.nextClass,e.lastPageSelected()?e.disabledClass:""]},[n("a",{class:e.nextLinkClass,attrs:{tabindex:e.lastPageSelected()?-1:0},domProps:{innerHTML:e._s(e.nextText)},on:{click:function(t){e.nextPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.nextPage():null}}})]),e._v(" "),e.firstLastButton?n("li",{class:[e.pageClass,e.lastPageSelected()?e.disabledClass:""]},[n("a",{class:e.pageLinkClass,attrs:{tabindex:e.lastPageSelected()?-1:0},domProps:{innerHTML:e._s(e.lastButtonText)},on:{click:function(t){e.selectLastPage()},keyup:function(t){return"button"in t||!e._k(t.keyCode,"enter",13)?void e.selectLastPage():null}}})]):e._e()],2)},staticRenderFns:[]}}])});
+
+/***/ }),
+
 /***/ "./node_modules/vuex/dist/vuex.esm.js":
 /*!********************************************!*\
   !*** ./node_modules/vuex/dist/vuex.esm.js ***!
@@ -24916,13 +25003,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
-/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-progressbar */ "./node_modules/vue-progressbar/dist/vue-progressbar.js");
-/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_progressbar__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vuejs_paginate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuejs-paginate */ "./node_modules/vuejs-paginate/dist/index.js");
+/* harmony import */ var vuejs_paginate__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuejs_paginate__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-progressbar */ "./node_modules/vue-progressbar/dist/vue-progressbar.js");
+/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_progressbar__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
 
 
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('paginate', vuejs_paginate__WEBPACK_IMPORTED_MODULE_5___default.a);
 
 var options = {
   color: '#be5683',
@@ -24939,7 +25030,7 @@ var options = {
   position: 'relative'
 };
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_5___default.a, options);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_6___default.a, options);
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   router: new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"](_router__WEBPACK_IMPORTED_MODULE_3__["default"]),
@@ -25724,7 +25815,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     errors: null,
     catalogData: null,
     catalogItem: null,
-    catalogItemReview: null
+    catalogItemReview: null,
+    catalogItemStars: null,
+    catalogItemReviewCount: null
   },
   mutations: {
     // Получаем категории и подкатегории меню
@@ -25809,10 +25902,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
 
                               if (menu[_m].departments_alias === depart) {
                                 // Записываем эти подкатегории
-                                // sideBar[i][categ].departments = {depart_names: , depart_url: [sideBar[i][categ][depart]]}
-                                // sideBar[i][categ][depart] = state.departAlias[depart];
                                 sideBar[_i2][_categ].departments = [];
-                                sideBar[_i2][_categ].category_alias = menu[_m].categories_alias + (menu[_m].season_alias !== null ? '-' + menu[_m].season_alias : ''); // sideBar[i][categ].show = true;
+                                sideBar[_i2][_categ].category_alias = menu[_m].categories_alias + (menu[_m].season_alias !== null ? '-' + menu[_m].season_alias : '');
                               }
                             }
                           }
@@ -25843,9 +25934,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                                   });
                                 } catch (e) {
                                   console.log(e);
-                                } // Записываем эти подкатегории
-                                //sideBar[i][categ][departments].sideBar[i][categ][depart] = state.departAlias[depart]
-
+                                }
                               }
                             }
                           }
@@ -25921,17 +26010,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                         for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
                           var c = _step4.value;
 
-                          // if (c === (gendersObj[g][gg].season_name !== null ? gendersObj[g][gg].categories_name + ' ' + gendersObj[g][gg].season_name : gendersObj[g][gg].categories_name) && gendersObj[g][gg].sex_name === g) {
-                          //     state.lastMenu[g][c].push({
-                          //         department: gendersObj[g][gg].departments_name,
-                          //         departments_alias: gendersObj[g][gg].season_alias !== null
-                          //             ? gendersObj[g][gg].sex_alias + '/' + gendersObj[g][gg].categories_alias + '-' + gendersObj[g][gg].season_alias + (gendersObj[g][gg].departments_alias !== null ? '/' : '') + (gendersObj[g][gg].departments_alias ?? '')
-                          //             : gendersObj[g][gg].sex_alias + '/' + gendersObj[g][gg].categories_alias + (gendersObj[g][gg].departments_alias !== null ? '/' : '') + (gendersObj[g][gg].departments_alias ?? ''),
-                          //         category: c,
-                          //         hover: false,
-                          //         categories_alias: gendersObj[g][gg].season_alias !== null ? gendersObj[g][gg].sex_alias + '/' + gendersObj[g][gg].categories_alias + '-' + gendersObj[g][gg].season_alias : gendersObj[g][gg].sex_alias + '/' + gendersObj[g][gg].categories_alias}
-                          //     );
-                          // }
                           if (c === (gendersObj[g][gg].season_name !== null ? gendersObj[g][gg].categories_name + ' ' + gendersObj[g][gg].season_name : gendersObj[g][gg].categories_name) && gendersObj[g][gg].sex_name === g) {
                             state.lastMenu[g][c].push({
                               department: gendersObj[g][gg].departments_name,
@@ -26042,6 +26120,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
         console.log(e);
       }
     },
+    // Получаем дату в каталог
     getCatalogDataMutate: function getCatalogDataMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -26087,6 +26166,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
         }, _callee2);
       }))();
     },
+    // Получаем дату для товара
     getItemDataMutate: function getItemDataMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
@@ -26097,51 +26177,61 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("/api/item-".concat(data)).then(function (response) {
                   var itemData = response.data;
                   var stateItemData = {};
-                  var stateItemReview = [];
-                  var pics = null; // Пробегаемся по массиву с данными
+                  var pics = null;
+                  var stars = {
+                    5: [],
+                    4: [],
+                    3: [],
+                    2: [],
+                    1: []
+                  }; // Пробегаемся по массиву с данными
                   // Первым элементом идёт сам товар
-                  // Присваем значения этого элемента @stateItemData
+                  // Присваеваем значения этого элемента @stateItemData
 
-                  itemData.forEach(function (el, i) {
-                    if (i === 0) {
-                      stateItemData.itemTitle = el.product_title;
-                      stateItemData.itemPrice = el.product_price;
-                      pics = el.product_img.split(',');
+                  for (var el in itemData) {
+                    if (el == 0) {
+                      stateItemData.itemTitle = itemData[el].product_title;
+                      stateItemData.itemPrice = itemData[el].product_price;
+                      pics = itemData[el].product_img.split(',');
                       stateItemData.itemPics = []; // Пушим картинки
 
                       pics.forEach(function (img, ii) {
                         if (ii === 0) {
                           stateItemData.itemPics.push({
                             img: img,
-                            clicked: true
+                            clicked: true,
+                            video: false
                           });
                         } else {
                           stateItemData.itemPics.push({
                             img: img,
-                            clicked: false
+                            clicked: false,
+                            video: false
                           });
                         }
                       }); // Если видео, то ставим его первым в массив с картинками, ставим ему ckicked true, скороее всего будет добавляться картинка как превье этого видео
 
-                      if (el.product_video !== null) {
+                      if (itemData[el].product_video !== null) {
                         stateItemData.itemPics[0].clicked = false;
                         stateItemData.itemPics.unshift({
-                          video: el.product_video,
+                          video: itemData[el].product_video,
                           clicked: true
                         });
                       } // Если sale
 
 
-                      if (el.product_sale !== null) stateItemData.itemSale = el.product_sale;
-                      stateItemData.itemDesc = el.product_description;
-                      stateItemData.itemPrice = el.product_price;
+                      if (itemData[el].product_sale !== null) stateItemData.itemSale = itemData[el].product_sale;else stateItemData.itemSale = false;
+                      stateItemData.itemDesc = itemData[el].product_description;
+                      stateItemData.itemPrice = itemData[el].product_price;
                       state.catalogItem = stateItemData;
-                    } else {
-                      // Пушим отзывы
-                      stateItemReview.push(el);
+                    } else if (el === 'stars') {
+                      itemData[el].forEach(function (element) {
+                        stars[element.reviews_star].push(element.reviews_star);
+                      });
                     }
-                  });
-                  state.catalogItemReview = stateItemReview;
+                  }
+
+                  state.catalogItemStars = stars;
                 })["catch"](function (errors) {
                   return console.log(errors);
                 });
@@ -26152,6 +26242,28 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
             }
           }
         }, _callee3);
+      }))();
+    },
+    // Получаем отзывы
+    getItemReviewsMutate: function getItemReviewsMutate(state, data) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/itemsreview-".concat(data.item, "?page=").concat(data.page)).then(function (response) {
+                  var reviews = response.data;
+                  state.catalogItemReview = reviews.data;
+                  state.catalogItemReviewCount = reviews.total;
+                });
+
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }))();
     }
   },
@@ -26179,6 +26291,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     getItemData: function getItemData(_ref6, data) {
       var commit = _ref6.commit;
       commit('getItemDataMutate', data);
+    },
+    getItemReviews: function getItemReviews(_ref7, data) {
+      var commit = _ref7.commit;
+      commit('getItemReviewsMutate', data);
     }
   },
   getters: {
@@ -26205,6 +26321,12 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     },
     catalogItemReview: function catalogItemReview(state) {
       return state.catalogItemReview;
+    },
+    catalogItemStars: function catalogItemStars(state) {
+      return state.catalogItemStars;
+    },
+    catalogItemReviewCount: function catalogItemReviewCount(state) {
+      return state.catalogItemReviewCount;
     }
   }
 }));
