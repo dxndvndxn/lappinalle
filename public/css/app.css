@@ -888,7 +888,7 @@ nav ul {
 .sidebar-price form {
   width: 210px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 170px 1fr;
   grid-row-gap: 10px;
   grid-column-gap: 15px;
 }
@@ -1296,6 +1296,12 @@ nav ul,
   margin: 0;
 }
 
+.review-wrap .review-user-no {
+  font-size: 24px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+}
+
 .review-wrap .review-leave {
   display: flex;
   flex-direction: column;
@@ -1337,6 +1343,7 @@ nav ul,
   text-transform: uppercase;
   border: none;
   cursor: pointer;
+  margin-bottom: 50px;
 }
 
 .slide-wrap {

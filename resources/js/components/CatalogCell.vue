@@ -1,7 +1,7 @@
 <template>
-    <div class="catalog-items">
+    <div class="catalog-items" v-if="catalogData">
         <div class="item" v-for="(item, i) in catalogData">
-            <router-link :to="{path: `item-${item.product_id}`}" :append="true"><img v-bind:src="item.product_img" alt=""></router-link>
+            <router-link :to="{path: `item-${item.product_id}`}" :append="true"><img v-bind:src="item.product_img.split(',')[0]" alt=""></router-link>
             <div class="item-title">
                 {{item.product_title}}
             </div>
@@ -13,6 +13,9 @@
             </div>
         </div>
     </div>
+    <p v-else>
+       По вашему запросу ничего не найдено.
+    </p>
 </template>
 
 <script>

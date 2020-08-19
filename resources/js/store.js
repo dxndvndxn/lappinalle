@@ -5,17 +5,36 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state:{
+        // Верхнее меню с гендером
         topMenu: [],
+
+        // Меню с категориями и подкатегориями
         lastMenu: {},
+
+        // Алиасы для категории
+        // Алиасы для подкатегории
         categAlias: {},
         departAlias: {},
+
+        // Данные на sidebar
         mySidebar: null,
-        errors: null,
+
+        // Ошибки
+        errorQuery: false,
+
+        // Данные для для каталога
         catalogData: null,
+        catalogDataCellCount: null,
+
+        // Данные для товара
         catalogItem: null,
         catalogItemReview: null,
         catalogItemStars: null,
-        catalogItemReviewCount: null
+        catalogItemReviewCount: null,
+
+        // Данные для фильтра
+        filterMin: null,
+        filterMax: null
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -225,11 +244,7 @@ export default new Vuex.Store({
                             if (!state.lastMenu[l][ll].length) delete state.lastMenu[l][ll];
                         }
                     }
-                }).catch(error => {
-                error = 'Упс что-то пошло не так';
-                state.errors = [];
-                state.errors.push(error)
-            });
+                })
         },
 
         sideBarDepartMutate(state, data){
@@ -314,23 +329,54 @@ export default new Vuex.Store({
 
         // Получаем дату в каталог
         async getCatalogDataMutate(state, data){
-            switch (Object.keys(data).length) {
+            // Смотрим по длинне объекта с параметрами
+            // 1 - значит запрос по гендеру
+            // 2 - значит запрос по категории
+            // 3 - запрос по подкатегории
+            let itemCell = null;
+            switch (Object.keys(data.params).length) {
                 case 1:
-                    await axios.get(`/api/${data.gender}`)
+                    await axios.get(`http://lappinalle.test/api/${data.params.gender}?page=${data.page}`)
                         .then(response => {
-                            state.catalogData = response.data;
+                            // Получаем данные для отображения товаров в каталоге по гендеру
+                            itemCell = response.data;
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
+
+                            let min =  itemCell.data[0].product_price;
+                            let max = min;
+
+                            itemCell.data.forEach(el=> {
+                                if (el.product_price > max) max = el.product_price;
+                                if (el.product_price  < min) min = el.product_price;
+                            });
+
+                            state.filterMin = min;
+                            state.filterMax = max;
                         });
                     break;
                 case 2:
-                    await axios.get(`/api/${data.gender}/${data.category}`)
+                    await axios.get(`http://lappinalle.test/api/${data.params.gender}/${data.params.category}?page=${data.page}`)
                         .then(response => {
-                            state.catalogData = response.data;
+                            // Получаем данные для отображения товаров в каталоге по категории
+                            itemCell = response.data;
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
                         });
                     break;
                 case 3:
-                    await axios.get(`/api/${data.gender}/${data.category}/${data.department}`)
+                    await axios.get(`http://lappinalle.test/api/${data.params.gender}/${data.params.category}/${data.params.department}?page=${data.page}`)
                         .then(response => {
-                            state.catalogData = response.data;
+                            // Получаем данные для отображения товаров в каталоге по подкатегории
+                            itemCell = response.data;
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
                         });
                     break;
             }
@@ -403,6 +449,65 @@ export default new Vuex.Store({
                     state.catalogItemReview = reviews.data;
                     state.catalogItemReviewCount = reviews.total
                 })
+        },
+
+        // Получаем товары по скидки
+        async showSaleProductsMutate(state, data){
+            // Смотрим по длинне объекта с параметрами
+            // 1 - значит запрос по гендеру
+            // 2 - значит запрос по категории
+            // 3 - запрос по подкатегории
+            let itemCell = null;
+            switch (Object.keys(data.params).length) {
+                case 1:
+                    await axios.get(`http://lappinalle.test/api/sale/${data.params.gender}?page=${data.page}`)
+                        .then(response => {
+                            // Получаем данные для отображения товаров в каталоге по гендеру
+                            itemCell = response.data;
+
+                            if (itemCell.data.length){
+                                state.catalogData = itemCell.data;
+                                //Получаем общее число товаров для пагинации
+                                state.catalogDataCellCount = itemCell.total;
+                            }else{
+                                state.catalogData = null;
+                            }
+
+                        });
+                    break;
+                case 2:
+                    await axios.get(`http://lappinalle.test/api/sale/${data.params.gender}/${data.params.category}?page=${data.page}`)
+                        .then(response => {
+                            // Получаем данные для отображения товаров в каталоге по категории
+                            itemCell = response.data;
+
+                            if (itemCell.data.length){
+                                state.catalogData = itemCell.data;
+                                //Получаем общее число товаров для пагинации
+                                state.catalogDataCellCount = itemCell.total;
+                            }else{
+                                state.catalogData = null;
+                            }
+
+                        });
+                    break;
+                case 3:
+                    await axios.get(`http://lappinalle.test/api/sale/${data.params.gender}/${data.params.category}/${data.params.department}?page=${data.page}`)
+                        .then(response => {
+                            // Получаем данные для отображения товаров в каталоге по подкатегории
+                            itemCell = response.data;
+
+                            if (itemCell.data.length){
+                                state.catalogData = itemCell.data;
+                                //Получаем общее число товаров для пагинации
+                                state.catalogDataCellCount = itemCell.total;
+                            }else{
+                                state.catalogData = null;
+                            }
+
+                        });
+                    break;
+            }
         }
     },
     actions: {
@@ -426,6 +531,9 @@ export default new Vuex.Store({
         },
         getItemReviews({commit}, data){
             commit('getItemReviewsMutate', data);
+        },
+        showSaleProducts({commit}, data){
+            commit('showSaleProductsMutate', data);
         }
     },
     getters:{
@@ -458,6 +566,18 @@ export default new Vuex.Store({
         },
         catalogItemReviewCount: state => {
             return state.catalogItemReviewCount;
+        },
+        catalogDataCellCount: state => {
+            return state.catalogDataCellCount;
+        },
+        errorQuery: state => {
+            return state.errorQuery;
+        },
+        minMax: state => {
+            return {
+                min: state.filterMin,
+                max: state.filterMax
+            }
         }
 
     }

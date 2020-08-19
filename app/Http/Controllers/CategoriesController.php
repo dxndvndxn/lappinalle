@@ -36,7 +36,8 @@ class CategoriesController extends Controller
                     ->where('product_available', '=', 1)
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('categories_id', '=', $newCateg['categories_id'])
-                    ->get();
+                    ->orderBy('product_id', 'desc')
+                    ->paginate(30);
                 return $dataByGender;
             case 2:
                 $seasonId = DB::table('season')->select("season_id")->where('season_alias', '=', $parts[1])->get();
@@ -51,7 +52,8 @@ class CategoriesController extends Controller
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->where('season_id', '=', $newSeason['season_id'])
-                    ->get();
+                    ->orderBy('product_id', 'desc')
+                    ->paginate(30);
                 return $dataByGender;
         }
     }

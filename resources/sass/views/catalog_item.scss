@@ -175,6 +175,10 @@
             margin: 0;
         }
     }
+    .review-user-no{
+        font-size: $bigFz;
+        @include ptSans(400);
+    }
     .review-leave{
         display: flex;
         flex-direction: column;
@@ -210,4 +214,5 @@
     text-transform: uppercase;
     border: none;
     cursor: pointer;
+    margin-bottom: 50px;
 }

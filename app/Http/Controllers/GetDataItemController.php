@@ -14,22 +14,9 @@ class GetDataItemController extends Controller
 
         $reviewStar = DB::table('reviews')->select('reviews_star')->where('reviews.product_id', '=', $number)->get();
 
-        // Забираем послдние 3 отзыва
-        $dataItem = DB::table('reviews')
-            ->crossJoin('users', 'reviews.users_id', '=', 'users.users_id')
-            ->select('users_name', 'reviews_text', 'reviews_created', 'reviews_star')
-            ->orderBy('reviews.reviews_id', 'desc')
-            ->where('reviews_available', '=', 1)
-            ->where('reviews.product_id', '=', $number)->orderBy('reviews_id')
-            ->limit(3)->get();
 
         // Приводи к обрабатываемому виду данные о товаре
         foreach ($getItemData as $val){
-            array_push($dataNreview, (array) $val);
-        }
-
-        // Приводи к обрабатываемому виду данные об отзывах
-        foreach ($dataItem as $val){
             array_push($dataNreview, (array) $val);
         }
 

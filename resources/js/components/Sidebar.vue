@@ -33,13 +33,13 @@
                 Цена
             </span>
             <form>
-                <label for="min">От</label><input type="number" id="min" min="1"><span>&#8381;</span>
-                <label for="max">До</label><input type="number" id="max" min="1"><span>&#8381;</span>
+                <label for="min">От</label><input type="number" @focusout="showProductsByCash(min, max)" v-model.number="min" id="min" :min="getMinMax.min" :max="getMinMax.max":placeholder="getMinMax.min"><span>&#8381;</span>
+                <label for="max">До</label><input type="number" @focusout="showProductsByCash(min, max)" v-model.number="max" id="max" :min="getMinMax.min" :max="getMinMax.max" :placeholder="getMinMax.max"><span>&#8381;</span>
             </form>
         </div>
         <div class="sidebar-sale">
-            <form action="">
-                <label for="sale">Распродажа</label><input type="checkbox" v-model="checkSale" v-bind:class="checkSale ? 'active-size' : null" id="sale">
+            <form>
+                <label for="sale">Распродажа</label><input type="checkbox" @change="showSales"  v-model="checkSale" v-bind:class="checkSale ? 'active-size' : null" id="sale">
             </form>
         </div>
     </div>
@@ -57,25 +57,44 @@
                 {val: 125, name: 'sizeForShirts', active: false},
                 {val: 122, name: 'sizeForShirts', active: false},
                 ],
-            checkSale: null,
+            checkSale: false,
+            min: null,
+            max: null
         }),
         computed: {
             getSidebar(){
                 return this.$store.getters.mySidebar;
+            },
+            getMinMax(){
+                return this.$store.getters.minMax;
             }
         },
         created(){
+            this.checkSale = this.$route.query.sale ? this.$route.query.sale : false;
             this.$store.dispatch('showDepartAfterUpdated', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender, newSidebar: this.getSidebar})
         },
         methods:{
             showDepartments(categoryAlias, gen){
                 this.$store.dispatch('showDepartments', {categoryAlias, gen});
+            },
+            showSales(){
+                if (this.checkSale) this.$emit('showSaleProducts', this.checkSale);
+                else this.$router.go(-1);
+            },
+            showProductsByCash(min, max){
+                if (min && max !== null){
+                    console.log(1)
+                }
             }
         },
         watch:{
             getSidebar(newVal, oldVal){
-                console.log(newVal)
                 this.$store.dispatch('showDepartAfterUpdated', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender, newSidebar: newVal})
+            },
+            $route(to, from){
+                if (from.query.sale){
+                    this.checkSale = false;
+                }
             }
         }
     }

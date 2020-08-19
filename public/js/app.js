@@ -2069,6 +2069,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CatalogCell",
   props: ['catalogData'],
@@ -2425,15 +2428,21 @@ __webpack_require__.r(__webpack_exports__);
         name: 'sizeForShirts',
         active: false
       }],
-      checkSale: null
+      checkSale: false,
+      min: null,
+      max: null
     };
   },
   computed: {
     getSidebar: function getSidebar() {
       return this.$store.getters.mySidebar;
+    },
+    getMinMax: function getMinMax() {
+      return this.$store.getters.minMax;
     }
   },
   created: function created() {
+    this.checkSale = this.$route.query.sale ? this.$route.query.sale : false;
     this.$store.dispatch('showDepartAfterUpdated', {
       categoryAlias: this.$route.params.category,
       gen: this.$route.params.gender,
@@ -2446,16 +2455,28 @@ __webpack_require__.r(__webpack_exports__);
         categoryAlias: categoryAlias,
         gen: gen
       });
+    },
+    showSales: function showSales() {
+      if (this.checkSale) this.$emit('showSaleProducts', this.checkSale);else this.$router.go(-1);
+    },
+    showProductsByCash: function showProductsByCash(min, max) {
+      if (min && max !== null) {
+        console.log(1);
+      }
     }
   },
   watch: {
     getSidebar: function getSidebar(newVal, oldVal) {
-      console.log(newVal);
       this.$store.dispatch('showDepartAfterUpdated', {
         categoryAlias: this.$route.params.category,
         gen: this.$route.params.gender,
         newSidebar: newVal
       });
+    },
+    $route: function $route(to, from) {
+      if (from.query.sale) {
+        this.checkSale = false;
+      }
     }
   }
 });
@@ -2709,6 +2730,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2724,7 +2756,8 @@ __webpack_require__.r(__webpack_exports__);
         name: 'по цене',
         value: 'price'
       }],
-      selected: ''
+      selected: '',
+      pageCatalog: 1
     };
   },
   components: {
@@ -2734,36 +2767,81 @@ __webpack_require__.r(__webpack_exports__);
     Pagination: _components_Pagination__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   methods: {
-    getCatalogData: function getCatalogData() {
-      this.$store.dispatch('getCatalogData', this.$route.params);
+    // Метод который отпралвяет запрос на полечение данных
+    getCatalogData: function getCatalogData(page) {
+      this.$Progress.start();
+      this.$store.dispatch('getCatalogData', {
+        page: page,
+        params: this.$route.params
+      });
+    },
+    // Обработчик по нажатию на страницы в каталоге
+    // Вызываем функцию, которая выводит новые товары
+    // Отображаем в урл ЧПУ
+    pageChange: function pageChange(page) {
+      // Присваиваем переменной выбранную таблицу по клику на пагинцию
+      this.pageCatalog = page;
+      this.getCatalogData(this.pageCatalog);
+      this.$router.push("".concat(this.$route.path, "?page=").concat(this.pageCatalog));
+    },
+    showSaleProducts: function showSaleProducts(sale) {
+      this.$Progress.start();
+      this.$store.dispatch('showSaleProducts', {
+        page: this.pageCatalog,
+        params: this.$route.params
+      });
+      this.$router.push("".concat(this.$route.path, "?sale=").concat(sale, "&page=").concat(this.pageCatalog))["catch"](function () {});
     }
   },
-  beforeMount: function beforeMount() {
-    this.$Progress.start();
-    this.getCatalogData();
+  created: function created() {
+    // При создании компонента присваиваем текущую страницу для пагинции
+    this.pageCatalog = +this.$route.query.page || 1; // Если запрос на sale
+
+    if (this.$route.query.sale) this.showSaleProducts(this.$route.query.sale);else {
+      // Вызываем данные просто по каталогу если нету query sale
+      this.getCatalogData(this.pageCatalog);
+    }
   },
   watch: {
     $route: function $route(to, from) {
-      if (to.name === 'gender') {
-        this.$Progress.start();
-        this.getCatalogData();
+      if (to.name === 'gender' && !this.$route.query.page) {
+        this.pageCatalog = 1;
+        this.getCatalogData(this.pageCatalog);
       }
 
-      if (to.name === 'category') {
-        this.$Progress.start();
-        this.getCatalogData();
+      if (to.name === 'category' && !this.$route.query.page) {
+        this.pageCatalog = 1;
+        this.getCatalogData(this.pageCatalog);
       }
 
-      if (to.name === 'department') {
-        this.$Progress.start();
-        this.getCatalogData();
+      if (to.name === 'department' && !this.$route.query.page) {
+        this.pageCatalog = 1;
+        this.getCatalogData(this.pageCatalog);
       }
     }
   },
   computed: {
+    // Возвращаем данные по каталогу
     returnCatalogData: function returnCatalogData() {
       this.$Progress.finish();
-      return this.$store.getters.catalogData;
+      if (this.$store.getters.catalogData !== null) return this.$store.getters.catalogData;else return false;
+    },
+    // Возвращаем данные по кол-во товаров для пагинции
+    catalogTotalPages: function catalogTotalPages() {
+      return this.$store.getters.catalogDataCellCount;
+    },
+    // Обнавляем текущую страницы с товарами
+    updatedPage: {
+      get: function get() {
+        return this.pageCatalog;
+      },
+      set: function set(val) {
+        this.pageCatalog = val;
+      }
+    },
+    returnError: function returnError() {
+      this.$Progress.finish();
+      return this.$store.getters.errorQuery;
     }
   }
 });
@@ -2780,6 +2858,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
+//
+//
+//
 //
 //
 //
@@ -2963,14 +3044,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.$Progress.start(); // Получаем данные товара
+    this.$Progress.start(); // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
+
+    this.pageReview = +this.$route.query.page || 1; // Получаем данные товара
 
     this.$store.dispatch('getItemData', this.$route.params.number); //Получаем отзывы
 
-    this.getItemReview(+this.$route.query.page || 1); // Получаем данные о пагинации
-
+    this.getItemReview(this.pageReview);
     this.$Progress.finish();
-    this.pageReview = +this.$route.query.page || 1;
   },
   methods: {
     // Кликаем по фотографии товара
@@ -2987,6 +3068,9 @@ __webpack_require__.r(__webpack_exports__);
         return size.chozen !== false;
       });
     },
+    // Отправляем запрос во vuex на получение отзывов
+    // item: id товара
+    // page: номер страницы, подефолту 1
     getItemReview: function getItemReview(page) {
       var reviewData = {
         item: this.$route.params.number,
@@ -2994,25 +3078,34 @@ __webpack_require__.r(__webpack_exports__);
       };
       this.$store.dispatch('getItemReviews', reviewData);
     },
+    // Обработчик по нажатию на страницы в отызваъ
+    // Вызываем функцию, которая выводит отзывы
+    // Отображаем в урл ЧПУ
     pageChange: function pageChange(page) {
+      // Присваиваем переменной выбранную таблицу по клику на пагинцию
       this.pageReview = page;
       this.getItemReview(this.pageReview);
       this.$router.push("".concat(this.$route.path, "?page=").concat(this.pageReview));
     }
   },
   computed: {
+    // Возвращаем дату для товара
     returnDataForItem: function returnDataForItem() {
       return this.$store.getters.catalogItem;
     },
+    // Возвращаем отзывы для товара
     returnReviewForItem: function returnReviewForItem() {
       if (this.$store.getters.catalogItemReview !== null) return this.$store.getters.catalogItemReview.reverse();
     },
+    // Возвращаем звезды для товара
     returnCatalogItemStars: function returnCatalogItemStars() {
       return this.$store.getters.catalogItemStars;
     },
+    // Возвращаем колличество страницы для отзывов
     reviewsTotalPages: function reviewsTotalPages() {
       return this.$store.getters.catalogItemReviewCount;
     },
+    // Обнавляем текущую страницы с отзывами
     updatedPage: {
       get: function get() {
         return this.pageReview;
@@ -5232,52 +5325,65 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "catalog-items" },
-    _vm._l(_vm.catalogData, function(item, i) {
-      return _c(
+  return _vm.catalogData
+    ? _c(
         "div",
-        { staticClass: "item" },
-        [
-          _c(
-            "router-link",
-            {
-              attrs: { to: { path: "item-" + item.product_id }, append: true }
-            },
-            [_c("img", { attrs: { src: item.product_img, alt: "" } })]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "item-title" }, [
-            _vm._v("\n            " + _vm._s(item.product_title) + "\n        ")
-          ]),
-          _vm._v(" "),
-          item.product_sale !== null
-            ? _c("div", { staticClass: "item-price" }, [
-                _c("span", { staticClass: "through-line" }, [
-                  _vm._v(_vm._s(item.product_price))
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sale-price" }, [
-                  _vm._v(
-                    _vm._s(
-                      item.product_price -
-                        (item.product_sale / 100) * item.product_price
-                    ) + " ₽"
-                  )
-                ])
-              ])
-            : _c("div", { staticClass: "item-price" }, [
+        { staticClass: "catalog-items" },
+        _vm._l(_vm.catalogData, function(item, i) {
+          return _c(
+            "div",
+            { staticClass: "item" },
+            [
+              _c(
+                "router-link",
+                {
+                  attrs: {
+                    to: { path: "item-" + item.product_id },
+                    append: true
+                  }
+                },
+                [
+                  _c("img", {
+                    attrs: { src: item.product_img.split(",")[0], alt: "" }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "item-title" }, [
                 _vm._v(
-                  "\n            " + _vm._s(item.product_price) + " ₽\n        "
+                  "\n            " + _vm._s(item.product_title) + "\n        "
                 )
-              ])
-        ],
-        1
+              ]),
+              _vm._v(" "),
+              item.product_sale !== null
+                ? _c("div", { staticClass: "item-price" }, [
+                    _c("span", { staticClass: "through-line" }, [
+                      _vm._v(_vm._s(item.product_price))
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "sale-price" }, [
+                      _vm._v(
+                        _vm._s(
+                          item.product_price -
+                            (item.product_sale / 100) * item.product_price
+                        ) + " ₽"
+                      )
+                    ])
+                  ])
+                : _c("div", { staticClass: "item-price" }, [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(item.product_price) +
+                        " ₽\n        "
+                    )
+                  ])
+            ],
+            1
+          )
+        }),
+        0
       )
-    }),
-    0
-  )
+    : _c("p", [_vm._v("\n   По вашему запросу ничего не найдено.\n")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -5859,10 +5965,88 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(0),
+    _c("div", { staticClass: "sidebar-price" }, [
+      _c("span", { staticClass: "price" }, [
+        _vm._v("\n            Цена\n        ")
+      ]),
+      _vm._v(" "),
+      _c("form", [
+        _c("label", { attrs: { for: "min" } }, [_vm._v("От")]),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model.number",
+              value: _vm.min,
+              expression: "min",
+              modifiers: { number: true }
+            }
+          ],
+          attrs: {
+            type: "number",
+            id: "min",
+            min: _vm.getMinMax.min,
+            max: _vm.getMinMax.max,
+            placeholder: _vm.getMinMax.min
+          },
+          domProps: { value: _vm.min },
+          on: {
+            focusout: function($event) {
+              return _vm.showProductsByCash(_vm.min, _vm.max)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.min = _vm._n($event.target.value)
+            },
+            blur: function($event) {
+              return _vm.$forceUpdate()
+            }
+          }
+        }),
+        _c("span", [_vm._v("₽")]),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "max" } }, [_vm._v("До")]),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model.number",
+              value: _vm.max,
+              expression: "max",
+              modifiers: { number: true }
+            }
+          ],
+          attrs: {
+            type: "number",
+            id: "max",
+            min: _vm.getMinMax.min,
+            max: _vm.getMinMax.max,
+            placeholder: _vm.getMinMax.max
+          },
+          domProps: { value: _vm.max },
+          on: {
+            focusout: function($event) {
+              return _vm.showProductsByCash(_vm.min, _vm.max)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.max = _vm._n($event.target.value)
+            },
+            blur: function($event) {
+              return _vm.$forceUpdate()
+            }
+          }
+        }),
+        _c("span", [_vm._v("₽")])
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "sidebar-sale" }, [
-      _c("form", { attrs: { action: "" } }, [
+      _c("form", [
         _c("label", { attrs: { for: "sale" } }, [_vm._v("Распродажа")]),
         _c("input", {
           directives: [
@@ -5881,53 +6065,35 @@ var render = function() {
               : _vm.checkSale
           },
           on: {
-            change: function($event) {
-              var $$a = _vm.checkSale,
-                $$el = $event.target,
-                $$c = $$el.checked ? true : false
-              if (Array.isArray($$a)) {
-                var $$v = null,
-                  $$i = _vm._i($$a, $$v)
-                if ($$el.checked) {
-                  $$i < 0 && (_vm.checkSale = $$a.concat([$$v]))
+            change: [
+              function($event) {
+                var $$a = _vm.checkSale,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = null,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.checkSale = $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      (_vm.checkSale = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
+                  }
                 } else {
-                  $$i > -1 &&
-                    (_vm.checkSale = $$a
-                      .slice(0, $$i)
-                      .concat($$a.slice($$i + 1)))
+                  _vm.checkSale = $$c
                 }
-              } else {
-                _vm.checkSale = $$c
-              }
-            }
+              },
+              _vm.showSales
+            ]
           }
         })
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "sidebar-price" }, [
-      _c("span", { staticClass: "price" }, [
-        _vm._v("\n            Цена\n        ")
-      ]),
-      _vm._v(" "),
-      _c("form", [
-        _c("label", { attrs: { for: "min" } }, [_vm._v("От")]),
-        _c("input", { attrs: { type: "number", id: "min", min: "1" } }),
-        _c("span", [_vm._v("₽")]),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "max" } }, [_vm._v("До")]),
-        _c("input", { attrs: { type: "number", id: "max", min: "1" } }),
-        _c("span", [_vm._v("₽")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -6241,97 +6407,106 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.returnCatalogData !== null && _vm.returnCatalogData.length
-    ? _c(
+  return _c(
+    "div",
+    [
+      _c(
         "div",
+        { staticClass: "bread container" },
         [
-          _c(
-            "div",
-            { staticClass: "bread container" },
-            [
-              _c("div"),
+          _c("div"),
+          _vm._v(" "),
+          _c("Breadcrumbs"),
+          _vm._v(" "),
+          _c("div", { staticClass: "sort" }, [
+            _c("form", [
+              _c("label", { attrs: { for: "sort" } }, [_vm._v("Сортировать")]),
               _vm._v(" "),
-              _c("Breadcrumbs"),
-              _vm._v(" "),
-              _c("div", { staticClass: "sort" }, [
-                _c("form", [
-                  _c("label", { attrs: { for: "sort" } }, [
-                    _vm._v("Сортировать")
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selected,
+                      expression: "selected"
+                    }
+                  ],
+                  attrs: { name: "sort", id: "sort" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selected = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("выбрать")
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.selected,
-                          expression: "selected"
-                        }
-                      ],
-                      attrs: { name: "sort", id: "sort" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.selected = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { disabled: "", value: "" } }, [
-                        _vm._v("выбрать")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.sortBy, function(sort, s) {
-                        return _c(
-                          "option",
-                          { domProps: { value: sort.value } },
-                          [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(sort.name) +
-                                "\n                    "
-                            )
-                          ]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ])
-              ])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "catalog container" },
-            [
-              _c("Sidebar"),
-              _vm._v(" "),
-              _c("CatalogCell", {
-                attrs: { catalogData: _vm.returnCatalogData }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("Pagination")
+                  _vm._l(_vm.sortBy, function(sort, s) {
+                    return _c("option", { domProps: { value: sort.value } }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(sort.name) +
+                          "\n                    "
+                      )
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          ])
         ],
         1
-      )
-    : _vm._e()
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "catalog container" },
+        [
+          _c("Sidebar", { on: { showSaleProducts: _vm.showSaleProducts } }),
+          _vm._v(" "),
+          _c("CatalogCell", { attrs: { catalogData: _vm.returnCatalogData } })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("paginate", {
+        attrs: {
+          "page-count": _vm.catalogTotalPages / 30,
+          "click-handler": _vm.pageChange,
+          "prev-text": "Назад",
+          "next-text": "Следующая страница",
+          "page-class": "pages",
+          "prev-class": "this-page",
+          "next-class": "next-page",
+          "active-class": "sale",
+          "container-class": "pagination"
+        },
+        model: {
+          value: _vm.updatedPage,
+          callback: function($$v) {
+            _vm.updatedPage = $$v
+          },
+          expression: "updatedPage"
+        }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -6675,75 +6850,84 @@ var render = function() {
               _c(
                 "div",
                 { staticClass: "review-user-wrap" },
-                _vm._l(_vm.returnReviewForItem, function(inf, i) {
-                  return _c("div", { staticClass: "review-user" }, [
-                    _c(
-                      "div",
-                      { staticClass: "user-info" },
-                      [
-                        _vm._l(5, function(star, st) {
-                          return _c("span", { staticClass: "user-stars" }, [
-                            _c(
-                              "svg",
-                              {
-                                class: inf.reviews_star > st ? "filled" : null,
-                                attrs: {
-                                  id: "Слой_1",
-                                  "data-name": "Слой 1",
-                                  xmlns: "http://www.w3.org/2000/svg",
-                                  viewBox: "0 0 361.33 348.7"
-                                }
-                              },
-                              [
-                                _c("title", [_vm._v("icon_izb")]),
-                                _c("path", {
+                [
+                  _vm._l(_vm.returnReviewForItem, function(inf, i) {
+                    return _c("div", { staticClass: "review-user" }, [
+                      _c(
+                        "div",
+                        { staticClass: "user-info" },
+                        [
+                          _vm._l(5, function(star, st) {
+                            return _c("span", { staticClass: "user-stars" }, [
+                              _c(
+                                "svg",
+                                {
+                                  class:
+                                    inf.reviews_star > st ? "filled" : null,
                                   attrs: {
-                                    d:
-                                      "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
-                                    transform: "translate(-139 -54.46)"
+                                    id: "Слой_1",
+                                    "data-name": "Слой 1",
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    viewBox: "0 0 361.33 348.7"
                                   }
-                                }),
-                                _c("path", {
-                                  attrs: {
-                                    d:
-                                      "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
-                                    transform: "translate(-139 -54.46)"
-                                  }
-                                })
-                              ]
+                                },
+                                [
+                                  _c("title", [_vm._v("icon_izb")]),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
+                                      transform: "translate(-139 -54.46)"
+                                    }
+                                  }),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
+                                      transform: "translate(-139 -54.46)"
+                                    }
+                                  })
+                                ]
+                              )
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "user-name" }, [
+                            _vm._v(" " + _vm._s(inf.users_name) + "  / ")
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "user-date" }, [
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  inf.reviews_created
+                                    .split("-")
+                                    .reverse()
+                                    .join("-")
+                                )
                             )
                           ])
-                        }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "user-name" }, [
-                          _vm._v(" " + _vm._s(inf.users_name) + "  / ")
-                        ]),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "user-date" }, [
-                          _vm._v(
-                            " " +
-                              _vm._s(
-                                inf.reviews_created
-                                  .split("-")
-                                  .reverse()
-                                  .join("-")
-                              )
-                          )
-                        ])
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "user-text" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(inf.reviews_text) +
-                          "\n                    "
-                      )
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "user-text" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(inf.reviews_text) +
+                            "\n                    "
+                        )
+                      ])
                     ])
-                  ])
-                }),
-                0
+                  }),
+                  _vm._v(" "),
+                  !_vm.reviewsTotalPages
+                    ? _c("p", { staticClass: "review-user-no" }, [
+                        _vm._v("На данный товар пока нет отзывов.")
+                      ])
+                    : _vm._e()
+                ],
+                2
               ),
               _vm._v(" "),
               _c("div", { staticClass: "review-leave" }, [
@@ -6989,26 +7173,28 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("paginate", {
-              attrs: {
-                "page-count": _vm.reviewsTotalPages / 3,
-                "click-handler": _vm.pageChange,
-                "prev-text": "Назад",
-                "next-text": "Следующая страница",
-                "page-class": "pages",
-                "prev-class": "this-page",
-                "next-class": "next-page",
-                "active-class": "sale",
-                "container-class": "pagination"
-              },
-              model: {
-                value: _vm.updatedPage,
-                callback: function($$v) {
-                  _vm.updatedPage = $$v
-                },
-                expression: "updatedPage"
-              }
-            })
+            _vm.reviewsTotalPages
+              ? _c("paginate", {
+                  attrs: {
+                    "page-count": _vm.reviewsTotalPages / 3,
+                    "click-handler": _vm.pageChange,
+                    "prev-text": "Назад",
+                    "next-text": "Следующая страница",
+                    "page-class": "pages",
+                    "prev-class": "this-page",
+                    "next-class": "next-page",
+                    "active-class": "sale",
+                    "container-class": "pagination"
+                  },
+                  model: {
+                    value: _vm.updatedPage,
+                    callback: function($$v) {
+                      _vm.updatedPage = $$v
+                    },
+                    expression: "updatedPage"
+                  }
+                })
+              : _vm._e()
           ],
           1
         )
@@ -25807,17 +25993,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
   state: {
+    // Верхнее меню с гендером
     topMenu: [],
+    // Меню с категориями и подкатегориями
     lastMenu: {},
+    // Алиасы для категории
+    // Алиасы для подкатегории
     categAlias: {},
     departAlias: {},
+    // Данные на sidebar
     mySidebar: null,
-    errors: null,
+    // Ошибки
+    errorQuery: false,
+    // Данные для для каталога
     catalogData: null,
+    catalogDataCellCount: null,
+    // Данные для товара
     catalogItem: null,
     catalogItemReview: null,
     catalogItemStars: null,
-    catalogItemReviewCount: null
+    catalogItemReviewCount: null,
+    // Данные для фильтра
+    filterMin: null,
+    filterMax: null
   },
   mutations: {
     // Получаем категории и подкатегории меню
@@ -26035,10 +26233,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                       if (!state.lastMenu[l][ll].length) delete state.lastMenu[l][ll];
                     }
                   }
-                })["catch"](function (error) {
-                  error = 'Упс что-то пошло не так';
-                  state.errors = [];
-                  state.errors.push(error);
                 });
 
               case 2:
@@ -26123,42 +26317,68 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     // Получаем дату в каталог
     getCatalogDataMutate: function getCatalogDataMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var itemCell;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.t0 = Object.keys(data).length;
-                _context2.next = _context2.t0 === 1 ? 3 : _context2.t0 === 2 ? 6 : _context2.t0 === 3 ? 9 : 12;
+                // Смотрим по длинне объекта с параметрами
+                // 1 - значит запрос по гендеру
+                // 2 - значит запрос по категории
+                // 3 - запрос по подкатегории
+                itemCell = null;
+                _context2.t0 = Object.keys(data.params).length;
+                _context2.next = _context2.t0 === 1 ? 4 : _context2.t0 === 2 ? 7 : _context2.t0 === 3 ? 10 : 13;
                 break;
 
-              case 3:
-                _context2.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("/api/".concat(data.gender)).then(function (response) {
-                  state.catalogData = response.data;
-                });
+              case 4:
+                _context2.next = 6;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/".concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по гендеру
+                  itemCell = response.data;
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
-              case 5:
-                return _context2.abrupt("break", 12);
+                  state.catalogDataCellCount = itemCell.total;
+                  var min = itemCell.data[0].product_price;
+                  var max = min;
+                  itemCell.data.forEach(function (el) {
+                    if (el.product_price > max) max = el.product_price;
+                    if (el.product_price < min) min = el.product_price;
+                  });
+                  state.filterMin = min;
+                  state.filterMax = max;
+                });
 
               case 6:
-                _context2.next = 8;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("/api/".concat(data.gender, "/").concat(data.category)).then(function (response) {
-                  state.catalogData = response.data;
-                });
+                return _context2.abrupt("break", 13);
 
-              case 8:
-                return _context2.abrupt("break", 12);
+              case 7:
+                _context2.next = 9;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/".concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по категории
+                  itemCell = response.data;
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                  state.catalogDataCellCount = itemCell.total;
+                });
 
               case 9:
-                _context2.next = 11;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("/api/".concat(data.gender, "/").concat(data.category, "/").concat(data.department)).then(function (response) {
-                  state.catalogData = response.data;
+                return _context2.abrupt("break", 13);
+
+              case 10:
+                _context2.next = 12;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/".concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по подкатегории
+                  itemCell = response.data;
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                  state.catalogDataCellCount = itemCell.total;
                 });
 
-              case 11:
-                return _context2.abrupt("break", 12);
-
               case 12:
+                return _context2.abrupt("break", 13);
+
+              case 13:
               case "end":
                 return _context2.stop();
             }
@@ -26265,6 +26485,85 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
           }
         }, _callee4);
       }))();
+    },
+    // Получаем товары по скидки
+    showSaleProductsMutate: function showSaleProductsMutate(state, data) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var itemCell;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                // Смотрим по длинне объекта с параметрами
+                // 1 - значит запрос по гендеру
+                // 2 - значит запрос по категории
+                // 3 - запрос по подкатегории
+                itemCell = null;
+                _context5.t0 = Object.keys(data.params).length;
+                _context5.next = _context5.t0 === 1 ? 4 : _context5.t0 === 2 ? 7 : _context5.t0 === 3 ? 10 : 13;
+                break;
+
+              case 4:
+                _context5.next = 6;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/sale/".concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по гендеру
+                  itemCell = response.data;
+
+                  if (itemCell.data.length) {
+                    state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                    state.catalogDataCellCount = itemCell.total;
+                  } else {
+                    state.catalogData = null;
+                  }
+                });
+
+              case 6:
+                return _context5.abrupt("break", 13);
+
+              case 7:
+                _context5.next = 9;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/sale/".concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по категории
+                  itemCell = response.data;
+
+                  if (itemCell.data.length) {
+                    state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                    state.catalogDataCellCount = itemCell.total;
+                  } else {
+                    state.catalogData = null;
+                  }
+                });
+
+              case 9:
+                return _context5.abrupt("break", 13);
+
+              case 10:
+                _context5.next = 12;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/sale/".concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по подкатегории
+                  itemCell = response.data;
+
+                  if (itemCell.data.length) {
+                    state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                    state.catalogDataCellCount = itemCell.total;
+                  } else {
+                    state.catalogData = null;
+                  }
+                });
+
+              case 12:
+                return _context5.abrupt("break", 13);
+
+              case 13:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
     }
   },
   actions: {
@@ -26295,6 +26594,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     getItemReviews: function getItemReviews(_ref7, data) {
       var commit = _ref7.commit;
       commit('getItemReviewsMutate', data);
+    },
+    showSaleProducts: function showSaleProducts(_ref8, data) {
+      var commit = _ref8.commit;
+      commit('showSaleProductsMutate', data);
     }
   },
   getters: {
@@ -26327,6 +26630,18 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     },
     catalogItemReviewCount: function catalogItemReviewCount(state) {
       return state.catalogItemReviewCount;
+    },
+    catalogDataCellCount: function catalogDataCellCount(state) {
+      return state.catalogDataCellCount;
+    },
+    errorQuery: function errorQuery(state) {
+      return state.errorQuery;
+    },
+    minMax: function minMax(state) {
+      return {
+        min: state.filterMin,
+        max: state.filterMax
+      };
     }
   }
 }));

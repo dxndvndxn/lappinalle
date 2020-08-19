@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 
-class DepartmentsController extends Controller
+class SaleProductsByDepartmentsController extends Controller
 {
-    public function index(Request $request, $genders, $categories, $departments)
-    {
+    public function index(Request $request, $gender, $categories, $departments){
         // Находим в категориях тире (aksessuari-vesnaosen) и разделяем его на (aksessuari, vesnaosen)
         $regxp = '/(-)/';
         $parts = preg_split($regxp, $categories);
 
         // Узнаем какой гендер нужен
-        $sexId = DB::table('sex')->select("sex_id")->where('sex_alias', '=', $genders)->get();
+        $sexId = DB::table('sex')->select("sex_id")->where('sex_alias', '=', $gender)->get();
         $newGen = null;
 
         foreach ($sexId as $val) {
@@ -46,6 +45,7 @@ class DepartmentsController extends Controller
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->where('departments_id', '=', $newDepart['departments_id'])
+                    ->whereNotNull('product_sale')
                     ->orderBy('product_id', 'desc')
                     ->paginate(30);
                 return $dataByGender;
@@ -63,9 +63,12 @@ class DepartmentsController extends Controller
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->where('season_id', '=', $newSeason['season_id'])
                     ->where('departments_id', '=', $newDepart['departments_id'])
+                    ->whereNotNull('product_sale')
                     ->orderBy('product_id', 'desc')
                     ->paginate(30);
                 return $dataByGender;
+            default:
+                return false;
         }
     }
 }

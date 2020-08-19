@@ -71,6 +71,7 @@
                             {{inf.reviews_text}}
                         </p>
                     </div>
+                    <p v-if="!reviewsTotalPages" class="review-user-no">На данный товар пока нет отзывов.</p>
                 </div>
 
                 <div class="review-leave">
@@ -123,8 +124,10 @@
                 :prev-class="'this-page'"
                 :next-class="'next-page'"
                 :active-class="'sale'"
-                :container-class="'pagination'">
+                :container-class="'pagination'"
+                v-if="reviewsTotalPages">
             </paginate>
+
         </div>
     </div>
 </template>
@@ -144,16 +147,17 @@
        created(){
            this.$Progress.start();
 
+           // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
+           this.pageReview = +this.$route.query.page || 1;
+
            // Получаем данные товара
            this.$store.dispatch('getItemData', this.$route.params.number);
 
            //Получаем отзывы
-           this.getItemReview(+this.$route.query.page || 1);
+           this.getItemReview(this.pageReview);
 
-           // Получаем данные о пагинации
            this.$Progress.finish();
 
-           this.pageReview = +this.$route.query.page || 1;
        },
         methods: {
             // Кликаем по фотографии товара
@@ -166,6 +170,9 @@
                 this.itemSizes[i].chozen = !this.itemSizes[i].chozen;
                 this.clickedSize = this.itemSizes.filter(size => size.chozen !== false);
             },
+            // Отправляем запрос во vuex на получение отзывов
+            // item: id товара
+            // page: номер страницы, подефолту 1
             getItemReview(page){
                 let reviewData = {
                     item: this.$route.params.number,
@@ -173,25 +180,34 @@
                 };
                 this.$store.dispatch('getItemReviews', reviewData);
             },
+            // Обработчик по нажатию на страницы в отызваъ
+            // Вызываем функцию, которая выводит отзывы
+            // Отображаем в урл ЧПУ
             pageChange(page){
+                // Присваиваем переменной выбранную таблицу по клику на пагинцию
                 this.pageReview = page;
                 this.getItemReview(this.pageReview);
                 this.$router.push(`${this.$route.path}?page=${this.pageReview}`)
             }
         },
         computed: {
+            // Возвращаем дату для товара
             returnDataForItem(){
                 return this.$store.getters.catalogItem;
             },
+            // Возвращаем отзывы для товара
             returnReviewForItem(){
                 if (this.$store.getters.catalogItemReview !== null) return this.$store.getters.catalogItemReview.reverse();
             },
+            // Возвращаем звезды для товара
             returnCatalogItemStars(){
                 return this.$store.getters.catalogItemStars;
             },
+            // Возвращаем колличество страницы для отзывов
             reviewsTotalPages(){
                 return this.$store.getters.catalogItemReviewCount;
             },
+            // Обнавляем текущую страницы с отзывами
             updatedPage:{
                 get(){
                     return this.pageReview;
