@@ -2323,31 +2323,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pagination.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Pagination.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Pagination"
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Sidebar.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Sidebar.vue?vue&type=script&lang=js& ***!
@@ -2465,7 +2440,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Фильтруем по sale
     showSales: function showSales() {
-      if (this.checkSale) this.$emit('showSaleProducts', this.checkSale);else this.$router.go(-1);
+      if (this.checkSale) {
+        this.$emit('showSaleProducts', this.checkSale);
+      } else {
+        this.$emit('hideSaleProducts', this.checkSale);
+      }
     },
     // Фильтруем по cash
     showProductsByCashMin: function showProductsByCashMin(min) {
@@ -2517,6 +2496,9 @@ __webpack_require__.r(__webpack_exports__);
         this.min = null;
         this.max = null;
       }
+    },
+    checkSale: function checkSale(val) {
+      this.checkSale = val;
     }
   }
 });
@@ -2744,7 +2726,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
 /* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Sidebar */ "./resources/js/components/Sidebar.vue");
 /* harmony import */ var _components_CatalogCell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/CatalogCell */ "./resources/js/components/CatalogCell.vue");
-/* harmony import */ var _components_Pagination__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Pagination */ "./resources/js/components/Pagination.vue");
 //
 //
 //
@@ -2781,7 +2762,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 
@@ -2800,14 +2780,15 @@ __webpack_require__.r(__webpack_exports__);
         name: 'high'
       }],
       selected: 'новейшие товары',
-      pageCatalog: 1
+      pageCatalog: 1,
+      whataFunc: null,
+      rollbackPage: true
     };
   },
   components: {
     Sidebar: _components_Sidebar__WEBPACK_IMPORTED_MODULE_1__["default"],
     Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__["default"],
-    CatalogCell: _components_CatalogCell__WEBPACK_IMPORTED_MODULE_2__["default"],
-    Pagination: _components_Pagination__WEBPACK_IMPORTED_MODULE_3__["default"]
+    CatalogCell: _components_CatalogCell__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   methods: {
     // Метод который отпралвяет запрос на полечение данных
@@ -2817,6 +2798,7 @@ __webpack_require__.r(__webpack_exports__);
         page: page,
         params: this.$route.params
       });
+      this.$router.push("".concat(this.$route.path, "?page=").concat(this.updatedPage))["catch"](function () {});
     },
     // Обработчик по нажатию на страницы в каталоге
     // Вызываем функцию, которая выводит новые товары
@@ -2824,31 +2806,64 @@ __webpack_require__.r(__webpack_exports__);
     pageChange: function pageChange(page) {
       // Присваиваем переменной выбранную страницу по клику на пагинцию
       this.pageCatalog = page;
-      this.getCatalogData(this.pageCatalog);
-      "this.".concat(func)();
-      this.$router.push("".concat(this.$route.path, "?page=").concat(this.pageCatalog));
+
+      switch (this.returnWhataFunc) {
+        case 'sort':
+          console.log('From page change');
+          this.selectSort(false);
+          break;
+
+        case 'sale':
+          console.log('From page change sale');
+          this.showSaleProducts(this.$route.query.sale, false);
+          break;
+
+        case 'cash':
+          var minmax = {
+            min: this.$route.query.min,
+            max: this.$route.query.max
+          };
+          this.rollbackPage = false;
+          this.showCashProducts(minmax);
+          break;
+
+        default:
+          this.getCatalogData(this.updatedPage);
+      }
+    },
+    hideSaleProducts: function hideSaleProducts(sale) {
+      this.pageCatalog = 1;
+      this.getCatalogData(this.updatedPage);
     },
     // Отправляем запрос по фильтру по скидке
-    showSaleProducts: function showSaleProducts(sale) {
-      this.$Progress.start();
-      this.$store.dispatch('showSaleProducts', {
-        page: this.pageCatalog,
-        params: this.$route.params
-      });
-      this.$router.push("".concat(this.$route.path, "?sale=").concat(sale, "&page=").concat(this.pageCatalog))["catch"](function () {});
+    // @sale из компонента sidebar
+    showSaleProducts: function showSaleProducts(sale, rollback) {
+      if (rollback) this.pageCatalog = 1;
+
+      if (sale) {
+        this.whataFunc = 'sale';
+        this.$Progress.start();
+        this.$store.dispatch('showSaleProducts', {
+          page: this.pageCatalog,
+          params: this.$route.params
+        });
+        this.$router.push("".concat(this.$route.path, "?sale=").concat(sale, "&page=").concat(this.pageCatalog))["catch"](function () {});
+      }
     },
     // Отправляем запрос по фильтру по цене
     showCashProducts: function showCashProducts(minmax) {
+      if (this.rollbackPage) this.pageCatalog = 1;
+      this.whataFunc = 'cash';
       this.$Progress.start();
       minmax.page = this.pageCatalog;
       minmax.params = this.$route.params;
       this.$store.dispatch('showCashProducts', minmax);
       this.$router.push("".concat(this.$route.path, "?min=").concat(minmax.min, "&max=").concat(minmax.max, "&page=").concat(this.pageCatalog))["catch"](function () {});
     },
-    selectSort: function selectSort() {
+    selectSort: function selectSort(rollbackPage) {
       switch (this.selected) {
         case this.sortBy[0].value:
-          this.getCatalogData(this.pageCatalog); // Определяем куда пушить
+          this.getCatalogData(this.updatedPage); // Определяем куда пушить
 
           switch (Object.keys(this.$route.params).length) {
             case 1:
@@ -2873,23 +2888,29 @@ __webpack_require__.r(__webpack_exports__);
           break;
 
         case this.sortBy[1].value:
+          if (rollbackPage) this.pageCatalog = 1;
+          console.log('Hi sort low');
+          this.whataFunc = 'sort';
           this.$Progress.start();
           this.$store.dispatch('sortByAction', {
             price: 'low',
             params: this.$route.params,
             page: this.pageCatalog
           });
-          this.$router.push("".concat(this.$route.path, "?sortOrder=").concat(this.sortBy[1].name, "&page=").concat(this.pageCatalog))["catch"](function () {});
+          this.$router.push("".concat(this.$route.path, "?sortOrder=").concat(this.sortBy[1].name, "&page=").concat(this.updatedPage))["catch"](function () {});
           break;
 
         case this.sortBy[2].value:
+          if (rollbackPage) this.pageCatalog = 1;
+          console.log('Hi sort high');
+          this.whataFunc = 'sort';
           this.$Progress.start();
           this.$store.dispatch('sortByAction', {
             price: 'high',
             params: this.$route.params,
             page: this.pageCatalog
           });
-          this.$router.push("".concat(this.$route.path, "?sortOrder=").concat(this.sortBy[2].name, "&page=").concat(this.pageCatalog))["catch"](function () {});
+          this.$router.push("".concat(this.$route.path, "?sortOrder=").concat(this.sortBy[2].name, "&page=").concat(this.updatedPage))["catch"](function () {});
           break;
       }
     }
@@ -2900,46 +2921,42 @@ __webpack_require__.r(__webpack_exports__);
     // При создании компонента присваиваем текущую страницу для пагинции
     this.pageCatalog = +this.$route.query.page || 1; // Если запрос на sale
 
-    if (this.$route.query.sale) this.showSaleProducts(this.$route.query.sale);else {
-      // Вызываем данные просто по каталогу если нету query sale
-      this.getCatalogData(this.pageCatalog);
-    } // Если запрос на мин макс цену
-
-    if (this.$route.query.min && this.$route.query.max) this.showCashProducts({
-      min: this.$route.query.min,
-      max: this.$route.query.max
-    }); // Если запрос на sorting
-
-    if (this.$route.query.sortOrder) {
-      this.sortBy.forEach(function (el) {
-        if (el.name === _this.$route.query.sortOrder) _this.selected = el.value;
-      });
-      this.selectSort();
-    }
+    if (this.$route.query.sale) this.showSaleProducts(this.$route.query.sale); // Если запрос на мин макс цену
+    else if (this.$route.query.min && this.$route.query.max) this.showCashProducts({
+        min: this.$route.query.min,
+        max: this.$route.query.max
+      }); // Если запрос на sorting
+      else if (this.$route.query.sortOrder) {
+          this.sortBy.forEach(function (el) {
+            if (el.name === _this.$route.query.sortOrder) _this.selected = el.value;
+          });
+          this.selectSort();
+        } else {
+          // Вызываем данные просто по каталогу если нету query sale
+          this.getCatalogData(this.pageCatalog);
+        }
   },
   watch: {
     $route: function $route(to, from) {
-      // Если пришли со страницы гендер
-      // категории
-      // подкатегории
+      // Если пришли к страницы гендер
       if (to.name === 'gender' && !this.$route.query.page) {
+        console.log('Hi Watch gender');
         this.pageCatalog = 1;
         this.getCatalogData(this.pageCatalog);
-      }
+      } // категории
+
 
       if (to.name === 'category' && !this.$route.query.page) {
+        console.log('Hi Watch category');
         this.pageCatalog = 1;
         this.getCatalogData(this.pageCatalog);
-      }
+      } // подкатегории
+
 
       if (to.name === 'department' && !this.$route.query.page) {
+        console.log('Hi Watch department');
         this.pageCatalog = 1;
         this.getCatalogData(this.pageCatalog);
-      } // Если пришли со сорта
-
-
-      if (from.query.sortOrder === 'low' || from.query.sortOrder === 'high') {
-        this.selected = this.sortBy[0].value;
       }
     }
   },
@@ -2962,9 +2979,8 @@ __webpack_require__.r(__webpack_exports__);
         this.pageCatalog = val;
       }
     },
-    returnError: function returnError() {
-      this.$Progress.finish();
-      return this.$store.getters.errorQuery;
+    returnWhataFunc: function returnWhataFunc() {
+      return this.whataFunc;
     }
   }
 });
@@ -5878,45 +5894,6 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true&":
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true& ***!
-  \*************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "pagination" }, [
-      _c("ul", [
-        _c("li", { staticClass: "this-page" }, [_vm._v("Страница")]),
-        _vm._v(" "),
-        _c("li", { staticClass: "pages" }, [_vm._v("1 2 3")]),
-        _vm._v(" "),
-        _c("li", { staticClass: "next-page" }, [_vm._v("Следующая страница")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Sidebar.vue?vue&type=template&id=81fbb27e&scoped=true&":
 /*!**********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Sidebar.vue?vue&type=template&id=81fbb27e&scoped=true& ***!
@@ -6557,7 +6534,9 @@ var render = function() {
                           ? $$selectedVal
                           : $$selectedVal[0]
                       },
-                      _vm.selectSort
+                      function($event) {
+                        return _vm.selectSort(true)
+                      }
                     ]
                   }
                 },
@@ -6584,7 +6563,10 @@ var render = function() {
         [
           _c("Sidebar", {
             on: {
-              showSaleProducts: _vm.showSaleProducts,
+              showSaleProducts: function($event) {
+                return _vm.showSaleProducts(_vm.rollbackPage)
+              },
+              hideSaleProducts: _vm.hideSaleProducts,
               showCashProducts: _vm.showCashProducts
             }
           }),
@@ -6602,7 +6584,7 @@ var render = function() {
       _vm.catalogTotalPages
         ? _c("paginate", {
             attrs: {
-              "page-count": _vm.catalogTotalPages / 30,
+              "page-count": Math.ceil(_vm.catalogTotalPages / 30),
               "click-handler": _vm.pageChange,
               "prev-text": "Назад",
               "next-text": "Следующая страница",
@@ -7291,7 +7273,7 @@ var render = function() {
             _vm.reviewsTotalPages
               ? _c("paginate", {
                   attrs: {
-                    "page-count": _vm.reviewsTotalPages / 3,
+                    "page-count": Math.ceil(_vm.reviewsTotalPages / 3),
                     "click-handler": _vm.pageChange,
                     "prev-text": "Назад",
                     "next-text": "Следующая страница",
@@ -25683,75 +25665,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_template_id_1f42fb90___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_template_id_1f42fb90___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/Pagination.vue":
-/*!************************************************!*\
-  !*** ./resources/js/components/Pagination.vue ***!
-  \************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Pagination.vue?vue&type=template&id=d7acf176&scoped=true& */ "./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true&");
-/* harmony import */ var _Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pagination.vue?vue&type=script&lang=js& */ "./resources/js/components/Pagination.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  "d7acf176",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/Pagination.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/Pagination.vue?vue&type=script&lang=js&":
-/*!*************************************************************************!*\
-  !*** ./resources/js/components/Pagination.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Pagination.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pagination.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true& ***!
-  \*******************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Pagination.vue?vue&type=template&id=d7acf176&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pagination.vue?vue&type=template&id=d7acf176&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pagination_vue_vue_type_template_id_d7acf176_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

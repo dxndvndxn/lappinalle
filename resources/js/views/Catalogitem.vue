@@ -116,7 +116,7 @@
             </div>
             <paginate
                 v-model="updatedPage"
-                :page-count="reviewsTotalPages / 3"
+                :page-count="Math.ceil(reviewsTotalPages / 3)"
                 :click-handler="pageChange"
                 :prev-text="'Назад'"
                 :next-text="'Следующая страница'"

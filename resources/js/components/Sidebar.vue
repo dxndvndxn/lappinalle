@@ -81,8 +81,11 @@
             },
             // Фильтруем по sale
             showSales(){
-                if (this.checkSale) this.$emit('showSaleProducts', this.checkSale);
-                else this.$router.go(-1);
+                if (this.checkSale){
+                    this.$emit('showSaleProducts', this.checkSale);
+                } else{
+                    this.$emit('hideSaleProducts',this.checkSale);
+                }
             },
 
             // Фильтруем по cash
@@ -123,6 +126,9 @@
                     this.min = null;
                     this.max = null;
                 }
+            },
+            checkSale(val){
+                this.checkSale = val;
             }
         }
     }
