@@ -32,14 +32,32 @@ class SaleProductsByCategoriesController extends Controller
         // если длина массива $parts = 2, то делаем запрос по гендеру и по категории плюс сезон
         switch (count($parts)){
             case 1:
-                $dataByGender = DB::table('products')->select("product_id","product_title", "product_price", "product_description", "product_img", "product_sale")
+                $dataByCateg = DB::table('products')->select("product_id","product_title", "product_price", "product_description", "product_img", "product_old_price")
                     ->where('product_available', '=', 1)
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('categories_id', '=', $newCateg['categories_id'])
-                    ->whereNotNull('product_sale')
+                    ->where('product_sale', '=', 1)
                     ->orderBy('product_id', 'desc')
                     ->paginate(30);
-                return $dataByGender;
+
+                // Получаем мин стоимость
+                $productMin =  DB::table('products')
+                    ->where('product_available', '=', 1)
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->min('product_price');
+
+                // Получаем макс стоимость
+                $productMax =  DB::table('products')
+                    ->where('product_available', '=', 1)
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->max('product_price');
+
+                $dataByCateg['max'] = $productMax;
+                $dataByCateg['min'] = $productMin;
+
+                return $dataByCateg;
             case 2:
                 $seasonId = DB::table('season')->select("season_id")->where('season_alias', '=', $parts[1])->get();
                 $newSeason = null;
@@ -48,15 +66,35 @@ class SaleProductsByCategoriesController extends Controller
                     $newSeason = (array) $val;
                 }
 
-                $dataByGender = DB::table('products')->select("product_id","product_title", "product_price", "product_description", "product_img", "product_sale")
+                $dataByCateg = DB::table('products')->select("product_id","product_title", "product_price", "product_description", "product_img", "product_old_price")
                     ->where('product_available', '=', 1)
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->where('season_id', '=', $newSeason['season_id'])
-                    ->whereNotNull('product_sale')
+                    ->where('product_sale', '=', 1)
                     ->orderBy('product_id', 'desc')
                     ->paginate(30);
-                return $dataByGender;
+
+                // Получаем мин стоимость
+                $productMin = DB::table('products')
+                    ->where('product_available', '=', 1)
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->where('season_id', '=', $newSeason['season_id'])
+                    ->min('product_price');
+
+                // Получаем макс стоимость
+                $productMax = DB::table('products')
+                    ->where('product_available', '=', 1)
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->where('season_id', '=', $newSeason['season_id'])
+                    ->max('product_price');
+
+                $dataByCateg['max'] = $productMax;
+                $dataByCateg['min'] = $productMin;
+
+                return $dataByCateg;
             default:
                 return false;
         }

@@ -33,8 +33,14 @@ Route::get('/sale/{gender}/{categories}', 'SaleProductsByCategoriesController@in
 // Получаем товары по скидки по подкатегории
 Route::get('/sale/{gender}/{categories}/{departments}', 'SaleProductsByDepartmentsController@index');
 
-// Получаем товары по кэшу
-Route::get('/cash/{gender}/min-{min}/max-{max}', 'GiveMeCashMinMaxController@index');
+// Получаем товары по кэшу по гендеру
+Route::get('/cash/{gender}/min-{min}/max-{max}', 'GiveMeCashMinMaxByGenderController@index');
+
+// Получаем товары по кэшу по категории
+Route::get('/cash/{gender}/{categories}/min-{min}/max-{max}', 'GiveMeCashMinMaxByCategoriesController@index');
+
+// Получаем товары по кэшу по подкатегории
+Route::get('/cash/{gender}/{categories}/{departments}/min-{min}/max-{max}', 'GiveMeCashMinMaxByDepartmentsController@index');
 
 // Получем отзывы по товару
 Route::get('/itemsreview-{itemNumber}', 'GetItemReviewsController@index');

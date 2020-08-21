@@ -6,8 +6,7 @@
             <div class="sort">
                 <form>
                     <label for="sort">Сортировать</label>
-                    <select name="sort" id="sort" v-model="selected">
-                        <option disabled value="">выбрать</option>
+                    <select name="sort" id="sort" @change="selectSort" v-model="selected">
                         <option v-for="(sort, s) in sortBy" v-bind:value="sort.value">
                             {{sort.name}}
                         </option>
@@ -16,10 +15,11 @@
             </div>
         </div>
         <div class="catalog container">
-            <Sidebar @showSaleProducts="showSaleProducts"/>
-            <CatalogCell v-bind:catalogData="returnCatalogData"/>
+            <Sidebar @showSaleProducts="showSaleProducts" @showCashProducts="showCashProducts"/>
+            <CatalogCell v-bind:catalogData="returnCatalogData" v-bind:total="catalogTotalPages"/>
         </div>
         <paginate
+            v-if="catalogTotalPages"
             v-model="updatedPage"
             :page-count="catalogTotalPages / 30"
             :click-handler="pageChange"
@@ -42,8 +42,8 @@
     export default {
         name: "Catalog",
         data: () => ({
-            sortBy: [{name: "по популярности", value: 'popular'},{name: 'по цене', value: 'price'}],
-            selected: '',
+            sortBy: [{name: "выбрать", value: 'выбрать'}, {name: "по популярности", value: 'popular'}, {name: 'по цене', value: 'price'}],
+            selected: 'выбрать',
             pageCatalog: 1
 
         }),
@@ -66,10 +66,31 @@
               this.getCatalogData(this.pageCatalog);
               this.$router.push(`${this.$route.path}?page=${this.pageCatalog}`)
           },
+
+            // Отправляем запрос по фильтру по скидке
             showSaleProducts(sale){
               this.$Progress.start();
               this.$store.dispatch('showSaleProducts', {page: this.pageCatalog, params: this.$route.params});
               this.$router.push(`${this.$route.path}?sale=${sale}&page=${this.pageCatalog}`).catch(()=>{});
+            },
+
+            // Отправляем запрос по фильтру по цене
+            showCashProducts(minmax){
+              this.$Progress.start();
+              minmax.page = this.pageCatalog;
+              minmax.params = this.$route.params;
+              this.$store.dispatch('showCashProducts', minmax);
+              this.$router.push(`${this.$route.path}?min=${minmax.min}&max=${minmax.max}&page=${this.pageCatalog}`).catch(()=>{});
+            },
+
+            selectSort(){
+              console.log(this.selected)
+                this.sortBy = this.sortBy.filter(el => el.value !== this.sortBy[0].value)
+
+                // if (this.select !== this.sortBy[0].value){
+                //     this.sortBy = this.filter(el => el.value !== this.sortBy[0].value)
+                //     this.sortBy[0].value = 'сбросить';
+                // }
             }
         },
         created() {
@@ -82,6 +103,8 @@
                 // Вызываем данные просто по каталогу если нету query sale
                 this.getCatalogData(this.pageCatalog);
             }
+
+            if (this.$route.query.min && this.$route.query.max) this.showCashProducts({min: this.$route.query.min, max: this.$route.query.max})
         },
         watch: {
             $route(to, from){
@@ -104,7 +127,6 @@
             returnCatalogData(){
                 this.$Progress.finish();
                 if (this.$store.getters.catalogData !== null) return this.$store.getters.catalogData;
-                else return false;
             },
 
             // Возвращаем данные по кол-во товаров для пагинции
@@ -124,6 +146,15 @@
             returnError(){
                 this.$Progress.finish();
                 return this.$store.getters.errorQuery;
+            },
+
+            changeSortBy:{
+                get(){
+                    return this.sortBy;
+                },
+                set(val){
+                    this.sortBy = val;
+                }
             }
         }
     }

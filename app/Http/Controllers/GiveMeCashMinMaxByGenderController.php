@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 
-class GenderController extends Controller
+class GiveMeCashMinMaxByGenderController extends Controller
 {
-    public function index(Request $request, $genders){
+    public function index(Request $request, $gender, $min, $max){
+
         // Получаем гендер id
-        $sexId = DB::table('sex')->select("sex_id")->where('sex_alias', '=', $genders)->get();
+        $sexId = DB::table('sex')->select("sex_id")->where('sex_alias', '=', $gender)->get();
         $newArr = null;
 
         // Преобразовываем к обрабатываемомму виду
@@ -32,6 +33,7 @@ class GenderController extends Controller
         $dataByGender = DB::table('products')->select("product_id","product_title", "product_price", "product_description", "product_img", "product_old_price")
             ->where('product_available', '=', 1)
             ->where('sex_id', '=', $newArr['sex_id'])
+            ->whereBetween('product_price', [$min, $max])
             ->orderBy('product_id', 'desc')
             ->paginate(30);
 

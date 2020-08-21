@@ -33,8 +33,8 @@
                 Цена
             </span>
             <form>
-                <label for="min">От</label><input type="number" @focusout="showProductsByCash(min, max)" v-model.number="min" id="min" :min="getMinMax.min" :max="getMinMax.max":placeholder="getMinMax.min"><span>&#8381;</span>
-                <label for="max">До</label><input type="number" @focusout="showProductsByCash(min, max)" v-model.number="max" id="max" :min="getMinMax.min" :max="getMinMax.max" :placeholder="getMinMax.max"><span>&#8381;</span>
+                <label for="min">От</label><input type="number" @focusout="showProductsByCashMin(min)" v-model.number="min" id="min" :placeholder="getMinMax.min"><span>&#8381;</span>
+                <label for="max">До</label><input type="number" @focusout="showProductsByCashMax(max)" v-model.number="max" id="max" :placeholder="getMinMax.max"><span>&#8381;</span>
             </form>
         </div>
         <div class="sidebar-sale">
@@ -71,19 +71,40 @@
         },
         created(){
             this.checkSale = this.$route.query.sale ? this.$route.query.sale : false;
+            this.min = this.$route.query.min ? this.$route.query.min : null;
+            this.max = this.$route.query.max ? this.$route.query.max : null;
             this.$store.dispatch('showDepartAfterUpdated', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender, newSidebar: this.getSidebar})
         },
         methods:{
             showDepartments(categoryAlias, gen){
                 this.$store.dispatch('showDepartments', {categoryAlias, gen});
             },
+            // Фильтруем по sale
             showSales(){
                 if (this.checkSale) this.$emit('showSaleProducts', this.checkSale);
                 else this.$router.go(-1);
             },
-            showProductsByCash(min, max){
-                if (min && max !== null){
-                    console.log(1)
+
+            // Фильтруем по cash
+            showProductsByCashMin(min){
+                if (min < this.getMinMax.min){
+                    return this.min = null;
+                }else if (min > this.getMinMax.max){
+                    return this.min = null;
+                }else{
+                    this.min = min;
+                    if (this.max) this.$emit('showCashProducts', {min: this.min, max: this.max})
+                }
+            },
+            // Фильтруем по cash
+            showProductsByCashMax(max){
+                if (max < this.getMinMax.min){
+                    return this.max = null;
+                }else if (max > this.getMinMax.max){
+                    return this.max = null;
+                }else{
+                    this.max = max;
+                    if (this.min) this.$emit('showCashProducts', {min: this.min, max: this.max})
                 }
             }
         },
@@ -94,6 +115,13 @@
             $route(to, from){
                 if (from.query.sale){
                     this.checkSale = false;
+                }
+                if (to.query.sale){
+                    this.checkSale = true;
+                }
+                if (from.query.min || from.query.min){
+                    this.min = null;
+                    this.max = null;
                 }
             }
         }

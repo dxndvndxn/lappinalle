@@ -34,7 +34,9 @@ export default new Vuex.Store({
 
         // Данные для фильтра
         filterMin: null,
-        filterMax: null
+        filterMax: null,
+
+        SITE_URI: 'http://lappinalle.test/api/'
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -333,35 +335,44 @@ export default new Vuex.Store({
             // 1 - значит запрос по гендеру
             // 2 - значит запрос по категории
             // 3 - запрос по подкатегории
-            let itemCell = null;
             switch (Object.keys(data.params).length) {
                 case 1:
-                    await axios.get(`http://lappinalle.test/api/${data.params.gender}?page=${data.page}`)
+                    await axios.get(`${state.SITE_URI}${data.params.gender}?page=${data.page}`)
                         .then(response => {
                             // Получаем данные для отображения товаров в каталоге по гендеру
-                            itemCell = response.data;
+                            let itemCell = response.data;
+
+                            // Устанавливаем min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
+
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            // Устанавливаем дату в стейт
                             state.catalogData = itemCell.data;
 
-                            //Получаем общее число товаров для пагинации
+
+                            // Получаем общее число товаров для пагинации
                             state.catalogDataCellCount = itemCell.total;
-
-                            let min =  itemCell.data[0].product_price;
-                            let max = min;
-
-                            itemCell.data.forEach(el=> {
-                                if (el.product_price > max) max = el.product_price;
-                                if (el.product_price  < min) min = el.product_price;
-                            });
-
-                            state.filterMin = min;
-                            state.filterMax = max;
                         });
                     break;
                 case 2:
-                    await axios.get(`http://lappinalle.test/api/${data.params.gender}/${data.params.category}?page=${data.page}`)
+                    await axios.get(`${state.SITE_URI}${data.params.gender}/${data.params.category}?page=${data.page}`)
                         .then(response => {
                             // Получаем данные для отображения товаров в каталоге по категории
-                            itemCell = response.data;
+                            let itemCell = response.data;
+
+                            // Устанавливаес min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
+
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            // Устанавливаем дату в стейт
                             state.catalogData = itemCell.data;
 
                             //Получаем общее число товаров для пагинации
@@ -369,10 +380,20 @@ export default new Vuex.Store({
                         });
                     break;
                 case 3:
-                    await axios.get(`http://lappinalle.test/api/${data.params.gender}/${data.params.category}/${data.params.department}?page=${data.page}`)
+                    await axios.get(`${state.SITE_URI}${data.params.gender}/${data.params.category}/${data.params.department}?page=${data.page}`)
                         .then(response => {
-                            // Получаем данные для отображения товаров в каталоге по подкатегории
-                            itemCell = response.data;
+                            // Получаем данные для отображения товаров в каталоге по категории
+                            let itemCell = response.data;
+
+                            // Устанавливаес min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
+
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            // Устанавливаем дату в стейт
                             state.catalogData = itemCell.data;
 
                             //Получаем общее число товаров для пагинации
@@ -423,8 +444,8 @@ export default new Vuex.Store({
                             }
 
                             // Если sale
-                            if (itemData[el].product_sale !== null) stateItemData.itemSale = itemData[el].product_sale;
-                            else stateItemData.itemSale = false;
+                            if (itemData[el].product_old_price !== null) stateItemData.oldPrice = itemData[el].product_old_price;
+                            else stateItemData.oldPrice = false;
 
                             stateItemData.itemDesc = itemData[el].product_description;
                             stateItemData.itemPrice = itemData[el].product_price;
@@ -443,7 +464,7 @@ export default new Vuex.Store({
 
         // Получаем отзывы
         async getItemReviewsMutate(state, data){
-            await axios.get(`http://lappinalle.test/api/itemsreview-${data.item}?page=${data.page}`)
+            await axios.get(`${state.SITE_URI}itemsreview-${data.item}?page=${data.page}`)
                 .then(response => {
                     let reviews = response.data;
                     state.catalogItemReview = reviews.data;
@@ -457,54 +478,137 @@ export default new Vuex.Store({
             // 1 - значит запрос по гендеру
             // 2 - значит запрос по категории
             // 3 - запрос по подкатегории
-            let itemCell = null;
+            // let itemCell = null;
             switch (Object.keys(data.params).length) {
                 case 1:
-                    await axios.get(`http://lappinalle.test/api/sale/${data.params.gender}?page=${data.page}`)
+                    await axios.get(`${state.SITE_URI}sale/${data.params.gender}?page=${data.page}`)
                         .then(response => {
                             // Получаем данные для отображения товаров в каталоге по гендеру
-                            itemCell = response.data;
+                            let itemCell = response.data;
 
-                            if (itemCell.data.length){
-                                state.catalogData = itemCell.data;
-                                //Получаем общее число товаров для пагинации
-                                state.catalogDataCellCount = itemCell.total;
-                            }else{
-                                state.catalogData = null;
-                            }
+                            // Устанавливаем min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
 
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
                         });
                     break;
                 case 2:
-                    await axios.get(`http://lappinalle.test/api/sale/${data.params.gender}/${data.params.category}?page=${data.page}`)
+                    await axios.get(`${state.SITE_URI}sale/${data.params.gender}/${data.params.category}?page=${data.page}`)
                         .then(response => {
-                            // Получаем данные для отображения товаров в каталоге по категории
-                            itemCell = response.data;
+                            // Получаем данные для отображения товаров в каталоге по гендеру
+                            let itemCell = response.data;
 
-                            if (itemCell.data.length){
-                                state.catalogData = itemCell.data;
-                                //Получаем общее число товаров для пагинации
-                                state.catalogDataCellCount = itemCell.total;
-                            }else{
-                                state.catalogData = null;
-                            }
+                            // Устанавливаем min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
 
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
                         });
                     break;
                 case 3:
-                    await axios.get(`http://lappinalle.test/api/sale/${data.params.gender}/${data.params.category}/${data.params.department}?page=${data.page}`)
+                    await axios.get(`${state.SITE_URI}sale/${data.params.gender}/${data.params.category}/${data.params.department}?page=${data.page}`)
                         .then(response => {
-                            // Получаем данные для отображения товаров в каталоге по подкатегории
-                            itemCell = response.data;
+                            // Получаем данные для отображения товаров в каталоге по гендеру
+                            let itemCell = response.data;
 
-                            if (itemCell.data.length){
-                                state.catalogData = itemCell.data;
-                                //Получаем общее число товаров для пагинации
-                                state.catalogDataCellCount = itemCell.total;
-                            }else{
-                                state.catalogData = null;
-                            }
+                            // Устанавливаем min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
 
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
+                        });
+                    break;
+            }
+        },
+
+        // Получаем данные по фильтрку кешу
+        async showCashProductsMutate(state, data){
+            // Смотрим по длинне объекта с параметрами
+            // 1 - значит запрос по гендеру
+            // 2 - значит запрос по категории
+            // 3 - запрос по подкатегории
+            // let itemCell = null;
+            switch (Object.keys(data.params).length) {
+                case 1:
+                    await axios.get(`${state.SITE_URI}cash/${data.params.gender}/min-${data.min}/max-${data.max}?page=${data.page}`)
+                        .then(response => {
+                            // Получаем данные для отображения товаров в каталоге по гендеру
+                            let itemCell = response.data;
+
+                            // Устанавливаем min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
+
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
+                        });
+                    break;
+                case 2:
+                    await axios.get(`${state.SITE_URI}cash/${data.params.gender}/${data.params.category}/min-${data.min}/max-${data.max}?page=${data.page}`)
+                        .then(response => {
+                            // Получаем данные для отображения товаров в каталоге по гендеру
+                            let itemCell = response.data;
+
+                            // Устанавливаем min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
+
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
+                        });
+                    break;
+                case 3:
+                    await axios.get(`${state.SITE_URI}cash/${data.params.gender}/${data.params.category}/${data.params.department}/min-${data.min}/max-${data.max}?page=${data.page}`)
+                        .then(response => {
+                            // Получаем данные для отображения товаров в каталоге по гендеру
+                            let itemCell = response.data;
+
+                            // Устанавливаем min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
+
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
                         });
                     break;
             }
@@ -534,6 +638,9 @@ export default new Vuex.Store({
         },
         showSaleProducts({commit}, data){
             commit('showSaleProductsMutate', data);
+        },
+        showCashProducts({commit}, data){
+            commit('showCashProductsMutate', data);
         }
     },
     getters:{

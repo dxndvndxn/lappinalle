@@ -2074,9 +2074,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CatalogCell",
-  props: ['catalogData'],
+  props: ['catalogData', 'total'],
   data: function data() {
     return {};
+  },
+  watch: {
+    catalogData: function catalogData(val) {
+      this.CatalogData = val;
+    }
   }
 });
 
@@ -2443,6 +2448,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.checkSale = this.$route.query.sale ? this.$route.query.sale : false;
+    this.min = this.$route.query.min ? this.$route.query.min : null;
+    this.max = this.$route.query.max ? this.$route.query.max : null;
     this.$store.dispatch('showDepartAfterUpdated', {
       categoryAlias: this.$route.params.category,
       gen: this.$route.params.gender,
@@ -2456,12 +2463,36 @@ __webpack_require__.r(__webpack_exports__);
         gen: gen
       });
     },
+    // Фильтруем по sale
     showSales: function showSales() {
       if (this.checkSale) this.$emit('showSaleProducts', this.checkSale);else this.$router.go(-1);
     },
-    showProductsByCash: function showProductsByCash(min, max) {
-      if (min && max !== null) {
-        console.log(1);
+    // Фильтруем по cash
+    showProductsByCashMin: function showProductsByCashMin(min) {
+      if (min < this.getMinMax.min) {
+        return this.min = null;
+      } else if (min > this.getMinMax.max) {
+        return this.min = null;
+      } else {
+        this.min = min;
+        if (this.max) this.$emit('showCashProducts', {
+          min: this.min,
+          max: this.max
+        });
+      }
+    },
+    // Фильтруем по cash
+    showProductsByCashMax: function showProductsByCashMax(max) {
+      if (max < this.getMinMax.min) {
+        return this.max = null;
+      } else if (max > this.getMinMax.max) {
+        return this.max = null;
+      } else {
+        this.max = max;
+        if (this.min) this.$emit('showCashProducts', {
+          min: this.min,
+          max: this.max
+        });
       }
     }
   },
@@ -2476,6 +2507,15 @@ __webpack_require__.r(__webpack_exports__);
     $route: function $route(to, from) {
       if (from.query.sale) {
         this.checkSale = false;
+      }
+
+      if (to.query.sale) {
+        this.checkSale = true;
+      }
+
+      if (from.query.min || from.query.min) {
+        this.min = null;
+        this.max = null;
       }
     }
   }
@@ -2750,13 +2790,16 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       sortBy: [{
+        name: "выбрать",
+        value: 'выбрать'
+      }, {
         name: "по популярности",
         value: 'popular'
       }, {
         name: 'по цене',
         value: 'price'
       }],
-      selected: '',
+      selected: 'выбрать',
       pageCatalog: 1
     };
   },
@@ -2784,6 +2827,7 @@ __webpack_require__.r(__webpack_exports__);
       this.getCatalogData(this.pageCatalog);
       this.$router.push("".concat(this.$route.path, "?page=").concat(this.pageCatalog));
     },
+    // Отправляем запрос по фильтру по скидке
     showSaleProducts: function showSaleProducts(sale) {
       this.$Progress.start();
       this.$store.dispatch('showSaleProducts', {
@@ -2791,6 +2835,25 @@ __webpack_require__.r(__webpack_exports__);
         params: this.$route.params
       });
       this.$router.push("".concat(this.$route.path, "?sale=").concat(sale, "&page=").concat(this.pageCatalog))["catch"](function () {});
+    },
+    // Отправляем запрос по фильтру по цене
+    showCashProducts: function showCashProducts(minmax) {
+      this.$Progress.start();
+      minmax.page = this.pageCatalog;
+      minmax.params = this.$route.params;
+      this.$store.dispatch('showCashProducts', minmax);
+      this.$router.push("".concat(this.$route.path, "?min=").concat(minmax.min, "&max=").concat(minmax.max, "&page=").concat(this.pageCatalog))["catch"](function () {});
+    },
+    selectSort: function selectSort() {
+      var _this = this;
+
+      console.log(this.selected);
+      this.sortBy = this.sortBy.filter(function (el) {
+        return el.value !== _this.sortBy[0].value;
+      }); // if (this.select !== this.sortBy[0].value){
+      //     this.sortBy = this.filter(el => el.value !== this.sortBy[0].value)
+      //     this.sortBy[0].value = 'сбросить';
+      // }
     }
   },
   created: function created() {
@@ -2801,6 +2864,10 @@ __webpack_require__.r(__webpack_exports__);
       // Вызываем данные просто по каталогу если нету query sale
       this.getCatalogData(this.pageCatalog);
     }
+    if (this.$route.query.min && this.$route.query.max) this.showCashProducts({
+      min: this.$route.query.min,
+      max: this.$route.query.max
+    });
   },
   watch: {
     $route: function $route(to, from) {
@@ -2824,7 +2891,7 @@ __webpack_require__.r(__webpack_exports__);
     // Возвращаем данные по каталогу
     returnCatalogData: function returnCatalogData() {
       this.$Progress.finish();
-      if (this.$store.getters.catalogData !== null) return this.$store.getters.catalogData;else return false;
+      if (this.$store.getters.catalogData !== null) return this.$store.getters.catalogData;
     },
     // Возвращаем данные по кол-во товаров для пагинции
     catalogTotalPages: function catalogTotalPages() {
@@ -2842,6 +2909,14 @@ __webpack_require__.r(__webpack_exports__);
     returnError: function returnError() {
       this.$Progress.finish();
       return this.$store.getters.errorQuery;
+    },
+    changeSortBy: {
+      get: function get() {
+        return this.sortBy;
+      },
+      set: function set(val) {
+        this.sortBy = val;
+      }
     }
   }
 });
@@ -5325,7 +5400,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.catalogData
+  return _vm.total
     ? _c(
         "div",
         { staticClass: "catalog-items" },
@@ -5355,19 +5430,14 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              item.product_sale !== null
+              item.product_old_price !== null
                 ? _c("div", { staticClass: "item-price" }, [
                     _c("span", { staticClass: "through-line" }, [
-                      _vm._v(_vm._s(item.product_price))
+                      _vm._v(_vm._s(item.product_old_price) + " ₽")
                     ]),
                     _vm._v(" "),
                     _c("span", { staticClass: "sale-price" }, [
-                      _vm._v(
-                        _vm._s(
-                          item.product_price -
-                            (item.product_sale / 100) * item.product_price
-                        ) + " ₽"
-                      )
+                      _vm._v(_vm._s(item.product_price) + " ₽")
                     ])
                   ])
                 : _c("div", { staticClass: "item-price" }, [
@@ -5383,7 +5453,9 @@ var render = function() {
         }),
         0
       )
-    : _c("p", [_vm._v("\n   По вашему запросу ничего не найдено.\n")])
+    : _c("p", { staticClass: "catalog-error" }, [
+        _vm._v("\n   По вашему запросу ничего не найдено.\n")
+      ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -5982,17 +6054,11 @@ var render = function() {
               modifiers: { number: true }
             }
           ],
-          attrs: {
-            type: "number",
-            id: "min",
-            min: _vm.getMinMax.min,
-            max: _vm.getMinMax.max,
-            placeholder: _vm.getMinMax.min
-          },
+          attrs: { type: "number", id: "min", placeholder: _vm.getMinMax.min },
           domProps: { value: _vm.min },
           on: {
             focusout: function($event) {
-              return _vm.showProductsByCash(_vm.min, _vm.max)
+              return _vm.showProductsByCashMin(_vm.min)
             },
             input: function($event) {
               if ($event.target.composing) {
@@ -6018,17 +6084,11 @@ var render = function() {
               modifiers: { number: true }
             }
           ],
-          attrs: {
-            type: "number",
-            id: "max",
-            min: _vm.getMinMax.min,
-            max: _vm.getMinMax.max,
-            placeholder: _vm.getMinMax.max
-          },
+          attrs: { type: "number", id: "max", placeholder: _vm.getMinMax.max },
           domProps: { value: _vm.max },
           on: {
             focusout: function($event) {
-              return _vm.showProductsByCash(_vm.min, _vm.max)
+              return _vm.showProductsByCashMax(_vm.max)
             },
             input: function($event) {
               if ($event.target.composing) {
@@ -6435,37 +6495,34 @@ var render = function() {
                   ],
                   attrs: { name: "sort", id: "sort" },
                   on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.selected = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    }
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selected = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      _vm.selectSort
+                    ]
                   }
                 },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("выбрать")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.sortBy, function(sort, s) {
-                    return _c("option", { domProps: { value: sort.value } }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(sort.name) +
-                          "\n                    "
-                      )
-                    ])
-                  })
-                ],
-                2
+                _vm._l(_vm.sortBy, function(sort, s) {
+                  return _c("option", { domProps: { value: sort.value } }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(sort.name) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
               )
             ])
           ])
@@ -6477,33 +6534,45 @@ var render = function() {
         "div",
         { staticClass: "catalog container" },
         [
-          _c("Sidebar", { on: { showSaleProducts: _vm.showSaleProducts } }),
+          _c("Sidebar", {
+            on: {
+              showSaleProducts: _vm.showSaleProducts,
+              showCashProducts: _vm.showCashProducts
+            }
+          }),
           _vm._v(" "),
-          _c("CatalogCell", { attrs: { catalogData: _vm.returnCatalogData } })
+          _c("CatalogCell", {
+            attrs: {
+              catalogData: _vm.returnCatalogData,
+              total: _vm.catalogTotalPages
+            }
+          })
         ],
         1
       ),
       _vm._v(" "),
-      _c("paginate", {
-        attrs: {
-          "page-count": _vm.catalogTotalPages / 30,
-          "click-handler": _vm.pageChange,
-          "prev-text": "Назад",
-          "next-text": "Следующая страница",
-          "page-class": "pages",
-          "prev-class": "this-page",
-          "next-class": "next-page",
-          "active-class": "sale",
-          "container-class": "pagination"
-        },
-        model: {
-          value: _vm.updatedPage,
-          callback: function($$v) {
-            _vm.updatedPage = $$v
-          },
-          expression: "updatedPage"
-        }
-      })
+      _vm.catalogTotalPages
+        ? _c("paginate", {
+            attrs: {
+              "page-count": _vm.catalogTotalPages / 30,
+              "click-handler": _vm.pageChange,
+              "prev-text": "Назад",
+              "next-text": "Следующая страница",
+              "page-class": "pages",
+              "prev-class": "this-page",
+              "next-class": "next-page",
+              "active-class": "sale",
+              "container-class": "pagination"
+            },
+            model: {
+              value: _vm.updatedPage,
+              callback: function($$v) {
+                _vm.updatedPage = $$v
+              },
+              expression: "updatedPage"
+            }
+          })
+        : _vm._e()
     ],
     1
   )
@@ -6716,17 +6785,15 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "item-main-info" }, [
             _c("div", { staticClass: "item-main-wrap" }, [
-              _vm.returnDataForItem.itemSale
-                ? _c("div", { staticClass: "item-main-price sale" }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(
-                          _vm.returnDataForItem.itemPrice -
-                            (_vm.returnDataForItem.itemSale / 100) *
-                              _vm.returnDataForItem.itemPrice
-                        ) +
-                        " ₽\n                "
-                    )
+              _vm.returnDataForItem.oldPrice
+                ? _c("div", { staticClass: "item-main-price" }, [
+                    _c("span", { staticClass: "through-line" }, [
+                      _vm._v(_vm._s(_vm.returnDataForItem.oldPrice) + " ₽")
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "sale" }, [
+                      _vm._v(_vm._s(_vm.returnDataForItem.itemPrice) + " ₽")
+                    ])
                   ])
                 : _c("div", { staticClass: "item-main-price" }, [
                     _vm._v(
@@ -26015,7 +26082,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     catalogItemReviewCount: null,
     // Данные для фильтра
     filterMin: null,
-    filterMax: null
+    filterMax: null,
+    SITE_URI: 'http://lappinalle.test/api/'
   },
   mutations: {
     // Получаем категории и подкатегории меню
@@ -26317,68 +26385,75 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     // Получаем дату в каталог
     getCatalogDataMutate: function getCatalogDataMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var itemCell;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                // Смотрим по длинне объекта с параметрами
-                // 1 - значит запрос по гендеру
-                // 2 - значит запрос по категории
-                // 3 - запрос по подкатегории
-                itemCell = null;
                 _context2.t0 = Object.keys(data.params).length;
-                _context2.next = _context2.t0 === 1 ? 4 : _context2.t0 === 2 ? 7 : _context2.t0 === 3 ? 10 : 13;
+                _context2.next = _context2.t0 === 1 ? 3 : _context2.t0 === 2 ? 6 : _context2.t0 === 3 ? 9 : 12;
                 break;
 
-              case 4:
-                _context2.next = 6;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/".concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
+              case 3:
+                _context2.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
-                  itemCell = response.data;
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+                  var itemCell = response.data; // Устанавливаем min и max
+
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
+
+                  delete itemCell.data.min;
+                  delete itemCell.data.max; // Устанавливаем дату в стейт
+
+                  state.catalogData = itemCell.data; // Получаем общее число товаров для пагинации
 
                   state.catalogDataCellCount = itemCell.total;
-                  var min = itemCell.data[0].product_price;
-                  var max = min;
-                  itemCell.data.forEach(function (el) {
-                    if (el.product_price > max) max = el.product_price;
-                    if (el.product_price < min) min = el.product_price;
-                  });
-                  state.filterMin = min;
-                  state.filterMax = max;
                 });
+
+              case 5:
+                return _context2.abrupt("break", 12);
 
               case 6:
-                return _context2.abrupt("break", 13);
-
-              case 7:
-                _context2.next = 9;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/".concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
+                _context2.next = 8;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по категории
-                  itemCell = response.data;
+                  var itemCell = response.data; // Устанавливаес min и max
+
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
+
+                  delete itemCell.data.min;
+                  delete itemCell.data.max; // Устанавливаем дату в стейт
+
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
                   state.catalogDataCellCount = itemCell.total;
                 });
+
+              case 8:
+                return _context2.abrupt("break", 12);
 
               case 9:
-                return _context2.abrupt("break", 13);
+                _context2.next = 11;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по категории
+                  var itemCell = response.data; // Устанавливаес min и max
 
-              case 10:
-                _context2.next = 12;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/".concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по подкатегории
-                  itemCell = response.data;
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
+
+                  delete itemCell.data.min;
+                  delete itemCell.data.max; // Устанавливаем дату в стейт
+
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
                   state.catalogDataCellCount = itemCell.total;
                 });
 
-              case 12:
-                return _context2.abrupt("break", 13);
+              case 11:
+                return _context2.abrupt("break", 12);
 
-              case 13:
+              case 12:
               case "end":
                 return _context2.stop();
             }
@@ -26440,7 +26515,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                       } // Если sale
 
 
-                      if (itemData[el].product_sale !== null) stateItemData.itemSale = itemData[el].product_sale;else stateItemData.itemSale = false;
+                      if (itemData[el].product_old_price !== null) stateItemData.oldPrice = itemData[el].product_old_price;else stateItemData.oldPrice = false;
                       stateItemData.itemDesc = itemData[el].product_description;
                       stateItemData.itemPrice = itemData[el].product_price;
                       state.catalogItem = stateItemData;
@@ -26472,7 +26547,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/itemsreview-".concat(data.item, "?page=").concat(data.page)).then(function (response) {
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemsreview-").concat(data.item, "?page=").concat(data.page)).then(function (response) {
                   var reviews = response.data;
                   state.catalogItemReview = reviews.data;
                   state.catalogItemReviewCount = reviews.total;
@@ -26489,80 +26564,153 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     // Получаем товары по скидки
     showSaleProductsMutate: function showSaleProductsMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var itemCell;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                // Смотрим по длинне объекта с параметрами
-                // 1 - значит запрос по гендеру
-                // 2 - значит запрос по категории
-                // 3 - запрос по подкатегории
-                itemCell = null;
                 _context5.t0 = Object.keys(data.params).length;
-                _context5.next = _context5.t0 === 1 ? 4 : _context5.t0 === 2 ? 7 : _context5.t0 === 3 ? 10 : 13;
+                _context5.next = _context5.t0 === 1 ? 3 : _context5.t0 === 2 ? 6 : _context5.t0 === 3 ? 9 : 12;
                 break;
 
-              case 4:
-                _context5.next = 6;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/sale/".concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
+              case 3:
+                _context5.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
-                  itemCell = response.data;
+                  var itemCell = response.data; // Устанавливаем min и max
 
-                  if (itemCell.data.length) {
-                    state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
-                    state.catalogDataCellCount = itemCell.total;
-                  } else {
-                    state.catalogData = null;
-                  }
+                  delete itemCell.data.min;
+                  delete itemCell.data.max;
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                  state.catalogDataCellCount = itemCell.total;
                 });
+
+              case 5:
+                return _context5.abrupt("break", 12);
 
               case 6:
-                return _context5.abrupt("break", 13);
+                _context5.next = 8;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по гендеру
+                  var itemCell = response.data; // Устанавливаем min и max
 
-              case 7:
-                _context5.next = 9;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/sale/".concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по категории
-                  itemCell = response.data;
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
-                  if (itemCell.data.length) {
-                    state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+                  delete itemCell.data.min;
+                  delete itemCell.data.max;
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
-                    state.catalogDataCellCount = itemCell.total;
-                  } else {
-                    state.catalogData = null;
-                  }
+                  state.catalogDataCellCount = itemCell.total;
                 });
+
+              case 8:
+                return _context5.abrupt("break", 12);
 
               case 9:
-                return _context5.abrupt("break", 13);
+                _context5.next = 11;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по гендеру
+                  var itemCell = response.data; // Устанавливаем min и max
 
-              case 10:
-                _context5.next = 12;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("http://lappinalle.test/api/sale/".concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по подкатегории
-                  itemCell = response.data;
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
-                  if (itemCell.data.length) {
-                    state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+                  delete itemCell.data.min;
+                  delete itemCell.data.max;
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
-                    state.catalogDataCellCount = itemCell.total;
-                  } else {
-                    state.catalogData = null;
-                  }
+                  state.catalogDataCellCount = itemCell.total;
                 });
 
-              case 12:
-                return _context5.abrupt("break", 13);
+              case 11:
+                return _context5.abrupt("break", 12);
 
-              case 13:
+              case 12:
               case "end":
                 return _context5.stop();
             }
           }
         }, _callee5);
+      }))();
+    },
+    // Получаем данные по фильтрку кешу
+    showCashProductsMutate: function showCashProductsMutate(state, data) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.t0 = Object.keys(data.params).length;
+                _context6.next = _context6.t0 === 1 ? 3 : _context6.t0 === 2 ? 6 : _context6.t0 === 3 ? 9 : 12;
+                break;
+
+              case 3:
+                _context6.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по гендеру
+                  var itemCell = response.data; // Устанавливаем min и max
+
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
+
+                  delete itemCell.data.min;
+                  delete itemCell.data.max;
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                  state.catalogDataCellCount = itemCell.total;
+                });
+
+              case 5:
+                return _context6.abrupt("break", 12);
+
+              case 6:
+                _context6.next = 8;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по гендеру
+                  var itemCell = response.data; // Устанавливаем min и max
+
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
+
+                  delete itemCell.data.min;
+                  delete itemCell.data.max;
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                  state.catalogDataCellCount = itemCell.total;
+                });
+
+              case 8:
+                return _context6.abrupt("break", 12);
+
+              case 9:
+                _context6.next = 11;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по гендеру
+                  var itemCell = response.data; // Устанавливаем min и max
+
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
+
+                  delete itemCell.data.min;
+                  delete itemCell.data.max;
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                  state.catalogDataCellCount = itemCell.total;
+                });
+
+              case 11:
+                return _context6.abrupt("break", 12);
+
+              case 12:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
       }))();
     }
   },
@@ -26598,6 +26746,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     showSaleProducts: function showSaleProducts(_ref8, data) {
       var commit = _ref8.commit;
       commit('showSaleProductsMutate', data);
+    },
+    showCashProducts: function showCashProducts(_ref9, data) {
+      var commit = _ref9.commit;
+      commit('showCashProductsMutate', data);
     }
   },
   getters: {

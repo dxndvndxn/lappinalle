@@ -27,8 +27,8 @@
             <div class="item-main-info">
                 <div class="item-main-wrap">
 
-                    <div class="item-main-price sale" v-if="returnDataForItem.itemSale">
-                        {{returnDataForItem.itemPrice - ((returnDataForItem.itemSale / 100) * returnDataForItem.itemPrice)}} &#8381;
+                    <div class="item-main-price" v-if="returnDataForItem.oldPrice">
+                        <span class="through-line">{{returnDataForItem.oldPrice}} &#8381;</span> <span class="sale">{{returnDataForItem.itemPrice}} &#8381;</span>
                     </div>
                     <div class="item-main-price" v-else>
                         {{returnDataForItem.itemPrice}} &#8381;

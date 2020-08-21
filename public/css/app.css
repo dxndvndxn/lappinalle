@@ -758,6 +758,12 @@ footer .bottom-foot span:nth-child(1) {
   font-size: 20px;
 }
 
+.catalog-error {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+
 .crumbs ul,
 .catalog-sidebar ul,
 nav ul {
