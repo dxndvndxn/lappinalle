@@ -612,6 +612,64 @@ export default new Vuex.Store({
                         });
                     break;
             }
+        },
+
+        async sortByActionMutate(state, data){
+            let params = null;
+            switch (Object.keys(data.params).length) {
+                case 1:
+                    params = data.params.gender + '/';
+                    break;
+                case 2:
+                    params = data.params.gender + '/' + data.params.category;
+                    break;
+                case 3:
+                    params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
+                    break;
+            }
+            switch (data.price) {
+                case "low":
+                    axios.get(`${state.SITE_URI}price-${data.price}/${params}?page=${data.page}`)
+                        .then(response => {
+                            // Получаем данные для отображения товаров в каталоге по категории
+                            let itemCell = response.data;
+
+                            // Устанавливаес min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
+
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            // Устанавливаем дату в стейт
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
+                        });
+                    break;
+                case "high":
+                    axios.get(`${state.SITE_URI}price-${data.price}/${params}?page=${data.page}`)
+                        .then(response => {
+                            // Получаем данные для отображения товаров в каталоге по категории
+                            let itemCell = response.data;
+
+                            // Устанавливаес min и max
+                            state.filterMin = itemCell.data.min;
+                            state.filterMax = itemCell.data.max;
+
+                            // Удаляем свойства из объекта
+                            delete itemCell.data.min;
+                            delete itemCell.data.max;
+
+                            // Устанавливаем дату в стейт
+                            state.catalogData = itemCell.data;
+
+                            //Получаем общее число товаров для пагинации
+                            state.catalogDataCellCount = itemCell.total;
+                        });
+            }
         }
     },
     actions: {
@@ -641,6 +699,9 @@ export default new Vuex.Store({
         },
         showCashProducts({commit}, data){
             commit('showCashProductsMutate', data);
+        },
+        sortByAction({commit}, data){
+            commit('sortByActionMutate', data);
         }
     },
     getters:{

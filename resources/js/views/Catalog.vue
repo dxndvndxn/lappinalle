@@ -8,7 +8,7 @@
                     <label for="sort">Сортировать</label>
                     <select name="sort" id="sort" @change="selectSort" v-model="selected">
                         <option v-for="(sort, s) in sortBy" v-bind:value="sort.value">
-                            {{sort.name}}
+                            {{sort.value}}
                         </option>
                     </select>
                 </form>
@@ -42,8 +42,8 @@
     export default {
         name: "Catalog",
         data: () => ({
-            sortBy: [{name: "выбрать", value: 'выбрать'}, {name: "по популярности", value: 'popular'}, {name: 'по цене', value: 'price'}],
-            selected: 'выбрать',
+            sortBy: [{value: 'новейшие товары', name: 'new'}, {value: 'по нарастающей цене', name: 'low'}, {value: 'по убывающей цене', name: 'high'}],
+            selected: 'новейшие товары',
             pageCatalog: 1
 
         }),
@@ -61,9 +61,10 @@
             // Вызываем функцию, которая выводит новые товары
             // Отображаем в урл ЧПУ
           pageChange(page){
-              // Присваиваем переменной выбранную таблицу по клику на пагинцию
+              // Присваиваем переменной выбранную страницу по клику на пагинцию
               this.pageCatalog = page;
               this.getCatalogData(this.pageCatalog);
+              `this.${func}`();
               this.$router.push(`${this.$route.path}?page=${this.pageCatalog}`)
           },
 
@@ -84,13 +85,40 @@
             },
 
             selectSort(){
-              console.log(this.selected)
-                this.sortBy = this.sortBy.filter(el => el.value !== this.sortBy[0].value)
+              switch (this.selected) {
+                  case this.sortBy[0].value:
+                      this.getCatalogData(this.pageCatalog);
 
-                // if (this.select !== this.sortBy[0].value){
-                //     this.sortBy = this.filter(el => el.value !== this.sortBy[0].value)
-                //     this.sortBy[0].value = 'сбросить';
-                // }
+                      // Определяем куда пушить
+                      switch (Object.keys(this.$route.params).length) {
+                          case 1:
+                              this.$router.push({name: 'gender'});
+                              break;
+                          case 2:
+                              this.$router.push({name: 'category'});
+                              break;
+                          case 3:
+                              this.$router.push({name: 'department'});
+                              break;
+                      }
+                      break;
+
+                  case this.sortBy[1].value:
+                      this.$Progress.start();
+                      this.$store.dispatch('sortByAction', {
+                          price: 'low',
+                          params: this.$route.params,
+                          page: this.pageCatalog
+                      });
+                      this.$router.push(`${this.$route.path}?sortOrder=${this.sortBy[1].name}&page=${this.pageCatalog}`).catch(()=>{});
+                      break;
+
+                  case this.sortBy[2].value:
+                      this.$Progress.start();
+                      this.$store.dispatch('sortByAction', {price: 'high', params: this.$route.params, page: this.pageCatalog});
+                      this.$router.push(`${this.$route.path}?sortOrder=${this.sortBy[2].name}&page=${this.pageCatalog}`).catch(()=>{});
+                      break;
+              }
             }
         },
         created() {
@@ -104,10 +132,22 @@
                 this.getCatalogData(this.pageCatalog);
             }
 
+            // Если запрос на мин макс цену
             if (this.$route.query.min && this.$route.query.max) this.showCashProducts({min: this.$route.query.min, max: this.$route.query.max})
+
+            // Если запрос на sorting
+            if (this.$route.query.sortOrder) {
+                this.sortBy.forEach(el => {
+                    if (el.name === this.$route.query.sortOrder) this.selected = el.value;
+                });
+                this.selectSort();
+            }
         },
         watch: {
             $route(to, from){
+                // Если пришли со страницы гендер
+                // категории
+                // подкатегории
                 if (to.name === 'gender' && !this.$route.query.page) {
                     this.pageCatalog = 1;
                     this.getCatalogData(this.pageCatalog);
@@ -119,6 +159,10 @@
                 if (to.name === 'department' && !this.$route.query.page) {
                     this.pageCatalog = 1;
                     this.getCatalogData(this.pageCatalog);
+                }
+                // Если пришли со сорта
+                if (from.query.sortOrder === 'low' || from.query.sortOrder ==='high'){
+                   this.selected = this.sortBy[0].value;
                 }
             }
         },
@@ -146,15 +190,6 @@
             returnError(){
                 this.$Progress.finish();
                 return this.$store.getters.errorQuery;
-            },
-
-            changeSortBy:{
-                get(){
-                    return this.sortBy;
-                },
-                set(val){
-                    this.sortBy = val;
-                }
             }
         }
     }

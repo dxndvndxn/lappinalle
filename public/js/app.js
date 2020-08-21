@@ -2513,7 +2513,7 @@ __webpack_require__.r(__webpack_exports__);
         this.checkSale = true;
       }
 
-      if (from.query.min || from.query.min) {
+      if (from.query.min || from.query.max) {
         this.min = null;
         this.max = null;
       }
@@ -2790,16 +2790,16 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       sortBy: [{
-        name: "выбрать",
-        value: 'выбрать'
+        value: 'новейшие товары',
+        name: 'new'
       }, {
-        name: "по популярности",
-        value: 'popular'
+        value: 'по нарастающей цене',
+        name: 'low'
       }, {
-        name: 'по цене',
-        value: 'price'
+        value: 'по убывающей цене',
+        name: 'high'
       }],
-      selected: 'выбрать',
+      selected: 'новейшие товары',
       pageCatalog: 1
     };
   },
@@ -2822,9 +2822,10 @@ __webpack_require__.r(__webpack_exports__);
     // Вызываем функцию, которая выводит новые товары
     // Отображаем в урл ЧПУ
     pageChange: function pageChange(page) {
-      // Присваиваем переменной выбранную таблицу по клику на пагинцию
+      // Присваиваем переменной выбранную страницу по клику на пагинцию
       this.pageCatalog = page;
       this.getCatalogData(this.pageCatalog);
+      "this.".concat(func)();
       this.$router.push("".concat(this.$route.path, "?page=").concat(this.pageCatalog));
     },
     // Отправляем запрос по фильтру по скидке
@@ -2845,32 +2846,82 @@ __webpack_require__.r(__webpack_exports__);
       this.$router.push("".concat(this.$route.path, "?min=").concat(minmax.min, "&max=").concat(minmax.max, "&page=").concat(this.pageCatalog))["catch"](function () {});
     },
     selectSort: function selectSort() {
-      var _this = this;
+      switch (this.selected) {
+        case this.sortBy[0].value:
+          this.getCatalogData(this.pageCatalog); // Определяем куда пушить
 
-      console.log(this.selected);
-      this.sortBy = this.sortBy.filter(function (el) {
-        return el.value !== _this.sortBy[0].value;
-      }); // if (this.select !== this.sortBy[0].value){
-      //     this.sortBy = this.filter(el => el.value !== this.sortBy[0].value)
-      //     this.sortBy[0].value = 'сбросить';
-      // }
+          switch (Object.keys(this.$route.params).length) {
+            case 1:
+              this.$router.push({
+                name: 'gender'
+              });
+              break;
+
+            case 2:
+              this.$router.push({
+                name: 'category'
+              });
+              break;
+
+            case 3:
+              this.$router.push({
+                name: 'department'
+              });
+              break;
+          }
+
+          break;
+
+        case this.sortBy[1].value:
+          this.$Progress.start();
+          this.$store.dispatch('sortByAction', {
+            price: 'low',
+            params: this.$route.params,
+            page: this.pageCatalog
+          });
+          this.$router.push("".concat(this.$route.path, "?sortOrder=").concat(this.sortBy[1].name, "&page=").concat(this.pageCatalog))["catch"](function () {});
+          break;
+
+        case this.sortBy[2].value:
+          this.$Progress.start();
+          this.$store.dispatch('sortByAction', {
+            price: 'high',
+            params: this.$route.params,
+            page: this.pageCatalog
+          });
+          this.$router.push("".concat(this.$route.path, "?sortOrder=").concat(this.sortBy[2].name, "&page=").concat(this.pageCatalog))["catch"](function () {});
+          break;
+      }
     }
   },
   created: function created() {
+    var _this = this;
+
     // При создании компонента присваиваем текущую страницу для пагинции
     this.pageCatalog = +this.$route.query.page || 1; // Если запрос на sale
 
     if (this.$route.query.sale) this.showSaleProducts(this.$route.query.sale);else {
       // Вызываем данные просто по каталогу если нету query sale
       this.getCatalogData(this.pageCatalog);
-    }
+    } // Если запрос на мин макс цену
+
     if (this.$route.query.min && this.$route.query.max) this.showCashProducts({
       min: this.$route.query.min,
       max: this.$route.query.max
-    });
+    }); // Если запрос на sorting
+
+    if (this.$route.query.sortOrder) {
+      this.sortBy.forEach(function (el) {
+        if (el.name === _this.$route.query.sortOrder) _this.selected = el.value;
+      });
+      this.selectSort();
+    }
   },
   watch: {
     $route: function $route(to, from) {
+      // Если пришли со страницы гендер
+      // категории
+      // подкатегории
       if (to.name === 'gender' && !this.$route.query.page) {
         this.pageCatalog = 1;
         this.getCatalogData(this.pageCatalog);
@@ -2884,6 +2935,11 @@ __webpack_require__.r(__webpack_exports__);
       if (to.name === 'department' && !this.$route.query.page) {
         this.pageCatalog = 1;
         this.getCatalogData(this.pageCatalog);
+      } // Если пришли со сорта
+
+
+      if (from.query.sortOrder === 'low' || from.query.sortOrder === 'high') {
+        this.selected = this.sortBy[0].value;
       }
     }
   },
@@ -2909,14 +2965,6 @@ __webpack_require__.r(__webpack_exports__);
     returnError: function returnError() {
       this.$Progress.finish();
       return this.$store.getters.errorQuery;
-    },
-    changeSortBy: {
-      get: function get() {
-        return this.sortBy;
-      },
-      set: function set(val) {
-        this.sortBy = val;
-      }
     }
   }
 });
@@ -6517,7 +6565,7 @@ var render = function() {
                   return _c("option", { domProps: { value: sort.value } }, [
                     _vm._v(
                       "\n                        " +
-                        _vm._s(sort.name) +
+                        _vm._s(sort.value) +
                         "\n                    "
                     )
                   ])
@@ -26712,6 +26760,76 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
           }
         }, _callee6);
       }))();
+    },
+    sortByActionMutate: function sortByActionMutate(state, data) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        var params;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                params = null;
+                _context7.t0 = Object.keys(data.params).length;
+                _context7.next = _context7.t0 === 1 ? 4 : _context7.t0 === 2 ? 6 : _context7.t0 === 3 ? 8 : 10;
+                break;
+
+              case 4:
+                params = data.params.gender + '/';
+                return _context7.abrupt("break", 10);
+
+              case 6:
+                params = data.params.gender + '/' + data.params.category;
+                return _context7.abrupt("break", 10);
+
+              case 8:
+                params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
+                return _context7.abrupt("break", 10);
+
+              case 10:
+                _context7.t1 = data.price;
+                _context7.next = _context7.t1 === "low" ? 13 : _context7.t1 === "high" ? 15 : 16;
+                break;
+
+              case 13:
+                axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "price-").concat(data.price, "/").concat(params, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по категории
+                  var itemCell = response.data; // Устанавливаес min и max
+
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
+
+                  delete itemCell.data.min;
+                  delete itemCell.data.max; // Устанавливаем дату в стейт
+
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                  state.catalogDataCellCount = itemCell.total;
+                });
+                return _context7.abrupt("break", 16);
+
+              case 15:
+                axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "price-").concat(data.price, "/").concat(params, "?page=").concat(data.page)).then(function (response) {
+                  // Получаем данные для отображения товаров в каталоге по категории
+                  var itemCell = response.data; // Устанавливаес min и max
+
+                  state.filterMin = itemCell.data.min;
+                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
+
+                  delete itemCell.data.min;
+                  delete itemCell.data.max; // Устанавливаем дату в стейт
+
+                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
+
+                  state.catalogDataCellCount = itemCell.total;
+                });
+
+              case 16:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }))();
     }
   },
   actions: {
@@ -26750,6 +26868,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     showCashProducts: function showCashProducts(_ref9, data) {
       var commit = _ref9.commit;
       commit('showCashProductsMutate', data);
+    },
+    sortByAction: function sortByAction(_ref10, data) {
+      var commit = _ref10.commit;
+      commit('sortByActionMutate', data);
     }
   },
   getters: {

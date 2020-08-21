@@ -119,7 +119,7 @@
                 if (to.query.sale){
                     this.checkSale = true;
                 }
-                if (from.query.min || from.query.min){
+                if (from.query.min || from.query.max){
                     this.min = null;
                     this.max = null;
                 }

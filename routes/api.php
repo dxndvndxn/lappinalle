@@ -42,6 +42,15 @@ Route::get('/cash/{gender}/{categories}/min-{min}/max-{max}', 'GiveMeCashMinMaxB
 // Получаем товары по кэшу по подкатегории
 Route::get('/cash/{gender}/{categories}/{departments}/min-{min}/max-{max}', 'GiveMeCashMinMaxByDepartmentsController@index');
 
+// Получаем товары по сортингу по гендеру
+Route::get('/price-{where}/{gender}', 'GetDataFromGenderSortPriceController@index');
+
+// Получаем товары по сортингу по категории
+Route::get('/price-{where}/{gender}/{categories}', 'GetDataFromCategorySortPriceController@index');
+
+// Получаем товары по сортингу по подкатегории
+Route::get('/price-{where}/{gender}/{categories}/{departments}', 'GetDataFromDepartSortPriceController@index');
+
 // Получем отзывы по товару
 Route::get('/itemsreview-{itemNumber}', 'GetItemReviewsController@index');
 
