@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="catalog container">
-            <Sidebar @showSaleProducts="showSaleProducts(rollbackPage)" @hideSaleProducts="hideSaleProducts" @showCashProducts="showCashProducts"/>
+            <Sidebar @showSaleProducts="showSaleProducts" @hideSaleProducts="hideSaleProducts" @showCashProducts="showCashProducts"/>
             <CatalogCell v-bind:catalogData="returnCatalogData" v-bind:total="catalogTotalPages"/>
         </div>
         <paginate
@@ -53,71 +53,95 @@
         },
         methods: {
             // Метод который отпралвяет запрос на полечение данных
-          getCatalogData(page){
-              this.$Progress.start();
-              this.$store.dispatch('getCatalogData', {page, params: this.$route.params});
-              this.$router.push(`${this.$route.path}?page=${this.updatedPage}`).catch(()=>{});
-          },
-
-            // Обработчик по нажатию на страницы в каталоге
-            // Вызываем функцию, которая выводит новые товары
-            // Отображаем в урл ЧПУ
-          pageChange(page){
-              // Присваиваем переменной выбранную страницу по клику на пагинцию
-              this.pageCatalog = page;
-              switch (this.returnWhataFunc) {
-                  case 'sort':
-                      console.log('From page change')
-                      this.selectSort(false);
-                      break;
-                  case 'sale':
-                      console.log('From page change sale');
-                      this.showSaleProducts(this.$route.query.sale, false);
-                      break;
-                  case 'cash':
-                      let minmax = {
-                          min: this.$route.query.min,
-                          max: this.$route.query.max
-                      };
-                      this.rollbackPage = false;
-                      this.showCashProducts(minmax);
-                      break;
-                  default:
-                      this.getCatalogData(this.updatedPage)
-              }
-          },
-            hideSaleProducts(sale){
-              this.pageCatalog = 1;
-              this.getCatalogData(this.updatedPage)
+            getCatalogData(page){
+                this.$Progress.start();
+                this.$store.dispatch('getCatalogData', {page, params: this.$route.params});
+                this.$router.push(`${this.$route.path}?page=${this.updatedPage}`).catch(()=>{});
             },
 
-            // Отправляем запрос по фильтру по скидке
-            // @sale из компонента sidebar
-            showSaleProducts(sale, rollback){
-                if (rollback) this.pageCatalog = 1;
-                if (sale){
-                    this.whataFunc = 'sale';
-                    this.$Progress.start();
-                    this.$store.dispatch('showSaleProducts', {page: this.pageCatalog, params: this.$route.params});
-                    this.$router.push(`${this.$route.path}?sale=${sale}&page=${this.pageCatalog}`).catch(()=>{});
+            // Обработчик по нажатию на страницы пагинации
+            // Вызываем функцию, которая выводит новые товары
+            // Отображаем в урл ЧПУ
+            pageChange(page){
+                // Присваиваем переменной выбранную страницу по клику на пагинцию
+                this.pageCatalog = page;
+
+                switch (this.returnWhataFunc) {
+                    case 'sort':
+                        this.selectSort(false);
+                        break;
+                    case 'sale':
+                        this.filterSalePagination();
+                        break;
+                    case 'cash':
+                        this.filterCashPagination();
+                        break;
+                    default:
+                        this.getCatalogData(this.updatedPage)
                 }
             },
 
-            // Отправляем запрос по фильтру по цене
+            // ФУНКЦИЯ ДЛЯ ПАГИНАЦИИ ПО ФИЛЬТРУ CASH
+            filterCashPagination(){
+                let minmax = {
+                    min: this.$route.query.min,
+                    max: this.$route.query.max
+                };
+                this.$Progress.start();
+                minmax.page = this.updatedPage;
+                minmax.params = this.$route.params;
+                this.$store.dispatch('showCashProducts', minmax);
+                this.$router.push(`${this.$route.path}?min=${minmax.min}&max=${minmax.max}&page=${this.updatedPage}`).catch(()=>{});
+            },
+
+            // ФУНКЦИЯ ДЛЯ ПАГИНАЦИИ ПО ФИЛЬРУ SALE
+            filterSalePagination(){
+                this.$Progress.start();
+                this.$store.dispatch('showSaleProducts', {page: this.updatedPage, params: this.$route.params});
+                this.$router.push(`${this.$route.path}?sale=${this.$route.query.sale}&page=${this.updatedPage}`).catch(()=>{});
+            },
+
+            // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
+            // Если убрали sale, то отправляем на главную страницу каталогов в зависимости от параметров
+            hideSaleProducts(sale){
+              this.pageCatalog = 1;
+              this.whataFunc = null;
+              this.getCatalogData(this.updatedPage)
+            },
+
+            // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
+            // Отправляем запрос по фильтру по скидке
+            // где sale данные из компонента sidebar
+            showSaleProducts(sale){
+                this.pageCatalog = 1;
+                this.whataFunc = 'sale';
+                this.$Progress.start();
+                this.$store.dispatch('showSaleProducts', {page: this.pageCatalog, params: this.$route.params});
+                this.$router.push(`${this.$route.path}?sale=${sale}&page=1`).catch(()=>{});
+            },
+
+            // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
+            // Отправляем запрос по фильтру по цене и переходим на первую страницу
             showCashProducts(minmax){
-              if (this.rollbackPage) this.pageCatalog = 1;
-              this.whataFunc = 'cash';
-              this.$Progress.start();
-              minmax.page = this.pageCatalog;
-              minmax.params = this.$route.params;
-              this.$store.dispatch('showCashProducts', minmax);
-              this.$router.push(`${this.$route.path}?min=${minmax.min}&max=${minmax.max}&page=${this.pageCatalog}`).catch(()=>{});
+                this.pageCatalog = 1;
+                this.whataFunc = 'cash';
+                this.$Progress.start();
+                minmax.page = this.pageCatalog;
+                minmax.params = this.$route.params;
+                this.$store.dispatch('showCashProducts', minmax);
+                this.$router.push(`${this.$route.path}?min=${minmax.min}&max=${minmax.max}&page=1`).catch(()=>{});
             },
 
             selectSort(rollbackPage){
+
               switch (this.selected) {
+
+                  // Если новейшие товары
                   case this.sortBy[0].value:
+
+                      // Вызываем общую функцию по выдаче товаров
                       this.getCatalogData(this.updatedPage);
+
                       // Определяем куда пушить
                       switch (Object.keys(this.$route.params).length) {
                           case 1:
@@ -132,9 +156,9 @@
                       }
                       break;
 
+                  // Если от маленько цены
                   case this.sortBy[1].value:
                       if (rollbackPage) this.pageCatalog = 1;
-                      console.log('Hi sort low')
                       this.whataFunc = 'sort';
                       this.$Progress.start();
                       this.$store.dispatch('sortByAction', {
@@ -145,9 +169,9 @@
                       this.$router.push(`${this.$route.path}?sortOrder=${this.sortBy[1].name}&page=${this.updatedPage}`).catch(()=>{});
                       break;
 
+                  // Если от большой цены
                   case this.sortBy[2].value:
                       if (rollbackPage) this.pageCatalog = 1;
-                      console.log('Hi sort high')
                       this.whataFunc = 'sort';
                       this.$Progress.start();
                       this.$store.dispatch('sortByAction', {price: 'high', params: this.$route.params, page: this.pageCatalog});
@@ -161,10 +185,14 @@
             this.pageCatalog = +this.$route.query.page || 1;
 
             // Если запрос на sale
-            if (this.$route.query.sale) this.showSaleProducts(this.$route.query.sale);
+            if (this.$route.query.sale) {
+                this.filterSalePagination();
+            }
 
             // Если запрос на мин макс цену
-            else if (this.$route.query.min && this.$route.query.max) this.showCashProducts({min: this.$route.query.min, max: this.$route.query.max})
+            else if (this.$route.query.min && this.$route.query.max){
+                this.filterCashPagination();
+            }
 
             // Если запрос на sorting
             else if (this.$route.query.sortOrder) {
@@ -173,6 +201,7 @@
                 });
                 this.selectSort();
             }
+
             else{
                 // Вызываем данные просто по каталогу если нету query sale
                 this.getCatalogData(this.pageCatalog);
@@ -184,6 +213,7 @@
                 if (to.name === 'gender' && !this.$route.query.page) {
                     console.log('Hi Watch gender')
                     this.pageCatalog = 1;
+                    this.whataFunc = null;
                     this.getCatalogData(this.pageCatalog);
                 }
 
@@ -191,6 +221,7 @@
                 if (to.name === 'category' && !this.$route.query.page) {
                     console.log('Hi Watch category')
                     this.pageCatalog = 1;
+                    this.whataFunc = null;
                     this.getCatalogData(this.pageCatalog);
                 }
 
@@ -198,7 +229,12 @@
                 if (to.name === 'department' && !this.$route.query.page) {
                     console.log('Hi Watch department')
                     this.pageCatalog = 1;
+                    this.whataFunc = null;
                     this.getCatalogData(this.pageCatalog);
+                }
+
+                if (this.$route.query.page){
+                    this.pageCatalog = this.$route.query.page;
                 }
             }
         },

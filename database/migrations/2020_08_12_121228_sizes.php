@@ -14,9 +14,8 @@ class Sizes extends Migration
     public function up()
     {
         Schema::create('sizes', function(Blueprint $table){
-            $table->smallIncrements('sizes_id');
-            $table->string('sizes_shoes', 30)->collation('utf8_general_ci')->nullable();
-            $table->string('sizes_clothes', 30)->collation('utf8_general_ci')->nullable();
+            $table->increments('sizes_id');
+            $table->smallInteger('sizes_number');
         });
     }
 

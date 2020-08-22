@@ -20,13 +20,13 @@
         </ul>
         <div class="sidebar-sizing">
             <span>Размер</span>
-            <form @submit.prevent="">
-                <input type="button" v-for="(size, s) in sizing"
-                       v-bind:value="size.val"
-                       v-bind:name="size.name"
-                       @click="size.active = !size.active"
-                       v-bind:class="size.active ? 'active-size' : null">
-            </form>
+            <div class="sizing-cell">
+                <button type="button" v-for="(el, size, s) in getSizes"
+                       @click="el.active = !el.active"
+                       v-bind:class="el.active ? 'active-size' : null" :datatype="s">
+                    {{size}}
+                </button>
+            </div>
         </div>
         <div class="sidebar-price">
             <span class="price">
@@ -49,17 +49,10 @@
     export default {
         name: "Sidebar",
         data: () => ({
-            sizing: [
-                {val: 92, name: 'sizeForShirts', active: false},
-                {val: 94, name: 'sizeForShirts', active: false},
-                {val: 104, name: 'sizeForShirts', active: false},
-                {val: 111, name: 'sizeForShirts', active: false},
-                {val: 125, name: 'sizeForShirts', active: false},
-                {val: 122, name: 'sizeForShirts', active: false},
-                ],
             checkSale: false,
             min: null,
-            max: null
+            max: null,
+            sizesArr: []
         }),
         computed: {
             getSidebar(){
@@ -67,6 +60,9 @@
             },
             getMinMax(){
                 return this.$store.getters.minMax;
+            },
+            getSizes(){
+                return this.$store.getters.filterSizes;
             }
         },
         created(){

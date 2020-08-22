@@ -28,6 +28,7 @@ class CategoriesController extends Controller
             $newCateg = (array) $val;
         }
 
+
         // Проверяем условие, если длина массива $parts = 1, то делаем запрос по гендеру и категории без сезона
         // если длина массива $parts = 2, то делаем запрос по гендеру и по категории плюс сезон
         switch (count($parts)){
@@ -53,8 +54,16 @@ class CategoriesController extends Controller
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->max('product_price');
 
+                $dataSizes = DB::table('catalog_size')
+                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->get();
+
                 $dataByCateg['max'] = $productMax;
                 $dataByCateg['min'] = $productMin;
+                $dataByCateg['sizes'] = $dataSizes;
 
                 return $dataByCateg;
             case 2:
@@ -89,8 +98,17 @@ class CategoriesController extends Controller
                     ->where('season_id', '=', $newSeason['season_id'])
                     ->max('product_price');
 
+                $dataSizes = DB::table('catalog_size')
+                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->where('season_id', '=', $newSeason['season_id'])
+                    ->get();
+
                 $dataByCateg['max'] = $productMax;
                 $dataByCateg['min'] = $productMin;
+                $dataByCateg['sizes'] = $dataSizes;
 
                 return $dataByCateg;
             default:

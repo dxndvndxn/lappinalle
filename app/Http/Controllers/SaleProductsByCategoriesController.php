@@ -43,6 +43,7 @@ class SaleProductsByCategoriesController extends Controller
                 // Получаем мин стоимость
                 $productMin =  DB::table('products')
                     ->where('product_available', '=', 1)
+                    ->where('product_sale', '=', 1)
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->min('product_price');
@@ -50,12 +51,22 @@ class SaleProductsByCategoriesController extends Controller
                 // Получаем макс стоимость
                 $productMax =  DB::table('products')
                     ->where('product_available', '=', 1)
+                    ->where('product_sale', '=', 1)
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->max('product_price');
 
+                $dataSizes = DB::table('catalog_size')
+                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->where('product_sale', '=', 1)
+                    ->get();
+
                 $dataByCateg['max'] = $productMax;
                 $dataByCateg['min'] = $productMin;
+                $dataByCateg['sizes'] = $dataSizes;
 
                 return $dataByCateg;
             case 2:
@@ -78,6 +89,7 @@ class SaleProductsByCategoriesController extends Controller
                 // Получаем мин стоимость
                 $productMin = DB::table('products')
                     ->where('product_available', '=', 1)
+                    ->where('product_sale', '=', 1)
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->where('season_id', '=', $newSeason['season_id'])
@@ -86,13 +98,24 @@ class SaleProductsByCategoriesController extends Controller
                 // Получаем макс стоимость
                 $productMax = DB::table('products')
                     ->where('product_available', '=', 1)
+                    ->where('product_sale', '=', 1)
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->where('season_id', '=', $newSeason['season_id'])
                     ->max('product_price');
 
+                $dataSizes = DB::table('catalog_size')
+                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->where('season_id', '=', $newSeason['season_id'])
+                    ->where('product_sale', '=', 1)
+                    ->get();
+
                 $dataByCateg['max'] = $productMax;
                 $dataByCateg['min'] = $productMin;
+                $dataByCateg['sizes'] = $dataSizes;
 
                 return $dataByCateg;
             default:

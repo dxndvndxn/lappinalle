@@ -861,7 +861,7 @@ nav ul {
   display: inline-block;
 }
 
-.sidebar-sizing form {
+.sidebar-sizing .sizing-cell {
   width: 230px;
   box-sizing: border-box;
   display: grid;
@@ -870,7 +870,7 @@ nav ul {
   grid-row-gap: 5px;
 }
 
-.sidebar-sizing form input {
+.sidebar-sizing .sizing-cell button {
   color: #000;
   background-color: #e7eff8;
   border: none;

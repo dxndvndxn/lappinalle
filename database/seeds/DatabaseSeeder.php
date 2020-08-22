@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             ['categories_name' => 'Девочки', 'categories_alias' => 'devochki'],
             ['categories_name' => 'Верхняя одежда', 'categories_alias' => 'verhodejda'],
             ['categories_name' => 'Аксессуары', 'categories_alias' => 'aksessuari'],
-            ['categories_name' => 'Промежуточный слой','categories_alias' => 'promezhutochnisloi'],
+            ['categories_name' => 'Промежуточный слой', 'categories_alias' => 'promezhutochnisloi'],
             ['categories_name' => 'Защита от воды и грязи (прорезиненная одежда)', 'categories_alias' => 'prorezinenajaodejda'],
             ['categories_name' => 'Обувь', 'categories_alias' => 'obuv'],
             ['categories_name' => 'Трикотаж', 'categories_alias' => 'trikotaj'],
@@ -123,16 +123,16 @@ class DatabaseSeeder extends Seeder
         DB::table('products')->insert([
             // Верхняя одежада Зима комбинезоны мальчики и девочки
             ['product_title' => 'Комбинезон мальчики ЗИМА Lappinalle',
-            'product_price' => 9995,
-            'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
-            'product_img' => '../img/item.png, ../img/pic2.png, ../img/pic4.png, ../img/pic3.png, ../img/pic2.png, ../img/pic3.png, ../img/pic4.png,',
-            'product_amount' => 1,
-            'sex_id' => 1,
-            'categories_id' => 3,
-            'season_id' => 1,
-             'departments_id' => 1,
-             'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
-              'product_sale' => 0,
+                'product_price' => 9995,
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../img/item.png, ../img/pic2.png, ../img/pic4.png, ../img/pic3.png, ../img/pic2.png, ../img/pic3.png, ../img/pic4.png,',
+                'product_amount' => 1,
+                'sex_id' => 1,
+                'categories_id' => 3,
+                'season_id' => 1,
+                'departments_id' => 1,
+                'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
+                'product_sale' => 0,
                 'product_old_price' => null
             ],
             ['product_title' => 'Комбинезон девочки ЗИМА Lappinalle',
@@ -2818,6 +2818,444 @@ class DatabaseSeeder extends Seeder
                 'product_id' => 2,
                 'reviews_star' => 1,
                 'reviews_available' => 1
+            ],
+        ]);
+
+        DB::table('sizes')->insert([
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)],
+            ['sizes_number' => rand(1, 130)]
+        ]);
+
+        DB::table('catalog_size')->insert([
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+            [
+                'product_id' => rand(1, 196),
+                'sizes_id' => rand(1, 50)
+            ],
+        ]);
+        DB::table('catalog_size')->insert([
+            [
+                'product_id' => 105,
+                'sizes_id' => 1,
+            ],
+            [
+                'product_id' => 105,
+                'sizes_id' => 2,
+            ],
+            [
+                'product_id' => 63,
+                'sizes_id' => 3,
+            ],
+            [
+                'product_id' => 63,
+                'sizes_id' => 2,
+            ],
+            [
+                'product_id' => 81,
+                'sizes_id' => 2,
             ],
         ]);
     }

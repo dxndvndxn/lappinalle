@@ -39,7 +39,6 @@ class DepartmentsController extends Controller
 
         // Проверяем условие, если длина массива $parts = 1, то делаем запрос по гендеру и категории без сезона
         // если длина массива $parts = 2, то делаем запрос по гендеру и по категории плюс сезон
-        $arrayOfProducts = [];
         switch (count($parts)) {
             case 1:
                 $dataByDepart = DB::table('products')->select("product_id", "product_title", "product_price", "product_description", "product_img", "product_old_price")
@@ -66,8 +65,17 @@ class DepartmentsController extends Controller
                     ->where('departments_id', '=', $newDepart['departments_id'])
                     ->max('product_price');
 
+                $dataSizes = DB::table('catalog_size')
+                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->where('departments_id', '=', $newDepart['departments_id'])
+                    ->get();
+
                 $dataByDepart['max'] = $productMax;
                 $dataByDepart['min'] = $productMin;
+                $dataByDepart['sizes'] = $dataSizes;
 
                 return  $dataByDepart;
             case 2:
@@ -88,7 +96,7 @@ class DepartmentsController extends Controller
                     ->paginate(30);
 
                 // Получаем мин стоимость
-                $productMin =  DB::table('products')
+                $productMin = DB::table('products')
                     ->where('product_available', '=', 1)
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('season_id', '=', $newSeason['season_id'])
@@ -97,7 +105,7 @@ class DepartmentsController extends Controller
                     ->min('product_price');
 
                 // Получаем макс стоимость
-                $productMax =  DB::table('products')
+                $productMax = DB::table('products')
                     ->where('product_available', '=', 1)
                     ->where('sex_id', '=', $newGen['sex_id'])
                     ->where('season_id', '=', $newSeason['season_id'])
@@ -105,8 +113,18 @@ class DepartmentsController extends Controller
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->max('product_price');
 
+                $dataSizes = DB::table('catalog_size')
+                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->where('season_id', '=', $newSeason['season_id'])
+                    ->where('departments_id', '=', $newDepart['departments_id'])
+                    ->get();
+
                 $dataByDepart['max'] = $productMax;
                 $dataByDepart['min'] = $productMin;
+                $dataByDepart['sizes'] = $dataSizes;
 
                 return $dataByDepart;
             default:

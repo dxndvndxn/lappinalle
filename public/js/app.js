@@ -2383,34 +2383,10 @@ __webpack_require__.r(__webpack_exports__);
   name: "Sidebar",
   data: function data() {
     return {
-      sizing: [{
-        val: 92,
-        name: 'sizeForShirts',
-        active: false
-      }, {
-        val: 94,
-        name: 'sizeForShirts',
-        active: false
-      }, {
-        val: 104,
-        name: 'sizeForShirts',
-        active: false
-      }, {
-        val: 111,
-        name: 'sizeForShirts',
-        active: false
-      }, {
-        val: 125,
-        name: 'sizeForShirts',
-        active: false
-      }, {
-        val: 122,
-        name: 'sizeForShirts',
-        active: false
-      }],
       checkSale: false,
       min: null,
-      max: null
+      max: null,
+      sizesArr: []
     };
   },
   computed: {
@@ -2419,6 +2395,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getMinMax: function getMinMax() {
       return this.$store.getters.minMax;
+    },
+    getSizes: function getSizes() {
+      return this.$store.getters.filterSizes;
     }
   },
   created: function created() {
@@ -2800,7 +2779,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.$router.push("".concat(this.$route.path, "?page=").concat(this.updatedPage))["catch"](function () {});
     },
-    // Обработчик по нажатию на страницы в каталоге
+    // Обработчик по нажатию на страницы пагинации
     // Вызываем функцию, которая выводит новые товары
     // Отображаем в урл ЧПУ
     pageChange: function pageChange(page) {
@@ -2809,60 +2788,78 @@ __webpack_require__.r(__webpack_exports__);
 
       switch (this.returnWhataFunc) {
         case 'sort':
-          console.log('From page change');
           this.selectSort(false);
           break;
 
         case 'sale':
-          console.log('From page change sale');
-          this.showSaleProducts(this.$route.query.sale, false);
+          this.filterSalePagination();
           break;
 
         case 'cash':
-          var minmax = {
-            min: this.$route.query.min,
-            max: this.$route.query.max
-          };
-          this.rollbackPage = false;
-          this.showCashProducts(minmax);
+          this.filterCashPagination();
           break;
 
         default:
           this.getCatalogData(this.updatedPage);
       }
     },
+    // ФУНКЦИЯ ДЛЯ ПАГИНАЦИИ ПО ФИЛЬТРУ CASH
+    filterCashPagination: function filterCashPagination() {
+      var minmax = {
+        min: this.$route.query.min,
+        max: this.$route.query.max
+      };
+      this.$Progress.start();
+      minmax.page = this.updatedPage;
+      minmax.params = this.$route.params;
+      this.$store.dispatch('showCashProducts', minmax);
+      this.$router.push("".concat(this.$route.path, "?min=").concat(minmax.min, "&max=").concat(minmax.max, "&page=").concat(this.updatedPage))["catch"](function () {});
+    },
+    // ФУНКЦИЯ ДЛЯ ПАГИНАЦИИ ПО ФИЛЬРУ SALE
+    filterSalePagination: function filterSalePagination() {
+      this.$Progress.start();
+      this.$store.dispatch('showSaleProducts', {
+        page: this.updatedPage,
+        params: this.$route.params
+      });
+      this.$router.push("".concat(this.$route.path, "?sale=").concat(this.$route.query.sale, "&page=").concat(this.updatedPage))["catch"](function () {});
+    },
+    // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
+    // Если убрали sale, то отправляем на главную страницу каталогов в зависимости от параметров
     hideSaleProducts: function hideSaleProducts(sale) {
       this.pageCatalog = 1;
+      this.whataFunc = null;
       this.getCatalogData(this.updatedPage);
     },
+    // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
     // Отправляем запрос по фильтру по скидке
-    // @sale из компонента sidebar
-    showSaleProducts: function showSaleProducts(sale, rollback) {
-      if (rollback) this.pageCatalog = 1;
-
-      if (sale) {
-        this.whataFunc = 'sale';
-        this.$Progress.start();
-        this.$store.dispatch('showSaleProducts', {
-          page: this.pageCatalog,
-          params: this.$route.params
-        });
-        this.$router.push("".concat(this.$route.path, "?sale=").concat(sale, "&page=").concat(this.pageCatalog))["catch"](function () {});
-      }
+    // где sale данные из компонента sidebar
+    showSaleProducts: function showSaleProducts(sale) {
+      this.pageCatalog = 1;
+      this.whataFunc = 'sale';
+      this.$Progress.start();
+      this.$store.dispatch('showSaleProducts', {
+        page: this.pageCatalog,
+        params: this.$route.params
+      });
+      this.$router.push("".concat(this.$route.path, "?sale=").concat(sale, "&page=1"))["catch"](function () {});
     },
-    // Отправляем запрос по фильтру по цене
+    // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
+    // Отправляем запрос по фильтру по цене и переходим на первую страницу
     showCashProducts: function showCashProducts(minmax) {
-      if (this.rollbackPage) this.pageCatalog = 1;
+      this.pageCatalog = 1;
       this.whataFunc = 'cash';
       this.$Progress.start();
       minmax.page = this.pageCatalog;
       minmax.params = this.$route.params;
       this.$store.dispatch('showCashProducts', minmax);
-      this.$router.push("".concat(this.$route.path, "?min=").concat(minmax.min, "&max=").concat(minmax.max, "&page=").concat(this.pageCatalog))["catch"](function () {});
+      this.$router.push("".concat(this.$route.path, "?min=").concat(minmax.min, "&max=").concat(minmax.max, "&page=1"))["catch"](function () {});
     },
     selectSort: function selectSort(rollbackPage) {
       switch (this.selected) {
+        // Если новейшие товары
         case this.sortBy[0].value:
+          // Вызываем общую функцию по выдаче товаров
           this.getCatalogData(this.updatedPage); // Определяем куда пушить
 
           switch (Object.keys(this.$route.params).length) {
@@ -2886,10 +2883,10 @@ __webpack_require__.r(__webpack_exports__);
           }
 
           break;
+        // Если от маленько цены
 
         case this.sortBy[1].value:
           if (rollbackPage) this.pageCatalog = 1;
-          console.log('Hi sort low');
           this.whataFunc = 'sort';
           this.$Progress.start();
           this.$store.dispatch('sortByAction', {
@@ -2899,10 +2896,10 @@ __webpack_require__.r(__webpack_exports__);
           });
           this.$router.push("".concat(this.$route.path, "?sortOrder=").concat(this.sortBy[1].name, "&page=").concat(this.updatedPage))["catch"](function () {});
           break;
+        // Если от большой цены
 
         case this.sortBy[2].value:
           if (rollbackPage) this.pageCatalog = 1;
-          console.log('Hi sort high');
           this.whataFunc = 'sort';
           this.$Progress.start();
           this.$store.dispatch('sortByAction', {
@@ -2921,11 +2918,12 @@ __webpack_require__.r(__webpack_exports__);
     // При создании компонента присваиваем текущую страницу для пагинции
     this.pageCatalog = +this.$route.query.page || 1; // Если запрос на sale
 
-    if (this.$route.query.sale) this.showSaleProducts(this.$route.query.sale); // Если запрос на мин макс цену
-    else if (this.$route.query.min && this.$route.query.max) this.showCashProducts({
-        min: this.$route.query.min,
-        max: this.$route.query.max
-      }); // Если запрос на sorting
+    if (this.$route.query.sale) {
+      this.filterSalePagination();
+    } // Если запрос на мин макс цену
+    else if (this.$route.query.min && this.$route.query.max) {
+        this.filterCashPagination();
+      } // Если запрос на sorting
       else if (this.$route.query.sortOrder) {
           this.sortBy.forEach(function (el) {
             if (el.name === _this.$route.query.sortOrder) _this.selected = el.value;
@@ -2942,6 +2940,7 @@ __webpack_require__.r(__webpack_exports__);
       if (to.name === 'gender' && !this.$route.query.page) {
         console.log('Hi Watch gender');
         this.pageCatalog = 1;
+        this.whataFunc = null;
         this.getCatalogData(this.pageCatalog);
       } // категории
 
@@ -2949,6 +2948,7 @@ __webpack_require__.r(__webpack_exports__);
       if (to.name === 'category' && !this.$route.query.page) {
         console.log('Hi Watch category');
         this.pageCatalog = 1;
+        this.whataFunc = null;
         this.getCatalogData(this.pageCatalog);
       } // подкатегории
 
@@ -2956,7 +2956,12 @@ __webpack_require__.r(__webpack_exports__);
       if (to.name === 'department' && !this.$route.query.page) {
         console.log('Hi Watch department');
         this.pageCatalog = 1;
+        this.whataFunc = null;
         this.getCatalogData(this.pageCatalog);
+      }
+
+      if (this.$route.query.page) {
+        this.pageCatalog = this.$route.query.page;
       }
     }
   },
@@ -6039,24 +6044,22 @@ var render = function() {
       _c("span", [_vm._v("Размер")]),
       _vm._v(" "),
       _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-            }
-          }
-        },
-        _vm._l(_vm.sizing, function(size, s) {
-          return _c("input", {
-            class: size.active ? "active-size" : null,
-            attrs: { type: "button", value: size.val, name: size.name },
-            on: {
-              click: function($event) {
-                size.active = !size.active
+        "div",
+        { staticClass: "sizing-cell" },
+        _vm._l(_vm.getSizes, function(el, size, s) {
+          return _c(
+            "button",
+            {
+              class: el.active ? "active-size" : null,
+              attrs: { type: "button", datatype: s },
+              on: {
+                click: function($event) {
+                  el.active = !el.active
+                }
               }
-            }
-          })
+            },
+            [_vm._v("\n                " + _vm._s(size) + "\n            ")]
+          )
         }),
         0
       )
@@ -6563,9 +6566,7 @@ var render = function() {
         [
           _c("Sidebar", {
             on: {
-              showSaleProducts: function($event) {
-                return _vm.showSaleProducts(_vm.rollbackPage)
-              },
+              showSaleProducts: _vm.showSaleProducts,
               hideSaleProducts: _vm.hideSaleProducts,
               showCashProducts: _vm.showCashProducts
             }
@@ -26044,6 +26045,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     // Данные для фильтра
     filterMin: null,
     filterMax: null,
+    filterSizes: null,
     SITE_URI: 'http://lappinalle.test/api/'
   },
   mutations: {
@@ -26343,7 +26345,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
         console.log(e);
       }
     },
-    // Получаем дату в каталог
+    // Получаем дату в каталог по категориям
     getCatalogDataMutate: function getCatalogDataMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -26364,7 +26366,46 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Устанавливаем дату в стейт
+                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+
+                  var localSize = [];
+                  itemCell.data.sizes.forEach(function (el) {
+                    return localSize.push(el.sizes_number);
+                  }); // Выбираем уникальные размеры
+
+                  var sortSizes = new Set(localSize);
+                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
+                  // делаем ключом каждый размер и создаем пустой массив
+                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                  // если так, то пушим id продуктов
+
+                  var _iterator5 = _createForOfIteratorHelper(sortSizes),
+                      _step5;
+
+                  try {
+                    var _loop = function _loop() {
+                      var i = _step5.value;
+                      totalSizes[i] = {
+                        active: false,
+                        ids: []
+                      };
+                      itemCell.data.sizes.forEach(function (el) {
+                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
+                      });
+                    };
+
+                    for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+                      _loop();
+                    } // Устанаваливаем размеры
+
+                  } catch (err) {
+                    _iterator5.e(err);
+                  } finally {
+                    _iterator5.f();
+                  }
+
+                  state.filterSizes = totalSizes;
+                  delete itemCell.data.sizes; // Устанавливаем дату в стейт
 
                   state.catalogData = itemCell.data; // Получаем общее число товаров для пагинации
 
@@ -26384,7 +26425,46 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Устанавливаем дату в стейт
+                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+
+                  var localSize = [];
+                  itemCell.data.sizes.forEach(function (el) {
+                    return localSize.push(el.sizes_number);
+                  }); // Выбираем уникальные размеры
+
+                  var sortSizes = new Set(localSize);
+                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
+                  // делаем ключом каждый размер и создаем пустой массив
+                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                  // если так, то пушим id продуктов
+
+                  var _iterator6 = _createForOfIteratorHelper(sortSizes),
+                      _step6;
+
+                  try {
+                    var _loop2 = function _loop2() {
+                      var i = _step6.value;
+                      totalSizes[i] = {
+                        active: false,
+                        ids: []
+                      };
+                      itemCell.data.sizes.forEach(function (el) {
+                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
+                      });
+                    };
+
+                    for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+                      _loop2();
+                    } // Устанаваливаем размеры
+
+                  } catch (err) {
+                    _iterator6.e(err);
+                  } finally {
+                    _iterator6.f();
+                  }
+
+                  state.filterSizes = totalSizes;
+                  delete itemCell.data.sizes; // Устанавливаем дату в стейт
 
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
@@ -26404,7 +26484,46 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Устанавливаем дату в стейт
+                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+
+                  var localSize = [];
+                  itemCell.data.sizes.forEach(function (el) {
+                    return localSize.push(el.sizes_number);
+                  }); // Выбираем уникальные размеры
+
+                  var sortSizes = new Set(localSize);
+                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
+                  // делаем ключом каждый размер и создаем пустой массив
+                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                  // если так, то пушим id продуктов
+
+                  var _iterator7 = _createForOfIteratorHelper(sortSizes),
+                      _step7;
+
+                  try {
+                    var _loop3 = function _loop3() {
+                      var i = _step7.value;
+                      totalSizes[i] = {
+                        active: false,
+                        ids: []
+                      };
+                      itemCell.data.sizes.forEach(function (el) {
+                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
+                      });
+                    };
+
+                    for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+                      _loop3();
+                    } // Устанаваливаем размеры
+
+                  } catch (err) {
+                    _iterator7.e(err);
+                  } finally {
+                    _iterator7.f();
+                  }
+
+                  state.filterSizes = totalSizes;
+                  delete itemCell.data.sizes; // Устанавливаем дату в стейт
 
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
@@ -26422,7 +26541,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
         }, _callee2);
       }))();
     },
-    // Получаем дату для товара
+    // Получаем дату для конкретного товара
     getItemDataMutate: function getItemDataMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
@@ -26543,7 +26662,46 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max;
+                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+
+                  var localSize = [];
+                  itemCell.data.sizes.forEach(function (el) {
+                    return localSize.push(el.sizes_number);
+                  }); // Выбираем уникальные размеры
+
+                  var sortSizes = new Set(localSize);
+                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
+                  // делаем ключом каждый размер и создаем пустой массив
+                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                  // если так, то пушим id продуктов
+
+                  var _iterator8 = _createForOfIteratorHelper(sortSizes),
+                      _step8;
+
+                  try {
+                    var _loop4 = function _loop4() {
+                      var i = _step8.value;
+                      totalSizes[i] = {
+                        active: false,
+                        ids: []
+                      };
+                      itemCell.data.sizes.forEach(function (el) {
+                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
+                      });
+                    };
+
+                    for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+                      _loop4();
+                    } // Устанаваливаем размеры
+
+                  } catch (err) {
+                    _iterator8.e(err);
+                  } finally {
+                    _iterator8.f();
+                  }
+
+                  state.filterSizes = totalSizes;
+                  delete itemCell.data.sizes;
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
                   state.catalogDataCellCount = itemCell.total;
@@ -26562,7 +26720,46 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max;
+                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+
+                  var localSize = [];
+                  itemCell.data.sizes.forEach(function (el) {
+                    return localSize.push(el.sizes_number);
+                  }); // Выбираем уникальные размеры
+
+                  var sortSizes = new Set(localSize);
+                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
+                  // делаем ключом каждый размер и создаем пустой массив
+                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                  // если так, то пушим id продуктов
+
+                  var _iterator9 = _createForOfIteratorHelper(sortSizes),
+                      _step9;
+
+                  try {
+                    var _loop5 = function _loop5() {
+                      var i = _step9.value;
+                      totalSizes[i] = {
+                        active: false,
+                        ids: []
+                      };
+                      itemCell.data.sizes.forEach(function (el) {
+                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
+                      });
+                    };
+
+                    for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+                      _loop5();
+                    } // Устанаваливаем размеры
+
+                  } catch (err) {
+                    _iterator9.e(err);
+                  } finally {
+                    _iterator9.f();
+                  }
+
+                  state.filterSizes = totalSizes;
+                  delete itemCell.data.sizes;
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
                   state.catalogDataCellCount = itemCell.total;
@@ -26581,7 +26778,46 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max;
+                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+
+                  var localSize = [];
+                  itemCell.data.sizes.forEach(function (el) {
+                    return localSize.push(el.sizes_number);
+                  }); // Выбираем уникальные размеры
+
+                  var sortSizes = new Set(localSize);
+                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
+                  // делаем ключом каждый размер и создаем пустой массив
+                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                  // если так, то пушим id продуктов
+
+                  var _iterator10 = _createForOfIteratorHelper(sortSizes),
+                      _step10;
+
+                  try {
+                    var _loop6 = function _loop6() {
+                      var i = _step10.value;
+                      totalSizes[i] = {
+                        active: false,
+                        ids: []
+                      };
+                      itemCell.data.sizes.forEach(function (el) {
+                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
+                      });
+                    };
+
+                    for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+                      _loop6();
+                    } // Устанаваливаем размеры
+
+                  } catch (err) {
+                    _iterator10.e(err);
+                  } finally {
+                    _iterator10.f();
+                  }
+
+                  state.filterSizes = totalSizes;
+                  delete itemCell.data.sizes;
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
                   state.catalogDataCellCount = itemCell.total;
@@ -26619,7 +26855,46 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max;
+                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+
+                  var localSize = [];
+                  itemCell.data.sizes.forEach(function (el) {
+                    return localSize.push(el.sizes_number);
+                  }); // Выбираем уникальные размеры
+
+                  var sortSizes = new Set(localSize);
+                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
+                  // делаем ключом каждый размер и создаем пустой массив
+                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                  // если так, то пушим id продуктов
+
+                  var _iterator11 = _createForOfIteratorHelper(sortSizes),
+                      _step11;
+
+                  try {
+                    var _loop7 = function _loop7() {
+                      var i = _step11.value;
+                      totalSizes[i] = {
+                        active: false,
+                        ids: []
+                      };
+                      itemCell.data.sizes.forEach(function (el) {
+                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
+                      });
+                    };
+
+                    for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+                      _loop7();
+                    } // Устанаваливаем размеры
+
+                  } catch (err) {
+                    _iterator11.e(err);
+                  } finally {
+                    _iterator11.f();
+                  }
+
+                  state.filterSizes = totalSizes;
+                  delete itemCell.data.sizes;
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
                   state.catalogDataCellCount = itemCell.total;
@@ -26638,7 +26913,46 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max;
+                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+
+                  var localSize = [];
+                  itemCell.data.sizes.forEach(function (el) {
+                    return localSize.push(el.sizes_number);
+                  }); // Выбираем уникальные размеры
+
+                  var sortSizes = new Set(localSize);
+                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
+                  // делаем ключом каждый размер и создаем пустой массив
+                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                  // если так, то пушим id продуктов
+
+                  var _iterator12 = _createForOfIteratorHelper(sortSizes),
+                      _step12;
+
+                  try {
+                    var _loop8 = function _loop8() {
+                      var i = _step12.value;
+                      totalSizes[i] = {
+                        active: false,
+                        ids: []
+                      };
+                      itemCell.data.sizes.forEach(function (el) {
+                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
+                      });
+                    };
+
+                    for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+                      _loop8();
+                    } // Устанаваливаем размеры
+
+                  } catch (err) {
+                    _iterator12.e(err);
+                  } finally {
+                    _iterator12.f();
+                  }
+
+                  state.filterSizes = totalSizes;
+                  delete itemCell.data.sizes;
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
                   state.catalogDataCellCount = itemCell.total;
@@ -26657,7 +26971,46 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max;
+                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+
+                  var localSize = [];
+                  itemCell.data.sizes.forEach(function (el) {
+                    return localSize.push(el.sizes_number);
+                  }); // Выбираем уникальные размеры
+
+                  var sortSizes = new Set(localSize);
+                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
+                  // делаем ключом каждый размер и создаем пустой массив
+                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                  // если так, то пушим id продуктов
+
+                  var _iterator13 = _createForOfIteratorHelper(sortSizes),
+                      _step13;
+
+                  try {
+                    var _loop9 = function _loop9() {
+                      var i = _step13.value;
+                      totalSizes[i] = {
+                        active: false,
+                        ids: []
+                      };
+                      itemCell.data.sizes.forEach(function (el) {
+                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
+                      });
+                    };
+
+                    for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+                      _loop9();
+                    } // Устанаваливаем размеры
+
+                  } catch (err) {
+                    _iterator13.e(err);
+                  } finally {
+                    _iterator13.f();
+                  }
+
+                  state.filterSizes = totalSizes;
+                  delete itemCell.data.sizes;
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
                   state.catalogDataCellCount = itemCell.total;
@@ -26829,6 +27182,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
         min: state.filterMin,
         max: state.filterMax
       };
+    },
+    filterSizes: function filterSizes(state) {
+      return state.filterSizes;
     }
   }
 }));

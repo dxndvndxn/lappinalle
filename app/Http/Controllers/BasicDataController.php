@@ -14,6 +14,7 @@ class BasicDataController extends Controller
         ->leftJoin('departments_menu', 'departments_menu.categories_menu_id', '=', 'categories_menu.categories_menu_id')
         ->leftJoin('departments', 'departments_menu.departments_id', '=', 'departments.departments_id')
          ->get();
+
          $objectToArray = [];
          foreach ($categories as $catg){
              $newArr = (array)$catg;

@@ -65,8 +65,18 @@ class GiveMeCashMinMaxByDepartmentsController extends Controller
                     ->where('departments_id', '=', $newDepart['departments_id'])
                     ->max('product_price');
 
+                $dataSizes = DB::table('catalog_size')
+                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->where('departments_id', '=', $newDepart['departments_id'])
+                    ->whereBetween('product_price', [$min, $max])
+                    ->get();
+
                 $dataByDepart['max'] = $productMax;
                 $dataByDepart['min'] = $productMin;
+                $dataByDepart['sizes'] = $dataSizes;
 
                 return $dataByDepart;
             case 2:
@@ -105,8 +115,19 @@ class GiveMeCashMinMaxByDepartmentsController extends Controller
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->max('product_price');
 
+                $dataSizes = DB::table('catalog_size')
+                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('season_id', '=', $newSeason['season_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->where('departments_id', '=', $newDepart['departments_id'])
+                    ->whereBetween('product_price', [$min, $max])
+                    ->get();
+
                 $dataByDepart['max'] = $productMax;
                 $dataByDepart['min'] = $productMin;
+                $dataByDepart['sizes'] = $dataSizes;
 
                 return $dataByDepart;
             default:

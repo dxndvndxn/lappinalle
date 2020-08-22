@@ -17,7 +17,7 @@ class CatalogSize extends Migration
             $table->increments('catalog_size_id');
             $table->unsignedInteger('product_id')->nullable();
             $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
-            $table->unsignedSmallInteger('sizes_id')->nullable();
+            $table->unsignedInteger('sizes_id')->nullable();
             $table->foreign('sizes_id')->references('sizes_id')->on('sizes')->onDelete('cascade');
         });
     }
