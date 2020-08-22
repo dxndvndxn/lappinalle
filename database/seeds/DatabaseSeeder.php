@@ -2769,19 +2769,19 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'users_name' => 'Налимка',
-                'users_surname' => 'Налимов',
+//                'users_surname' => 'Налимов',
                 'users_email' => 'nalimov@gmail.com',
                 'users_password' => '123456',
             ],
             [
                 'users_name' => 'Ольга FASPRO',
-                'users_surname' => 'FASPRO',
+//                'users_surname' => 'FASPRO',
                 'users_email' => 'danjablooo1@gmail.com',
                 'users_password' => '349324212AP',
             ],
             [
                 'users_name' => 'Даня',
-                'users_surname' => 'Васильев',
+//                'users_surname' => 'Васильев',
                 'users_email' => 'danjablooo11@gmail.com',
                 'users_password' => '349324212AP',
             ]
