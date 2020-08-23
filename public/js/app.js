@@ -2586,8 +2586,180 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Cabinet"
+  name: "Cabinet",
+  data: function data() {
+    return {
+      tabs: [{
+        name: 'Личные данные',
+        active: true
+      }, {
+        name: 'Заказы',
+        active: false
+      }],
+      userName: 'Назимов илья игоревич',
+      userTel: null,
+      userEmail: null,
+      userCity: null,
+      userAdrr: null,
+      userBuild: null,
+      userCorpus: null,
+      userApart: null,
+      userPostI: null,
+      userPass: null,
+      orderData: [{
+        orders_number: 1234556,
+        status: 'В обработке',
+        active: false,
+        order_data: [{
+          img: '../../img/order-img.png',
+          order_name: 'Комбинезон LAPPINALE',
+          count: 1,
+          size: 43,
+          price: 5400
+        }, {
+          img: '../../img/order-img.png',
+          order_name: 'Комбинезон LAPPINALE',
+          count: 1,
+          size: 43,
+          price: 5400
+        }],
+        delivery: 'курьерская по СПБ, 14.08.2020, 300 Р',
+        totalPrice: 11100
+      }, {
+        orders_number: 1234556,
+        status: 'Доставлен',
+        active: false,
+        order_data: [{
+          img: '../../img/order-img.png',
+          order_name: 'Комбинезон LAPPINALE',
+          count: 1,
+          size: 43,
+          price: 5400
+        }],
+        delivery: 'курьерская по СПБ, 14.08.2020, 300 Р',
+        totalPrice: 11100
+      }, {
+        orders_number: 1234556,
+        status: 'Доставлен',
+        active: false,
+        order_data: [{
+          img: '../../img/order-img.png',
+          order_name: 'Комбинезон LAPPINALE',
+          count: 1,
+          size: 43,
+          price: 5400
+        }],
+        delivery: 'курьерская по СПБ, 14.08.2020, 300 Р',
+        totalPrice: 11100
+      }]
+    };
+  },
+  methods: {
+    clickTab: function clickTab() {
+      this.tabs.forEach(function (el) {
+        return el.active = !el.active;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -6376,9 +6548,453 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "cabinet" }, [_vm._v("\n    Cabinet\n")])
+  return _c("div", { staticClass: "cabinet" }, [
+    _c(
+      "ul",
+      { staticClass: "cabinet-tabs" },
+      _vm._l(_vm.tabs, function(tb, i) {
+        return _c("li", { on: { click: _vm.clickTab } }, [
+          _vm._v("\n            " + _vm._s(tb.name) + "\n        ")
+        ])
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _vm.tabs[0].active
+      ? _c(
+          "form",
+          {
+            staticClass: "cabinet-user-data",
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.changeData($event)
+              }
+            }
+          },
+          [
+            _c("ul", { staticClass: "user-data-basic" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", { attrs: { for: "name" } }, [_vm._v("ФИО: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userName,
+                      expression: "userName",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  attrs: { type: "text", id: "name" },
+                  domProps: { value: _vm.userName },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.userName = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", { attrs: { for: "tel" } }, [_vm._v("Телефон: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userTel,
+                      expression: "userTel",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  attrs: { type: "tel", id: "tel" },
+                  domProps: { value: _vm.userTel },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.userTel = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", { attrs: { for: "email" } }, [_vm._v("E-mail: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userTel,
+                      expression: "userTel",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  attrs: { type: "text", id: "email" },
+                  domProps: { value: _vm.userTel },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.userTel = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("ul", { staticClass: "user-data-addr" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", [_vm._v("Город: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userCity,
+                      expression: "userCity",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.userCity },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.userCity = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", [_vm._v("Улица: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userAdrr,
+                      expression: "userAdrr",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.userAdrr },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.userAdrr = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", [_vm._v("Дом: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userBuild,
+                      expression: "userBuild",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.userBuild },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.userBuild = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", [_vm._v("Корпус: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userCorpus,
+                      expression: "userCorpus",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.userCorpus },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.userCorpus = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", [_vm._v("Квартира: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userApart,
+                      expression: "userApart",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.userApart },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.userApart = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", [_vm._v("Почтовый индекс: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userPostI,
+                      expression: "userPostI",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.userPostI },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.userPostI = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("ul", { staticClass: "user-data-security" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", [_vm._v("Пароль: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userPass,
+                      expression: "userPass",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  attrs: { type: "password" },
+                  domProps: { value: _vm.userPass },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.userPass = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("button", { staticClass: "btn" }, [
+              _vm._v("\n            сохранить изменения\n        ")
+            ])
+          ]
+        )
+      : _vm.tabs[1].active
+      ? _c(
+          "div",
+          { staticClass: "cabinet-user-order" },
+          _vm._l(_vm.orderData, function(ord, i) {
+            return _c(
+              "div",
+              { staticClass: "user-order-wrap" },
+              [
+                _c("div", { staticClass: "user-order-head" }, [
+                  _c("div", { staticClass: "order-head-number" }, [
+                    _c("span", { staticClass: "cabinet-h" }, [
+                      _vm._v("Заказ №")
+                    ]),
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(ord.orders_number) +
+                        "\n                "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "order-head-status" }, [
+                    _c("div", { staticClass: "head-status-wrap" }, [
+                      _c("span", { staticClass: "cabinet-h" }, [
+                        _vm._v("Статус №")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(ord.orders_number))])
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "head-status-btn" })
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._l(ord.order_data, function(dt, k) {
+                  return _c("div", { staticClass: "user-order-data" }, [
+                    _c("img", { attrs: { src: dt.img, alt: "" } }),
+                    _vm._v(" "),
+                    _c("ul", { staticClass: "order-data-desc" }, [
+                      _c("li", { staticClass: "cabinet-h" }, [
+                        _vm._v(_vm._s(dt.order_name))
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [_vm._v("Количество: " + _vm._s(dt.count))]),
+                      _vm._v(" "),
+                      _c("li", [_vm._v("Размер: " + _vm._s(dt.size))]),
+                      _vm._v(" "),
+                      _c("li", [_vm._v("Цена: " + _vm._s(dt.price))])
+                    ])
+                  ])
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "user-order-delivery" }, [
+                  _c("span", { staticClass: "cabinet-h" }, [
+                    _vm._v("Доставка: ")
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "delivery-text" }, [
+                    _vm._v(_vm._s(ord.delivery))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "user-order-total" }, [
+                  _c("span", { staticClass: "cabinet-h" }, [
+                    _vm._v("Итоговая стоимость: ")
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "total-text" }, [
+                    _vm._v(_vm._s(ord.totalPrice))
+                  ])
+                ])
+              ],
+              2
+            )
+          }),
+          0
+        )
+      : _vm._e()
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "cabinet-h" }, [
+      _vm._v("\n                Основное "),
+      _c("img", {
+        attrs: { src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"), alt: "" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "cabinet-h" }, [
+      _vm._v("\n                Адрес "),
+      _c("img", {
+        attrs: { src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"), alt: "" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "cabinet-h" }, [
+      _vm._v("\n                Безопасность "),
+      _c("img", {
+        attrs: { src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"), alt: "" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -25254,6 +25870,17 @@ module.exports = g;
 /***/ (function(module, exports) {
 
 module.exports = "/images/bookmark.png?7fcb44040dc859a4507707c3b5f4daf1";
+
+/***/ }),
+
+/***/ "./resources/img/cabinet-icon.png":
+/*!****************************************!*\
+  !*** ./resources/img/cabinet-icon.png ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/images/cabinet-icon.png?b2c59f40189248f55d0699f81ec99899";
 
 /***/ }),
 
