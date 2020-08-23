@@ -78,8 +78,17 @@ class GetDataFromDepartSortPriceController extends Controller
                     ->where('categories_id', '=', $newCateg['categories_id'])
                     ->max('product_price');
 
+                $dataSizes = DB::table('catalog_size')
+                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('departments_id', '=', $newDepart['departments_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->get();
+
                 $sortData['max'] = $productMax;
                 $sortData['min'] = $productMin;
+                $sortData['sizes'] = $dataSizes;
 
                 return $sortData;
             case 2:
@@ -131,9 +140,18 @@ class GetDataFromDepartSortPriceController extends Controller
                     ->where('season_id', '=', $newSeason['season_id'])
                     ->max('product_price');
 
+                $dataSizes = DB::table('catalog_size')
+                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                    ->where('sex_id', '=', $newGen['sex_id'])
+                    ->where('categories_id', '=', $newCateg['categories_id'])
+                    ->where('departments_id', '=', $newDepart['departments_id'])
+                    ->where('season_id', '=', $newSeason['season_id'])
+                    ->get();
+
                 $sortData['max'] = $productMax;
                 $sortData['min'] = $productMin;
-
+                $sortData['sizes'] = $dataSizes;
                 return $sortData;
             default:
                 return false;

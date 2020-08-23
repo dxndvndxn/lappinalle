@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="catalog container">
-            <Sidebar @showSaleProducts="showSaleProducts" @hideSaleProducts="hideSaleProducts" @showCashProducts="showCashProducts"/>
+            <Sidebar @showSaleProducts="showSaleProducts" @hideSaleProducts="hideSaleProducts" @showSizeProducts="showSizeProducts" @showCashProducts="showCashProducts"/>
             <CatalogCell v-bind:catalogData="returnCatalogData" v-bind:total="catalogTotalPages"/>
         </div>
         <paginate
@@ -76,6 +76,9 @@
                     case 'cash':
                         this.filterCashPagination();
                         break;
+                    case 'size':
+                        this.filterSizePagination();
+                        break;
                     default:
                         this.getCatalogData(this.updatedPage)
                 }
@@ -99,6 +102,15 @@
                 this.$Progress.start();
                 this.$store.dispatch('showSaleProducts', {page: this.updatedPage, params: this.$route.params});
                 this.$router.push(`${this.$route.path}?sale=${this.$route.query.sale}&page=${this.updatedPage}`).catch(()=>{});
+            },
+
+            // ФУНКЦИЯ ДЛЯ ПАГИНАЦИИ ПО ФИЛЬТРУ SIZES
+            filterSizePagination(){
+                // console.log(this.$route.query.size);
+                // console.log(this.getSizes);
+                // let data = {sizes: sizes, params: this.$route.params, page: this.updatedPage};
+                // this.$store.dispatch('showSizeProducts', data);
+                // this.$router.push(`${this.$route.path}?${queryStr}page=${this.updatedPage}`);
             },
 
             // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
@@ -125,13 +137,14 @@
             showCashProducts(minmax){
                 this.pageCatalog = 1;
                 this.whataFunc = 'cash';
-                this.$Progress.start();
-                minmax.page = this.pageCatalog;
+                minmax.page = this.updatedPage;
                 minmax.params = this.$route.params;
                 this.$store.dispatch('showCashProducts', minmax);
                 this.$router.push(`${this.$route.path}?min=${minmax.min}&max=${minmax.max}&page=1`).catch(()=>{});
+                this.$Progress.start();
             },
 
+            // Метод для сортировки
             selectSort(rollbackPage){
 
               switch (this.selected) {
@@ -178,6 +191,26 @@
                       this.$router.push(`${this.$route.path}?sortOrder=${this.sortBy[2].name}&page=${this.updatedPage}`).catch(()=>{});
                       break;
               }
+            },
+
+            // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
+            showSizeProducts(sizes){
+                let queryStr = '';
+
+                sizes.forEach(el => {
+                    queryStr += `size=${el[0]}&`
+                });
+
+                this.$Progress.start();
+                this.pageCatalog = 1;
+                if (sizes.length) {
+                    this.whataFunc = 'size';
+                    let data = {sizes: sizes, params: this.$route.params, page: this.updatedPage};
+                    this.$store.dispatch('showSizeProducts', data);
+                    this.$router.push(`${this.$route.path}?${queryStr}page=1`);
+                }else {
+
+                }
             }
         },
         created() {
@@ -233,9 +266,9 @@
                     this.getCatalogData(this.pageCatalog);
                 }
 
-                if (this.$route.query.page){
-                    this.pageCatalog = this.$route.query.page;
-                }
+                // if (this.$route.query.page){
+                //     this.pageCatalog = +this.$route.query.page;
+                // }
             }
         },
         computed: {
@@ -259,9 +292,11 @@
                     this.pageCatalog = val;
                 }
             },
-
             returnWhataFunc(){
                 return this.whataFunc;
+            },
+            getSizes(){
+                return this.$store.getters.filterSizes;
             }
 
         }

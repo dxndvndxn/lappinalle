@@ -13,6 +13,7 @@ import ChooseDelivery from "./views/ChooseDelivery";
 import ChoosePay from "./views/ChoosePay";
 import PaySuccess from "./views/PaySuccess";
 import Bookmark from "./views/Bookmark";
+import Cabinet from "./views/Cabinet";
 
 export default {
     mode: 'history',
@@ -20,7 +21,10 @@ export default {
         {
             path: '/',
             name: 'Home',
-            meta: { layout: 'Main'},
+            meta: {
+                layout: 'Main',
+                auth: undefined
+            },
             component: Home
         },
         {
@@ -44,14 +48,29 @@ export default {
         {
             path: '/login',
             name: 'login',
-            meta: { layout: 'Main' },
+            meta: {
+                layout: 'Main',
+                auth: false
+            },
             component: Login
         },
         {
             path: '/registration',
             name: 'registration',
-            meta: { layout: 'Main' },
+            meta: {
+                layout: 'Main',
+                auth: false
+            },
             component: Registration
+        },
+        {
+            path: '/cabinet',
+            name: 'cabinet',
+            meta: {
+                layout: 'Main',
+                auth: true
+            },
+            component: Cabinet
         },
         {
             path: '/reset',

@@ -22,7 +22,7 @@
             <span>Размер</span>
             <div class="sizing-cell">
                 <button type="button" v-for="(el, size, s) in getSizes"
-                       @click="el.active = !el.active"
+                       @click="clickSize(size)"
                        v-bind:class="el.active ? 'active-size' : null" :datatype="s">
                     {{size}}
                 </button>
@@ -52,7 +52,7 @@
             checkSale: false,
             min: null,
             max: null,
-            sizesArr: []
+            sizesArr: null
         }),
         computed: {
             getSidebar(){
@@ -83,7 +83,11 @@
                     this.$emit('hideSaleProducts',this.checkSale);
                 }
             },
-
+            clickSize(size){
+                this.getSizes[size].active = !this.getSizes[size].active;
+                this.sizesArr = Object.entries(this.getSizes).filter(el => el[1].active === true);
+                this.$emit('showSizeProducts', this.sizesArr);
+            },
             // Фильтруем по cash
             showProductsByCashMin(min){
                 if (min < this.getMinMax.min){

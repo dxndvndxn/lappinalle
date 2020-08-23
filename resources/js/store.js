@@ -867,6 +867,7 @@ export default new Vuex.Store({
             }
         },
 
+        // Сортинг
         async sortByActionMutate(state, data){
             let params = null;
             switch (Object.keys(data.params).length) {
@@ -895,6 +896,34 @@ export default new Vuex.Store({
                             delete itemCell.data.min;
                             delete itemCell.data.max;
 
+                            // Создаем массив для размеров и пушим все размеры
+                            let localSize = [];
+                            itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
+
+                            // Выбираем уникальные размеры
+                            let sortSizes = new Set(localSize);
+                            let totalSizes = {};
+
+                            // Проходимся по объекту с уникальынми размерами
+                            // делаем ключом каждый размер и создаем пустой массив
+                            // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                            // если так, то пушим id продуктов
+                            for (let i of sortSizes) {
+                                totalSizes[i] = {
+                                    active: false,
+                                    ids: []
+                                };
+
+                                itemCell.data.sizes.forEach(el => {
+
+                                    if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
+                                })
+                            }
+
+                            // Устанаваливаем размеры
+                            state.filterSizes = totalSizes;
+                            delete itemCell.data.sizes;
+
                             // Устанавливаем дату в стейт
                             state.catalogData = itemCell.data;
 
@@ -916,6 +945,34 @@ export default new Vuex.Store({
                             delete itemCell.data.min;
                             delete itemCell.data.max;
 
+                            // Создаем массив для размеров и пушим все размеры
+                            let localSize = [];
+                            itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
+
+                            // Выбираем уникальные размеры
+                            let sortSizes = new Set(localSize);
+                            let totalSizes = {};
+
+                            // Проходимся по объекту с уникальынми размерами
+                            // делаем ключом каждый размер и создаем пустой массив
+                            // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+                            // если так, то пушим id продуктов
+                            for (let i of sortSizes) {
+                                totalSizes[i] = {
+                                    active: false,
+                                    ids: []
+                                };
+
+                                itemCell.data.sizes.forEach(el => {
+
+                                    if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
+                                })
+                            }
+
+                            // Устанаваливаем размеры
+                            state.filterSizes = totalSizes;
+                            delete itemCell.data.sizes;
+
                             // Устанавливаем дату в стейт
                             state.catalogData = itemCell.data;
 
@@ -923,6 +980,47 @@ export default new Vuex.Store({
                             state.catalogDataCellCount = itemCell.total;
                         });
             }
+        },
+
+        // Получаем данные по фильтру размеры
+        async showSizeProductsMutate(state, data){
+            let params = null;
+            switch (Object.keys(data.params).length) {
+                case 1:
+                    params = data.params.gender + '/';
+                    break;
+                case 2:
+                    params = data.params.gender + '/' + data.params.category;
+                    break;
+                case 3:
+                    params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
+                    break;
+            }
+            let queryStr = '';
+
+            data.sizes.forEach(el => {
+                queryStr +=  el[1].ids.join(', ') + ', ';
+            });
+
+            axios.get(`${state.SITE_URI}sizesIds=${queryStr}/${params}?page=${data.page}`)
+                .then(response => {
+                    // Получаем данные для отображения товаров в каталоге по категории
+                    let itemCell = response.data;
+
+                    // Устанавливаес min и max
+                    state.filterMin = itemCell.data.min;
+                    state.filterMax = itemCell.data.max;
+
+                    // Удаляем свойства из объекта
+                    delete itemCell.data.min;
+                    delete itemCell.data.max;
+
+                    // Устанавливаем дату в стейт
+                    state.catalogData = itemCell.data;
+
+                    //Получаем общее число товаров для пагинации
+                    state.catalogDataCellCount = itemCell.total;
+                });
         }
     },
     actions: {
@@ -955,6 +1053,9 @@ export default new Vuex.Store({
         },
         sortByAction({commit}, data){
             commit('sortByActionMutate', data);
+        },
+        showSizeProducts({commit}, data){
+            commit('showSizeProductsMutate', data);
         }
     },
     getters:{

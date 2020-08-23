@@ -3,10 +3,28 @@ import Appi from './Appi';
 import VueRouter from 'vue-router';
 import routes from './router';
 import store from "./store";
-import Paginate from 'vuejs-paginate'
+import Paginate from 'vuejs-paginate';
+// import 'es6-promise/auto';
+// import axios from 'axios';
+// import VueAuth from '@websanova/vue-auth';
+// import VueAxios from 'vue-axios';
+// import auth from './auth';
+import VueProgressBar from "vue-progressbar";
+
+// Set Vue globally
+// window.Vue = Vue;
+
+// Vue.router = routes;
+Vue.use(VueRouter);
+
+// Set Vue authentication
+// Vue.use(VueAxios, axios);
+// axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/v1`;
+
+// Vue.use(VueAuth, auth);
 Vue.component('paginate', Paginate);
 
-import VueProgressBar from "vue-progressbar";
+
 const options = {
     color: '#be5683',
     failedColor: '#874b4b',
@@ -21,7 +39,7 @@ const options = {
     inverse: false,
     position: 'relative'
 };
-Vue.use(VueRouter);
+
 Vue.use(VueProgressBar, options);
 
 const app = new Vue({

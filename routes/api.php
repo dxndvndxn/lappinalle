@@ -76,6 +76,15 @@ Route::get('/price-{where}/{gender}/{categories}/{departments}', 'GetDataFromDep
 // Получем отзывы по товару
 Route::get('/itemsreview-{itemNumber}', 'GetItemReviewsController@index');
 
+// Получаем размеры по товару по гендеру
+Route::get('/sizesIds={numbers}/{genders}', 'SizesGetDataFromGenderController@index');
+
+// Получаем размеры по товару по категории
+Route::get('/sizesIds={numbers}/{genders}/{categories}', 'SizesGetDataFromCategoriesController@index');
+
+// Получаем размеры по товару по подкатегории
+Route::get('/sizesIds={numbers}/{genders}/{categories}/{departments}', 'SizesGetDataFromDepartmentsController@index');
+
 // Получаем данные для каталога по гнедеру
 Route::get('/{genders}', 'GenderController@index');
 
