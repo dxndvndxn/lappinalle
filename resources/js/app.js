@@ -37,7 +37,8 @@ const options = {
     autoRevert: true,
     location: 'top',
     inverse: false,
-    position: 'relative'
+    position: 'relative',
+    height: '5px'
 };
 
 Vue.use(VueProgressBar, options);

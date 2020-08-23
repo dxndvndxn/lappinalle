@@ -48,3 +48,28 @@
     display: flex;
     flex-direction: $col;
 }
+
+@mixin arrow($clr, $height, $width, $degBefore, $degAfter, $topBefore, $topAftore, $leftBefore, $leftAftore){
+    &:before{
+        transform: rotate($degBefore);
+        content: "";
+        height: $height;
+        width: $width;
+        position: absolute;
+        top: $topBefore;
+        left: $leftBefore;
+        background: $clr;
+        transition: .2s ease-out all;
+    }
+    &:after{
+        transform: rotate($degAfter);
+        content: "";
+        height: $height;
+        width: $width;
+        position: absolute;
+        top: $topAftore;
+        left: $leftAftore;
+        background: $clr;
+        transition: .2s ease-out all;
+    }
+}

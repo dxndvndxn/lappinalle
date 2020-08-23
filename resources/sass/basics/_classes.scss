@@ -322,3 +322,20 @@
         padding: 10px;
     }
 }
+
+.cabinet-h{
+    @include ptSans(700);
+    font-size: $regFz;
+    text-transform: uppercase;
+    display: flex;
+}
+.active-input{
+    border-bottom: 1px solid $grey !important;
+}
+
+.active-arrow-cab{
+    @include arrow($purpp, 3.5px, 16.5px, 45deg, -45deg, 25px, 25px,19px, 29px);
+}
+.passive-arrow-cab{
+    @include arrow($palepurpp, 3.5px, 16.5px, 45deg, -45deg, 20px, 31px, 27px, 28px);
+}

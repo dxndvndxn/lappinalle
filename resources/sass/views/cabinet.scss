@@ -1,0 +1,127 @@
+.cabinet{
+    @include grid-temp(35%, 70%, 0px);
+    &-tabs{
+        list-style: none;
+        padding: 65px 55px 90px 0;
+        margin: 0;
+        li{
+            justify-content: flex-end;
+            padding: 20px 0;
+            cursor: pointer;
+        }
+    }
+    .cabinet-user-data, .cabinet-user-order{
+        background-color: $ocean;
+        padding: 65px 0 90px 55px;
+        position: relative;
+        &:before{
+            width: 100%;
+            height: 5px;
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -5px;
+            background-color: $ocean;
+        }
+        .cabinet-h{
+            padding: 20px 0;
+            img{
+                margin: -4px 0 0 15px;
+                cursor: pointer;
+            }
+        }
+    }
+    .user-data-basic{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .cabinet-user-data{
+        ul{
+            padding: 0;
+            list-style: none;
+            li{
+                &:not(:first-child){
+                    @include ptSans(400);
+                    text-transform: uppercase;
+                    color: $grey;
+                    margin-bottom: 20px;
+                    input{
+                        @extend %input-null;
+                        @include ptSans(400);
+                        text-transform: uppercase;
+                        color: $grey;
+                        border-bottom: 1px solid transparent;
+                    }
+                }
+            }
+        }
+        button{
+            @extend %purpp-btn;
+        }
+    }
+    .cabinet-user-order{
+        .user-order-wrap{
+            .user-order-head{
+                display: flex;
+                .order-head-number{
+                    display: flex;
+                }
+                .order-head-status{
+                    margin-left: 50px;
+                   .head-status-wrap{
+                       display: flex;
+                       .head-status-btn{
+                           position: relative;
+                           cursor: pointer;
+                           width: 30px;
+                           height: 20px;
+                           padding: 20px 0;                       }
+                   }
+                }
+                .order-view{
+                    @include ptSans(700);
+                    padding: 20px 0 0 5px;
+                    text-transform: uppercase;
+                    color: $palepurpp;
+                }
+            }
+        }
+        .user-order-data{
+            display: flex;
+            margin-bottom: 5px;
+            img{
+                width: 120px;
+                height: 110px;
+                object-fit: contain;
+            }
+            .order-data-desc{
+                margin: 0;
+                list-style: none;
+                .cabinet-h{
+                    padding: 0;
+                    text-transform: capitalize;
+                }
+                li{
+                    margin-bottom: 10px;
+                    &:not(:first-child){
+                        @include ptSans(400);
+                        font-size: $regFz;
+                    }
+                }
+            }
+        }
+        .user-order-delivery, .user-order-total{
+            .cabinet-h{
+                padding: 10px 0;
+                text-transform: unset;
+            }
+            display: flex;
+        }
+        .user-order-delivery-text, .user-order-total-text{
+            padding: 10px 0 0 5px;
+            @include ptSans(400);
+            font-size: $regFz;
+        }
+    }
+}

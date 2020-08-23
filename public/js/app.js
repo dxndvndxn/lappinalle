@@ -2708,7 +2708,7 @@ __webpack_require__.r(__webpack_exports__);
       orderData: [{
         orders_number: 1234556,
         status: 'В обработке',
-        active: false,
+        active: true,
         order_data: [{
           img: '../../img/order-img.png',
           order_name: 'Комбинезон LAPPINALE',
@@ -2722,7 +2722,7 @@ __webpack_require__.r(__webpack_exports__);
           size: 43,
           price: 5400
         }],
-        delivery: 'курьерская по СПБ, 14.08.2020, 300 Р',
+        delivery: 'курьерская по СПБ, 14.08.2020, 300',
         totalPrice: 11100
       }, {
         orders_number: 1234556,
@@ -2735,7 +2735,7 @@ __webpack_require__.r(__webpack_exports__);
           size: 43,
           price: 5400
         }],
-        delivery: 'курьерская по СПБ, 14.08.2020, 300 Р',
+        delivery: 'курьерская по СПБ, 14.08.2020, 300',
         totalPrice: 11100
       }, {
         orders_number: 1234556,
@@ -2748,9 +2748,12 @@ __webpack_require__.r(__webpack_exports__);
           size: 43,
           price: 5400
         }],
-        delivery: 'курьерская по СПБ, 14.08.2020, 300 Р',
+        delivery: 'курьерская по СПБ, 14.08.2020, 300',
         totalPrice: 11100
-      }]
+      }],
+      basicData: false,
+      basicDataAddr: false,
+      basicDataPass: false
     };
   },
   methods: {
@@ -2759,6 +2762,10 @@ __webpack_require__.r(__webpack_exports__);
         return el.active = !el.active;
       });
     }
+  },
+  created: function created() {
+    // this.$Progress.start();
+    this.$Progress.set(100);
   }
 });
 
@@ -6553,9 +6560,15 @@ var render = function() {
       "ul",
       { staticClass: "cabinet-tabs" },
       _vm._l(_vm.tabs, function(tb, i) {
-        return _c("li", { on: { click: _vm.clickTab } }, [
-          _vm._v("\n            " + _vm._s(tb.name) + "\n        ")
-        ])
+        return _c(
+          "li",
+          {
+            staticClass: "cabinet-h",
+            class: tb.active ? "active-catg" : null,
+            on: { click: _vm.clickTab }
+          },
+          [_vm._v("\n            " + _vm._s(tb.name) + "\n        ")]
+        )
       }),
       0
     ),
@@ -6574,7 +6587,20 @@ var render = function() {
           },
           [
             _c("ul", { staticClass: "user-data-basic" }, [
-              _vm._m(0),
+              _c("li", { staticClass: "cabinet-h" }, [
+                _vm._v("\n                Основное "),
+                _c("img", {
+                  attrs: {
+                    src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"),
+                    alt: ""
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.basicData = !_vm.basicData
+                    }
+                  }
+                })
+              ]),
               _vm._v(" "),
               _c("li", [
                 _c("label", { attrs: { for: "name" } }, [_vm._v("ФИО: ")]),
@@ -6589,6 +6615,7 @@ var render = function() {
                       modifiers: { trim: true }
                     }
                   ],
+                  class: _vm.basicData ? "active-input" : null,
                   attrs: { type: "text", id: "name" },
                   domProps: { value: _vm.userName },
                   on: {
@@ -6618,6 +6645,7 @@ var render = function() {
                       modifiers: { trim: true }
                     }
                   ],
+                  class: _vm.basicData ? "active-input" : null,
                   attrs: { type: "tel", id: "tel" },
                   domProps: { value: _vm.userTel },
                   on: {
@@ -6647,6 +6675,7 @@ var render = function() {
                       modifiers: { trim: true }
                     }
                   ],
+                  class: _vm.basicData ? "active-input" : null,
                   attrs: { type: "text", id: "email" },
                   domProps: { value: _vm.userTel },
                   on: {
@@ -6665,7 +6694,20 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("ul", { staticClass: "user-data-addr" }, [
-              _vm._m(1),
+              _c("li", { staticClass: "cabinet-h" }, [
+                _vm._v("\n                Адрес "),
+                _c("img", {
+                  attrs: {
+                    src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"),
+                    alt: ""
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.basicDataAddr = !_vm.basicDataAddr
+                    }
+                  }
+                })
+              ]),
               _vm._v(" "),
               _c("li", [
                 _c("label", [_vm._v("Город: ")]),
@@ -6680,6 +6722,7 @@ var render = function() {
                       modifiers: { trim: true }
                     }
                   ],
+                  class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
                   domProps: { value: _vm.userCity },
                   on: {
@@ -6709,6 +6752,7 @@ var render = function() {
                       modifiers: { trim: true }
                     }
                   ],
+                  class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
                   domProps: { value: _vm.userAdrr },
                   on: {
@@ -6738,6 +6782,7 @@ var render = function() {
                       modifiers: { trim: true }
                     }
                   ],
+                  class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
                   domProps: { value: _vm.userBuild },
                   on: {
@@ -6767,6 +6812,7 @@ var render = function() {
                       modifiers: { trim: true }
                     }
                   ],
+                  class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
                   domProps: { value: _vm.userCorpus },
                   on: {
@@ -6796,6 +6842,7 @@ var render = function() {
                       modifiers: { trim: true }
                     }
                   ],
+                  class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
                   domProps: { value: _vm.userApart },
                   on: {
@@ -6825,6 +6872,7 @@ var render = function() {
                       modifiers: { trim: true }
                     }
                   ],
+                  class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
                   domProps: { value: _vm.userPostI },
                   on: {
@@ -6843,7 +6891,20 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("ul", { staticClass: "user-data-security" }, [
-              _vm._m(2),
+              _c("li", { staticClass: "cabinet-h" }, [
+                _vm._v("\n                Безопасность "),
+                _c("img", {
+                  attrs: {
+                    src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"),
+                    alt: ""
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.basicDataPass = !_vm.basicDataPass
+                    }
+                  }
+                })
+              ]),
               _vm._v(" "),
               _c("li", [
                 _c("label", [_vm._v("Пароль: ")]),
@@ -6858,6 +6919,7 @@ var render = function() {
                       modifiers: { trim: true }
                     }
                   ],
+                  class: _vm.basicDataPass ? "active-input" : null,
                   attrs: { type: "password" },
                   domProps: { value: _vm.userPass },
                   on: {
@@ -6892,44 +6954,57 @@ var render = function() {
                 _c("div", { staticClass: "user-order-head" }, [
                   _c("div", { staticClass: "order-head-number" }, [
                     _c("span", { staticClass: "cabinet-h" }, [
-                      _vm._v("Заказ №")
+                      _vm._v("Заказ № ")
                     ]),
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(ord.orders_number) +
-                        "\n                "
-                    )
+                    _vm._v(" "),
+                    _c("span", { staticClass: "order-view" }, [
+                      _vm._v(_vm._s(ord.orders_number))
+                    ])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "order-head-status" }, [
                     _c("div", { staticClass: "head-status-wrap" }, [
                       _c("span", { staticClass: "cabinet-h" }, [
-                        _vm._v("Статус №")
+                        _vm._v("Статус: ")
                       ]),
                       _vm._v(" "),
-                      _c("span", [_vm._v(_vm._s(ord.orders_number))])
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "head-status-btn" })
+                      _c("span", { staticClass: "order-view" }, [
+                        _vm._v(" " + _vm._s(ord.status))
+                      ]),
+                      _vm._v(" "),
+                      _c("span", {
+                        staticClass: "head-status-btn",
+                        class: ord.active
+                          ? "active-arrow-cab"
+                          : "passive-arrow-cab",
+                        on: {
+                          click: function($event) {
+                            ord.active = !ord.active
+                          }
+                        }
+                      })
+                    ])
                   ])
                 ]),
                 _vm._v(" "),
                 _vm._l(ord.order_data, function(dt, k) {
-                  return _c("div", { staticClass: "user-order-data" }, [
-                    _c("img", { attrs: { src: dt.img, alt: "" } }),
-                    _vm._v(" "),
-                    _c("ul", { staticClass: "order-data-desc" }, [
-                      _c("li", { staticClass: "cabinet-h" }, [
-                        _vm._v(_vm._s(dt.order_name))
-                      ]),
-                      _vm._v(" "),
-                      _c("li", [_vm._v("Количество: " + _vm._s(dt.count))]),
-                      _vm._v(" "),
-                      _c("li", [_vm._v("Размер: " + _vm._s(dt.size))]),
-                      _vm._v(" "),
-                      _c("li", [_vm._v("Цена: " + _vm._s(dt.price))])
-                    ])
-                  ])
+                  return ord.active
+                    ? _c("div", { staticClass: "user-order-data" }, [
+                        _c("img", { attrs: { src: dt.img, alt: "" } }),
+                        _vm._v(" "),
+                        _c("ul", { staticClass: "order-data-desc" }, [
+                          _c("li", { staticClass: "cabinet-h" }, [
+                            _vm._v(_vm._s(dt.order_name))
+                          ]),
+                          _vm._v(" "),
+                          _c("li", [_vm._v("Количество: " + _vm._s(dt.count))]),
+                          _vm._v(" "),
+                          _c("li", [_vm._v("Размер: " + _vm._s(dt.size))]),
+                          _vm._v(" "),
+                          _c("li", [_vm._v("Цена: " + _vm._s(dt.price) + " ₽")])
+                        ])
+                      ])
+                    : _vm._e()
                 }),
                 _vm._v(" "),
                 _c("div", { staticClass: "user-order-delivery" }, [
@@ -6937,8 +7012,8 @@ var render = function() {
                     _vm._v("Доставка: ")
                   ]),
                   _vm._v(" "),
-                  _c("span", { staticClass: "delivery-text" }, [
-                    _vm._v(_vm._s(ord.delivery))
+                  _c("span", { staticClass: "user-order-delivery-text" }, [
+                    _vm._v(_vm._s(ord.delivery) + " ₽")
                   ])
                 ]),
                 _vm._v(" "),
@@ -6947,8 +7022,8 @@ var render = function() {
                     _vm._v("Итоговая стоимость: ")
                   ]),
                   _vm._v(" "),
-                  _c("span", { staticClass: "total-text" }, [
-                    _vm._v(_vm._s(ord.totalPrice))
+                  _c("span", { staticClass: "user-order-total-text" }, [
+                    _vm._v(_vm._s(ord.totalPrice) + " ₽")
                   ])
                 ])
               ],
@@ -6960,41 +7035,7 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "cabinet-h" }, [
-      _vm._v("\n                Основное "),
-      _c("img", {
-        attrs: { src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"), alt: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "cabinet-h" }, [
-      _vm._v("\n                Адрес "),
-      _c("img", {
-        attrs: { src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"), alt: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "cabinet-h" }, [
-      _vm._v("\n                Безопасность "),
-      _c("img", {
-        attrs: { src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"), alt: "" }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -26038,7 +26079,8 @@ var options = {
   autoRevert: true,
   location: 'top',
   inverse: false,
-  position: 'relative'
+  position: 'relative',
+  height: '5px'
 };
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_6___default.a, options);
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({

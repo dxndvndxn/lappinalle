@@ -432,6 +432,66 @@
   padding: 10px;
 }
 
+.cabinet-h {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  display: flex;
+}
+
+.active-input {
+  border-bottom: 1px solid #585757 !important;
+}
+
+.active-arrow-cab:before {
+  transform: rotate(45deg);
+  content: "";
+  height: 3.5px;
+  width: 16.5px;
+  position: absolute;
+  top: 25px;
+  left: 19px;
+  background: #bd5583;
+  transition: 0.2s ease-out all;
+}
+
+.active-arrow-cab:after {
+  transform: rotate(-45deg);
+  content: "";
+  height: 3.5px;
+  width: 16.5px;
+  position: absolute;
+  top: 25px;
+  left: 29px;
+  background: #bd5583;
+  transition: 0.2s ease-out all;
+}
+
+.passive-arrow-cab:before {
+  transform: rotate(45deg);
+  content: "";
+  height: 3.5px;
+  width: 16.5px;
+  position: absolute;
+  top: 20px;
+  left: 27px;
+  background: #848ccf;
+  transition: 0.2s ease-out all;
+}
+
+.passive-arrow-cab:after {
+  transform: rotate(-45deg);
+  content: "";
+  height: 3.5px;
+  width: 16.5px;
+  position: absolute;
+  top: 31px;
+  left: 28px;
+  background: #848ccf;
+  transition: 0.2s ease-out all;
+}
+
 .crumbs ul,
 .catalog-sidebar ul,
 nav ul {
@@ -469,6 +529,16 @@ nav ul {
      -moz-appearance: none;
           appearance: none;
   cursor: pointer;
+}
+
+.cabinet .cabinet-user-data button {
+  width: 315px;
+  height: 50px;
+}
+
+.cabinet .cabinet-user-data ul li:not(:first-child) input {
+  background: none;
+  border: none;
 }
 
 nav .menu-top {
@@ -803,6 +873,16 @@ nav ul {
   cursor: pointer;
 }
 
+.cabinet .cabinet-user-data button {
+  width: 315px;
+  height: 50px;
+}
+
+.cabinet .cabinet-user-data ul li:not(:first-child) input {
+  background: none;
+  border: none;
+}
+
 .catalog-sidebar {
   font-family: "PT Sans", sans-serif;
   font-weight: 400;
@@ -1009,6 +1089,16 @@ nav ul,
      -moz-appearance: none;
           appearance: none;
   cursor: pointer;
+}
+
+.cabinet .cabinet-user-data button {
+  width: 315px;
+  height: 50px;
+}
+
+.cabinet .cabinet-user-data ul li:not(:first-child) input {
+  background: none;
+  border: none;
 }
 
 .bread {
@@ -1996,6 +2086,162 @@ nav ul,
   font-weight: 400;
   font-size: 28px;
   margin-bottom: 100px;
+}
+
+.cabinet {
+  display: grid;
+  grid-template-columns: 35% 70%;
+}
+
+.cabinet-tabs {
+  list-style: none;
+  padding: 65px 55px 90px 0;
+  margin: 0;
+}
+
+.cabinet-tabs li {
+  justify-content: flex-end;
+  padding: 20px 0;
+  cursor: pointer;
+}
+
+.cabinet .cabinet-user-data,
+.cabinet .cabinet-user-order {
+  background-color: #e7eff8;
+  padding: 65px 0 90px 55px;
+  position: relative;
+}
+
+.cabinet .cabinet-user-data:before,
+.cabinet .cabinet-user-order:before {
+  width: 100%;
+  height: 5px;
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -5px;
+  background-color: #e7eff8;
+}
+
+.cabinet .cabinet-user-data .cabinet-h,
+.cabinet .cabinet-user-order .cabinet-h {
+  padding: 20px 0;
+}
+
+.cabinet .cabinet-user-data .cabinet-h img,
+.cabinet .cabinet-user-order .cabinet-h img {
+  margin: -4px 0 0 15px;
+  cursor: pointer;
+}
+
+.cabinet .user-data-basic {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cabinet .cabinet-user-data ul {
+  padding: 0;
+  list-style: none;
+}
+
+.cabinet .cabinet-user-data ul li:not(:first-child) {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #585757;
+  margin-bottom: 20px;
+}
+
+.cabinet .cabinet-user-data ul li:not(:first-child) input {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #585757;
+  border-bottom: 1px solid transparent;
+}
+
+.cabinet .cabinet-user-order .user-order-wrap .user-order-head {
+  display: flex;
+}
+
+.cabinet .cabinet-user-order .user-order-wrap .user-order-head .order-head-number {
+  display: flex;
+}
+
+.cabinet .cabinet-user-order .user-order-wrap .user-order-head .order-head-status {
+  margin-left: 50px;
+}
+
+.cabinet .cabinet-user-order .user-order-wrap .user-order-head .order-head-status .head-status-wrap {
+  display: flex;
+}
+
+.cabinet .cabinet-user-order .user-order-wrap .user-order-head .order-head-status .head-status-wrap .head-status-btn {
+  position: relative;
+  cursor: pointer;
+  width: 30px;
+  height: 20px;
+  padding: 20px 0;
+}
+
+.cabinet .cabinet-user-order .user-order-wrap .user-order-head .order-view {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  padding: 20px 0 0 5px;
+  text-transform: uppercase;
+  color: #848ccf;
+}
+
+.cabinet .cabinet-user-order .user-order-data {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.cabinet .cabinet-user-order .user-order-data img {
+  width: 120px;
+  height: 110px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.cabinet .cabinet-user-order .user-order-data .order-data-desc {
+  margin: 0;
+  list-style: none;
+}
+
+.cabinet .cabinet-user-order .user-order-data .order-data-desc .cabinet-h {
+  padding: 0;
+  text-transform: capitalize;
+}
+
+.cabinet .cabinet-user-order .user-order-data .order-data-desc li {
+  margin-bottom: 10px;
+}
+
+.cabinet .cabinet-user-order .user-order-data .order-data-desc li:not(:first-child) {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.cabinet .cabinet-user-order .user-order-delivery,
+.cabinet .cabinet-user-order .user-order-total {
+  display: flex;
+}
+
+.cabinet .cabinet-user-order .user-order-delivery .cabinet-h,
+.cabinet .cabinet-user-order .user-order-total .cabinet-h {
+  padding: 10px 0;
+  text-transform: unset;
+}
+
+.cabinet .cabinet-user-order .user-order-delivery-text,
+.cabinet .cabinet-user-order .user-order-total-text {
+  padding: 10px 0 0 5px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
 }
 
 html,
