@@ -35,7 +35,7 @@
                 <h1 class="admin-h3">Фотографии</h1>
                 <form @submit.prevent="">
                     <div class="uploaded-content">
-                        <img :src="img.img" v-for="(img, i) in loadedImg" @click="clickImg(i)" v-bind:class="img.active ? 'puprr-border' : 'unctive-blu-img'" alt="">
+                            <img v-for="(img, i) in files" v-bind:ref="'image' + parseInt(i)" v-bind:class="img.active ? 'puprr-border' : 'unctive-blu-img'" @click="clickImg(i)">
                     </div>
                     <div class="wrap-load">
                         <label for="loadImg" class="admin-btn-add">Добавить изображение <img src="../../../img/purpp-krest.png" alt=""></label>
@@ -44,7 +44,7 @@
                         <label for="loadVid" class="admin-btn-add">Добавить видео <img src="../../../img/purpp-krest.png" alt=""></label>
                     </div>
                     <button class="admin-btn-complete">выбрать обложкой</button>
-                    <input type="file" value="Добавить изображение" id="loadImg" ref="img" @change="loadImg()" multiple accept="image/jpeg,image/png">
+                    <input type="file" value="Добавить изображение" id="loadImg" ref="img" @change="pushImg()" multiple accept="image/jpeg,image/png">
                     <input type="file" value="Добавить видео" id="loadVid" ref="vid" @change="loadVid()" accept="video/*">
                 </form>
                 <div class="admin-main-photo">
@@ -65,21 +65,47 @@
             sizes: [],
             newSize: null,
             mainImg: null,
-            loadedImg: []
+            loadedImg: [],
+            files: [],
+            resultImg: {},
         }),
         methods: {
             addSize(){
                 if (this.newSize) this.sizes.push(this.newSize)
             },
-            loadImg(){
-                let reader  = new FileReader();
-                reader.readAsDataURL(this.$refs.img.files[0]);
-                reader.addEventListener("load", function () {
-                    this.loadedImg.push({active: false, img: reader.result});
-                }.bind(this), false);
+             pushImg(){
+                let imgs = this.$refs.img.files;
+
+                for (let i in imgs){
+                    this.files.push(imgs[i]);
+                }
+
+                this.getPrevious();
+            },
+            getPrevious(){
+                for( let i = 0; i < this.files.length; i++ ){
+
+                    if ( /\.(jpe?g|png|gif|svg)$/i.test(this.files[i].name) ) {
+                        if (i == 0) this.files[i].active = true;
+                        else this.files[i].active = false;
+                        let reader = new FileReader();
+                        reader.addEventListener("load", function(){
+                            this.$refs['image'+parseInt(i)][0].src = reader.result;
+                            if (i === 0) this.mainImg = this.$refs['image' + parseInt(i)][0].src;
+                        }.bind(this), false);
+                        reader.readAsDataURL(this.files[i]);
+                    }
+                }
+                this.files = this.files.filter(el => (typeof el) === "object");
             },
             loadVid(){
 
+            },
+            clickImg(i){
+                this.mainImg = this.$refs['image' + parseInt(i)][0].src;
+            },
+            getMainImg(){
+                return this.mainImg;
             }
         }
     }

@@ -3628,6 +3628,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 //
 //
 //
@@ -3695,24 +3697,54 @@ __webpack_require__.r(__webpack_exports__);
       sizes: [],
       newSize: null,
       mainImg: null,
-      loadedImg: []
+      loadedImg: [],
+      files: [],
+      resultImg: {}
     };
   },
   methods: {
     addSize: function addSize() {
       if (this.newSize) this.sizes.push(this.newSize);
     },
-    loadImg: function loadImg() {
-      var reader = new FileReader();
-      reader.readAsDataURL(this.$refs.img.files[0]);
-      reader.addEventListener("load", function () {
-        this.loadedImg.push({
-          active: false,
-          img: reader.result
-        });
-      }.bind(this), false);
+    pushImg: function pushImg() {
+      var imgs = this.$refs.img.files;
+
+      for (var i in imgs) {
+        this.files.push(imgs[i]);
+      }
+
+      this.getPrevious();
     },
-    loadVid: function loadVid() {}
+    getPrevious: function getPrevious() {
+      var _this = this;
+
+      var _loop = function _loop(i) {
+        if (/\.(jpe?g|png|gif|svg)$/i.test(_this.files[i].name)) {
+          if (i == 0) _this.files[i].active = true;else _this.files[i].active = false;
+          var reader = new FileReader();
+          reader.addEventListener("load", function () {
+            this.$refs['image' + parseInt(i)][0].src = reader.result;
+            if (i === 0) this.mainImg = this.$refs['image' + parseInt(i)][0].src;
+          }.bind(_this), false);
+          reader.readAsDataURL(_this.files[i]);
+        }
+      };
+
+      for (var i = 0; i < this.files.length; i++) {
+        _loop(i);
+      }
+
+      this.files = this.files.filter(function (el) {
+        return _typeof(el) === "object";
+      });
+    },
+    loadVid: function loadVid() {},
+    clickImg: function clickImg(i) {
+      this.mainImg = this.$refs['image' + parseInt(i)][0].src;
+    },
+    getMainImg: function getMainImg() {
+      return this.mainImg;
+    }
   }
 });
 
@@ -8218,10 +8250,11 @@ var render = function() {
             _c(
               "div",
               { staticClass: "uploaded-content" },
-              _vm._l(_vm.loadedImg, function(img, i) {
+              _vm._l(_vm.files, function(img, i) {
                 return _c("img", {
+                  ref: "image" + parseInt(i),
+                  refInFor: true,
                   class: img.active ? "puprr-border" : "unctive-blu-img",
-                  attrs: { src: img.img, alt: "" },
                   on: {
                     click: function($event) {
                       return _vm.clickImg(i)
@@ -8251,7 +8284,7 @@ var render = function() {
               },
               on: {
                 change: function($event) {
-                  return _vm.loadImg()
+                  return _vm.pushImg()
                 }
               }
             }),

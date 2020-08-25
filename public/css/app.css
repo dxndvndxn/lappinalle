@@ -684,6 +684,10 @@
   border: 1px solid #84B6E3;
 }
 
+.puprr-border {
+  border: 2px solid #bd5583 !important;
+}
+
 .admin-categories ul,
 .admin-sidebar__tabs .admin-sidebar__tab,
 .crumbs ul,
@@ -2845,16 +2849,32 @@ nav ul,
   cursor: pointer;
 }
 
+.admin-product-photos-rew form {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .admin-product-photos-rew .admin-photos .uploaded-content {
   display: grid;
-  grid-template-columns: repeat(5, 50px);
+  grid-template-columns: repeat(5, 57px);
   height: 105px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  grid-row-gap: 3px;
+  margin-bottom: 7px;
+}
+
+.admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar {
+  width: 5px;
+  background-color: #848ccf;
 }
 
 .admin-product-photos-rew .admin-photos .uploaded-content img {
   width: 50px;
   height: 50px;
   border: 1px solid #84B6E3;
+  cursor: pointer;
 }
 
 .admin-product-photos-rew .admin-photos .wrap-load {
@@ -2866,6 +2886,7 @@ nav ul,
   box-sizing: border-box;
   padding: 6px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .admin-product-photos-rew .admin-photos .wrap-load label img {
@@ -2877,6 +2898,7 @@ nav ul,
 
 .admin-product-photos-rew .admin-photos button {
   width: 280px;
+  margin-bottom: 10px;
 }
 
 #loadImg,
