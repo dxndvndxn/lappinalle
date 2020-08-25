@@ -37,12 +37,14 @@ export default new Vuex.Store({
         filterMax: null,
         filterSizes: null,
 
-        SITE_URI: 'http://lappinalle.test/api/'
+        // Данные по меню для админа
+        menuAdmin: null,
+        SITE_URI: 'http://lappinalle.test/api/',
     },
     mutations: {
         // Получаем категории и подкатегории меню
         async getMenuDataMutate(state){
-            await axios.get('/api/menu')
+            await axios.get(`${state.SITE_URI}menu`)
                 .then(response => {
                     // массив с изначальной датой
                     let menu = response.data;
@@ -193,9 +195,14 @@ export default new Vuex.Store({
                     let gendersObj = {};
 
                     // Определяем гендеры в разных массивах, объекта
+                    let lastMenu = {};
+                    let menuForAdmin = {};
                     for (let i of genders) {
                         gendersObj[i] = [];
-                        state.lastMenu[i] = {};
+                        lastMenu[i] = {};
+                        menuForAdmin[i] = {
+                            activeGen: false
+                        };
                     }
 
                     // Пушим данным по гендарным различиям
@@ -203,7 +210,9 @@ export default new Vuex.Store({
 
                         for (let k of genders){
 
-                            if (k === menu[i].sex_name) gendersObj[k].push(menu[i]);
+                            if (k === menu[i].sex_name) {
+                                gendersObj[k].push(menu[i]);
+                            }
                         }
                     }
 
@@ -212,14 +221,14 @@ export default new Vuex.Store({
                     let categoriesObj = {};
 
                     // Распределяем категории по гендеру
-                    for (let i in state.lastMenu) {
+                    for (let i in lastMenu) {
 
                         for (let k of categories) {
-                            state.lastMenu[i][k] = [];
+                            lastMenu[i][k] = [];
                             categoriesObj[k] = [];
+                            menuForAdmin[i][k] = [];
                         }
                     }
-
                     for (let g in gendersObj) {
 
                         for (let gg in gendersObj[g]) {
@@ -227,7 +236,7 @@ export default new Vuex.Store({
                             for (let c of categories) {
 
                                 if (c === (gendersObj[g][gg].season_name !== null ? gendersObj[g][gg].categories_name + ' ' + gendersObj[g][gg].season_name : gendersObj[g][gg].categories_name) && gendersObj[g][gg].sex_name === g) {
-                                    state.lastMenu[g][c].push({
+                                    lastMenu[g][c].push({
                                         department: gendersObj[g][gg].departments_name,
                                         departments_alias: gendersObj[g][gg].departments_alias,
                                         category: c,
@@ -235,18 +244,29 @@ export default new Vuex.Store({
                                         sex_alias: gendersObj[g][gg].sex_alias,
                                         categories_alias: gendersObj[g][gg].season_alias !== null ? gendersObj[g][gg].categories_alias + '-' + gendersObj[g][gg].season_alias : gendersObj[g][gg].categories_alias}
                                     );
+                                    menuForAdmin[g][c].push({
+                                        department: gendersObj[g][gg].departments_name,
+                                        category: c,
+                                        activeCateg: false
+                                    });
                                 }
                             }
                         }
                     }
 
                     // Удаляем категорию, в которой ничего нету
-                    for (let l in state.lastMenu) {
+                    for (let l in lastMenu) {
 
-                        for (let ll in state.lastMenu[l]) {
-                            if (!state.lastMenu[l][ll].length) delete state.lastMenu[l][ll];
+                        for (let ll in lastMenu[l]) {
+                            if (!lastMenu[l][ll].length){
+                                delete lastMenu[l][ll];
+                                delete menuForAdmin[l][ll];
+                            }
                         }
                     }
+
+                    state.lastMenu = lastMenu;
+                    state.menuAdmin = menuForAdmin;
                 })
         },
 
@@ -1103,6 +1123,9 @@ export default new Vuex.Store({
         },
         filterSizes: state => {
             return state.filterSizes;
+        },
+        menuAdmin: state => {
+            return state.menuAdmin;
         }
 
     }

@@ -24,6 +24,14 @@
 @import "views/PaySuccess";
 @import "views/bookmark";
 @import "views/cabinet";
+
+
+// Админ часть
+@import "admin/components/adminsidebar";
+@import "admin/components/adminheader";
+@import "admin/views/admin-category";
+@import "admin/views/admin-products";
+@import "admin/views/admin-productcard";
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
 html,body{
     overflow-x: hidden;

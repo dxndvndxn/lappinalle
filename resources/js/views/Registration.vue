@@ -2,11 +2,11 @@
     <div class="registration">
         <div class="reg-from" v-if="!regWhat">
             <h1 class="h-30 h1-m80">Регистрация</h1>
-            <form @submit.prevent="regIn()">
+            <form @submit.prevent="register" method="post">
                 <input type="text" class="classic-input" v-model.trim="name" placeholder="Имя" autocomplete="on">
                 <input type="email" class="classic-input" v-model.trim="email" placeholder="E-mail" autocomplete="on">
-                <input type="password" class="classic-input" v-model.trim="pass" placeholder="Пароль">
-                <input type="password" class="classic-input" v-model.trim="passRepeat" placeholder="Повторите пароль">
+                <input type="password" class="classic-input" v-model.trim="pass" placeholder="Пароль" autocomplete="on">
+                <input type="password" class="classic-input" v-model.trim="passRepeat" placeholder="Повторите пароль" autocomplete="on">
                 <div class="check-agree">
                     <input v-model.trim="checkAgree" type="checkbox" id="agree" @click="checkAgree = !checkAgree"
                            v-bind:class="checkAgree ? 'active-size' : null">
@@ -40,18 +40,30 @@
             regWhat: false
         }),
         methods: {
-            async regIn(){
+            register(){
+                this.$Progress.start();
+                this.$auth.register({
+                    body: {
+                        users_name: this.name,
+                        users_email: this.email,
+                        users_password: this.pass,
+                        users_password_confirmation: this.passRepeat
+                    },
 
-                if (this.checkAgree){
-                    this.$Progress.start();
-                    await setTimeout(() => {
-                        console.log(this.name, this.email)
-                        this.regWhat = true;
-                        this.$Progress.finish();
-                    }, 5000);
-
-                }
+                    success: function () {
+                        console.log('success');
+                    },
+                    error: function (res) {
+                        console.log(res.response.data.errors)
+                    }
+                })
             }
+        },
+        created() {
+            this.$Progress.start();
+        },
+        mounted() {
+            this.$Progress.finish();
         }
     }
 </script>

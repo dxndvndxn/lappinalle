@@ -18,7 +18,13 @@
         components: {CatalogCell, Back},
         data: () => ({
             dataBookmark: null
-        })
+        }),
+        created() {
+            this.$Progress.start();
+        },
+        mounted() {
+            this.$Progress.finish();
+        }
     }
 </script>
 

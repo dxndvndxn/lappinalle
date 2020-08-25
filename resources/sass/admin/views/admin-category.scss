@@ -1,0 +1,81 @@
+.admin-categories{
+    @include flexin(space-between);
+    ul{
+        @extend %ul;
+    }
+    li{
+        cursor: pointer;
+        span{
+            display: inline-block;
+            margin-bottom: 5px;
+            cursor: pointer;
+            position: relative;
+            height: 40px;
+            box-sizing: border-box;
+            button{
+                position: absolute;
+                right: 0;
+                top: 0;
+                background: #fff;
+                cursor: pointer;
+                &:before{
+                    left: 5px;
+                }
+                &:after{
+                    left: 15px;
+                }
+            }
+            .admin-btn-arrow-pass{
+                &:before{
+                    left: 14px;
+                    top: 12px;
+                }
+                &:after{
+                    left: 14px;
+                    top: 22px;
+                }
+            }
+        }
+    }
+    .admin-menu-category, .admin-menu-depart{
+        padding-left: 55px;
+    }
+    .admin-categories-change, .admin-categories-fields{
+        @include flex-column(column);
+    }
+    .wrap-inp-btn{
+        @include flexin(space-between);
+        input{
+            margin-bottom: 3px;
+        }
+    }
+    .admin-categories-fields{
+        .input-transp-p{
+            &:nth-child(2){
+                margin-bottom: 20px;
+            }
+        }
+    }
+    .selected-categories{
+        border: 2px solid $blu;
+        overflow-x: hidden;
+        @extend %scrollbar;
+        @include ptSans(400);
+        font-size: 14px;
+        height: 90px;
+        padding: 10px 20px !important;
+        margin-bottom: 20px;
+        &::-webkit-scrollbar
+        {
+            width: 10px;
+            background-color: $palepurpp;
+        }
+        li{
+            margin-bottom: 8px;
+        }
+    }
+    .admin-btn-complete{
+        margin-bottom: 20px;
+    }
+}
+

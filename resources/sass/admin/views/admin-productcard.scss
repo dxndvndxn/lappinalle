@@ -1,0 +1,116 @@
+.admin-product-card-header{
+    @include grid-temp(400px, 0.5fr, 300px);
+    justify-content: space-between;
+    .card-name{
+        font-size: 14px;
+        color: $grey;
+        text-transform: uppercase;
+        @include ptSans(400);
+    }
+    .wrap-card-header{
+        @include flexin(space-between);
+    }
+    .admin-btn-complete{
+        justify-self: right;
+        grid-column: 3;
+    }
+}
+.admin-product-card-desc{
+    @include grid-temp(300px, 200px, 300px);
+    justify-content: space-between;
+    .wrap-card-price, .wrap-card-desc, .wrap-card-sizes{
+        h1{
+            margin-bottom: 15px;
+        }
+    }
+    .wrap-card-desc{
+        textarea{
+            height: 135px;
+            padding: 15px;
+            resize: none;
+            @extend %scrollbar;
+        }
+    }
+    .wrap-card-price{
+        input{
+            padding: 5px 15px;
+            &:nth-child(2){
+                margin-bottom: 14px;
+            }
+        }
+    }
+    .wrap-card-sizes{
+        .size-grid{
+            @include variableColumns(6, 40px);
+            grid-template-rows: 40px;
+            grid-column-gap: 8px;
+            grid-row-gap: 8px;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            height: 88px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            @extend %scrollbar;
+            &::-webkit-scrollbar
+            {
+                width: 5px;
+                background-color: $palepurpp;
+            }
+            span{
+                background-color: $ocean;
+                @include ptSans(400);
+                color: $grey;
+                height: 40px;
+                text-align: center;
+                padding-top: 11px;
+                box-sizing: border-box;
+            }
+        }
+        .wrap-newsize{
+            display: flex;
+            input{
+                padding: 5px 15px;
+                appearance: none;
+            }
+            button{
+                cursor: pointer;
+            }
+        }
+    }
+}
+.admin-product-photos-rew{
+    .admin-photos{
+        .uploaded-content{
+            @include variableColumns(5, 50px);
+            height: 105px;
+            @extend %scrollbar;
+            img{
+                width: 50px;
+                height: 50px;
+                border: 1px solid $blu;
+            }
+        }
+        .wrap-load{
+            width: 280px;
+            label{
+                text-align: center;
+                box-sizing: border-box;
+                padding: 6px;
+                cursor: pointer;
+                img{
+                    transform: none;
+                    top: 3px;
+                    position: relative;
+                    margin-left: 10px;
+                }
+            }
+        }
+        button{
+            width: 280px;
+        }
+    }
+}
+#loadImg, #loadVid{
+    width: 0;
+    height: 0;
+}

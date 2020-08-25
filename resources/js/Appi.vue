@@ -8,10 +8,11 @@
 
 <script>
     import MainLayout from "./layouts/MainLayout";
+    import AdminLayout from "./admin/AdminLayout";
     export default {
         name: "Appi",
         components: {
-            MainLayout
+            MainLayout, AdminLayout
         },
         computed:{
             layout(){

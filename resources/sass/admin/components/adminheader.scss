@@ -1,0 +1,35 @@
+.main-view{
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    grid-column-gap: 40px;
+    padding-right: 30px;
+}
+.admin{
+    margin-top: 50px;
+}
+.header-admin{
+    background-color: $palepurpp;
+    padding: 30px;
+    height: 80px;
+    box-sizing: border-box;
+    @include flexin(space-between);
+    .admin-logo{
+        @include ptSans(700);
+        font-size: 18px;
+        text-transform: uppercase;
+        color: #fff;
+    }
+    .admin-img-logo{
+        object-fit: contain;
+    }
+    .admin-logout{
+        border: none;
+        background: none;
+        cursor: pointer;
+        @include ptSans(700);
+        font-size: 18px;
+        text-transform: uppercase;
+        color: #fff;
+        padding: 0;
+    }
+}

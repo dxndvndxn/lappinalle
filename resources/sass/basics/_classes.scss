@@ -339,3 +339,113 @@
 .passive-arrow-cab{
     @include arrow($palepurpp, 3.5px, 16.5px, 45deg, -45deg, 20px, 31px, 27px, 28px);
 }
+
+
+// Админ классы
+.active-admin-tab{
+    font-family: 'PT Sans', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    color: #fff;
+    a{
+        text-decoration: none;
+    }
+}
+
+.admin-h1{
+    @include ptSans(700);
+    font-size: $regFz;
+    text-transform: uppercase;
+    margin: 0 0 40px;
+}
+.admin-h2{
+    @include ptSans(700);
+    font-size: $regFz;
+}
+.admin-h3{
+    @include ptSans(700);
+    font-size: $regFz - 4px;
+    margin-bottom: 8px;
+}
+
+.input-pale-blu{
+    background-color: $ocean;
+    color: $grey;
+    @include ptSans(400);
+    font-size: 14px;
+    padding: 15px;
+}
+.input-transp{
+    border: 2px solid $blu;
+    background: none;
+    @include ptSans(400);
+    font-size: 14px;
+    height: 40px;
+    box-sizing: border-box;
+    width: 100%;
+    text-overflow: ellipsis;
+}
+.input-transp-p{
+    padding: 10px 20px;
+}
+.btn-admin-arrow{
+    border: 2px solid $blu;
+    background: none;
+    height: 40px;
+    width: 40px;
+    box-sizing: border-box;
+    position: relative;
+    padding: 15px;
+}
+.admin-btn-arrow-pass{
+    @include arrow($blu, 3.5px, 16.5px, 45deg, -45deg, 11px, 21px, 10px, 10px);
+}
+.admin-btn-arrow{
+    @include arrow($blu, 3.5px, 16.5px, 45deg, -45deg, 18px, 18px, 2px, 13px);
+}
+
+.admin-btn-complete{
+    height: 40px;
+    color: #fff;
+    background-color: $palepurpp;
+    @include ptSans(400);
+    border: none;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.admin-btn-delete{
+    border: 2px solid $palepurpp;
+    @include ptSans(400);
+    text-transform: uppercase;
+    color: #000000;
+    background: none;
+    position: relative;
+    height: 40px;
+    @include arrow($palepurpp, 5px, 16.5px, 45deg, -45deg, 15px, 15px, 229px, 229px);
+}
+.admin-btn-add{
+    border: 2px solid $palepurpp;
+    @include ptSans(400);
+    text-transform: uppercase;
+    color: #000000;
+    background: none;
+    position: relative;
+    height: 40px;
+    display: inherit;
+    margin-bottom: 5px;
+    cursor: pointer;
+    img{
+        transform: rotate(45deg);
+        margin-left: 10px;
+    }
+}
+.btn-admin-purpp{
+    background: $palepurpp;
+    border: none;
+    height: 40px;
+    width: 55px;
+    box-sizing: border-box;
+}
+.unctive-blu-img{
+    border: 1px solid $blu;
+}

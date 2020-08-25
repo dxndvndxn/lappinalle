@@ -1,0 +1,25 @@
+.admin-sidebar__tabs{
+    width: 170px;
+    padding: 33px;
+    background-color: $palepurpp;
+    box-sizing: border-box;
+    height: 200vh;
+    .admin-sidebar__tab{
+        @extend %ul;
+        li{
+            @include ptSans(400);
+            font-size: 13px;
+            margin-bottom: 20px;
+            &:nth-child(3){
+                margin-bottom: 50px;
+            }
+            &:nth-child(6){
+                margin-bottom: 50px;
+            }
+            >a{
+                color: #fff;
+                text-decoration: none;
+            }
+        }
+    }
+}
