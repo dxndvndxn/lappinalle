@@ -1,0 +1,81 @@
+.admin-main-page{
+    button{
+        cursor: pointer;
+    }
+    .admin-main-page-header{
+        @include variableColumns(3, 300px);
+        grid-column-gap: 50px;
+        justify-content: space-between;
+        button{
+            display: inline-block;
+        }
+    }
+    .admin-main-wrap{
+        @include variableColumns(3, 300px);
+        justify-content: space-between;
+        .admin-main-baner{
+            @include flex-column(column);
+            align-items: flex-start;
+        }
+        .wrap-main-page{
+            margin-bottom: 15px;
+            label{
+                display: inline-block;
+                margin-bottom: 15px;
+            }
+            input{
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                height: 40px;
+            }
+            .wrap-input{
+                display: flex;
+            }
+            .wrap-links{
+                border: 2px solid $blu;
+                overflow-x: hidden;
+                @extend %scrollbar;
+                @include ptSans(400);
+                font-size: 14px;
+                height: 90px;
+                padding: 10px 20px !important;
+                margin-bottom: 20px;
+                list-style: none;
+                &::-webkit-scrollbar
+                {
+                    width: 10px;
+                    background-color: $palepurpp;
+                }
+                li{
+                    margin-bottom: 8px;
+                }
+            }
+        }
+        .wrap-checkbox{
+            @include flex-column(column);
+            align-items: flex-end;
+            margin-top: 15px;
+            input{
+                width: 40px;
+                appearance: none;
+                background-color: #e7eff8;
+                padding: 15px 0;
+                cursor: pointer;
+                margin-left: 15px;
+            }
+            input:checked{
+                background-color: $palepurpp !important;
+            }
+            label{
+                display: inline-flex;
+                @include ptSans(400);
+                font-size: 14px;
+                align-items: center;
+            }
+        }
+    }
+    .admin-main-blocks{
+        margin-bottom: 30px;
+    }
+}

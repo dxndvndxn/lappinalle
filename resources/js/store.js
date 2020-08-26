@@ -40,6 +40,10 @@ export default new Vuex.Store({
         // Данные по меню для админа
         menuAdmin: null,
         SITE_URI: 'http://lappinalle.test/api/',
+
+        // Корзина
+        cart: JSON.parse(localStorage.getItem('cart') || '[]'),
+        cartCount: JSON.parse(localStorage.getItem('cartCount') || '0'),
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -510,9 +514,9 @@ export default new Vuex.Store({
 
         // Получаем дату для конкретного товара
         async getItemDataMutate(state, data){
-            await axios.get(`/api/item-${data}`)
-                .then(response => {
-                    let itemData = response.data;
+            await axios.get(`${state.SITE_URI}item-${data}`)
+                .then(async (response) => {
+                    let itemData = await response.data;
                     let stateItemData = {};
                     let pics = null;
                     let stars = {
@@ -532,6 +536,7 @@ export default new Vuex.Store({
                             stateItemData.itemPrice = itemData[el].product_price;
                             pics = itemData[el].product_img.split(',');
                             stateItemData.itemPics = [];
+                            stateItemData.itemId = itemData[el].product_id;
 
                             // Пушим картинки
                             pics.forEach((img, ii) => {
@@ -557,9 +562,9 @@ export default new Vuex.Store({
 
                             state.catalogItem = stateItemData;
                         }else if (el === 'stars'){
-                            itemData[el].forEach(element => {
-                                stars[element.reviews_star].push(element.reviews_star)
-                            });
+                                itemData[el].forEach(element => {
+                                    stars[element.reviews_star].push(element.reviews_star)
+                                });
                         }
                     }
                     state.catalogItemStars = stars;
@@ -1041,6 +1046,12 @@ export default new Vuex.Store({
                     //Получаем общее число товаров для пагинации
                     state.catalogDataCellCount = itemCell.total;
                 });
+        },
+
+        addToCart(state, item) {
+            state.cart.push(item);
+
+            state.cartCount++;
         }
     },
     actions: {

@@ -2,6 +2,9 @@
     <div class="registration">
         <div class="reg-from" v-if="!regWhat">
             <h1 class="h-30 h1-m80">Регистрация</h1>
+            <div v-if="error">
+                Иди на хуй
+            </div>
             <form @submit.prevent="register" method="post">
                 <input type="text" class="classic-input" v-model.trim="name" placeholder="Имя" autocomplete="on">
                 <input type="email" class="classic-input" v-model.trim="email" placeholder="E-mail" autocomplete="on">
@@ -37,7 +40,8 @@
             pass: null,
             passRepeat: null,
             checkAgree: false,
-            regWhat: false
+            regWhat: false,
+            error: null
         }),
         methods: {
             register(){
@@ -49,12 +53,13 @@
                         users_password: this.pass,
                         users_password_confirmation: this.passRepeat
                     },
-
                     success: function () {
                         console.log('success');
                     },
-                    error: function (res) {
+                    error: (res) => {
                         console.log(res.response.data.errors)
+                        this.error = res.response.data.error
+                        this.errors = res.response.data.errors || {}
                     }
                 })
             }

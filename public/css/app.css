@@ -531,6 +531,7 @@
   font-weight: 400;
   font-size: 14px;
   padding: 15px;
+  border: none;
 }
 
 .input-transp {
@@ -590,7 +591,7 @@
   width: 16.5px;
   position: absolute;
   top: 18px;
-  left: 2px;
+  left: 5px;
   background: #84B6E3;
   transition: 0.2s ease-out all;
 }
@@ -602,7 +603,7 @@
   width: 16.5px;
   position: absolute;
   top: 18px;
-  left: 13px;
+  left: 14px;
   background: #84B6E3;
   transition: 0.2s ease-out all;
 }
@@ -698,6 +699,9 @@ nav ul {
   list-style: none;
 }
 
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
+.admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
+.admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-sizes .size-grid::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track,
@@ -708,6 +712,9 @@ nav ul {
   background-color: #93b5e1;
 }
 
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
+.admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
+.admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-sizes .size-grid::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar,
@@ -719,6 +726,9 @@ nav ul {
   background-color: #848ccf;
 }
 
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
+.admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
+.admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-sizes .size-grid::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-thumb,
@@ -856,6 +866,11 @@ nav .nav-icons .nav-icons-items li {
 
 nav .nav-icons .nav-icons-items li a img {
   width: 100%;
+}
+
+nav .nav-icons .nav-icons-items li a svg {
+  fill: #fff;
+  width: 33px;
 }
 
 nav .menu-middle {
@@ -1054,6 +1069,9 @@ nav ul {
   list-style: none;
 }
 
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
+.admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
+.admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-sizes .size-grid::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track,
@@ -1064,6 +1082,9 @@ nav ul {
   background-color: #93b5e1;
 }
 
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
+.admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
+.admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-sizes .size-grid::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar,
@@ -1075,6 +1096,9 @@ nav ul {
   background-color: #848ccf;
 }
 
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
+.admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
+.admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-sizes .size-grid::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-thumb,
@@ -1286,6 +1310,9 @@ nav ul,
   list-style: none;
 }
 
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
+.admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
+.admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-sizes .size-grid::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track,
@@ -1296,6 +1323,9 @@ nav ul,
   background-color: #93b5e1;
 }
 
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
+.admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
+.admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-sizes .size-grid::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar,
@@ -1307,6 +1337,9 @@ nav ul,
   background-color: #848ccf;
 }
 
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
+.admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
+.admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-sizes .size-grid::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-thumb,
@@ -2482,12 +2515,15 @@ nav ul,
   font-size: 18px;
 }
 
+aside {
+  height: 100%;
+  background-color: #848ccf;
+}
+
 .admin-sidebar__tabs {
   width: 170px;
   padding: 33px;
-  background-color: #848ccf;
   box-sizing: border-box;
-  height: 200vh;
 }
 
 .admin-sidebar__tabs .admin-sidebar__tab li {
@@ -2780,6 +2816,7 @@ nav ul,
 }
 
 .admin-product-card-desc {
+  margin-bottom: 100px;
   display: grid;
   grid-template-columns: 300px 200px 300px;
   justify-content: space-between;
@@ -2849,10 +2886,19 @@ nav ul,
   cursor: pointer;
 }
 
+.admin-product-photos-rew {
+  display: flex;
+  justify-content: space-between;
+}
+
 .admin-product-photos-rew form {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+}
+
+.admin-product-photos-rew .admin-photos {
+  display: flex;
 }
 
 .admin-product-photos-rew .admin-photos .uploaded-content {
@@ -2862,7 +2908,7 @@ nav ul,
   overflow-x: hidden;
   overflow-y: scroll;
   grid-row-gap: 3px;
-  margin-bottom: 7px;
+  margin-bottom: 22px;
 }
 
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar {
@@ -2901,10 +2947,170 @@ nav ul,
   margin-bottom: 10px;
 }
 
+.admin-product-photos-rew .admin-photos .admin-main-photo {
+  border: 1px solid #84B6E3;
+  position: relative;
+  margin-left: 10px;
+  height: 300px;
+}
+
+.admin-product-photos-rew .admin-photos .admin-main-photo img {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.admin-product-photos-rew .admin-photos .admin-main-photo .admin-delete-photo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.admin-product-photos-rew .admin-reviews {
+  width: 370px;
+  height: 310px;
+  overflow: hidden;
+}
+
+.admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar {
+  width: 5px;
+  background-color: #848ccf;
+}
+
+.admin-product-photos-rew .admin-reviews .review {
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin-product-photos-rew .admin-reviews .review .review-wrap {
+  display: flex;
+}
+
+.admin-product-photos-rew .admin-reviews .review img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.admin-product-photos-rew .admin-reviews .review-text {
+  width: 297px;
+  height: 150px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar {
+  width: 5px;
+  background-color: #848ccf;
+}
+
 #loadImg,
 #loadVid {
   width: 0;
   height: 0;
+}
+
+.admin-main-page button {
+  cursor: pointer;
+}
+
+.admin-main-page .admin-main-page-header {
+  display: grid;
+  grid-template-columns: repeat(3, 300px);
+  grid-column-gap: 50px;
+  justify-content: space-between;
+}
+
+.admin-main-page .admin-main-page-header button {
+  display: inline-block;
+}
+
+.admin-main-page .admin-main-wrap {
+  display: grid;
+  grid-template-columns: repeat(3, 300px);
+  justify-content: space-between;
+}
+
+.admin-main-page .admin-main-wrap .admin-main-baner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.admin-main-page .admin-main-wrap .wrap-main-page {
+  margin-bottom: 15px;
+}
+
+.admin-main-page .admin-main-wrap .wrap-main-page label {
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.admin-main-page .admin-main-wrap .wrap-main-page input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+}
+
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-input {
+  display: flex;
+}
+
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links {
+  border: 2px solid #84B6E3;
+  overflow-x: hidden;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  height: 90px;
+  padding: 10px 20px !important;
+  margin-bottom: 20px;
+  list-style: none;
+}
+
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar {
+  width: 10px;
+  background-color: #848ccf;
+}
+
+.admin-main-page .admin-main-wrap .wrap-main-page .wrap-links li {
+  margin-bottom: 8px;
+}
+
+.admin-main-page .admin-main-wrap .wrap-checkbox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 15px;
+}
+
+.admin-main-page .admin-main-wrap .wrap-checkbox input {
+  width: 40px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #e7eff8;
+  padding: 15px 0;
+  cursor: pointer;
+  margin-left: 15px;
+}
+
+.admin-main-page .admin-main-wrap .wrap-checkbox input:checked {
+  background-color: #848ccf !important;
+}
+
+.admin-main-page .admin-main-wrap .wrap-checkbox label {
+  display: inline-flex;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  align-items: center;
+}
+
+.admin-main-page .admin-main-blocks {
+  margin-bottom: 30px;
 }
 
 html,

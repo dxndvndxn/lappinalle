@@ -374,6 +374,8 @@
     @include ptSans(400);
     font-size: 14px;
     padding: 15px;
+    border: none;
+
 }
 .input-transp{
     border: 2px solid $blu;
@@ -401,7 +403,7 @@
     @include arrow($blu, 3.5px, 16.5px, 45deg, -45deg, 11px, 21px, 10px, 10px);
 }
 .admin-btn-arrow{
-    @include arrow($blu, 3.5px, 16.5px, 45deg, -45deg, 18px, 18px, 2px, 13px);
+    @include arrow($blu, 3.5px, 16.5px, 45deg, -45deg, 18px, 18px, 5px, 14px);
 }
 
 .admin-btn-complete{

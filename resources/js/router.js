@@ -17,9 +17,7 @@ import Bookmark from "./views/Bookmark";
 import Cabinet from "./views/Cabinet";
 import Admin from './admin/Admin';
 import AdminCategories from "./admin/views/AdminCategories";
-import AdminCatalog from "./admin/views/AdminCatalog";
 import AdminProducts from "./admin/views/AdminProducts";
-import AdminPages from "./admin/views/AdminPages";
 import AdminMainPage from "./admin/views/AdminMainPage";
 import AdminOrders from "./admin/views/AdminOrders";
 import AdminUsers from "./admin/views/AdminUsers";
@@ -271,12 +269,6 @@ const routes = [
         component: Admin,
         children: [
             {
-                path: 'catalog',
-                component: AdminCatalog,
-                meta: { layout: 'Admin' },
-                name: 'AdminCatalog'
-            },
-            {
                 path: 'categories',
                 component: AdminCategories,
                 meta: { layout: 'Admin' },
@@ -293,12 +285,6 @@ const routes = [
                 component: ProductCard,
                 meta: { layout: 'Admin' },
                 name: 'ProductCart',
-            },
-            {
-                path: 'pages',
-                component: AdminPages,
-                meta: { layout: 'Admin' },
-                name: 'AdminPages'
             },
             {
                 path: 'pages',

@@ -16,6 +16,7 @@
     }
 }
 .admin-product-card-desc{
+    margin-bottom: 100px;
     @include grid-temp(300px, 200px, 300px);
     justify-content: space-between;
     .wrap-card-price, .wrap-card-desc, .wrap-card-sizes{
@@ -79,17 +80,19 @@
     }
 }
 .admin-product-photos-rew{
+    @include flexin(space-between);
     form{
         width: fit-content;
     }
     .admin-photos{
+        display: flex;
         .uploaded-content{
             @include variableColumns(5, 57px);
             height: 105px;
             overflow-x: hidden;
             overflow-y: scroll;
             grid-row-gap: 3px;
-            margin-bottom: 7px;
+            margin-bottom: 22px;
             @extend %scrollbar;
             &::-webkit-scrollbar
             {
@@ -122,6 +125,57 @@
         button{
             width: 280px;
             margin-bottom: 10px;
+        }
+        .admin-main-photo{
+            border: 1px solid $blu;
+            position: relative;
+            margin-left: 10px;
+            height: 300px;
+            img{
+                object-fit: contain;
+            }
+            .admin-delete-photo{
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+            }
+        }
+    }
+    .admin-reviews{
+        width: 370px;
+        height: 310px;
+        overflow: hidden;
+        .users-reviews{
+            @extend %scrollbar;
+            &::-webkit-scrollbar
+            {
+                width: 5px;
+                background-color: $palepurpp;
+            }
+        }
+        .review{
+            @include flexin(space-between);
+            .review-wrap{
+                display: flex;
+            }
+            img{
+                object-fit: contain;
+                margin: 0 10px;
+                cursor: pointer;
+            }
+        }
+        .review-text{
+            width: 297px;
+            height: 150px;
+            overflow: hidden;
+            overflow-y: scroll;
+            @extend %scrollbar;
+            &::-webkit-scrollbar
+            {
+                width: 5px;
+                background-color: $palepurpp;
+            }
         }
     }
 }
