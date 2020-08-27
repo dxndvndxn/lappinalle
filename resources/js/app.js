@@ -36,27 +36,16 @@
 //         Appi
 //     }
 // });
-import axios from 'axios';
 import Vue from 'vue';
-import VueAuth from '@websanova/vue-auth';
-import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
-import auth from './auth';
 import router from './router';
-
-window.Vue = Vue;
-Vue.router = router;
-Vue.use(VueRouter);
-Vue.use(VueAxios, axios);
-axios.defaults.baseURL = `http://lappinalle.test/api`;
-Vue.use(VueAuth, auth);
-
 import Appi from './Appi';
 import store from "./store";
 import Paginate from 'vuejs-paginate';
 import VueProgressBar from "vue-progressbar";
 
 Vue.component('paginate', Paginate);
+Vue.use(VueRouter);
 
 const options = {
     color: '#be5683',

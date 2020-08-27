@@ -44,26 +44,7 @@
             error: null
         }),
         methods: {
-            register(){
-                this.$Progress.start();
-                const app = this;
-                this.$auth.register({
-                    body: {
-                        users_name: this.name,
-                        users_email: this.email,
-                        users_password: this.pass,
-                        users_password_confirmation: this.passRepeat
-                    },
-                    success: function () {
-                        console.log('success');
-                    },
-                    error: function(res) {
-                        console.log(res.response)
-                        app.error = res.response.data.error;
-                        app.errors = res.response.data.errors || {}
-                    }
-                })
-            }
+
         },
         created() {
             this.$Progress.start();
