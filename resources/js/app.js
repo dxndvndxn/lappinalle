@@ -48,7 +48,7 @@ window.Vue = Vue;
 Vue.router = router;
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
-axios.defaults.baseURL = `http://lappinalle.test/api/v1`;
+axios.defaults.baseURL = `http://lappinalle.test/api`;
 Vue.use(VueAuth, auth);
 
 import Appi from './Appi';

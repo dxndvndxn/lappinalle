@@ -340,6 +340,11 @@
     @include arrow($palepurpp, 3.5px, 16.5px, 45deg, -45deg, 20px, 31px, 27px, 28px);
 }
 
+.active-cart{
+    svg{
+        fill: $purpp !important;
+    }
+}
 
 // Админ классы
 .active-admin-tab{

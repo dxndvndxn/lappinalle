@@ -4451,6 +4451,9 @@ __webpack_require__.r(__webpack_exports__);
     // Следим за подкатегориями
     getDepartments: function getDepartments() {
       return this.departments;
+    },
+    getCartCount: function getCartCount() {
+      return this.$store.getters.cartCount;
     }
   },
   watch: {
@@ -5611,8 +5614,11 @@ __webpack_require__.r(__webpack_exports__);
       this.getItemReview(this.pageReview);
       this.$router.push("".concat(this.$route.path, "?page=").concat(this.pageReview));
     },
-    addToCart: function addToCart(item) {
-      this.$store.commit('addToCart', item);
+    addToCart: function addToCart(itemId, itemPrice) {
+      this.$store.commit('addToCart', {
+        id: itemId,
+        price: itemPrice
+      });
     }
   },
   computed: {
@@ -6302,9 +6308,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     register: function register() {
-      var _this = this;
-
       this.$Progress.start();
+      var app = this;
       this.$auth.register({
         body: {
           users_name: this.name,
@@ -6316,9 +6321,9 @@ __webpack_require__.r(__webpack_exports__);
           console.log('success');
         },
         error: function error(res) {
-          console.log(res.response.data.errors);
-          _this.error = res.response.data.error;
-          _this.errors = res.response.data.errors || {};
+          console.log(res.response);
+          app.error = res.response.data.error;
+          app.errors = res.response.data.errors || {};
         }
       });
     }
@@ -10456,56 +10461,63 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("router-link", { attrs: { tag: "li", to: "/korzina" } }, [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c(
-                        "svg",
-                        {
-                          attrs: {
-                            xmlns: "http://www.w3.org/2000/svg",
-                            viewBox: "0 0 510.2 418.41"
-                          }
-                        },
-                        [
-                          _c("path", {
+                    _c(
+                      "a",
+                      {
+                        class: _vm.getCartCount ? "active-cart" : null,
+                        attrs: { href: "" }
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
                             attrs: {
-                              d:
-                                "M552.72,93.5c-.77,3.55-1.1,7.26-2.39,10.61q-5.24,13.55-11.15,26.83-27,60.36-54.24,120.61a187.52,187.52,0,0,1-9.51,17.29c-6.51,11.1-16.9,15.39-29.17,16.13-3.11.19-6.24.2-9.36.2H210.66a62,62,0,0,0,8,17c7.14,10.51,16.82,15.78,29.82,15.75,64.81-.18,129.63-.09,194.44-.08a20.25,20.25,0,0,1,4.13.26,10.44,10.44,0,0,1,8.35,11.25,10.59,10.59,0,0,1-9.85,9.71c-1,.09-2.09.05-3.13.05-64.37,0-128.75-.15-193.13.08-21.91.08-38-9.46-49.64-27.46-6.72-10.41-10-22.12-13.3-33.94-8.74-31.45-17.85-62.8-27-94.14C148.26,145.41,136.94,107.22,125.7,69c-2.74-9.34-13.21-17.12-23.47-17.18-16-.1-32.1,0-48.15,0-5.21,0-9-2.42-10.77-6.68-2.75-6.75,2.06-14.52,9.38-14.52,21.17,0,42.34,0,63.49.62,5.3.14,10.77,1.88,15.75,3.89,7.21,2.92,11.72,8.75,13.81,16.27q29.14,104.75,58.18,209.5c.69,2.49,1.68,3.19,4.2,3.18q114.66-.1,229.31-.06c2.78,0,5.55-.18,8.32-.25,5.67-.14,10-2.41,12.64-7.61,5.07-10,10.53-19.91,15.16-30.16q27.33-60.5,54.14-121.22a48.89,48.89,0,0,0,3.56-13.48c.89-7-.71-8.5-7.75-8.55s-14.05.08-21.08.09q-58.95.06-117.91.09c-22.73,0-45.46-.08-68.19-.1L200,82.7c-6.46,0-10.43-2.71-11.84-8a10.46,10.46,0,0,1,8.09-13,25,25,0,0,1,4.66-.31q132.09.07,264.19.19c18.74,0,37.48-.22,56.22-.14a52.19,52.19,0,0,1,12.6,1.4c10.22,2.63,16.16,9.56,18.27,19.84.14.65.37,1.29.55,1.94Z",
-                              transform: "translate(-42.53 -30.59)"
+                              xmlns: "http://www.w3.org/2000/svg",
+                              viewBox: "0 0 510.2 418.41"
                             }
-                          }),
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M437.67,449c-4.33-1.14-8.81-1.9-13-3.5A49.57,49.57,0,0,1,437.16,350c26.07-3,50.22,15.1,54.56,40.83,4.41,26.13-12.49,51.39-38.13,57-1.83.4-3.67.78-5.51,1.17Zm-24.18-49.62a29.39,29.39,0,0,0,29.34,29.25c15.94-.07,29.24-13.38,29.16-29.19a29.25,29.25,0,1,0-58.5-.06Z",
-                              transform: "translate(-42.53 -30.59)"
-                            }
-                          }),
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M235.67,449c-5.22-1.5-10.69-2.42-15.61-4.6-20.4-9-31.76-30.29-28.6-52.74,2.94-20.83,20.25-38.15,41.44-41.46,27.06-4.22,53,14.75,56.84,41.67A49.75,49.75,0,0,1,247,448.55a8.76,8.76,0,0,0-1.46.45Zm4.85-78.92a29.28,29.28,0,1,0,.22,58.55c15.84-.11,29.07-13.29,29.09-29A29.38,29.38,0,0,0,240.52,370.08Z",
-                              transform: "translate(-42.53 -30.59)"
-                            }
-                          }),
-                          _c("path", {
-                            staticClass: "cls-1",
-                            attrs: {
-                              d:
-                                "M413.49,399.38a29.25,29.25,0,1,1,58.5.06c.08,15.81-13.22,29.12-29.16,29.19A29.39,29.39,0,0,1,413.49,399.38Z",
-                              transform: "translate(-42.53 -30.59)"
-                            }
-                          }),
-                          _c("path", {
-                            staticClass: "cls-1",
-                            attrs: {
-                              d:
-                                "M240.52,370.08a29.38,29.38,0,0,1,29.31,29.55c0,15.71-13.25,28.89-29.09,29a29.28,29.28,0,1,1-.22-58.55Z",
-                              transform: "translate(-42.53 -30.59)"
-                            }
-                          })
-                        ]
-                      )
-                    ])
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M552.72,93.5c-.77,3.55-1.1,7.26-2.39,10.61q-5.24,13.55-11.15,26.83-27,60.36-54.24,120.61a187.52,187.52,0,0,1-9.51,17.29c-6.51,11.1-16.9,15.39-29.17,16.13-3.11.19-6.24.2-9.36.2H210.66a62,62,0,0,0,8,17c7.14,10.51,16.82,15.78,29.82,15.75,64.81-.18,129.63-.09,194.44-.08a20.25,20.25,0,0,1,4.13.26,10.44,10.44,0,0,1,8.35,11.25,10.59,10.59,0,0,1-9.85,9.71c-1,.09-2.09.05-3.13.05-64.37,0-128.75-.15-193.13.08-21.91.08-38-9.46-49.64-27.46-6.72-10.41-10-22.12-13.3-33.94-8.74-31.45-17.85-62.8-27-94.14C148.26,145.41,136.94,107.22,125.7,69c-2.74-9.34-13.21-17.12-23.47-17.18-16-.1-32.1,0-48.15,0-5.21,0-9-2.42-10.77-6.68-2.75-6.75,2.06-14.52,9.38-14.52,21.17,0,42.34,0,63.49.62,5.3.14,10.77,1.88,15.75,3.89,7.21,2.92,11.72,8.75,13.81,16.27q29.14,104.75,58.18,209.5c.69,2.49,1.68,3.19,4.2,3.18q114.66-.1,229.31-.06c2.78,0,5.55-.18,8.32-.25,5.67-.14,10-2.41,12.64-7.61,5.07-10,10.53-19.91,15.16-30.16q27.33-60.5,54.14-121.22a48.89,48.89,0,0,0,3.56-13.48c.89-7-.71-8.5-7.75-8.55s-14.05.08-21.08.09q-58.95.06-117.91.09c-22.73,0-45.46-.08-68.19-.1L200,82.7c-6.46,0-10.43-2.71-11.84-8a10.46,10.46,0,0,1,8.09-13,25,25,0,0,1,4.66-.31q132.09.07,264.19.19c18.74,0,37.48-.22,56.22-.14a52.19,52.19,0,0,1,12.6,1.4c10.22,2.63,16.16,9.56,18.27,19.84.14.65.37,1.29.55,1.94Z",
+                                transform: "translate(-42.53 -30.59)"
+                              }
+                            }),
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M437.67,449c-4.33-1.14-8.81-1.9-13-3.5A49.57,49.57,0,0,1,437.16,350c26.07-3,50.22,15.1,54.56,40.83,4.41,26.13-12.49,51.39-38.13,57-1.83.4-3.67.78-5.51,1.17Zm-24.18-49.62a29.39,29.39,0,0,0,29.34,29.25c15.94-.07,29.24-13.38,29.16-29.19a29.25,29.25,0,1,0-58.5-.06Z",
+                                transform: "translate(-42.53 -30.59)"
+                              }
+                            }),
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M235.67,449c-5.22-1.5-10.69-2.42-15.61-4.6-20.4-9-31.76-30.29-28.6-52.74,2.94-20.83,20.25-38.15,41.44-41.46,27.06-4.22,53,14.75,56.84,41.67A49.75,49.75,0,0,1,247,448.55a8.76,8.76,0,0,0-1.46.45Zm4.85-78.92a29.28,29.28,0,1,0,.22,58.55c15.84-.11,29.07-13.29,29.09-29A29.38,29.38,0,0,0,240.52,370.08Z",
+                                transform: "translate(-42.53 -30.59)"
+                              }
+                            }),
+                            _c("path", {
+                              staticClass: "cls-1",
+                              attrs: {
+                                d:
+                                  "M413.49,399.38a29.25,29.25,0,1,1,58.5.06c.08,15.81-13.22,29.12-29.16,29.19A29.39,29.39,0,0,1,413.49,399.38Z",
+                                transform: "translate(-42.53 -30.59)"
+                              }
+                            }),
+                            _c("path", {
+                              staticClass: "cls-1",
+                              attrs: {
+                                d:
+                                  "M240.52,370.08a29.38,29.38,0,0,1,29.31,29.55c0,15.71-13.25,28.89-29.09,29a29.28,29.28,0,1,1-.22-58.55Z",
+                                transform: "translate(-42.53 -30.59)"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    )
                   ])
                 ],
                 1
@@ -12191,7 +12203,10 @@ var render = function() {
                     staticClass: "btn-cart",
                     on: {
                       click: function($event) {
-                        return _vm.addToCart(_vm.returnDataForItem.itemId)
+                        return _vm.addToCart(
+                          _vm.returnDataForItem.itemId,
+                          _vm.returnDataForItem.itemPrice
+                        )
                       }
                     }
                   },
@@ -31517,7 +31532,7 @@ window.Vue = vue__WEBPACK_IMPORTED_MODULE_1___default.a;
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.router = _router__WEBPACK_IMPORTED_MODULE_6__["default"];
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_4__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_3___default.a, axios__WEBPACK_IMPORTED_MODULE_0___default.a);
-axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.baseURL = "http://lappinalle.test/api/v1";
+axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.baseURL = "http://lappinalle.test/api";
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(_websanova_vue_auth__WEBPACK_IMPORTED_MODULE_2__["default"], _auth__WEBPACK_IMPORTED_MODULE_5__["default"]);
 
 
@@ -33791,7 +33806,20 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
       }))();
     },
     addToCart: function addToCart(state, item) {
-      state.cart.push(item);
+      var found = state.cart.find(function (product) {
+        return product.id == item.id;
+      });
+
+      if (found) {
+        found.quantity++;
+        found.totalPrice = found.quantity * found.price;
+      } else {
+        state.cart.push(item);
+        window.localStorage.setItem('cartCount', state.cartCount);
+        this.set(item, 'quantity', 1);
+        this.set(item, 'totalPrice', item.price);
+      }
+
       state.cartCount++;
     }
   },
@@ -33889,6 +33917,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     },
     menuAdmin: function menuAdmin(state) {
       return state.menuAdmin;
+    },
+    cartCount: function cartCount(state) {
+      return state.cartCount;
     }
   }
 }));

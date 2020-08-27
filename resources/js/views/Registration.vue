@@ -46,6 +46,7 @@
         methods: {
             register(){
                 this.$Progress.start();
+                const app = this;
                 this.$auth.register({
                     body: {
                         users_name: this.name,
@@ -56,10 +57,10 @@
                     success: function () {
                         console.log('success');
                     },
-                    error: (res) => {
-                        console.log(res.response.data.errors)
-                        this.error = res.response.data.error
-                        this.errors = res.response.data.errors || {}
+                    error: function(res) {
+                        console.log(res.response)
+                        app.error = res.response.data.error;
+                        app.errors = res.response.data.errors || {}
                     }
                 })
             }

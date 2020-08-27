@@ -492,6 +492,10 @@
   transition: 0.2s ease-out all;
 }
 
+.active-cart svg {
+  fill: #bd5583 !important;
+}
+
 .active-admin-tab {
   font-family: "PT Sans", sans-serif !important;
   font-weight: 700 !important;

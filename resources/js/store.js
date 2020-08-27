@@ -1049,8 +1049,17 @@ export default new Vuex.Store({
         },
 
         addToCart(state, item) {
-            state.cart.push(item);
+            let found = state.cart.find(product => product.id == item.id);
 
+            if (found) {
+                found.quantity++;
+                found.totalPrice = found.quantity * found.price;
+            } else {
+                state.cart.push(item);
+                window.localStorage.setItem('cartCount', state.cartCount);
+                this.set(item, 'quantity', 1);
+                this.set(item, 'totalPrice', item.price);
+            }
             state.cartCount++;
         }
     },
@@ -1137,6 +1146,9 @@ export default new Vuex.Store({
         },
         menuAdmin: state => {
             return state.menuAdmin;
+        },
+        cartCount: state => {
+            return state.cartCount;
         }
 
     }
