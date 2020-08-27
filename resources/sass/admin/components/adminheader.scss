@@ -1,11 +1,18 @@
+.admin-main{
+    height: 100vh;
+}
 .main-view{
     display: grid;
     grid-template-columns: 170px 1fr;
     grid-column-gap: 40px;
+    height: 100%;
     padding-right: 30px;
 }
 .admin{
     margin-top: 50px;
+}
+.admin-main{
+    height: 100vh;
 }
 .header-admin{
     background-color: $palepurpp;

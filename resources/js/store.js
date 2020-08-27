@@ -43,7 +43,8 @@ export default new Vuex.Store({
 
         // Корзина
         cart: JSON.parse(localStorage.getItem('cart') || '[]'),
-        cartCount: JSON.parse(localStorage.getItem('cartCount') || '0'),
+        countCart: JSON.parse(localStorage.getItem('countCart') || '0'),
+        cartProduct: null
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -537,6 +538,7 @@ export default new Vuex.Store({
                             pics = itemData[el].product_img.split(',');
                             stateItemData.itemPics = [];
                             stateItemData.itemId = itemData[el].product_id;
+                            stateItemData.itemSizes = [];
 
                             // Пушим картинки
                             pics.forEach((img, ii) => {
@@ -560,15 +562,23 @@ export default new Vuex.Store({
                             stateItemData.itemDesc = itemData[el].product_description;
                             stateItemData.itemPrice = itemData[el].product_price;
 
-                            state.catalogItem = stateItemData;
-                        }else if (el === 'stars'){
-                                itemData[el].forEach(element => {
-                                    stars[element.reviews_star].push(element.reviews_star)
-                                });
+                        }
+                        else if (el === 'stars'){
+
+                            itemData[el].forEach(element => {
+                                stars[element.reviews_star].push(element.reviews_star)
+                            });
+                        }
+                        else if (el === 'sizes'){
+
+                            itemData[el].forEach(element => {
+                                stateItemData.itemSizes.push({sz: element.sizes_number, active: false})
+                            });
                         }
                     }
-                    state.catalogItemStars = stars;
 
+                    state.catalogItemStars = stars;
+                    state.catalogItem = stateItemData;
                 }).catch(errors => console.log(errors))
         },
 
@@ -1048,19 +1058,97 @@ export default new Vuex.Store({
                 });
         },
 
-        addToCart(state, item) {
-            let found = state.cart.find(product => product.id == item.id);
+        // Добавляем товары в корзину
+        addToCartMutate(state, item) {
+            let newProductThatNeedAdd = [];
+            let localCount = 0;
+            if (state.cart.length){
+                state.cart.forEach(product => {
 
-            if (found) {
-                found.quantity++;
-                found.totalPrice = found.quantity * found.price;
-            } else {
-                state.cart.push(item);
-                window.localStorage.setItem('cartCount', state.cartCount);
-                this.set(item, 'quantity', 1);
-                this.set(item, 'totalPrice', item.price);
+                    item.forEach(el => {
+
+                        if (product.id == el.id && product.size == el.size){
+                            product.count++;
+                        }
+                        else{
+                            newProductThatNeedAdd.push(el)
+                        }
+                    });
+                });
+            }else{
+                if ( newProductThatNeedAdd.length){
+                    newProductThatNeedAdd.forEach(el => {
+                        state.cart.push(el);
+                        localCount += el.count;
+                    });
+
+                    state.countCart = localCount;
+                    window.localStorage.setItem('cart', JSON.stringify(state.cart));
+                    window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+                }else{
+
+                }
             }
-            state.cartCount++;
+            // // Проверяем есть ли в сторадже добавлелнный продукт id
+            // let found = state.cart.find(product => product.id == item.id);
+            // let localCount = 0;
+            //
+            // // Если есть, то проходимся по уже существующему массиву с корзиной
+            // // Находим данный товары и увеличиваем его кол-во
+            // if (found) {
+            //
+            //     state.cart.forEach(el => {
+            //
+            //         if (el.id == found.id) el.count++;
+            //     });
+            //
+            //     // Присваеваем новый массив с товарами
+            //     updatedCart = state.cart;
+            //
+            //     // Увеличиваем кол-во
+            //     state.countCart++;
+            //     window.localStorage.setItem('cart', JSON.stringify(updatedCart));
+            //     window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+            // }else{
+            //     state.cart = item;
+            //
+            //     item.forEach(el => {
+            //         localCount += el.count;
+            //     });
+            //
+            //     state.countCart = localCount;
+            //     window.localStorage.setItem('cart', JSON.stringify(state.cart));
+            //     window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+            // }
+        },
+
+        // Получаем товары для корзины
+        async getProductForCartMutate(state){
+            let cardIds = [];
+
+            state.cart.forEach(el => {
+                cardIds.push(el.id);
+            });
+
+            await axios.get(`${state.SITE_URI}itemscard/${cardIds.join(', ')}`)
+                .then(response => {
+                    let dataCart = response.data;
+
+                    dataCart.forEach(el => {
+
+                        state.cart.forEach(crEl => {
+
+                            if (crEl.id === el.product_id) {
+                                el.count = crEl.count;
+                            }
+                        });
+                    });
+
+                    state.cartProduct = dataCart;
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         }
     },
     actions: {
@@ -1096,6 +1184,12 @@ export default new Vuex.Store({
         },
         showSizeProducts({commit}, data){
             commit('showSizeProductsMutate', data);
+        },
+        addToCart({commit}, data){
+            commit('addToCartMutate', data);
+        },
+        getProductForCart({commit}){
+            commit('getProductForCartMutate');
         }
     },
     getters:{
@@ -1147,9 +1241,16 @@ export default new Vuex.Store({
         menuAdmin: state => {
             return state.menuAdmin;
         },
-        cartCount: state => {
-            return state.cartCount;
+        countCart: state => {
+            return state.countCart;
+        },
+        cart: state => {
+            return state.cart;
+        },
+        cartProduct: state => {
+            return state.cartProduct;
         }
+
 
     }
 })

@@ -1460,7 +1460,7 @@ nav ul,
 
 .item-info {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 250px;
   margin-bottom: 70px;
   height: 515px;
 }
@@ -1715,6 +1715,14 @@ nav ul,
   border: none;
   cursor: pointer;
   margin-bottom: 50px;
+}
+
+.error-add {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #bd5583;
+  margin: 15px 0;
 }
 
 .slide-wrap {
@@ -2069,7 +2077,7 @@ nav ul,
   display: grid;
   grid-template-columns: 1fr 2.5fr 0.5fr;
   grid-column-gap: 10px;
-  transform: rotate(179.5deg);
+  transform: rotate(179.8deg);
   margin-bottom: 50px;
 }
 
@@ -2231,6 +2239,10 @@ nav ul,
 
 .cart-total .total-price span {
   color: #93b5e1;
+}
+
+.cart-no {
+  margin-top: 60px;
 }
 
 .order-header {
@@ -2550,15 +2562,24 @@ aside {
   text-decoration: none;
 }
 
+.admin-main {
+  height: 100vh;
+}
+
 .main-view {
   display: grid;
   grid-template-columns: 170px 1fr;
   grid-column-gap: 40px;
+  height: 100%;
   padding-right: 30px;
 }
 
 .admin {
   margin-top: 50px;
+}
+
+.admin-main {
+  height: 100vh;
 }
 
 .header-admin {

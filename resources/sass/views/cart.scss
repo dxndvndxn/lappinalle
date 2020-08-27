@@ -22,7 +22,7 @@
         .card{
             @include grid-temp(1fr, 2.5fr, 0.5fr);
             grid-column-gap: 10px;
-            transform: rotate(179.5deg);
+            transform: rotate(179.8deg);
             margin-bottom: 50px;
             &-img{
                 img{
@@ -157,5 +157,8 @@
                 color: $paleblue;
             }
         }
+    }
+    &-no{
+        margin-top: 60px;
     }
 }

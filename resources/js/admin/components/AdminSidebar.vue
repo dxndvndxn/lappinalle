@@ -15,7 +15,7 @@
         name: "AdminSidebar",
         data: () => ({
             tabs: [
-                {name: 'Категории', path: 'AdminCategories', active: false},
+                {name: 'Категории', path: 'AdminCategories', active: true},
                 {name: 'Товары', path: 'AdminProducts', active: false},
                 {name: 'Главная', path: 'AdminMainPage', active: false},
                 {name: 'Доставка', path: 'AdminDelivery', active: false},

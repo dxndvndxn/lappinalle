@@ -24,6 +24,9 @@ Route::get('/menu', 'BasicDataController@index');
 // Получем данные по определенному товару через гендер
 Route::get('/item-{number}', 'GetDataItemController@index');
 
+// Получем данные для корзины
+Route::get('/itemscard/{ids}', 'GetItemsForCartController@index');
+
 // Получаем товары по скидки по гендеру
 Route::get('/sale/{gender}', 'SaleProductsByGenderController@index');
 

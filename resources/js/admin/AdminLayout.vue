@@ -21,6 +21,14 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    html,body{
+        height: 100%;
+        #app{
+            height: 100%;
+            >div{
+                height: 100%
+            }
+        }
+    }
 </style>
