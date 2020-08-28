@@ -182,15 +182,25 @@
                 return this.departments;
             },
 
-            getCartCount(){
-                return this.$store.getters.countCart;
+            getCartCount: {
+                get(){
+                    return this.$store.getters.countCart;
+                },
+                set(val){
+                    return val;
+                }
+            },
+            getUpdatedCartCount(){
+                this.getCartCount = this.$store.getters.updatedCart.cartCount;
+                return this.$store.getters.updatedCart.cartCount;
             }
         },
         watch: {
             categories(val){
                 this.categories = val;
             },
-        }
+        },
+
     }
 </script>
 <!--<template>-->

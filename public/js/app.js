@@ -3285,8 +3285,17 @@ __webpack_require__.r(__webpack_exports__);
     getDepartments: function getDepartments() {
       return this.departments;
     },
-    getCartCount: function getCartCount() {
-      return this.$store.getters.countCart;
+    getCartCount: {
+      get: function get() {
+        return this.$store.getters.countCart;
+      },
+      set: function set(val) {
+        return val;
+      }
+    },
+    getUpdatedCartCount: function getUpdatedCartCount() {
+      this.getCartCount = this.$store.getters.updatedCart.cartCount;
+      return this.$store.getters.updatedCart.cartCount;
     }
   },
   watch: {
@@ -3815,31 +3824,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      cartCards: [{
-        cardId: 1,
-        cardImg: '../../img/item.png',
-        cardName: 'Комбинезон "LAPPINALLE',
-        cardSize: 46,
-        cardAmount: 1,
-        cardPrice: 5400,
-        cardText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?'
-      }, {
-        cardId: 2,
-        cardImg: '../../img/item.png',
-        cardName: 'Комбинезон "LAPPINALLE',
-        cardSize: 46,
-        cardAmount: 1,
-        cardPrice: 5400,
-        cardText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?'
-      }, {
-        cardId: 3,
-        cardImg: '../../img/item.png',
-        cardName: 'Комбинезон "LAPPINALLE',
-        cardSize: 46,
-        cardAmount: 1,
-        cardPrice: 5400,
-        cardText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium commodi ea\n' + '                            earum harum ipsa maxime, modi mollitia omnis quisquam ratione sunt. Aliquid dignissimos\n' + '                            eius, fuga natus nostrum sed sunt?'
-      }],
       totalPrice: null
     };
   },
@@ -3849,24 +3833,27 @@ __webpack_require__.r(__webpack_exports__);
 
       this.totalPrice = 0;
       arr.forEach(function (val) {
-        _this.totalPrice += val.cardPrice * val.cardAmount;
+        _this.totalPrice += +val.totalCartData.product_price * val.count;
       });
     },
     itemPlus: function itemPlus(i) {
-      this.cartCards[i].cardAmount++;
-      this.countTotal(this.cartCards);
+      this.getProductCart[i].count++;
+      this.countTotal(this.getProductCart);
     },
     itemMinus: function itemMinus(i) {
-      if (this.cartCards[i].cardAmount > 1) {
-        this.cartCards[i].cardAmount--;
-        this.countTotal(this.cartCards);
+      if (this.getProductCart[i].count > 1) {
+        this.getProductCart[i].count--;
+        this.countTotal(this.getProductCart);
       }
     },
-    removeCard: function removeCard(i) {
-      this.cartCards = this.cartCards.filter(function (item) {
-        return item.cardId !== i;
+    removeCard: function removeCard(id, size, count) {
+      // this.getProductCart = this.getProductCart.filter(item => item.id !== i);
+      this.$store.dispatch('removeCard', {
+        id: id,
+        size: size,
+        count: count
       });
-      this.countTotal(this.cartCards);
+      this.getProductCart = this.getUpdatedCart;
     },
     pushToOrder: function pushToOrder() {
       this.$router.push({
@@ -3876,16 +3863,28 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.$Progress.start();
-    this.$store.dispatch('getProductForCart');
-    this.countTotal(this.cartCards);
+    if (this.getCart.length) this.$store.dispatch('getProductForCart');
   },
   computed: {
     getCart: function getCart() {
       this.$Progress.finish();
       return this.$store.getters.cart;
     },
-    getProductCart: function getProductCart() {
-      return this.$store.getters.cartProduct;
+    getProductCart: {
+      get: function get() {
+        return this.$store.getters.cartProduct;
+      },
+      set: function set(val) {
+        return val;
+      }
+    },
+    getTotalCount: function getTotalCount() {
+      this.countTotal(this.getProductCart);
+      return this.totalPrice;
+    },
+    getUpdatedCart: function getUpdatedCart() {
+      this.getProductCart = this.$store.getters.updatedCart.cart;
+      return this.$store.getters.updatedCart.cart;
     }
   }
 });
@@ -11158,22 +11157,24 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _vm.getCart.length
+    _vm.getProductCart
       ? _c("div", { staticClass: "cart-wrap" }, [
           _c(
             "div",
             { staticClass: "cart-cards" },
-            _vm._l(_vm.cartCards, function(card, c) {
+            _vm._l(_vm.getProductCart, function(card, c) {
               return _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: "card-img" }, [
-                  _c("img", { attrs: { src: card.cardImg, alt: "" } })
+                  _c("img", {
+                    attrs: { src: card.totalCartData.product_img[0], alt: "" }
+                  })
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-info" }, [
                   _c("div", { staticClass: "card-name" }, [
                     _vm._v(
                       "\n                        " +
-                        _vm._s(card.cardName) +
+                        _vm._s(card.totalCartData.product_title) +
                         "\n                    "
                     )
                   ]),
@@ -11181,12 +11182,12 @@ var render = function() {
                   _c("div", { staticClass: "card-counts" }, [
                     _c("div", { staticClass: "card-size" }, [
                       _vm._v("\n                            Размер: "),
-                      _c("span", [_vm._v(" " + _vm._s(card.cardSize))])
+                      _c("span", [_vm._v(" " + _vm._s(card.size))])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "card-amount" }, [
                       _vm._v("\n                            Количество:  "),
-                      _c("span", [_vm._v(" " + _vm._s(card.cardAmount))]),
+                      _c("span", [_vm._v(" " + _vm._s(card.count))]),
                       _vm._v(" "),
                       _c("div", { staticClass: "change-amount" }, [
                         _c("button", {
@@ -11212,7 +11213,11 @@ var render = function() {
                     _c("div", { staticClass: "card-price" }, [
                       _vm._v("Цена: "),
                       _c("span", [
-                        _vm._v(_vm._s(card.cardAmount * card.cardPrice) + " ₽")
+                        _vm._v(
+                          _vm._s(
+                            card.count * +card.totalCartData.product_price
+                          ) + " ₽"
+                        )
                       ])
                     ])
                   ]),
@@ -11220,7 +11225,7 @@ var render = function() {
                   _c("div", { staticClass: "card-desc" }, [
                     _vm._v(
                       "\n                        " +
-                        _vm._s(card.cardText) +
+                        _vm._s(card.totalCartData.product_description) +
                         "\n                    "
                     )
                   ])
@@ -11231,7 +11236,7 @@ var render = function() {
                     staticClass: "close-btn",
                     on: {
                       click: function($event) {
-                        return _vm.removeCard(card.cardId)
+                        return _vm.removeCard(card.id, card.size, card.count)
                       }
                     }
                   })
@@ -11244,7 +11249,7 @@ var render = function() {
           _c("div", { staticClass: "cart-total" }, [
             _c("div", { staticClass: "total-price" }, [
               _vm._v("\n                Итого: "),
-              _c("span", [_vm._v(_vm._s(_vm.totalPrice) + " ₽")])
+              _c("span", [_vm._v(_vm._s(_vm.getTotalCount) + " ₽")])
             ]),
             _vm._v(" "),
             _c(
@@ -11259,9 +11264,11 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "cart-no bookmark-text" }, [
-      _vm._v("\n        В корзине пока нет товаров.\n    ")
-    ])
+    _vm.getProductCart == null || _vm.getProductCart.length === 0
+      ? _c("div", { staticClass: "cart-no bookmark-text" }, [
+          _vm._v("\n        В корзине пока нет товаров.\n    ")
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -31990,7 +31997,11 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     // Корзина
     cart: JSON.parse(localStorage.getItem('cart') || '[]'),
     countCart: JSON.parse(localStorage.getItem('countCart') || '0'),
-    cartProduct: null
+    cartProduct: null,
+    updatedCart: {
+      cart: null,
+      cartCount: null
+    }
   },
   mutations: {
     // Получаем категории и подкатегории меню
@@ -33227,66 +33238,49 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     },
     // Добавляем товары в корзину
     addToCartMutate: function addToCartMutate(state, item) {
-      var newProductThatNeedAdd = [];
-      var localCount = 0;
+      var found = [];
+      var notFound = []; // Проверяем есть ли в сторадже продукты, которые добавил пользователь
 
-      if (state.cart.length) {
-        state.cart.forEach(function (product) {
-          item.forEach(function (el) {
-            if (product.id == el.id && product.size == el.size) {
-              product.count++;
-            } else {
-              newProductThatNeedAdd.push(el);
+      item.forEach(function (el) {
+        if (state.cart.find(function (product) {
+          return product.id === el.id && product.size === el.size;
+        })) {
+          found.push(el);
+        } else {
+          notFound.push(el);
+        }
+      }); // Если есть, то проходимся по уже существующему массиву с корзиной
+      // Находим данный товары и увеличиваем его кол-во
+
+      if (found.length) {
+        // Проходимся по уже существующему массиву с товарами в корзине
+        state.cart.forEach(function (oldProduct) {
+          // Проходимся по массиву в котором нашли совпадения с уже существующими товарами в сторадже
+          found.forEach(function (newProduct) {
+            if (oldProduct.id === newProduct.id && oldProduct.size === newProduct.size) {
+              oldProduct.count++;
+              state.countCart++;
             }
           });
         });
-      } else {
-        if (newProductThatNeedAdd.length) {
-          newProductThatNeedAdd.forEach(function (el) {
-            state.cart.push(el);
-            localCount += el.count;
-          });
-          state.countCart = localCount;
-          window.localStorage.setItem('cart', JSON.stringify(state.cart));
-          window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
-        } else {}
-      } // // Проверяем есть ли в сторадже добавлелнный продукт id
-      // let found = state.cart.find(product => product.id == item.id);
-      // let localCount = 0;
-      //
-      // // Если есть, то проходимся по уже существующему массиву с корзиной
-      // // Находим данный товары и увеличиваем его кол-во
-      // if (found) {
-      //
-      //     state.cart.forEach(el => {
-      //
-      //         if (el.id == found.id) el.count++;
-      //     });
-      //
-      //     // Присваеваем новый массив с товарами
-      //     updatedCart = state.cart;
-      //
-      //     // Увеличиваем кол-во
-      //     state.countCart++;
-      //     window.localStorage.setItem('cart', JSON.stringify(updatedCart));
-      //     window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
-      // }else{
-      //     state.cart = item;
-      //
-      //     item.forEach(el => {
-      //         localCount += el.count;
-      //     });
-      //
-      //     state.countCart = localCount;
-      //     window.localStorage.setItem('cart', JSON.stringify(state.cart));
-      //     window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
-      // }
+        window.localStorage.setItem('cart', JSON.stringify(state.cart));
+        window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+      } // Если не нашли совпадения в сторадже, то просто добавляем новые
 
+
+      if (notFound.length) {
+        notFound.forEach(function (el) {
+          state.countCart++;
+          state.cart.push(el);
+        });
+        window.localStorage.setItem('cart', JSON.stringify(state.cart));
+        window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+      }
     },
     // Получаем товары для корзины
     getProductForCartMutate: function getProductForCartMutate(state) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
-        var cardIds;
+        var cardIds, unigIds;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -33295,28 +33289,54 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                 state.cart.forEach(function (el) {
                   cardIds.push(el.id);
                 });
-                _context10.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemscard/").concat(cardIds.join(', '))).then(function (response) {
-                  var dataCart = response.data;
+                unigIds = new Set(cardIds);
+                _context10.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemscard/").concat(Array.from(unigIds).join(', '))).then(function (response) {
+                  var dataCart = state.cart;
+                  var data = response.data;
+                  state.cartProduct = null;
+                  data.forEach(function (el) {
+                    el.product_img = el.product_img.split(', ');
+                  }); // Проходимся по данным, которые пришли и ищем совпадения по id и вставляем нашу в корзину
+
                   dataCart.forEach(function (el) {
-                    state.cart.forEach(function (crEl) {
-                      if (crEl.id === el.product_id) {
-                        el.count = crEl.count;
-                      }
+                    data.forEach(function (crEl) {
+                      if (el.id === crEl.product_id) {
+                        el.totalCartData = crEl;
+                      } // try{
+                      //     crEl.product_img = crEl.product_img.split(', ');
+                      // }catch (e) {
+                      //     console.log(e)
+                      // }
+
                     });
                   });
+                  console.log(dataCart);
                   state.cartProduct = dataCart;
                 })["catch"](function (e) {
                   console.log(e);
                 });
 
-              case 4:
+              case 5:
               case "end":
                 return _context10.stop();
             }
           }
         }, _callee10);
       }))();
+    },
+    removeCardMutate: function removeCardMutate(state, data) {
+      state.cartProduct.forEach(function (el, i) {
+        if (el.id === data.id && el.size === data.size) state.cartProduct.splice(i, 1);
+      });
+      state.cart.forEach(function (el, i) {
+        if (el.id === data.id && el.size === data.size) state.cart.splice(i, 1);
+      });
+      state.countCart = state.countCart - data.count;
+      window.localStorage.setItem('cart', JSON.stringify(state.cart));
+      window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+      state.updatedCart.cart = state.cartProduct;
+      state.updatedCart.cartCount = state.countCart;
     }
   },
   actions: {
@@ -33371,6 +33391,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     getProductForCart: function getProductForCart(_ref14) {
       var commit = _ref14.commit;
       commit('getProductForCartMutate');
+    },
+    removeCard: function removeCard(_ref15, data) {
+      var commit = _ref15.commit;
+      commit('removeCardMutate', data);
     }
   },
   getters: {
@@ -33430,6 +33454,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     },
     cartProduct: function cartProduct(state) {
       return state.cartProduct;
+    },
+    updatedCart: function updatedCart(state) {
+      return state.updatedCart;
     }
   }
 }));

@@ -1460,7 +1460,7 @@ nav ul,
 
 .item-info {
   display: grid;
-  grid-template-columns: 1fr 1fr 250px;
+  grid-template-columns: 1fr 1fr 1fr;
   margin-bottom: 70px;
   height: 515px;
 }

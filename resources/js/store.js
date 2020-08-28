@@ -44,7 +44,11 @@ export default new Vuex.Store({
         // Корзина
         cart: JSON.parse(localStorage.getItem('cart') || '[]'),
         countCart: JSON.parse(localStorage.getItem('countCart') || '0'),
-        cartProduct: null
+        cartProduct: null,
+        updatedCart: {
+            cart: null,
+            cartCount: null
+        }
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -1060,66 +1064,49 @@ export default new Vuex.Store({
 
         // Добавляем товары в корзину
         addToCartMutate(state, item) {
-            let newProductThatNeedAdd = [];
-            let localCount = 0;
-            if (state.cart.length){
-                state.cart.forEach(product => {
+            let found = [];
+            let notFound = [];
 
-                    item.forEach(el => {
+            // Проверяем есть ли в сторадже продукты, которые добавил пользователь
+            item.forEach(el => {
 
-                        if (product.id == el.id && product.size == el.size){
-                            product.count++;
-                        }
-                        else{
-                            newProductThatNeedAdd.push(el)
-                        }
-                    });
-                });
-            }else{
-                if ( newProductThatNeedAdd.length){
-                    newProductThatNeedAdd.forEach(el => {
-                        state.cart.push(el);
-                        localCount += el.count;
-                    });
-
-                    state.countCart = localCount;
-                    window.localStorage.setItem('cart', JSON.stringify(state.cart));
-                    window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+                if (state.cart.find(product => (product.id === el.id && product.size === el.size))){
+                    found.push(el)
                 }else{
-
+                    notFound.push(el)
                 }
+            });
+
+            // Если есть, то проходимся по уже существующему массиву с корзиной
+            // Находим данный товары и увеличиваем его кол-во
+            if (found.length) {
+
+                // Проходимся по уже существующему массиву с товарами в корзине
+                state.cart.forEach(oldProduct => {
+
+                    // Проходимся по массиву в котором нашли совпадения с уже существующими товарами в сторадже
+                    found.forEach(newProduct => {
+                        if (oldProduct.id === newProduct.id && oldProduct.size === newProduct.size){
+                            oldProduct.count++;
+                            state.countCart++;
+                        }
+                    });
+
+                });
+                window.localStorage.setItem('cart', JSON.stringify(state.cart));
+                window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
             }
-            // // Проверяем есть ли в сторадже добавлелнный продукт id
-            // let found = state.cart.find(product => product.id == item.id);
-            // let localCount = 0;
-            //
-            // // Если есть, то проходимся по уже существующему массиву с корзиной
-            // // Находим данный товары и увеличиваем его кол-во
-            // if (found) {
-            //
-            //     state.cart.forEach(el => {
-            //
-            //         if (el.id == found.id) el.count++;
-            //     });
-            //
-            //     // Присваеваем новый массив с товарами
-            //     updatedCart = state.cart;
-            //
-            //     // Увеличиваем кол-во
-            //     state.countCart++;
-            //     window.localStorage.setItem('cart', JSON.stringify(updatedCart));
-            //     window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
-            // }else{
-            //     state.cart = item;
-            //
-            //     item.forEach(el => {
-            //         localCount += el.count;
-            //     });
-            //
-            //     state.countCart = localCount;
-            //     window.localStorage.setItem('cart', JSON.stringify(state.cart));
-            //     window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
-            // }
+            // Если не нашли совпадения в сторадже, то просто добавляем новые
+            if(notFound.length){
+
+                notFound.forEach(el => {
+                    state.countCart++;
+                    state.cart.push(el)
+                });
+
+                window.localStorage.setItem('cart', JSON.stringify(state.cart));
+                window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+            }
         },
 
         // Получаем товары для корзины
@@ -1130,25 +1117,59 @@ export default new Vuex.Store({
                 cardIds.push(el.id);
             });
 
-            await axios.get(`${state.SITE_URI}itemscard/${cardIds.join(', ')}`)
+            let unigIds = new Set(cardIds);
+            await axios.get(`${state.SITE_URI}itemscard/${Array.from(unigIds).join(', ')}`)
                 .then(response => {
-                    let dataCart = response.data;
+                    const dataCart = state.cart;
+                    let data = response.data;
+                    state.cartProduct = null;
 
-                    dataCart.forEach(el => {
-
-                        state.cart.forEach(crEl => {
-
-                            if (crEl.id === el.product_id) {
-                                el.count = crEl.count;
-                            }
-                        });
+                    data.forEach(el => {
+                        el.product_img = el.product_img.split(', ');
                     });
 
+                    // Проходимся по данным, которые пришли и ищем совпадения по id и вставляем нашу в корзину
+                    dataCart.forEach(el => {
+
+                        data.forEach(crEl => {
+
+                            if (el.id === crEl.product_id) {
+                                el.totalCartData = crEl;
+                            }
+                            // try{
+                            //     crEl.product_img = crEl.product_img.split(', ');
+                            // }catch (e) {
+                            //     console.log(e)
+                            // }
+
+                        });
+                    });
+                    console.log(dataCart)
                     state.cartProduct = dataCart;
+
                 })
                 .catch(e => {
                     console.log(e)
                 })
+        },
+        removeCardMutate(state, data){
+
+
+            state.cartProduct.forEach((el, i) => {
+                if (el.id === data.id && el.size === data.size) state.cartProduct.splice(i, 1);
+            });
+
+            state.cart.forEach((el, i) => {
+                if (el.id === data.id && el.size === data.size) state.cart.splice(i, 1);
+            });
+
+            state.countCart = state.countCart - data.count;
+
+            window.localStorage.setItem('cart', JSON.stringify(state.cart));
+            window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+
+            state.updatedCart.cart = state.cartProduct;
+            state.updatedCart.cartCount = state.countCart;
         }
     },
     actions: {
@@ -1190,6 +1211,9 @@ export default new Vuex.Store({
         },
         getProductForCart({commit}){
             commit('getProductForCartMutate');
+        },
+        removeCard({commit}, data){
+            commit('removeCardMutate', data);
         }
     },
     getters:{
@@ -1249,6 +1273,9 @@ export default new Vuex.Store({
         },
         cartProduct: state => {
             return state.cartProduct;
+        },
+        updatedCart: state => {
+            return state.updatedCart;
         }
 
 
