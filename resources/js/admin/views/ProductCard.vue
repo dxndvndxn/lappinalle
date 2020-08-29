@@ -19,14 +19,25 @@
                 <input type="text" class="input-transp" v-model.trim="saleProduct">
             </div>
             <div class="wrap-card-sizes">
-                <h1 class="admin-h3">Доступные размеры</h1>
-                <div class="size-grid">
-                    <span v-for="(sz, i) in sizes">
-                        {{sz}}
-                    </span>
-                </div>
                 <div class="wrap-newsize">
-                    <input type="number" placeholder="Новый размер" class="input-transp" v-model.number="newSize"><button @click="addSize" class="btn-admin-purpp"><img src="../../../img/whiteplus.png" alt=""></button>
+                    <h1 class="admin-h3">Доступные размеры</h1>
+                    <div class="wrap-newsize-add">
+                        <input type="text" placeholder="Новый размер" class="input-transp" v-model="newSize">
+                        <button class="btn-admin-arrow" @click="activeBtnSize = !activeBtnSize" v-bind:class="activeBtnSize ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
+                        <button @click="addSize" class="btn-admin-purpp"><img src="../../../img/whiteplus.png" alt=""></button>
+                    </div>
+                    <div class="wrap-newsize-stock">
+                        <h1 class="admin-h3">Кол-во на складе</h1>
+                        <input type="text" class="input-transp" v-model="amountStock">
+                    </div>
+                </div>
+                <div class="size-grid">
+                    <h1 class="admin-h3">Добавленные размеры</h1>
+                    <div class="wrap-size-grid">
+                        <span v-for="(sz, i) in sizes">
+                        {{sz}}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,7 +46,8 @@
                 <form @submit.prevent="">
                     <h1 class="admin-h3">Фотографии</h1>
                     <div class="uploaded-content">
-                            <img v-for="(img, i) in files" v-bind:ref="'image' + parseInt(i)" v-bind:class="img.active ? 'puprr-border' : 'unctive-blu-img'" @click="clickImg(i)">
+                        <video :src="video" v-if="video !== null"></video>
+                        <img v-for="(img, i) in files" v-bind:ref="'image' + parseInt(i)" v-bind:class="img.active ? 'puprr-border' : 'unctive-blu-img'" @click="clickImg(i)">
                     </div>
                     <div class="wrap-load">
                         <label for="loadImg" class="admin-btn-add">Добавить изображение <img src="../../../img/purpp-krest.png" alt=""></label>
@@ -102,7 +114,10 @@
             loadedImg: [],
             files: [],
             clickedImg: 0,
-            activeBtn: false
+            activeBtn: false,
+            activeBtnSize: false,
+            amountStock: null,
+            video: null
         }),
         methods: {
             addSize(){
@@ -132,7 +147,7 @@
                     }
                 }
                 this.files = this.files.filter(el => (typeof el) === "object");
-                return this.files;
+                // return this.files;
             },
             deleteImg(){
                 if(this.clickedImg === 0 || this.clickedImg === 1){
@@ -147,10 +162,12 @@
                     this.clickedImg =  this.clickedImg - 1;
                     this.mainImg = this.$refs['image' + parseInt(this.clickedImg)][0].src;
                     this.files[this.clickedImg].active = true;
+                    this.getPrevious();
                 }
             },
             loadVid(){
-
+                let video = this.$refs.vid.files;
+                this.video = URL.createObjectURL(video[0]);
             },
             clickImg(i){
                 this.clickedImg = i;

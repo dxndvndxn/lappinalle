@@ -43,9 +43,11 @@ import Appi from './Appi';
 import store from "./store";
 import Paginate from 'vuejs-paginate';
 import VueProgressBar from "vue-progressbar";
+import Vuelidate from "vuelidate/src";
 
 Vue.component('paginate', Paginate);
 Vue.use(VueRouter);
+Vue.use(Vuelidate);
 
 const options = {
     color: '#be5683',

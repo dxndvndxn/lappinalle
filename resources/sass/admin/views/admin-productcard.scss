@@ -17,7 +17,7 @@
 }
 .admin-product-card-desc{
     margin-bottom: 100px;
-    @include grid-temp(300px, 200px, 300px);
+    @include grid-temp(290px, 200px, 460px);
     justify-content: space-between;
     .wrap-card-price, .wrap-card-desc, .wrap-card-sizes{
         h1{
@@ -41,40 +41,47 @@
         }
     }
     .wrap-card-sizes{
+        @include grid-temp(50%, 50%, 0px);
+        grid-column-gap: 30px;
         .size-grid{
-            @include variableColumns(6, 40px);
-            grid-template-rows: 40px;
-            grid-column-gap: 8px;
-            grid-row-gap: 8px;
-            justify-content: space-between;
-            margin-bottom: 5px;
-            height: 88px;
-            overflow-x: hidden;
-            overflow-y: scroll;
-            @extend %scrollbar;
-            &::-webkit-scrollbar
-            {
-                width: 5px;
-                background-color: $palepurpp;
-            }
-            span{
-                background-color: $ocean;
-                @include ptSans(400);
-                color: $grey;
-                height: 40px;
-                text-align: center;
-                padding-top: 11px;
-                box-sizing: border-box;
+            .wrap-size-grid{
+                @include variableColumns(4, 40px);
+                grid-template-rows: 40px;
+                grid-column-gap: 8px;
+                grid-row-gap: 8px;
+                justify-content: space-between;
+                margin-bottom: 5px;
+                height: 134px;
+                overflow-x: hidden;
+                overflow-y: scroll;
+                @extend %scrollbar;
+                &::-webkit-scrollbar
+                {
+                    width: 5px;
+                    background-color: $palepurpp;
+                }
+                span{
+                    background-color: $ocean;
+                    @include ptSans(400);
+                    color: $grey;
+                    height: 40px;
+                    text-align: center;
+                    padding-top: 11px;
+                    box-sizing: border-box;
+                }
             }
         }
         .wrap-newsize{
-            display: flex;
             input{
                 padding: 5px 15px;
                 appearance: none;
             }
             button{
                 cursor: pointer;
+            }
+            &-add{
+                display: flex;
+                margin-bottom: 23px;
             }
         }
     }

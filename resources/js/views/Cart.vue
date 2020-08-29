@@ -20,8 +20,8 @@
                             <div class="card-amount">
                                 Количество:  <span> {{card.count}}</span>
                                 <div class="change-amount">
-                                    <button class="change-plus" @click="itemPlus(c)"></button>
-                                    <button class="change-minus" @click="itemMinus(c)"></button>
+                                    <button class="change-plus" @click="itemPlus(c, card.id, card.size)"></button>
+                                    <button class="change-minus" @click="itemMinus(c, card.id, card.size)"></button>
                                 </div>
                             </div>
                             <div class="card-price">Цена: <span>{{card.count * +card.totalCartData.product_price}} &#8381;</span></div>
@@ -55,7 +55,6 @@
         components: {Back},
         data: () => ({
             totalPrice: null
-
         }),
         methods:{
             countTotal(arr){
@@ -64,14 +63,14 @@
                     this.totalPrice += +val.totalCartData.product_price * val.count;
                 })
             },
-            itemPlus(i){
-                this.getProductCart[i].count++;
+            itemPlus(i, id, size){
                 this.countTotal(this.getProductCart);
+                this.$store.dispatch('changeCountCart', {id, size, count: 1});
             },
-            itemMinus(i){
+            itemMinus(i, id, size){
                 if (this.getProductCart[i].count > 1){
-                    this.getProductCart[i].count--;
                     this.countTotal(this.getProductCart);
+                    this.$store.dispatch('changeCountCart', {id, size, count: -1});
                 }
             },
             removeCard(id, size, count){
@@ -86,6 +85,9 @@
         created() {
             this.$Progress.start();
             if (this.getCart.length) this.$store.dispatch('getProductForCart');
+        },
+        beforeDestroy(){
+          this.$store.dispatch('totalPrice', this.totalPrice);
         },
         computed: {
             getCart(){

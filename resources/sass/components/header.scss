@@ -70,6 +70,13 @@ nav{
             width: 170px;
             li{
                 display: flex;
+                span{
+                    color: $purpp;
+                    @include ptSans(700);
+                    font-size: $regFz;
+                    display: inline-flex;
+                    align-items: flex-end;
+                }
                 a{
                     img{
                         width: 100%;

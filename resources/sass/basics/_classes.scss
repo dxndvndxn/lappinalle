@@ -212,6 +212,12 @@
         text-transform: uppercase;
     }
 }
+.small-invalid{
+    @include ptSans(700);
+    font-size: $regFz - 4px;
+    color: $purpp;
+    margin-top: 10px;
+}
 
 .link-first{
     text-decoration: none;
@@ -345,6 +351,9 @@
         fill: $purpp !important;
     }
 }
+.invalid{
+    border-bottom: 2px solid $purpp !important;
+}
 
 // Админ классы
 .active-admin-tab{
@@ -406,9 +415,11 @@
 }
 .admin-btn-arrow-pass{
     @include arrow($blu, 3.5px, 16.5px, 45deg, -45deg, 11px, 21px, 10px, 10px);
+    cursor: pointer;
 }
 .admin-btn-arrow{
-    @include arrow($blu, 3.5px, 16.5px, 45deg, -45deg, 18px, 18px, 5px, 14px);
+    @include arrow($blu, 3.5px, 16.5px, 45deg, -45deg, 18px, 18px, 5px, 15px);
+    cursor: pointer;
 }
 
 .admin-btn-complete{

@@ -48,7 +48,9 @@ export default new Vuex.Store({
         updatedCart: {
             cart: null,
             cartCount: null
-        }
+        },
+        totalPrice: JSON.parse(localStorage.getItem('totalPrice') || '0'),
+        customerData: JSON.parse(localStorage.getItem('customerData') || '[]'),
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -1122,7 +1124,6 @@ export default new Vuex.Store({
                 .then(response => {
                     const dataCart = state.cart;
                     let data = response.data;
-                    state.cartProduct = null;
 
                     data.forEach(el => {
                         el.product_img = el.product_img.split(', ');
@@ -1152,24 +1153,60 @@ export default new Vuex.Store({
                     console.log(e)
                 })
         },
+
+        // Удаляем карточку товара
         removeCardMutate(state, data){
 
-
+            // Находим в карточке тоавара нужный размер и id и удалаяем
             state.cartProduct.forEach((el, i) => {
                 if (el.id === data.id && el.size === data.size) state.cartProduct.splice(i, 1);
             });
 
+            // Находим в карточке тоавара нужный размер и id и удалаяем из localstorage
             state.cart.forEach((el, i) => {
                 if (el.id === data.id && el.size === data.size) state.cart.splice(i, 1);
             });
 
-            state.countCart = state.countCart - data.count;
+            // Уменьшаем кол-во товара
+            if (state.countCart != 0) state.countCart = state.countCart - data.count;
 
             window.localStorage.setItem('cart', JSON.stringify(state.cart));
             window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
 
             state.updatedCart.cart = state.cartProduct;
             state.updatedCart.cartCount = state.countCart;
+        },
+        totalPriceMutate(state, data){
+            state.totalPrice = data;
+            window.localStorage.setItem('totalPrice', JSON.stringify(state.totalPrice));
+        },
+        changeCountCartMutate(state, data){
+            // Находим в карточке тоавара нужный размер и id и увеличиваем кол-во
+            state.cartProduct.forEach((el, i) => {
+                if (el.id === data.id && el.size === data.size) el.count += data.count;
+            });
+
+            state.countCart += data.count;
+            state.updatedCart.cart = state.cartProduct;
+            state.updatedCart.cartCount = state.countCart;
+
+            window.localStorage.setItem('cart', JSON.stringify(state.cart));
+            window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+        },
+        orderDataMutate(state, data){
+            state.customerData.push(data);
+            window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
+        },
+        sentDataMutate(state){
+            let postData = [];
+            // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
+            postData.push({customerData: state.customerData, orderData: state.cart, totalPrice: state.totalPrice});
+            console.log(postData)
+            axios.post(`${state.SITE_URI}order`, postData)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(e => console.log(e))
         }
     },
     actions: {
@@ -1214,6 +1251,18 @@ export default new Vuex.Store({
         },
         removeCard({commit}, data){
             commit('removeCardMutate', data);
+        },
+        totalPrice({commit}, data){
+            commit('totalPriceMutate', data);
+        },
+        changeCountCart({commit}, data){
+            commit('changeCountCartMutate', data);
+        },
+        orderData({commit}, data){
+            commit('orderDataMutate', data);
+        },
+        sentData({commit}){
+            commit('sentDataMutate');
         }
     },
     getters:{
@@ -1276,6 +1325,9 @@ export default new Vuex.Store({
         },
         updatedCart: state => {
             return state.updatedCart;
+        },
+        totalPrice: state => {
+            return state.totalPrice;
         }
 
 

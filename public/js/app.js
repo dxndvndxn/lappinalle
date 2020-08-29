@@ -2830,6 +2830,18 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ProductCart",
   data: function data() {
@@ -2843,7 +2855,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       loadedImg: [],
       files: [],
       clickedImg: 0,
-      activeBtn: false
+      activeBtn: false,
+      activeBtnSize: false,
+      amountStock: null,
+      video: null
     };
   },
   methods: {
@@ -2880,8 +2895,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       this.files = this.files.filter(function (el) {
         return _typeof(el) === "object";
-      });
-      return this.files;
+      }); // return this.files;
     },
     deleteImg: function deleteImg() {
       if (this.clickedImg === 0 || this.clickedImg === 1) {
@@ -2900,9 +2914,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         this.clickedImg = this.clickedImg - 1;
         this.mainImg = this.$refs['image' + parseInt(this.clickedImg)][0].src;
         this.files[this.clickedImg].active = true;
+        this.getPrevious();
       }
     },
-    loadVid: function loadVid() {},
+    loadVid: function loadVid() {
+      var video = this.$refs.vid.files;
+      this.video = URL.createObjectURL(video[0]);
+    },
     clickImg: function clickImg(i) {
       this.clickedImg = i;
       this.mainImg = this.$refs['image' + parseInt(i)][0].src;
@@ -3114,6 +3132,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3836,14 +3862,22 @@ __webpack_require__.r(__webpack_exports__);
         _this.totalPrice += +val.totalCartData.product_price * val.count;
       });
     },
-    itemPlus: function itemPlus(i) {
-      this.getProductCart[i].count++;
+    itemPlus: function itemPlus(i, id, size) {
       this.countTotal(this.getProductCart);
+      this.$store.dispatch('changeCountCart', {
+        id: id,
+        size: size,
+        count: 1
+      });
     },
-    itemMinus: function itemMinus(i) {
+    itemMinus: function itemMinus(i, id, size) {
       if (this.getProductCart[i].count > 1) {
-        this.getProductCart[i].count--;
         this.countTotal(this.getProductCart);
+        this.$store.dispatch('changeCountCart', {
+          id: id,
+          size: size,
+          count: -1
+        });
       }
     },
     removeCard: function removeCard(id, size, count) {
@@ -3864,6 +3898,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.$Progress.start();
     if (this.getCart.length) this.$store.dispatch('getProductForCart');
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$store.dispatch('totalPrice', this.totalPrice);
   },
   computed: {
     getCart: function getCart() {
@@ -4487,6 +4524,70 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4523,6 +4624,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ChooseDelivery",
   components: {
@@ -4531,33 +4633,65 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       deliveries: [{
+        delivery_name: 'post-russia',
         delImg: '../img/post-icon.png',
         delText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis cum cumque eum mollitia, nulla perferendis saepe sequi sit? Ad assumenda beatae doloribus eos magni natus quod repellat similique voluptates.\n',
         delPrice: null,
         delChooze: true
       }, {
+        delivery_name: 'sdek',
         delImg: '../img/sdek-icon.png',
         delText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis cum cumque eum mollitia, nulla perferendis saepe sequi sit? Ad assumenda beatae doloribus eos magni natus quod repellat similique voluptates.\n',
         delPrice: null,
         delChooze: false
       }, {
+        delivery_name: 'pek',
         delImg: '../img/pek-icon.png',
         delText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis cum cumque eum mollitia, nulla perferendis saepe sequi sit? Ad assumenda beatae doloribus eos magni natus quod repellat similique voluptates.\n',
         delPrice: null,
         delChooze: false
       }, {
+        delivery_name: 'postman',
         delImg: '../img/postman-icon.png',
         delText: 'Действует бесплатная курьерская доставка по СПБ\n' + 'в пределах КАД при заказе от 2000 рублей. При заказе на сумму\n' + 'менее 2000 рублей, отказе или выкупе товара на сумму менее\n' + '2000 рублей стоимость курьерской доставки по СПБ 300 рублей.',
         delPrice: 300,
         delChooze: false,
         freeShip: 2000
       }],
+      city: null,
       house: null,
       apart: null,
       corps: null,
       street: null,
-      chozenDel: 1
+      indexPost: null,
+      chozenDel: 0
     };
+  },
+  validations: {
+    city: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["maxLength"])(50)
+    },
+    street: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["maxLength"])(100)
+    },
+    house: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["maxLength"])(20)
+    },
+    corps: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["maxLength"])(20)
+    },
+    apart: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["maxLength"])(20)
+    },
+    indexPost: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["maxLength"])(6)
+    }
   },
   methods: {
     clickDel: function clickDel(i) {
@@ -4568,9 +4702,37 @@ __webpack_require__.r(__webpack_exports__);
       this.deliveries[i].delChooze = true;
     },
     toPay: function toPay() {
-      this.$router.push({
-        name: 'choosePay'
-      });
+      if (this.deliveries[this.chozenDel].delivery_name === 'post-russia' && this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+
+      if (this.deliveries[this.chozenDel].delivery_name === 'postman' && this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+
+      if (this.deliveries[this.chozenDel].delivery_name === 'sdek' && this.$v.city.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+
+      if (this.deliveries[this.chozenDel].delivery_name === 'pek' && this.$v.city.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+
+      var data = {
+        city: this.city,
+        house: this.house,
+        apart: this.apart,
+        corps: this.corps,
+        street: this.street,
+        indexPost: this.indexPost,
+        deliveryName: this.deliveries[this.chozenDel].delivery_name
+      };
+      this.$store.dispatch('orderData', data);
+      this.$store.dispatch('sentData'); //this.$router.push({name: 'choosePay'})
     }
   }
 });
@@ -4969,7 +5131,21 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4985,20 +5161,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
+var isPhone = function isPhone(value) {
+  return /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/.test(value);
+};
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Order",
   components: {
-    Back: _components_Back__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Back: _components_Back__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
-      name: null,
-      email: null,
+      name: '',
+      email: '',
       tel: null
     };
   },
+  validations: {
+    name: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(2),
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(16)
+    },
+    email: {
+      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"],
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    tel: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      phoneValid: isPhone
+    }
+  },
   methods: {
     toDeliveryChoose: function toDeliveryChoose() {
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+
+      var data = {
+        name: this.name,
+        email: this.email,
+        tel: this.tel
+      };
+      this.$store.dispatch('orderData', data);
       this.$router.push({
         name: 'chooseDelivery'
       });
@@ -5241,6 +5449,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, "html[data-v-ab30752a], body[data-v-ab30752a] {\n  height: 100%;\n}\nhtml #app[data-v-ab30752a], body #app[data-v-ab30752a] {\n  height: 100%;\n}\nhtml #app > div[data-v-ab30752a], body #app > div[data-v-ab30752a] {\n  height: 100%;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/layouts/MainLayout.vue?vue&type=style&index=0&lang=scss&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/layouts/MainLayout.vue?vue&type=style&index=0&lang=scss& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".main {\n  height: 100%;\n}", ""]);
 
 // exports
 
@@ -6495,6 +6722,36 @@ try {
 
 
 var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./AdminLayout.vue?vue&type=style&index=0&id=ab30752a&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/AdminLayout.vue?vue&type=style&index=0&id=ab30752a&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/layouts/MainLayout.vue?vue&type=style&index=0&lang=scss&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/layouts/MainLayout.vue?vue&type=style&index=0&lang=scss& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./MainLayout.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/layouts/MainLayout.vue?vue&type=style&index=0&lang=scss&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -9142,57 +9399,100 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-card-sizes" }, [
-        _c("h1", { staticClass: "admin-h3" }, [_vm._v("Доступные размеры")]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "size-grid" },
-          _vm._l(_vm.sizes, function(sz, i) {
-            return _c("span", [
-              _vm._v(
-                "\n                        " +
-                  _vm._s(sz) +
-                  "\n                    "
-              )
-            ])
-          }),
-          0
-        ),
-        _vm._v(" "),
         _c("div", { staticClass: "wrap-newsize" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model.number",
-                value: _vm.newSize,
-                expression: "newSize",
-                modifiers: { number: true }
-              }
-            ],
-            staticClass: "input-transp",
-            attrs: { type: "number", placeholder: "Новый размер" },
-            domProps: { value: _vm.newSize },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+          _c("h1", { staticClass: "admin-h3" }, [_vm._v("Доступные размеры")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "wrap-newsize-add" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newSize,
+                  expression: "newSize"
                 }
-                _vm.newSize = _vm._n($event.target.value)
-              },
-              blur: function($event) {
-                return _vm.$forceUpdate()
+              ],
+              staticClass: "input-transp",
+              attrs: { type: "text", placeholder: "Новый размер" },
+              domProps: { value: _vm.newSize },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newSize = $event.target.value
+                }
               }
-            }
-          }),
+            }),
+            _vm._v(" "),
+            _c("button", {
+              staticClass: "btn-admin-arrow",
+              class: _vm.activeBtnSize
+                ? "admin-btn-arrow-pass"
+                : "admin-btn-arrow",
+              on: {
+                click: function($event) {
+                  _vm.activeBtnSize = !_vm.activeBtnSize
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn-admin-purpp", on: { click: _vm.addSize } },
+              [
+                _c("img", {
+                  attrs: { src: __webpack_require__(/*! ../../../img/whiteplus.png */ "./resources/img/whiteplus.png"), alt: "" }
+                })
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "wrap-newsize-stock" }, [
+            _c("h1", { staticClass: "admin-h3" }, [_vm._v("Кол-во на складе")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.amountStock,
+                  expression: "amountStock"
+                }
+              ],
+              staticClass: "input-transp",
+              attrs: { type: "text" },
+              domProps: { value: _vm.amountStock },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.amountStock = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "size-grid" }, [
+          _c("h1", { staticClass: "admin-h3" }, [
+            _vm._v("Добавленные размеры")
+          ]),
+          _vm._v(" "),
           _c(
-            "button",
-            { staticClass: "btn-admin-purpp", on: { click: _vm.addSize } },
-            [
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ../../../img/whiteplus.png */ "./resources/img/whiteplus.png"), alt: "" }
-              })
-            ]
+            "div",
+            { staticClass: "wrap-size-grid" },
+            _vm._l(_vm.sizes, function(sz, i) {
+              return _c("span", [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(sz) +
+                    "\n                        "
+                )
+              ])
+            }),
+            0
           )
         ])
       ])
@@ -9215,19 +9515,25 @@ var render = function() {
             _c(
               "div",
               { staticClass: "uploaded-content" },
-              _vm._l(_vm.files, function(img, i) {
-                return _c("img", {
-                  ref: "image" + parseInt(i),
-                  refInFor: true,
-                  class: img.active ? "puprr-border" : "unctive-blu-img",
-                  on: {
-                    click: function($event) {
-                      return _vm.clickImg(i)
+              [
+                _vm.video !== null
+                  ? _c("video", { attrs: { src: _vm.video } })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._l(_vm.files, function(img, i) {
+                  return _c("img", {
+                    ref: "image" + parseInt(i),
+                    refInFor: true,
+                    class: img.active ? "puprr-border" : "unctive-blu-img",
+                    on: {
+                      click: function($event) {
+                        return _vm.clickImg(i)
+                      }
                     }
-                  }
+                  })
                 })
-              }),
-              0
+              ],
+              2
             ),
             _vm._v(" "),
             _vm._m(1),
@@ -9872,12 +10178,25 @@ var render = function() {
                 [
                   _c("router-link", { attrs: { tag: "li", to: "/login" } }, [
                     _c("a", { attrs: { href: "" } }, [
-                      _c("img", {
-                        attrs: {
-                          src: __webpack_require__(/*! ../../img/cabinet.png */ "./resources/img/cabinet.png"),
-                          alt: ""
-                        }
-                      })
+                      _c(
+                        "svg",
+                        {
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            viewBox: "0 0 448.51 426.18"
+                          }
+                        },
+                        [
+                          _c("title", [_vm._v("icon_lk")]),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M553,389.48c-1.08,4.89-1.81,9.89-3.31,14.65-3.57,11.27-8.4,22.08-16.72,30.64-11.7,12-26.16,18.57-43.11,18.6q-126.32.21-252.64.27c-24,0-48.05.3-72.08,0-23.72-.25-41.08-11-51.6-32.54-11.89-24.32-11.41-49-2.4-73.9,8.17-22.57,22.45-40.88,40.33-56.55,10.85-9.52,26.19-20.05,35.44-24.59l13.9,14.7c-5.09,3-10.34,5.94-15.39,9.18-18.84,12.09-35.16,26.8-46.82,46.17-9.36,15.54-14.68,32.31-13.95,50.61a54.25,54.25,0,0,0,12.4,32.81A33,33,0,0,0,163.28,432q78,0,156.07-.13,85.13-.11,170.25-.32c14-.05,25.12-6.12,33.06-17.7,5.19-7.56,9-15.79,9.94-25,.92-8.51-.25-16.9-2.27-25.15-5.09-20.8-16.51-37.83-31.66-52.56-18.21-17.69-39.73-30.16-63.11-39.63-5.29-2.14-10.74-3.88-16.06-5.94a4,4,0,0,0-4.5.83,130.41,130.41,0,0,1-50.26,25.73c-69.53,18.46-140.32-19.07-163.38-86.62C175.27,129.09,222.81,46.22,301.89,30.31,374.47,15.7,445.31,61.94,460.26,134.65c8.43,41-.06,78.87-25.88,112.36-.36.48-.7,1-1.2,1.67,3.16,1.21,6.19,2.33,9.18,3.53,26.51,10.63,50.78,24.84,71.19,45.07,18.07,17.91,31.22,38.75,36.81,63.86,1.06,4.75,1.5,9.63,2.23,14.44.11.67.27,1.33.41,2ZM328.93,50c-61.88,0-112.28,50.29-112.34,112.1s50.27,112.34,111.83,112.39A112.41,112.41,0,0,0,440.86,162.26C440.87,100.51,390.52,50,328.93,50Z",
+                              transform: "translate(-104.49 -27.62)"
+                            }
+                          })
+                        ]
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -9886,12 +10205,32 @@ var render = function() {
                     { attrs: { tag: "li", to: "/izbrannoe" } },
                     [
                       _c("a", { attrs: { href: "" } }, [
-                        _c("img", {
-                          attrs: {
-                            src: __webpack_require__(/*! ../../img/bookmark.png */ "./resources/img/bookmark.png"),
-                            alt: ""
-                          }
-                        })
+                        _c(
+                          "svg",
+                          {
+                            attrs: {
+                              xmlns: "http://www.w3.org/2000/svg",
+                              viewBox: "0 0 361.33 348.7"
+                            }
+                          },
+                          [
+                            _c("title", [_vm._v("icon_izb")]),
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
+                                transform: "translate(-139 -54.46)"
+                              }
+                            }),
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
+                                transform: "translate(-139 -54.46)"
+                              }
+                            })
+                          ]
+                        )
                       ])
                     ]
                   ),
@@ -11194,7 +11533,7 @@ var render = function() {
                           staticClass: "change-plus",
                           on: {
                             click: function($event) {
-                              return _vm.itemPlus(c)
+                              return _vm.itemPlus(c, card.id, card.size)
                             }
                           }
                         }),
@@ -11203,7 +11542,7 @@ var render = function() {
                           staticClass: "change-minus",
                           on: {
                             click: function($event) {
-                              return _vm.itemMinus(c)
+                              return _vm.itemMinus(c, card.id, card.size)
                             }
                           }
                         })
@@ -12179,115 +12518,609 @@ var render = function() {
         }
       },
       [
-        _c("div", { staticClass: "fill-inputs" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model.trim",
-                value: _vm.street,
-                expression: "street",
-                modifiers: { trim: true }
-              }
-            ],
-            staticClass: "classic-input",
-            attrs: { type: "text", placeholder: "Улица", autocomplete: "on" },
-            domProps: { value: _vm.street },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.street = $event.target.value.trim()
-              },
-              blur: function($event) {
-                return _vm.$forceUpdate()
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model.trim",
-                value: _vm.house,
-                expression: "house",
-                modifiers: { trim: true }
-              }
-            ],
-            staticClass: "classic-input",
-            attrs: { type: "text", placeholder: "Дом", autocomplete: "on" },
-            domProps: { value: _vm.house },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.house = $event.target.value.trim()
-              },
-              blur: function($event) {
-                return _vm.$forceUpdate()
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model.trim",
-                value: _vm.corps,
-                expression: "corps",
-                modifiers: { trim: true }
-              }
-            ],
-            staticClass: "classic-input",
-            attrs: { type: "text", placeholder: "Корпус", autocomplete: "on" },
-            domProps: { value: _vm.corps },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.corps = $event.target.value.trim()
-              },
-              blur: function($event) {
-                return _vm.$forceUpdate()
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model.trim",
-                value: _vm.apart,
-                expression: "apart",
-                modifiers: { trim: true }
-              }
-            ],
-            staticClass: "classic-input",
-            attrs: {
-              type: "text",
-              placeholder: "Квартира",
-              autocomplete: "on"
-            },
-            domProps: { value: _vm.apart },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.apart = $event.target.value.trim()
-              },
-              blur: function($event) {
-                return _vm.$forceUpdate()
-              }
-            }
-          })
-        ]),
+        _vm.deliveries[_vm.chozenDel].delivery_name === "post-russia"
+          ? _c("div", { staticClass: "fill-inputs" }, [
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.city,
+                      expression: "city",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.city.$dirty && !_vm.$v.city.required) ||
+                      (_vm.$v.city.$dirty && !_vm.$v.city.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Город",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.city },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.city = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.city.$dirty && !_vm.$v.city.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Город должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.city.$dirty && !_vm.$v.city.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Город заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.street,
+                      expression: "street",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.street.$dirty && !_vm.$v.street.required) ||
+                      (_vm.$v.street.$dirty && !_vm.$v.street.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Улица",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.street },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.street = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.street.$dirty && !_vm.$v.street.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Улица должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.street.$dirty && !_vm.$v.street.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Улица заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.house,
+                      expression: "house",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.house.$dirty && !_vm.$v.house.required) ||
+                      (_vm.$v.house.$dirty && !_vm.$v.house.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Дом",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.house },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.house = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.house.$dirty && !_vm.$v.house.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Дом должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.house.$dirty && !_vm.$v.house.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Дом заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.corps,
+                      expression: "corps",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.corps.$dirty && !_vm.$v.corps.required) ||
+                      (_vm.$v.corps.$dirty && !_vm.$v.corps.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Корпус",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.corps },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.corps = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.corps.$dirty && !_vm.$v.corps.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Корпус должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Корпус заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.apart,
+                      expression: "apart",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.apart.$dirty && !_vm.$v.apart.required) ||
+                      (_vm.$v.apart.$dirty && !_vm.$v.apart.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Квартира",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.apart },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.apart = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.apart.$dirty && !_vm.$v.apart.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Квартира должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.apart.$dirty && !_vm.$v.apart.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Квартира заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.indexPost,
+                      expression: "indexPost",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.indexPost.$dirty && !_vm.$v.indexPost.required) ||
+                      (_vm.$v.indexPost.$dirty && !_vm.$v.indexPost.maxLength)
+                  },
+                  attrs: {
+                    type: "number",
+                    placeholder: "Индекс",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.indexPost },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.indexPost = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.indexPost.$dirty && !_vm.$v.indexPost.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Индекс должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.indexPost.$dirty && !_vm.$v.indexPost.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Индекс заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.deliveries[_vm.chozenDel].delivery_name === "postman"
+          ? _c("div", { staticClass: "fill-inputs" }, [
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.street,
+                      expression: "street",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.street.$dirty && !_vm.$v.street.required) ||
+                      (_vm.$v.street.$dirty && !_vm.$v.street.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Улица",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.street },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.street = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.street.$dirty && !_vm.$v.street.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Улица должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.street.$dirty && !_vm.$v.street.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Улица заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.house,
+                      expression: "house",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.house.$dirty && !_vm.$v.house.required) ||
+                      (_vm.$v.house.$dirty && !_vm.$v.house.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Дом",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.house },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.house = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.house.$dirty && !_vm.$v.house.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Дом должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.house.$dirty && !_vm.$v.house.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Дом заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.corps,
+                      expression: "corps",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.corps.$dirty && !_vm.$v.corps.required) ||
+                      (_vm.$v.corps.$dirty && !_vm.$v.corps.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Корпус",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.corps },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.corps = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.corps.$dirty && !_vm.$v.corps.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Корпус должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Корпус заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.apart,
+                      expression: "apart",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.apart.$dirty && !_vm.$v.apart.required) ||
+                      (_vm.$v.apart.$dirty && !_vm.$v.apart.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Квартира",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.apart },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.apart = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.apart.$dirty && !_vm.$v.apart.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Квартира должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.apart.$dirty && !_vm.$v.apart.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Квартира заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.deliveries[_vm.chozenDel].delivery_name === "sdek"
+          ? _c("div", { staticClass: "fill-inputs" }, [
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.city,
+                      expression: "city",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.city.$dirty && !_vm.$v.city.required) ||
+                      (_vm.$v.city.$dirty && !_vm.$v.city.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Город",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.city },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.city = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.city.$dirty && !_vm.$v.city.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Город должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.city.$dirty && !_vm.$v.city.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Город заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.deliveries[_vm.chozenDel].delivery_name === "pek"
+          ? _c("div", { staticClass: "fill-inputs" }, [
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.city,
+                      expression: "city",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.city.$dirty && !_vm.$v.city.required) ||
+                      (_vm.$v.city.$dirty && !_vm.$v.city.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Город",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.city },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.city = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.city.$dirty && !_vm.$v.city.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Город должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.city.$dirty && !_vm.$v.city.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Город заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "chozen-delivery-text" }, [
           _c("p", [
@@ -12298,35 +13131,41 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "chozen-delivery-price" }, [
-            _vm._v("\n                Стоимость доставки:\n                "),
-            1999 >= _vm.deliveries[_vm.chozenDel].freeShip
-              ? _c("span", [_vm._v("0 ₽")])
-              : _c("span", [
+          _vm.deliveries[_vm.chozenDel].delivery_name === "postman"
+            ? _c("div", { staticClass: "chozen-delivery-price" }, [
+                _vm._v(
+                  "\n                Стоимость доставки:\n                "
+                ),
+                _vm.$store.getters.totalPrice >=
+                _vm.deliveries[_vm.chozenDel].freeShip
+                  ? _c("span", [_vm._v("0 ₽")])
+                  : _c("span", [
+                      _vm._v(
+                        _vm._s(_vm.deliveries[_vm.chozenDel].delPrice + " ₽") +
+                          " "
+                      )
+                    ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.deliveries[_vm.chozenDel].delivery_name === "postman"
+            ? _c("div", { staticClass: "chozen-delivery-total" }, [
+                _vm._v("\n                Итоговая стоимость: "),
+                _c("span", [
                   _vm._v(
-                    _vm._s(_vm.deliveries[_vm.chozenDel].delPrice + " ₽") + " "
+                    _vm._s(_vm.$store.getters.totalPrice + 300 + " ₽") + " "
                   )
                 ])
-          ]),
-          _vm._v(" "),
-          _vm._m(0)
+              ])
+            : _vm._e()
         ]),
         _vm._v(" "),
-        _vm._m(1)
+        _vm._m(0)
       ]
     )
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "chozen-delivery-total" }, [
-      _vm._v("\n                Итоговая стоимость: "),
-      _c("span")
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -12951,83 +13790,136 @@ var render = function() {
         }
       },
       [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model.trim",
-              value: _vm.name,
-              expression: "name",
-              modifiers: { trim: true }
-            }
-          ],
-          staticClass: "classic-input",
-          attrs: { type: "text", placeholder: "Имя", autocomplete: "on" },
-          domProps: { value: _vm.name },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+        _c("div", { staticClass: "input-wrap" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.trim",
+                value: _vm.name,
+                expression: "name",
+                modifiers: { trim: true }
               }
-              _vm.name = $event.target.value.trim()
+            ],
+            staticClass: "classic-input",
+            class: {
+              invalid:
+                (_vm.$v.name.$dirty && !_vm.$v.name.required) ||
+                (_vm.$v.name.$dirty && !_vm.$v.name.minLength) ||
+                (_vm.$v.name.$dirty && !_vm.$v.name.maxLength)
             },
-            blur: function($event) {
-              return _vm.$forceUpdate()
+            attrs: { type: "text", placeholder: "Имя", autocomplete: "on" },
+            domProps: { value: _vm.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.name = $event.target.value.trim()
+              },
+              blur: function($event) {
+                return _vm.$forceUpdate()
+              }
             }
-          }
-        }),
+          }),
+          _vm._v(" "),
+          _vm.$v.name.$dirty && !_vm.$v.name.required
+            ? _c("small", { staticClass: "small-invalid" }, [
+                _vm._v("Поле Имя должно быть заполнено")
+              ])
+            : (_vm.$v.name.$dirty && !_vm.$v.name.minLength) ||
+              (_vm.$v.name.$dirty && !_vm.$v.name.maxLength)
+            ? _c("small", { staticClass: "small-invalid" }, [
+                _vm._v("Поле Имя заполнено не корректно")
+              ])
+            : _vm._e()
+        ]),
         _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model.trim",
-              value: _vm.email,
-              expression: "email",
-              modifiers: { trim: true }
-            }
-          ],
-          staticClass: "classic-input",
-          attrs: { type: "email", placeholder: "E-mail", autocomplete: "on" },
-          domProps: { value: _vm.email },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+        _c("div", { staticClass: "input-wrap" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.trim",
+                value: _vm.email,
+                expression: "email",
+                modifiers: { trim: true }
               }
-              _vm.email = $event.target.value.trim()
+            ],
+            staticClass: "classic-input",
+            class: {
+              invalid:
+                (_vm.$v.email.$dirty && !_vm.$v.email.required) ||
+                (_vm.$v.email.$dirty && !_vm.$v.email.email)
             },
-            blur: function($event) {
-              return _vm.$forceUpdate()
+            attrs: { type: "email", placeholder: "E-mail", autocomplete: "on" },
+            domProps: { value: _vm.email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.email = $event.target.value.trim()
+              },
+              blur: function($event) {
+                return _vm.$forceUpdate()
+              }
             }
-          }
-        }),
+          }),
+          _vm._v(" "),
+          _vm.$v.email.$dirty && !_vm.$v.email.email
+            ? _c("small", { staticClass: "small-invalid" }, [
+                _vm._v("Поле E-mail заполнено не корректно")
+              ])
+            : _vm.$v.email.$dirty && !_vm.$v.email.required
+            ? _c("small", { staticClass: "small-invalid" }, [
+                _vm._v("Поле E-mail должно быть заполнено")
+              ])
+            : _vm._e()
+        ]),
         _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model.trim",
-              value: _vm.tel,
-              expression: "tel",
-              modifiers: { trim: true }
-            }
-          ],
-          staticClass: "classic-input",
-          attrs: { type: "tel", placeholder: "Телефон" },
-          domProps: { value: _vm.tel },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+        _c("div", { staticClass: "input-wrap" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.trim",
+                value: _vm.tel,
+                expression: "tel",
+                modifiers: { trim: true }
               }
-              _vm.tel = $event.target.value.trim()
+            ],
+            staticClass: "classic-input",
+            class: {
+              invalid:
+                (_vm.$v.tel.$dirty && !_vm.$v.tel.required) ||
+                (_vm.$v.tel.$dirty && !_vm.$v.tel.phoneValid)
             },
-            blur: function($event) {
-              return _vm.$forceUpdate()
+            attrs: { type: "tel", placeholder: "Телефон" },
+            domProps: { value: _vm.tel },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.tel = $event.target.value.trim()
+              },
+              blur: function($event) {
+                return _vm.$forceUpdate()
+              }
             }
-          }
-        }),
+          }),
+          _vm._v(" "),
+          _vm.$v.tel.$dirty && !_vm.$v.tel.required
+            ? _c("small", { staticClass: "small-invalid" }, [
+                _vm._v("Поле Телефон должно быть заполнено")
+              ])
+            : _vm.$v.tel.$dirty && !_vm.$v.tel.phoneValid
+            ? _c("small", { staticClass: "small-invalid" }, [
+                _vm._v("Поле Телефон заполнено не корректно")
+              ])
+            : _vm._e()
+        ]),
         _vm._v(" "),
         _c("button", { staticClass: "classic-btn-sz btn" }, [
           _vm._v("следующий шаг")
@@ -28698,6 +29590,1951 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/vuelidate/lib/params.js":
+/*!**********************************************!*\
+  !*** ./node_modules/vuelidate/lib/params.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.pushParams = pushParams;
+exports.popParams = popParams;
+exports.withParams = withParams;
+exports._setTarget = exports.target = void 0;
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var stack = [];
+var target = null;
+exports.target = target;
+
+var _setTarget = function _setTarget(x) {
+  exports.target = target = x;
+};
+
+exports._setTarget = _setTarget;
+
+function pushParams() {
+  if (target !== null) {
+    stack.push(target);
+  }
+
+  exports.target = target = {};
+}
+
+function popParams() {
+  var lastTarget = target;
+  var newTarget = exports.target = target = stack.pop() || null;
+
+  if (newTarget) {
+    if (!Array.isArray(newTarget.$sub)) {
+      newTarget.$sub = [];
+    }
+
+    newTarget.$sub.push(lastTarget);
+  }
+
+  return lastTarget;
+}
+
+function addParams(params) {
+  if (_typeof(params) === 'object' && !Array.isArray(params)) {
+    exports.target = target = _objectSpread({}, target, {}, params);
+  } else {
+    throw new Error('params must be an object');
+  }
+}
+
+function withParamsDirect(params, validator) {
+  return withParamsClosure(function (add) {
+    return function () {
+      add(params);
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return validator.apply(this, args);
+    };
+  });
+}
+
+function withParamsClosure(closure) {
+  var validator = closure(addParams);
+  return function () {
+    pushParams();
+
+    try {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return validator.apply(this, args);
+    } finally {
+      popParams();
+    }
+  };
+}
+
+function withParams(paramsOrClosure, maybeValidator) {
+  if (_typeof(paramsOrClosure) === 'object' && maybeValidator !== undefined) {
+    return withParamsDirect(paramsOrClosure, maybeValidator);
+  }
+
+  return withParamsClosure(paramsOrClosure);
+}
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/alpha.js":
+/*!********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/alpha.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('alpha', /^[a-zA-Z]*$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/alphaNum.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/alphaNum.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('alphaNum', /^[a-zA-Z0-9]*$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/and.js":
+/*!******************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/and.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default() {
+  for (var _len = arguments.length, validators = new Array(_len), _key = 0; _key < _len; _key++) {
+    validators[_key] = arguments[_key];
+  }
+
+  return (0, _common.withParams)({
+    type: 'and'
+  }, function () {
+    var _this = this;
+
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return validators.length > 0 && validators.reduce(function (valid, fn) {
+      return valid && fn.apply(_this, args);
+    }, true);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/between.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/between.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(min, max) {
+  return (0, _common.withParams)({
+    type: 'between',
+    min: min,
+    max: max
+  }, function (value) {
+    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +min <= +value && +max >= +value;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/common.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/common.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "withParams", {
+  enumerable: true,
+  get: function get() {
+    return _withParams.default;
+  }
+});
+exports.regex = exports.ref = exports.len = exports.req = void 0;
+
+var _withParams = _interopRequireDefault(__webpack_require__(/*! ../withParams */ "./node_modules/vuelidate/lib/withParams.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var req = function req(value) {
+  if (Array.isArray(value)) return !!value.length;
+
+  if (value === undefined || value === null) {
+    return false;
+  }
+
+  if (value === false) {
+    return true;
+  }
+
+  if (value instanceof Date) {
+    return !isNaN(value.getTime());
+  }
+
+  if (_typeof(value) === 'object') {
+    for (var _ in value) {
+      return true;
+    }
+
+    return false;
+  }
+
+  return !!String(value).length;
+};
+
+exports.req = req;
+
+var len = function len(value) {
+  if (Array.isArray(value)) return value.length;
+
+  if (_typeof(value) === 'object') {
+    return Object.keys(value).length;
+  }
+
+  return String(value).length;
+};
+
+exports.len = len;
+
+var ref = function ref(reference, vm, parentVm) {
+  return typeof reference === 'function' ? reference.call(vm, parentVm) : parentVm[reference];
+};
+
+exports.ref = ref;
+
+var regex = function regex(type, expr) {
+  return (0, _withParams.default)({
+    type: type
+  }, function (value) {
+    return !req(value) || expr.test(value);
+  });
+};
+
+exports.regex = regex;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/decimal.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/decimal.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('decimal', /^[-]?\d*(\.\d+)?$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/email.js":
+/*!********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/email.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var emailRegex = /(^$|^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
+
+var _default = (0, _common.regex)('email', emailRegex);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/index.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "alpha", {
+  enumerable: true,
+  get: function get() {
+    return _alpha.default;
+  }
+});
+Object.defineProperty(exports, "alphaNum", {
+  enumerable: true,
+  get: function get() {
+    return _alphaNum.default;
+  }
+});
+Object.defineProperty(exports, "numeric", {
+  enumerable: true,
+  get: function get() {
+    return _numeric.default;
+  }
+});
+Object.defineProperty(exports, "between", {
+  enumerable: true,
+  get: function get() {
+    return _between.default;
+  }
+});
+Object.defineProperty(exports, "email", {
+  enumerable: true,
+  get: function get() {
+    return _email.default;
+  }
+});
+Object.defineProperty(exports, "ipAddress", {
+  enumerable: true,
+  get: function get() {
+    return _ipAddress.default;
+  }
+});
+Object.defineProperty(exports, "macAddress", {
+  enumerable: true,
+  get: function get() {
+    return _macAddress.default;
+  }
+});
+Object.defineProperty(exports, "maxLength", {
+  enumerable: true,
+  get: function get() {
+    return _maxLength.default;
+  }
+});
+Object.defineProperty(exports, "minLength", {
+  enumerable: true,
+  get: function get() {
+    return _minLength.default;
+  }
+});
+Object.defineProperty(exports, "required", {
+  enumerable: true,
+  get: function get() {
+    return _required.default;
+  }
+});
+Object.defineProperty(exports, "requiredIf", {
+  enumerable: true,
+  get: function get() {
+    return _requiredIf.default;
+  }
+});
+Object.defineProperty(exports, "requiredUnless", {
+  enumerable: true,
+  get: function get() {
+    return _requiredUnless.default;
+  }
+});
+Object.defineProperty(exports, "sameAs", {
+  enumerable: true,
+  get: function get() {
+    return _sameAs.default;
+  }
+});
+Object.defineProperty(exports, "url", {
+  enumerable: true,
+  get: function get() {
+    return _url.default;
+  }
+});
+Object.defineProperty(exports, "or", {
+  enumerable: true,
+  get: function get() {
+    return _or.default;
+  }
+});
+Object.defineProperty(exports, "and", {
+  enumerable: true,
+  get: function get() {
+    return _and.default;
+  }
+});
+Object.defineProperty(exports, "not", {
+  enumerable: true,
+  get: function get() {
+    return _not.default;
+  }
+});
+Object.defineProperty(exports, "minValue", {
+  enumerable: true,
+  get: function get() {
+    return _minValue.default;
+  }
+});
+Object.defineProperty(exports, "maxValue", {
+  enumerable: true,
+  get: function get() {
+    return _maxValue.default;
+  }
+});
+Object.defineProperty(exports, "integer", {
+  enumerable: true,
+  get: function get() {
+    return _integer.default;
+  }
+});
+Object.defineProperty(exports, "decimal", {
+  enumerable: true,
+  get: function get() {
+    return _decimal.default;
+  }
+});
+exports.helpers = void 0;
+
+var _alpha = _interopRequireDefault(__webpack_require__(/*! ./alpha */ "./node_modules/vuelidate/lib/validators/alpha.js"));
+
+var _alphaNum = _interopRequireDefault(__webpack_require__(/*! ./alphaNum */ "./node_modules/vuelidate/lib/validators/alphaNum.js"));
+
+var _numeric = _interopRequireDefault(__webpack_require__(/*! ./numeric */ "./node_modules/vuelidate/lib/validators/numeric.js"));
+
+var _between = _interopRequireDefault(__webpack_require__(/*! ./between */ "./node_modules/vuelidate/lib/validators/between.js"));
+
+var _email = _interopRequireDefault(__webpack_require__(/*! ./email */ "./node_modules/vuelidate/lib/validators/email.js"));
+
+var _ipAddress = _interopRequireDefault(__webpack_require__(/*! ./ipAddress */ "./node_modules/vuelidate/lib/validators/ipAddress.js"));
+
+var _macAddress = _interopRequireDefault(__webpack_require__(/*! ./macAddress */ "./node_modules/vuelidate/lib/validators/macAddress.js"));
+
+var _maxLength = _interopRequireDefault(__webpack_require__(/*! ./maxLength */ "./node_modules/vuelidate/lib/validators/maxLength.js"));
+
+var _minLength = _interopRequireDefault(__webpack_require__(/*! ./minLength */ "./node_modules/vuelidate/lib/validators/minLength.js"));
+
+var _required = _interopRequireDefault(__webpack_require__(/*! ./required */ "./node_modules/vuelidate/lib/validators/required.js"));
+
+var _requiredIf = _interopRequireDefault(__webpack_require__(/*! ./requiredIf */ "./node_modules/vuelidate/lib/validators/requiredIf.js"));
+
+var _requiredUnless = _interopRequireDefault(__webpack_require__(/*! ./requiredUnless */ "./node_modules/vuelidate/lib/validators/requiredUnless.js"));
+
+var _sameAs = _interopRequireDefault(__webpack_require__(/*! ./sameAs */ "./node_modules/vuelidate/lib/validators/sameAs.js"));
+
+var _url = _interopRequireDefault(__webpack_require__(/*! ./url */ "./node_modules/vuelidate/lib/validators/url.js"));
+
+var _or = _interopRequireDefault(__webpack_require__(/*! ./or */ "./node_modules/vuelidate/lib/validators/or.js"));
+
+var _and = _interopRequireDefault(__webpack_require__(/*! ./and */ "./node_modules/vuelidate/lib/validators/and.js"));
+
+var _not = _interopRequireDefault(__webpack_require__(/*! ./not */ "./node_modules/vuelidate/lib/validators/not.js"));
+
+var _minValue = _interopRequireDefault(__webpack_require__(/*! ./minValue */ "./node_modules/vuelidate/lib/validators/minValue.js"));
+
+var _maxValue = _interopRequireDefault(__webpack_require__(/*! ./maxValue */ "./node_modules/vuelidate/lib/validators/maxValue.js"));
+
+var _integer = _interopRequireDefault(__webpack_require__(/*! ./integer */ "./node_modules/vuelidate/lib/validators/integer.js"));
+
+var _decimal = _interopRequireDefault(__webpack_require__(/*! ./decimal */ "./node_modules/vuelidate/lib/validators/decimal.js"));
+
+var helpers = _interopRequireWildcard(__webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js"));
+
+exports.helpers = helpers;
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/integer.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/integer.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('integer', /(^[0-9]*$)|(^-[0-9]+$)/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/ipAddress.js":
+/*!************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/ipAddress.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.withParams)({
+  type: 'ipAddress'
+}, function (value) {
+  if (!(0, _common.req)(value)) {
+    return true;
+  }
+
+  if (typeof value !== 'string') {
+    return false;
+  }
+
+  var nibbles = value.split('.');
+  return nibbles.length === 4 && nibbles.every(nibbleValid);
+});
+
+exports.default = _default;
+
+var nibbleValid = function nibbleValid(nibble) {
+  if (nibble.length > 3 || nibble.length === 0) {
+    return false;
+  }
+
+  if (nibble[0] === '0' && nibble !== '0') {
+    return false;
+  }
+
+  if (!nibble.match(/^\d+$/)) {
+    return false;
+  }
+
+  var numeric = +nibble | 0;
+  return numeric >= 0 && numeric <= 255;
+};
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/macAddress.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/macAddress.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default() {
+  var separator = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ':';
+  return (0, _common.withParams)({
+    type: 'macAddress'
+  }, function (value) {
+    if (!(0, _common.req)(value)) {
+      return true;
+    }
+
+    if (typeof value !== 'string') {
+      return false;
+    }
+
+    var parts = typeof separator === 'string' && separator !== '' ? value.split(separator) : value.length === 12 || value.length === 16 ? value.match(/.{2}/g) : null;
+    return parts !== null && (parts.length === 6 || parts.length === 8) && parts.every(hexValid);
+  });
+};
+
+exports.default = _default;
+
+var hexValid = function hexValid(hex) {
+  return hex.toLowerCase().match(/^[0-9a-f]{2}$/);
+};
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/maxLength.js":
+/*!************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/maxLength.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(length) {
+  return (0, _common.withParams)({
+    type: 'maxLength',
+    max: length
+  }, function (value) {
+    return !(0, _common.req)(value) || (0, _common.len)(value) <= length;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/maxValue.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/maxValue.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(max) {
+  return (0, _common.withParams)({
+    type: 'maxValue',
+    max: max
+  }, function (value) {
+    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +value <= +max;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/minLength.js":
+/*!************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/minLength.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(length) {
+  return (0, _common.withParams)({
+    type: 'minLength',
+    min: length
+  }, function (value) {
+    return !(0, _common.req)(value) || (0, _common.len)(value) >= length;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/minValue.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/minValue.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(min) {
+  return (0, _common.withParams)({
+    type: 'minValue',
+    min: min
+  }, function (value) {
+    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +value >= +min;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/not.js":
+/*!******************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/not.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(validator) {
+  return (0, _common.withParams)({
+    type: 'not'
+  }, function (value, vm) {
+    return !(0, _common.req)(value) || !validator.call(this, value, vm);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/numeric.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/numeric.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('numeric', /^[0-9]*$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/or.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/or.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default() {
+  for (var _len = arguments.length, validators = new Array(_len), _key = 0; _key < _len; _key++) {
+    validators[_key] = arguments[_key];
+  }
+
+  return (0, _common.withParams)({
+    type: 'or'
+  }, function () {
+    var _this = this;
+
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return validators.length > 0 && validators.reduce(function (valid, fn) {
+      return valid || fn.apply(_this, args);
+    }, false);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/required.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/required.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.withParams)({
+  type: 'required'
+}, function (value) {
+  if (typeof value === 'string') {
+    return (0, _common.req)(value.trim());
+  }
+
+  return (0, _common.req)(value);
+});
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/requiredIf.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/requiredIf.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(prop) {
+  return (0, _common.withParams)({
+    type: 'requiredIf',
+    prop: prop
+  }, function (value, parentVm) {
+    return (0, _common.ref)(prop, this, parentVm) ? (0, _common.req)(value) : true;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/requiredUnless.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/requiredUnless.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(prop) {
+  return (0, _common.withParams)({
+    type: 'requiredUnless',
+    prop: prop
+  }, function (value, parentVm) {
+    return !(0, _common.ref)(prop, this, parentVm) ? (0, _common.req)(value) : true;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/sameAs.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/sameAs.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(equalTo) {
+  return (0, _common.withParams)({
+    type: 'sameAs',
+    eq: equalTo
+  }, function (value, parentVm) {
+    return value === (0, _common.ref)(equalTo, this, parentVm);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/url.js":
+/*!******************************************************!*\
+  !*** ./node_modules/vuelidate/lib/validators/url.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
+
+var urlRegex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+
+var _default = (0, _common.regex)('url', urlRegex);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/withParams.js":
+/*!**************************************************!*\
+  !*** ./node_modules/vuelidate/lib/withParams.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var withParams = process.env.BUILD === 'web' ? __webpack_require__(/*! ./withParamsBrowser */ "./node_modules/vuelidate/lib/withParamsBrowser.js").withParams : __webpack_require__(/*! ./params */ "./node_modules/vuelidate/lib/params.js").withParams;
+var _default = withParams;
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../process/browser.js */ "./node_modules/process/browser.js")))
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/withParamsBrowser.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/vuelidate/lib/withParamsBrowser.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.withParams = void 0;
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var root = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+var fakeWithParams = function fakeWithParams(paramsOrClosure, maybeValidator) {
+  if (_typeof(paramsOrClosure) === 'object' && maybeValidator !== undefined) {
+    return maybeValidator;
+  }
+
+  return paramsOrClosure(function () {});
+};
+
+var withParams = root.vuelidate ? root.vuelidate.withParams : fakeWithParams;
+exports.withParams = withParams;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/src/index.js":
+/*!*********************************************!*\
+  !*** ./node_modules/vuelidate/src/index.js ***!
+  \*********************************************/
+/*! exports provided: Vuelidate, validationMixin, withParams, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Vuelidate", function() { return Vuelidate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "validationMixin", function() { return validationMixin; });
+/* harmony import */ var _vval__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vval */ "./node_modules/vuelidate/src/vval.js");
+/* harmony import */ var _params__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./params */ "./node_modules/vuelidate/src/params.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withParams", function() { return _params__WEBPACK_IMPORTED_MODULE_1__["withParams"]; });
+
+
+
+const NIL = () => null
+
+const buildFromKeys = (keys, fn, keyFn) =>
+  keys.reduce((build, key) => {
+    build[keyFn ? keyFn(key) : key] = fn(key)
+    return build
+  }, {})
+
+function isFunction(val) {
+  return typeof val === 'function'
+}
+
+function isObject(val) {
+  return val !== null && (typeof val === 'object' || isFunction(val))
+}
+
+function isPromise(object) {
+  return isObject(object) && isFunction(object.then)
+}
+
+const getPath = (ctx, obj, path, fallback) => {
+  if (typeof path === 'function') {
+    return path.call(ctx, obj, fallback)
+  }
+
+  path = Array.isArray(path) ? path : path.split('.')
+  for (let i = 0; i < path.length; i++) {
+    if (obj && typeof obj === 'object') {
+      obj = obj[path[i]]
+    } else {
+      return fallback
+    }
+  }
+
+  return typeof obj === 'undefined' ? fallback : obj
+}
+
+
+
+const __isVuelidateAsyncVm = '__isVuelidateAsyncVm'
+function makePendingAsyncVm(Vue, promise) {
+  const asyncVm = new Vue({
+    data: {
+      p: true, // pending
+      v: false // value
+    }
+  })
+
+  promise.then(
+    (value) => {
+      asyncVm.p = false
+      asyncVm.v = value
+    },
+    (error) => {
+      asyncVm.p = false
+      asyncVm.v = false
+      throw error
+    }
+  )
+
+  asyncVm[__isVuelidateAsyncVm] = true
+  return asyncVm
+}
+
+const validationGetters = {
+  $invalid() {
+    const proxy = this.proxy
+    return (
+      this.nestedKeys.some((nested) => this.refProxy(nested).$invalid) ||
+      this.ruleKeys.some((rule) => !proxy[rule])
+    )
+  },
+  $dirty() {
+    if (this.dirty) {
+      return true
+    }
+    if (this.nestedKeys.length === 0) {
+      return false
+    }
+
+    return this.nestedKeys.every((key) => this.refProxy(key).$dirty)
+  },
+  $anyDirty() {
+    if (this.dirty) {
+      return true
+    }
+    if (this.nestedKeys.length === 0) {
+      return false
+    }
+
+    return this.nestedKeys.some((key) => this.refProxy(key).$anyDirty)
+  },
+  $error() {
+    return this.$dirty && !this.$pending && this.$invalid
+  },
+  $anyError() {
+    if (this.$error) return true
+
+    return this.nestedKeys.some((key) => this.refProxy(key).$anyError)
+  },
+  $pending() {
+    return (
+      this.ruleKeys.some((key) => this.getRef(key).$pending) ||
+      this.nestedKeys.some((key) => this.refProxy(key).$pending)
+    )
+  },
+  $params() {
+    const vals = this.validations
+    return {
+      ...buildFromKeys(
+        this.nestedKeys,
+        (key) => (vals[key] && vals[key].$params) || null
+      ),
+      ...buildFromKeys(this.ruleKeys, (key) => this.getRef(key).$params)
+    }
+  }
+}
+
+function setDirtyRecursive(newState) {
+  this.dirty = newState
+  const proxy = this.proxy
+  const method = newState ? '$touch' : '$reset'
+  this.nestedKeys.forEach((key) => {
+    proxy[key][method]()
+  })
+}
+
+const validationMethods = {
+  $touch() {
+    setDirtyRecursive.call(this, true)
+  },
+  $reset() {
+    setDirtyRecursive.call(this, false)
+  },
+  $flattenParams() {
+    const proxy = this.proxy
+    let params = []
+    for (const key in this.$params) {
+      if (this.isNested(key)) {
+        const childParams = proxy[key].$flattenParams()
+        for (let j = 0; j < childParams.length; j++) {
+          childParams[j].path.unshift(key)
+        }
+        params = params.concat(childParams)
+      } else {
+        params.push({ path: [], name: key, params: this.$params[key] })
+      }
+    }
+    return params
+  }
+}
+
+const getterNames = Object.keys(validationGetters)
+const methodNames = Object.keys(validationMethods)
+
+let _cachedComponent = null
+const getComponent = (Vue) => {
+  if (_cachedComponent) {
+    return _cachedComponent
+  }
+
+  const VBase = Vue.extend({
+    computed: {
+      refs() {
+        const oldVval = this._vval
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this._vval = this.children
+        Object(_vval__WEBPACK_IMPORTED_MODULE_0__["patchChildren"])(oldVval, this._vval)
+        const refs = {}
+        this._vval.forEach((c) => {
+          refs[c.key] = c.vm
+        })
+        return refs
+      }
+    },
+    beforeCreate() {
+      this._vval = null
+    },
+    beforeDestroy() {
+      if (this._vval) {
+        Object(_vval__WEBPACK_IMPORTED_MODULE_0__["patchChildren"])(this._vval)
+        this._vval = null
+      }
+    },
+    methods: {
+      getModel() {
+        return this.lazyModel ? this.lazyModel(this.prop) : this.model
+      },
+      getModelKey(key) {
+        var model = this.getModel()
+        if (model) {
+          return model[key]
+        }
+      },
+      hasIter() {
+        return false
+      }
+    }
+  })
+
+  const ValidationRule = VBase.extend({
+    data() {
+      return {
+        rule: null,
+        lazyModel: null,
+        model: null,
+        lazyParentModel: null,
+        rootModel: null
+      }
+    },
+    methods: {
+      runRule(parent) {
+        // Avoid using this.lazyParentModel to not get dependent on it.
+        // Passed as an argument for workaround
+        const model = this.getModel()
+        Object(_params__WEBPACK_IMPORTED_MODULE_1__["pushParams"])()
+        const rawOutput = this.rule.call(this.rootModel, model, parent)
+        const output = isPromise(rawOutput)
+          ? makePendingAsyncVm(Vue, rawOutput)
+          : rawOutput
+
+        const rawParams = Object(_params__WEBPACK_IMPORTED_MODULE_1__["popParams"])()
+        const params =
+          rawParams && rawParams.$sub
+            ? rawParams.$sub.length > 1
+              ? rawParams
+              : rawParams.$sub[0]
+            : null
+
+        return { output, params }
+      }
+    },
+    computed: {
+      run() {
+        const parent = this.lazyParentModel()
+        const isArrayDependant = Array.isArray(parent) && parent.__ob__
+
+        if (isArrayDependant) {
+          // force depend on the array
+          const arrayDep = parent.__ob__.dep
+          arrayDep.depend()
+
+          const target = arrayDep.constructor.target
+
+          if (!this._indirectWatcher) {
+            const Watcher = target.constructor
+            this._indirectWatcher = new Watcher(
+              this,
+              () => this.runRule(parent),
+              null,
+              { lazy: true }
+            )
+          }
+
+          // if the update cause is only the array update
+          // and value stays the same, don't recalculate
+          const model = this.getModel()
+          if (!this._indirectWatcher.dirty && this._lastModel === model) {
+            this._indirectWatcher.depend()
+            return target.value
+          }
+
+          this._lastModel = model
+          this._indirectWatcher.evaluate()
+          this._indirectWatcher.depend()
+        } else if (this._indirectWatcher) {
+          // array was replaced with different type at runtime
+          this._indirectWatcher.teardown()
+          this._indirectWatcher = null
+        }
+        return this._indirectWatcher
+          ? this._indirectWatcher.value
+          : this.runRule(parent)
+      },
+      $params() {
+        return this.run.params
+      },
+      proxy() {
+        const output = this.run.output
+        if (output[__isVuelidateAsyncVm]) {
+          return !!output.v
+        }
+        return !!output
+      },
+      $pending() {
+        const output = this.run.output
+        if (output[__isVuelidateAsyncVm]) {
+          return output.p
+        }
+        return false
+      }
+    },
+    destroyed() {
+      if (this._indirectWatcher) {
+        this._indirectWatcher.teardown()
+        this._indirectWatcher = null
+      }
+    }
+  })
+
+  const Validation = VBase.extend({
+    data() {
+      return {
+        dirty: false,
+        validations: null,
+        lazyModel: null,
+        model: null,
+        prop: null,
+        lazyParentModel: null,
+        rootModel: null
+      }
+    },
+    methods: {
+      ...validationMethods,
+      refProxy(key) {
+        return this.getRef(key).proxy
+      },
+      getRef(key) {
+        return this.refs[key]
+      },
+      isNested(key) {
+        return typeof this.validations[key] !== 'function'
+      }
+    },
+    computed: {
+      ...validationGetters,
+      nestedKeys() {
+        return this.keys.filter(this.isNested)
+      },
+      ruleKeys() {
+        return this.keys.filter((k) => !this.isNested(k))
+      },
+      keys() {
+        return Object.keys(this.validations).filter((k) => k !== '$params')
+      },
+      proxy() {
+        const keyDefs = buildFromKeys(this.keys, (key) => ({
+          enumerable: true,
+          configurable: true, // allow mocking lib calls
+          get: () => this.refProxy(key)
+        }))
+
+        const getterDefs = buildFromKeys(getterNames, (key) => ({
+          enumerable: true,
+          configurable: true,
+          get: () => this[key]
+        }))
+
+        const methodDefs = buildFromKeys(methodNames, (key) => ({
+          enumerable: false,
+          configurable: true,
+          get: () => this[key]
+        }))
+
+        const iterDefs = this.hasIter()
+          ? {
+              $iter: {
+                enumerable: true,
+                value: Object.defineProperties(
+                  {},
+                  {
+                    ...keyDefs
+                  }
+                )
+              }
+            }
+          : {}
+
+        return Object.defineProperties(
+          {},
+          {
+            ...keyDefs,
+            ...iterDefs,
+            $model: {
+              enumerable: true,
+              get: () => {
+                const parent = this.lazyParentModel()
+                if (parent != null) {
+                  return parent[this.prop]
+                } else {
+                  return null
+                }
+              },
+              set: (value) => {
+                const parent = this.lazyParentModel()
+                if (parent != null) {
+                  parent[this.prop] = value
+                  this.$touch()
+                }
+              }
+            },
+            ...getterDefs,
+            ...methodDefs
+          }
+        )
+      },
+      children() {
+        return [
+          ...this.nestedKeys.map((key) => renderNested(this, key)),
+          ...this.ruleKeys.map((key) => renderRule(this, key))
+        ].filter(Boolean)
+      }
+    }
+  })
+
+  const GroupValidation = Validation.extend({
+    methods: {
+      isNested(key) {
+        return typeof this.validations[key]() !== 'undefined'
+      },
+      getRef(key) {
+        const vm = this
+        return {
+          get proxy() {
+            // default to invalid
+            return vm.validations[key]() || false
+          }
+        }
+      }
+    }
+  })
+
+  const EachValidation = Validation.extend({
+    computed: {
+      keys() {
+        var model = this.getModel()
+        if (isObject(model)) {
+          return Object.keys(model)
+        } else {
+          return []
+        }
+      },
+      tracker() {
+        const trackBy = this.validations.$trackBy
+        return trackBy
+          ? (key) =>
+              `${getPath(this.rootModel, this.getModelKey(key), trackBy)}`
+          : (x) => `${x}`
+      },
+      getModelLazy() {
+        return () => this.getModel()
+      },
+      children() {
+        const def = this.validations
+        const model = this.getModel()
+
+        const validations = { ...def }
+        delete validations['$trackBy']
+
+        let usedTracks = {}
+
+        return this.keys
+          .map((key) => {
+            const track = this.tracker(key)
+            if (usedTracks.hasOwnProperty(track)) {
+              return null
+            }
+            usedTracks[track] = true
+            return Object(_vval__WEBPACK_IMPORTED_MODULE_0__["h"])(Validation, track, {
+              validations,
+              prop: key,
+              lazyParentModel: this.getModelLazy,
+              model: model[key],
+              rootModel: this.rootModel
+            })
+          })
+          .filter(Boolean)
+      }
+    },
+    methods: {
+      isNested() {
+        return true
+      },
+      getRef(key) {
+        return this.refs[this.tracker(key)]
+      },
+      hasIter() {
+        return true
+      }
+    }
+  })
+
+  const renderNested = (vm, key) => {
+    if (key === '$each') {
+      return Object(_vval__WEBPACK_IMPORTED_MODULE_0__["h"])(EachValidation, key, {
+        validations: vm.validations[key],
+        lazyParentModel: vm.lazyParentModel,
+        prop: key,
+        lazyModel: vm.getModel,
+        rootModel: vm.rootModel
+      })
+    }
+    const validations = vm.validations[key]
+    if (Array.isArray(validations)) {
+      const root = vm.rootModel
+      const refVals = buildFromKeys(
+        validations,
+        (path) =>
+          function() {
+            return getPath(root, root.$v, path)
+          },
+        (v) => (Array.isArray(v) ? v.join('.') : v)
+      )
+      return Object(_vval__WEBPACK_IMPORTED_MODULE_0__["h"])(GroupValidation, key, {
+        validations: refVals,
+        lazyParentModel: NIL,
+        prop: key,
+        lazyModel: NIL,
+        rootModel: root
+      })
+    }
+    return Object(_vval__WEBPACK_IMPORTED_MODULE_0__["h"])(Validation, key, {
+      validations,
+      lazyParentModel: vm.getModel,
+      prop: key,
+      lazyModel: vm.getModelKey,
+      rootModel: vm.rootModel
+    })
+  }
+
+  const renderRule = (vm, key) => {
+    return Object(_vval__WEBPACK_IMPORTED_MODULE_0__["h"])(ValidationRule, key, {
+      rule: vm.validations[key],
+      lazyParentModel: vm.lazyParentModel,
+      lazyModel: vm.getModel,
+      rootModel: vm.rootModel
+    })
+  }
+
+  _cachedComponent = { VBase, Validation }
+  return _cachedComponent
+}
+
+let _cachedVue = null
+function getVue(rootVm) {
+  if (_cachedVue) return _cachedVue
+  let Vue = rootVm.constructor
+  /* istanbul ignore next */
+  while (Vue.super) Vue = Vue.super
+  _cachedVue = Vue
+  return Vue
+}
+
+const validateModel = (model, validations) => {
+  const Vue = getVue(model)
+  const { Validation, VBase } = getComponent(Vue)
+  const root = new VBase({
+    computed: {
+      children() {
+        const vals =
+          typeof validations === 'function'
+            ? validations.call(model)
+            : validations
+
+        return [
+          Object(_vval__WEBPACK_IMPORTED_MODULE_0__["h"])(Validation, '$v', {
+            validations: vals,
+            lazyParentModel: NIL,
+            prop: '$v',
+            model,
+            rootModel: model
+          })
+        ]
+      }
+    }
+  })
+  return root
+}
+
+const validationMixin = {
+  data() {
+    const vals = this.$options.validations
+    if (vals) {
+      this._vuelidate = validateModel(this, vals)
+    }
+    return {}
+  },
+  beforeCreate() {
+    const options = this.$options
+    const vals = options.validations
+    if (!vals) return
+    if (!options.computed) options.computed = {}
+    if (options.computed.$v) return
+    options.computed.$v = function() {
+      return this._vuelidate ? this._vuelidate.refs.$v.proxy : null
+    }
+  },
+  beforeDestroy() {
+    if (this._vuelidate) {
+      this._vuelidate.$destroy()
+      this._vuelidate = null
+    }
+  }
+}
+
+function Vuelidate(Vue) {
+  Vue.mixin(validationMixin)
+}
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Vuelidate);
+
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/src/params.js":
+/*!**********************************************!*\
+  !*** ./node_modules/vuelidate/src/params.js ***!
+  \**********************************************/
+/*! exports provided: target, _setTarget, pushParams, popParams, withParams */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "target", function() { return target; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_setTarget", function() { return _setTarget; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pushParams", function() { return pushParams; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "popParams", function() { return popParams; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withParams", function() { return withParams; });
+const stack = []
+
+// exported for tests
+let target = null
+const _setTarget = (x) => {
+  target = x
+}
+
+function pushParams() {
+  if (target !== null) {
+    stack.push(target)
+  }
+  target = {}
+}
+
+function popParams() {
+  const lastTarget = target
+  const newTarget = (target = stack.pop() || null)
+  if (newTarget) {
+    if (!Array.isArray(newTarget.$sub)) {
+      newTarget.$sub = []
+    }
+    newTarget.$sub.push(lastTarget)
+  }
+  return lastTarget
+}
+
+function addParams(params) {
+  if (typeof params === 'object' && !Array.isArray(params)) {
+    target = { ...target, ...params }
+  } else {
+    throw new Error('params must be an object')
+  }
+}
+
+function withParamsDirect(params, validator) {
+  return withParamsClosure((add) => {
+    return function(...args) {
+      add(params)
+      return validator.apply(this, args)
+    }
+  })
+}
+
+function withParamsClosure(closure) {
+  const validator = closure(addParams)
+  return function(...args) {
+    pushParams()
+    try {
+      return validator.apply(this, args)
+    } finally {
+      popParams()
+    }
+  }
+}
+
+function withParams(paramsOrClosure, maybeValidator) {
+  if (typeof paramsOrClosure === 'object' && maybeValidator !== undefined) {
+    return withParamsDirect(paramsOrClosure, maybeValidator)
+  }
+  return withParamsClosure(paramsOrClosure)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/src/vval.js":
+/*!********************************************!*\
+  !*** ./node_modules/vuelidate/src/vval.js ***!
+  \********************************************/
+/*! exports provided: patchChildren, h */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "patchChildren", function() { return patchChildren; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return h; });
+// a minimial single-layer implementation
+// of virtual-validation patching,
+// based on Vue's snabbdom clone
+
+function isUndef(v) {
+  return v === null || v === undefined
+}
+
+function isDef(v) {
+  return v !== null && v !== undefined
+}
+
+function sameVval(oldVval, vval) {
+  return vval.tag === oldVval.tag && vval.key === oldVval.key
+}
+
+function createVm(vval) {
+  const Vm = vval.tag
+  vval.vm = new Vm({ data: vval.args })
+}
+
+function updateVval(vval) {
+  const keys = Object.keys(vval.args)
+  for (let i = 0; i < keys.length; i++) {
+    keys.forEach((k) => {
+      vval.vm[k] = vval.args[k]
+    })
+  }
+}
+
+function createKeyToOldIdx(children, beginIdx, endIdx) {
+  let i, key
+  const map = {}
+  for (i = beginIdx; i <= endIdx; ++i) {
+    key = children[i].key
+    if (isDef(key)) map[key] = i
+  }
+  return map
+}
+
+function updateChildren(oldCh, newCh) {
+  let oldStartIdx = 0
+  let newStartIdx = 0
+  let oldEndIdx = oldCh.length - 1
+  let oldStartVval = oldCh[0]
+  let oldEndVval = oldCh[oldEndIdx]
+  let newEndIdx = newCh.length - 1
+  let newStartVval = newCh[0]
+  let newEndVval = newCh[newEndIdx]
+  let oldKeyToIdx, idxInOld, elmToMove
+
+  while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
+    if (isUndef(oldStartVval)) {
+      oldStartVval = oldCh[++oldStartIdx] // Vval has been moved left
+    } else if (isUndef(oldEndVval)) {
+      oldEndVval = oldCh[--oldEndIdx]
+    } else if (sameVval(oldStartVval, newStartVval)) {
+      patchVval(oldStartVval, newStartVval)
+      oldStartVval = oldCh[++oldStartIdx]
+      newStartVval = newCh[++newStartIdx]
+    } else if (sameVval(oldEndVval, newEndVval)) {
+      patchVval(oldEndVval, newEndVval)
+      oldEndVval = oldCh[--oldEndIdx]
+      newEndVval = newCh[--newEndIdx]
+    } else if (sameVval(oldStartVval, newEndVval)) {
+      // Vval moved right
+      patchVval(oldStartVval, newEndVval)
+      oldStartVval = oldCh[++oldStartIdx]
+      newEndVval = newCh[--newEndIdx]
+    } else if (sameVval(oldEndVval, newStartVval)) {
+      // Vval moved left
+      patchVval(oldEndVval, newStartVval)
+      oldEndVval = oldCh[--oldEndIdx]
+      newStartVval = newCh[++newStartIdx]
+    } else {
+      if (isUndef(oldKeyToIdx))
+        oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx)
+      idxInOld = isDef(newStartVval.key) ? oldKeyToIdx[newStartVval.key] : null
+      if (isUndef(idxInOld)) {
+        // New element
+        createVm(newStartVval)
+        newStartVval = newCh[++newStartIdx]
+      } else {
+        elmToMove = oldCh[idxInOld]
+        if (sameVval(elmToMove, newStartVval)) {
+          patchVval(elmToMove, newStartVval)
+          oldCh[idxInOld] = undefined
+          newStartVval = newCh[++newStartIdx]
+        } else {
+          // same key but different element. treat as new element
+          createVm(newStartVval)
+          newStartVval = newCh[++newStartIdx]
+        }
+      }
+    }
+  }
+  if (oldStartIdx > oldEndIdx) {
+    addVvals(newCh, newStartIdx, newEndIdx)
+  } else if (newStartIdx > newEndIdx) {
+    removeVvals(oldCh, oldStartIdx, oldEndIdx)
+  }
+}
+
+function addVvals(vvals, startIdx, endIdx) {
+  for (; startIdx <= endIdx; ++startIdx) {
+    createVm(vvals[startIdx])
+  }
+}
+
+function removeVvals(vvals, startIdx, endIdx) {
+  for (; startIdx <= endIdx; ++startIdx) {
+    const ch = vvals[startIdx]
+    if (isDef(ch)) {
+      ch.vm.$destroy()
+      ch.vm = null
+    }
+  }
+}
+
+function patchVval(oldVval, vval) {
+  if (oldVval === vval) {
+    return
+  }
+  vval.vm = oldVval.vm
+  updateVval(vval)
+}
+
+function patchChildren(oldCh, ch) {
+  if (isDef(oldCh) && isDef(ch)) {
+    if (oldCh !== ch) updateChildren(oldCh, ch)
+  } else if (isDef(ch)) {
+    addVvals(ch, 0, ch.length - 1)
+  } else if (isDef(oldCh)) {
+    removeVvals(oldCh, 0, oldCh.length - 1)
+  }
+}
+
+function h(tag, key, args) {
+  return { tag, key, args }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/vuex/dist/vuex.esm.js":
 /*!********************************************!*\
   !*** ./node_modules/vuex/dist/vuex.esm.js ***!
@@ -30012,17 +32849,6 @@ module.exports = "/images/admin-set.png?06e7d72086d0df9636a5acdc774d18f5";
 
 /***/ }),
 
-/***/ "./resources/img/bookmark.png":
-/*!************************************!*\
-  !*** ./resources/img/bookmark.png ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/bookmark.png?7fcb44040dc859a4507707c3b5f4daf1";
-
-/***/ }),
-
 /***/ "./resources/img/cabinet-icon.png":
 /*!****************************************!*\
   !*** ./resources/img/cabinet-icon.png ***!
@@ -30031,17 +32857,6 @@ module.exports = "/images/bookmark.png?7fcb44040dc859a4507707c3b5f4daf1";
 /***/ (function(module, exports) {
 
 module.exports = "/images/cabinet-icon.png?b2c59f40189248f55d0699f81ec99899";
-
-/***/ }),
-
-/***/ "./resources/img/cabinet.png":
-/*!***********************************!*\
-  !*** ./resources/img/cabinet.png ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/cabinet.png?8f0b9c8d6333966e422a7fa5f413e56b";
 
 /***/ }),
 
@@ -30965,6 +33780,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuejs_paginate__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuejs_paginate__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-progressbar */ "./node_modules/vue-progressbar/dist/vue-progressbar.js");
 /* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_progressbar__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vuelidate_src__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuelidate/src */ "./node_modules/vuelidate/src/index.js");
 // import Vue from 'vue';
 // import Appi from './Appi';
 // import VueRouter from 'vue-router';
@@ -31010,8 +33826,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('paginate', vuejs_paginate__WEBPACK_IMPORTED_MODULE_5___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuelidate_src__WEBPACK_IMPORTED_MODULE_7__["default"]);
 var options = {
   color: '#be5683',
   failedColor: '#874b4b',
@@ -31464,7 +34282,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MainLayout_vue_vue_type_template_id_5a6a1827___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MainLayout.vue?vue&type=template&id=5a6a1827& */ "./resources/js/layouts/MainLayout.vue?vue&type=template&id=5a6a1827&");
 /* harmony import */ var _MainLayout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MainLayout.vue?vue&type=script&lang=js& */ "./resources/js/layouts/MainLayout.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _MainLayout_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MainLayout.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/layouts/MainLayout.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -31472,7 +34292,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _MainLayout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _MainLayout_vue_vue_type_template_id_5a6a1827___WEBPACK_IMPORTED_MODULE_0__["render"],
   _MainLayout_vue_vue_type_template_id_5a6a1827___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -31501,6 +34321,22 @@ component.options.__file = "resources/js/layouts/MainLayout.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MainLayout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./MainLayout.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/layouts/MainLayout.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MainLayout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/layouts/MainLayout.vue?vue&type=style&index=0&lang=scss&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/layouts/MainLayout.vue?vue&type=style&index=0&lang=scss& ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MainLayout_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./MainLayout.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/layouts/MainLayout.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MainLayout_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MainLayout_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MainLayout_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MainLayout_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MainLayout_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -32001,7 +34837,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     updatedCart: {
       cart: null,
       cartCount: null
-    }
+    },
+    totalPrice: JSON.parse(localStorage.getItem('totalPrice') || '0'),
+    customerData: JSON.parse(localStorage.getItem('customerData') || '[]')
   },
   mutations: {
     // Получаем категории и подкатегории меню
@@ -33294,7 +36132,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemscard/").concat(Array.from(unigIds).join(', '))).then(function (response) {
                   var dataCart = state.cart;
                   var data = response.data;
-                  state.cartProduct = null;
                   data.forEach(function (el) {
                     el.product_img = el.product_img.split(', ');
                   }); // Проходимся по данным, которые пришли и ищем совпадения по id и вставляем нашу в корзину
@@ -33325,18 +36162,56 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
         }, _callee10);
       }))();
     },
+    // Удаляем карточку товара
     removeCardMutate: function removeCardMutate(state, data) {
+      // Находим в карточке тоавара нужный размер и id и удалаяем
       state.cartProduct.forEach(function (el, i) {
         if (el.id === data.id && el.size === data.size) state.cartProduct.splice(i, 1);
-      });
+      }); // Находим в карточке тоавара нужный размер и id и удалаяем из localstorage
+
       state.cart.forEach(function (el, i) {
         if (el.id === data.id && el.size === data.size) state.cart.splice(i, 1);
-      });
-      state.countCart = state.countCart - data.count;
+      }); // Уменьшаем кол-во товара
+
+      if (state.countCart != 0) state.countCart = state.countCart - data.count;
       window.localStorage.setItem('cart', JSON.stringify(state.cart));
       window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
       state.updatedCart.cart = state.cartProduct;
       state.updatedCart.cartCount = state.countCart;
+    },
+    totalPriceMutate: function totalPriceMutate(state, data) {
+      state.totalPrice = data;
+      window.localStorage.setItem('totalPrice', JSON.stringify(state.totalPrice));
+    },
+    changeCountCartMutate: function changeCountCartMutate(state, data) {
+      // Находим в карточке тоавара нужный размер и id и увеличиваем кол-во
+      state.cartProduct.forEach(function (el, i) {
+        if (el.id === data.id && el.size === data.size) el.count += data.count;
+      });
+      state.countCart += data.count;
+      state.updatedCart.cart = state.cartProduct;
+      state.updatedCart.cartCount = state.countCart;
+      window.localStorage.setItem('cart', JSON.stringify(state.cart));
+      window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+    },
+    orderDataMutate: function orderDataMutate(state, data) {
+      state.customerData.push(data);
+      window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
+    },
+    sentDataMutate: function sentDataMutate(state) {
+      var postData = []; // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
+
+      postData.push({
+        customerData: state.customerData,
+        orderData: state.cart,
+        totalPrice: state.totalPrice
+      });
+      console.log(postData);
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "order"), postData).then(function (response) {
+        console.log(response.data);
+      })["catch"](function (e) {
+        return console.log(e);
+      });
     }
   },
   actions: {
@@ -33395,6 +36270,22 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     removeCard: function removeCard(_ref15, data) {
       var commit = _ref15.commit;
       commit('removeCardMutate', data);
+    },
+    totalPrice: function totalPrice(_ref16, data) {
+      var commit = _ref16.commit;
+      commit('totalPriceMutate', data);
+    },
+    changeCountCart: function changeCountCart(_ref17, data) {
+      var commit = _ref17.commit;
+      commit('changeCountCartMutate', data);
+    },
+    orderData: function orderData(_ref18, data) {
+      var commit = _ref18.commit;
+      commit('orderDataMutate', data);
+    },
+    sentData: function sentData(_ref19) {
+      var commit = _ref19.commit;
+      commit('sentDataMutate');
     }
   },
   getters: {
@@ -33457,6 +36348,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     },
     updatedCart: function updatedCart(state) {
       return state.updatedCart;
+    },
+    totalPrice: function totalPrice(state) {
+      return state.totalPrice;
     }
   }
 }));

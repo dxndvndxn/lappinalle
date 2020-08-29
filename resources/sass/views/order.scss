@@ -10,5 +10,12 @@
         @include flex-column(column);
         align-items: center;
         @include margins-template(100px, 0px, 100px);
+        .input-wrap{
+            margin-bottom: 40px;
+            @include flex-column(column);
+            .classic-input{
+                margin-bottom: 0;
+            }
+        }
     }
 }

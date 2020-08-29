@@ -19,6 +19,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+    .main{
+        height: 100%;
+    }
 </style>
