@@ -75,3 +75,7 @@ const app = new Vue({
         Appi
     }
 });
+// router.beforeEach((to, from, next) => {
+//     console.log(to)
+//     next();
+// });

@@ -50,7 +50,7 @@ export default new Vuex.Store({
             cartCount: null
         },
         totalPrice: JSON.parse(localStorage.getItem('totalPrice') || '0'),
-        customerData: JSON.parse(localStorage.getItem('customerData') || '[]'),
+        customerData: [],
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -1145,7 +1145,6 @@ export default new Vuex.Store({
 
                         });
                     });
-                    console.log(dataCart)
                     state.cartProduct = dataCart;
 
                 })
@@ -1193,14 +1192,19 @@ export default new Vuex.Store({
             window.localStorage.setItem('cart', JSON.stringify(state.cart));
             window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
         },
-        orderDataMutate(state, data){
-            state.customerData.push(data);
-            window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
+        customerDataMutate(state, data){
+            state.customerData = data;
         },
-        sentDataMutate(state){
+        sentDataMutate(state, data){
             let postData = [];
+            let localCart = [];
+
+            state.cart.forEach(el => {
+                localCart.push({id: el.id, count: el.count, size: el.size, price: el.totalCartData.product_price})
+            });
+
             // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
-            postData.push({customerData: state.customerData, orderData: state.cart, totalPrice: state.totalPrice});
+            postData.push({customerData: state.customerData, deliveryData: data, orderData: localCart, totalPrice: state.totalPrice});
             console.log(postData)
             axios.post(`${state.SITE_URI}order`, postData)
                 .then(response => {
@@ -1258,11 +1262,11 @@ export default new Vuex.Store({
         changeCountCart({commit}, data){
             commit('changeCountCartMutate', data);
         },
-        orderData({commit}, data){
-            commit('orderDataMutate', data);
+        customerData({commit}, data){
+            commit('customerDataMutate', data);
         },
-        sentData({commit}){
-            commit('sentDataMutate');
+        sentData({commit}, data){
+            commit('sentDataMutate', data);
         }
     },
     getters:{
@@ -1328,6 +1332,9 @@ export default new Vuex.Store({
         },
         totalPrice: state => {
             return state.totalPrice;
+        },
+        customerData: state => {
+            return state.customerData;
         }
 
 

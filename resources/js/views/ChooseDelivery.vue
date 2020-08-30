@@ -203,8 +203,8 @@
                     indexPost: this.indexPost,
                     deliveryName: this.deliveries[this.chozenDel].delivery_name
                 }
-                this.$store.dispatch('orderData', data);
-                this.$store.dispatch('sentData');
+                // this.$store.dispatch('orderData', data);
+                this.$store.dispatch('sentData', data);
                 //this.$router.push({name: 'choosePay'})
             }
         }

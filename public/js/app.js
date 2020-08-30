@@ -4730,9 +4730,9 @@ __webpack_require__.r(__webpack_exports__);
         street: this.street,
         indexPost: this.indexPost,
         deliveryName: this.deliveries[this.chozenDel].delivery_name
-      };
-      this.$store.dispatch('orderData', data);
-      this.$store.dispatch('sentData'); //this.$router.push({name: 'choosePay'})
+      }; // this.$store.dispatch('orderData', data);
+
+      this.$store.dispatch('sentData', data); //this.$router.push({name: 'choosePay'})
     }
   }
 });
@@ -5206,7 +5206,7 @@ var isPhone = function isPhone(value) {
         email: this.email,
         tel: this.tel
       };
-      this.$store.dispatch('orderData', data);
+      this.$store.dispatch('customerData', data);
       this.$router.push({
         name: 'chooseDelivery'
       });
@@ -33853,7 +33853,10 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   components: {
     Appi: _Appi__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
-});
+}); // router.beforeEach((to, from, next) => {
+//     console.log(to)
+//     next();
+// });
 
 /***/ }),
 
@@ -34392,6 +34395,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_views_AdminUsers__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./admin/views/AdminUsers */ "./resources/js/admin/views/AdminUsers.vue");
 /* harmony import */ var _admin_views_AdminDelivery__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./admin/views/AdminDelivery */ "./resources/js/admin/views/AdminDelivery.vue");
 /* harmony import */ var _admin_views_ProductCard__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./admin/views/ProductCard */ "./resources/js/admin/views/ProductCard.vue");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
+
 
 
 
@@ -34638,7 +34643,16 @@ var routes = [{
   meta: {
     layout: 'Main'
   },
-  component: _views_ChooseDelivery__WEBPACK_IMPORTED_MODULE_12__["default"]
+  component: _views_ChooseDelivery__WEBPACK_IMPORTED_MODULE_12__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (to.name === 'chooseDelivery' && _store__WEBPACK_IMPORTED_MODULE_25__["default"].getters.customerData.length === 0) {
+      next({
+        name: 'ordering'
+      });
+    } else {
+      next();
+    }
+  }
 }, {
   path: '/vyboroplaty',
   name: 'choosePay',
@@ -34839,7 +34853,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
       cartCount: null
     },
     totalPrice: JSON.parse(localStorage.getItem('totalPrice') || '0'),
-    customerData: JSON.parse(localStorage.getItem('customerData') || '[]')
+    customerData: []
   },
   mutations: {
     // Получаем категории и подкатегории меню
@@ -36148,7 +36162,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
 
                     });
                   });
-                  console.log(dataCart);
                   state.cartProduct = dataCart;
                 })["catch"](function (e) {
                   console.log(e);
@@ -36194,16 +36207,25 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
       window.localStorage.setItem('cart', JSON.stringify(state.cart));
       window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
     },
-    orderDataMutate: function orderDataMutate(state, data) {
-      state.customerData.push(data);
-      window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
+    customerDataMutate: function customerDataMutate(state, data) {
+      state.customerData = data;
     },
-    sentDataMutate: function sentDataMutate(state) {
-      var postData = []; // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
+    sentDataMutate: function sentDataMutate(state, data) {
+      var postData = [];
+      var localCart = [];
+      state.cart.forEach(function (el) {
+        localCart.push({
+          id: el.id,
+          count: el.count,
+          size: el.size,
+          price: el.totalCartData.product_price
+        });
+      }); // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
 
       postData.push({
         customerData: state.customerData,
-        orderData: state.cart,
+        deliveryData: data,
+        orderData: localCart,
         totalPrice: state.totalPrice
       });
       console.log(postData);
@@ -36279,13 +36301,13 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
       var commit = _ref17.commit;
       commit('changeCountCartMutate', data);
     },
-    orderData: function orderData(_ref18, data) {
+    customerData: function customerData(_ref18, data) {
       var commit = _ref18.commit;
-      commit('orderDataMutate', data);
+      commit('customerDataMutate', data);
     },
-    sentData: function sentData(_ref19) {
+    sentData: function sentData(_ref19, data) {
       var commit = _ref19.commit;
-      commit('sentDataMutate');
+      commit('sentDataMutate', data);
     }
   },
   getters: {
@@ -36351,6 +36373,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     },
     totalPrice: function totalPrice(state) {
       return state.totalPrice;
+    },
+    customerData: function customerData(state) {
+      return state.customerData;
     }
   }
 }));

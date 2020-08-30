@@ -60,8 +60,8 @@
                     name: this.name,
                     email: this.email,
                     tel: this.tel
-                }
-                this.$store.dispatch('orderData', data);
+                };
+                this.$store.dispatch('customerData', data);
                 this.$router.push({name: 'chooseDelivery'})
             }
         }

@@ -23,7 +23,7 @@ import AdminOrders from "./admin/views/AdminOrders";
 import AdminUsers from "./admin/views/AdminUsers";
 import AdminDelivery from "./admin/views/AdminDelivery";
 import ProductCard from "./admin/views/ProductCard";
-
+import store from "./store";
 // export default {
 //     mode: 'history',
 //     routes: [
@@ -242,7 +242,14 @@ const routes = [
         path: '/vybordostavki',
         name: 'chooseDelivery',
         meta: { layout: 'Main' },
-        component: ChooseDelivery
+        component: ChooseDelivery,
+        beforeEnter: ((to, from, next) =>{
+            if (to.name === 'chooseDelivery' && store.getters.customerData.length === 0){
+                next({name: 'ordering'});
+            } else {
+                next();
+            }
+        })
     },
     {
         path: '/vyboroplaty',
@@ -350,7 +357,6 @@ const routes = [
     },
 
 ];
-
 const router = new VueRouter({
     history: true,
     mode: 'history',
