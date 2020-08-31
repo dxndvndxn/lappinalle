@@ -1,0 +1,25 @@
+.admin-crumbs{
+    ul{
+        list-style: none;
+        background-color: $ocean;
+        color: $grey;
+        font-size: $regFz - 4px;
+        @include ptSans(400);
+        padding: 15px 5px 15px 15px;
+        height: 100px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        @extend %scrollbar;
+        &::-webkit-scrollbar
+        {
+            width: 5px;
+            background-color: $palepurpp;
+        }
+        li{
+            &:not(:last-child){
+                margin-bottom: $regFz - 2px;
+                cursor: pointer;
+            }
+        }
+    }
+}

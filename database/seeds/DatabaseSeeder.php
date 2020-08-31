@@ -13,19 +13,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::table('categories')->insert([
-            ['categories_name' => 'Мальчики', 'categories_alias' => 'malchiki'],
-            ['categories_name' => 'Девочки', 'categories_alias' => 'devochki'],
-            ['categories_name' => 'Верхняя одежда', 'categories_alias' => 'verhodejda'],
-            ['categories_name' => 'Аксессуары', 'categories_alias' => 'aksessuari'],
+            ['categories_name' => 'Верхняя одежда Зима', 'categories_alias' => 'verhodejda-zima'],
+            ['categories_name' => 'Верхняя одежда Весна/Осень', 'categories_alias' => 'verhodejda-vesnaosen'],
+            ['categories_name' => 'Аксессуары Зима', 'categories_alias' => 'aksessuari-zima'],
+            ['categories_name' => 'Аксессуары Весна/Осень', 'categories_alias' => 'aksessuari-vesnaosen'],
             ['categories_name' => 'Промежуточный слой', 'categories_alias' => 'promezhutochnisloi'],
             ['categories_name' => 'Защита от воды и грязи (прорезиненная одежда)', 'categories_alias' => 'prorezinenajaodejda'],
             ['categories_name' => 'Обувь', 'categories_alias' => 'obuv'],
             ['categories_name' => 'Трикотаж', 'categories_alias' => 'trikotaj'],
             ['categories_name' => 'Распродажа', 'categories_alias' => 'sale']
-        ]);
-        DB::table('season')->insert([
-            ['season_name' => 'Зима', 'season_alias' => 'zima'],
-            ['season_name' => 'Весна/Осень', 'season_alias' => 'vesnaosen']
         ]);
         DB::table('sex')->insert([
             ['sex_name' => 'Мальчики', 'sex_alias' => 'malchiki'],
@@ -43,82 +39,110 @@ class DatabaseSeeder extends Seeder
             ['departments_name' => 'Сапоги', 'departments_alias' => 'sapogi'],
             ['departments_name' => 'Кеды', 'departments_alias' => 'kedi'],
         ]);
-        DB::table('categories_menu')->insert([
+        DB::table('menu')->insert([
             // Мальчики, девочки
-            ['categories_menu_lvlmenu' => 1, 'categories_id' => 1],
-            ['categories_menu_lvlmenu' => 1, 'categories_id' => 2],
-        ]);
-        DB::table('categories_menu')->insert([
-            // Верхняя одежда
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 3, 'season_id' => 1],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 3, 'season_id' => 1],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 3, 'season_id' => 2],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 3, 'season_id' => 2],
-            // Акссесуары
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 4, 'season_id' => 1],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 4, 'season_id' => 1],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 4, 'season_id' => 2],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 4, 'season_id' => 2],
-        ]);
-        DB::table('categories_menu')->insert([
+            ['menu_lvlmenu' => 1, 'sex_id' => 1, 'categories_id' => null, 'departments_id' => null ],
+            ['menu_lvlmenu' => 1, 'sex_id' => 2, 'categories_id' => null, 'departments_id' => null],
+
+            // КАТЕГОРИИ
+            // Верхняя одежда Зима
+            ['menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 1, 'departments_id' => null],
+            ['menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 1, 'departments_id' => null],
+
+            // Верхняя одежда Весна/Осень
+            ['menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 2, 'departments_id' => null],
+            ['menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 2, 'departments_id' => null],
+
+            // Акссесуары Зима
+            ['menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 3, 'departments_id' => null],
+            ['menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 3, 'departments_id' => null],
+
+            // Акссесуары Весна/Осень
+            ['menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 4, 'departments_id' => null],
+            ['menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 4, 'departments_id' => null],
+
             // Промежуточный слой
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 5],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 5],
+            ['menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 5, 'departments_id' => null],
+            ['menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 5, 'departments_id' => null],
+
             // Защита грязи и воды
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 6],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 6],
+            ['menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 6, 'departments_id' => null],
+            ['menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 6, 'departments_id' => null],
+
             // Обувь
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 7],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 7],
+            ['menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 7, 'departments_id' => null],
+            ['menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 7, 'departments_id' => null],
+
             // Трикотаж
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 8],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 8],
+            ['menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 8, 'departments_id' => null],
+            ['menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 8, 'departments_id' => null],
+
             // Распродажа
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 9],
-            ['categories_menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 9],
+            ['menu_lvlmenu' => 2, 'sex_id' => 1, 'categories_id' => 9, 'departments_id' => null],
+            ['menu_lvlmenu' => 2, 'sex_id' => 2, 'categories_id' => 9, 'departments_id' => null],
+
+            // ПОДКАТЕГОРИИ
+            // Верхняя одежда Зима Комбинезоны
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 1, 'departments_id' => 1],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 1, 'departments_id' => 1],
+
+            // Верхняя одежда Весна/Осень Комбинезоны
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 2, 'departments_id' => 1],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 2, 'departments_id' => 1],
+
+            // Верхняя одежда Зима Куртки/парки
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 1, 'departments_id' => 2],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 1, 'departments_id' => 2],
+
+            // Верхняя одежда Весна/Осень Куртки/парки
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 2, 'departments_id' => 2],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 2, 'departments_id' => 2],
+
+            // Акссесуары Зима Шапки
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 3, 'departments_id' => 7],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 3, 'departments_id' => 7],
+
+            // Акссесуары Зима Шлемы
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 3, 'departments_id' => 8],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 3, 'departments_id' => 8],
+
+            // Акссесуары Весна/Осень Шапки
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 4, 'departments_id' => 7],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 4, 'departments_id' => 7],
+
+            // Акссесуары Весна/Осень Шлемы
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 4, 'departments_id' => 8],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 4, 'departments_id' => 8],
+
+            // Промежуточный слой термобелье
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 5, 'departments_id' => 3],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 5, 'departments_id' => 3],
+
+            // Промежуточный слой флис
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 5, 'departments_id' => 4],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 5, 'departments_id' => 4],
+
+            // Защита грязи и воды куртки/парки
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 6, 'departments_id' => 2],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 6, 'departments_id' => 2],
+
+            // Защита грязи и воды краги
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 6, 'departments_id' => 5],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 6, 'departments_id' => 5],
+
+            // Защита грязи и воды куртки/парки
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 6, 'departments_id' => 6],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 6, 'departments_id' => 6],
+
+            // Обувь сапоги
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 7, 'departments_id' => 9],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 7, 'departments_id' => 9],
+
+            // Обувь кеды
+            ['menu_lvlmenu' => 3, 'sex_id' => 1, 'categories_id' => 7, 'departments_id' => 10],
+            ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 7, 'departments_id' => 10],
         ]);
-        DB::table('departments_menu')->insert([
-            // Комбинезоны
-            ['departments_id' => 1, 'categories_menu_id' => 3],
-            ['departments_id' => 1, 'categories_menu_id' => 4],
-            ['departments_id' => 1, 'categories_menu_id' => 5],
-            ['departments_id' => 1, 'categories_menu_id' => 6],
-            // Куртки и парки
-            ['departments_id' => 2, 'categories_menu_id' => 3],
-            ['departments_id' => 2, 'categories_menu_id' => 4],
-            ['departments_id' => 2, 'categories_menu_id' => 5],
-            ['departments_id' => 2, 'categories_menu_id' => 6],
-            ['departments_id' => 2, 'categories_menu_id' => 13],
-            ['departments_id' => 2, 'categories_menu_id' => 14],
-            // Термобелье
-            ['departments_id' => 3, 'categories_menu_id' => 11],
-            ['departments_id' => 3, 'categories_menu_id' => 12],
-            // Флис
-            ['departments_id' => 4, 'categories_menu_id' => 11],
-            ['departments_id' => 4, 'categories_menu_id' => 12],
-            // Краги
-            ['departments_id' => 5, 'categories_menu_id' => 13],
-            ['departments_id' => 5, 'categories_menu_id' => 14],
-            // Резиновые сапоги
-            ['departments_id' => 6, 'categories_menu_id' => 13],
-            ['departments_id' => 6, 'categories_menu_id' => 14],
-            // Шапки
-            ['departments_id' => 7, 'categories_menu_id' => 7],
-            ['departments_id' => 7, 'categories_menu_id' => 8],
-            ['departments_id' => 7, 'categories_menu_id' => 9],
-            ['departments_id' => 7, 'categories_menu_id' => 10],
-            // Шлемы
-            ['departments_id' => 8, 'categories_menu_id' => 7],
-            ['departments_id' => 8, 'categories_menu_id' => 8],
-            ['departments_id' => 8, 'categories_menu_id' => 9],
-            ['departments_id' => 8, 'categories_menu_id' => 10],
-            // Сапоги
-            ['departments_id' => 9, 'categories_menu_id' => 15],
-            ['departments_id' => 9, 'categories_menu_id' => 16],
-            // Кеды
-            ['departments_id' => 10, 'categories_menu_id' => 15],
-            ['departments_id' => 10, 'categories_menu_id' => 16],
-        ]);
+
 
         DB::table('products')->insert([
             // Верхняя одежада Зима комбинезоны мальчики и девочки
@@ -128,8 +152,7 @@ class DatabaseSeeder extends Seeder
                 'product_img' => '../img/item.png, ../img/pic2.png, ../img/pic4.png, ../img/pic3.png, ../img/pic2.png, ../img/pic3.png, ../img/pic4.png,',
                 'product_amount' => 1,
                 'sex_id' => 1,
-                'categories_id' => 3,
-                'season_id' => 1,
+                'categories_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -141,8 +164,7 @@ class DatabaseSeeder extends Seeder
                 'product_img' => '../img/pic2.png, ../img/pic4.png, ../img/pic3.png, ../img/pic2.png, ../img/pic3.png, ../img/pic4.png, ../img/pic2.png',
                 'product_amount' => 11,
                 'sex_id' => 2,
-                'categories_id' => 3,
-                'season_id' => 1,
+                'categories_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -154,8 +176,7 @@ class DatabaseSeeder extends Seeder
                 'product_img' => '../img/pic2.png',
                 'product_amount' => 54,
                 'sex_id' => 1,
-                'categories_id' => 3,
-                'season_id' => 1,
+                'categories_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -168,8 +189,7 @@ class DatabaseSeeder extends Seeder
                 'product_img' => '../img/pic1.png',
                 'product_amount' => 4,
                 'sex_id' => 2,
-                'categories_id' => 3,
-                'season_id' => 1,
+                'categories_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -183,8 +203,7 @@ class DatabaseSeeder extends Seeder
                 'product_img' => '../img/item.png',
                 'product_amount' => 1,
                 'sex_id' => 1,
-                'categories_id' => 3,
-                'season_id' => 2,
+                'categories_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -196,8 +215,7 @@ class DatabaseSeeder extends Seeder
                 'product_img' => '../img/pic3.png',
                 'product_amount' => 11,
                 'sex_id' => 2,
-                'categories_id' => 3,
-                'season_id' => 2,
+                'categories_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -209,8 +227,7 @@ class DatabaseSeeder extends Seeder
                 'product_img' => '../img/pic2.png',
                 'product_amount' => 54,
                 'sex_id' => 1,
-                'categories_id' => 3,
-                'season_id' => 2,
+                'categories_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -223,8 +240,7 @@ class DatabaseSeeder extends Seeder
                 'product_img' => '../img/pic1.png',
                 'product_amount' => 4,
                 'sex_id' => 2,
-                'categories_id' => 3,
-                'season_id' => 2,
+                'categories_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -239,7 +255,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -252,7 +267,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -265,7 +279,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -278,7 +291,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -292,7 +304,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -305,7 +316,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -318,7 +328,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -331,7 +340,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -345,7 +353,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -358,7 +365,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -371,7 +377,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -384,7 +389,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -398,7 +402,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -411,7 +414,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => null,
@@ -424,7 +426,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -437,7 +438,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -450,7 +450,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -463,7 +462,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -477,7 +475,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 9,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -490,7 +487,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 10,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -507,7 +503,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -520,7 +515,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -533,7 +527,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -547,7 +540,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -562,7 +554,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -575,7 +566,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -588,7 +578,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -602,7 +591,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -617,7 +605,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -630,7 +617,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -643,7 +629,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -656,7 +641,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -670,7 +654,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -683,7 +666,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -696,7 +678,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -709,7 +690,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -723,7 +703,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -736,7 +715,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -749,7 +727,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -762,7 +739,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -776,7 +752,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -789,7 +764,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => null,
@@ -802,7 +776,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -815,7 +788,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -828,7 +800,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -841,7 +812,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -855,7 +825,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 9,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -868,7 +837,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 10,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -885,7 +853,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -898,7 +865,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -911,7 +877,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -925,7 +890,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -940,7 +904,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -953,7 +916,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -966,7 +928,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -980,7 +941,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -995,7 +955,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1008,7 +967,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1021,7 +979,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1034,7 +991,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1048,7 +1004,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1061,7 +1016,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1074,7 +1028,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1087,7 +1040,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1101,7 +1053,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1114,7 +1065,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1127,7 +1077,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1140,7 +1089,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1154,7 +1102,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1167,7 +1114,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => null,
@@ -1180,7 +1126,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1193,7 +1138,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1206,7 +1150,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1219,7 +1162,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1233,7 +1175,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 9,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1246,7 +1187,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 10,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1263,7 +1203,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1276,7 +1215,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1289,7 +1227,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1303,7 +1240,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1318,7 +1254,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1331,7 +1266,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1344,7 +1278,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1358,7 +1291,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1373,7 +1305,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1386,7 +1317,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1399,7 +1329,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1412,7 +1341,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1426,7 +1354,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1439,7 +1366,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1452,7 +1378,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1465,7 +1390,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1479,7 +1403,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1492,7 +1415,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1505,7 +1427,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1518,7 +1439,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1532,7 +1452,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1545,7 +1464,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => null,
@@ -1558,7 +1476,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1571,7 +1488,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1584,7 +1500,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1597,7 +1512,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1611,7 +1525,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 9,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1624,7 +1537,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 10,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1641,7 +1553,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1654,7 +1565,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1667,7 +1577,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1681,7 +1590,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1696,7 +1604,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1709,7 +1616,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1722,7 +1628,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1736,7 +1641,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1751,7 +1655,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1764,7 +1667,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1777,7 +1679,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1790,7 +1691,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1804,7 +1704,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1817,7 +1716,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1830,7 +1728,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1843,7 +1740,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1857,7 +1753,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1870,7 +1765,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1883,7 +1777,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1896,7 +1789,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1910,7 +1802,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1923,7 +1814,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => null,
@@ -1936,7 +1826,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -1949,7 +1838,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1962,7 +1850,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1975,7 +1862,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -1989,7 +1875,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 9,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2002,7 +1887,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 10,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2019,7 +1903,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2032,7 +1915,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2045,7 +1927,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2059,7 +1940,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2074,7 +1954,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2087,7 +1966,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2100,7 +1978,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2114,7 +1991,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2129,7 +2005,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2142,7 +2017,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2155,7 +2029,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2168,7 +2041,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2182,7 +2054,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2195,7 +2066,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2208,7 +2078,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2221,7 +2090,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2235,7 +2103,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2248,7 +2115,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2261,7 +2127,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2274,7 +2139,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2288,7 +2152,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2301,7 +2164,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => null,
@@ -2314,7 +2176,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2327,7 +2188,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2340,7 +2200,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2353,7 +2212,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2367,7 +2225,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 9,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2380,7 +2237,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 10,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2397,7 +2253,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2410,7 +2265,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2423,7 +2277,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2437,7 +2290,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 1,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2452,7 +2304,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2465,7 +2316,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 1,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2478,7 +2328,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2492,7 +2341,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 4,
                 'sex_id' => 2,
                 'categories_id' => 3,
-                'season_id' => 2,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2507,7 +2355,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2520,7 +2367,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2533,7 +2379,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 1,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2546,7 +2391,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 11,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 7,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2560,7 +2404,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2573,7 +2416,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 1,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2586,7 +2428,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2599,7 +2440,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 4,
-                'season_id' => 2,
                 'departments_id' => 8,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2613,7 +2453,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2626,7 +2465,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 3,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2639,7 +2477,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 1,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2652,7 +2489,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 54,
                 'sex_id' => 2,
                 'categories_id' => 5,
-                'season_id' => null,
                 'departments_id' => 4,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2666,7 +2502,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2679,7 +2514,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 2,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => null,
@@ -2692,7 +2526,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2705,7 +2538,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 5,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2718,7 +2550,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2731,7 +2562,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 6,
-                'season_id' => null,
                 'departments_id' => 6,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2745,7 +2575,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 34,
                 'sex_id' => 1,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 9,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 0,
@@ -2758,7 +2587,6 @@ class DatabaseSeeder extends Seeder
                 'product_amount' => 14,
                 'sex_id' => 2,
                 'categories_id' => 7,
-                'season_id' => null,
                 'departments_id' => 10,
                 'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
                 'product_sale' => 1,
@@ -2877,385 +2705,480 @@ class DatabaseSeeder extends Seeder
         DB::table('catalog_size')->insert([
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => rand(1, 196),
-                'sizes_id' => rand(1, 50)
+                'sizes_id' => rand(1, 50),
+                'catalog_size_amount' => rand(1, 1000)
             ],
         ]);
         DB::table('catalog_size')->insert([
             [
                 'product_id' => 105,
                 'sizes_id' => 1,
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => 105,
                 'sizes_id' => 2,
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => 63,
                 'sizes_id' => 3,
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => 63,
                 'sizes_id' => 2,
+                'catalog_size_amount' => rand(1, 1000)
             ],
             [
                 'product_id' => 81,
                 'sizes_id' => 2,
+                'catalog_size_amount' => rand(1, 1000)
             ],
         ]);
     }

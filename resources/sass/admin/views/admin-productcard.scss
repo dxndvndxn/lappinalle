@@ -94,19 +94,29 @@
     .admin-photos{
         display: flex;
         .uploaded-content{
+            position: relative;
+            #video-admin{
+                position: absolute;
+                left: 5px;
+                top: 5px;
+                width: 3%;
+            }
             @include variableColumns(5, 57px);
             height: 105px;
             overflow-x: hidden;
             overflow-y: scroll;
             grid-row-gap: 3px;
             margin-bottom: 22px;
+            video{
+
+            }
             @extend %scrollbar;
             &::-webkit-scrollbar
             {
                 width: 5px;
                 background-color: $palepurpp;
             }
-            img{
+            img, video{
                 width: 50px;
                 height: 50px;
                 border: 1px solid $blu;
@@ -140,6 +150,12 @@
             height: 300px;
             img{
                 object-fit: contain;
+            }
+            svg{
+                position: absolute;
+                left: 15px;
+                top: 15px;
+                width: 12%;
             }
             .admin-delete-photo{
                 position: absolute;

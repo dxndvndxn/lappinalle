@@ -2,8 +2,33 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-
-export default new Vuex.Store({
+const admin = {
+    state: () => ({
+        SITE_URI: 'http://lappinalle.test/api/',
+        adminProducts: null,
+        adminRawMenu: null
+    }),
+    mutations: {
+        // Получаем все товары СТРАНИЧКА ТОВАРЫ
+        AdminGetAllPrductsMutate(state){
+            axios.get(`${state.SITE_URI}adminallproducts`)
+                .then(response => {
+                    state.adminProducts = response.data;
+                }).catch(e => console.log(e))
+        }
+    },
+    actions: {
+        AdminGetAllPrducts({commit}){
+            commit('AdminGetAllPrductsMutate');
+        }
+    },
+    getters: {
+        adminProducts: state => {
+            return state.adminProducts;
+        },
+    }
+};
+const store = {
     state:{
         // Верхнее меню с гендером
         topMenu: [],
@@ -51,6 +76,9 @@ export default new Vuex.Store({
         },
         totalPrice: JSON.parse(localStorage.getItem('totalPrice') || '0'),
         customerData: [],
+
+        // Админ
+        adminRawMenu: null
     },
     mutations: {
         // Получаем категории и подкатегории меню
@@ -59,6 +87,9 @@ export default new Vuex.Store({
                 .then(response => {
                     // массив с изначальной датой
                     let menu = response.data;
+
+                    // Сырые данные меню
+                    state.adminRawMenu = menu;
 
                     // выборка на гендер
                     let listGenders = [];
@@ -80,10 +111,10 @@ export default new Vuex.Store({
                     // проходимся по массиву с общими данными и пушим в верхние массивы, выбираем категории меню для 1 уровня
                     for (let i in menu) {
 
-                        if (menu[i].categories_menu_lvlmenu === 1) {
+                        if (menu[i].menu_lvlmenu === 1) {
                             topMenuGenders.push({
-                                title: menu[i].categories_name,
-                                url: menu[i].categories_alias,
+                                title: menu[i].sex_name,
+                                url: menu[i].sex_alias,
                                 hover: false
                             })
                         }
@@ -91,8 +122,11 @@ export default new Vuex.Store({
                         if (menu[i].sex_name === null) continue;
 
                         listGenders.push(menu[i].sex_name);
-                        listCategories.push(menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : ''));
-                        categoryAlias[menu[i].categories_alias + (menu[i].season_alias !== null ? '-' + menu[i].season_alias : '')] = menu[i].categories_name + (menu[i].season_name !== null ? ' ' + menu[i].season_name : '');
+
+                        if (menu[i].categories_name === null) continue;
+
+                        listCategories.push(menu[i].categories_name);
+                        categoryAlias[menu[i].categories_alias] = menu[i].categories_name;
 
                         if (menu[i].departments_alias !== null) departmentAlias[menu[i].departments_alias] = menu[i].departments_name;
 
@@ -123,7 +157,7 @@ export default new Vuex.Store({
                                 for (let categ in state.categAlias){
 
                                     // Если категории из главной даты = категории из sidebar
-                                    if (menu[m].categories_alias + (menu[m].season_alias !== null ? '-' + menu[m].season_alias : '') === categ){
+                                    if (menu[m].categories_alias === categ){
                                         sideBar[i][categ] = {category_name: state.categAlias[categ]}
                                     }
                                 }
@@ -143,7 +177,7 @@ export default new Vuex.Store({
                                 for (let categ in state.categAlias) {
 
                                     // Если категории алиас = категориям алиас из главной даты
-                                    if (menu[m].categories_alias + (menu[m].season_alias !== null ? '-' + menu[m].season_alias : '') === categ){
+                                    if (menu[m].categories_alias === categ){
 
                                         // Разбираем подкатегории
                                         for (let depart in departmentAlias) {
@@ -155,7 +189,7 @@ export default new Vuex.Store({
 
                                                 // Записываем эти подкатегории
                                                 sideBar[i][categ].departments = [];
-                                                sideBar[i][categ].category_alias = menu[m].categories_alias + (menu[m].season_alias !== null ? '-' + menu[m].season_alias : '');
+                                                sideBar[i][categ].category_alias = menu[m].categories_alias;
                                             }
                                         }
                                     }
@@ -176,7 +210,7 @@ export default new Vuex.Store({
                                 for (let categ in state.categAlias) {
 
                                     // Если категории алиас = категориям алиас из главной даты
-                                    if (menu[m].categories_alias + (menu[m].season_alias !== null ? '-' + menu[m].season_alias : '') === categ){
+                                    if (menu[m].categories_alias === categ){
 
                                         // Разбираем подкатегории
                                         for (let depart in departmentAlias) {
@@ -186,11 +220,7 @@ export default new Vuex.Store({
                                             // Если подкатегории алиас = подкатегориям алиас из главной даты
                                             if (menu[m].departments_alias === depart) {
 
-                                                try {
-                                                    sideBar[i][categ].departments.push({depart_name: departmentAlias[depart], depart_alias: depart, depart_show: false});
-                                                }catch (e) {
-                                                    console.log(e)
-                                                }
+                                                sideBar[i][categ].departments.push({depart_name: departmentAlias[depart], depart_alias: depart, depart_show: false});
                                             }
                                         }
                                     }
@@ -208,6 +238,7 @@ export default new Vuex.Store({
                     // Определяем гендеры в разных массивах, объекта
                     let lastMenu = {};
                     let menuForAdmin = {};
+
                     for (let i of genders) {
                         gendersObj[i] = [];
                         lastMenu[i] = {};
@@ -246,14 +277,14 @@ export default new Vuex.Store({
 
                             for (let c of categories) {
 
-                                if (c === (gendersObj[g][gg].season_name !== null ? gendersObj[g][gg].categories_name + ' ' + gendersObj[g][gg].season_name : gendersObj[g][gg].categories_name) && gendersObj[g][gg].sex_name === g) {
+                                if (c === gendersObj[g][gg].categories_name && gendersObj[g][gg].sex_name === g) {
                                     lastMenu[g][c].push({
                                         department: gendersObj[g][gg].departments_name,
                                         departments_alias: gendersObj[g][gg].departments_alias,
                                         category: c,
                                         hover: false,
                                         sex_alias: gendersObj[g][gg].sex_alias,
-                                        categories_alias: gendersObj[g][gg].season_alias !== null ? gendersObj[g][gg].categories_alias + '-' + gendersObj[g][gg].season_alias : gendersObj[g][gg].categories_alias}
+                                        categories_alias: gendersObj[g][gg].categories_alias}
                                     );
                                     menuForAdmin[g][c].push({
                                         department: gendersObj[g][gg].departments_name,
@@ -1200,7 +1231,7 @@ export default new Vuex.Store({
             let localCart = [];
 
             state.cart.forEach(el => {
-                localCart.push({id: el.id, count: el.count, size: el.size, price: el.totalCartData.product_price})
+                localCart.push({id: el.id, count: el.count, size: el.size, price: el.price})
             });
 
             // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
@@ -1335,8 +1366,16 @@ export default new Vuex.Store({
         },
         customerData: state => {
             return state.customerData;
+        },
+        adminRawMenu: state => {
+            return state.adminRawMenu;
         }
 
 
+    },
+}
+export default new Vuex.Store({
+    modules: {
+        store, admin
     }
 })

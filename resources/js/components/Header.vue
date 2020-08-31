@@ -41,8 +41,7 @@
                     <li v-for="(gen, k) in $store.getters.topMenu"
                         :key="k"
                     >
-                        <router-link :to="{name: 'gender', params: {gender: gen.url}}"
-                            >
+                        <router-link :to="{name: 'gender', params: {gender: gen.url}}">
                             <span @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'" @click="closeMenu">{{gen.title}}</span>
                         </router-link>
                     </li>

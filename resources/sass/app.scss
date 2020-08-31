@@ -33,6 +33,7 @@
 @import "admin/views/admin-products";
 @import "admin/views/admin-productcard";
 @import "admin/views/admin-main";
+@import "admin/components/admincrumbs";
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
 html,body{
     overflow-x: hidden;

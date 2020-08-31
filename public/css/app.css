@@ -548,6 +548,8 @@
   font-size: 14px;
   padding: 15px;
   border: none;
+  height: 40px;
+  box-sizing: border-box;
 }
 
 .input-transp {
@@ -723,6 +725,7 @@ nav ul {
   list-style: none;
 }
 
+.admin-crumbs ul::-webkit-scrollbar-track,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
@@ -736,6 +739,7 @@ nav ul {
   background-color: #93b5e1;
 }
 
+.admin-crumbs ul::-webkit-scrollbar,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
@@ -750,6 +754,7 @@ nav ul {
   background-color: #848ccf;
 }
 
+.admin-crumbs ul::-webkit-scrollbar-thumb,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
@@ -1102,6 +1107,7 @@ nav ul {
   list-style: none;
 }
 
+.admin-crumbs ul::-webkit-scrollbar-track,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
@@ -1115,6 +1121,7 @@ nav ul {
   background-color: #93b5e1;
 }
 
+.admin-crumbs ul::-webkit-scrollbar,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
@@ -1129,6 +1136,7 @@ nav ul {
   background-color: #848ccf;
 }
 
+.admin-crumbs ul::-webkit-scrollbar-thumb,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
@@ -1343,6 +1351,7 @@ nav ul,
   list-style: none;
 }
 
+.admin-crumbs ul::-webkit-scrollbar-track,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
@@ -1356,6 +1365,7 @@ nav ul,
   background-color: #93b5e1;
 }
 
+.admin-crumbs ul::-webkit-scrollbar,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
@@ -1370,6 +1380,7 @@ nav ul,
   background-color: #848ccf;
 }
 
+.admin-crumbs ul::-webkit-scrollbar-thumb,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
@@ -2634,11 +2645,14 @@ aside {
 
 .header-admin {
   background-color: #848ccf;
+}
+
+.header-admin .header-admin-wrap {
+  display: flex;
+  justify-content: space-between;
   padding: 30px;
   height: 80px;
   box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
 }
 
 .header-admin .admin-logo {
@@ -2771,7 +2785,7 @@ aside {
 }
 
 .admin-products-header .wrap-admin-h h1 {
-  margin: auto 0;
+  margin: 12px 15px auto 0;
 }
 
 .admin-products-header .wrap-admin-h button {
@@ -2781,8 +2795,21 @@ aside {
   align-items: center;
 }
 
+.admin-products-header .wrap-admin-h .wrap-btn-add {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-products-header .wrap-admin-h .wrap-btn-add small {
+  font-size: 12px;
+}
+
 .admin-products-header .admin-products-search {
   display: flex;
+}
+
+.admin-products-header .admin-products-search button {
+  cursor: pointer;
 }
 
 .admin-products-header .admin-products-search .admin-products-search input {
@@ -2831,6 +2858,10 @@ aside {
   display: grid;
   grid-template-columns: 20% 75% 0;
   grid-column-gap: 5%;
+}
+
+.products-list .wrap-list-input {
+  display: flex;
 }
 
 .products-list .list-last {
@@ -2984,6 +3015,7 @@ aside {
 }
 
 .admin-product-photos-rew .admin-photos .uploaded-content {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(5, 57px);
   height: 105px;
@@ -2993,12 +3025,20 @@ aside {
   margin-bottom: 22px;
 }
 
+.admin-product-photos-rew .admin-photos .uploaded-content #video-admin {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 3%;
+}
+
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar {
   width: 5px;
   background-color: #848ccf;
 }
 
-.admin-product-photos-rew .admin-photos .uploaded-content img {
+.admin-product-photos-rew .admin-photos .uploaded-content img,
+.admin-product-photos-rew .admin-photos .uploaded-content video {
   width: 50px;
   height: 50px;
   border: 1px solid #84B6E3;
@@ -3039,6 +3079,13 @@ aside {
 .admin-product-photos-rew .admin-photos .admin-main-photo img {
   -o-object-fit: contain;
      object-fit: contain;
+}
+
+.admin-product-photos-rew .admin-photos .admin-main-photo svg {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  width: 12%;
 }
 
 .admin-product-photos-rew .admin-photos .admin-main-photo .admin-delete-photo {
@@ -3193,6 +3240,29 @@ aside {
 
 .admin-main-page .admin-main-blocks {
   margin-bottom: 30px;
+}
+
+.admin-crumbs ul {
+  list-style: none;
+  background-color: #e7eff8;
+  color: #585757;
+  font-size: 14px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  padding: 15px 5px 15px 15px;
+  height: 100px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.admin-crumbs ul::-webkit-scrollbar {
+  width: 5px;
+  background-color: #848ccf;
+}
+
+.admin-crumbs ul li:not(:last-child) {
+  margin-bottom: 16px;
+  cursor: pointer;
 }
 
 html,

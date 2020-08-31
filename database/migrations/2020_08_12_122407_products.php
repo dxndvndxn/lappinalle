@@ -24,6 +24,7 @@ class Products extends Migration
             $table->text('product_video')->nullable()->collation('utf8_general_ci');
             $table->boolean('product_available')->default(1);
             $table->decimal('product_amount', 7, 0);
+            $table->integer('product_vendor');
             $table->timestamp("added_on");
             $table->unsignedTinyInteger('sex_id')->nullable();
             $table->foreign('sex_id')->references('sex_id')->on('sex')->onDelete('cascade');
@@ -31,8 +32,6 @@ class Products extends Migration
             $table->foreign('categories_id')->references('categories_id')->on('categories')->onDelete('cascade');
             $table->unsignedTinyInteger('departments_id')->nullable();
             $table->foreign('departments_id')->references('departments_id')->on('departments')->onDelete('cascade');
-            $table->unsignedTinyInteger('season_id')->nullable();
-            $table->foreign('season_id')->references('season_id')->on('season')->onDelete('cascade');
         });
     }
 

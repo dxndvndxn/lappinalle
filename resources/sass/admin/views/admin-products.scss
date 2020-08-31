@@ -5,16 +5,26 @@
     .wrap-admin-h{
         @include flexin(space-between);
         h1{
-            margin: auto 0;
+            margin: 12px 15px auto 0;
         }
         button{
             width: 235px;
             @include flexin(center);
             align-items: center;
         }
+        .wrap-btn-add{
+            display: flex;
+            flex-direction: column;
+            small{
+                font-size: 12px;
+            }
+        }
     }
     .admin-products-search{
         display: flex;
+        button{
+            cursor: pointer;
+        }
         .admin-products-search{
             input{
                 width: 220px;
@@ -39,6 +49,12 @@
     .list-name{
         @include grid-temp(20%, 75%, 0);
         grid-column-gap: 5%;
+        //input{
+        //    height: fit-content;
+        //}
+    }
+    .wrap-list-input{
+        display: flex;
     }
     .list-last{
         @include  grid-temp(105px, 105px, 75px);

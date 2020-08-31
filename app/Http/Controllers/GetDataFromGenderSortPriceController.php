@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+
 class GetDataFromGenderSortPriceController extends Controller
 {
     public function index(Request $request, $where, $gender){

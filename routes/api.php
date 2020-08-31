@@ -17,6 +17,15 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+// АДМИНА
+Route::get('/adminallproducts', 'AdminGetAllProductsController@index');
+
+
+
+
+
+// Оформление заказа
 Route::post('/order', 'CheckoutOrderController@index');
 
 // Получаем базовые данные для приложения типа категори и т.д

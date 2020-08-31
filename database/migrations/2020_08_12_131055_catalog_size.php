@@ -14,7 +14,8 @@ class CatalogSize extends Migration
     public function up()
     {
         Schema::create('catalog_size', function(Blueprint $table){
-            $table->increments('catalog_size_id');
+            $table->bigIncrements('catalog_size_id');
+            $table->integer('catalog_size_amount');
             $table->unsignedInteger('product_id')->nullable();
             $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
             $table->unsignedInteger('sizes_id')->nullable();

@@ -16,10 +16,12 @@
 }
 .header-admin{
     background-color: $palepurpp;
-    padding: 30px;
-    height: 80px;
-    box-sizing: border-box;
-    @include flexin(space-between);
+    .header-admin-wrap{
+        @include flexin(space-between);
+        padding: 30px;
+        height: 80px;
+        box-sizing: border-box;
+    }
     .admin-logo{
         @include ptSans(700);
         font-size: 18px;

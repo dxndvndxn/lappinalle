@@ -8,9 +8,6 @@ use DB;
 class GiveMeCashMinMaxByCategoriesController extends Controller
 {
     public function index(Request $request, $gender, $categories, $min, $max){
-        // Находим в категориях тире (aksessuari-vesnaosen) и разделяем его на (aksessuari, vesnaosen)
-        $regxp = '/(-)/';
-        $parts = preg_split($regxp, $categories);
 
         // Узнаем какой гендер нужен
         $sexId = DB::table('sex')->select("sex_id")->where('sex_alias', '=', $gender)->get();
@@ -21,99 +18,47 @@ class GiveMeCashMinMaxByCategoriesController extends Controller
         }
 
         // Узнаем какие категории нужны
-        $categoryId = DB::table('categories')->select("categories_id")->where('categories_alias', '=', $parts[0])->get();
+        $categoryId = DB::table('categories')->select("categories_id")->where('categories_alias', '=', $categories)->get();
         $newCateg = null;
 
         foreach ($categoryId as $val) {
             $newCateg = (array)$val;
         }
 
-        switch (count($parts)){
-            case 1:
-                $dataByCateg = DB::table('products')->select("product_id","product_title", "product_price", "product_description", "product_img", "product_old_price")
-                    ->where('product_available', '=', 1)
-                    ->where('sex_id', '=', $newGen['sex_id'])
-                    ->where('categories_id', '=', $newCateg['categories_id'])
-                    ->whereBetween('product_price', [$min, $max])
-                    ->orderBy('product_id', 'desc')
-                    ->paginate(30);
+        $dataByCateg = DB::table('products')->select("product_id","product_title", "product_price", "product_description", "product_img", "product_old_price")
+            ->where('product_available', '=', 1)
+            ->where('sex_id', '=', $newGen['sex_id'])
+            ->where('categories_id', '=', $newCateg['categories_id'])
+            ->whereBetween('product_price', [$min, $max])
+            ->orderBy('product_id', 'desc')
+            ->paginate(30);
 
-                // Получаем мин стоимость
-                $productMin =  DB::table('products')
-                    ->where('product_available', '=', 1)
-                    ->where('sex_id', '=', $newGen['sex_id'])
-                    ->where('categories_id', '=', $newCateg['categories_id'])
-                    ->min('product_price');
+        // Получаем мин стоимость
+        $productMin =  DB::table('products')
+            ->where('product_available', '=', 1)
+            ->where('sex_id', '=', $newGen['sex_id'])
+            ->where('categories_id', '=', $newCateg['categories_id'])
+            ->min('product_price');
 
-                // Получаем макс стоимость
-                $productMax =  DB::table('products')
-                    ->where('product_available', '=', 1)
-                    ->where('sex_id', '=', $newGen['sex_id'])
-                    ->where('categories_id', '=', $newCateg['categories_id'])
-                    ->max('product_price');
+        // Получаем макс стоимость
+        $productMax =  DB::table('products')
+            ->where('product_available', '=', 1)
+            ->where('sex_id', '=', $newGen['sex_id'])
+            ->where('categories_id', '=', $newCateg['categories_id'])
+            ->max('product_price');
 
-                $dataSizes = DB::table('catalog_size')
-                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
-                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
-                    ->where('sex_id', '=', $newGen['sex_id'])
-                    ->where('categories_id', '=', $newCateg['categories_id'])
-                    ->whereBetween('product_price', [$min, $max])
-                    ->get();
+        $dataSizes = DB::table('catalog_size')
+            ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
+            ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+            ->where('sex_id', '=', $newGen['sex_id'])
+            ->where('categories_id', '=', $newCateg['categories_id'])
+            ->whereBetween('product_price', [$min, $max])
+            ->get();
 
-                $dataByCateg['max'] = $productMax;
-                $dataByCateg['min'] = $productMin;
-                $dataByCateg['sizes'] = $dataSizes;
+        $dataByCateg['max'] = $productMax;
+        $dataByCateg['min'] = $productMin;
+        $dataByCateg['sizes'] = $dataSizes;
 
-                return $dataByCateg;
-            case 2:
-                $seasonId = DB::table('season')->select("season_id")->where('season_alias', '=', $parts[1])->get();
-                $newSeason = null;
-
-                foreach ($seasonId as $val){
-                    $newSeason = (array) $val;
-                }
-
-                $dataByCateg = DB::table('products')->select("product_id","product_title", "product_price", "product_description", "product_img", "product_old_price")
-                    ->where('product_available', '=', 1)
-                    ->where('sex_id', '=', $newGen['sex_id'])
-                    ->where('categories_id', '=', $newCateg['categories_id'])
-                    ->where('season_id', '=', $newSeason['season_id'])
-                    ->whereBetween('product_price', [$min, $max])
-                    ->orderBy('product_id', 'desc')
-                    ->paginate(30);
-
-                // Получаем мин стоимость
-                $productMin = DB::table('products')
-                    ->where('product_available', '=', 1)
-                    ->where('sex_id', '=', $newGen['sex_id'])
-                    ->where('categories_id', '=', $newCateg['categories_id'])
-                    ->where('season_id', '=', $newSeason['season_id'])
-                    ->min('product_price');
-
-                // Получаем макс стоимость
-                $productMax = DB::table('products')
-                    ->where('product_available', '=', 1)
-                    ->where('sex_id', '=', $newGen['sex_id'])
-                    ->where('categories_id', '=', $newCateg['categories_id'])
-                    ->where('season_id', '=', $newSeason['season_id'])
-                    ->max('product_price');
-
-                $dataSizes = DB::table('catalog_size')
-                    ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
-                    ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
-                    ->where('sex_id', '=', $newGen['sex_id'])
-                    ->where('season_id', '=', $newSeason['season_id'])
-                    ->where('categories_id', '=', $newCateg['categories_id'])
-                    ->whereBetween('product_price', [$min, $max])
-                    ->get();
-
-                $dataByCateg['max'] = $productMax;
-                $dataByCateg['min'] = $productMin;
-                $dataByCateg['sizes'] = $dataSizes;
-
-                return $dataByCateg;
-            default:
-                return false;
-        }
+        return $dataByCateg;
     }
 }

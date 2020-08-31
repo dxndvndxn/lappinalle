@@ -21,6 +21,7 @@ class GetDataItemController extends Controller
             ->get();
 
         $dataNreview = [];
+
         // Приводи к обрабатываемому виду данные о товаре
         foreach ($getItemData as $val){
             array_push($dataNreview, (array) $val);
