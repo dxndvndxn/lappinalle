@@ -2801,22 +2801,23 @@ __webpack_require__.r(__webpack_exports__);
       newAddedCategory: null,
       activeBtn: null,
       newNamePrdouct: null,
-      newVendorProduct: null
+      newVendorProduct: null,
+      // Кол-во товара
+      newCountProduct: null
     };
   },
   methods: {
     addNewProduct: function addNewProduct() {
-      if (this.newProduct.length) {
+      if (Object.keys(this.newProduct).length) {
         this.errorAdd = true;
         return;
       }
 
       this.newProduct.push({
-        id: this.newProductId++,
+        id: null,
         name: null,
         category: null,
-        vendor: null,
-        amount: null
+        vendor: null
       });
     },
     addNewCategory: function addNewCategory(data) {
@@ -2829,11 +2830,10 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
       this.newProduct[0].category = data;
-      console.log(this.newProduct);
     },
-    addNewProductName: function addNewProductName(name) {
-      this.newProduct[0].name = name;
-      console.log(this.newProduct);
+    addNewProductData: function addNewProductData(newId) {
+      this.newProduct[0].id = newId;
+      this.$store.dispatch('DataAdminFromProducts', this.newProduct);
     }
   },
   created: function created() {
@@ -3001,7 +3001,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       textProduct: null,
       // Картинки
       mainImg: null,
-      loadedImg: [],
+      loadedImg: null,
       files: [],
       clickedImg: 0,
       activeBtn: false,
@@ -3012,7 +3012,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       newSize: null,
       // Видео
       video: null,
-      videoOrImg: false
+      videoOrImg: false,
+      loadedVideo: null,
+      // Данные на сервер
+      dataToBack: {}
     };
   },
   methods: {
@@ -3026,7 +3029,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         this.files.push(imgs[i]);
       }
 
-      this.getPrevious();
+      this.getPrevious(); // Загруженные фотки
+
+      this.loadedImg = imgs;
     },
     getPrevious: function getPrevious() {
       var _this = this;
@@ -3084,7 +3089,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       if (this.video !== null) return;
       var video = this.$refs.vid.files;
       this.videoOrImg = true;
-      this.video = URL.createObjectURL(video[0]);
+      this.video = URL.createObjectURL(video[0]); // Загруженные видео
+
+      this.loadedVideo = video;
     },
     clickImg: function clickImg(i) {
       this.clickedImg = i;
@@ -3101,6 +3108,16 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     },
     getMainImg: function getMainImg() {
       return this.mainImg;
+    },
+    sentProductData: function sentProductData() {
+      this.dataToBack = {
+        video: this.loadedVideo,
+        imgs: this.loadedImg,
+        description: this.textProduct,
+        price: this.priceProduct,
+        sale: this.saleProduct
+      };
+      this.$store.dispatch('SentDataToBackend', this.dataToBack);
     }
   },
   watch: {
@@ -9437,7 +9454,7 @@ var render = function() {
                 domProps: { value: _vm.newNamePrdouct },
                 on: {
                   change: function($event) {
-                    return _vm.addNewProductName(_vm.newNamePrdouct)
+                    _vm.newProduct[0].name = _vm.newNamePrdouct
                   },
                   input: function($event) {
                     if ($event.target.composing) {
@@ -9518,13 +9535,7 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "list-amount" }, [
-                _c("input", {
-                  staticClass: "input-pale-blu",
-                  attrs: { type: "text", disabled: "" },
-                  domProps: { value: prd.amount }
-                })
-              ]),
+              _vm._m(2, true),
               _vm._v(" "),
               _c(
                 "div",
@@ -9545,6 +9556,13 @@ var render = function() {
                         attrs: {
                           src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"),
                           alt: ""
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.addNewProductData(
+                              Object.keys(_vm.returnAllProducts).length
+                            )
+                          }
                         }
                       })
                     ]
@@ -9721,6 +9739,17 @@ var staticRenderFns = [
         ])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "list-amount" }, [
+      _c("input", {
+        staticClass: "input-pale-blu",
+        attrs: { type: "text", value: "0", disabled: "" }
+      })
+    ])
   }
 ]
 render._withStripped = true
@@ -9778,9 +9807,18 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("button", { staticClass: "admin-btn-complete width-300" }, [
-        _vm._v("Сохранить изменения")
-      ])
+      _c(
+        "button",
+        {
+          staticClass: "admin-btn-complete width-300",
+          on: {
+            click: function($event) {
+              return _vm.sentProductData()
+            }
+          }
+        },
+        [_vm._v("Сохранить изменения")]
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "admin-product-card-desc" }, [
@@ -9887,7 +9925,11 @@ var render = function() {
                 }
               ],
               staticClass: "input-transp",
-              attrs: { type: "text", placeholder: "Новый размер" },
+              attrs: {
+                type: "text",
+                placeholder: "Новый размер",
+                disabled: ""
+              },
               domProps: { value: _vm.newSize },
               on: {
                 input: function($event) {
@@ -9938,6 +9980,12 @@ var render = function() {
               attrs: { type: "text" },
               domProps: { value: _vm.amountStock },
               on: {
+                change: function($event) {
+                  return _vm.dataToBack.push({
+                    size: _vm.newSize,
+                    count: _vm.amountStock
+                  })
+                },
                 input: function($event) {
                   if ($event.target.composing) {
                     return
@@ -35458,7 +35506,11 @@ var admin = {
     return {
       SITE_URI: 'http://lappinalle.test/api/',
       adminProducts: null,
-      adminRawMenu: null
+      adminRawMenu: null,
+      // Данные по новому товару со страницы Продукты
+      dataFromProductsPage: null,
+      // Данные по товару со страницы с Карточка товара
+      dataFromProductCard: null
     };
   },
   mutations: {
@@ -35469,12 +35521,48 @@ var admin = {
       })["catch"](function (e) {
         return console.log(e);
       });
+    },
+    DataAdminFromProductsMutate: function DataAdminFromProductsMutate(state, data) {
+      state.dataFromProductsPage = data;
+    },
+    SentDataToBackendMutate: function SentDataToBackendMutate(state, data) {
+      var formData = new FormData();
+      formData.append('video', data.video);
+      formData.append('imgs', data.imgs);
+      var stringData = {
+        category: state.dataFromProductsPage[0].category,
+        id: state.dataFromProductsPage[0].id,
+        name: state.dataFromProductsPage[0].name,
+        vendor: state.dataFromProductsPage[0].vendor,
+        description: data.description,
+        price: data.price,
+        sale: data.sale
+      };
+      formData.append('stringData', JSON.stringify(stringData)); // console.log(formData);
+
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "addproduct"), formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (success) {
+        console.log(success.data);
+      })["catch"](function (err) {
+        console.log(err);
+      });
     }
   },
   actions: {
     AdminGetAllPrducts: function AdminGetAllPrducts(_ref) {
       var commit = _ref.commit;
       commit('AdminGetAllPrductsMutate');
+    },
+    DataAdminFromProducts: function DataAdminFromProducts(_ref2, data) {
+      var commit = _ref2.commit;
+      commit('DataAdminFromProductsMutate', data);
+    },
+    SentDataToBackend: function SentDataToBackend(_ref3, data) {
+      var commit = _ref3.commit;
+      commit('SentDataToBackendMutate', data);
     }
   },
   getters: {
@@ -36047,7 +36135,7 @@ var store = {
               case 0:
                 _context4.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "item-").concat(data)).then( /*#__PURE__*/function () {
-                  var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(response) {
+                  var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(response) {
                     var itemData, stateItemData, pics, stars, el;
                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
                       while (1) {
@@ -36133,7 +36221,7 @@ var store = {
                   }));
 
                   return function (_x) {
-                    return _ref2.apply(this, arguments);
+                    return _ref4.apply(this, arguments);
                   };
                 }())["catch"](function (errors) {
                   return console.log(errors);
@@ -36906,76 +36994,76 @@ var store = {
     }
   },
   actions: {
-    getMenuData: function getMenuData(_ref3) {
-      var commit = _ref3.commit;
+    getMenuData: function getMenuData(_ref5) {
+      var commit = _ref5.commit;
       commit('getMenuDataMutate');
     },
-    showDepartments: function showDepartments(_ref4, data) {
-      var commit = _ref4.commit;
+    showDepartments: function showDepartments(_ref6, data) {
+      var commit = _ref6.commit;
       commit('sideBarDepartMutate', data);
     },
-    showDepartAfterUpdated: function showDepartAfterUpdated(_ref5, data) {
-      var commit = _ref5.commit;
+    showDepartAfterUpdated: function showDepartAfterUpdated(_ref7, data) {
+      var commit = _ref7.commit;
       commit('sideBarDepartMutateAfterUpdated', data);
     },
-    backToCategory: function backToCategory(_ref6, data) {
-      var commit = _ref6.commit;
+    backToCategory: function backToCategory(_ref8, data) {
+      var commit = _ref8.commit;
       commit('backToCategoryMutate', data);
     },
-    getCatalogData: function getCatalogData(_ref7, data) {
-      var commit = _ref7.commit;
+    getCatalogData: function getCatalogData(_ref9, data) {
+      var commit = _ref9.commit;
       commit('getCatalogDataMutate', data);
     },
-    getItemData: function getItemData(_ref8, data) {
-      var commit = _ref8.commit;
+    getItemData: function getItemData(_ref10, data) {
+      var commit = _ref10.commit;
       commit('getItemDataMutate', data);
     },
-    getItemReviews: function getItemReviews(_ref9, data) {
-      var commit = _ref9.commit;
+    getItemReviews: function getItemReviews(_ref11, data) {
+      var commit = _ref11.commit;
       commit('getItemReviewsMutate', data);
     },
-    showSaleProducts: function showSaleProducts(_ref10, data) {
-      var commit = _ref10.commit;
+    showSaleProducts: function showSaleProducts(_ref12, data) {
+      var commit = _ref12.commit;
       commit('showSaleProductsMutate', data);
     },
-    showCashProducts: function showCashProducts(_ref11, data) {
-      var commit = _ref11.commit;
+    showCashProducts: function showCashProducts(_ref13, data) {
+      var commit = _ref13.commit;
       commit('showCashProductsMutate', data);
     },
-    sortByAction: function sortByAction(_ref12, data) {
-      var commit = _ref12.commit;
+    sortByAction: function sortByAction(_ref14, data) {
+      var commit = _ref14.commit;
       commit('sortByActionMutate', data);
     },
-    showSizeProducts: function showSizeProducts(_ref13, data) {
-      var commit = _ref13.commit;
+    showSizeProducts: function showSizeProducts(_ref15, data) {
+      var commit = _ref15.commit;
       commit('showSizeProductsMutate', data);
     },
-    addToCart: function addToCart(_ref14, data) {
-      var commit = _ref14.commit;
+    addToCart: function addToCart(_ref16, data) {
+      var commit = _ref16.commit;
       commit('addToCartMutate', data);
     },
-    getProductForCart: function getProductForCart(_ref15) {
-      var commit = _ref15.commit;
+    getProductForCart: function getProductForCart(_ref17) {
+      var commit = _ref17.commit;
       commit('getProductForCartMutate');
     },
-    removeCard: function removeCard(_ref16, data) {
-      var commit = _ref16.commit;
+    removeCard: function removeCard(_ref18, data) {
+      var commit = _ref18.commit;
       commit('removeCardMutate', data);
     },
-    totalPrice: function totalPrice(_ref17, data) {
-      var commit = _ref17.commit;
+    totalPrice: function totalPrice(_ref19, data) {
+      var commit = _ref19.commit;
       commit('totalPriceMutate', data);
     },
-    changeCountCart: function changeCountCart(_ref18, data) {
-      var commit = _ref18.commit;
+    changeCountCart: function changeCountCart(_ref20, data) {
+      var commit = _ref20.commit;
       commit('changeCountCartMutate', data);
     },
-    customerData: function customerData(_ref19, data) {
-      var commit = _ref19.commit;
+    customerData: function customerData(_ref21, data) {
+      var commit = _ref21.commit;
       commit('customerDataMutate', data);
     },
-    sentData: function sentData(_ref20, data) {
-      var commit = _ref20.commit;
+    sentData: function sentData(_ref22, data) {
+      var commit = _ref22.commit;
       commit('sentDataMutate', data);
     }
   },

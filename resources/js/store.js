@@ -6,7 +6,13 @@ const admin = {
     state: () => ({
         SITE_URI: 'http://lappinalle.test/api/',
         adminProducts: null,
-        adminRawMenu: null
+        adminRawMenu: null,
+
+        // Данные по новому товару со страницы Продукты
+        dataFromProductsPage: null,
+
+        // Данные по товару со страницы с Карточка товара
+        dataFromProductCard: null
     }),
     mutations: {
         // Получаем все товары СТРАНИЧКА ТОВАРЫ
@@ -15,11 +21,52 @@ const admin = {
                 .then(response => {
                     state.adminProducts = response.data;
                 }).catch(e => console.log(e))
+        },
+        DataAdminFromProductsMutate(state, data){
+            state.dataFromProductsPage = data;
+        },
+        SentDataToBackendMutate(state, data){
+            let formData = new FormData();
+            formData.append('video', data.video);
+            formData.append('imgs', data.imgs);
+
+            let stringData = {
+                category: state.dataFromProductsPage[0].category,
+                id: state.dataFromProductsPage[0].id,
+                name: state.dataFromProductsPage[0].name,
+                vendor: state.dataFromProductsPage[0].vendor,
+                description: data.description,
+                price: data.price,
+                sale: data.sale,
+            };
+
+            formData.append('stringData', JSON.stringify(stringData));
+            // console.log(formData);
+            axios.post(`${state.SITE_URI}addproduct`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+                )
+                .then(success => {
+                    console.log(success.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }
     },
     actions: {
         AdminGetAllPrducts({commit}){
             commit('AdminGetAllPrductsMutate');
+        },
+        DataAdminFromProducts({commit}, data){
+            commit('DataAdminFromProductsMutate', data)
+        },
+        SentDataToBackend({commit}, data){
+            commit('SentDataToBackendMutate', data);
         }
     },
     getters: {
@@ -1206,10 +1253,12 @@ const store = {
             state.updatedCart.cart = state.cartProduct;
             state.updatedCart.cartCount = state.countCart;
         },
+
         totalPriceMutate(state, data){
             state.totalPrice = data;
             window.localStorage.setItem('totalPrice', JSON.stringify(state.totalPrice));
         },
+
         changeCountCartMutate(state, data){
             // Находим в карточке тоавара нужный размер и id и увеличиваем кол-во
             state.cartProduct.forEach((el, i) => {
@@ -1223,9 +1272,11 @@ const store = {
             window.localStorage.setItem('cart', JSON.stringify(state.cart));
             window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
         },
+
         customerDataMutate(state, data){
             state.customerData = data;
         },
+
         sentDataMutate(state, data){
             let postData = [];
             let localCart = [];

@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-// АДМИНА
+// АДМИН
 Route::get('/adminallproducts', 'AdminGetAllProductsController@index');
-
+Route::post('/addproduct', 'AddProductController@index');
 
 
 

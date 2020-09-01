@@ -42,7 +42,7 @@
                     <div class="admin-h3">
                         {{Object.keys(returnAllProducts).length}}
                     </div>
-                    <input type="text" class="input-pale-blu" @change="addNewProductName(newNamePrdouct)" v-model.trim="newNamePrdouct">
+                    <input type="text" class="input-pale-blu" @change="newProduct[0].name = newNamePrdouct" v-model.trim="newNamePrdouct">
                 </div>
                 <div class="list-category">
                     <div class="wrap-list-input">
@@ -58,10 +58,10 @@
                         <input type="text" class="input-pale-blu" @change="newProduct[0].vendor = newVendorProduct" v-model.trim="newVendorProduct">
                     </div>
                     <div class="list-amount">
-                        <input type="text" class="input-pale-blu" :value=prd.amount disabled>
+                        <input type="text" class="input-pale-blu" value="0" disabled>
                     </div>
                     <div class="list-set">
-                        <router-link :to="{path: `card-${Object.keys(returnAllProducts).length}`}"><img src="../../../img/admin-set.png" alt=""></router-link>
+                        <router-link :to="{path: `card-${Object.keys(returnAllProducts).length}`}"><img @click="addNewProductData(Object.keys(returnAllProducts).length)" src="../../../img/admin-set.png" alt=""></router-link>
                         <img src="../../../img/krest-btn.png" alt="">
                     </div>
                 </div>
@@ -116,30 +116,34 @@
             newAddedCategory: null,
             activeBtn: null,
             newNamePrdouct: null,
-            newVendorProduct: null
+            newVendorProduct: null,
+
+            // Кол-во товара
+            newCountProduct: null
 
         }),
         methods: {
             addNewProduct(){
-                if (this.newProduct.length) {
+                if (Object.keys(this.newProduct).length) {
                     this.errorAdd = true;
                     return;
                 }
-                this.newProduct.push({id: this.newProductId++, name: null, category: null, vendor: null, amount: null})
+                this.newProduct.push({id: null, name: null, category: null, vendor: null})
             },
             addNewCategory(data){
                 this.newAddedCategory = '';
+
                 this.getCrumbs.forEach(el => {
                     if ((el.sex_id === data.sexId) && (el.categories_id === data.categId) && (el.departments_id === data.departId)) {
                         this.newAddedCategory = el.sex_name + ' | ' + el.departments_name + ' | ' + el.categories_name;
                     }
                 });
+
                 this.newProduct[0].category = data;
-                console.log(this.newProduct)
             },
-            addNewProductName(name){
-                this.newProduct[0].name = name;
-                console.log(this.newProduct)
+            addNewProductData(newId){
+                this.newProduct[0].id = newId;
+                this.$store.dispatch('DataAdminFromProducts', this.newProduct);
             }
         },
         created() {

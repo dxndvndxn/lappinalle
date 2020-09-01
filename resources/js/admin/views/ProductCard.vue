@@ -5,7 +5,7 @@
                 <h1 class="admin-h1">Карточка товара</h1>
                 <span class="card-name">{{nameProduct}}</span>
             </div>
-            <button class="admin-btn-complete width-300">Сохранить изменения</button>
+            <button class="admin-btn-complete width-300" @click="sentProductData()">Сохранить изменения</button>
         </div>
         <div class="admin-product-card-desc">
             <div class="wrap-card-desc">
@@ -22,13 +22,13 @@
                 <div class="wrap-newsize">
                     <h1 class="admin-h3">Доступные размеры</h1>
                     <div class="wrap-newsize-add">
-                        <input type="text" placeholder="Новый размер" class="input-transp" v-model="newSize">
+                        <input type="text" placeholder="Новый размер" class="input-transp" v-model="newSize" disabled>
                         <button class="btn-admin-arrow" @click="activeBtnSize = !activeBtnSize" v-bind:class="activeBtnSize ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
                         <button @click="addSize" class="btn-admin-purpp"><img src="../../../img/whiteplus.png" alt=""></button>
                     </div>
                     <div class="wrap-newsize-stock">
                         <h1 class="admin-h3">Кол-во на складе</h1>
-                        <input type="text" class="input-transp" v-model="amountStock">
+                        <input type="text" class="input-transp" @change="dataToBack.push({size: newSize, count: amountStock})" v-model="amountStock">
                     </div>
                 </div>
                 <div class="size-grid">
@@ -114,9 +114,11 @@
 
             // Картинки
             mainImg: null,
-            loadedImg: [],
+            loadedImg: null,
             files: [],
             clickedImg: 0,
+
+
             activeBtn: false,
             activeBtnSize: false,
 
@@ -127,7 +129,11 @@
 
             // Видео
             video: null,
-            videoOrImg: false
+            videoOrImg: false,
+            loadedVideo: null,
+
+            // Данные на сервер
+            dataToBack: {}
         }),
         methods: {
             addSize(){
@@ -141,6 +147,9 @@
                 }
 
                 this.getPrevious();
+
+                // Загруженные фотки
+                this.loadedImg = imgs;
             },
             getPrevious(){
                 for( let i = 0; i < this.files.length; i++ ){
@@ -186,6 +195,9 @@
                 let video = this.$refs.vid.files;
                 this.videoOrImg = true;
                 this.video = URL.createObjectURL(video[0]);
+
+                // Загруженные видео
+                this.loadedVideo = video;
             },
             clickImg(i){
                 this.clickedImg = i;
@@ -198,11 +210,24 @@
                 // Делаем видео не активным
                 this.videoOrImg = false;
             },
+
             clickVideo(){
               this.videoOrImg = true;
             },
+
             getMainImg(){
                 return this.mainImg;
+            },
+
+            sentProductData(){
+                this.dataToBack = {
+                    video: this.loadedVideo,
+                    imgs: this.loadedImg,
+                    description: this.textProduct,
+                    price: this.priceProduct,
+                    sale: this.saleProduct
+                };
+                this.$store.dispatch('SentDataToBackend', this.dataToBack);
             }
         },
         watch: {
