@@ -5,19 +5,27 @@
                 {{crmb.sex_name}} | {{crmb.categories_name}} | {{crmb.departments_name}}
             </li>
         </ul>
+        <ul v-if="sizes">
+            <li v-for="(sz, i) in sizes" @click="chooseSize(sz.sizes_number, sz.sizes_id)">
+                {{sz.sizes_number}}
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
     export default {
         name: "AdminCrumbs",
-        props: ['lvl', 'crumbs'],
+        props: ['lvl', 'crumbs', 'sizes'],
         data: () => ({
 
         }),
         methods: {
             chooseCategory(sexId, categId, departId){
                 this.$emit('addNewCategory', {sexId, categId, departId});
+            },
+            chooseSize(size, sizeId){
+                this.$emit('addNewSize', {size, sizeId})
             }
         }
         // created() {

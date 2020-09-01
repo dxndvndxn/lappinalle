@@ -3,7 +3,7 @@
         <div class="admin-product-card-header">
             <div class="wrap-card-header">
                 <h1 class="admin-h1">Карточка товара</h1>
-                <span class="card-name">{{nameProduct}}</span>
+                <span class="card-name">{{getProductName}}</span>
             </div>
             <button class="admin-btn-complete width-300" @click="sentProductData()">Сохранить изменения</button>
         </div>
@@ -21,21 +21,24 @@
             <div class="wrap-card-sizes">
                 <div class="wrap-newsize">
                     <h1 class="admin-h3">Доступные размеры</h1>
-                    <div class="wrap-newsize-add">
-                        <input type="text" placeholder="Новый размер" class="input-transp" v-model="newSize" disabled>
-                        <button class="btn-admin-arrow" @click="activeBtnSize = !activeBtnSize" v-bind:class="activeBtnSize ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
-                        <button @click="addSize" class="btn-admin-purpp"><img src="../../../img/whiteplus.png" alt=""></button>
+                    <div class="wrapper-newsize-add">
+                        <div class="wrap-newsize-add">
+                            <input type="text" placeholder="Новый размер" class="input-transp" v-model="chozenSizeAfterClick" disabled>
+                            <button class="btn-admin-arrow" @click="activeBtnSize = !activeBtnSize" v-bind:class="activeBtnSize ? 'admin-btn-arrow' : 'admin-btn-arrow-pass'"></button>
+<!--                            <button @click="addSize" class="btn-admin-purpp"><img src="../../../img/whiteplus.png" alt=""></button>-->
+                        </div>
+                        <AdminCrumbs v-if="activeBtnSize" v-bind:sizes="getAllSizes" @addNewSize="addNewSize"/>
                     </div>
                     <div class="wrap-newsize-stock">
                         <h1 class="admin-h3">Кол-во на складе</h1>
-                        <input type="text" class="input-transp" @change="dataToBack.push({size: newSize, count: amountStock})" v-model="amountStock">
+                        <input type="text" class="input-transp" @change="insertAmountStock" v-model.trim="chozenSizeStockAfterClick">
                     </div>
                 </div>
                 <div class="size-grid">
                     <h1 class="admin-h3">Добавленные размеры</h1>
                     <div class="wrap-size-grid">
-                        <span v-for="(sz, i) in sizes">
-                        {{sz}}
+                        <span v-for="(sz, i) in sizes" @click="selectSizeForStock(i)" @dblclick="deleteSize(i)">
+                        {{sz.size}}
                         </span>
                     </div>
                 </div>
@@ -103,8 +106,10 @@
 </template>
 
 <script>
+    import AdminCrumbs from "../components/AdminCrumbs";
     export default {
         name: "ProductCart",
+        components: {AdminCrumbs},
         data: () => ({
             // Товар
             nameProduct: null,
@@ -118,7 +123,6 @@
             files: [],
             clickedImg: 0,
 
-
             activeBtn: false,
             activeBtnSize: false,
 
@@ -126,6 +130,8 @@
             amountStock: null,
             sizes: [],
             newSize: null,
+            chozenSizeAfterClick: null,
+            chozenSizeStockAfterClick: null,
 
             // Видео
             video: null,
@@ -136,9 +142,9 @@
             dataToBack: {}
         }),
         methods: {
-            addSize(){
-                if (this.newSize) this.sizes.push(this.newSize)
-            },
+            // addSize(){
+            //     if (this.newSize) this.sizes.push(this.newSize)
+            // },
              pushImg(){
                 let imgs = this.$refs.img.files;
 
@@ -155,8 +161,10 @@
                 for( let i = 0; i < this.files.length; i++ ){
 
                     if ( /\.(jpe?g|png|gif|svg)$/i.test(this.files[i].name) ) {
+
                         if (i == 0) this.files[i].active = true;
                         else this.files[i].active = false;
+
                         let reader = new FileReader();
                         reader.addEventListener("load", function(){
                             this.$refs['image'+parseInt(i)][0].src = reader.result;
@@ -168,9 +176,13 @@
                 this.files = this.files.filter(el => (typeof el) === "object");
             },
             deleteImg(){
+                 // Если кликнули по первой или второй фотографии
                 if(this.clickedImg === 0 || this.clickedImg === 1){
-                    this.files =  this.files.filter(el => el.active === false);
+
+                    this.files = this.files.filter(el => el.active === false);
                     this.getPrevious();
+
+                    // Обнуляем главную картинку
                     if ((this.clickedImg === 0 || this.clickedImg === 1) && this.files.length === 0){
                         this.mainImg = null;
                     }
@@ -182,10 +194,13 @@
                     this.files[this.clickedImg].active = true;
                     this.getPrevious();
                 }
+
+                //
                 if (this.videoOrImg){
                     this.video = null;
                     this.videoOrImg = false;
                 }
+
                 if (this.files.length === 0 && this.video !== null){
                     this.videoOrImg = true;
                 }
@@ -197,7 +212,7 @@
                 this.video = URL.createObjectURL(video[0]);
 
                 // Загруженные видео
-                this.loadedVideo = video;
+                this.loadedVideo = video[0];
             },
             clickImg(i){
                 this.clickedImg = i;
@@ -211,29 +226,74 @@
                 this.videoOrImg = false;
             },
 
+            // Клик по видео
+            // Присваиваем тру и тогда в большом варианте картинки возвращается первью видео
             clickVideo(){
               this.videoOrImg = true;
             },
 
+            // Клик по картинке и возвращаем mainImg
             getMainImg(){
                 return this.mainImg;
             },
 
+            // Отправляем данные на сервер
             sentProductData(){
                 this.dataToBack = {
                     video: this.loadedVideo,
                     imgs: this.loadedImg,
                     description: this.textProduct,
                     price: this.priceProduct,
-                    sale: this.saleProduct
+                    sale: this.saleProduct,
+                    sizes: this.sizes
                 };
                 this.$store.dispatch('SentDataToBackend', this.dataToBack);
+            },
+
+            // Выбираем рамзеры
+            addNewSize(data){
+                let checkSize = this.sizes.find(el => el.size === data.size && el.id === data.sizeId);
+                if (checkSize) return;
+                this.sizes.push({size: data.size, id: data.sizeId, count: 0})
+            },
+
+            // Выбираем размер для определения кол-во
+            selectSizeForStock(i){
+                this.newSize = i;
+                this.chozenSizeAfterClick = this.sizes[i].size;
+                this.chozenSizeStockAfterClick = this.sizes[i].count;
+            },
+
+            // Изменяем кол-во размера
+            insertAmountStock(){
+                this.sizes[this.newSize].count = this.chozenSizeStockAfterClick;
+            },
+
+            // Удаляем размер
+            deleteSize(i){
+                this.sizes.splice(i, 1);
+                // Если массив новых добавленных товаров  == 0, то обнуляем переменные с выводом данных
+                if (!this.sizes.length) {
+                    this.chozenSizeAfterClick = this.chozenSizeStockAfterClick = null;
+                }
             }
+        },
+        created(){
+          this.$store.dispatch('GetAllSizes');
+          // this.$store.dispatch('GetAllReviews')
         },
         watch: {
             files(val){
-                console.log('Hi watch')
                 this.files = val;
+            }
+        },
+        computed: {
+            // Получить имя для нового товара
+            getProductName(){
+                return this.$store.getters.getNameNewProduct[0].name;
+            },
+            getAllSizes(){
+                return this.$store.getters.getAllSizes;
             }
         }
     }

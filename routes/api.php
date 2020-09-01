@@ -19,9 +19,14 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // АДМИН
+// Получаем все товары для страницы продукты
 Route::get('/adminallproducts', 'AdminGetAllProductsController@index');
+
+// Добавляем новый товар
 Route::post('/addproduct', 'AddProductController@index');
 
+// Получаем нвсе размеры для карточки товара
+Route::get('/adminallsizes','AllSizesController@index');
 
 
 

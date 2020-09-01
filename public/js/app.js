@@ -2040,9 +2040,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminCrumbs",
-  props: ['lvl', 'crumbs'],
+  props: ['lvl', 'crumbs', 'sizes'],
   data: function data() {
     return {};
   },
@@ -2052,6 +2057,12 @@ __webpack_require__.r(__webpack_exports__);
         sexId: sexId,
         categId: categId,
         departId: departId
+      });
+    },
+    chooseSize: function chooseSize(size, sizeId) {
+      this.$emit('addNewSize', {
+        size: size,
+        sizeId: sizeId
       });
     }
   } // created() {
@@ -2784,6 +2795,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminProducts",
@@ -2792,15 +2804,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      activeAddNew: false,
       searched: null,
-      newProduct: [],
-      newProductId: null,
       errorAdd: false,
-      changedCategory: null,
-      newAddedCategory: null,
       activeBtn: null,
+      // Переменная для стрелки, где добавить новый товар
+      activeAddNew: false,
+      // Контейнер для нового товара
+      newProduct: [],
+      // Если поменяли категорию у товара
+      changedCategory: null,
+      // Новый товар категория
+      newAddedCategory: null,
+      // Новый товав название
       newNamePrdouct: null,
+      // Новый товар артикул
       newVendorProduct: null,
       // Кол-во товара
       newCountProduct: null
@@ -2884,6 +2901,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_AdminCrumbs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/AdminCrumbs */ "./resources/js/admin/components/AdminCrumbs.vue");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 //
@@ -2990,8 +3008,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ProductCart",
+  components: {
+    AdminCrumbs: _components_AdminCrumbs__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       // Товар
@@ -3010,6 +3035,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       amountStock: null,
       sizes: [],
       newSize: null,
+      chozenSizeAfterClick: null,
+      chozenSizeStockAfterClick: null,
       // Видео
       video: null,
       videoOrImg: false,
@@ -3019,9 +3046,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     };
   },
   methods: {
-    addSize: function addSize() {
-      if (this.newSize) this.sizes.push(this.newSize);
-    },
+    // addSize(){
+    //     if (this.newSize) this.sizes.push(this.newSize)
+    // },
     pushImg: function pushImg() {
       var imgs = this.$refs.img.files;
 
@@ -3057,11 +3084,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       });
     },
     deleteImg: function deleteImg() {
+      // Если кликнули по первой или второй фотографии
       if (this.clickedImg === 0 || this.clickedImg === 1) {
         this.files = this.files.filter(function (el) {
           return el.active === false;
         });
-        this.getPrevious();
+        this.getPrevious(); // Обнуляем главную картинку
 
         if ((this.clickedImg === 0 || this.clickedImg === 1) && this.files.length === 0) {
           this.mainImg = null;
@@ -3074,7 +3102,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         this.mainImg = this.$refs['image' + parseInt(this.clickedImg)][0].src;
         this.files[this.clickedImg].active = true;
         this.getPrevious();
-      }
+      } //
+
 
       if (this.videoOrImg) {
         this.video = null;
@@ -3091,7 +3120,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       this.videoOrImg = true;
       this.video = URL.createObjectURL(video[0]); // Загруженные видео
 
-      this.loadedVideo = video;
+      this.loadedVideo = video[0];
     },
     clickImg: function clickImg(i) {
       this.clickedImg = i;
@@ -3103,27 +3132,73 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       this.videoOrImg = false;
     },
+    // Клик по видео
+    // Присваиваем тру и тогда в большом варианте картинки возвращается первью видео
     clickVideo: function clickVideo() {
       this.videoOrImg = true;
     },
+    // Клик по картинке и возвращаем mainImg
     getMainImg: function getMainImg() {
       return this.mainImg;
     },
+    // Отправляем данные на сервер
     sentProductData: function sentProductData() {
       this.dataToBack = {
         video: this.loadedVideo,
         imgs: this.loadedImg,
         description: this.textProduct,
         price: this.priceProduct,
-        sale: this.saleProduct
+        sale: this.saleProduct,
+        sizes: this.sizes
       };
       this.$store.dispatch('SentDataToBackend', this.dataToBack);
+    },
+    // Выбираем рамзеры
+    addNewSize: function addNewSize(data) {
+      var checkSize = this.sizes.find(function (el) {
+        return el.size === data.size && el.id === data.sizeId;
+      });
+      if (checkSize) return;
+      this.sizes.push({
+        size: data.size,
+        id: data.sizeId,
+        count: 0
+      });
+    },
+    // Выбираем размер для определения кол-во
+    selectSizeForStock: function selectSizeForStock(i) {
+      this.newSize = i;
+      this.chozenSizeAfterClick = this.sizes[i].size;
+      this.chozenSizeStockAfterClick = this.sizes[i].count;
+    },
+    // Изменяем кол-во размера
+    insertAmountStock: function insertAmountStock() {
+      this.sizes[this.newSize].count = this.chozenSizeStockAfterClick;
+    },
+    // Удаляем размер
+    deleteSize: function deleteSize(i) {
+      this.sizes.splice(i, 1); // Если массив новых добавленных товаров  == 0, то обнуляем переменные с выводом данных
+
+      if (!this.sizes.length) {
+        this.chozenSizeAfterClick = this.chozenSizeStockAfterClick = null;
+      }
     }
+  },
+  created: function created() {
+    this.$store.dispatch('GetAllSizes'); // this.$store.dispatch('GetAllReviews')
   },
   watch: {
     files: function files(val) {
-      console.log('Hi watch');
       this.files = val;
+    }
+  },
+  computed: {
+    // Получить имя для нового товара
+    getProductName: function getProductName() {
+      return this.$store.getters.getNameNewProduct[0].name;
+    },
+    getAllSizes: function getAllSizes() {
+      return this.$store.getters.getAllSizes;
     }
   }
 });
@@ -7679,6 +7754,30 @@ var render = function() {
           }),
           0
         )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.sizes
+      ? _c(
+          "ul",
+          _vm._l(_vm.sizes, function(sz, i) {
+            return _c(
+              "li",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.chooseSize(sz.sizes_number, sz.sizes_id)
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n            " + _vm._s(sz.sizes_number) + "\n        "
+                )
+              ]
+            )
+          }),
+          0
+        )
       : _vm._e()
   ])
 }
@@ -9476,7 +9575,7 @@ var render = function() {
                 _c("div", { staticClass: "wrap-list-input" }, [
                   _c("input", {
                     staticClass: "input-pale-blu",
-                    attrs: { type: "text" },
+                    attrs: { type: "text", disabled: "" },
                     domProps: { value: _vm.newAddedCategory }
                   }),
                   _vm._v(" "),
@@ -9803,7 +9902,7 @@ var render = function() {
         _c("h1", { staticClass: "admin-h1" }, [_vm._v("Карточка товара")]),
         _vm._v(" "),
         _c("span", { staticClass: "card-name" }, [
-          _vm._v(_vm._s(_vm.nameProduct))
+          _vm._v(_vm._s(_vm.getProductName))
         ])
       ]),
       _vm._v(" "),
@@ -9914,55 +10013,59 @@ var render = function() {
         _c("div", { staticClass: "wrap-newsize" }, [
           _c("h1", { staticClass: "admin-h3" }, [_vm._v("Доступные размеры")]),
           _vm._v(" "),
-          _c("div", { staticClass: "wrap-newsize-add" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newSize,
-                  expression: "newSize"
-                }
-              ],
-              staticClass: "input-transp",
-              attrs: {
-                type: "text",
-                placeholder: "Новый размер",
-                disabled: ""
-              },
-              domProps: { value: _vm.newSize },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+          _c(
+            "div",
+            { staticClass: "wrapper-newsize-add" },
+            [
+              _c("div", { staticClass: "wrap-newsize-add" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.chozenSizeAfterClick,
+                      expression: "chozenSizeAfterClick"
+                    }
+                  ],
+                  staticClass: "input-transp",
+                  attrs: {
+                    type: "text",
+                    placeholder: "Новый размер",
+                    disabled: ""
+                  },
+                  domProps: { value: _vm.chozenSizeAfterClick },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.chozenSizeAfterClick = $event.target.value
+                    }
                   }
-                  _vm.newSize = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("button", {
-              staticClass: "btn-admin-arrow",
-              class: _vm.activeBtnSize
-                ? "admin-btn-arrow-pass"
-                : "admin-btn-arrow",
-              on: {
-                click: function($event) {
-                  _vm.activeBtnSize = !_vm.activeBtnSize
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "btn-admin-purpp", on: { click: _vm.addSize } },
-              [
-                _c("img", {
-                  attrs: { src: __webpack_require__(/*! ../../../img/whiteplus.png */ "./resources/img/whiteplus.png"), alt: "" }
+                }),
+                _vm._v(" "),
+                _c("button", {
+                  staticClass: "btn-admin-arrow",
+                  class: _vm.activeBtnSize
+                    ? "admin-btn-arrow"
+                    : "admin-btn-arrow-pass",
+                  on: {
+                    click: function($event) {
+                      _vm.activeBtnSize = !_vm.activeBtnSize
+                    }
+                  }
                 })
-              ]
-            )
-          ]),
+              ]),
+              _vm._v(" "),
+              _vm.activeBtnSize
+                ? _c("AdminCrumbs", {
+                    attrs: { sizes: _vm.getAllSizes },
+                    on: { addNewSize: _vm.addNewSize }
+                  })
+                : _vm._e()
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("div", { staticClass: "wrap-newsize-stock" }, [
             _c("h1", { staticClass: "admin-h3" }, [_vm._v("Кол-во на складе")]),
@@ -9971,26 +10074,25 @@ var render = function() {
               directives: [
                 {
                   name: "model",
-                  rawName: "v-model",
-                  value: _vm.amountStock,
-                  expression: "amountStock"
+                  rawName: "v-model.trim",
+                  value: _vm.chozenSizeStockAfterClick,
+                  expression: "chozenSizeStockAfterClick",
+                  modifiers: { trim: true }
                 }
               ],
               staticClass: "input-transp",
               attrs: { type: "text" },
-              domProps: { value: _vm.amountStock },
+              domProps: { value: _vm.chozenSizeStockAfterClick },
               on: {
-                change: function($event) {
-                  return _vm.dataToBack.push({
-                    size: _vm.newSize,
-                    count: _vm.amountStock
-                  })
-                },
+                change: _vm.insertAmountStock,
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.amountStock = $event.target.value
+                  _vm.chozenSizeStockAfterClick = $event.target.value.trim()
+                },
+                blur: function($event) {
+                  return _vm.$forceUpdate()
                 }
               }
             })
@@ -10006,13 +10108,26 @@ var render = function() {
             "div",
             { staticClass: "wrap-size-grid" },
             _vm._l(_vm.sizes, function(sz, i) {
-              return _c("span", [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(sz) +
-                    "\n                    "
-                )
-              ])
+              return _c(
+                "span",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.selectSizeForStock(i)
+                    },
+                    dblclick: function($event) {
+                      return _vm.deleteSize(i)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(sz.size) +
+                      "\n                        "
+                  )
+                ]
+              )
             }),
             0
           )
@@ -10386,7 +10501,11 @@ var render = function() {
             ? _c(
                 "p",
                 { staticClass: "review-text input-transp input-transp-p" },
-                [_vm._v("\n                    Текст\n                ")]
+                [
+                  _vm._v(
+                    "\n                        Текст\n                    "
+                  )
+                ]
               )
             : _vm._e()
         ])
@@ -33521,17 +33640,6 @@ module.exports = "/images/search.png?de19de9bf3e5aa7b19342627efeafa27";
 
 /***/ }),
 
-/***/ "./resources/img/whiteplus.png":
-/*!*************************************!*\
-  !*** ./resources/img/whiteplus.png ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/whiteplus.png?bbc3df6c624f6c16d1af666254bbebed";
-
-/***/ }),
-
 /***/ "./resources/js/Appi.vue":
 /*!*******************************!*\
   !*** ./resources/js/Appi.vue ***!
@@ -35487,15 +35595,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 
@@ -35509,8 +35617,8 @@ var admin = {
       adminRawMenu: null,
       // Данные по новому товару со страницы Продукты
       dataFromProductsPage: null,
-      // Данные по товару со страницы с Карточка товара
-      dataFromProductCard: null
+      // Данные по размеру
+      allSizes: null
     };
   },
   mutations: {
@@ -35525,10 +35633,28 @@ var admin = {
     DataAdminFromProductsMutate: function DataAdminFromProductsMutate(state, data) {
       state.dataFromProductsPage = data;
     },
+    // Отправлем данные о новоном товаре на сервер
     SentDataToBackendMutate: function SentDataToBackendMutate(state, data) {
       var formData = new FormData();
       formData.append('video', data.video);
-      formData.append('imgs', data.imgs);
+      var i = 0;
+
+      var _iterator = _createForOfIteratorHelper(data.imgs),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var img = _step.value;
+          i++;
+          formData.append("img-".concat(i), img);
+          console.log(img);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
       var stringData = {
         category: state.dataFromProductsPage[0].category,
         id: state.dataFromProductsPage[0].id,
@@ -35536,10 +35662,10 @@ var admin = {
         vendor: state.dataFromProductsPage[0].vendor,
         description: data.description,
         price: data.price,
-        sale: data.sale
+        sale: data.sale,
+        sizes: data.sizes
       };
-      formData.append('stringData', JSON.stringify(stringData)); // console.log(formData);
-
+      formData.append('stringData', JSON.stringify(stringData));
       axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "addproduct"), formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -35548,6 +35674,22 @@ var admin = {
         console.log(success.data);
       })["catch"](function (err) {
         console.log(err);
+      });
+    },
+    // Получаем все размеры для нового товара
+    GetAllSizesMutate: function GetAllSizesMutate(state) {
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallsizes")).then(function (response) {
+        state.allSizes = response.data;
+      })["catch"](function (e) {
+        console.log(e);
+      });
+    },
+    // Получать все отзывы
+    GetAllReviewsMutate: function GetAllReviewsMutate(state) {
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallreviews")).then(function (response) {
+        console.log(response.data);
+      })["catch"](function (e) {
+        return console.log(e);
       });
     }
   },
@@ -35563,11 +35705,25 @@ var admin = {
     SentDataToBackend: function SentDataToBackend(_ref3, data) {
       var commit = _ref3.commit;
       commit('SentDataToBackendMutate', data);
+    },
+    GetAllSizes: function GetAllSizes(_ref4) {
+      var commit = _ref4.commit;
+      commit('GetAllSizesMutate');
+    },
+    GetAllReviews: function GetAllReviews(_ref5) {
+      var commit = _ref5.commit;
+      commit('GetAllReviewsMutate');
     }
   },
   getters: {
     adminProducts: function adminProducts(state) {
       return state.adminProducts;
+    },
+    getNameNewProduct: function getNameNewProduct(state) {
+      return state.dataFromProductsPage;
+    },
+    getAllSizes: function getAllSizes(state) {
+      return state.allSizes;
     }
   }
 };
@@ -35744,12 +35900,12 @@ var store = {
                   var lastMenu = {};
                   var menuForAdmin = {};
 
-                  var _iterator = _createForOfIteratorHelper(genders),
-                      _step;
+                  var _iterator2 = _createForOfIteratorHelper(genders),
+                      _step2;
 
                   try {
-                    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                      var _i6 = _step.value;
+                    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                      var _i6 = _step2.value;
                       gendersObj[_i6] = [];
                       lastMenu[_i6] = {};
                       menuForAdmin[_i6] = {
@@ -35758,27 +35914,27 @@ var store = {
                     } // Пушим данным по гендарным различиям
 
                   } catch (err) {
-                    _iterator.e(err);
+                    _iterator2.e(err);
                   } finally {
-                    _iterator.f();
+                    _iterator2.f();
                   }
 
                   for (var _i4 in menu) {
-                    var _iterator2 = _createForOfIteratorHelper(genders),
-                        _step2;
+                    var _iterator3 = _createForOfIteratorHelper(genders),
+                        _step3;
 
                     try {
-                      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                        var k = _step2.value;
+                      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                        var k = _step3.value;
 
                         if (k === menu[_i4].sex_name) {
                           gendersObj[k].push(menu[_i4]);
                         }
                       }
                     } catch (err) {
-                      _iterator2.e(err);
+                      _iterator3.e(err);
                     } finally {
-                      _iterator2.f();
+                      _iterator3.f();
                     }
                   } // Выбираем уникальные категории
 
@@ -35787,31 +35943,31 @@ var store = {
                   var categoriesObj = {}; // Распределяем категории по гендеру
 
                   for (var _i5 in lastMenu) {
-                    var _iterator3 = _createForOfIteratorHelper(categories),
-                        _step3;
+                    var _iterator4 = _createForOfIteratorHelper(categories),
+                        _step4;
 
                     try {
-                      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-                        var _k = _step3.value;
+                      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                        var _k = _step4.value;
                         lastMenu[_i5][_k] = [];
                         categoriesObj[_k] = [];
                         menuForAdmin[_i5][_k] = [];
                       }
                     } catch (err) {
-                      _iterator3.e(err);
+                      _iterator4.e(err);
                     } finally {
-                      _iterator3.f();
+                      _iterator4.f();
                     }
                   }
 
                   for (var g in gendersObj) {
                     for (var gg in gendersObj[g]) {
-                      var _iterator4 = _createForOfIteratorHelper(categories),
-                          _step4;
+                      var _iterator5 = _createForOfIteratorHelper(categories),
+                          _step5;
 
                       try {
-                        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-                          var c = _step4.value;
+                        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+                          var c = _step5.value;
 
                           if (c === gendersObj[g][gg].categories_name && gendersObj[g][gg].sex_name === g) {
                             lastMenu[g][c].push({
@@ -35830,9 +35986,9 @@ var store = {
                           }
                         }
                       } catch (err) {
-                        _iterator4.e(err);
+                        _iterator5.e(err);
                       } finally {
-                        _iterator4.f();
+                        _iterator5.f();
                       }
                     }
                   } // Удаляем категорию, в которой ничего нету
@@ -35964,12 +36120,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator5 = _createForOfIteratorHelper(sortSizes),
-                      _step5;
+                  var _iterator6 = _createForOfIteratorHelper(sortSizes),
+                      _step6;
 
                   try {
                     var _loop = function _loop() {
-                      var i = _step5.value;
+                      var i = _step6.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -35979,14 +36135,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+                    for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
                       _loop();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator5.e(err);
+                    _iterator6.e(err);
                   } finally {
-                    _iterator5.f();
+                    _iterator6.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36023,12 +36179,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator6 = _createForOfIteratorHelper(sortSizes),
-                      _step6;
+                  var _iterator7 = _createForOfIteratorHelper(sortSizes),
+                      _step7;
 
                   try {
                     var _loop2 = function _loop2() {
-                      var i = _step6.value;
+                      var i = _step7.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -36038,14 +36194,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+                    for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
                       _loop2();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator6.e(err);
+                    _iterator7.e(err);
                   } finally {
-                    _iterator6.f();
+                    _iterator7.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36082,12 +36238,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator7 = _createForOfIteratorHelper(sortSizes),
-                      _step7;
+                  var _iterator8 = _createForOfIteratorHelper(sortSizes),
+                      _step8;
 
                   try {
                     var _loop3 = function _loop3() {
-                      var i = _step7.value;
+                      var i = _step8.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -36097,14 +36253,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+                    for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
                       _loop3();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator7.e(err);
+                    _iterator8.e(err);
                   } finally {
-                    _iterator7.f();
+                    _iterator8.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36135,7 +36291,7 @@ var store = {
               case 0:
                 _context4.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "item-").concat(data)).then( /*#__PURE__*/function () {
-                  var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(response) {
+                  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(response) {
                     var itemData, stateItemData, pics, stars, el;
                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
                       while (1) {
@@ -36221,7 +36377,7 @@ var store = {
                   }));
 
                   return function (_x) {
-                    return _ref4.apply(this, arguments);
+                    return _ref6.apply(this, arguments);
                   };
                 }())["catch"](function (errors) {
                   return console.log(errors);
@@ -36291,12 +36447,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator8 = _createForOfIteratorHelper(sortSizes),
-                      _step8;
+                  var _iterator9 = _createForOfIteratorHelper(sortSizes),
+                      _step9;
 
                   try {
                     var _loop4 = function _loop4() {
-                      var i = _step8.value;
+                      var i = _step9.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -36306,14 +36462,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+                    for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
                       _loop4();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator8.e(err);
+                    _iterator9.e(err);
                   } finally {
-                    _iterator8.f();
+                    _iterator9.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36349,12 +36505,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator9 = _createForOfIteratorHelper(sortSizes),
-                      _step9;
+                  var _iterator10 = _createForOfIteratorHelper(sortSizes),
+                      _step10;
 
                   try {
                     var _loop5 = function _loop5() {
-                      var i = _step9.value;
+                      var i = _step10.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -36364,14 +36520,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+                    for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
                       _loop5();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator9.e(err);
+                    _iterator10.e(err);
                   } finally {
-                    _iterator9.f();
+                    _iterator10.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36407,12 +36563,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator10 = _createForOfIteratorHelper(sortSizes),
-                      _step10;
+                  var _iterator11 = _createForOfIteratorHelper(sortSizes),
+                      _step11;
 
                   try {
                     var _loop6 = function _loop6() {
-                      var i = _step10.value;
+                      var i = _step11.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -36422,14 +36578,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+                    for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
                       _loop6();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator10.e(err);
+                    _iterator11.e(err);
                   } finally {
-                    _iterator10.f();
+                    _iterator11.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36484,12 +36640,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator11 = _createForOfIteratorHelper(sortSizes),
-                      _step11;
+                  var _iterator12 = _createForOfIteratorHelper(sortSizes),
+                      _step12;
 
                   try {
                     var _loop7 = function _loop7() {
-                      var i = _step11.value;
+                      var i = _step12.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -36499,14 +36655,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+                    for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
                       _loop7();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator11.e(err);
+                    _iterator12.e(err);
                   } finally {
-                    _iterator11.f();
+                    _iterator12.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36542,12 +36698,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator12 = _createForOfIteratorHelper(sortSizes),
-                      _step12;
+                  var _iterator13 = _createForOfIteratorHelper(sortSizes),
+                      _step13;
 
                   try {
                     var _loop8 = function _loop8() {
-                      var i = _step12.value;
+                      var i = _step13.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -36557,14 +36713,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+                    for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
                       _loop8();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator12.e(err);
+                    _iterator13.e(err);
                   } finally {
-                    _iterator12.f();
+                    _iterator13.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36600,12 +36756,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator13 = _createForOfIteratorHelper(sortSizes),
-                      _step13;
+                  var _iterator14 = _createForOfIteratorHelper(sortSizes),
+                      _step14;
 
                   try {
                     var _loop9 = function _loop9() {
-                      var i = _step13.value;
+                      var i = _step14.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -36615,14 +36771,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+                    for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
                       _loop9();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator13.e(err);
+                    _iterator14.e(err);
                   } finally {
-                    _iterator13.f();
+                    _iterator14.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36695,12 +36851,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator14 = _createForOfIteratorHelper(sortSizes),
-                      _step14;
+                  var _iterator15 = _createForOfIteratorHelper(sortSizes),
+                      _step15;
 
                   try {
                     var _loop10 = function _loop10() {
-                      var i = _step14.value;
+                      var i = _step15.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -36710,14 +36866,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
+                    for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
                       _loop10();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator14.e(err);
+                    _iterator15.e(err);
                   } finally {
-                    _iterator14.f();
+                    _iterator15.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36751,12 +36907,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator15 = _createForOfIteratorHelper(sortSizes),
-                      _step15;
+                  var _iterator16 = _createForOfIteratorHelper(sortSizes),
+                      _step16;
 
                   try {
                     var _loop11 = function _loop11() {
-                      var i = _step15.value;
+                      var i = _step16.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -36766,14 +36922,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
+                    for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
                       _loop11();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator15.e(err);
+                    _iterator16.e(err);
                   } finally {
-                    _iterator15.f();
+                    _iterator16.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -36994,76 +37150,76 @@ var store = {
     }
   },
   actions: {
-    getMenuData: function getMenuData(_ref5) {
-      var commit = _ref5.commit;
+    getMenuData: function getMenuData(_ref7) {
+      var commit = _ref7.commit;
       commit('getMenuDataMutate');
     },
-    showDepartments: function showDepartments(_ref6, data) {
-      var commit = _ref6.commit;
+    showDepartments: function showDepartments(_ref8, data) {
+      var commit = _ref8.commit;
       commit('sideBarDepartMutate', data);
     },
-    showDepartAfterUpdated: function showDepartAfterUpdated(_ref7, data) {
-      var commit = _ref7.commit;
+    showDepartAfterUpdated: function showDepartAfterUpdated(_ref9, data) {
+      var commit = _ref9.commit;
       commit('sideBarDepartMutateAfterUpdated', data);
     },
-    backToCategory: function backToCategory(_ref8, data) {
-      var commit = _ref8.commit;
+    backToCategory: function backToCategory(_ref10, data) {
+      var commit = _ref10.commit;
       commit('backToCategoryMutate', data);
     },
-    getCatalogData: function getCatalogData(_ref9, data) {
-      var commit = _ref9.commit;
+    getCatalogData: function getCatalogData(_ref11, data) {
+      var commit = _ref11.commit;
       commit('getCatalogDataMutate', data);
     },
-    getItemData: function getItemData(_ref10, data) {
-      var commit = _ref10.commit;
+    getItemData: function getItemData(_ref12, data) {
+      var commit = _ref12.commit;
       commit('getItemDataMutate', data);
     },
-    getItemReviews: function getItemReviews(_ref11, data) {
-      var commit = _ref11.commit;
+    getItemReviews: function getItemReviews(_ref13, data) {
+      var commit = _ref13.commit;
       commit('getItemReviewsMutate', data);
     },
-    showSaleProducts: function showSaleProducts(_ref12, data) {
-      var commit = _ref12.commit;
+    showSaleProducts: function showSaleProducts(_ref14, data) {
+      var commit = _ref14.commit;
       commit('showSaleProductsMutate', data);
     },
-    showCashProducts: function showCashProducts(_ref13, data) {
-      var commit = _ref13.commit;
+    showCashProducts: function showCashProducts(_ref15, data) {
+      var commit = _ref15.commit;
       commit('showCashProductsMutate', data);
     },
-    sortByAction: function sortByAction(_ref14, data) {
-      var commit = _ref14.commit;
+    sortByAction: function sortByAction(_ref16, data) {
+      var commit = _ref16.commit;
       commit('sortByActionMutate', data);
     },
-    showSizeProducts: function showSizeProducts(_ref15, data) {
-      var commit = _ref15.commit;
+    showSizeProducts: function showSizeProducts(_ref17, data) {
+      var commit = _ref17.commit;
       commit('showSizeProductsMutate', data);
     },
-    addToCart: function addToCart(_ref16, data) {
-      var commit = _ref16.commit;
+    addToCart: function addToCart(_ref18, data) {
+      var commit = _ref18.commit;
       commit('addToCartMutate', data);
     },
-    getProductForCart: function getProductForCart(_ref17) {
-      var commit = _ref17.commit;
+    getProductForCart: function getProductForCart(_ref19) {
+      var commit = _ref19.commit;
       commit('getProductForCartMutate');
     },
-    removeCard: function removeCard(_ref18, data) {
-      var commit = _ref18.commit;
+    removeCard: function removeCard(_ref20, data) {
+      var commit = _ref20.commit;
       commit('removeCardMutate', data);
     },
-    totalPrice: function totalPrice(_ref19, data) {
-      var commit = _ref19.commit;
+    totalPrice: function totalPrice(_ref21, data) {
+      var commit = _ref21.commit;
       commit('totalPriceMutate', data);
     },
-    changeCountCart: function changeCountCart(_ref20, data) {
-      var commit = _ref20.commit;
+    changeCountCart: function changeCountCart(_ref22, data) {
+      var commit = _ref22.commit;
       commit('changeCountCartMutate', data);
     },
-    customerData: function customerData(_ref21, data) {
-      var commit = _ref21.commit;
+    customerData: function customerData(_ref23, data) {
+      var commit = _ref23.commit;
       commit('customerDataMutate', data);
     },
-    sentData: function sentData(_ref22, data) {
-      var commit = _ref22.commit;
+    sentData: function sentData(_ref24, data) {
+      var commit = _ref24.commit;
       commit('sentDataMutate', data);
     }
   },

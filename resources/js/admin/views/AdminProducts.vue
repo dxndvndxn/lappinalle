@@ -48,6 +48,7 @@
                     <div class="wrap-list-input">
                         <input type="text" class="input-pale-blu"
                                :value="newAddedCategory"
+                               disabled
                         >
                         <button class="btn-admin-arrow" @click="activeAddNew = !activeAddNew" v-bind:class="activeAddNew ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
                     </div>
@@ -107,15 +108,26 @@
         name: "AdminProducts",
         components: {AdminCrumbs},
         data: () => ({
-            activeAddNew: false,
             searched: null,
-            newProduct: [],
-            newProductId: null,
             errorAdd: false,
-            changedCategory: null,
-            newAddedCategory: null,
             activeBtn: null,
+
+            // Переменная для стрелки, где добавить новый товар
+            activeAddNew: false,
+
+            // Контейнер для нового товара
+            newProduct: [],
+
+            // Если поменяли категорию у товара
+            changedCategory: null,
+
+            // Новый товар категория
+            newAddedCategory: null,
+
+            // Новый товав название
             newNamePrdouct: null,
+
+            // Новый товар артикул
             newVendorProduct: null,
 
             // Кол-во товара
@@ -124,10 +136,12 @@
         }),
         methods: {
             addNewProduct(){
+
                 if (Object.keys(this.newProduct).length) {
                     this.errorAdd = true;
                     return;
                 }
+
                 this.newProduct.push({id: null, name: null, category: null, vendor: null})
             },
             addNewCategory(data){
@@ -149,6 +163,7 @@
         created() {
             this.$Progress.start();
             this.$store.dispatch('AdminGetAllPrducts');
+
             if (this.getCrumbs === null) this.$store.dispatch('getMenuData');
 
         },

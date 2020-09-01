@@ -47,9 +47,8 @@
             .wrap-size-grid{
                 @include variableColumns(4, 40px);
                 grid-template-rows: 40px;
-                grid-column-gap: 8px;
+                grid-column-gap: 14px;
                 grid-row-gap: 8px;
-                justify-content: space-between;
                 margin-bottom: 5px;
                 height: 134px;
                 overflow-x: hidden;
@@ -68,6 +67,7 @@
                     text-align: center;
                     padding-top: 11px;
                     box-sizing: border-box;
+                    cursor: pointer;
                 }
             }
         }

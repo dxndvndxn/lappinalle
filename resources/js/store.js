@@ -11,12 +11,13 @@ const admin = {
         // Данные по новому товару со страницы Продукты
         dataFromProductsPage: null,
 
-        // Данные по товару со страницы с Карточка товара
-        dataFromProductCard: null
+        // Данные по размеру
+        allSizes: null
     }),
     mutations: {
         // Получаем все товары СТРАНИЧКА ТОВАРЫ
         AdminGetAllPrductsMutate(state){
+
             axios.get(`${state.SITE_URI}adminallproducts`)
                 .then(response => {
                     state.adminProducts = response.data;
@@ -25,10 +26,17 @@ const admin = {
         DataAdminFromProductsMutate(state, data){
             state.dataFromProductsPage = data;
         },
+        // Отправлем данные о новоном товаре на сервер
         SentDataToBackendMutate(state, data){
             let formData = new FormData();
             formData.append('video', data.video);
-            formData.append('imgs', data.imgs);
+
+            let i = 0;
+            for (let img of data.imgs) {
+                i++;
+                formData.append(`img-${i}`, img);
+                console.log(img)
+            }
 
             let stringData = {
                 category: state.dataFromProductsPage[0].category,
@@ -38,10 +46,11 @@ const admin = {
                 description: data.description,
                 price: data.price,
                 sale: data.sale,
+                sizes: data.sizes
             };
 
             formData.append('stringData', JSON.stringify(stringData));
-            // console.log(formData);
+
             axios.post(`${state.SITE_URI}addproduct`,
                 formData,
                 {
@@ -56,6 +65,26 @@ const admin = {
                 .catch(err => {
                     console.log(err)
                 })
+        },
+
+        // Получаем все размеры для нового товара
+        GetAllSizesMutate(state){
+            axios.get(`${state.SITE_URI}adminallsizes`)
+                .then(response => {
+                    state.allSizes = response.data;
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+        },
+
+        // Получать все отзывы
+        GetAllReviewsMutate(state){
+            axios.get(`${state.SITE_URI}adminallreviews`)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(e => console.log(e))
         }
     },
     actions: {
@@ -67,12 +96,24 @@ const admin = {
         },
         SentDataToBackend({commit}, data){
             commit('SentDataToBackendMutate', data);
+        },
+        GetAllSizes({commit}){
+            commit('GetAllSizesMutate');
+        },
+        GetAllReviews({commit}){
+            commit('GetAllReviewsMutate');
         }
     },
     getters: {
         adminProducts: state => {
             return state.adminProducts;
         },
+        getNameNewProduct: state => {
+            return state.dataFromProductsPage;
+        },
+        getAllSizes: state => {
+            return state.allSizes;
+        }
     }
 };
 const store = {
