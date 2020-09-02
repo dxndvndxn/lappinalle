@@ -4,7 +4,7 @@ import axios from 'axios'
 Vue.use(Vuex);
 const admin = {
     state: () => ({
-        SITE_URI: 'http://lappinalle.test/api/',
+        SITE_URI: 'http://lappinalle.ru/api/',
         adminProducts: null,
         adminRawMenu: null,
 
@@ -37,7 +37,7 @@ const admin = {
                 i++;
                 formData.append(`img-${i}`, img);
             }
-            console.log(data)
+
             let stringData = {
                 category: state.dataFromProductsPage[0].category,
                 id: state.dataFromProductsPage[0].id,
@@ -157,7 +157,7 @@ const store = {
 
         // Данные по меню для админа
         menuAdmin: null,
-        SITE_URI: 'http://lappinalle.test/api/',
+        SITE_URI: 'http://lappinalle.ru/api/',
 
         // Корзина
         cart: JSON.parse(localStorage.getItem('cart') || '[]'),

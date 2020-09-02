@@ -36089,7 +36089,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
 var admin = {
   state: function state() {
     return {
-      SITE_URI: 'http://lappinalle.test/api/',
+      SITE_URI: 'http://lappinalle.ru/api/',
       adminProducts: null,
       adminRawMenu: null,
       // Данные по новому товару со страницы Продукты
@@ -36151,7 +36151,6 @@ var admin = {
                   _iterator.f();
                 }
 
-                console.log(data);
                 stringData = {
                   category: state.dataFromProductsPage[0].category,
                   id: state.dataFromProductsPage[0].id,
@@ -36164,7 +36163,7 @@ var admin = {
                   amountWithoutSizes: data.amountWithoutSizes
                 };
                 formData.append('stringData', JSON.stringify(stringData));
-                _context2.next = 10;
+                _context2.next = 9;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "addproduct"), formData, {
                   headers: {
                     'Content-Type': 'multipart/form-data'
@@ -36176,7 +36175,7 @@ var admin = {
                   console.log(err);
                 });
 
-              case 10:
+              case 9:
               case "end":
                 return _context2.stop();
             }
@@ -36294,7 +36293,7 @@ var store = {
     filterSizes: null,
     // Данные по меню для админа
     menuAdmin: null,
-    SITE_URI: 'http://lappinalle.test/api/',
+    SITE_URI: 'http://lappinalle.ru/api/',
     // Корзина
     cart: JSON.parse(localStorage.getItem('cart') || '[]'),
     countCart: JSON.parse(localStorage.getItem('countCart') || '0'),
