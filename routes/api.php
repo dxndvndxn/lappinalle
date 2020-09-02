@@ -25,14 +25,17 @@ Route::get('/adminallproducts', 'AdminGetAllProductsController@index');
 // Добавляем новый товар
 Route::post('/addproduct', 'AddProductController@index');
 
-// Получаем нвсе размеры для карточки товара
+// Получаем все размеры для карточки товара
 Route::get('/adminallsizes','AllSizesController@index');
 
-
+// Email
+Route::post('/mailer', 'MailerController@send');
 
 // Оформление заказа
 Route::post('/order', 'CheckoutOrderController@index');
 
+
+// SITE
 // Получаем базовые данные для приложения типа категори и т.д
 Route::get('/menu', 'BasicDataController@index');
 

@@ -32,6 +32,7 @@
                     <div class="wrap-newsize-stock">
                         <h1 class="admin-h3">Кол-во на складе</h1>
                         <input type="text" class="input-transp" @change="insertAmountStock" v-model.trim="chozenSizeStockAfterClick">
+                        {{chozenSizeStockAfterClick}}
                     </div>
                 </div>
                 <div class="size-grid">
@@ -139,7 +140,11 @@
             loadedVideo: null,
 
             // Данные на сервер
-            dataToBack: {}
+            dataToBack: {},
+            productSucc: false,
+
+            // Кол-во товара, если нету размера
+            stockAmountWithoutSizes: null
         }),
         methods: {
             // addSize(){
@@ -245,7 +250,8 @@
                     description: this.textProduct,
                     price: this.priceProduct,
                     sale: this.saleProduct,
-                    sizes: this.sizes
+                    sizes: this.sizes.length ? this.sizes : null,
+                    amountWithoutSizes: this.stockAmountWithoutSizes
                 };
                 this.$store.dispatch('SentDataToBackend', this.dataToBack);
             },
@@ -266,12 +272,20 @@
 
             // Изменяем кол-во размера
             insertAmountStock(){
-                this.sizes[this.newSize].count = this.chozenSizeStockAfterClick;
+                 if (!this.sizes.length) {
+                     this.stockAmountWithoutSizes = this.chozenSizeStockAfterClick;
+                     console.log(1)
+                 }else{
+                     console.log(2)
+                     this.sizes[this.newSize].count = this.chozenSizeStockAfterClick;
+                     this.stockAmountWithoutSizes = null;
+                 }
             },
 
             // Удаляем размер
             deleteSize(i){
                 this.sizes.splice(i, 1);
+
                 // Если массив новых добавленных товаров  == 0, то обнуляем переменные с выводом данных
                 if (!this.sizes.length) {
                     this.chozenSizeAfterClick = this.chozenSizeStockAfterClick = null;
@@ -285,6 +299,10 @@
         watch: {
             files(val){
                 this.files = val;
+            },
+            getProductSuccess(newVal, oldVal){
+                if (newVal) this.$router.push({name: 'AdminProducts'})
+                else console.log('Something goes wrong')
             }
         },
         computed: {
@@ -294,6 +312,9 @@
             },
             getAllSizes(){
                 return this.$store.getters.getAllSizes;
+            },
+            getProductSuccess(){
+                return this.$store.getters.productSuccess;
             }
         }
     }

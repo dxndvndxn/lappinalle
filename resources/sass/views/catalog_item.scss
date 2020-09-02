@@ -31,12 +31,21 @@
     }
     .item-pic{
         position: relative;
-        width: fit-content;
+        //width: fit-content;
+        width: 173px;
+        height: 173px;
         img{
             cursor: pointer;
             border: 1px solid transparent;
-            width: 100%;
+            width: 173px;
+            height: 173px;
             object-fit: contain;
+        }
+        video{
+            width: 173px;
+            height: 173px;
+            z-index: -1;
+            position: absolute;
         }
     }
 }
@@ -45,9 +54,10 @@
     .main-icons{
         position: absolute;
         top: 0;
-        right: 0;
+        right: 15px;
         display: flex;
         flex-direction: column;
+        z-index: 1;
         svg{
             width: 30px;
             height: 30px;
@@ -60,13 +70,18 @@
         object-fit: contain;
         width: 100%;
     }
+    video{
+        position: absolute;
+        z-index: -1;
+        width: 100%;
+    }
 }
 #cameraImPic{
     width: 30px;
     height: 30px;
     position: absolute;
     top: 5px;
-    right: 5px;
+    left: 5px;
     fill: $palepurpp
 }
 .item-main-info{

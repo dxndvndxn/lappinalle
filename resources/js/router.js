@@ -23,6 +23,7 @@ import AdminOrders from "./admin/views/AdminOrders";
 import AdminUsers from "./admin/views/AdminUsers";
 import AdminDelivery from "./admin/views/AdminDelivery";
 import ProductCard from "./admin/views/ProductCard";
+import Privacy from "./views/Privacy";
 import store from "./store";
 // export default {
 //     mode: 'history',
@@ -189,6 +190,12 @@ const routes = [
         name: 'dostavka',
         meta: { layout: 'Main' },
         component: Delivery
+    },
+    {
+        path: '/privacy',
+        name: 'privacy',
+        meta: { layout: 'Main' },
+        component: Privacy
     },
     {
         path: '/login',

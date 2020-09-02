@@ -2849,7 +2849,7 @@ __webpack_require__.r(__webpack_exports__);
       this.newProduct[0].category = data;
     },
     addNewProductData: function addNewProductData(newId) {
-      this.newProduct[0].id = newId;
+      this.newProduct[0].id = newId === 0 ? 1 : newId;
       this.$store.dispatch('DataAdminFromProducts', this.newProduct);
     }
   },
@@ -3011,6 +3011,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ProductCart",
@@ -3042,7 +3043,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       videoOrImg: false,
       loadedVideo: null,
       // Данные на сервер
-      dataToBack: {}
+      dataToBack: {},
+      productSucc: false,
+      // Кол-во товара, если нету размера
+      stockAmountWithoutSizes: null
     };
   },
   methods: {
@@ -3149,7 +3153,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         description: this.textProduct,
         price: this.priceProduct,
         sale: this.saleProduct,
-        sizes: this.sizes
+        sizes: this.sizes.length ? this.sizes : null,
+        amountWithoutSizes: this.stockAmountWithoutSizes
       };
       this.$store.dispatch('SentDataToBackend', this.dataToBack);
     },
@@ -3173,7 +3178,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     },
     // Изменяем кол-во размера
     insertAmountStock: function insertAmountStock() {
-      this.sizes[this.newSize].count = this.chozenSizeStockAfterClick;
+      if (!this.sizes.length) {
+        this.stockAmountWithoutSizes = this.chozenSizeStockAfterClick;
+        console.log(1);
+      } else {
+        console.log(2);
+        this.sizes[this.newSize].count = this.chozenSizeStockAfterClick;
+        this.stockAmountWithoutSizes = null;
+      }
     },
     // Удаляем размер
     deleteSize: function deleteSize(i) {
@@ -3190,6 +3202,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   watch: {
     files: function files(val) {
       this.files = val;
+    },
+    getProductSuccess: function getProductSuccess(newVal, oldVal) {
+      if (newVal) this.$router.push({
+        name: 'AdminProducts'
+      });else console.log('Something goes wrong');
     }
   },
   computed: {
@@ -3199,6 +3216,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     },
     getAllSizes: function getAllSizes() {
       return this.$store.getters.getAllSizes;
+    },
+    getProductSuccess: function getProductSuccess() {
+      return this.$store.getters.productSuccess;
     }
   }
 });
@@ -4667,6 +4687,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Catalogitem",
@@ -4698,6 +4721,7 @@ __webpack_require__.r(__webpack_exports__);
     // Кликаем по фотографии товара
     clickItemPic: function clickItemPic(i) {
       this.mainPic = i;
+      console.log(i);
       this.returnDataForItem.itemPics.forEach(function (el) {
         return el.clicked = false;
       });
@@ -5546,6 +5570,109 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Privacy.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Privacy.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Privacy"
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Registration.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Registration.vue?vue&type=script&lang=js& ***!
@@ -5730,6 +5857,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, ".main {\n  height: 100%;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.privacy[data-v-74bdb3b9]{\n    position: relative;\n    margin: 0 auto;\n    width: 900px;\n}\nh1[data-v-74bdb3b9]{\n    font-family: 'PT Sans', sans-serif;\n    font-size: 24px;\n    font-weight: 700;\n    line-height: 1.5;\n    margin-bottom: 75px;\n    margin-top: 75px;\n}\nh2[data-v-74bdb3b9]{\n    font-family: 'PT Sans', sans-serif;\n    font-size: 18px;\n    font-weight: 700;\n    line-height: 1.5;\n    color: #848CCF;\n    margin-bottom: 25px;\n}\np[data-v-74bdb3b9]{\n    font-family: 'PT Sans', sans-serif;\n    font-size: 14px;\n    font-weight: 400;\n    line-height: 1.8;\n    margin-bottom: 50px;\n}\n", ""]);
 
 // exports
 
@@ -7014,6 +7160,36 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./MainLayout.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/layouts/MainLayout.vue?vue&type=style&index=0&lang=scss&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -9533,7 +9709,11 @@ var render = function() {
               _c("div", { staticClass: "admin-h3" }, [
                 _vm._v(
                   "\n                    " +
-                    _vm._s(Object.keys(_vm.returnAllProducts).length) +
+                    _vm._s(
+                      Object.keys(_vm.returnAllProducts).length === 0
+                        ? 1
+                        : Object.keys(_vm.returnAllProducts).length
+                    ) +
                     "\n                "
                 )
               ]),
@@ -9646,7 +9826,10 @@ var render = function() {
                       attrs: {
                         to: {
                           path:
-                            "card-" + Object.keys(_vm.returnAllProducts).length
+                            "card-" +
+                            (Object.keys(_vm.returnAllProducts).length === 0
+                              ? 1
+                              : Object.keys(_vm.returnAllProducts).length)
                         }
                       }
                     },
@@ -10095,7 +10278,12 @@ var render = function() {
                   return _vm.$forceUpdate()
                 }
               }
-            })
+            }),
+            _vm._v(
+              "\n                        " +
+                _vm._s(_vm.chozenSizeStockAfterClick) +
+                "\n                    "
+            )
           ])
         ]),
         _vm._v(" "),
@@ -10827,7 +11015,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("router-link", { attrs: { tag: "dd", to: "/confidential" } }, [
+        _c("router-link", { attrs: { tag: "dd", to: "/privacy" } }, [
           _c("a", { attrs: { href: "#" } }, [
             _vm._v("Политика конфедециальности")
           ])
@@ -12522,65 +12710,78 @@ var render = function() {
               "div",
               { staticClass: "wrap" },
               _vm._l(_vm.returnDataForItem.itemPics, function(img, i) {
-                return _c("div", { key: i, staticClass: "item-pic" }, [
-                  img.video
-                    ? _c(
-                        "svg",
-                        {
-                          attrs: {
-                            id: "cameraImPic",
-                            xmlns: "http://www.w3.org/2000/svg",
-                            viewBox: "0 0 413.19 358.83"
-                          }
-                        },
-                        [
-                          _c("defs"),
-                          _c("title", [_vm._v("icon_cam")]),
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M150.57,419.73c-3.12-1-6.25-1.89-9.34-3-3.87-1.33-6.63-4.17-9.34-7.09-4.86-5.24-6.47-11.5-6.46-18.46q.06-70.32,0-140.62c0-4.32.41-8.59,2.45-12.41,5.18-9.66,13.3-15,24.31-15.77,1-.07,2.09-.06,3.14-.06q120.42,0,240.86,0c8.7,0,16.39,2.5,22.32,9a27.17,27.17,0,0,1,7.52,19q-.18,70.64,0,141.28c0,9-3.62,16-10.16,21.68a26.11,26.11,0,0,1-13.09,5.91c-.65.11-1.28.32-1.92.48ZM275.7,240.31H156c-1,0-1.95,0-2.91.06-4.58.41-7.78,3.09-8.57,7.21a16.35,16.35,0,0,0-.18,3.13v140.6c0,.75,0,1.5.05,2.24a8.54,8.54,0,0,0,6.3,7.6,20.32,20.32,0,0,0,4.85.6q120.2,0,240.39,0a16.78,16.78,0,0,0,2.46-.06c5.29-.82,8.89-3.87,8.79-9.45,0-.45,0-.9,0-1.35V251.23a20.06,20.06,0,0,0-.06-2.69c-.37-2.69-1.29-5.2-4-6.27-2.23-.88-4.63-1.87-7-1.87Q335.9,240.22,275.7,240.31Z",
-                              transform: "translate(-125.43 -60.9)"
-                            }
-                          }),
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M348.48,204.43a75.79,75.79,0,0,1-34.64-9.33,77.74,77.74,0,0,1-21.13-17,70,70,0,0,1-9.82-15.1c-9.5-18.84-9.44-38.09-1.74-57.33a73.3,73.3,0,0,1,9.92-16.59,67.26,67.26,0,0,1,19.16-16.89A77.07,77.07,0,0,1,360.5,61.53a75.13,75.13,0,0,1,31.73,11.39A77.89,77.89,0,0,1,411.68,90.8c5.58,7.14,8.86,15.22,11.6,23.71a60.46,60.46,0,0,1,1,32.87c-2,8.29-4.94,16.42-9.9,23.54a76.25,76.25,0,0,1-20,20.19C381.23,199.91,366.67,204.4,348.48,204.43ZM350,78.78c-1.42.12-3.66.23-5.88.49-18.9,2.21-33.8,11.42-42.91,27.87-9.84,17.76-9.56,36.11,1.74,53.65A51.35,51.35,0,0,0,313.63,173a55.25,55.25,0,0,0,20.12,10.86c23.47,6.51,43.63.69,60.35-16.81a46.9,46.9,0,0,0,10.64-18.93c3.67-12,3.37-24-1.93-35.74a55.26,55.26,0,0,0-20.63-24.31C372.64,81.87,362.16,79,350,78.78Z",
-                              transform: "translate(-125.43 -60.9)"
-                            }
-                          }),
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M519.61,378.07V264c-2.23,1-4.39,1.88-6.5,2.89q-18.74,9-37.46,18-8.56,4.11-17.17,8.13c-5.37,2.5-11.13.38-13.06-4.73a8.79,8.79,0,0,1,4.45-11.17c4.36-2.28,8.83-4.34,13.28-6.45,4.17-2,8.38-3.85,12.54-5.84,9.07-4.36,18.12-8.77,27.18-13.14,7-3.37,14-6.66,21-10.05a10.6,10.6,0,0,1,11.42.75,8.11,8.11,0,0,1,3.24,5.92,15,15,0,0,1,.06,2c0,47.16-.06,94.32.06,141.47,0,6.8-5.27,10.22-10.16,9.87a15.4,15.4,0,0,1-5.28-1.66c-12.58-6-25.12-12.07-37.68-18.1q-14.81-7.11-29.64-14.17c-2-1-4.11-1.78-6.06-2.84-4.47-2.45-6.12-7.21-4.15-11.64a9.09,9.09,0,0,1,11.67-4.71c2.78,1.07,5.44,2.44,8.13,3.73,9.2,4.42,18.38,8.9,27.59,13.31,8.46,4.05,17,8,25.45,12.05C518.79,377.82,519.13,377.9,519.61,378.07Z",
-                              transform: "translate(-125.43 -60.9)"
-                            }
-                          }),
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M197.8,204.41a56.66,56.66,0,0,1-25.88-7.55,55.07,55.07,0,0,1-21-21.11c-8.8-15.66-8.81-31.7-1.56-47.65a50.48,50.48,0,0,1,20.19-22.45c15.86-9.55,32.69-11.52,50.32-5.55a56.5,56.5,0,0,1,20.6,12.65,53.65,53.65,0,0,1,10.22,13.72c8.3,15,8.14,30.5,1.47,45.83a51.91,51.91,0,0,1-19.83,22.77C222.67,201.34,212,204.51,197.8,204.41Zm4.13-89.7c-14.11.19-24.54,5.26-32.13,15.26-10.06,13.24-8.08,32.56,1.68,43.25,6.85,7.49,15,12,25,13,15.15,1.46,27.42-4.2,36-16.64,8.35-12.05,6.92-30.12-2.1-40.68C222.38,119.51,212.47,115.18,201.93,114.71Z",
-                              transform: "translate(-125.43 -60.9)"
-                            }
-                          }),
-                          _c("path", {
-                            attrs: { transform: "translate(-125.43 -60.9)" }
-                          })
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("img", {
-                    class: img.clicked ? "clicked-pic" : null,
-                    attrs: { src: img.img, alt: "" },
+                return _c(
+                  "div",
+                  {
+                    key: i,
+                    staticClass: "item-pic",
                     on: {
                       click: function($event) {
                         return _vm.clickItemPic(i)
                       }
                     }
-                  })
-                ])
+                  },
+                  [
+                    img.video
+                      ? _c(
+                          "svg",
+                          {
+                            attrs: {
+                              id: "cameraImPic",
+                              xmlns: "http://www.w3.org/2000/svg",
+                              viewBox: "0 0 413.19 358.83"
+                            }
+                          },
+                          [
+                            _c("defs"),
+                            _c("title", [_vm._v("icon_cam")]),
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M150.57,419.73c-3.12-1-6.25-1.89-9.34-3-3.87-1.33-6.63-4.17-9.34-7.09-4.86-5.24-6.47-11.5-6.46-18.46q.06-70.32,0-140.62c0-4.32.41-8.59,2.45-12.41,5.18-9.66,13.3-15,24.31-15.77,1-.07,2.09-.06,3.14-.06q120.42,0,240.86,0c8.7,0,16.39,2.5,22.32,9a27.17,27.17,0,0,1,7.52,19q-.18,70.64,0,141.28c0,9-3.62,16-10.16,21.68a26.11,26.11,0,0,1-13.09,5.91c-.65.11-1.28.32-1.92.48ZM275.7,240.31H156c-1,0-1.95,0-2.91.06-4.58.41-7.78,3.09-8.57,7.21a16.35,16.35,0,0,0-.18,3.13v140.6c0,.75,0,1.5.05,2.24a8.54,8.54,0,0,0,6.3,7.6,20.32,20.32,0,0,0,4.85.6q120.2,0,240.39,0a16.78,16.78,0,0,0,2.46-.06c5.29-.82,8.89-3.87,8.79-9.45,0-.45,0-.9,0-1.35V251.23a20.06,20.06,0,0,0-.06-2.69c-.37-2.69-1.29-5.2-4-6.27-2.23-.88-4.63-1.87-7-1.87Q335.9,240.22,275.7,240.31Z",
+                                transform: "translate(-125.43 -60.9)"
+                              }
+                            }),
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M348.48,204.43a75.79,75.79,0,0,1-34.64-9.33,77.74,77.74,0,0,1-21.13-17,70,70,0,0,1-9.82-15.1c-9.5-18.84-9.44-38.09-1.74-57.33a73.3,73.3,0,0,1,9.92-16.59,67.26,67.26,0,0,1,19.16-16.89A77.07,77.07,0,0,1,360.5,61.53a75.13,75.13,0,0,1,31.73,11.39A77.89,77.89,0,0,1,411.68,90.8c5.58,7.14,8.86,15.22,11.6,23.71a60.46,60.46,0,0,1,1,32.87c-2,8.29-4.94,16.42-9.9,23.54a76.25,76.25,0,0,1-20,20.19C381.23,199.91,366.67,204.4,348.48,204.43ZM350,78.78c-1.42.12-3.66.23-5.88.49-18.9,2.21-33.8,11.42-42.91,27.87-9.84,17.76-9.56,36.11,1.74,53.65A51.35,51.35,0,0,0,313.63,173a55.25,55.25,0,0,0,20.12,10.86c23.47,6.51,43.63.69,60.35-16.81a46.9,46.9,0,0,0,10.64-18.93c3.67-12,3.37-24-1.93-35.74a55.26,55.26,0,0,0-20.63-24.31C372.64,81.87,362.16,79,350,78.78Z",
+                                transform: "translate(-125.43 -60.9)"
+                              }
+                            }),
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M519.61,378.07V264c-2.23,1-4.39,1.88-6.5,2.89q-18.74,9-37.46,18-8.56,4.11-17.17,8.13c-5.37,2.5-11.13.38-13.06-4.73a8.79,8.79,0,0,1,4.45-11.17c4.36-2.28,8.83-4.34,13.28-6.45,4.17-2,8.38-3.85,12.54-5.84,9.07-4.36,18.12-8.77,27.18-13.14,7-3.37,14-6.66,21-10.05a10.6,10.6,0,0,1,11.42.75,8.11,8.11,0,0,1,3.24,5.92,15,15,0,0,1,.06,2c0,47.16-.06,94.32.06,141.47,0,6.8-5.27,10.22-10.16,9.87a15.4,15.4,0,0,1-5.28-1.66c-12.58-6-25.12-12.07-37.68-18.1q-14.81-7.11-29.64-14.17c-2-1-4.11-1.78-6.06-2.84-4.47-2.45-6.12-7.21-4.15-11.64a9.09,9.09,0,0,1,11.67-4.71c2.78,1.07,5.44,2.44,8.13,3.73,9.2,4.42,18.38,8.9,27.59,13.31,8.46,4.05,17,8,25.45,12.05C518.79,377.82,519.13,377.9,519.61,378.07Z",
+                                transform: "translate(-125.43 -60.9)"
+                              }
+                            }),
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M197.8,204.41a56.66,56.66,0,0,1-25.88-7.55,55.07,55.07,0,0,1-21-21.11c-8.8-15.66-8.81-31.7-1.56-47.65a50.48,50.48,0,0,1,20.19-22.45c15.86-9.55,32.69-11.52,50.32-5.55a56.5,56.5,0,0,1,20.6,12.65,53.65,53.65,0,0,1,10.22,13.72c8.3,15,8.14,30.5,1.47,45.83a51.91,51.91,0,0,1-19.83,22.77C222.67,201.34,212,204.51,197.8,204.41Zm4.13-89.7c-14.11.19-24.54,5.26-32.13,15.26-10.06,13.24-8.08,32.56,1.68,43.25,6.85,7.49,15,12,25,13,15.15,1.46,27.42-4.2,36-16.64,8.35-12.05,6.92-30.12-2.1-40.68C222.38,119.51,212.47,115.18,201.93,114.71Z",
+                                transform: "translate(-125.43 -60.9)"
+                              }
+                            }),
+                            _c("path", {
+                              attrs: { transform: "translate(-125.43 -60.9)" }
+                            })
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    img.video
+                      ? _c("video", { attrs: { src: img.video } })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    img.img
+                      ? _c("img", {
+                          class: img.clicked ? "clicked-pic" : null,
+                          attrs: { src: img.img, alt: "" }
+                        })
+                      : _vm._e()
+                  ]
+                )
               }),
               0
             )
@@ -12677,12 +12878,28 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("img", {
-              attrs: {
-                src: _vm.returnDataForItem.itemPics[_vm.mainPic].img,
-                calt: ""
-              }
-            })
+            _vm.mainPic === 0
+              ? _c("video", {
+                  attrs: {
+                    src: _vm.returnDataForItem.itemPics[_vm.mainPic].video,
+                    type: "video/mp4",
+                    autoplay: "",
+                    muted: "",
+                    loop: "",
+                    preload: "auto"
+                  },
+                  domProps: { muted: true }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.mainPic > 0
+              ? _c("img", {
+                  attrs: {
+                    src: _vm.returnDataForItem.itemPics[_vm.mainPic].img,
+                    calt: ""
+                  }
+                })
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "item-main-info" }, [
@@ -14756,6 +14973,257 @@ var staticRenderFns = [
         _vm._v(
           "\n        Заказ успешно оформлен. Детали заказа отправлены на указанный E-mail.\n    "
         )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Privacy.vue?vue&type=template&id=74bdb3b9&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Privacy.vue?vue&type=template&id=74bdb3b9&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "privacy" }, [
+      _c("h1", [_vm._v("\n        Политика конфиденциальности\n    ")]),
+      _vm._v(" "),
+      _c("h2", [_vm._v("\n        Общие положения\n    ")]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "\n        Настоящая политика обработки персональных данных составлена в соответствии с требованиями Федерального закона от 27.07.2006. №152-ФЗ «О персональных данных» и определяет порядок обработки персональных данных и меры по обеспечению безопасности персональных данных, предпринимаемые LAPPINALLE (далее – Оператор)."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Оператор ставит своей важнейшей целью и условием осуществления своей деятельности соблюдение прав и свобод человека и гражданина при обработке его персональных данных, в том числе защиты прав на неприкосновенность частной жизни, личную и семейную тайну."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Настоящая политика Оператора в отношении обработки персональных данных (далее – Политика) применяется ко всей информации, которую Оператор может получить о посетителях веб-сайт https://lappinalle.ru/\n    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("h2", [
+        _vm._v("\n        Основные понятия, используемые в Политике\n    ")
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "\n        Автоматизированная обработка персональных данных – обработка персональных данных с помощью средств вычислительной техники;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Блокирование персональных данных – временное прекращение обработки персональных данных (за исключением случаев, если обработка необходима для уточнения персональных данных);"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Веб-сайт – совокупность графических и информационных материалов, а также программ для ЭВМ и баз данных, обеспечивающих их доступность в сети интернет по сетевому адресу https://lappinalle.ru/;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Информационная система персональных данных — совокупность содержащихся в базах данных персональных данных, и обеспечивающих их обработку информационных технологий и технических средств;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Обезличивание персональных данных — действия, в результате которых невозможно определить без использования дополнительной информации принадлежность персональных данных конкретному Пользователю или иному субъекту персональных данных;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Обработка персональных данных – любое действие (операция) или совокупность действий (операций), совершаемых с использованием средств автоматизации или без использования таких средств с персональными данными, включая сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание, блокирование, удаление, уничтожение персональных данных;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Оператор – государственный орган, муниципальный орган, юридическое или физическое лицо, самостоятельно или совместно с другими лицами организующие и (или) осуществляющие обработку персональных данных, а также определяющие цели обработки персональных данных, состав персональных данных, подлежащих обработке, действия (операции), совершаемые с персональными данными;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Персональные данные – любая информация, относящаяся прямо или косвенно к определенному или определяемому Пользователю веб-сайта https://lappinalle.ru/;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Пользователь – любой посетитель веб-сайта https://lappinalle.ru/;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Предоставление персональных данных – действия, направленные на раскрытие персональных данных определенному лицу или определенному кругу лиц;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Распространение персональных данных – любые действия, направленные на раскрытие персональных данных неопределенному кругу лиц (передача персональных данных) или на ознакомление с персональными данными неограниченного круга лиц, в том числе обнародование персональных данных в средствах массовой информации, размещение в информационно-телекоммуникационных сетях или предоставление доступа к персональным данным каким-либо иным способом;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Трансграничная передача персональных данных – передача персональных данных на территорию иностранного государства органу власти иностранного государства, иностранному физическому или иностранному юридическому лицу;"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Уничтожение персональных данных – любые действия, в результате которых персональные данные уничтожаются безвозвратно с невозможностью дальнейшего восстановления содержания персональных данных в информационной системе персональных данных и (или)\n\n        уничтожаются материальные носители персональных данных\n    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("h2", [
+        _vm._v(
+          "\n        Оператор может обрабатывать следующие персональные данные Пользователя\n    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v("\n        Фамилия, имя, отчество;"),
+        _c("br"),
+        _c("br"),
+        _vm._v("\n        Электронный адрес;"),
+        _c("br"),
+        _c("br"),
+        _vm._v("\n        Номера телефонов;"),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Также на сайте происходит сбор и обработка обезличенных данных о посетителях (в т.ч. файлов «cookie») с помощью сервисов интернет-статистики (Яндекс Метрика и Гугл Аналитика и других)."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Вышеперечисленные данные далее по тексту Политики объединены общим понятием Персональные данные.\n    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("h2", [_vm._v("\n        Цели обработки персональных данных\n    ")]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "\n        Цель обработки персональных данных Пользователя — информирование Пользователя посредством отправки электронных писем."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Также Оператор имеет право направлять Пользователю уведомления о новых продуктах и услугах, специальных предложениях и различных событиях. Пользователь всегда может отказаться от получения информационных сообщений, направив Оператору письмо на адрес электронной почты info@lappinalle.ru с пометкой «Отказ от уведомлений о новых продуктах и услугах и специальных предложениях». "
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Обезличенные данные Пользователей, собираемые с помощью сервисов интернет-статистики, служат для сбора информации о действиях Пользователей на сайте, улучшения качества сайта и его содержания.\n    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("h2", [
+        _vm._v(
+          "\n        Правовые основания обработки персональных данных\n    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "\n        Оператор обрабатывает персональные данные Пользователя только в случае их заполнения и/или отправки Пользователем самостоятельно через специальные формы, расположенные на сайте https://lappinalle.ru/. Заполняя соответствующие формы и/или отправляя свои персональные данные Оператору, Пользователь выражает свое согласие с данной Политикой."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Оператор обрабатывает обезличенные данные о Пользователе в случае, если это разрешено в настройках браузера Пользователя (включено сохранение файлов «cookie» и использование технологии JavaScript).\n    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("h2", [
+        _vm._v(
+          "\n        Порядок сбора, хранения, передачи и других видов обработки персональных данных\n    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "\n        Безопасность персональных данных, которые обрабатываются Оператором, обеспечивается путем реализации правовых, организационных и технических мер, необходимых для выполнения в полном объеме требований действующего законодательства в области защиты персональных данных."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Оператор обеспечивает сохранность персональных данных и принимает все возможные меры, исключающие доступ к персональным данным неуполномоченных лиц."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Персональные данные Пользователя никогда, ни при каких условиях не будут переданы третьим лицам, за исключением случаев, связанных с исполнением действующего законодательства."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        В случае выявления неточностей в персональных данных, Пользователь может актуализировать их самостоятельно, путем направления Оператору уведомление на адрес электронной почты Оператора info@lappinalle.ru с пометкой «Актуализация персональных данных»."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Срок обработки персональных данных является неограниченным. Пользователь может в любой момент отозвать свое согласие на обработку персональных данных, направив Оператору уведомление посредством электронной почты на электронный адрес Оператора info@lappinalle.ru с пометкой «Отзыв согласия на обработку персональных данных».\n    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("h2", [
+        _vm._v("\n        Трансграничная передача персональных данных\n    ")
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "\n        Оператор до начала осуществления трансграничной передачи персональных данных обязан убедиться в том, что иностранным государством, на территорию которого предполагается осуществлять передачу персональных данных, обеспечивается надежная защита прав субъектов персональных данных."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Трансграничная передача персональных данных на территории иностранных государств, не отвечающих вышеуказанным требованиям, может осуществляться только в случае наличия согласия в письменной форме субъекта персональных данных на трансграничную передачу его персональных данных и/или исполнения договора, стороной которого является субъект персональных данных.\n    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("h2", [_vm._v("\n        Заключительные положения\n    ")]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "\n        Пользователь может получить любые разъяснения по\n\n        интересующим вопросам, касающимся обработки его персональных данных, обратившись к Оператору с помощью электронной почты info@lappinalle.ru"
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        В данном документе будут отражены любые изменения политики обработки персональных данных Оператором. Политика действует бессрочно до замены ее новой версией."
+        ),
+        _c("br"),
+        _c("br"),
+        _vm._v(
+          "\n        Актуальная версия Политики в свободном доступе расположена в сети Интернет по адресу https://lappinalle.ru/privacy."
+        ),
+        _c("br"),
+        _c("br"),
+        _c("br"),
+        _c("br")
       ])
     ])
   }
@@ -35189,7 +35657,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_views_AdminUsers__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./admin/views/AdminUsers */ "./resources/js/admin/views/AdminUsers.vue");
 /* harmony import */ var _admin_views_AdminDelivery__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./admin/views/AdminDelivery */ "./resources/js/admin/views/AdminDelivery.vue");
 /* harmony import */ var _admin_views_ProductCard__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./admin/views/ProductCard */ "./resources/js/admin/views/ProductCard.vue");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
+/* harmony import */ var _views_Privacy__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./views/Privacy */ "./resources/js/views/Privacy.vue");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
+
 
 
 
@@ -35384,6 +35854,13 @@ var routes = [{
   },
   component: _views_Delivery__WEBPACK_IMPORTED_MODULE_6__["default"]
 }, {
+  path: '/privacy',
+  name: 'privacy',
+  meta: {
+    layout: 'Main'
+  },
+  component: _views_Privacy__WEBPACK_IMPORTED_MODULE_25__["default"]
+}, {
   path: '/login',
   name: 'login',
   meta: {
@@ -35439,7 +35916,7 @@ var routes = [{
   },
   component: _views_ChooseDelivery__WEBPACK_IMPORTED_MODULE_12__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
-    if (to.name === 'chooseDelivery' && _store__WEBPACK_IMPORTED_MODULE_25__["default"].getters.customerData.length === 0) {
+    if (to.name === 'chooseDelivery' && _store__WEBPACK_IMPORTED_MODULE_26__["default"].getters.customerData.length === 0) {
       next({
         name: 'ordering'
       });
@@ -35595,15 +36072,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 
@@ -35618,79 +36095,138 @@ var admin = {
       // Данные по новому товару со страницы Продукты
       dataFromProductsPage: null,
       // Данные по размеру
-      allSizes: null
+      allSizes: null,
+      productSuccess: false
     };
   },
   mutations: {
     // Получаем все товары СТРАНИЧКА ТОВАРЫ
     AdminGetAllPrductsMutate: function AdminGetAllPrductsMutate(state) {
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallproducts")).then(function (response) {
-        state.adminProducts = response.data;
-      })["catch"](function (e) {
-        return console.log(e);
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallproducts")).then(function (response) {
+                  state.adminProducts = response.data;
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     DataAdminFromProductsMutate: function DataAdminFromProductsMutate(state, data) {
       state.dataFromProductsPage = data;
     },
     // Отправлем данные о новоном товаре на сервер
     SentDataToBackendMutate: function SentDataToBackendMutate(state, data) {
-      var formData = new FormData();
-      formData.append('video', data.video);
-      var i = 0;
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var formData, i, _iterator, _step, img, stringData;
 
-      var _iterator = _createForOfIteratorHelper(data.imgs),
-          _step;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                formData = new FormData();
+                formData.append('video', data.video);
+                i = 0;
+                _iterator = _createForOfIteratorHelper(data.imgs);
 
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var img = _step.value;
-          i++;
-          formData.append("img-".concat(i), img);
-          console.log(img);
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
+                try {
+                  for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                    img = _step.value;
+                    i++;
+                    formData.append("img-".concat(i), img);
+                  }
+                } catch (err) {
+                  _iterator.e(err);
+                } finally {
+                  _iterator.f();
+                }
 
-      var stringData = {
-        category: state.dataFromProductsPage[0].category,
-        id: state.dataFromProductsPage[0].id,
-        name: state.dataFromProductsPage[0].name,
-        vendor: state.dataFromProductsPage[0].vendor,
-        description: data.description,
-        price: data.price,
-        sale: data.sale,
-        sizes: data.sizes
-      };
-      formData.append('stringData', JSON.stringify(stringData));
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "addproduct"), formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (success) {
-        console.log(success.data);
-      })["catch"](function (err) {
-        console.log(err);
-      });
+                console.log(data);
+                stringData = {
+                  category: state.dataFromProductsPage[0].category,
+                  id: state.dataFromProductsPage[0].id,
+                  name: state.dataFromProductsPage[0].name,
+                  vendor: state.dataFromProductsPage[0].vendor,
+                  description: data.description,
+                  price: data.price,
+                  sale: data.sale,
+                  sizes: data.sizes,
+                  amountWithoutSizes: data.amountWithoutSizes
+                };
+                formData.append('stringData', JSON.stringify(stringData));
+                _context2.next = 10;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "addproduct"), formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                }).then(function (success) {
+                  state.productSuccess = success.data;
+                })["catch"](function (err) {
+                  state.productSuccess = err.data;
+                  console.log(err);
+                });
+
+              case 10:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     },
     // Получаем все размеры для нового товара
     GetAllSizesMutate: function GetAllSizesMutate(state) {
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallsizes")).then(function (response) {
-        state.allSizes = response.data;
-      })["catch"](function (e) {
-        console.log(e);
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallsizes")).then(function (response) {
+                  state.allSizes = response.data;
+                })["catch"](function (e) {
+                  console.log(e);
+                });
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     },
     // Получать все отзывы
     GetAllReviewsMutate: function GetAllReviewsMutate(state) {
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallreviews")).then(function (response) {
-        console.log(response.data);
-      })["catch"](function (e) {
-        return console.log(e);
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallreviews")).then(function (response) {
+                  console.log(response.data);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
     }
   },
   actions: {
@@ -35724,6 +36260,9 @@ var admin = {
     },
     getAllSizes: function getAllSizes(state) {
       return state.allSizes;
+    },
+    productSuccess: function productSuccess(state) {
+      return state.productSuccess;
     }
   }
 };
@@ -35772,12 +36311,12 @@ var store = {
   mutations: {
     // Получаем категории и подкатегории меню
     getMenuDataMutate: function getMenuDataMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context.next = 2;
+                _context5.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "menu")).then(function (response) {
                   // массив с изначальной датой
                   var menu = response.data; // Сырые данные меню
@@ -36009,10 +36548,10 @@ var store = {
 
               case 2:
               case "end":
-                return _context.stop();
+                return _context5.stop();
             }
           }
-        }, _callee);
+        }, _callee5);
       }))();
     },
     sideBarDepartMutate: function sideBarDepartMutate(state, data) {
@@ -36088,17 +36627,17 @@ var store = {
     },
     // Получаем дату в каталог по категориям
     getCatalogDataMutate: function getCatalogDataMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context2.t0 = Object.keys(data.params).length;
-                _context2.next = _context2.t0 === 1 ? 3 : _context2.t0 === 2 ? 6 : _context2.t0 === 3 ? 9 : 12;
+                _context6.t0 = Object.keys(data.params).length;
+                _context6.next = _context6.t0 === 1 ? 3 : _context6.t0 === 2 ? 6 : _context6.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context2.next = 5;
+                _context6.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -36154,10 +36693,10 @@ var store = {
                 });
 
               case 5:
-                return _context2.abrupt("break", 12);
+                return _context6.abrupt("break", 12);
 
               case 6:
-                _context2.next = 8;
+                _context6.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по категории
                   var itemCell = response.data; // Устанавливаес min и max
@@ -36213,10 +36752,10 @@ var store = {
                 });
 
               case 8:
-                return _context2.abrupt("break", 12);
+                return _context6.abrupt("break", 12);
 
               case 9:
-                _context2.next = 11;
+                _context6.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по категории
                   var itemCell = response.data; // Устанавливаес min и max
@@ -36272,36 +36811,36 @@ var store = {
                 });
 
               case 11:
-                return _context2.abrupt("break", 12);
+                return _context6.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context2.stop();
+                return _context6.stop();
             }
           }
-        }, _callee2);
+        }, _callee6);
       }))();
     },
     // Получаем дату для конкретного товара
     getItemDataMutate: function getItemDataMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context4.next = 2;
+                _context8.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "item-").concat(data)).then( /*#__PURE__*/function () {
-                  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(response) {
+                  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(response) {
                     var itemData, stateItemData, pics, stars, el;
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
                       while (1) {
-                        switch (_context3.prev = _context3.next) {
+                        switch (_context7.prev = _context7.next) {
                           case 0:
-                            _context3.next = 2;
+                            _context7.next = 2;
                             return response.data;
 
                           case 2:
-                            itemData = _context3.sent;
+                            itemData = _context7.sent;
                             stateItemData = {};
                             pics = null;
                             stars = {
@@ -36370,10 +36909,10 @@ var store = {
 
                           case 9:
                           case "end":
-                            return _context3.stop();
+                            return _context7.stop();
                         }
                       }
-                    }, _callee3);
+                    }, _callee7);
                   }));
 
                   return function (_x) {
@@ -36385,20 +36924,20 @@ var store = {
 
               case 2:
               case "end":
-                return _context4.stop();
+                return _context8.stop();
             }
           }
-        }, _callee4);
+        }, _callee8);
       }))();
     },
     // Получаем отзывы
     getItemReviewsMutate: function getItemReviewsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                _context5.next = 2;
+                _context9.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemsreview-").concat(data.item, "?page=").concat(data.page)).then(function (response) {
                   var reviews = response.data;
                   state.catalogItemReview = reviews.data;
@@ -36407,25 +36946,25 @@ var store = {
 
               case 2:
               case "end":
-                return _context5.stop();
+                return _context9.stop();
             }
           }
-        }, _callee5);
+        }, _callee9);
       }))();
     },
     // Получаем товары по скидки
     showSaleProductsMutate: function showSaleProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                _context6.t0 = Object.keys(data.params).length;
-                _context6.next = _context6.t0 === 1 ? 3 : _context6.t0 === 2 ? 6 : _context6.t0 === 3 ? 9 : 12;
+                _context10.t0 = Object.keys(data.params).length;
+                _context10.next = _context10.t0 === 1 ? 3 : _context10.t0 === 2 ? 6 : _context10.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context6.next = 5;
+                _context10.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -36480,10 +37019,10 @@ var store = {
                 });
 
               case 5:
-                return _context6.abrupt("break", 12);
+                return _context10.abrupt("break", 12);
 
               case 6:
-                _context6.next = 8;
+                _context10.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -36538,10 +37077,10 @@ var store = {
                 });
 
               case 8:
-                return _context6.abrupt("break", 12);
+                return _context10.abrupt("break", 12);
 
               case 9:
-                _context6.next = 11;
+                _context10.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -36596,29 +37135,29 @@ var store = {
                 });
 
               case 11:
-                return _context6.abrupt("break", 12);
+                return _context10.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context6.stop();
+                return _context10.stop();
             }
           }
-        }, _callee6);
+        }, _callee10);
       }))();
     },
     // Получаем данные по фильтрку кешу
     showCashProductsMutate: function showCashProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
-                _context7.t0 = Object.keys(data.params).length;
-                _context7.next = _context7.t0 === 1 ? 3 : _context7.t0 === 2 ? 6 : _context7.t0 === 3 ? 9 : 12;
+                _context11.t0 = Object.keys(data.params).length;
+                _context11.next = _context11.t0 === 1 ? 3 : _context11.t0 === 2 ? 6 : _context11.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context7.next = 5;
+                _context11.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -36673,10 +37212,10 @@ var store = {
                 });
 
               case 5:
-                return _context7.abrupt("break", 12);
+                return _context11.abrupt("break", 12);
 
               case 6:
-                _context7.next = 8;
+                _context11.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -36731,10 +37270,10 @@ var store = {
                 });
 
               case 8:
-                return _context7.abrupt("break", 12);
+                return _context11.abrupt("break", 12);
 
               case 9:
-                _context7.next = 11;
+                _context11.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -36789,44 +37328,44 @@ var store = {
                 });
 
               case 11:
-                return _context7.abrupt("break", 12);
+                return _context11.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context7.stop();
+                return _context11.stop();
             }
           }
-        }, _callee7);
+        }, _callee11);
       }))();
     },
     // Сортинг
     sortByActionMutate: function sortByActionMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
         var params;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
                 params = null;
-                _context8.t0 = Object.keys(data.params).length;
-                _context8.next = _context8.t0 === 1 ? 4 : _context8.t0 === 2 ? 6 : _context8.t0 === 3 ? 8 : 10;
+                _context12.t0 = Object.keys(data.params).length;
+                _context12.next = _context12.t0 === 1 ? 4 : _context12.t0 === 2 ? 6 : _context12.t0 === 3 ? 8 : 10;
                 break;
 
               case 4:
                 params = data.params.gender + '/';
-                return _context8.abrupt("break", 10);
+                return _context12.abrupt("break", 10);
 
               case 6:
                 params = data.params.gender + '/' + data.params.category;
-                return _context8.abrupt("break", 10);
+                return _context12.abrupt("break", 10);
 
               case 8:
                 params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context8.abrupt("break", 10);
+                return _context12.abrupt("break", 10);
 
               case 10:
-                _context8.t1 = data.price;
-                _context8.next = _context8.t1 === "low" ? 13 : _context8.t1 === "high" ? 15 : 16;
+                _context12.t1 = data.price;
+                _context12.next = _context12.t1 === "low" ? 13 : _context12.t1 === "high" ? 15 : 16;
                 break;
 
               case 13:
@@ -36883,7 +37422,7 @@ var store = {
 
                   state.catalogDataCellCount = itemCell.total;
                 });
-                return _context8.abrupt("break", 16);
+                return _context12.abrupt("break", 16);
 
               case 15:
                 axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "price-").concat(data.price, "/").concat(params, "?page=").concat(data.page)).then(function (response) {
@@ -36942,36 +37481,36 @@ var store = {
 
               case 16:
               case "end":
-                return _context8.stop();
+                return _context12.stop();
             }
           }
-        }, _callee8);
+        }, _callee12);
       }))();
     },
     // Получаем данные по фильтру размеры
     showSizeProductsMutate: function showSizeProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
         var params, queryStr;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 params = null;
-                _context9.t0 = Object.keys(data.params).length;
-                _context9.next = _context9.t0 === 1 ? 4 : _context9.t0 === 2 ? 6 : _context9.t0 === 3 ? 8 : 10;
+                _context13.t0 = Object.keys(data.params).length;
+                _context13.next = _context13.t0 === 1 ? 4 : _context13.t0 === 2 ? 6 : _context13.t0 === 3 ? 8 : 10;
                 break;
 
               case 4:
                 params = data.params.gender + '/';
-                return _context9.abrupt("break", 10);
+                return _context13.abrupt("break", 10);
 
               case 6:
                 params = data.params.gender + '/' + data.params.category;
-                return _context9.abrupt("break", 10);
+                return _context13.abrupt("break", 10);
 
               case 8:
                 params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context9.abrupt("break", 10);
+                return _context13.abrupt("break", 10);
 
               case 10:
                 queryStr = '';
@@ -36995,10 +37534,10 @@ var store = {
 
               case 13:
               case "end":
-                return _context9.stop();
+                return _context13.stop();
             }
           }
-        }, _callee9);
+        }, _callee13);
       }))();
     },
     // Добавляем товары в корзину
@@ -37044,18 +37583,18 @@ var store = {
     },
     // Получаем товары для корзины
     getProductForCartMutate: function getProductForCartMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
         var cardIds, unigIds;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
                 cardIds = [];
                 state.cart.forEach(function (el) {
                   cardIds.push(el.id);
                 });
                 unigIds = new Set(cardIds);
-                _context10.next = 5;
+                _context14.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemscard/").concat(Array.from(unigIds).join(', '))).then(function (response) {
                   var dataCart = state.cart;
                   var data = response.data;
@@ -37082,10 +37621,10 @@ var store = {
 
               case 5:
               case "end":
-                return _context10.stop();
+                return _context14.stop();
             }
           }
-        }, _callee10);
+        }, _callee14);
       }))();
     },
     // Удаляем карточку товара
@@ -38265,6 +38804,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PaySuccess_vue_vue_type_template_id_117fc31a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PaySuccess_vue_vue_type_template_id_117fc31a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Privacy.vue":
+/*!****************************************!*\
+  !*** ./resources/js/views/Privacy.vue ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Privacy_vue_vue_type_template_id_74bdb3b9_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Privacy.vue?vue&type=template&id=74bdb3b9&scoped=true& */ "./resources/js/views/Privacy.vue?vue&type=template&id=74bdb3b9&scoped=true&");
+/* harmony import */ var _Privacy_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Privacy.vue?vue&type=script&lang=js& */ "./resources/js/views/Privacy.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Privacy_vue_vue_type_style_index_0_id_74bdb3b9_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css& */ "./resources/js/views/Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Privacy_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Privacy_vue_vue_type_template_id_74bdb3b9_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Privacy_vue_vue_type_template_id_74bdb3b9_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "74bdb3b9",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Privacy.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Privacy.vue?vue&type=script&lang=js&":
+/*!*****************************************************************!*\
+  !*** ./resources/js/views/Privacy.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Privacy.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Privacy.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/views/Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css& ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_style_index_0_id_74bdb3b9_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Privacy.vue?vue&type=style&index=0&id=74bdb3b9&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_style_index_0_id_74bdb3b9_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_style_index_0_id_74bdb3b9_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_style_index_0_id_74bdb3b9_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_style_index_0_id_74bdb3b9_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_style_index_0_id_74bdb3b9_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Privacy.vue?vue&type=template&id=74bdb3b9&scoped=true&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/views/Privacy.vue?vue&type=template&id=74bdb3b9&scoped=true& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_template_id_74bdb3b9_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Privacy.vue?vue&type=template&id=74bdb3b9&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Privacy.vue?vue&type=template&id=74bdb3b9&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_template_id_74bdb3b9_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Privacy_vue_vue_type_template_id_74bdb3b9_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
