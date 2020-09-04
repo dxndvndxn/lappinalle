@@ -23,24 +23,24 @@
                     <div class="admin-h3">
                         &#8470;
                     </div>
-                    <h1 class="admin-h3">Название</h1>
+                    <h1 class="admin-h3">ФИО</h1>
                 </div>
                 <div class="list-category">
-                    <h1 class="admin-h3">Категория</h1>
+                    <h1 class="admin-h3">Телефон</h1>
                 </div>
                 <div class="list-last">
                     <div class="list-artikul">
                         <h1 class="admin-h3">Артикул</h1>
                     </div>
                     <div class="list-amount">
-                        <h1 class="admin-h3">Кол-во на складе</h1>
+                        <h1 class="admin-h3">ID</h1>
                     </div>
                 </div>
             </div>
             <div class="products-list" v-for="(prd, i) in newProduct">
                 <div class="list-name">
                     <div class="admin-h3">
-                        {{Object.keys(returnAllProducts).length === 0 ? 1 : Object.keys(returnAllProducts).length}}
+                        {{Object.keys(returnAllProducts).length == 0 ? 1 : Object.keys(returnAllProducts).length + 1}}
                     </div>
                     <input type="text" class="input-pale-blu" @change="newProduct[0].name = newNamePrdouct" v-model.trim="newNamePrdouct">
                 </div>
@@ -62,7 +62,7 @@
                         <input type="text" class="input-pale-blu" value="0" disabled>
                     </div>
                     <div class="list-set">
-                        <router-link :to="{path: `card-${Object.keys(returnAllProducts).length === 0 ? 1 : Object.keys(returnAllProducts).length}`}"><img @click="addNewProductData(Object.keys(returnAllProducts).length)" src="../../../img/admin-set.png" alt=""></router-link>
+                        <router-link :to="{path: `card-${Object.keys(returnAllProducts).length === 0 ? 1 : Object.keys(returnAllProducts).length + 1}`}"><img @click="addNewProductData(Object.keys(returnAllProducts).length + 1)" src="../../../img/admin-set.png" alt=""></router-link>
                         <img src="../../../img/krest-btn.png" alt="">
                     </div>
                 </div>

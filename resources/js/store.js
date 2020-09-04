@@ -4,7 +4,7 @@ import axios from 'axios'
 Vue.use(Vuex);
 const admin = {
     state: () => ({
-        SITE_URI: 'http://lappinalle.ru/api/',
+        SITE_URI: 'http://lappinalle.test/api/',
         adminProducts: null,
         adminRawMenu: null,
 
@@ -49,7 +49,7 @@ const admin = {
                 sizes: data.sizes,
                 amountWithoutSizes: data.amountWithoutSizes
             };
-
+            console.log(stringData)
             formData.append('stringData', JSON.stringify(stringData));
 
            await axios.post(`${state.SITE_URI}addproduct`,
@@ -157,7 +157,7 @@ const store = {
 
         // Данные по меню для админа
         menuAdmin: null,
-        SITE_URI: 'http://lappinalle.ru/api/',
+        SITE_URI: 'http://lappinalle.test/api/',
 
         // Корзина
         cart: JSON.parse(localStorage.getItem('cart') || '[]'),
@@ -399,7 +399,7 @@ const store = {
                             }
                         }
                     }
-
+                    console.log(menuForAdmin)
                     state.lastMenu = lastMenu;
                     state.menuAdmin = menuForAdmin;
                 })
@@ -669,12 +669,12 @@ const store = {
                             stateItemData.itemPics = [];
                             stateItemData.itemId = itemData[el].product_id;
                             stateItemData.itemSizes = [];
-
+                            console.log(pics)
                             // Пушим картинки
                             pics.forEach((img, ii) => {
                                 if (ii === 0) {
                                     stateItemData.itemPics.push({img: img, clicked: true, video: false})
-                                } else {
+                                } else if(img !== ' ') {
                                     stateItemData.itemPics.push({img: img, clicked: false, video: false})
                                 }
                             });
@@ -706,7 +706,7 @@ const store = {
                             });
                         }
                     }
-
+                    console.log(stateItemData)
                     state.catalogItemStars = stars;
                     state.catalogItem = stateItemData;
                 }).catch(errors => console.log(errors))

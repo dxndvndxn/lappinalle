@@ -471,3 +471,39 @@
 .puprr-border{
     border: 2px solid $purpp !important;
 }
+.admin-header-side{
+    @include flexin(space-between);
+}
+.admin-cl-lbl-inp{
+    margin-bottom: 15px;
+
+    label {
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    input {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        height: 40px;
+    }
+}
+.list-cell{
+    &:last-child{
+        display: flex;
+        input{
+            margin-right: 8px;
+        }
+        a{
+            display: inherit;
+            img{
+                object-fit: contain;
+            }
+        }
+    }
+    input{
+        width: 100%;
+        text-overflow: ellipsis;
+    }
+}

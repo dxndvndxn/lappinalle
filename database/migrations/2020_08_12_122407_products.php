@@ -16,15 +16,14 @@ class Products extends Migration
         Schema::create('products', function(Blueprint $table){
             $table->increments('product_id');
             $table->string('product_title', 150)->collation('utf8_general_ci');
-            $table->decimal('product_price', 6, 0);
-            $table->boolean('product_sale')->default(0);
+            $table->decimal('product_price', 6, 0)->nullable();
+            $table->boolean('product_sale')->default(0)->nullable();
             $table->decimal('product_old_price', 6, 0)->nullable();
-            $table->text('product_description')->collation('utf8_general_ci');
+            $table->text('product_description')->collation('utf8_general_ci')->nullable();
             $table->text('product_img')->collation('utf8_general_ci');
             $table->text('product_video')->nullable()->collation('utf8_general_ci');
             $table->boolean('product_available')->default(1);
-            $table->decimal('product_amount', 7, 0);
-            $table->integer('product_vendor');
+            $table->integer('product_vendor')->nullable();
             $table->timestamp("added_on");
             $table->unsignedTinyInteger('sex_id')->nullable();
             $table->foreign('sex_id')->references('sex_id')->on('sex')->onDelete('cascade');

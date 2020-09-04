@@ -35,7 +35,7 @@ class AddProductController extends Controller
             $video->move(public_path() . "/img/item-$product_id", "video-item-$product_id" . ".mp4");
             $videoPath = "/img/item-$product_id/" . "video-item-$product_id" . ".mp4";
         }
-
+        echo $productStr['sale'];
         if ($productStr['sale'] !== NULL) {
 
             $product = DB::table('products')->insert([
@@ -46,7 +46,6 @@ class AddProductController extends Controller
                     'product_old_price' => (int)$productStr['price'],
                     'product_description' => $productStr['description'],
                     'product_img' => $imgPath,
-                    'product_amount' => 1,
                     'product_video' => $videoPath,
                     'product_available' => 1,
                     'product_vendor' => (int)$productStr['vendor'],
@@ -64,7 +63,6 @@ class AddProductController extends Controller
                     'product_title' => $productStr['name'],
                     'product_price' => (int)$productStr['price'],
                     'product_old_price' => null,
-                    'product_amount' => 1,
                     'product_sale' => 0,
                     'product_description' => $productStr['description'],
                     'product_img' => $imgPath,
@@ -93,7 +91,6 @@ class AddProductController extends Controller
 
             }
         }else{
-            echo 'HUI';
             DB::table('catalog_size')->insert([
                 [
                     'product_id' => $product_id,

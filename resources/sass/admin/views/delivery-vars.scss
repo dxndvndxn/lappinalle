@@ -1,0 +1,27 @@
+.admin-delivery{
+    h2{
+        margin-bottom: 33px;
+    }
+    .delivery-vars{
+        input{
+            width: 40px;
+            height: 40px;
+            appearance: none;
+            background-color: #e7eff8;
+            padding: 15px 0;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+        .delivery-var{
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            label{
+                @include ptSans(400);
+                font-size: 14px;
+                text-transform: uppercase;
+            }
+
+        }
+    }
+}

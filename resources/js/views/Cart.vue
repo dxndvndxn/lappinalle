@@ -14,7 +14,7 @@
                             {{card.totalCartData.product_title}}
                         </div>
                         <div class="card-counts">
-                            <div class="card-size">
+                            <div class="card-size" v-if="card.size !== null">
                                 Размер: <span> {{card.size}}</span>
                             </div>
                             <div class="card-amount">

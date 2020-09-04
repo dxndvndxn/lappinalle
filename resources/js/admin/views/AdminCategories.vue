@@ -14,7 +14,7 @@
                                 Добавить раздел 2 уровня <img src="../../../img/krest-btn.png">
                             </button>
                             <ul class="admin-menu-depart">
-                                <li v-for="(dep, t) in depart" v-if="dep.activeCateg">
+                                <li v-for="(dep, t) in depart" v-if="dep.activeCateg && dep.department !== null">
                                     <span class="input-pale-blu width-300">
                                         {{dep.department}}
                                     </span>

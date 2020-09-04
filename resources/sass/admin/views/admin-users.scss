@@ -1,0 +1,8 @@
+.admin-users{
+    &-list{
+        display: grid;
+        grid-template-columns: 50px 300px 128px 350px;
+        grid-column-gap: 8px;
+        margin-bottom: 8px;
+    }
+}

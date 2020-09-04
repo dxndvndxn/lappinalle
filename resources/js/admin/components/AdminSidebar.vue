@@ -21,6 +21,7 @@
                 {name: 'Доставка', path: 'AdminDelivery', active: false},
                 {name: 'Заказы', path: 'AdminOrders', active: false},
                 {name: 'Пользователи', path: 'AdminUsers', active: false},
+                {name: 'Отзывы', path: 'AdminReviews', active: false},
             ]
         }),
         methods: {

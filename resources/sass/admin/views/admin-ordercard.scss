@@ -1,0 +1,41 @@
+.wrap-admin-order-card{
+    @include grid-temp(300px, 300px, 350px);
+    grid-column-gap: 43px;
+    .input-transp{
+        color: $grey;
+        margin-bottom: 3px;
+        cursor: pointer;
+    }
+}
+.warp-head-order-card{
+    padding-right: 50px;
+    display: flex;
+    h1{
+        margin-right: 466px;
+    }
+}
+.wrap-input{
+    display: flex;
+    margin-bottom: 3px;
+}
+.order-cl{
+    .wrap-admin-order{
+        position: relative;
+        margin-bottom: 3px;
+        img{
+            object-fit: contain;
+            position: absolute;
+            right: -40px;
+            cursor: pointer;
+            top: 10px;
+        }
+    }
+    .pdf{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img{
+            transform: rotate(0);
+        }
+    }
+}

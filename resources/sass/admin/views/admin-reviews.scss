@@ -1,0 +1,8 @@
+.admin-reviews{
+    .admin-reviews-list{
+        display: grid;
+        grid-template-columns: 100px 160px 300px 300px;
+        grid-column-gap: 8px;
+        margin-bottom: 8px;
+    }
+}

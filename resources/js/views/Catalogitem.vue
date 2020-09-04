@@ -4,6 +4,7 @@
         <h1 class="item-title">
             {{returnDataForItem.itemTitle}}
         </h1>
+        {{returnDataForItem}}
         <div class="item-info">
             <div class="item-pics" ref="itemImgs">
                 <div class="wrap">
@@ -22,7 +23,7 @@
                 </div>
                 <video :src="returnDataForItem.itemPics[mainPic].video" type="video/mp4" autoplay muted loop preload="auto" v-if="mainPic === 0">
                 </video>
-                <img :src="returnDataForItem.itemPics[mainPic].img" v-if="mainPic > 0" calt="">
+                <img :src="returnDataForItem.itemPics[mainPic].img" v-if="mainPic > 0">
             </div>
 
             <div class="item-main-info">
@@ -34,7 +35,7 @@
                     <div class="item-main-price" v-else>
                         {{returnDataForItem.itemPrice}} &#8381;
                     </div>
-                    <span class="sizes">Размеры</span>
+                    <span class="sizes" v-if="returnDataForItem.itemSizes.length">Размеры</span>
                     <div class="item-main-sizes">
 
                         <button v-for="(size, s) in returnDataForItem.itemSizes" @click="chozenSize(s)" v-bind:class="size.active ? 'active-size' : null">
@@ -169,7 +170,6 @@
             // Кликаем по фотографии товара
             clickItemPic(i){
                 this.mainPic = i;
-                console.log(i)
                 this.returnDataForItem.itemPics.forEach(el => el.clicked = false);
                 this.returnDataForItem.itemPics[i].clicked = true;
             },
@@ -199,16 +199,21 @@
                 this.$router.push(`${this.$route.path}?page=${this.pageReview}`)
             },
             addToCart(itemId, itemPrice){
-                if (this.clickedSize || this.noSizes){
-                    if (this.clickedSize){
+                // Если длинна вообще есть размеры, то проверяем выбраны ли размеры
+                if (this.returnDataForItem.itemSizes.length) {
+
+                    if (this.clickedSize) {
                         let data = [];
                         this.clickedSize.forEach(el => {
                             data.push({id: itemId, count: 1, size: el.sz, price: itemPrice});
                         });
                         this.$store.dispatch('addToCart', data);
+                    }else{
+                        this.errorAdd = true;
                     }
+                }else{
+                    this.$store.dispatch('addToCart', [{id: itemId, count: 1, size: null, price: itemPrice}]);
                 }
-                else this.errorAdd = true;
             }
         },
         computed: {

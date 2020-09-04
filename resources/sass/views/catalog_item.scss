@@ -28,6 +28,7 @@
     .wrap{
         transform: scale(-1);
         @include grid-temp(1fr, 1fr, 0px);
+        grid-row-gap: 16px;
     }
     .item-pic{
         position: relative;
@@ -39,7 +40,7 @@
             border: 1px solid transparent;
             width: 173px;
             height: 173px;
-            object-fit: contain;
+            object-fit: cover;
         }
         video{
             width: 173px;

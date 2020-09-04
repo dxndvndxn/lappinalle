@@ -25,6 +25,10 @@ import AdminDelivery from "./admin/views/AdminDelivery";
 import ProductCard from "./admin/views/ProductCard";
 import Privacy from "./views/Privacy";
 import store from "./store";
+import OrderCard from "./admin/views/OrderCard";
+import UserCard from "./admin/views/UserCard";
+import AdminReviews from "./admin/views/AdminReviews";
+import ReviewCard from "./admin/views/ReviewCard";
 // export default {
 //     mode: 'history',
 //     routes: [
@@ -313,16 +317,40 @@ const routes = [
                 name: 'AdminOrders'
             },
             {
+                path: 'order-:id',
+                component: OrderCard,
+                meta: { layout: 'Admin' },
+                name: 'OrderCard'
+            },
+            {
                 path: 'users',
                 component: AdminUsers,
                 meta: { layout: 'Admin' },
                 name: 'AdminUsers'
             },
             {
+                path: 'user-:id',
+                component: UserCard,
+                meta: { layout: 'Admin' },
+                name: 'UserCard'
+            },
+            {
                 path: 'delivery',
                 component: AdminDelivery,
                 meta: { layout: 'Admin' },
                 name: 'AdminDelivery'
+            },
+            {
+                path: 'reviews',
+                component: AdminReviews,
+                meta: { layout: 'Admin' },
+                name: 'AdminReviews'
+            },
+            {
+                path: 'review-:id',
+                component: ReviewCard,
+                meta: { layout: 'Admin' },
+                name: 'ReviewCard'
             }
         ]
     },

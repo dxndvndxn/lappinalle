@@ -715,6 +715,49 @@
   border: 2px solid #bd5583 !important;
 }
 
+.admin-header-side {
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin-cl-lbl-inp {
+  margin-bottom: 15px;
+}
+
+.admin-cl-lbl-inp label {
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.admin-cl-lbl-inp input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+}
+
+.list-cell:last-child {
+  display: flex;
+}
+
+.list-cell:last-child input {
+  margin-right: 8px;
+}
+
+.list-cell:last-child a {
+  display: inherit;
+}
+
+.list-cell:last-child a img {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.list-cell input {
+  width: 100%;
+  text-overflow: ellipsis;
+}
+
 .admin-categories ul,
 .admin-sidebar__tabs .admin-sidebar__tab,
 .crumbs ul,
@@ -725,6 +768,7 @@ nav ul {
   list-style: none;
 }
 
+.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-track,
 .admin-crumbs ul::-webkit-scrollbar-track,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
@@ -739,6 +783,7 @@ nav ul {
   background-color: #93b5e1;
 }
 
+.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar,
 .admin-crumbs ul::-webkit-scrollbar,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
@@ -754,6 +799,7 @@ nav ul {
   background-color: #848ccf;
 }
 
+.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-thumb,
 .admin-crumbs ul::-webkit-scrollbar-thumb,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
@@ -844,37 +890,10 @@ nav .nav-search .search label {
   border-bottom: 2px solid #fff;
 }
 
-nav .logo {
-  text-transform: uppercase;
-}
-
 nav .logo a {
   color: #fff;
   font-size: 24px;
   text-decoration: none;
-  position: relative;
-  font-family: "Gotham Pro", sans-serif;
-  font-weight: 700;
-}
-
-nav .logo a:before {
-  content: "";
-  position: absolute;
-  width: 33px;
-  height: 6px;
-  background-color: #fff;
-  right: -43px;
-  top: 35%;
-}
-
-nav .logo a:after {
-  content: "";
-  position: absolute;
-  width: 33px;
-  height: 6px;
-  background-color: #fff;
-  left: -43px;
-  top: 35%;
 }
 
 nav .nav-icons {
@@ -1072,6 +1091,8 @@ footer .bottom-foot span:nth-child(1) {
 .catalog-items .item a img {
   width: 300px;
   height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .catalog-items .item-title {
@@ -1107,6 +1128,7 @@ nav ul {
   list-style: none;
 }
 
+.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-track,
 .admin-crumbs ul::-webkit-scrollbar-track,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
@@ -1121,6 +1143,7 @@ nav ul {
   background-color: #93b5e1;
 }
 
+.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar,
 .admin-crumbs ul::-webkit-scrollbar,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
@@ -1136,6 +1159,7 @@ nav ul {
   background-color: #848ccf;
 }
 
+.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-thumb,
 .admin-crumbs ul::-webkit-scrollbar-thumb,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
@@ -1351,6 +1375,7 @@ nav ul,
   list-style: none;
 }
 
+.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-track,
 .admin-crumbs ul::-webkit-scrollbar-track,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
@@ -1365,6 +1390,7 @@ nav ul,
   background-color: #93b5e1;
 }
 
+.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar,
 .admin-crumbs ul::-webkit-scrollbar,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
@@ -1380,6 +1406,7 @@ nav ul,
   background-color: #848ccf;
 }
 
+.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-thumb,
 .admin-crumbs ul::-webkit-scrollbar-thumb,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
@@ -1518,6 +1545,7 @@ nav ul,
   transform: scale(-1);
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-row-gap: 16px;
 }
 
 .item-pics .item-pic {
@@ -1531,8 +1559,8 @@ nav ul,
   border: 1px solid transparent;
   width: 173px;
   height: 173px;
-  -o-object-fit: contain;
-     object-fit: contain;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .item-pics .item-pic video {
@@ -2136,8 +2164,10 @@ nav ul,
 }
 
 .cart-cards .card-img img {
-  -o-object-fit: contain;
-     object-fit: contain;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 300px;
+  height: 300px;
 }
 
 .cart-cards .card-info {
@@ -3181,22 +3211,6 @@ aside {
   align-items: flex-start;
 }
 
-.admin-main-page .admin-main-wrap .wrap-main-page {
-  margin-bottom: 15px;
-}
-
-.admin-main-page .admin-main-wrap .wrap-main-page label {
-  display: inline-block;
-  margin-bottom: 15px;
-}
-
-.admin-main-page .admin-main-wrap .wrap-main-page input {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  height: 40px;
-}
-
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-input {
   display: flex;
 }
@@ -3277,6 +3291,130 @@ aside {
 .admin-crumbs ul li:not(:last-child) {
   margin-bottom: 16px;
   cursor: pointer;
+}
+
+.admin-delivery h2 {
+  margin-bottom: 33px;
+}
+
+.admin-delivery .delivery-vars input {
+  width: 40px;
+  height: 40px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #e7eff8;
+  padding: 15px 0;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.admin-delivery .delivery-vars .delivery-var {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.admin-delivery .delivery-vars .delivery-var label {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.orders-list {
+  display: grid;
+  grid-template-columns: 50px 200px 128px 170px 80px 145px 200px;
+  grid-column-gap: 8px;
+  margin-bottom: 8px;
+}
+
+.wrap-admin-order-card {
+  display: grid;
+  grid-template-columns: 300px 300px 350px;
+  grid-column-gap: 43px;
+}
+
+.wrap-admin-order-card .input-transp {
+  color: #585757;
+  margin-bottom: 3px;
+  cursor: pointer;
+}
+
+.warp-head-order-card {
+  padding-right: 50px;
+  display: flex;
+}
+
+.warp-head-order-card h1 {
+  margin-right: 466px;
+}
+
+.wrap-input {
+  display: flex;
+  margin-bottom: 3px;
+}
+
+.order-cl .wrap-admin-order {
+  position: relative;
+  margin-bottom: 3px;
+}
+
+.order-cl .wrap-admin-order img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  position: absolute;
+  right: -40px;
+  cursor: pointer;
+  top: 10px;
+}
+
+.order-cl .pdf {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.order-cl .pdf img {
+  transform: rotate(0);
+}
+
+.admin-users-list {
+  display: grid;
+  grid-template-columns: 50px 300px 128px 350px;
+  grid-column-gap: 8px;
+  margin-bottom: 8px;
+}
+
+.admin-reviews .admin-reviews-list {
+  display: grid;
+  grid-template-columns: 100px 160px 300px 300px;
+  grid-column-gap: 8px;
+  margin-bottom: 8px;
+}
+
+.admin-review-card .wrap-admin-review-card {
+  display: grid;
+  grid-template-columns: 200px 300px;
+  grid-column-gap: 32px;
+}
+
+.admin-review-card .wrap-admin-review-card .order-cl button {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.admin-review-card .wrap-admin-review-card .order-cl .review-text {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea {
+  height: 300px !important;
+  text-align: left !important;
+  line-height: 1.5;
+  overflow-y: scroll;
 }
 
 html,

@@ -10,7 +10,7 @@
                         </div>
                     </form>
                 </li>
-                <router-link class="flexin-center logo" tag="li" to="/"><a href="#">Lappinalle</a></router-link>
+                <router-link class="flexin-center logo" tag="li" to="/"><a href="#"><img src="../../img/logo-admin.png" alt=""></a></router-link>
                 <li class="nav-icons">
                     <ul class="nav-icons-items">
                         <router-link tag="li" to="/login">
