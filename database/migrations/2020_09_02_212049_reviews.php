@@ -19,8 +19,8 @@ class Reviews extends Migration
             $table->date('reviews_created');
             $table->decimal('reviews_star', 1, 0);
             $table->boolean('reviews_available')->default(0);
-            $table->unsignedInteger('users_id')->nullable();
-            $table->foreign('users_id')->references('users_id')->on('users')->onDelete('cascade');
+            $table->unsignedInteger('LappiUsers_id')->nullable();
+            $table->foreign('LappiUsers_id')->references('LappiUsers_id')->on('LappiUsers')->onDelete('cascade');
             $table->unsignedInteger('product_id')->nullable();
             $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
         });

@@ -23,26 +23,26 @@
                     <div class="admin-h3">
                         &#8470;
                     </div>
-                    <h1 class="admin-h3">ФИО</h1>
+                    <h1 class="admin-h3">Название</h1>
                 </div>
                 <div class="list-category">
-                    <h1 class="admin-h3">Телефон</h1>
+                    <h1 class="admin-h3">Категория</h1>
                 </div>
                 <div class="list-last">
                     <div class="list-artikul">
                         <h1 class="admin-h3">Артикул</h1>
                     </div>
                     <div class="list-amount">
-                        <h1 class="admin-h3">ID</h1>
+                        <h1 class="admin-h3">Кол-во на складе</h1>
                     </div>
                 </div>
             </div>
             <div class="products-list" v-for="(prd, i) in newProduct">
                 <div class="list-name">
                     <div class="admin-h3">
-                        {{Object.keys(returnAllProducts).length == 0 ? 1 : Object.keys(returnAllProducts).length + 1}}
+                        {{newId}}
                     </div>
-                    <input type="text" class="input-pale-blu" @change="newProduct[0].name = newNamePrdouct" v-model.trim="newNamePrdouct">
+                    <input type="text" class="input-pale-blu" @change="changeFreshProductTitle" v-model.trim="newNamePrdouct">
                 </div>
                 <div class="list-category">
                     <div class="wrap-list-input">
@@ -52,41 +52,66 @@
                         >
                         <button class="btn-admin-arrow" @click="activeAddNew = !activeAddNew" v-bind:class="activeAddNew ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
                     </div>
-                    <AdminCrumbs v-if="activeAddNew" v-bind:lvl="3" @addNewCategory="addNewCategory" v-bind:crumbs="getCrumbs"/>
+                    <AdminCrumbs v-if="activeAddNew" v-bind:lvl="3" @addNewCategoryForFresh="addNewCategoryForFresh" v-bind:crumbs="getCrumbs"/>
                 </div>
                 <div class="list-last">
                     <div class="list-artikul">
-                        <input type="text" class="input-pale-blu" @change="newProduct[0].vendor = newVendorProduct" v-model.trim="newVendorProduct">
+                        <input type="text" class="input-pale-blu" @change="changeFreshVendor" v-model.trim="newVendorProduct">
                     </div>
                     <div class="list-amount">
                         <input type="text" class="input-pale-blu" value="0" disabled>
                     </div>
                     <div class="list-set">
-                        <router-link :to="{path: `card-${Object.keys(returnAllProducts).length === 0 ? 1 : Object.keys(returnAllProducts).length + 1}`}"><img @click="addNewProductData(Object.keys(returnAllProducts).length + 1)" src="../../../img/admin-set.png" alt=""></router-link>
+                        <router-link :to="{path: `card-${newId}`}"><img @click="addNewProductData(newId)" src="../../../img/admin-set.png" alt=""></router-link>
                         <img src="../../../img/krest-btn.png" alt="">
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
             <div class="products-list" v-for="(prd, i) in returnAllProducts">
                 <div class="list-name">
                     <div class="admin-h3">
                         {{prd.product_id}}.
                     </div>
-                    <input type="text" class="input-pale-blu" :value=prd.product_title>
+                    <input type="text" class="input-pale-blu" @change="changeProductTitle(prd.product_id, i)" ref="title" :value="prd.product_title">
                 </div>
+
+
+
+
                 <div class="list-category">
-                    <div class="wrap-list-input">
+                    <div class="wrap-list-input" v-if="prd.sex_id || prd.categories_id || prd.departments_id">
                         <input type="text" class="input-pale-blu"
                                v-for="(current, i) in getCrumbs"
                                :value="current.sex_name + ' | ' + current.categories_name + ' | ' + current.departments_name"
-                               v-if="changedCategory | ((current.sex_id === prd.sex_id) && (current.categories_id === prd.categories_id) && (current.departments_id === prd.departments_id))" disabled>
-                        <button class="btn-admin-arrow" @click="prd.active = !prd.active" v-bind:class="prd.active ? 'admin-btn-arrow' : 'admin-btn-arrow-pass'"></button>
+                               v-if="(current.sex_id === prd.sex_id) && (current.categories_id === prd.categories_id) && (current.departments_id === prd.departments_id)" disabled>
+                        <button class="btn-admin-arrow" @click="openCategory(prd.product_id, i)" v-bind:class="prd.active ? 'admin-btn-arrow' : 'admin-btn-arrow-pass'"></button>
+                    </div>
+                    <div class="wrap-list-input" v-else>
+                        <input type="text" class="input-pale-blu"
+                               ref="category"
+                               :value="prd.name"
+                               disabled>
+                        <button class="btn-admin-arrow" @click="openCategory(prd.product_id, i)" v-bind:class="prd.active ? 'admin-btn-arrow' : 'admin-btn-arrow-pass'"></button>
                     </div>
                     <AdminCrumbs v-if="prd.active" v-bind:lvl="3" @addNewCategory="addNewCategory" v-bind:crumbs="getCrumbs"/>
                 </div>
+
+
+
+
                 <div class="list-last">
                     <div class="list-artikul">
-                        <input type="text" class="input-pale-blu" :value=prd.product_vendor>
+                        <input type="text" class="input-pale-blu" @change="changeProductVendor(prd.product_id, i)" ref="vendor" :value=prd.product_vendor>
                     </div>
                     <div class="list-amount">
                         <input type="text" class="input-pale-blu" :value=prd.catalog_size_amount disabled>
@@ -102,7 +127,7 @@
 </template>
 
 <script>
-
+    import axios from 'axios';
     import AdminCrumbs from "../components/AdminCrumbs";
     export default {
         name: "AdminProducts",
@@ -118,9 +143,6 @@
             // Контейнер для нового товара
             newProduct: [],
 
-            // Если поменяли категорию у товара
-            changedCategory: null,
-
             // Новый товар категория
             newAddedCategory: null,
 
@@ -131,33 +153,135 @@
             newVendorProduct: null,
 
             // Кол-во товара
-            newCountProduct: null
+            newCountProduct: null,
+
+            // Ставим новый id для определения номера в таблице и для переходов
+            newId: 0,
+
+            // Чтобы определять активный продукт, который меняется
+            activeProduct: null
+
 
         }),
         methods: {
-            addNewProduct(){
+           async addNewProduct(){
 
-                if (Object.keys(this.newProduct).length) {
+                if (this.newProduct.length) {
                     this.errorAdd = true;
                     return;
                 }
 
-                this.newProduct.push({id: null, name: null, category: null, vendor: null})
-            },
-            addNewCategory(data){
-                this.newAddedCategory = '';
 
+                if (this.returnAllProducts.length !== 0) {
+                    try {
+                        this.newId = +this.returnAllProducts[0].product_id;
+                    }catch (e) {
+                        console.log(e)
+                    }
+                }
+
+                let data = {
+                    id: ++this.newId
+                };
+
+               await axios.post(`${this.URI}addprod`, data)
+                    .then(res => {
+
+                        console.log('Success created item with id ', this.newId)
+                    }).catch(er => console.log(er))
+
+                this.newProduct.push({id: null, name: null, category: null, vendor: null})
+
+            },
+
+            // @whatNeedToChange - имя поля, которое надо поменять
+            // @newValue - новое значение
+            async updateProduct(id, whatNeedToChange, newValue){
+               let stringData = {
+                   id: id,
+                   [whatNeedToChange]: newValue
+               };
+
+               let formData = new FormData();
+               formData.append('stringData',  JSON.stringify(stringData));
+
+               await axios.post(`${this.URI}updprod`, formData)
+                   .then(res => {
+
+                       console.log('Success change', whatNeedToChange)
+                   })
+                   .catch(e => console.log(e))
+            },
+
+            // Меняем свежо добавленное название
+            changeFreshProductTitle(){
+                this.updateProduct(this.newId, 'name', this.newNamePrdouct);
+            },
+
+            // Меняем название товара
+            // берем id и i массива title
+            // подставляем i массив refs с инпутами названий
+            changeProductTitle(id, i){
+               let titles = this.$refs.title;
+               this.updateProduct(id, 'name', titles[i].value);
+            },
+
+            // Меняем свежо добавленный артикул
+            changeFreshVendor() {
+                this.updateProduct(this.newId, 'vendor', this.newVendorProduct);
+            },
+
+            // Меняем уже добавленный артикул после обновления страницы
+            changeProductVendor(id, i){
+                let vendor = this.$refs.vendor;
+                this.updateProduct(id, 'vendor', vendor[i].value);
+            },
+
+            // Определяем активный продукт
+            openCategory(id, i){
+               this.returnAllProducts.forEach(el => el.active = false);
+
+               if (this.activeProduct !== null){
+
+                   if (id === this.activeProduct.id) {
+                       this.returnAllProducts[i].active = false;
+                       return;
+                   }
+               }
+
+                this.returnAllProducts[i].active = true;
+                this.activeProduct = {
+                    id, i
+                }
+            },
+
+            addNewCategoryForFresh(data){
                 this.getCrumbs.forEach(el => {
                     if ((el.sex_id === data.sexId) && (el.categories_id === data.categId) && (el.departments_id === data.departId)) {
-                        this.newAddedCategory = el.sex_name + ' | ' + el.departments_name + ' | ' + el.categories_name;
+                        this.newAddedCategory = el.sex_name + ' | ' + el.categories_name + ' | ' + el.departments_name;
+                    }
+                });
+                this.updateProduct(this.newId, 'category', {sexId: data.sexId, categId: data.categId, departId: data.departId});
+            },
+
+            addNewCategory(data){
+               // Если input категории не заполнено
+                this.getCrumbs.forEach(el => {
+                    if ((el.sex_id === data.sexId) && (el.categories_id === data.categId) && (el.departments_id === data.departId)) {
+                        this.returnAllProducts[this.activeProduct.i].name = el.sex_name + ' | ' + el.categories_name + ' | ' + el.departments_name;
                     }
                 });
 
-                this.newProduct[0].category = data;
+                // Если input категории заполненеы, меняем на новые
+                this.returnAllProducts[this.activeProduct.i].sex_id = data.sexId;
+                this.returnAllProducts[this.activeProduct.i].categories_id = data.categId;
+                this.returnAllProducts[this.activeProduct.i].departments_id = data.departId;
+
+                // Отправляем на апдейет
+                this.updateProduct(this.activeProduct.id, 'category', {sexId: data.sexId, categId: data.categId, departId: data.departId});
             },
             addNewProductData(newId){
-                this.newProduct[0].id = newId === 0 ? 1 : newId;
-                this.$store.dispatch('DataAdminFromProducts', this.newProduct);
+
             }
         },
         created() {
@@ -174,6 +298,9 @@
             },
             getCrumbs(){
                 return this.$store.getters.adminRawMenu;
+            },
+            URI(){
+                return this.$store.getters.URI;
             }
         }
     }

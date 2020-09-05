@@ -3,20 +3,20 @@
         <div class="admin-product-card-header">
             <div class="wrap-card-header">
                 <h1 class="admin-h1">Карточка товара</h1>
-                <span class="card-name">{{getProductName}}</span>
+                <span class="card-name">{{this.nameProduct}}</span>
             </div>
             <button class="admin-btn-complete width-300" @click="sentProductData()">Сохранить изменения</button>
         </div>
         <div class="admin-product-card-desc">
             <div class="wrap-card-desc">
                 <h1 class="admin-h3">Описание товара</h1>
-                <textarea placeholder="Введите текст" v-model.trim="textProduct" class="input-transp"></textarea>
+                <textarea placeholder="Введите текст" @change="changeTextProduct" v-model.trim="textProduct" class="input-transp"></textarea>
             </div>
             <div class="wrap-card-price">
                 <h1 class="admin-h3">Цена</h1>
-                <input type="text" class="input-transp" v-model.trim="priceProduct">
+                <input type="text" class="input-transp" @change="changePriceProduct" v-model.trim="priceProduct">
                 <h1 class="admin-h3">Цена со скидкой</h1>
-                <input type="text" class="input-transp" v-model.trim="saleProduct">
+                <input type="text" class="input-transp" @change="changeSaleProduct" v-model.trim="saleProduct">
             </div>
             <div class="wrap-card-sizes">
                 <div class="wrap-newsize">
@@ -31,13 +31,16 @@
                     </div>
                     <div class="wrap-newsize-stock">
                         <h1 class="admin-h3">Кол-во на складе</h1>
-                        <input type="text" class="input-transp" @change="insertAmountStock" v-model.trim="chozenSizeStockAfterClick">
-                        {{chozenSizeStockAfterClick}}
+                        <input type="text" class="input-transp" @change="insertAmountStock" v-if="!timeToChangePresetnSizes" v-model.trim="chozenSizeStockAfterClick">
+                        <input type="text" class="input-transp" @change="insertAmountStockUpdate" v-if="timeToChangePresetnSizes" v-model.trim="chozenSizeStockAfterClick">
                     </div>
                 </div>
                 <div class="size-grid">
                     <h1 class="admin-h3">Добавленные размеры</h1>
                     <div class="wrap-size-grid">
+                        <span v-for="(sz, i) in presentSizes" @click="selectSizeForStockUpdate(sz.catalog_size_amount, sz.sizes_number, i)">
+                            {{sz.sizes_number}}
+                        </span>
                         <span v-for="(sz, i) in sizes" @click="selectSizeForStock(i)" @dblclick="deleteSize(i)">
                         {{sz.size}}
                         </span>
@@ -108,6 +111,7 @@
 
 <script>
     import AdminCrumbs from "../components/AdminCrumbs";
+    import axios from 'axios';
     export default {
         name: "ProductCart",
         components: {AdminCrumbs},
@@ -134,6 +138,10 @@
             chozenSizeAfterClick: null,
             chozenSizeStockAfterClick: null,
 
+            // Размеры, уже пришедшие с бэка
+            presentSizes: null,
+            timeToChangePresetnSizes: false,
+
             // Видео
             video: null,
             videoOrImg: false,
@@ -150,7 +158,7 @@
             // addSize(){
             //     if (this.newSize) this.sizes.push(this.newSize)
             // },
-             pushImg(){
+            pushImg(){
                 let imgs = this.$refs.img.files;
 
                 for (let i in imgs){
@@ -180,6 +188,7 @@
                 }
                 this.files = this.files.filter(el => (typeof el) === "object");
             },
+
             deleteImg(){
                  // Если кликнули по первой или второй фотографии
                 if(this.clickedImg === 0 || this.clickedImg === 1){
@@ -200,7 +209,6 @@
                     this.getPrevious();
                 }
 
-                //
                 if (this.videoOrImg){
                     this.video = null;
                     this.videoOrImg = false;
@@ -210,6 +218,7 @@
                     this.videoOrImg = true;
                 }
             },
+
             loadVid(){
                 if (this.video !== null) return;
                 let video = this.$refs.vid.files;
@@ -219,6 +228,7 @@
                 // Загруженные видео
                 this.loadedVideo = video[0];
             },
+
             clickImg(i){
                 this.clickedImg = i;
                 this.mainImg = this.$refs['image' + parseInt(i)][0].src;
@@ -268,6 +278,15 @@
                 this.newSize = i;
                 this.chozenSizeAfterClick = this.sizes[i].size;
                 this.chozenSizeStockAfterClick = this.sizes[i].count;
+                this.timeToChangePresetnSizes = false
+            },
+
+            // Кликаем на старые размеры
+            selectSizeForStockUpdate(count, size, i) {
+                this.newSize = i;
+                this.chozenSizeAfterClick = size;
+                this.chozenSizeStockAfterClick = count;
+                this.timeToChangePresetnSizes = true;
             },
 
             // Изменяем кол-во размера
@@ -278,8 +297,16 @@
                  }else{
                      console.log(2)
                      this.sizes[this.newSize].count = this.chozenSizeStockAfterClick;
+                     this.updateProduct(this.$route.params.id, 'sizeFresh', {sizeId: this.sizes[this.newSize].id, count: this.sizes[this.newSize].count});
+                     console.log(this.sizes[this.newSize])
                      this.stockAmountWithoutSizes = null;
                  }
+            },
+
+            // Апдейтим кол-во для размера
+            insertAmountStockUpdate(){
+                console.log(this.presentSizes[this.newSize])
+                this.updateProduct(this.$route.params.id, 'sizeOld', {sizeId: this.presentSizes[this.newSize].sizes_id, count: this.chozenSizeStockAfterClick});
             },
 
             // Удаляем размер
@@ -290,10 +317,54 @@
                 if (!this.sizes.length) {
                     this.chozenSizeAfterClick = this.chozenSizeStockAfterClick = null;
                 }
+            },
+
+
+
+            // АПДЕЙТИМ ТОВАР
+            // @whatNeedToChange - имя поля, которое надо поменять
+            // @newValue - новое значение
+            async updateProduct(id, whatNeedToChange, newValue){
+                let stringData = {
+                    id: id,
+                    [whatNeedToChange]: newValue
+                };
+
+                let formData = new FormData();
+                formData.append('stringData',  JSON.stringify(stringData));
+
+                await axios.post(`${this.URI}updprod`, formData)
+                    .then(res => {
+
+                        console.log('Success change', whatNeedToChange)
+                    })
+                    .catch(e => console.log(e))
+            },
+
+
+            // Апдейтим описание
+            changeTextProduct(){
+                this.updateProduct(this.$route.params.id, 'description', this.textProduct);
+            },
+
+            // Апдейтим цену
+            changePriceProduct(){
+                this.updateProduct(this.$route.params.id, 'price', this.priceProduct);
+            },
+
+            // Апдейтим sale
+            changeSaleProduct(){
+                let dataSale = {
+                    newPrice: this.saleProduct,
+                    oldPrice: this.priceProduct
+                };
+                this.updateProduct(this.$route.params.id, 'sale', dataSale);
             }
         },
         created(){
           this.$store.dispatch('GetAllSizes');
+          this.$store.dispatch('GetOneProduct', this.$route.params.id);
+          // this.$store.dispatch('GetSizeForOneProduct');
           // this.$store.dispatch('GetAllReviews')
         },
         watch: {
@@ -301,20 +372,30 @@
                 this.files = val;
             },
             getProductSuccess(newVal, oldVal){
-                if (newVal) this.$router.push({name: 'AdminProducts'})
+                if (newVal) this.$router.push({name: 'AdminProducts'});
                 else console.log('Something goes wrong')
+            },
+            getOneProduct(newValue){
+                this.textProduct = newValue[0].product_description;
+                this.priceProduct = newValue[0].product_sale ? newValue[0].product_old_price : newValue[0].product_price;
+                this.saleProduct = newValue[0].product_sale ? newValue[0].product_price : null;
+                this.nameProduct = newValue[0].product_title;
+                this.presentSizes = newValue.allSizes;
+                console.log(this.presentSizes)
             }
         },
         computed: {
-            // Получить имя для нового товара
-            getProductName(){
-                return this.$store.getters.getNameNewProduct[0].name;
-            },
             getAllSizes(){
                 return this.$store.getters.getAllSizes;
             },
             getProductSuccess(){
                 return this.$store.getters.productSuccess;
+            },
+            URI(){
+                return this.$store.getters.URI;
+            },
+            getOneProduct(){
+                return this.$store.getters.oneProduct;
             }
         }
     }

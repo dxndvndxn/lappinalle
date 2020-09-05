@@ -143,7 +143,26 @@ class DatabaseSeeder extends Seeder
             ['menu_lvlmenu' => 3, 'sex_id' => 2, 'categories_id' => 7, 'departments_id' => 10],
         ]);
 
+        DB::table('delivery')->insert(
+            [ 'delivery_name' => 'Курьерская доставка',
+                'delivery_confirm' => true
+            ]);
 
+        DB::table('delivery')->insert(
+            [ 'delivery_name' => 'Почта России',
+                'delivery_confirm' => true
+            ]);
+
+        DB::table('delivery')->insert(
+            [ 'delivery_name' => 'СДЭК',
+                'delivery_confirm' => true
+            ]
+        );
+
+        DB::table('delivery')->insert(
+            [ 'delivery_name' => 'ПЭК',
+                'delivery_confirm' => true
+            ]);
 //        DB::table('products')->insert([
 //            // Верхняя одежада Зима комбинезоны мальчики и девочки
 //            ['product_title' => 'Комбинезон мальчики ЗИМА Lappinalle',

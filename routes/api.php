@@ -19,15 +19,30 @@ use Illuminate\Support\Facades\Route;
 //});
 
 
-//Route::post('login', 'UserController@login');
-Route::post('register', 'UserController@register');
+//Аутентификация
+Route::post('/login', 'LappiUserController@Log');
+
+Route::post('/register', 'LappiUserController@Reg');
+
+//Личный кабинет
+Route::get('/lkind', 'LKController@index');
+
+Route::post('/lkupd', 'LKController@update');
+
+//Варианты доставки
+Route::post('/deladmin', 'DelController@admin');
+
+Route::get('/delsite', 'DelController@site');
+
+
 
 // АДМИН
 // Получаем все товары для страницы продукты
 Route::get('/adminallproducts', 'AdminGetAllProductsController@index');
 
-// Добавляем новый товар
-Route::post('/addproduct', 'AddProductController@index');
+// Добавляем новый товар и обновляем
+Route::post('/addprod', 'AddNewProdController@add');
+Route::post('/updprod', 'AddNewProdController@update');
 
 // Получаем все размеры для карточки товара
 Route::get('/adminallsizes','AllSizesController@index');
@@ -37,6 +52,14 @@ Route::post('/mailer', 'MailerController@send');
 
 // Оформление заказа
 Route::post('/order', 'CheckoutOrderController@index');
+
+//Админка карточка пользователя
+Route::get('/lkadm', 'LKController@admin');
+
+//Админка все пользователи
+Route::get('/adminusers', 'AdminUsersController@index');
+
+Route::get('/admin-product-{id}', 'AdminGetOneProductController@index');
 
 
 // SITE
@@ -98,3 +121,7 @@ Route::get('/{genders}/{categories}', 'CategoriesController@index');
 Route::get('/{genders}/{categories}/{departments}', 'DepartmentsController@index');
 
 
+Route::fallback(function(){
+    return response()->json([
+        'message' => 'Page Not Found. If error persists, contact info@website.com'], 404);
+});

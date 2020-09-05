@@ -14,19 +14,27 @@ const admin = {
         // Данные по размеру
         allSizes: null,
 
+        // Получить один товар
+        oneProduct: null,
+
         productSuccess: false,
+
+
     }),
     mutations: {
         // Получаем все товары СТРАНИЧКА ТОВАРЫ
         async AdminGetAllPrductsMutate(state){
            await axios.get(`${state.SITE_URI}adminallproducts`)
                 .then(response => {
-                    state.adminProducts = response.data;
+                    let resultArr = [];
+                    for (let data of response.data){
+                        resultArr.push(data)
+                    }
+                    state.adminProducts = resultArr;
+                    console.log(state.adminProducts)
                 }).catch(e => console.log(e))
         },
-        DataAdminFromProductsMutate(state, data){
-            state.dataFromProductsPage = data;
-        },
+
         // Отправлем данные о новоном товаре на сервер
         async SentDataToBackendMutate(state, data){
             let formData = new FormData();
@@ -39,17 +47,13 @@ const admin = {
             }
 
             let stringData = {
-                category: state.dataFromProductsPage[0].category,
-                id: state.dataFromProductsPage[0].id,
-                name: state.dataFromProductsPage[0].name,
-                vendor: state.dataFromProductsPage[0].vendor,
                 description: data.description,
                 price: data.price,
                 sale: data.sale,
                 sizes: data.sizes,
                 amountWithoutSizes: data.amountWithoutSizes
             };
-            console.log(stringData)
+
             formData.append('stringData', JSON.stringify(stringData));
 
            await axios.post(`${state.SITE_URI}addproduct`,
@@ -87,14 +91,20 @@ const admin = {
                     console.log(response.data);
                 })
                 .catch(e => console.log(e))
-        }
+        },
+
+       async GetOneProductMutate(state, id){
+            await axios.get(`${state.SITE_URI}admin-product-${id}`)
+                .then(res => {
+                    state.oneProduct = res.data;
+                })
+                .catch(e => console.log(e))
+       }
+
     },
     actions: {
         AdminGetAllPrducts({commit}){
             commit('AdminGetAllPrductsMutate');
-        },
-        DataAdminFromProducts({commit}, data){
-            commit('DataAdminFromProductsMutate', data)
         },
         SentDataToBackend({commit}, data){
             commit('SentDataToBackendMutate', data);
@@ -104,20 +114,26 @@ const admin = {
         },
         GetAllReviews({commit}){
             commit('GetAllReviewsMutate');
+        },
+        GetOneProduct({commit}, data){
+            commit('GetOneProductMutate', data);
         }
     },
     getters: {
         adminProducts: state => {
             return state.adminProducts;
         },
-        getNameNewProduct: state => {
-            return state.dataFromProductsPage;
-        },
         getAllSizes: state => {
             return state.allSizes;
         },
         productSuccess: state => {
             return state.productSuccess;
+        },
+        URI: state => {
+            return state.SITE_URI;
+        },
+        oneProduct: state => {
+            return state.oneProduct;
         }
     }
 };
@@ -399,7 +415,7 @@ const store = {
                             }
                         }
                     }
-                    console.log(menuForAdmin)
+
                     state.lastMenu = lastMenu;
                     state.menuAdmin = menuForAdmin;
                 })

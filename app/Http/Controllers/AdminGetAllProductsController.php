@@ -11,7 +11,7 @@ class AdminGetAllProductsController extends Controller
     {
         $allProducts = DB::table('catalog_size')
             ->rightJoin('products', 'catalog_size.product_id', '=', 'products.product_id')
-            ->select('products.product_price', 'catalog_size_amount', 'products.product_id', 'products.product_title', 'products.product_vendor','products.sex_id','products.sex_id', 'products.categories_id', 'products.departments_id')
+            ->select('products.product_price', 'catalog_size_amount', 'products.product_id', 'products.product_title', 'products.product_vendor','products.sex_id', 'products.categories_id', 'products.departments_id')
             ->orderBy('products.product_id', 'desc')
             ->get();
 
@@ -25,6 +25,7 @@ class AdminGetAllProductsController extends Controller
         // Если id повторяются, то увеличиваем кол-во данного товара и удаляем потвторяющийся элемент
         foreach ($totalProduct as $i => $product){
             $totalProduct[$i]['active'] = false;
+            $totalProduct[$i]['name'] = null;
             $nextI = $i++;
             if ($nextI + 1 == count($totalProduct)) break;
 
