@@ -4,7 +4,7 @@ import axios from 'axios'
 Vue.use(Vuex);
 const admin = {
     state: () => ({
-        SITE_URI: 'http://lappinalle.test/api/',
+        SITE_URI: 'http://lappinalle.ru/api/',
         adminProducts: null,
         adminRawMenu: null,
 
@@ -171,7 +171,7 @@ const store = {
 
         // Данные по меню для админа
         menuAdmin: null,
-        SITE_URI: 'http://lappinalle.test/api/',
+        SITE_URI: 'http://lappinalle.ru/api/',
 
         token: localStorage.getItem('token') || 0,
 

@@ -39622,7 +39622,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
 var admin = {
   state: function state() {
     return {
-      SITE_URI: 'http://lappinalle.test/api/',
+      SITE_URI: 'http://lappinalle.ru/api/',
       adminProducts: null,
       adminRawMenu: null,
       // Данные по новому товару со страницы Продукты
@@ -39852,7 +39852,7 @@ var store = {
     filterSizes: null,
     // Данные по меню для админа
     menuAdmin: null,
-    SITE_URI: 'http://lappinalle.test/api/',
+    SITE_URI: 'http://lappinalle.ru/api/',
     token: localStorage.getItem('token') || 0,
     // Корзина
     cart: JSON.parse(localStorage.getItem('cart') || '[]'),
