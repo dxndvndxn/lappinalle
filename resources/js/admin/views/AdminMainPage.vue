@@ -117,12 +117,12 @@
                 <button class="admin-btn-delete width-300">удалить блок</button>
             </div>
             <div class="admin-main-blocks">
-                <h2 class="admin-h2">Блок №1</h2>
-                <div class="wrap-main-page width-300">
+                <h2 class="admin-h2">Блок №2</h2>
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Заголовок</label>
                     <input type="text" class="input-pale-blu">
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Категория</label>
                     <div class="wrap-input">
                         <input type="text" class="input-pale-blu" v-model="chosenCat" disabled>
@@ -141,23 +141,23 @@
                         <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
                     </ul>
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Заголовок баннера</label>
                     <input type="text" class="input-pale-blu">
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Скидка</label>
                     <input type="text" class="input-pale-blu">
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Новая цена</label>
                     <input type="text" class="input-pale-blu">
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Текст кнопки</label>
                     <input type="text" class="input-pale-blu">
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Ссылка</label>
                     <div class="wrap-input">
                         <input type="text" class="input-pale-blu" v-model="chosenCat" disabled>
@@ -183,12 +183,12 @@
                 <button class="admin-btn-delete width-300">удалить блок</button>
             </div>
             <div class="admin-main-blocks">
-                <h2 class="admin-h2">Блок №1</h2>
-                <div class="wrap-main-page width-300">
+                <h2 class="admin-h2">Блок №3</h2>
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Заголовок</label>
                     <input type="text" class="input-pale-blu">
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Категория</label>
                     <div class="wrap-input">
                         <input type="text" class="input-pale-blu" v-model="chosenCat" disabled>
@@ -207,89 +207,23 @@
                         <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
                     </ul>
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Заголовок баннера</label>
                     <input type="text" class="input-pale-blu">
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Скидка</label>
                     <input type="text" class="input-pale-blu">
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Новая цена</label>
                     <input type="text" class="input-pale-blu">
                 </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Текст кнопки</label>
                     <input type="text" class="input-pale-blu">
                 </div>
-                <div class="wrap-main-page width-300">
-                    <label class="admin-h3">Ссылка</label>
-                    <div class="wrap-input">
-                        <input type="text" class="input-pale-blu" v-model="chosenCat" disabled>
-                        <button class="btn-admin-arrow" @click="activeBtn = !activeBtn" v-bind:class="activeBtn ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
-                    </div>
-                    <ul class="wrap-links" v-if="!activeBtn">
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                    </ul>
-                    <div class="wrap-checkbox">
-                        <label for="category">Категория <input type="radio" name="whatList" value="category" v-bind:class="" v-model="whatList" ></label>
-                        <label for="product">Товар <input type="radio" name="whatList"value="product" v-model="whatList"></label>
-                    </div>
-                </div>
-                <button class="admin-btn-delete width-300">удалить блок</button>
-            </div>
-            <div class="admin-main-blocks">
-                <h2 class="admin-h2">Блок №1</h2>
-                <div class="wrap-main-page width-300">
-                    <label class="admin-h3">Заголовок</label>
-                    <input type="text" class="input-pale-blu">
-                </div>
-                <div class="wrap-main-page width-300">
-                    <label class="admin-h3">Категория</label>
-                    <div class="wrap-input">
-                        <input type="text" class="input-pale-blu" v-model="chosenCat" disabled>
-                        <button class="btn-admin-arrow" @click="activeBtn = !activeBtn" v-bind:class="activeBtn ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
-                    </div>
-                    <ul class="wrap-links" v-if="!activeBtn">
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                        <li>Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ</li>
-                    </ul>
-                </div>
-                <div class="wrap-main-page width-300">
-                    <label class="admin-h3">Заголовок баннера</label>
-                    <input type="text" class="input-pale-blu">
-                </div>
-                <div class="wrap-main-page width-300">
-                    <label class="admin-h3">Скидка</label>
-                    <input type="text" class="input-pale-blu">
-                </div>
-                <div class="wrap-main-page width-300">
-                    <label class="admin-h3">Новая цена</label>
-                    <input type="text" class="input-pale-blu">
-                </div>
-                <div class="wrap-main-page width-300">
-                    <label class="admin-h3">Текст кнопки</label>
-                    <input type="text" class="input-pale-blu">
-                </div>
-                <div class="wrap-main-page width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Ссылка</label>
                     <div class="wrap-input">
                         <input type="text" class="input-pale-blu" v-model="chosenCat" disabled>

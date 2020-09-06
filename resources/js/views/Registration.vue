@@ -80,13 +80,17 @@
         },
         methods: {
             registerMe(){
-                if (this.$v.$invalid && this.checkAgree){
+                if (this.$v.$invalid){
                     this.$v.$touch();
                     return;
                 }else{
-                    this.$store.dispatch('register', {name: this.name, email: this.email, password: this.pass })
-                        .then(() => this.$router.push({name: 'cabinet'}))
-                        .catch((() => this.err = true))
+
+                    if (this.checkAgree) {
+                        console.log('hui')
+                        this.$store.dispatch('register', {name: this.name, email: this.email, password: this.pass })
+                            .then(() => this.$router.push({name: 'cabinet'}))
+                            .catch((() => this.err = true))
+                    }
                 }
             }
         },

@@ -2,7 +2,7 @@
     <div class="pay">
         <h1 class="h-30">Доступные варианты оплаты</h1>
         <h2>Банковской картой онлайн</h2>
-        <div class="pay-icons">
+        <div class="pay-icons" id="iconsPay">
             <img :src="ic" v-for="(ic, i) in payIcons.lvlOne" alt="">
         </div>
         <h2>Онлайн кошельки</h2>
@@ -16,7 +16,7 @@
     export default {
         name: "Pay",
         data: () => ({
-            payIcons: {lvlOne: ['../img/yandex-icon.png', '../img/qiwi-icon.png', '../../img/paypal-icon.png'], lvlTwo: ['../../img/yandex-icon.png', '../../img/qiwi-icon.png', '../../img/paypal-icon.png']}
+            payIcons: {lvlOne: ['', '../img/visa-mastercard-mir.jpg', ''], lvlTwo: ['../../img/yandex-icon.png', '../../img/qiwi-icon.png', '../../img/paypal-icon.png']}
         })
     }
 </script>

@@ -24,30 +24,28 @@ class LappiUserController extends Controller
     }
 
     public function Reg (Request $request) {
-
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:50',
             'email' => 'required|email|unique:LappiUsers',
             'password' => 'required|min:6'
         ]);
-
         if ($validator) {
-            $data = $request->all();
-            $name = $data['name'];
-            $email = $data['email'];
-            $password = $data['password'];
+                $data = $request->all();
+                $name = $data['name'];
+                $email = $data['email'];
+                $password = $data['password'];
+                $hpass = password_hash($password, PASSWORD_DEFAULT);
 
-            $hpass = password_hash($password, PASSWORD_DEFAULT);
+                $token = $this->gen_token();
+                $register = DB::table('LappiUsers')->insert(
+                    [ 'LappiUsers_name' => $name,
+                        'LappiUsers_email' => $email,
+                        'LappiUsers_password' => $hpass,
+                        'LappiUsers_token' => $token
+                    ]
+                );
 
-            $token = $this->gen_token();
 
-            $register = DB::table('LappiUsers')->insert(
-                [ 'LappiUsers_name' => $name,
-                    'LappiUsers_email' => $email,
-                    'LappiUsers_password' => $hpass,
-                    'LappiUsers_token' => $token
-                ]
-            );
 
             if ($register) {
                 return $token;

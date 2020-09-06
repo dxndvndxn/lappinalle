@@ -8,8 +8,10 @@
                 <h2>{{mainBanerH2}}</h2>
 
                 <h3>{{mainBanerCollect}}</h3>
-                <button class="btn">
-                    {{mainBanerBtn}}
+                <button class="btn" id="btnMain">
+                    <router-link :to="{path: 'malchiki/verhodejda-zima'}">
+                        {{mainBanerBtn}}
+                    </router-link>
                 </button>
             </div>
         </div>
@@ -66,11 +68,10 @@
                     name: 'Slider',
                     h1: 'Новинки для мальчиков',
                     sliderData: [
-                        { sliderImg: '../../../img/pic2.png', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
-                        { sliderImg: '../../../img/pic2.png', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
-                        { sliderImg: '../../../img/pic2.png', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
-                        { sliderImg: '../../../img/pic2.png', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
-                        { sliderImg: '../../../img/pic2.png', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'}
+                        { sliderImg: '../../../img/malchiki1.jpg', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
+                        { sliderImg: '../../../img/malchiki2.jpg', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
+                        { sliderImg: '../../../img/malchiki3.jpg', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
+                        { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
                     ]
                 },
                 {
@@ -82,11 +83,10 @@
                     name: 'Slider',
                     h1: 'Новинки для девочек',
                     sliderData: [
-                        { sliderImg: '../../../img/pic2.png', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
-                        { sliderImg: '../../../img/pic2.png', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
-                        { sliderImg: '../../../img/pic2.png', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
-                        { sliderImg: '../../../img/pic2.png', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
-                        { sliderImg: '../../../img/pic2.png', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'}
+                        { sliderImg: '../../../img/devochki1.jpg', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
+                        { sliderImg: '../../../img/devochki2.jpg', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
+                        { sliderImg: '../../../img/devochki3.jpg', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
+                        { sliderImg: '../../../img/devochki4.jpg', sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1', sliderTitle: 'Комбинезон Lappinalle', sliderPrice: '5400'},
                     ]
                 },
                 {

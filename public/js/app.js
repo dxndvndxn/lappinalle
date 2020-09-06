@@ -2363,15 +2363,15 @@ __webpack_require__.r(__webpack_exports__);
         show: true,
         delId: 1
       }, {
-        name: 'Курьерская доставка по СПБ',
+        name: 'СДЭК',
         show: true,
         delId: 2
       }, {
-        name: 'Курьерская доставка по СПБ',
+        name: 'ПЭК',
         show: true,
         delId: 3
       }, {
-        name: 'Курьерская доставка по СПБ',
+        name: 'Почта России',
         show: false,
         delId: 4
       }],
@@ -2409,72 +2409,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2815,40 +2749,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminOrders",
   components: {
     AdminTopSide: _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  data: function data() {
+    return {};
+  },
   methods: {
     editOrder: function editOrder() {}
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('GetAllOrders');
+  },
+  computed: {
+    GetOrders: function GetOrders() {
+      return this.$store.getters.GetAllOrders;
+    }
   }
 });
 
@@ -6252,7 +6171,9 @@ __webpack_require__.r(__webpack_exports__);
         this.$router.push({
           name: 'paySuccess'
         });
-      } else {}
+      } else {
+        console.log(newValue);
+      }
     }
   },
   computed: {
@@ -6420,14 +6341,14 @@ __webpack_require__.r(__webpack_exports__);
     return {
       imgDelivery: ['../img/post-icon.png', '../img/sdek-icon.png', '../img/pek-icon.png'],
       imgText: [{
-        h1: 'Загловок почты',
-        text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum magni officia quis totam vero!\n' + 'Assumenda delectus eum necessitatibus nobis vero. Cum debitis itaque quos ratione temporibus! Enim\n' + 'perferendis, praesentium!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum magni officia quis totam vero!\n' + 'Assumenda delectus eum necessitatibus nobis vero. Cum debitis itaque quos ratione temporibus! Enim\n' + 'perferendis, praesentium!'
+        h1: null,
+        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублейотказе или выкупе товара на сумму менее 2000 рублей стоимостькурьерской доставки 300 рублей.'
       }, {
         h1: null,
-        text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum magni officia quis totam vero!\n' + ' Assumenda delectus eum necessitatibus nobis vero. Cum debitis itaque quos ratione temporibus! Enim\n' + ' perferendis, praesentium!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum magni officia quis totam vero!\n' + 'Assumenda delectus eum necessitatibus nobis vero. Cum debitis itaque quos ratione temporibus! Enim\n' + 'perferendis, praesentium!'
+        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублейотказе или выкупе товара на сумму менее 2000 рублей стоимостькурьерской доставки 300 рублей.'
       }, {
-        h1: 'Доставка ПЭК действительна при сумме заказа от 20000 рублей.',
-        text: 'Также действует бесплатная курьерская доставка в пределах КАД\n' + 'при заказе от 2000 рублей. При заказе на сумму менее 2000 рублей,\n' + 'отказе или выкупе товара на сумму менее 2000 рублей стоимость\n' + 'курьерской доставки 300 рублей.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum magni officia quis totam vero!\n' + 'Assumenda delectus eum necessitatibus nobis vero. Cum debitis itaque quos ratione temporibus! Enim\n' + 'perferendis, praesentium!'
+        h1: null,
+        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублейотказе или выкупе товара на сумму менее 2000 рублей стоимостькурьерской доставки 300 рублей.'
       }],
       chosenText: 0
     };
@@ -6504,6 +6425,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Home',
@@ -6521,27 +6444,22 @@ __webpack_require__.r(__webpack_exports__);
         name: 'Slider',
         h1: 'Новинки для мальчиков',
         sliderData: [{
-          sliderImg: '../../../img/pic2.png',
+          sliderImg: '../../../img/malchiki1.jpg',
           sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1',
           sliderTitle: 'Комбинезон Lappinalle',
           sliderPrice: '5400'
         }, {
-          sliderImg: '../../../img/pic2.png',
+          sliderImg: '../../../img/malchiki2.jpg',
           sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1',
           sliderTitle: 'Комбинезон Lappinalle',
           sliderPrice: '5400'
         }, {
-          sliderImg: '../../../img/pic2.png',
+          sliderImg: '../../../img/malchiki3.jpg',
           sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1',
           sliderTitle: 'Комбинезон Lappinalle',
           sliderPrice: '5400'
         }, {
-          sliderImg: '../../../img/pic2.png',
-          sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1',
-          sliderTitle: 'Комбинезон Lappinalle',
-          sliderPrice: '5400'
-        }, {
-          sliderImg: '../../../img/pic2.png',
+          sliderImg: '../../../img/malchiki4.jpg',
           sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1',
           sliderTitle: 'Комбинезон Lappinalle',
           sliderPrice: '5400'
@@ -6560,27 +6478,22 @@ __webpack_require__.r(__webpack_exports__);
         name: 'Slider',
         h1: 'Новинки для девочек',
         sliderData: [{
-          sliderImg: '../../../img/pic2.png',
+          sliderImg: '../../../img/devochki1.jpg',
           sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1',
           sliderTitle: 'Комбинезон Lappinalle',
           sliderPrice: '5400'
         }, {
-          sliderImg: '../../../img/pic2.png',
+          sliderImg: '../../../img/devochki2.jpg',
           sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1',
           sliderTitle: 'Комбинезон Lappinalle',
           sliderPrice: '5400'
         }, {
-          sliderImg: '../../../img/pic2.png',
+          sliderImg: '../../../img/devochki3.jpg',
           sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1',
           sliderTitle: 'Комбинезон Lappinalle',
           sliderPrice: '5400'
         }, {
-          sliderImg: '../../../img/pic2.png',
-          sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1',
-          sliderTitle: 'Комбинезон Lappinalle',
-          sliderPrice: '5400'
-        }, {
-          sliderImg: '../../../img/pic2.png',
+          sliderImg: '../../../img/devochki4.jpg',
           sliderLink: 'malchiki/verhnjaodejda/kurtrko/item-1',
           sliderTitle: 'Комбинезон Lappinalle',
           sliderPrice: '5400'
@@ -6812,7 +6725,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       payIcons: {
-        lvlOne: ['../img/yandex-icon.png', '../img/qiwi-icon.png', '../../img/paypal-icon.png'],
+        lvlOne: ['', '../img/visa-mastercard-mir.jpg', ''],
         lvlTwo: ['../../img/yandex-icon.png', '../../img/qiwi-icon.png', '../../img/paypal-icon.png']
       }
     };
@@ -7052,21 +6965,24 @@ __webpack_require__.r(__webpack_exports__);
     registerMe: function registerMe() {
       var _this = this;
 
-      if (this.$v.$invalid && this.checkAgree) {
+      if (this.$v.$invalid) {
         this.$v.$touch();
         return;
       } else {
-        this.$store.dispatch('register', {
-          name: this.name,
-          email: this.email,
-          password: this.pass
-        }).then(function () {
-          return _this.$router.push({
-            name: 'cabinet'
+        if (this.checkAgree) {
+          console.log('hui');
+          this.$store.dispatch('register', {
+            name: this.name,
+            email: this.email,
+            password: this.pass
+          }).then(function () {
+            return _this.$router.push({
+              name: 'cabinet'
+            });
+          })["catch"](function () {
+            return _this.err = true;
           });
-        })["catch"](function () {
-          return _this.err = true;
-        });
+        }
       }
     }
   },
@@ -10238,71 +10154,77 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "admin-main-blocks" }, [
-        _c("h2", { staticClass: "admin-h2" }, [_vm._v("Блок №1")]),
+        _c("h2", { staticClass: "admin-h2" }, [_vm._v("Блок №2")]),
         _vm._v(" "),
         _vm._m(6),
         _vm._v(" "),
-        _c("div", { staticClass: "wrap-main-page width-300" }, [
-          _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-input" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.chosenCat,
-                  expression: "chosenCat"
-                }
-              ],
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: _vm.chosenCat },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.chosenCat = $event.target.value
-                }
-              }
-            }),
+        _c(
+          "div",
+          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+          [
+            _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
             _vm._v(" "),
-            _c("button", {
-              staticClass: "btn-admin-arrow",
-              class: _vm.activeBtn ? "admin-btn-arrow-pass" : "admin-btn-arrow",
-              on: {
-                click: function($event) {
-                  _vm.activeBtn = !_vm.activeBtn
+            _c("div", { staticClass: "wrap-input" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.chosenCat,
+                    expression: "chosenCat"
+                  }
+                ],
+                staticClass: "input-pale-blu",
+                attrs: { type: "text", disabled: "" },
+                domProps: { value: _vm.chosenCat },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.chosenCat = $event.target.value
+                  }
                 }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          !_vm.activeBtn
-            ? _c("ul", { staticClass: "wrap-links" }, [
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-              ])
-            : _vm._e()
-        ]),
+              }),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-admin-arrow",
+                class: _vm.activeBtn
+                  ? "admin-btn-arrow-pass"
+                  : "admin-btn-arrow",
+                on: {
+                  click: function($event) {
+                    _vm.activeBtn = !_vm.activeBtn
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            !_vm.activeBtn
+              ? _c("ul", { staticClass: "wrap-links" }, [
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
+                ])
+              : _vm._e()
+          ]
+        ),
         _vm._v(" "),
         _vm._m(7),
         _vm._v(" "),
@@ -10312,111 +10234,117 @@ var render = function() {
         _vm._v(" "),
         _vm._m(10),
         _vm._v(" "),
-        _c("div", { staticClass: "wrap-main-page width-300" }, [
-          _c("label", { staticClass: "admin-h3" }, [_vm._v("Ссылка")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-input" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.chosenCat,
-                  expression: "chosenCat"
-                }
-              ],
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: _vm.chosenCat },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.chosenCat = $event.target.value
-                }
-              }
-            }),
+        _c(
+          "div",
+          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+          [
+            _c("label", { staticClass: "admin-h3" }, [_vm._v("Ссылка")]),
             _vm._v(" "),
-            _c("button", {
-              staticClass: "btn-admin-arrow",
-              class: _vm.activeBtn ? "admin-btn-arrow-pass" : "admin-btn-arrow",
-              on: {
-                click: function($event) {
-                  _vm.activeBtn = !_vm.activeBtn
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          !_vm.activeBtn
-            ? _c("ul", { staticClass: "wrap-links" }, [
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-checkbox" }, [
-            _c("label", { attrs: { for: "category" } }, [
-              _vm._v("Категория "),
+            _c("div", { staticClass: "wrap-input" }, [
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.whatList,
-                    expression: "whatList"
+                    value: _vm.chosenCat,
+                    expression: "chosenCat"
                   }
                 ],
-                attrs: { type: "radio", name: "whatList", value: "category" },
-                domProps: { checked: _vm._q(_vm.whatList, "category") },
+                staticClass: "input-pale-blu",
+                attrs: { type: "text", disabled: "" },
+                domProps: { value: _vm.chosenCat },
                 on: {
-                  change: function($event) {
-                    _vm.whatList = "category"
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.chosenCat = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-admin-arrow",
+                class: _vm.activeBtn
+                  ? "admin-btn-arrow-pass"
+                  : "admin-btn-arrow",
+                on: {
+                  click: function($event) {
+                    _vm.activeBtn = !_vm.activeBtn
                   }
                 }
               })
             ]),
             _vm._v(" "),
-            _c("label", { attrs: { for: "product" } }, [
-              _vm._v("Товар "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.whatList,
-                    expression: "whatList"
+            !_vm.activeBtn
+              ? _c("ul", { staticClass: "wrap-links" }, [
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-checkbox" }, [
+              _c("label", { attrs: { for: "category" } }, [
+                _vm._v("Категория "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.whatList,
+                      expression: "whatList"
+                    }
+                  ],
+                  attrs: { type: "radio", name: "whatList", value: "category" },
+                  domProps: { checked: _vm._q(_vm.whatList, "category") },
+                  on: {
+                    change: function($event) {
+                      _vm.whatList = "category"
+                    }
                   }
-                ],
-                attrs: { type: "radio", name: "whatList", value: "product" },
-                domProps: { checked: _vm._q(_vm.whatList, "product") },
-                on: {
-                  change: function($event) {
-                    _vm.whatList = "product"
+                })
+              ]),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "product" } }, [
+                _vm._v("Товар "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.whatList,
+                      expression: "whatList"
+                    }
+                  ],
+                  attrs: { type: "radio", name: "whatList", value: "product" },
+                  domProps: { checked: _vm._q(_vm.whatList, "product") },
+                  on: {
+                    change: function($event) {
+                      _vm.whatList = "product"
+                    }
                   }
-                }
-              })
+                })
+              ])
             ])
-          ])
-        ]),
+          ]
+        ),
         _vm._v(" "),
         _c("button", { staticClass: "admin-btn-delete width-300" }, [
           _vm._v("удалить блок")
@@ -10424,71 +10352,77 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "admin-main-blocks" }, [
-        _c("h2", { staticClass: "admin-h2" }, [_vm._v("Блок №1")]),
+        _c("h2", { staticClass: "admin-h2" }, [_vm._v("Блок №3")]),
         _vm._v(" "),
         _vm._m(11),
         _vm._v(" "),
-        _c("div", { staticClass: "wrap-main-page width-300" }, [
-          _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-input" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.chosenCat,
-                  expression: "chosenCat"
-                }
-              ],
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: _vm.chosenCat },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.chosenCat = $event.target.value
-                }
-              }
-            }),
+        _c(
+          "div",
+          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+          [
+            _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
             _vm._v(" "),
-            _c("button", {
-              staticClass: "btn-admin-arrow",
-              class: _vm.activeBtn ? "admin-btn-arrow-pass" : "admin-btn-arrow",
-              on: {
-                click: function($event) {
-                  _vm.activeBtn = !_vm.activeBtn
+            _c("div", { staticClass: "wrap-input" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.chosenCat,
+                    expression: "chosenCat"
+                  }
+                ],
+                staticClass: "input-pale-blu",
+                attrs: { type: "text", disabled: "" },
+                domProps: { value: _vm.chosenCat },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.chosenCat = $event.target.value
+                  }
                 }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          !_vm.activeBtn
-            ? _c("ul", { staticClass: "wrap-links" }, [
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-              ])
-            : _vm._e()
-        ]),
+              }),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-admin-arrow",
+                class: _vm.activeBtn
+                  ? "admin-btn-arrow-pass"
+                  : "admin-btn-arrow",
+                on: {
+                  click: function($event) {
+                    _vm.activeBtn = !_vm.activeBtn
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            !_vm.activeBtn
+              ? _c("ul", { staticClass: "wrap-links" }, [
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
+                ])
+              : _vm._e()
+          ]
+        ),
         _vm._v(" "),
         _vm._m(12),
         _vm._v(" "),
@@ -10498,297 +10432,117 @@ var render = function() {
         _vm._v(" "),
         _vm._m(15),
         _vm._v(" "),
-        _c("div", { staticClass: "wrap-main-page width-300" }, [
-          _c("label", { staticClass: "admin-h3" }, [_vm._v("Ссылка")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-input" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.chosenCat,
-                  expression: "chosenCat"
-                }
-              ],
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: _vm.chosenCat },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.chosenCat = $event.target.value
-                }
-              }
-            }),
+        _c(
+          "div",
+          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+          [
+            _c("label", { staticClass: "admin-h3" }, [_vm._v("Ссылка")]),
             _vm._v(" "),
-            _c("button", {
-              staticClass: "btn-admin-arrow",
-              class: _vm.activeBtn ? "admin-btn-arrow-pass" : "admin-btn-arrow",
-              on: {
-                click: function($event) {
-                  _vm.activeBtn = !_vm.activeBtn
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          !_vm.activeBtn
-            ? _c("ul", { staticClass: "wrap-links" }, [
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-checkbox" }, [
-            _c("label", { attrs: { for: "category" } }, [
-              _vm._v("Категория "),
+            _c("div", { staticClass: "wrap-input" }, [
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.whatList,
-                    expression: "whatList"
+                    value: _vm.chosenCat,
+                    expression: "chosenCat"
                   }
                 ],
-                attrs: { type: "radio", name: "whatList", value: "category" },
-                domProps: { checked: _vm._q(_vm.whatList, "category") },
+                staticClass: "input-pale-blu",
+                attrs: { type: "text", disabled: "" },
+                domProps: { value: _vm.chosenCat },
                 on: {
-                  change: function($event) {
-                    _vm.whatList = "category"
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.chosenCat = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-admin-arrow",
+                class: _vm.activeBtn
+                  ? "admin-btn-arrow-pass"
+                  : "admin-btn-arrow",
+                on: {
+                  click: function($event) {
+                    _vm.activeBtn = !_vm.activeBtn
                   }
                 }
               })
             ]),
             _vm._v(" "),
-            _c("label", { attrs: { for: "product" } }, [
-              _vm._v("Товар "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.whatList,
-                    expression: "whatList"
-                  }
-                ],
-                attrs: { type: "radio", name: "whatList", value: "product" },
-                domProps: { checked: _vm._q(_vm.whatList, "product") },
-                on: {
-                  change: function($event) {
-                    _vm.whatList = "product"
-                  }
-                }
-              })
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("button", { staticClass: "admin-btn-delete width-300" }, [
-          _vm._v("удалить блок")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "admin-main-blocks" }, [
-        _c("h2", { staticClass: "admin-h2" }, [_vm._v("Блок №1")]),
-        _vm._v(" "),
-        _vm._m(16),
-        _vm._v(" "),
-        _c("div", { staticClass: "wrap-main-page width-300" }, [
-          _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-input" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.chosenCat,
-                  expression: "chosenCat"
-                }
-              ],
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: _vm.chosenCat },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.chosenCat = $event.target.value
-                }
-              }
-            }),
+            !_vm.activeBtn
+              ? _c("ul", { staticClass: "wrap-links" }, [
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
+                ])
+              : _vm._e(),
             _vm._v(" "),
-            _c("button", {
-              staticClass: "btn-admin-arrow",
-              class: _vm.activeBtn ? "admin-btn-arrow-pass" : "admin-btn-arrow",
-              on: {
-                click: function($event) {
-                  _vm.activeBtn = !_vm.activeBtn
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          !_vm.activeBtn
-            ? _c("ul", { staticClass: "wrap-links" }, [
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
+            _c("div", { staticClass: "wrap-checkbox" }, [
+              _c("label", { attrs: { for: "category" } }, [
+                _vm._v("Категория "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.whatList,
+                      expression: "whatList"
+                    }
+                  ],
+                  attrs: { type: "radio", name: "whatList", value: "category" },
+                  domProps: { checked: _vm._q(_vm.whatList, "category") },
+                  on: {
+                    change: function($event) {
+                      _vm.whatList = "category"
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "product" } }, [
+                _vm._v("Товар "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.whatList,
+                      expression: "whatList"
+                    }
+                  ],
+                  attrs: { type: "radio", name: "whatList", value: "product" },
+                  domProps: { checked: _vm._q(_vm.whatList, "product") },
+                  on: {
+                    change: function($event) {
+                      _vm.whatList = "product"
+                    }
+                  }
+                })
               ])
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _vm._m(17),
-        _vm._v(" "),
-        _vm._m(18),
-        _vm._v(" "),
-        _vm._m(19),
-        _vm._v(" "),
-        _vm._m(20),
-        _vm._v(" "),
-        _c("div", { staticClass: "wrap-main-page width-300" }, [
-          _c("label", { staticClass: "admin-h3" }, [_vm._v("Ссылка")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-input" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.chosenCat,
-                  expression: "chosenCat"
-                }
-              ],
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: _vm.chosenCat },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.chosenCat = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("button", {
-              staticClass: "btn-admin-arrow",
-              class: _vm.activeBtn ? "admin-btn-arrow-pass" : "admin-btn-arrow",
-              on: {
-                click: function($event) {
-                  _vm.activeBtn = !_vm.activeBtn
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          !_vm.activeBtn
-            ? _c("ul", { staticClass: "wrap-links" }, [
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-checkbox" }, [
-            _c("label", { attrs: { for: "category" } }, [
-              _vm._v("Категория "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.whatList,
-                    expression: "whatList"
-                  }
-                ],
-                attrs: { type: "radio", name: "whatList", value: "category" },
-                domProps: { checked: _vm._q(_vm.whatList, "category") },
-                on: {
-                  change: function($event) {
-                    _vm.whatList = "category"
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("label", { attrs: { for: "product" } }, [
-              _vm._v("Товар "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.whatList,
-                    expression: "whatList"
-                  }
-                ],
-                attrs: { type: "radio", name: "whatList", value: "product" },
-                domProps: { checked: _vm._q(_vm.whatList, "product") },
-                on: {
-                  change: function($event) {
-                    _vm.whatList = "product"
-                  }
-                }
-              })
             ])
-          ])
-        ]),
+          ]
+        ),
         _vm._v(" "),
         _c("button", { staticClass: "admin-btn-delete width-300" }, [
           _vm._v("удалить блок")
@@ -10891,151 +10645,141 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+      [
+        _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок")]),
+        _vm._v(" "),
+        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок баннера")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+      [
+        _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок баннера")]),
+        _vm._v(" "),
+        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Скидка")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+      [
+        _c("label", { staticClass: "admin-h3" }, [_vm._v("Скидка")]),
+        _vm._v(" "),
+        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Новая цена")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+      [
+        _c("label", { staticClass: "admin-h3" }, [_vm._v("Новая цена")]),
+        _vm._v(" "),
+        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Текст кнопки")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+      [
+        _c("label", { staticClass: "admin-h3" }, [_vm._v("Текст кнопки")]),
+        _vm._v(" "),
+        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+      [
+        _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок")]),
+        _vm._v(" "),
+        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок баннера")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+      [
+        _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок баннера")]),
+        _vm._v(" "),
+        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Скидка")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+      [
+        _c("label", { staticClass: "admin-h3" }, [_vm._v("Скидка")]),
+        _vm._v(" "),
+        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Новая цена")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+      [
+        _c("label", { staticClass: "admin-h3" }, [_vm._v("Новая цена")]),
+        _vm._v(" "),
+        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Текст кнопки")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок баннера")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Скидка")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Новая цена")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-main-page width-300" }, [
-      _c("label", { staticClass: "admin-h3" }, [_vm._v("Текст кнопки")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+      [
+        _c("label", { staticClass: "admin-h3" }, [_vm._v("Текст кнопки")]),
+        _vm._v(" "),
+        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -11065,89 +10809,99 @@ var render = function() {
     [
       _c("AdminTopSide", { attrs: { H: "Заказы", btn: false } }),
       _vm._v(" "),
-      _c("div", { staticClass: "orders" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "orders-list" }, [
-          _vm._m(1),
+      _c(
+        "div",
+        { staticClass: "orders" },
+        [
+          _vm._m(0),
           _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _vm._m(3),
-          _vm._v(" "),
-          _vm._m(4),
-          _vm._v(" "),
-          _vm._m(5),
-          _vm._v(" "),
-          _vm._m(6),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "list-cell" },
-            [
-              _c("input", {
-                staticClass: "input-pale-blu",
-                attrs: { type: "text", value: "В обработке", disabled: "" }
-              }),
+          _vm._l(_vm.GetOrders, function(order, i) {
+            return _c("div", { staticClass: "orders-list" }, [
+              _c("div", { staticClass: "list-cell" }, [
+                _c("div", { staticClass: "admin-h3" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(order[0]) +
+                      "\n                "
+                  )
+                ])
+              ]),
               _vm._v(" "),
-              _c("router-link", { attrs: { to: { path: "order-1" } } }, [
-                _c("img", {
-                  attrs: {
-                    src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"),
-                    alt: ""
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.editOrder()
-                    }
-                  }
+              _c("div", { staticClass: "list-cell" }, [
+                _c("input", {
+                  staticClass: "input-pale-blu",
+                  attrs: { type: "text", disabled: "" },
+                  domProps: { value: order[1] }
                 })
-              ])
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "orders-list" }, [
-          _vm._m(7),
-          _vm._v(" "),
-          _vm._m(8),
-          _vm._v(" "),
-          _vm._m(9),
-          _vm._v(" "),
-          _vm._m(10),
-          _vm._v(" "),
-          _vm._m(11),
-          _vm._v(" "),
-          _vm._m(12),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "list-cell" },
-            [
-              _c("input", {
-                staticClass: "input-pale-blu",
-                attrs: { type: "text", value: "В обработке", disabled: "" }
-              }),
+              ]),
               _vm._v(" "),
-              _c("router-link", { attrs: { to: { path: "order-1" } } }, [
-                _c("img", {
-                  attrs: {
-                    src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"),
-                    alt: ""
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.editOrder()
-                    }
-                  }
+              _c("div", { staticClass: "list-cell" }, [
+                _c("input", {
+                  staticClass: "input-pale-blu",
+                  attrs: { type: "text", disabled: "" },
+                  domProps: { value: order[2] }
                 })
-              ])
-            ],
-            1
-          )
-        ])
-      ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "list-cell" }, [
+                _c("input", {
+                  staticClass: "input-pale-blu",
+                  attrs: { type: "text", disabled: "" },
+                  domProps: { value: order[3] }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "list-cell" }, [
+                _c("input", {
+                  staticClass: "input-pale-blu",
+                  attrs: { type: "text", disabled: "" },
+                  domProps: { value: order[0] }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "list-cell" }, [
+                _c("input", {
+                  staticClass: "input-pale-blu",
+                  attrs: { type: "text", disabled: "" },
+                  domProps: { value: order[4] }
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "list-cell" },
+                [
+                  _c("input", {
+                    staticClass: "input-pale-blu",
+                    attrs: { type: "text", disabled: "" },
+                    domProps: { value: order[5] }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    { attrs: { to: { path: "order-" + order[0] } } },
+                    [
+                      _c("img", {
+                        attrs: {
+                          src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"),
+                          alt: ""
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.editOrder()
+                          }
+                        }
+                      })
+                    ]
+                  )
+                ],
+                1
+              )
+            ])
+          })
+        ],
+        2
+      )
     ],
     1
   )
@@ -11187,136 +10941,6 @@ var staticRenderFns = [
       _c("div", { staticClass: "list-cell" }, [
         _c("h1", { staticClass: "admin-h3" }, [_vm._v("Статус")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("div", { staticClass: "admin-h3" }, [
-        _vm._v("\n                    1.\n                ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "Иван Иванович Иванов", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "89111234567", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "ivanIvanov@yandex.ru", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "1234", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "21.08.2020  21:40", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("div", { staticClass: "admin-h3" }, [
-        _vm._v("\n                    1.\n                ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "Иван Иванович Иванов", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "89111234567", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "ivanIvanov@yandex.ru", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "1234", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "21.08.2020  21:40", disabled: "" }
-      })
     ])
   }
 ]
@@ -17458,11 +17082,24 @@ var render = function() {
           _vm._v(" "),
           _c("h3", [_vm._v(_vm._s(_vm.mainBanerCollect))]),
           _vm._v(" "),
-          _c("button", { staticClass: "btn" }, [
-            _vm._v(
-              "\n                " + _vm._s(_vm.mainBanerBtn) + "\n            "
-            )
-          ])
+          _c(
+            "button",
+            { staticClass: "btn", attrs: { id: "btnMain" } },
+            [
+              _c(
+                "router-link",
+                { attrs: { to: { path: "malchiki/verhodejda-zima" } } },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.mainBanerBtn) +
+                      "\n                "
+                  )
+                ]
+              )
+            ],
+            1
+          )
         ])
       ]),
       _vm._v(" "),
@@ -17938,7 +17575,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "pay-icons" },
+      { staticClass: "pay-icons", attrs: { id: "iconsPay" } },
       _vm._l(_vm.payIcons.lvlOne, function(ic, i) {
         return _c("img", { attrs: { src: ic, alt: "" } })
       }),
@@ -17993,7 +17630,7 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("span", { staticClass: "pay-success-number" }, [
-          _vm._v("\n            1234567\n        ")
+          _vm._v("\n            1\n        ")
         ])
       ]),
       _vm._v(" "),
@@ -39631,7 +39268,9 @@ var admin = {
       allSizes: null,
       // Получить один товар
       oneProduct: null,
-      productSuccess: false
+      productSuccess: false,
+      //ЗАКАЗЫ
+      GetAllOrders: null
     };
   },
   mutations: {
@@ -39782,6 +39421,27 @@ var admin = {
           }
         }, _callee5);
       }))();
+    },
+    GetAllOrdersMutate: function GetAllOrdersMutate(state) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admorders")).then(function (res) {
+                  state.GetAllOrders = res.data;
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 2:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
     }
   },
   actions: {
@@ -39804,9 +39464,16 @@ var admin = {
     GetOneProduct: function GetOneProduct(_ref5, data) {
       var commit = _ref5.commit;
       commit('GetOneProductMutate', data);
+    },
+    GetAllOrders: function GetAllOrders(_ref6) {
+      var commit = _ref6.commit;
+      commit('GetAllOrdersMutate');
     }
   },
   getters: {
+    GetAllOrders: function GetAllOrders(state) {
+      return state.GetAllOrders;
+    },
     adminProducts: function adminProducts(state) {
       return state.adminProducts;
     },
@@ -39880,12 +39547,12 @@ var store = {
     },
     // Получаем категории и подкатегории меню
     getMenuDataMutate: function getMenuDataMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context6.next = 2;
+                _context7.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "menu")).then(function (response) {
                   // массив с изначальной датой
                   var menu = response.data; // Сырые данные меню
@@ -40117,10 +39784,10 @@ var store = {
 
               case 2:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6);
+        }, _callee7);
       }))();
     },
     sideBarDepartMutate: function sideBarDepartMutate(state, data) {
@@ -40196,17 +39863,17 @@ var store = {
     },
     // Получаем дату в каталог по категориям
     getCatalogDataMutate: function getCatalogDataMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context7.t0 = Object.keys(data.params).length;
-                _context7.next = _context7.t0 === 1 ? 3 : _context7.t0 === 2 ? 6 : _context7.t0 === 3 ? 9 : 12;
+                _context8.t0 = Object.keys(data.params).length;
+                _context8.next = _context8.t0 === 1 ? 3 : _context8.t0 === 2 ? 6 : _context8.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context7.next = 5;
+                _context8.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -40262,10 +39929,10 @@ var store = {
                 });
 
               case 5:
-                return _context7.abrupt("break", 12);
+                return _context8.abrupt("break", 12);
 
               case 6:
-                _context7.next = 8;
+                _context8.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по категории
                   var itemCell = response.data; // Устанавливаес min и max
@@ -40321,10 +39988,10 @@ var store = {
                 });
 
               case 8:
-                return _context7.abrupt("break", 12);
+                return _context8.abrupt("break", 12);
 
               case 9:
-                _context7.next = 11;
+                _context8.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по категории
                   var itemCell = response.data; // Устанавливаес min и max
@@ -40380,36 +40047,36 @@ var store = {
                 });
 
               case 11:
-                return _context7.abrupt("break", 12);
+                return _context8.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7);
+        }, _callee8);
       }))();
     },
     // Получаем дату для конкретного товара
     getItemDataMutate: function getItemDataMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                _context9.next = 2;
+                _context10.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "item-").concat(data)).then( /*#__PURE__*/function () {
-                  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(response) {
+                  var _ref7 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9(response) {
                     var itemData, stateItemData, pics, stars, el;
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
                       while (1) {
-                        switch (_context8.prev = _context8.next) {
+                        switch (_context9.prev = _context9.next) {
                           case 0:
-                            _context8.next = 2;
+                            _context9.next = 2;
                             return response.data;
 
                           case 2:
-                            itemData = _context8.sent;
+                            itemData = _context9.sent;
                             stateItemData = {};
                             pics = null;
                             stars = {
@@ -40480,39 +40147,17 @@ var store = {
 
                           case 10:
                           case "end":
-                            return _context8.stop();
+                            return _context9.stop();
                         }
                       }
-                    }, _callee8);
+                    }, _callee9);
                   }));
 
                   return function (_x) {
-                    return _ref6.apply(this, arguments);
+                    return _ref7.apply(this, arguments);
                   };
                 }())["catch"](function (errors) {
                   return console.log(errors);
-                });
-
-              case 2:
-              case "end":
-                return _context9.stop();
-            }
-          }
-        }, _callee9);
-      }))();
-    },
-    // Получаем отзывы
-    getItemReviewsMutate: function getItemReviewsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
-          while (1) {
-            switch (_context10.prev = _context10.next) {
-              case 0:
-                _context10.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemsreview-").concat(data.item, "?page=").concat(data.page)).then(function (response) {
-                  var reviews = response.data;
-                  state.catalogItemReview = reviews.data;
-                  state.catalogItemReviewCount = reviews.total;
                 });
 
               case 2:
@@ -40523,19 +40168,41 @@ var store = {
         }, _callee10);
       }))();
     },
-    // Получаем товары по скидки
-    showSaleProductsMutate: function showSaleProductsMutate(state, data) {
+    // Получаем отзывы
+    getItemReviewsMutate: function getItemReviewsMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
-                _context11.t0 = Object.keys(data.params).length;
-                _context11.next = _context11.t0 === 1 ? 3 : _context11.t0 === 2 ? 6 : _context11.t0 === 3 ? 9 : 12;
+                _context11.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemsreview-").concat(data.item, "?page=").concat(data.page)).then(function (response) {
+                  var reviews = response.data;
+                  state.catalogItemReview = reviews.data;
+                  state.catalogItemReviewCount = reviews.total;
+                });
+
+              case 2:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
+      }))();
+    },
+    // Получаем товары по скидки
+    showSaleProductsMutate: function showSaleProductsMutate(state, data) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                _context12.t0 = Object.keys(data.params).length;
+                _context12.next = _context12.t0 === 1 ? 3 : _context12.t0 === 2 ? 6 : _context12.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context11.next = 5;
+                _context12.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -40590,10 +40257,10 @@ var store = {
                 });
 
               case 5:
-                return _context11.abrupt("break", 12);
+                return _context12.abrupt("break", 12);
 
               case 6:
-                _context11.next = 8;
+                _context12.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -40648,10 +40315,10 @@ var store = {
                 });
 
               case 8:
-                return _context11.abrupt("break", 12);
+                return _context12.abrupt("break", 12);
 
               case 9:
-                _context11.next = 11;
+                _context12.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -40706,29 +40373,29 @@ var store = {
                 });
 
               case 11:
-                return _context11.abrupt("break", 12);
+                return _context12.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context11.stop();
+                return _context12.stop();
             }
           }
-        }, _callee11);
+        }, _callee12);
       }))();
     },
     // Получаем данные по фильтрку кешу
     showCashProductsMutate: function showCashProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                _context12.t0 = Object.keys(data.params).length;
-                _context12.next = _context12.t0 === 1 ? 3 : _context12.t0 === 2 ? 6 : _context12.t0 === 3 ? 9 : 12;
+                _context13.t0 = Object.keys(data.params).length;
+                _context13.next = _context13.t0 === 1 ? 3 : _context13.t0 === 2 ? 6 : _context13.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context12.next = 5;
+                _context13.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -40783,10 +40450,10 @@ var store = {
                 });
 
               case 5:
-                return _context12.abrupt("break", 12);
+                return _context13.abrupt("break", 12);
 
               case 6:
-                _context12.next = 8;
+                _context13.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -40841,10 +40508,10 @@ var store = {
                 });
 
               case 8:
-                return _context12.abrupt("break", 12);
+                return _context13.abrupt("break", 12);
 
               case 9:
-                _context12.next = 11;
+                _context13.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -40899,44 +40566,44 @@ var store = {
                 });
 
               case 11:
-                return _context12.abrupt("break", 12);
+                return _context13.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12);
+        }, _callee13);
       }))();
     },
     // Сортинг
     sortByActionMutate: function sortByActionMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
         var params;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
                 params = null;
-                _context13.t0 = Object.keys(data.params).length;
-                _context13.next = _context13.t0 === 1 ? 4 : _context13.t0 === 2 ? 6 : _context13.t0 === 3 ? 8 : 10;
+                _context14.t0 = Object.keys(data.params).length;
+                _context14.next = _context14.t0 === 1 ? 4 : _context14.t0 === 2 ? 6 : _context14.t0 === 3 ? 8 : 10;
                 break;
 
               case 4:
                 params = data.params.gender + '/';
-                return _context13.abrupt("break", 10);
+                return _context14.abrupt("break", 10);
 
               case 6:
                 params = data.params.gender + '/' + data.params.category;
-                return _context13.abrupt("break", 10);
+                return _context14.abrupt("break", 10);
 
               case 8:
                 params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context13.abrupt("break", 10);
+                return _context14.abrupt("break", 10);
 
               case 10:
-                _context13.t1 = data.price;
-                _context13.next = _context13.t1 === "low" ? 13 : _context13.t1 === "high" ? 15 : 16;
+                _context14.t1 = data.price;
+                _context14.next = _context14.t1 === "low" ? 13 : _context14.t1 === "high" ? 15 : 16;
                 break;
 
               case 13:
@@ -40993,7 +40660,7 @@ var store = {
 
                   state.catalogDataCellCount = itemCell.total;
                 });
-                return _context13.abrupt("break", 16);
+                return _context14.abrupt("break", 16);
 
               case 15:
                 axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "price-").concat(data.price, "/").concat(params, "?page=").concat(data.page)).then(function (response) {
@@ -41052,36 +40719,36 @@ var store = {
 
               case 16:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee13);
+        }, _callee14);
       }))();
     },
     // Получаем данные по фильтру размеры
     showSizeProductsMutate: function showSizeProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
         var params, queryStr;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
                 params = null;
-                _context14.t0 = Object.keys(data.params).length;
-                _context14.next = _context14.t0 === 1 ? 4 : _context14.t0 === 2 ? 6 : _context14.t0 === 3 ? 8 : 10;
+                _context15.t0 = Object.keys(data.params).length;
+                _context15.next = _context15.t0 === 1 ? 4 : _context15.t0 === 2 ? 6 : _context15.t0 === 3 ? 8 : 10;
                 break;
 
               case 4:
                 params = data.params.gender + '/';
-                return _context14.abrupt("break", 10);
+                return _context15.abrupt("break", 10);
 
               case 6:
                 params = data.params.gender + '/' + data.params.category;
-                return _context14.abrupt("break", 10);
+                return _context15.abrupt("break", 10);
 
               case 8:
                 params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context14.abrupt("break", 10);
+                return _context15.abrupt("break", 10);
 
               case 10:
                 queryStr = '';
@@ -41105,10 +40772,10 @@ var store = {
 
               case 13:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14);
+        }, _callee15);
       }))();
     },
     // Добавляем товары в корзину
@@ -41154,18 +40821,18 @@ var store = {
     },
     // Получаем товары для корзины
     getProductForCartMutate: function getProductForCartMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16() {
         var cardIds, unigIds;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context15.prev = _context15.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
                 cardIds = [];
                 state.cart.forEach(function (el) {
                   cardIds.push(el.id);
                 });
                 unigIds = new Set(cardIds);
-                _context15.next = 5;
+                _context16.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemscard/").concat(Array.from(unigIds).join(', '))).then(function (response) {
                   var dataCart = state.cart;
                   var data = response.data;
@@ -41192,10 +40859,10 @@ var store = {
 
               case 5:
               case "end":
-                return _context15.stop();
+                return _context16.stop();
             }
           }
-        }, _callee15);
+        }, _callee16);
       }))();
     },
     // Удаляем карточку товара
@@ -41257,16 +40924,15 @@ var store = {
         console.log(response.data);
       })["catch"](function (e) {
         console.log(e);
-        state.paySuccess = false;
       });
     }
   },
   actions: {
-    register: function register(_ref7, user) {
-      var commit = _ref7.commit;
+    register: function register(_ref8, user) {
+      var commit = _ref8.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
-          url: 'http://lappinalle.ru/api/register',
+          url: 'http://lappinalle.test/api/register',
           data: user,
           method: 'POST'
         }).then(function (resp) {
@@ -41281,11 +40947,11 @@ var store = {
         });
       });
     },
-    login: function login(_ref8, user) {
-      var commit = _ref8.commit;
+    login: function login(_ref9, user) {
+      var commit = _ref9.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
-          url: 'http://lappinalle.ru/api/login',
+          url: 'http://lappinalle.test/api/login',
           data: user,
           method: 'POST'
         }).then(function (resp) {
@@ -41300,76 +40966,76 @@ var store = {
         });
       });
     },
-    getMenuData: function getMenuData(_ref9) {
-      var commit = _ref9.commit;
+    getMenuData: function getMenuData(_ref10) {
+      var commit = _ref10.commit;
       commit('getMenuDataMutate');
     },
-    showDepartments: function showDepartments(_ref10, data) {
-      var commit = _ref10.commit;
+    showDepartments: function showDepartments(_ref11, data) {
+      var commit = _ref11.commit;
       commit('sideBarDepartMutate', data);
     },
-    showDepartAfterUpdated: function showDepartAfterUpdated(_ref11, data) {
-      var commit = _ref11.commit;
+    showDepartAfterUpdated: function showDepartAfterUpdated(_ref12, data) {
+      var commit = _ref12.commit;
       commit('sideBarDepartMutateAfterUpdated', data);
     },
-    backToCategory: function backToCategory(_ref12, data) {
-      var commit = _ref12.commit;
+    backToCategory: function backToCategory(_ref13, data) {
+      var commit = _ref13.commit;
       commit('backToCategoryMutate', data);
     },
-    getCatalogData: function getCatalogData(_ref13, data) {
-      var commit = _ref13.commit;
+    getCatalogData: function getCatalogData(_ref14, data) {
+      var commit = _ref14.commit;
       commit('getCatalogDataMutate', data);
     },
-    getItemData: function getItemData(_ref14, data) {
-      var commit = _ref14.commit;
+    getItemData: function getItemData(_ref15, data) {
+      var commit = _ref15.commit;
       commit('getItemDataMutate', data);
     },
-    getItemReviews: function getItemReviews(_ref15, data) {
-      var commit = _ref15.commit;
+    getItemReviews: function getItemReviews(_ref16, data) {
+      var commit = _ref16.commit;
       commit('getItemReviewsMutate', data);
     },
-    showSaleProducts: function showSaleProducts(_ref16, data) {
-      var commit = _ref16.commit;
+    showSaleProducts: function showSaleProducts(_ref17, data) {
+      var commit = _ref17.commit;
       commit('showSaleProductsMutate', data);
     },
-    showCashProducts: function showCashProducts(_ref17, data) {
-      var commit = _ref17.commit;
+    showCashProducts: function showCashProducts(_ref18, data) {
+      var commit = _ref18.commit;
       commit('showCashProductsMutate', data);
     },
-    sortByAction: function sortByAction(_ref18, data) {
-      var commit = _ref18.commit;
+    sortByAction: function sortByAction(_ref19, data) {
+      var commit = _ref19.commit;
       commit('sortByActionMutate', data);
     },
-    showSizeProducts: function showSizeProducts(_ref19, data) {
-      var commit = _ref19.commit;
+    showSizeProducts: function showSizeProducts(_ref20, data) {
+      var commit = _ref20.commit;
       commit('showSizeProductsMutate', data);
     },
-    addToCart: function addToCart(_ref20, data) {
-      var commit = _ref20.commit;
+    addToCart: function addToCart(_ref21, data) {
+      var commit = _ref21.commit;
       commit('addToCartMutate', data);
     },
-    getProductForCart: function getProductForCart(_ref21) {
-      var commit = _ref21.commit;
+    getProductForCart: function getProductForCart(_ref22) {
+      var commit = _ref22.commit;
       commit('getProductForCartMutate');
     },
-    removeCard: function removeCard(_ref22, data) {
-      var commit = _ref22.commit;
+    removeCard: function removeCard(_ref23, data) {
+      var commit = _ref23.commit;
       commit('removeCardMutate', data);
     },
-    totalPrice: function totalPrice(_ref23, data) {
-      var commit = _ref23.commit;
+    totalPrice: function totalPrice(_ref24, data) {
+      var commit = _ref24.commit;
       commit('totalPriceMutate', data);
     },
-    changeCountCart: function changeCountCart(_ref24, data) {
-      var commit = _ref24.commit;
+    changeCountCart: function changeCountCart(_ref25, data) {
+      var commit = _ref25.commit;
       commit('changeCountCartMutate', data);
     },
-    customerData: function customerData(_ref25, data) {
-      var commit = _ref25.commit;
+    customerData: function customerData(_ref26, data) {
+      var commit = _ref26.commit;
       commit('customerDataMutate', data);
     },
-    sentData: function sentData(_ref26, data) {
-      var commit = _ref26.commit;
+    sentData: function sentData(_ref27, data) {
+      var commit = _ref27.commit;
       commit('sentDataMutate', data);
     }
   },

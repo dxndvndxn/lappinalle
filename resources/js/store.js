@@ -16,8 +16,10 @@ const admin = {
 
         // Получить один товар
         oneProduct: null,
-
         productSuccess: false,
+
+        //ЗАКАЗЫ
+        GetAllOrders: null
     }),
     mutations: {
         // Получаем все товары СТРАНИЧКА ТОВАРЫ
@@ -97,8 +99,15 @@ const admin = {
                     state.oneProduct = res.data;
                 })
                 .catch(e => console.log(e))
-       }
+       },
 
+        async GetAllOrdersMutate(state){
+            await axios.get(`${state.SITE_URI}admorders`)
+                .then(res => {
+                    state.GetAllOrders = res.data;
+                })
+                .catch(e => console.log(e))
+        }
     },
     actions: {
         AdminGetAllPrducts({commit}){
@@ -115,9 +124,15 @@ const admin = {
         },
         GetOneProduct({commit}, data){
             commit('GetOneProductMutate', data);
+        },
+        GetAllOrders({commit}){
+            commit('GetAllOrdersMutate');
         }
     },
     getters: {
+        GetAllOrders: state => {
+          return state.GetAllOrders;
+        },
         adminProducts: state => {
             return state.adminProducts;
         },
@@ -1349,6 +1364,7 @@ const store = {
             state.customerData = data;
         },
 
+
         sentDataMutate(state, data){
             let postData = [];
             let localCart = [];
@@ -1366,15 +1382,14 @@ const store = {
                     console.log(response.data);
                 })
                 .catch(e => {
-                    console.log(e)
-                    state.paySuccess = false;
+                    console.log(e);
                 })
         }
     },
     actions: {
         register({commit}, user){
             return new Promise((resolve, reject) => {
-                axios({url: 'http://lappinalle.ru/api/register', data: user, method: 'POST' })
+                axios({url: 'http://lappinalle.test/api/register', data: user, method: 'POST' })
                     .then(resp => {
                         const token = resp.data;
                         localStorage.setItem('token', token);
@@ -1390,7 +1405,7 @@ const store = {
         },
         login({commit}, user){
             return new Promise((resolve, reject) => {
-                axios({url: 'http://lappinalle.ru/api/login', data: user, method: 'POST' })
+                axios({url: 'http://lappinalle.test/api/login', data: user, method: 'POST' })
                     .then(resp => {
                         const token = resp.data;
                         localStorage.setItem('token', token);

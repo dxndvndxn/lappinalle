@@ -5,7 +5,7 @@
                 &#8470; заказа:
             </span>
             <span class="pay-success-number">
-                1234567
+                1
             </span>
         </h1>
         <p class="pay-success-text">

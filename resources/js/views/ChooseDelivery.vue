@@ -213,7 +213,7 @@
                 if (newValue) {
                     this.$router.push({name: 'paySuccess'})
                 }else{
-
+                    console.log(newValue)
                 }
             }
         },

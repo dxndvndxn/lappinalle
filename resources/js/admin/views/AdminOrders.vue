@@ -27,56 +27,30 @@
                     <h1 class="admin-h3">Статус</h1>
                 </div>
             </div>
-            <div class="orders-list">
+            <div class="orders-list" v-for="(order, i) in GetOrders">
                 <div class="list-cell">
                     <div class="admin-h3">
-                        1.
+                        {{order[0]}}
                     </div>
                 </div>
                 <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="Иван Иванович Иванов" disabled>
+                    <input type="text" class="input-pale-blu" :value="order[1]" disabled>
                 </div>
                 <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="89111234567" disabled>
+                    <input type="text" class="input-pale-blu" :value="order[2]" disabled>
                 </div>
                 <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="ivanIvanov@yandex.ru" disabled>
+                    <input type="text" class="input-pale-blu" :value="order[3]" disabled>
                 </div>
                 <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="1234" disabled>
+                    <input type="text" class="input-pale-blu" :value="order[0]" disabled>
                 </div>
                 <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="21.08.2020  21:40" disabled>
+                    <input type="text" class="input-pale-blu" :value="order[4]" disabled>
                 </div>
                 <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="В обработке" disabled>
-                    <router-link :to="{path: `order-1`}"><img @click="editOrder()" src="../../../img/admin-set.png" alt=""></router-link>
-                </div>
-            </div>
-            <div class="orders-list">
-                <div class="list-cell">
-                    <div class="admin-h3">
-                        1.
-                    </div>
-                </div>
-                <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="Иван Иванович Иванов" disabled>
-                </div>
-                <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="89111234567" disabled>
-                </div>
-                <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="ivanIvanov@yandex.ru" disabled>
-                </div>
-                <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="1234" disabled>
-                </div>
-                <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="21.08.2020  21:40" disabled>
-                </div>
-                <div class="list-cell">
-                    <input type="text" class="input-pale-blu" value="В обработке" disabled>
-                    <router-link :to="{path: `order-1`}"><img @click="editOrder()" src="../../../img/admin-set.png" alt=""></router-link>
+                    <input type="text" class="input-pale-blu" :value="order[5]" disabled>
+                    <router-link :to="{path: `order-${order[0]}`}"><img @click="editOrder()" src="../../../img/admin-set.png" alt=""></router-link>
                 </div>
             </div>
         </div>
@@ -88,9 +62,20 @@
     export default {
         name: "AdminOrders",
         components: {AdminTopSide},
+        data: () => ({
+
+        }),
         methods: {
             editOrder(){
 
+            }
+        },
+        mounted() {
+            this.$store.dispatch('GetAllOrders');
+        },
+        computed: {
+            GetOrders(){
+                return this.$store.getters.GetAllOrders;
             }
         }
     }

@@ -20,6 +20,7 @@ class Orders extends Migration
             $table->string('orders_name', 255)->collation('utf8_general_ci')->nullable();
             $table->string('orders_email', 255)->collation('utf8_general_ci')->nullable();
             $table->string('orders_city', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('orders_tel', 255)->collation('utf8_general_ci')->nullable();
             $table->string('orders_street', 255)->collation('utf8_general_ci')->nullable();
             $table->string('orders_house', 255)->collation('utf8_general_ci')->nullable();
             $table->string('orders_apart', 255)->collation('utf8_general_ci')->nullable();

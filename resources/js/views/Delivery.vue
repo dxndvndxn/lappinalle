@@ -23,24 +23,9 @@
         data: () => ({
             imgDelivery: ['../img/post-icon.png', '../img/sdek-icon.png', '../img/pek-icon.png'],
             imgText: [
-                {h1: 'Загловок почты',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum magni officia quis totam vero!\n' +
-                    'Assumenda delectus eum necessitatibus nobis vero. Cum debitis itaque quos ratione temporibus! Enim\n' +
-                    'perferendis, praesentium!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum magni officia quis totam vero!\n' +
-                        'Assumenda delectus eum necessitatibus nobis vero. Cum debitis itaque quos ratione temporibus! Enim\n' +
-                        'perferendis, praesentium!'}
-                    , {h1: null,
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum magni officia quis totam vero!\n' +
-                    ' Assumenda delectus eum necessitatibus nobis vero. Cum debitis itaque quos ratione temporibus! Enim\n' +
-                    ' perferendis, praesentium!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum magni officia quis totam vero!\n' +
-                        'Assumenda delectus eum necessitatibus nobis vero. Cum debitis itaque quos ratione temporibus! Enim\n' +
-                        'perferendis, praesentium!'},
-                {h1: 'Доставка ПЭК действительна при сумме заказа от 20000 рублей.', text: 'Также действует бесплатная курьерская доставка в пределах КАД\n' +
-                        'при заказе от 2000 рублей. При заказе на сумму менее 2000 рублей,\n' +
-                        'отказе или выкупе товара на сумму менее 2000 рублей стоимость\n' +
-                        'курьерской доставки 300 рублей.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum magni officia quis totam vero!\n' +
-                        'Assumenda delectus eum necessitatibus nobis vero. Cum debitis itaque quos ratione temporibus! Enim\n' +
-                        'perferendis, praesentium!'}],
+                {h1: null, text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублейотказе или выкупе товара на сумму менее 2000 рублей стоимостькурьерской доставки 300 рублей.'},
+                {h1: null, text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублейотказе или выкупе товара на сумму менее 2000 рублей стоимостькурьерской доставки 300 рублей.'},
+                {h1: null, text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублейотказе или выкупе товара на сумму менее 2000 рублей стоимостькурьерской доставки 300 рублей.'}],
             chosenText: 0
 
         }),
