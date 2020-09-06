@@ -15,8 +15,7 @@ class AddNewProdController extends Controller
         $product_id = $id['id'];
 
         DB::table('products')->insert([
-            'product_img' => public_path()."/img/item-$product_id",
-            'product_video' => public_path()."/img/item-$product_id"
+            ['added_on' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
 
         Storage::makeDirectory(public_path() ."/img/item-$product_id");
@@ -92,13 +91,62 @@ class AddNewProdController extends Controller
                 ]
             ]);
         }
+
         if (isset($productStr['sizeOld'])) {
             DB::table('catalog_size')
                 ->where('product_id', $productStr['id'])
                 ->where('sizes_id', $productStr['sizeOld']['sizeId'])
                 ->update(['catalog_size_amount' => $productStr['sizeOld']['count']]);
         }
+
+        $product_id = $productStr['id'];
+
+        if (isset($product['img-1'])){
+            $imgPath = "";
+
+            for ($prd = 0; $prd < count($product); $prd++) {
+
+                if ($request->hasFile("img-$prd")) {
+                    $img = $request->file("img-$prd");
+                    $img->move(public_path() . "/img/item-$product_id", "img_$prd-item-$product_id" . ".png");
+                    $imgPath .= "/img/item-$product_id/" . "img_$prd-item-$product_id" . ".png" . ", ";
+                }
+            }
+            DB::table('products')
+                ->where('product_id', $productStr['id'])
+                ->update(['product_img' => $imgPath]);
+
+        }
+
+        $videoPath = "";
+        if (isset($product['video'])) {
+
+            if ($request->hasFile('video')) {
+                $video = $request->file('video');
+                $video->move(public_path() . "/img/item-$product_id", "video-item-$product_id" . ".mp4");
+                $videoPath = "/img/item-$product_id/" . "video-item-$product_id" . ".mp4";
+            }
+            DB::table('products')
+                ->where('product_id', $productStr['id'])
+                ->update(['product_video' => $videoPath]);
+        }
+
+        if (isset($productStr['vidRemove'])) {
+            unlink(public_path($productStr['vidRemove']));
+            DB::table('products')
+                ->where('product_id', $productStr['id'])
+                ->update(['product_video' => NULL]);
+
+        }
+
+        if (isset($productStr['deletedImg'])){
+            unlink(public_path($productStr['deletedImg']));
+            DB::table('products')
+                ->where('product_id', $productStr['id'])
+                ->update(['product_img' => $productStr['updatedImg']]);
+        }
         return true;
+//        return true;
 //        $imgPath = "";
 //
 //        for ($prd = 0; $prd < count($product); $prd++) {

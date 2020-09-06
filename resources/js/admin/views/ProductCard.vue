@@ -31,8 +31,9 @@
                     </div>
                     <div class="wrap-newsize-stock">
                         <h1 class="admin-h3">Кол-во на складе</h1>
-                        <input type="text" class="input-transp" @change="insertAmountStock" v-if="!timeToChangePresetnSizes" v-model.trim="chozenSizeStockAfterClick">
-                        <input type="text" class="input-transp" @change="insertAmountStockUpdate" v-if="timeToChangePresetnSizes" v-model.trim="chozenSizeStockAfterClick">
+                        <input type="text" class="input-transp" @change="insertAmountStock" v-if="!timeToChangePresetnSizes" v-model.trim="chozenSizeStockAfterClick" >
+                        <small v-if="errorInput" class="small-invalid">Пожалуйста, укажите сначала размер.</small>
+                        <input type="text" class="input-transp" @change="insertAmountStockUpdate" v-if="timeToChangePresetnSizes" v-model.trim="chozenSizeStockAfterClick" v-bind:disabled="chozenSizeAfterClick === null">
                     </div>
                 </div>
                 <div class="size-grid">
@@ -48,6 +49,7 @@
                 </div>
             </div>
         </div>
+<!--        {{getOneProduct[0].product_video}}-->
         <div class="admin-product-photos-rew">
             <div class="admin-photos">
                 <form @submit.prevent="">
@@ -55,7 +57,8 @@
                     <div class="uploaded-content">
                         <svg id='video-admin' v-if="video" class="fill-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 413.19 358.83"><defs></defs><title>icon_cam</title><path d="M150.57,419.73c-3.12-1-6.25-1.89-9.34-3-3.87-1.33-6.63-4.17-9.34-7.09-4.86-5.24-6.47-11.5-6.46-18.46q.06-70.32,0-140.62c0-4.32.41-8.59,2.45-12.41,5.18-9.66,13.3-15,24.31-15.77,1-.07,2.09-.06,3.14-.06q120.42,0,240.86,0c8.7,0,16.39,2.5,22.32,9a27.17,27.17,0,0,1,7.52,19q-.18,70.64,0,141.28c0,9-3.62,16-10.16,21.68a26.11,26.11,0,0,1-13.09,5.91c-.65.11-1.28.32-1.92.48ZM275.7,240.31H156c-1,0-1.95,0-2.91.06-4.58.41-7.78,3.09-8.57,7.21a16.35,16.35,0,0,0-.18,3.13v140.6c0,.75,0,1.5.05,2.24a8.54,8.54,0,0,0,6.3,7.6,20.32,20.32,0,0,0,4.85.6q120.2,0,240.39,0a16.78,16.78,0,0,0,2.46-.06c5.29-.82,8.89-3.87,8.79-9.45,0-.45,0-.9,0-1.35V251.23a20.06,20.06,0,0,0-.06-2.69c-.37-2.69-1.29-5.2-4-6.27-2.23-.88-4.63-1.87-7-1.87Q335.9,240.22,275.7,240.31Z" transform="translate(-125.43 -60.9)"/><path d="M348.48,204.43a75.79,75.79,0,0,1-34.64-9.33,77.74,77.74,0,0,1-21.13-17,70,70,0,0,1-9.82-15.1c-9.5-18.84-9.44-38.09-1.74-57.33a73.3,73.3,0,0,1,9.92-16.59,67.26,67.26,0,0,1,19.16-16.89A77.07,77.07,0,0,1,360.5,61.53a75.13,75.13,0,0,1,31.73,11.39A77.89,77.89,0,0,1,411.68,90.8c5.58,7.14,8.86,15.22,11.6,23.71a60.46,60.46,0,0,1,1,32.87c-2,8.29-4.94,16.42-9.9,23.54a76.25,76.25,0,0,1-20,20.19C381.23,199.91,366.67,204.4,348.48,204.43ZM350,78.78c-1.42.12-3.66.23-5.88.49-18.9,2.21-33.8,11.42-42.91,27.87-9.84,17.76-9.56,36.11,1.74,53.65A51.35,51.35,0,0,0,313.63,173a55.25,55.25,0,0,0,20.12,10.86c23.47,6.51,43.63.69,60.35-16.81a46.9,46.9,0,0,0,10.64-18.93c3.67-12,3.37-24-1.93-35.74a55.26,55.26,0,0,0-20.63-24.31C372.64,81.87,362.16,79,350,78.78Z" transform="translate(-125.43 -60.9)"/><path d="M519.61,378.07V264c-2.23,1-4.39,1.88-6.5,2.89q-18.74,9-37.46,18-8.56,4.11-17.17,8.13c-5.37,2.5-11.13.38-13.06-4.73a8.79,8.79,0,0,1,4.45-11.17c4.36-2.28,8.83-4.34,13.28-6.45,4.17-2,8.38-3.85,12.54-5.84,9.07-4.36,18.12-8.77,27.18-13.14,7-3.37,14-6.66,21-10.05a10.6,10.6,0,0,1,11.42.75,8.11,8.11,0,0,1,3.24,5.92,15,15,0,0,1,.06,2c0,47.16-.06,94.32.06,141.47,0,6.8-5.27,10.22-10.16,9.87a15.4,15.4,0,0,1-5.28-1.66c-12.58-6-25.12-12.07-37.68-18.1q-14.81-7.11-29.64-14.17c-2-1-4.11-1.78-6.06-2.84-4.47-2.45-6.12-7.21-4.15-11.64a9.09,9.09,0,0,1,11.67-4.71c2.78,1.07,5.44,2.44,8.13,3.73,9.2,4.42,18.38,8.9,27.59,13.31,8.46,4.05,17,8,25.45,12.05C518.79,377.82,519.13,377.9,519.61,378.07Z" transform="translate(-125.43 -60.9)"/><path d="M197.8,204.41a56.66,56.66,0,0,1-25.88-7.55,55.07,55.07,0,0,1-21-21.11c-8.8-15.66-8.81-31.7-1.56-47.65a50.48,50.48,0,0,1,20.19-22.45c15.86-9.55,32.69-11.52,50.32-5.55a56.5,56.5,0,0,1,20.6,12.65,53.65,53.65,0,0,1,10.22,13.72c8.3,15,8.14,30.5,1.47,45.83a51.91,51.91,0,0,1-19.83,22.77C222.67,201.34,212,204.51,197.8,204.41Zm4.13-89.7c-14.11.19-24.54,5.26-32.13,15.26-10.06,13.24-8.08,32.56,1.68,43.25,6.85,7.49,15,12,25,13,15.15,1.46,27.42-4.2,36-16.64,8.35-12.05,6.92-30.12-2.1-40.68C222.38,119.51,212.47,115.18,201.93,114.71Z" transform="translate(-125.43 -60.9)"/><path transform="translate(-125.43 -60.9)"/></svg>
                         <video :src="video" v-if="video !== null" @click="clickVideo"></video>
-                        <img v-for="(img, i) in files" v-bind:ref="'image' + parseInt(i)" v-bind:class="img.active ? 'puprr-border' : 'unctive-blu-img'" @click="clickImg(i)">
+<!--                        <img v-for="(img, i) in files" v-bind:ref="'image' + parseInt(i)" v-bind:class="img.active ? 'puprr-border' : 'unctive-blu-img'" @click="clickImg(i)">-->
+                        <img v-for="(imgUp, i) in uploadedImgs" :src="imgUp.img" alt="" v-bind:class="imgUp.active ? 'puprr-border' : 'unctive-blu-img'" @click="clickUploadedImg(i)">
                     </div>
                     <div class="wrap-load">
                         <label for="loadImg" class="admin-btn-add">Добавить изображение <img src="../../../img/purpp-krest.png" alt=""></label>
@@ -71,7 +74,8 @@
                     <svg v-if="videoOrImg" class="fill-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 413.19 358.83"><defs></defs><title>icon_cam</title><path d="M150.57,419.73c-3.12-1-6.25-1.89-9.34-3-3.87-1.33-6.63-4.17-9.34-7.09-4.86-5.24-6.47-11.5-6.46-18.46q.06-70.32,0-140.62c0-4.32.41-8.59,2.45-12.41,5.18-9.66,13.3-15,24.31-15.77,1-.07,2.09-.06,3.14-.06q120.42,0,240.86,0c8.7,0,16.39,2.5,22.32,9a27.17,27.17,0,0,1,7.52,19q-.18,70.64,0,141.28c0,9-3.62,16-10.16,21.68a26.11,26.11,0,0,1-13.09,5.91c-.65.11-1.28.32-1.92.48ZM275.7,240.31H156c-1,0-1.95,0-2.91.06-4.58.41-7.78,3.09-8.57,7.21a16.35,16.35,0,0,0-.18,3.13v140.6c0,.75,0,1.5.05,2.24a8.54,8.54,0,0,0,6.3,7.6,20.32,20.32,0,0,0,4.85.6q120.2,0,240.39,0a16.78,16.78,0,0,0,2.46-.06c5.29-.82,8.89-3.87,8.79-9.45,0-.45,0-.9,0-1.35V251.23a20.06,20.06,0,0,0-.06-2.69c-.37-2.69-1.29-5.2-4-6.27-2.23-.88-4.63-1.87-7-1.87Q335.9,240.22,275.7,240.31Z" transform="translate(-125.43 -60.9)"/><path d="M348.48,204.43a75.79,75.79,0,0,1-34.64-9.33,77.74,77.74,0,0,1-21.13-17,70,70,0,0,1-9.82-15.1c-9.5-18.84-9.44-38.09-1.74-57.33a73.3,73.3,0,0,1,9.92-16.59,67.26,67.26,0,0,1,19.16-16.89A77.07,77.07,0,0,1,360.5,61.53a75.13,75.13,0,0,1,31.73,11.39A77.89,77.89,0,0,1,411.68,90.8c5.58,7.14,8.86,15.22,11.6,23.71a60.46,60.46,0,0,1,1,32.87c-2,8.29-4.94,16.42-9.9,23.54a76.25,76.25,0,0,1-20,20.19C381.23,199.91,366.67,204.4,348.48,204.43ZM350,78.78c-1.42.12-3.66.23-5.88.49-18.9,2.21-33.8,11.42-42.91,27.87-9.84,17.76-9.56,36.11,1.74,53.65A51.35,51.35,0,0,0,313.63,173a55.25,55.25,0,0,0,20.12,10.86c23.47,6.51,43.63.69,60.35-16.81a46.9,46.9,0,0,0,10.64-18.93c3.67-12,3.37-24-1.93-35.74a55.26,55.26,0,0,0-20.63-24.31C372.64,81.87,362.16,79,350,78.78Z" transform="translate(-125.43 -60.9)"/><path d="M519.61,378.07V264c-2.23,1-4.39,1.88-6.5,2.89q-18.74,9-37.46,18-8.56,4.11-17.17,8.13c-5.37,2.5-11.13.38-13.06-4.73a8.79,8.79,0,0,1,4.45-11.17c4.36-2.28,8.83-4.34,13.28-6.45,4.17-2,8.38-3.85,12.54-5.84,9.07-4.36,18.12-8.77,27.18-13.14,7-3.37,14-6.66,21-10.05a10.6,10.6,0,0,1,11.42.75,8.11,8.11,0,0,1,3.24,5.92,15,15,0,0,1,.06,2c0,47.16-.06,94.32.06,141.47,0,6.8-5.27,10.22-10.16,9.87a15.4,15.4,0,0,1-5.28-1.66c-12.58-6-25.12-12.07-37.68-18.1q-14.81-7.11-29.64-14.17c-2-1-4.11-1.78-6.06-2.84-4.47-2.45-6.12-7.21-4.15-11.64a9.09,9.09,0,0,1,11.67-4.71c2.78,1.07,5.44,2.44,8.13,3.73,9.2,4.42,18.38,8.9,27.59,13.31,8.46,4.05,17,8,25.45,12.05C518.79,377.82,519.13,377.9,519.61,378.07Z" transform="translate(-125.43 -60.9)"/><path d="M197.8,204.41a56.66,56.66,0,0,1-25.88-7.55,55.07,55.07,0,0,1-21-21.11c-8.8-15.66-8.81-31.7-1.56-47.65a50.48,50.48,0,0,1,20.19-22.45c15.86-9.55,32.69-11.52,50.32-5.55a56.5,56.5,0,0,1,20.6,12.65,53.65,53.65,0,0,1,10.22,13.72c8.3,15,8.14,30.5,1.47,45.83a51.91,51.91,0,0,1-19.83,22.77C222.67,201.34,212,204.51,197.8,204.41Zm4.13-89.7c-14.11.19-24.54,5.26-32.13,15.26-10.06,13.24-8.08,32.56,1.68,43.25,6.85,7.49,15,12,25,13,15.15,1.46,27.42-4.2,36-16.64,8.35-12.05,6.92-30.12-2.1-40.68C222.38,119.51,212.47,115.18,201.93,114.71Z" transform="translate(-125.43 -60.9)"/><path transform="translate(-125.43 -60.9)"/></svg>
                     <img :src="mainImg" v-if="mainImg && !videoOrImg" class="width-300" alt="">
                     <video :src="video" v-if="videoOrImg"  class="width-300"></video>
-                    <img src="../../../img/krest-btn.png" class="admin-delete-photo" alt="" @click="deleteImg()">
+<!--                    <img src="../../../img/krest-btn.png" class="admin-delete-photo" v-if="!deleteUploadImg" alt="" @click="deleteImg()">-->
+                    <img src="../../../img/krest-btn.png" class="admin-delete-photo" alt="" @click="deleteUploadedImg()">
                 </div>
             </div>
             <div class="admin-reviews">
@@ -127,6 +131,9 @@
             loadedImg: null,
             files: [],
             clickedImg: 0,
+            uploadedImgs: [],
+            clickedUploadedImg: 0,
+            deleteUploadImg: false,
 
             activeBtn: false,
             activeBtnSize: false,
@@ -139,7 +146,7 @@
             chozenSizeStockAfterClick: null,
 
             // Размеры, уже пришедшие с бэка
-            presentSizes: null,
+            presentSizes: [],
             timeToChangePresetnSizes: false,
 
             // Видео
@@ -152,7 +159,13 @@
             productSucc: false,
 
             // Кол-во товара, если нету размера
-            stockAmountWithoutSizes: null
+            stockAmountWithoutSizes: null,
+
+            //Ошибка ввода
+            errorInput: false,
+
+            // Если отправляем кол-во товара размера первый раз
+            noSizesNoCount: false
         }),
         methods: {
             // addSize(){
@@ -161,65 +174,239 @@
             pushImg(){
                 let imgs = this.$refs.img.files;
 
-                for (let i in imgs){
-                    this.files.push(imgs[i]);
-                }
+                // for (let i in imgs){
+                //     this.files.push(imgs[i]);
+                // }
 
-                this.getPrevious();
+                // this.getPrevious();
 
                 // Загруженные фотки
                 this.loadedImg = imgs;
-            },
-            getPrevious(){
-                for( let i = 0; i < this.files.length; i++ ){
 
-                    if ( /\.(jpe?g|png|gif|svg)$/i.test(this.files[i].name) ) {
+                let stringData = {
+                    id: this.$route.params.id
+                };
 
-                        if (i == 0) this.files[i].active = true;
-                        else this.files[i].active = false;
+                let formData = new FormData();
+                formData.append('stringData',  JSON.stringify(stringData));
 
-                        let reader = new FileReader();
-                        reader.addEventListener("load", function(){
-                            this.$refs['image'+parseInt(i)][0].src = reader.result;
-                            if (i === 0) this.mainImg = this.$refs['image' + parseInt(i)][0].src;
-                        }.bind(this), false);
-                        reader.readAsDataURL(this.files[i]);
-                    }
+                let i = 0;
+                for (let img of imgs) {
+                    i++;
+                    formData.append(`img-${i}`, img);
                 }
-                this.files = this.files.filter(el => (typeof el) === "object");
+
+                axios.post(`${this.URI}updprod`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                    })
+                    .then(res => {
+                        console.log('Success post imgs')
+                    })
+                    .then(() => {
+                    this.$store.dispatch('GetOneProduct', this.$route.params.id);
+                    })
+                    .catch(e => console.log(e))
             },
+
+            // getPrevious(){
+            //     for( let i = 0; i < this.files.length; i++ ){
+            //
+            //         if ( /\.(jpe?g|png|gif|svg)$/i.test(this.files[i].name) ) {
+            //
+            //             if (i == 0) this.files[i].active = true;
+            //             else this.files[i].active = false;
+            //
+            //             let reader = new FileReader();
+            //             reader.addEventListener("load", function(){
+            //                 this.$refs['image'+parseInt(i)][0].src = reader.result;
+            //                 if (i === 0) this.mainImg = this.$refs['image' + parseInt(i)][0].src;
+            //             }.bind(this), false);
+            //             reader.readAsDataURL(this.files[i]);
+            //         }
+            //     }
+            //     console.log(this.$refs);
+            //     this.files = this.files.filter(el => (typeof el) === "object");
+            //     console.log(this.files)
+            // },
 
             deleteImg(){
                  // Если кликнули по первой или второй фотографии
-                if(this.clickedImg === 0 || this.clickedImg === 1){
+                // if(this.clickedImg === 0 || this.clickedImg === 1){
+                //
+                //     this.files = this.files.filter(el => el.active === false);
+                //     this.getPrevious();
+                //
+                //     // Обнуляем главную картинку
+                //     if ((this.clickedImg === 0 || this.clickedImg === 1) && this.files.length === 0){
+                //         this.mainImg = null;
+                //     }
+                // }
+                // if (this.clickedImg > 1){
+                //     this.files.splice(this.clickedImg, 1);
+                //     this.clickedImg =  this.clickedImg - 1;
+                //     this.mainImg = this.$refs['image' + parseInt(this.clickedImg)][0].src;
+                //     this.files[this.clickedImg].active = true;
+                //     this.getPrevious();
+                // }
 
-                    this.files = this.files.filter(el => el.active === false);
-                    this.getPrevious();
+                // if (this.videoOrImg){
+                //     let stringData = {
+                //         id: this.$route.params.id,
+                //         vidRemove: this.video
+                //     };
+                //
+                //     let formData = new FormData();
+                //     formData.append('stringData',  JSON.stringify(stringData));
+                //
+                //     axios.post(`${this.URI}updprod`, formData, {
+                //         headers: {
+                //             'Content-Type': 'multipart/form-data'
+                //         }
+                //     })
+                //         .then(res => {
+                //             console.log(res.data)
+                //             console.log('Success delete video')
+                //         })
+                //         .catch(e => console.log(e));
+                //     this.video = null;
+                //     this.videoOrImg = false;
+                // }
 
-                    // Обнуляем главную картинку
-                    if ((this.clickedImg === 0 || this.clickedImg === 1) && this.files.length === 0){
+                // if (this.files.length === 0 && this.video !== null){
+                //     this.videoOrImg = true;
+                // }
+            },
+
+           async deleteUploadedImg(){
+                // Если кликнули по первой или второй фотографии
+                if (this.videoOrImg){
+                   let stringData = {
+                       id: this.$route.params.id,
+                       vidRemove: this.video
+                   };
+
+                   let formData = new FormData();
+                   formData.append('stringData',  JSON.stringify(stringData));
+
+                   axios.post(`${this.URI}updprod`, formData, {
+                       headers: {
+                           'Content-Type': 'multipart/form-data'
+                       }
+                   })
+                       .then(res => {
+                           console.log(res.data)
+                           console.log('Success delete video')
+                       })
+                       .catch(e => console.log(e));
+                   this.video = null;
+                   this.videoOrImg = false;
+                   // Если есть загруженные фотки, то ставим на галвную первую фотку
+                   //Если нет, то NULL
+                   if (this.uploadedImgs.length) {
+                       this.mainImg = this.uploadedImgs[0].img;
+                   }else{
+                       this.mainImg = null;
+                   }
+                   return;
+               }
+                if(this.clickedUploadedImg === 0 || this.clickedUploadedImg === 1){
+                    const deletedImg = this.uploadedImgs[this.clickedUploadedImg].img;
+                    this.uploadedImgs.splice(this.clickedUploadedImg, 1);
+                    let insertUpdatedString = '';
+
+                    this.uploadedImgs.forEach(el => {
+                        insertUpdatedString += `${el.img}, `
+                    });
+
+                    let stringData = {
+                        id: this.$route.params.id,
+                        deletedImg: deletedImg,
+                        updatedImg: insertUpdatedString === '' ? null : insertUpdatedString
+                    };
+
+                    let formData = new FormData();
+                    formData.append('stringData',  JSON.stringify(stringData));
+
+                    await axios.post(`${this.URI}updprod`, formData,{
+                        headers: {
+                            'Content-Type': 'html/text'
+                        }
+                    })
+                        .then(res => {
+                            console.log('Success delete img')
+                        })
+                        .catch(e => console.log(e))
+
+                    if (this.uploadedImgs.length !== 0) {
+                        console.log(1)
+                        this.mainImg = this.uploadedImgs[0].img;
+                    }
+                    // Если длинна массива с картинками равна нулю, то на главную превью возвращаем NULL
+                    if (this.uploadedImgs.length === 0 && this.video == null){
+                        this.mainImg = null;
+                        return;
+                    }
+
+                    if (!this.uploadedImgs.length && this.video !== null){
+                        this.videoOrImg = true;
+                        return;
+                    }
+
+                    if (this.clickedUploadedImg === 1){
+                        this.clickedUploadedImg = 0;
+                    }
+
+                    if (this.video !== null) {
+                        return;
+                    }
+                    // // Обнуляем главную картинку
+                    if ((this.clickedUploadedImg === 0 || this.clickedUploadedImg === 1) && this.uploadedImgs.length === 0){
                         this.mainImg = null;
                     }
                 }
-                if (this.clickedImg > 1){
-                    this.files.splice(this.clickedImg, 1);
-                    this.clickedImg =  this.clickedImg - 1;
-                    this.mainImg = this.$refs['image' + parseInt(this.clickedImg)][0].src;
-                    this.files[this.clickedImg].active = true;
-                    this.getPrevious();
-                }
+                if (this.clickedUploadedImg > 1){
+                    const deletedImg = this.uploadedImgs[this.clickedUploadedImg].img;
+                    this.uploadedImgs.splice(this.clickedUploadedImg, 1);
 
-                if (this.videoOrImg){
-                    this.video = null;
+                    let insertUpdatedString = '';
+
+                    this.uploadedImgs.forEach(el => {
+                        insertUpdatedString += `${el.img}, `
+                    });
+
+                    let stringData = {
+                        id: this.$route.params.id,
+                        deletedImg: deletedImg,
+                        updatedImg: insertUpdatedString === '' ? null : insertUpdatedString
+                    };
+
+                    let formData = new FormData();
+
+                    formData.append('stringData',  JSON.stringify(stringData));
+
+                    await axios.post(`${this.URI}updprod`, formData,{
+                        headers: {
+                            'Content-Type': 'html/text'
+                        }
+                        })
+                        .then(res => {
+                            console.log(res.data)
+                            console.log('Success delete img')
+                        })
+                        .then(() => {
+                            this.clickedUploadedImg = this.clickedUploadedImg - 1;
+                            this.mainImg = this.uploadedImgs[this.clickedUploadedImg].img;
+                            this.uploadedImgs[this.clickedUploadedImg].active = true;
+                        })
+                        .catch(e => console.log(e))
+
                     this.videoOrImg = false;
-                }
-
-                if (this.files.length === 0 && this.video !== null){
-                    this.videoOrImg = true;
                 }
             },
 
-            loadVid(){
+            loadVid() {
                 if (this.video !== null) return;
                 let video = this.$refs.vid.files;
                 this.videoOrImg = true;
@@ -227,20 +414,58 @@
 
                 // Загруженные видео
                 this.loadedVideo = video[0];
+
+                let stringData = {
+                    id: this.$route.params.id
+                };
+
+                let formData = new FormData();
+                formData.append('stringData',  JSON.stringify(stringData));
+                formData.append('video', video[0]);
+
+                axios.post(`${this.URI}updprod`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                    })
+                    .then(res => {
+                        console.log(res.data)
+                        console.log('Success post video')
+                    })
+                    .then(() => {
+                        this.$store.dispatch('GetOneProduct', this.$route.params.id);
+                    })
+                    .catch(e => console.log(e))
             },
 
-            clickImg(i){
-                this.clickedImg = i;
-                this.mainImg = this.$refs['image' + parseInt(i)][0].src;
-                this.files.forEach(el => {
+
+            // clickImg(i){
+            //     this.clickedImg = i;
+            //     this.mainImg = this.$refs['image' + parseInt(i)][0].src;
+            //     this.files.forEach(el => {
+            //         el.active = false
+            //     });
+            //     this.files[i].active = true;
+            //
+            //     // Делаем видео не активным
+            //     this.videoOrImg = false;
+            //
+            //     this.deleteUploadImg = false;
+            // },
+
+            clickUploadedImg(i){
+                this.clickedUploadedImg = i;
+                this.mainImg = this.uploadedImgs[i].img;
+                this.uploadedImgs.forEach(el => {
                     el.active = false
                 });
-                this.files[i].active = true;
+                this.uploadedImgs[i].active = true;
 
                 // Делаем видео не активным
                 this.videoOrImg = false;
-            },
 
+                // this.deleteUploadImg = true;
+            },
             // Клик по видео
             // Присваиваем тру и тогда в большом варианте картинки возвращается первью видео
             clickVideo(){
@@ -269,9 +494,13 @@
             // Выбираем рамзеры
             addNewSize(data){
                 let checkSize = this.sizes.find(el => el.size === data.size && el.id === data.sizeId);
-                if (checkSize) return;
-                this.sizes.push({size: data.size, id: data.sizeId, count: 0})
+                let checkSizeold = this.presentSizes.find(el => el.sizes_number === data.size && el.sizes_id=== data.sizeId);
+                if (checkSize || checkSizeold) return;
+                this.sizes.push({size: data.size, id: data.sizeId, count: 0});
+                this.chozenSizeStockAfterClick = null;
+                this.chozenSizeAfterClick = null;
             },
+
 
             // Выбираем размер для определения кол-во
             selectSizeForStock(i){
@@ -281,33 +510,59 @@
                 this.timeToChangePresetnSizes = false
             },
 
+
             // Кликаем на старые размеры
             selectSizeForStockUpdate(count, size, i) {
                 this.newSize = i;
                 this.chozenSizeAfterClick = size;
                 this.chozenSizeStockAfterClick = count;
                 this.timeToChangePresetnSizes = true;
+                this.errorInput = false;
             },
+
 
             // Изменяем кол-во размера
             insertAmountStock(){
+                // Если вводят, но размер не выбран
+                 if (this.presentSizes.length) {
+                     this.errorInput = true;
+                     return;
+                 }
+                 // Если длинна массива 0
                  if (!this.sizes.length) {
-                     this.stockAmountWithoutSizes = this.chozenSizeStockAfterClick;
-                     console.log(1)
+
+                     // То проверяем это новый товар, если да то отправляем на post
+                     // если нет, то на апдейт
+                     if (this.noSizesNoCount){
+                         this.updateProduct(this.$route.params.id, 'sizeFresh', {sizeId: null, count: this.chozenSizeStockAfterClick});
+                         this.$Progress.start();
+                         this.$store.dispatch('GetOneProduct', this.$route.params.id);
+                     }else{
+                         this.updateProduct(this.$route.params.id, 'sizeOld', {sizeId: null, count: this.chozenSizeStockAfterClick});
+                         this.$Progress.start();
+                         this.$store.dispatch('GetOneProduct', this.$route.params.id);
+                     }
+
                  }else{
-                     console.log(2)
                      this.sizes[this.newSize].count = this.chozenSizeStockAfterClick;
                      this.updateProduct(this.$route.params.id, 'sizeFresh', {sizeId: this.sizes[this.newSize].id, count: this.sizes[this.newSize].count});
-                     console.log(this.sizes[this.newSize])
+                     // Запрашиваем данные снова
+                     this.$Progress.start();
+                     this.$store.dispatch('GetOneProduct', this.$route.params.id);
+                     //Обнуляем свежие данные
+                     this.sizes = [];
+                     this.chozenSizeStockAfterClick = null;
+                     this.chozenSizeAfterClick = null;
                      this.stockAmountWithoutSizes = null;
                  }
             },
 
+
             // Апдейтим кол-во для размера
             insertAmountStockUpdate(){
-                console.log(this.presentSizes[this.newSize])
                 this.updateProduct(this.$route.params.id, 'sizeOld', {sizeId: this.presentSizes[this.newSize].sizes_id, count: this.chozenSizeStockAfterClick});
             },
+
 
             // Удаляем размер
             deleteSize(i){
@@ -318,7 +573,6 @@
                     this.chozenSizeAfterClick = this.chozenSizeStockAfterClick = null;
                 }
             },
-
 
 
             // АПДЕЙТИМ ТОВАР
@@ -352,6 +606,7 @@
                 this.updateProduct(this.$route.params.id, 'price', this.priceProduct);
             },
 
+
             // Апдейтим sale
             changeSaleProduct(){
                 let dataSale = {
@@ -362,8 +617,9 @@
             }
         },
         created(){
-          this.$store.dispatch('GetAllSizes');
-          this.$store.dispatch('GetOneProduct', this.$route.params.id);
+            this.$Progress.start();
+           this.$store.dispatch('GetAllSizes');
+           this.$store.dispatch('GetOneProduct', this.$route.params.id);
           // this.$store.dispatch('GetSizeForOneProduct');
           // this.$store.dispatch('GetAllReviews')
         },
@@ -380,8 +636,53 @@
                 this.priceProduct = newValue[0].product_sale ? newValue[0].product_old_price : newValue[0].product_price;
                 this.saleProduct = newValue[0].product_sale ? newValue[0].product_price : null;
                 this.nameProduct = newValue[0].product_title;
-                this.presentSizes = newValue.allSizes;
-                console.log(this.presentSizes)
+                this.video = newValue[0].product_video;
+                this.uploadedImgs = [];
+
+                if (newValue[0].product_video) {
+                    this.mainImg = this.video;
+                    this.videoOrImg = true;
+                }else{
+                    this.videoOrImg = false;
+                }
+
+                if (newValue[0].product_img !== null) {
+                    let imgs = newValue[0].product_img.split(', ');
+
+                    if (imgs.length){
+
+                        // this.deleteUploadImg = true;
+                        for (let i = 0; i < imgs.length; i++ ){
+                            if (imgs[i] !== ''){
+                                this.uploadedImgs.push({img: imgs[i], active: i === 0 ? true : false});
+                            }
+                        }
+                        this.mainImg = this.uploadedImgs[0].img;
+                    }
+                }
+
+                // Если массив с размерами длинна есть
+                if (newValue.allSizes.length) {
+                    // Проверяем если sizes_id, так как товар может быть без размера
+                    let findIdWithoutSize = newValue.allSizes.find(el => el.sizes_id === null);
+
+                    //Отменяем, чтобы отпралялась уже old размер на update
+                    this.noSizesNoCount = false;
+
+                    // Если нашли, то просто присвааиваем переменную и выводим размеры
+                    if (!findIdWithoutSize) {
+                        this.presentSizes = newValue.allSizes;
+                    }else{
+                        // Если нашли, то в инпут где вставляется колв-во присваиваем значение
+                        this.chozenSizeStockAfterClick = newValue.allSizes[0].catalog_size_amount;
+                    }
+                }
+                else{
+                    // ЕСли длинна массива равна нулю, то значит это новый товар, и присваиваем тру, чтобы при введении нового значения отправлялись данные на post
+                    this.noSizesNoCount = true;
+                }
+
+                this.$Progress.finish()
             }
         },
         computed: {

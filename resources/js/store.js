@@ -27,8 +27,8 @@ const admin = {
            await axios.get(`${state.SITE_URI}adminallproducts`)
                 .then(response => {
                     let resultArr = [];
-                    for (let data of response.data){
-                        resultArr.push(data)
+                    for (let data in response.data){
+                        resultArr.push(response.data[data])
                     }
                     state.adminProducts = resultArr;
                     console.log(state.adminProducts)

@@ -23,15 +23,22 @@ class AdminGetAllProductsController extends Controller
 
         // Фильтруем данные на повторяющиеся id
         // Если id повторяются, то увеличиваем кол-во данного товара и удаляем потвторяющийся элемент
+
         foreach ($totalProduct as $i => $product){
             $totalProduct[$i]['active'] = false;
             $totalProduct[$i]['name'] = null;
-            $nextI = $i++;
-            if ($nextI + 1 == count($totalProduct)) break;
+            $nextI = $i + 1;
 
-            if ($totalProduct[$nextI]['product_id'] === $totalProduct[$i]['product_id']) {
-                $totalProduct[$i]['catalog_size_amount'] = $totalProduct[$i]['catalog_size_amount'] + $totalProduct[$nextI]['catalog_size_amount'];
-                unset($totalProduct[$nextI]);
+//            if ($nextI > count($totalProduct)) {
+//                break;
+//            }
+            if (!isset($totalProduct[$nextI]['product_id'])){
+                break;
+            }
+
+            if ($totalProduct[$i]['product_id'] === $totalProduct[$nextI]['product_id']) {
+                $totalProduct[$nextI]['catalog_size_amount'] = $totalProduct[$i]['catalog_size_amount'] + $totalProduct[$nextI]['catalog_size_amount'];
+                unset($totalProduct[$i]);
             }
         }
         return $totalProduct;

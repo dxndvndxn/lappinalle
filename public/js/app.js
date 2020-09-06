@@ -3459,430 +3459,9 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/admin/views/ProductCard.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************************************************************************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_AdminCrumbs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/AdminCrumbs */ "./resources/js/admin/components/AdminCrumbs.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "ProductCart",
-  components: {
-    AdminCrumbs: _components_AdminCrumbs__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  data: function data() {
-    return {
-      // Товар
-      nameProduct: null,
-      priceProduct: null,
-      saleProduct: null,
-      textProduct: null,
-      // Картинки
-      mainImg: null,
-      loadedImg: null,
-      files: [],
-      clickedImg: 0,
-      activeBtn: false,
-      activeBtnSize: false,
-      // Размеры
-      amountStock: null,
-      sizes: [],
-      newSize: null,
-      chozenSizeAfterClick: null,
-      chozenSizeStockAfterClick: null,
-      // Размеры, уже пришедшие с бэка
-      presentSizes: null,
-      timeToChangePresetnSizes: false,
-      // Видео
-      video: null,
-      videoOrImg: false,
-      loadedVideo: null,
-      // Данные на сервер
-      dataToBack: {},
-      productSucc: false,
-      // Кол-во товара, если нету размера
-      stockAmountWithoutSizes: null
-    };
-  },
-  methods: {
-    // addSize(){
-    //     if (this.newSize) this.sizes.push(this.newSize)
-    // },
-    pushImg: function pushImg() {
-      var imgs = this.$refs.img.files;
-
-      for (var i in imgs) {
-        this.files.push(imgs[i]);
-      }
-
-      this.getPrevious(); // Загруженные фотки
-
-      this.loadedImg = imgs;
-    },
-    getPrevious: function getPrevious() {
-      var _this = this;
-
-      var _loop = function _loop(i) {
-        if (/\.(jpe?g|png|gif|svg)$/i.test(_this.files[i].name)) {
-          if (i == 0) _this.files[i].active = true;else _this.files[i].active = false;
-          var reader = new FileReader();
-          reader.addEventListener("load", function () {
-            this.$refs['image' + parseInt(i)][0].src = reader.result;
-            if (i === 0) this.mainImg = this.$refs['image' + parseInt(i)][0].src;
-          }.bind(_this), false);
-          reader.readAsDataURL(_this.files[i]);
-        }
-      };
-
-      for (var i = 0; i < this.files.length; i++) {
-        _loop(i);
-      }
-
-      this.files = this.files.filter(function (el) {
-        return _typeof(el) === "object";
-      });
-    },
-    deleteImg: function deleteImg() {
-      // Если кликнули по первой или второй фотографии
-      if (this.clickedImg === 0 || this.clickedImg === 1) {
-        this.files = this.files.filter(function (el) {
-          return el.active === false;
-        });
-        this.getPrevious(); // Обнуляем главную картинку
-
-        if ((this.clickedImg === 0 || this.clickedImg === 1) && this.files.length === 0) {
-          this.mainImg = null;
-        }
-      }
-
-      if (this.clickedImg > 1) {
-        this.files.splice(this.clickedImg, 1);
-        this.clickedImg = this.clickedImg - 1;
-        this.mainImg = this.$refs['image' + parseInt(this.clickedImg)][0].src;
-        this.files[this.clickedImg].active = true;
-        this.getPrevious();
-      }
-
-      if (this.videoOrImg) {
-        this.video = null;
-        this.videoOrImg = false;
-      }
-
-      if (this.files.length === 0 && this.video !== null) {
-        this.videoOrImg = true;
-      }
-    },
-    loadVid: function loadVid() {
-      if (this.video !== null) return;
-      var video = this.$refs.vid.files;
-      this.videoOrImg = true;
-      this.video = URL.createObjectURL(video[0]); // Загруженные видео
-
-      this.loadedVideo = video[0];
-    },
-    clickImg: function clickImg(i) {
-      this.clickedImg = i;
-      this.mainImg = this.$refs['image' + parseInt(i)][0].src;
-      this.files.forEach(function (el) {
-        el.active = false;
-      });
-      this.files[i].active = true; // Делаем видео не активным
-
-      this.videoOrImg = false;
-    },
-    // Клик по видео
-    // Присваиваем тру и тогда в большом варианте картинки возвращается первью видео
-    clickVideo: function clickVideo() {
-      this.videoOrImg = true;
-    },
-    // Клик по картинке и возвращаем mainImg
-    getMainImg: function getMainImg() {
-      return this.mainImg;
-    },
-    // Отправляем данные на сервер
-    sentProductData: function sentProductData() {
-      this.dataToBack = {
-        video: this.loadedVideo,
-        imgs: this.loadedImg,
-        description: this.textProduct,
-        price: this.priceProduct,
-        sale: this.saleProduct,
-        sizes: this.sizes.length ? this.sizes : null,
-        amountWithoutSizes: this.stockAmountWithoutSizes
-      };
-      this.$store.dispatch('SentDataToBackend', this.dataToBack);
-    },
-    // Выбираем рамзеры
-    addNewSize: function addNewSize(data) {
-      var checkSize = this.sizes.find(function (el) {
-        return el.size === data.size && el.id === data.sizeId;
-      });
-      if (checkSize) return;
-      this.sizes.push({
-        size: data.size,
-        id: data.sizeId,
-        count: 0
-      });
-    },
-    // Выбираем размер для определения кол-во
-    selectSizeForStock: function selectSizeForStock(i) {
-      this.newSize = i;
-      this.chozenSizeAfterClick = this.sizes[i].size;
-      this.chozenSizeStockAfterClick = this.sizes[i].count;
-      this.timeToChangePresetnSizes = false;
-    },
-    // Кликаем на старые размеры
-    selectSizeForStockUpdate: function selectSizeForStockUpdate(count, size, i) {
-      this.newSize = i;
-      this.chozenSizeAfterClick = size;
-      this.chozenSizeStockAfterClick = count;
-      this.timeToChangePresetnSizes = true;
-    },
-    // Изменяем кол-во размера
-    insertAmountStock: function insertAmountStock() {
-      if (!this.sizes.length) {
-        this.stockAmountWithoutSizes = this.chozenSizeStockAfterClick;
-        console.log(1);
-      } else {
-        console.log(2);
-        this.sizes[this.newSize].count = this.chozenSizeStockAfterClick;
-        this.updateProduct(this.$route.params.id, 'sizeFresh', {
-          sizeId: this.sizes[this.newSize].id,
-          count: this.sizes[this.newSize].count
-        });
-        console.log(this.sizes[this.newSize]);
-        this.stockAmountWithoutSizes = null;
-      }
-    },
-    // Апдейтим кол-во для размера
-    insertAmountStockUpdate: function insertAmountStockUpdate() {
-      console.log(this.presentSizes[this.newSize]);
-      this.updateProduct(this.$route.params.id, 'sizeOld', {
-        sizeId: this.presentSizes[this.newSize].sizes_id,
-        count: this.chozenSizeStockAfterClick
-      });
-    },
-    // Удаляем размер
-    deleteSize: function deleteSize(i) {
-      this.sizes.splice(i, 1); // Если массив новых добавленных товаров  == 0, то обнуляем переменные с выводом данных
-
-      if (!this.sizes.length) {
-        this.chozenSizeAfterClick = this.chozenSizeStockAfterClick = null;
-      }
-    },
-    // АПДЕЙТИМ ТОВАР
-    // @whatNeedToChange - имя поля, которое надо поменять
-    // @newValue - новое значение
-    updateProduct: function updateProduct(id, whatNeedToChange, newValue) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var stringData, formData;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                stringData = _defineProperty({
-                  id: id
-                }, whatNeedToChange, newValue);
-                formData = new FormData();
-                formData.append('stringData', JSON.stringify(stringData));
-                _context.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this2.URI, "updprod"), formData).then(function (res) {
-                  console.log('Success change', whatNeedToChange);
-                })["catch"](function (e) {
-                  return console.log(e);
-                });
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    // Апдейтим описание
-    changeTextProduct: function changeTextProduct() {
-      this.updateProduct(this.$route.params.id, 'description', this.textProduct);
-    },
-    // Апдейтим цену
-    changePriceProduct: function changePriceProduct() {
-      this.updateProduct(this.$route.params.id, 'price', this.priceProduct);
-    },
-    // Апдейтим sale
-    changeSaleProduct: function changeSaleProduct() {
-      var dataSale = {
-        newPrice: this.saleProduct,
-        oldPrice: this.priceProduct
-      };
-      this.updateProduct(this.$route.params.id, 'sale', dataSale);
-    }
-  },
-  created: function created() {
-    this.$store.dispatch('GetAllSizes');
-    this.$store.dispatch('GetOneProduct', this.$route.params.id); // this.$store.dispatch('GetSizeForOneProduct');
-    // this.$store.dispatch('GetAllReviews')
-  },
-  watch: {
-    files: function files(val) {
-      this.files = val;
-    },
-    getProductSuccess: function getProductSuccess(newVal, oldVal) {
-      if (newVal) this.$router.push({
-        name: 'AdminProducts'
-      });else console.log('Something goes wrong');
-    },
-    getOneProduct: function getOneProduct(newValue) {
-      this.textProduct = newValue[0].product_description;
-      this.priceProduct = newValue[0].product_sale ? newValue[0].product_old_price : newValue[0].product_price;
-      this.saleProduct = newValue[0].product_sale ? newValue[0].product_price : null;
-      this.nameProduct = newValue[0].product_title;
-      this.presentSizes = newValue.allSizes;
-      console.log(this.presentSizes);
-    }
-  },
-  computed: {
-    getAllSizes: function getAllSizes() {
-      return this.$store.getters.getAllSizes;
-    },
-    getProductSuccess: function getProductSuccess() {
-      return this.$store.getters.productSuccess;
-    },
-    URI: function URI() {
-      return this.$store.getters.URI;
-    },
-    getOneProduct: function getOneProduct() {
-      return this.$store.getters.oneProduct;
-    }
-  }
-});
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:\\WebServer\\nginx\\html\\lappinalle\\resources\\js\\admin\\views\\ProductCard.vue: Unexpected token, expected \",\" (158:8)\n\n\u001b[0m \u001b[90m 156 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 157 | \u001b[39m        \u001b[90m// Данные на сервер\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 158 | \u001b[39m        dataToBack\u001b[33m:\u001b[39m {}\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     | \u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 159 | \u001b[39m        productSucc\u001b[33m:\u001b[39m \u001b[36mfalse\u001b[39m\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 160 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 161 | \u001b[39m        \u001b[90m// Кол-во товара, если нету размера\u001b[39m\u001b[0m\n    at Parser._raise (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:762:17)\n    at Parser.raiseWithData (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:755:17)\n    at Parser.raise (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:749:17)\n    at Parser.unexpected (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:8913:16)\n    at Parser.expect (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:8899:28)\n    at Parser.parseObj (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10559:14)\n    at Parser.parseExprAtom (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10164:28)\n    at Parser.parseExprSubscripts (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9759:23)\n    at Parser.parseMaybeUnary (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9739:21)\n    at Parser.parseExprOps (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9609:23)\n    at Parser.parseMaybeConditional (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9582:23)\n    at Parser.parseMaybeAssign (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9545:21)\n    at Parser.parseParenAndDistinguishExpression (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10387:28)\n    at Parser.parseExprAtom (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10116:21)\n    at Parser.parseExprSubscripts (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9759:23)\n    at Parser.parseMaybeUnary (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9739:21)\n    at Parser.parseExprOps (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9609:23)\n    at Parser.parseMaybeConditional (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9582:23)\n    at Parser.parseMaybeAssign (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9545:21)\n    at Parser.parseFunctionBody (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10825:24)\n    at Parser.parseArrowExpression (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10801:10)\n    at Parser.parseParenAndDistinguishExpression (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10415:12)\n    at Parser.parseExprAtom (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10116:21)\n    at Parser.parseExprSubscripts (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9759:23)\n    at Parser.parseMaybeUnary (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9739:21)\n    at Parser.parseExprOps (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9609:23)\n    at Parser.parseMaybeConditional (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9582:23)\n    at Parser.parseMaybeAssign (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9545:21)\n    at Parser.parseObjectProperty (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10710:101)\n    at Parser.parseObjPropValue (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10735:101)\n    at Parser.parseObjectMember (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10659:10)\n    at Parser.parseObj (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10568:25)\n    at Parser.parseExprAtom (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10164:28)\n    at Parser.parseExprSubscripts (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9759:23)\n    at Parser.parseMaybeUnary (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9739:21)\n    at Parser.parseExprOps (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9609:23)");
 
 /***/ }),
 
@@ -11979,6 +11558,12 @@ var render = function() {
                 })
               : _vm._e(),
             _vm._v(" "),
+            _vm.errorInput
+              ? _c("small", { staticClass: "small-invalid" }, [
+                  _vm._v("Пожалуйста, укажите сначала размер.")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _vm.timeToChangePresetnSizes
               ? _c("input", {
                   directives: [
@@ -11991,7 +11576,10 @@ var render = function() {
                     }
                   ],
                   staticClass: "input-transp",
-                  attrs: { type: "text" },
+                  attrs: {
+                    type: "text",
+                    disabled: _vm.chozenSizeAfterClick === null
+                  },
                   domProps: { value: _vm.chozenSizeStockAfterClick },
                   on: {
                     change: _vm.insertAmountStockUpdate,
@@ -12146,14 +11734,13 @@ var render = function() {
                     })
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._l(_vm.files, function(img, i) {
+                _vm._l(_vm.uploadedImgs, function(imgUp, i) {
                   return _c("img", {
-                    ref: "image" + parseInt(i),
-                    refInFor: true,
-                    class: img.active ? "puprr-border" : "unctive-blu-img",
+                    class: imgUp.active ? "puprr-border" : "unctive-blu-img",
+                    attrs: { src: imgUp.img, alt: "" },
                     on: {
                       click: function($event) {
-                        return _vm.clickImg(i)
+                        return _vm.clickUploadedImg(i)
                       }
                     }
                   })
@@ -12272,7 +11859,7 @@ var render = function() {
                 attrs: { src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png"), alt: "" },
                 on: {
                   click: function($event) {
-                    return _vm.deleteImg()
+                    return _vm.deleteUploadedImg()
                   }
                 }
               })
@@ -38661,18 +38248,8 @@ var admin = {
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallproducts")).then(function (response) {
                   var resultArr = [];
 
-                  var _iterator = _createForOfIteratorHelper(response.data),
-                      _step;
-
-                  try {
-                    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                      var data = _step.value;
-                      resultArr.push(data);
-                    }
-                  } catch (err) {
-                    _iterator.e(err);
-                  } finally {
-                    _iterator.f();
+                  for (var data in response.data) {
+                    resultArr.push(response.data[data]);
                   }
 
                   state.adminProducts = resultArr;
@@ -38692,7 +38269,7 @@ var admin = {
     // Отправлем данные о новоном товаре на сервер
     SentDataToBackendMutate: function SentDataToBackendMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var formData, i, _iterator2, _step2, img, stringData;
+        var formData, i, _iterator, _step, img, stringData;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
@@ -38701,18 +38278,18 @@ var admin = {
                 formData = new FormData();
                 formData.append('video', data.video);
                 i = 0;
-                _iterator2 = _createForOfIteratorHelper(data.imgs);
+                _iterator = _createForOfIteratorHelper(data.imgs);
 
                 try {
-                  for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                    img = _step2.value;
+                  for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                    img = _step.value;
                     i++;
                     formData.append("img-".concat(i), img);
                   }
                 } catch (err) {
-                  _iterator2.e(err);
+                  _iterator.e(err);
                 } finally {
-                  _iterator2.f();
+                  _iterator.f();
                 }
 
                 stringData = {
@@ -39022,12 +38599,12 @@ var store = {
                   var lastMenu = {};
                   var menuForAdmin = {};
 
-                  var _iterator3 = _createForOfIteratorHelper(genders),
-                      _step3;
+                  var _iterator2 = _createForOfIteratorHelper(genders),
+                      _step2;
 
                   try {
-                    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-                      var _i6 = _step3.value;
+                    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                      var _i6 = _step2.value;
                       gendersObj[_i6] = [];
                       lastMenu[_i6] = {};
                       menuForAdmin[_i6] = {
@@ -39036,27 +38613,27 @@ var store = {
                     } // Пушим данным по гендарным различиям
 
                   } catch (err) {
-                    _iterator3.e(err);
+                    _iterator2.e(err);
                   } finally {
-                    _iterator3.f();
+                    _iterator2.f();
                   }
 
                   for (var _i4 in menu) {
-                    var _iterator4 = _createForOfIteratorHelper(genders),
-                        _step4;
+                    var _iterator3 = _createForOfIteratorHelper(genders),
+                        _step3;
 
                     try {
-                      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-                        var k = _step4.value;
+                      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                        var k = _step3.value;
 
                         if (k === menu[_i4].sex_name) {
                           gendersObj[k].push(menu[_i4]);
                         }
                       }
                     } catch (err) {
-                      _iterator4.e(err);
+                      _iterator3.e(err);
                     } finally {
-                      _iterator4.f();
+                      _iterator3.f();
                     }
                   } // Выбираем уникальные категории
 
@@ -39065,31 +38642,31 @@ var store = {
                   var categoriesObj = {}; // Распределяем категории по гендеру
 
                   for (var _i5 in lastMenu) {
-                    var _iterator5 = _createForOfIteratorHelper(categories),
-                        _step5;
+                    var _iterator4 = _createForOfIteratorHelper(categories),
+                        _step4;
 
                     try {
-                      for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-                        var _k = _step5.value;
+                      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                        var _k = _step4.value;
                         lastMenu[_i5][_k] = [];
                         categoriesObj[_k] = [];
                         menuForAdmin[_i5][_k] = [];
                       }
                     } catch (err) {
-                      _iterator5.e(err);
+                      _iterator4.e(err);
                     } finally {
-                      _iterator5.f();
+                      _iterator4.f();
                     }
                   }
 
                   for (var g in gendersObj) {
                     for (var gg in gendersObj[g]) {
-                      var _iterator6 = _createForOfIteratorHelper(categories),
-                          _step6;
+                      var _iterator5 = _createForOfIteratorHelper(categories),
+                          _step5;
 
                       try {
-                        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-                          var c = _step6.value;
+                        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+                          var c = _step5.value;
 
                           if (c === gendersObj[g][gg].categories_name && gendersObj[g][gg].sex_name === g) {
                             lastMenu[g][c].push({
@@ -39108,9 +38685,9 @@ var store = {
                           }
                         }
                       } catch (err) {
-                        _iterator6.e(err);
+                        _iterator5.e(err);
                       } finally {
-                        _iterator6.f();
+                        _iterator5.f();
                       }
                     }
                   } // Удаляем категорию, в которой ничего нету
@@ -39242,12 +38819,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator7 = _createForOfIteratorHelper(sortSizes),
-                      _step7;
+                  var _iterator6 = _createForOfIteratorHelper(sortSizes),
+                      _step6;
 
                   try {
                     var _loop = function _loop() {
-                      var i = _step7.value;
+                      var i = _step6.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -39257,14 +38834,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+                    for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
                       _loop();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator7.e(err);
+                    _iterator6.e(err);
                   } finally {
-                    _iterator7.f();
+                    _iterator6.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -39301,12 +38878,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator8 = _createForOfIteratorHelper(sortSizes),
-                      _step8;
+                  var _iterator7 = _createForOfIteratorHelper(sortSizes),
+                      _step7;
 
                   try {
                     var _loop2 = function _loop2() {
-                      var i = _step8.value;
+                      var i = _step7.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -39316,14 +38893,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+                    for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
                       _loop2();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator8.e(err);
+                    _iterator7.e(err);
                   } finally {
-                    _iterator8.f();
+                    _iterator7.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -39360,12 +38937,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator9 = _createForOfIteratorHelper(sortSizes),
-                      _step9;
+                  var _iterator8 = _createForOfIteratorHelper(sortSizes),
+                      _step8;
 
                   try {
                     var _loop3 = function _loop3() {
-                      var i = _step9.value;
+                      var i = _step8.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -39375,14 +38952,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+                    for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
                       _loop3();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator9.e(err);
+                    _iterator8.e(err);
                   } finally {
-                    _iterator9.f();
+                    _iterator8.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -39571,12 +39148,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator10 = _createForOfIteratorHelper(sortSizes),
-                      _step10;
+                  var _iterator9 = _createForOfIteratorHelper(sortSizes),
+                      _step9;
 
                   try {
                     var _loop4 = function _loop4() {
-                      var i = _step10.value;
+                      var i = _step9.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -39586,14 +39163,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+                    for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
                       _loop4();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator10.e(err);
+                    _iterator9.e(err);
                   } finally {
-                    _iterator10.f();
+                    _iterator9.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -39629,12 +39206,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator11 = _createForOfIteratorHelper(sortSizes),
-                      _step11;
+                  var _iterator10 = _createForOfIteratorHelper(sortSizes),
+                      _step10;
 
                   try {
                     var _loop5 = function _loop5() {
-                      var i = _step11.value;
+                      var i = _step10.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -39644,14 +39221,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+                    for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
                       _loop5();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator11.e(err);
+                    _iterator10.e(err);
                   } finally {
-                    _iterator11.f();
+                    _iterator10.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -39687,12 +39264,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator12 = _createForOfIteratorHelper(sortSizes),
-                      _step12;
+                  var _iterator11 = _createForOfIteratorHelper(sortSizes),
+                      _step11;
 
                   try {
                     var _loop6 = function _loop6() {
-                      var i = _step12.value;
+                      var i = _step11.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -39702,14 +39279,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+                    for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
                       _loop6();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator12.e(err);
+                    _iterator11.e(err);
                   } finally {
-                    _iterator12.f();
+                    _iterator11.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -39764,12 +39341,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator13 = _createForOfIteratorHelper(sortSizes),
-                      _step13;
+                  var _iterator12 = _createForOfIteratorHelper(sortSizes),
+                      _step12;
 
                   try {
                     var _loop7 = function _loop7() {
-                      var i = _step13.value;
+                      var i = _step12.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -39779,14 +39356,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+                    for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
                       _loop7();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator13.e(err);
+                    _iterator12.e(err);
                   } finally {
-                    _iterator13.f();
+                    _iterator12.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -39822,12 +39399,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator14 = _createForOfIteratorHelper(sortSizes),
-                      _step14;
+                  var _iterator13 = _createForOfIteratorHelper(sortSizes),
+                      _step13;
 
                   try {
                     var _loop8 = function _loop8() {
-                      var i = _step14.value;
+                      var i = _step13.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -39837,14 +39414,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
+                    for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
                       _loop8();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator14.e(err);
+                    _iterator13.e(err);
                   } finally {
-                    _iterator14.f();
+                    _iterator13.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -39880,12 +39457,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator15 = _createForOfIteratorHelper(sortSizes),
-                      _step15;
+                  var _iterator14 = _createForOfIteratorHelper(sortSizes),
+                      _step14;
 
                   try {
                     var _loop9 = function _loop9() {
-                      var i = _step15.value;
+                      var i = _step14.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -39895,14 +39472,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
+                    for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
                       _loop9();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator15.e(err);
+                    _iterator14.e(err);
                   } finally {
-                    _iterator15.f();
+                    _iterator14.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -39975,12 +39552,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator16 = _createForOfIteratorHelper(sortSizes),
-                      _step16;
+                  var _iterator15 = _createForOfIteratorHelper(sortSizes),
+                      _step15;
 
                   try {
                     var _loop10 = function _loop10() {
-                      var i = _step16.value;
+                      var i = _step15.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -39990,14 +39567,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
+                    for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
                       _loop10();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator16.e(err);
+                    _iterator15.e(err);
                   } finally {
-                    _iterator16.f();
+                    _iterator15.f();
                   }
 
                   state.filterSizes = totalSizes;
@@ -40031,12 +39608,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator17 = _createForOfIteratorHelper(sortSizes),
-                      _step17;
+                  var _iterator16 = _createForOfIteratorHelper(sortSizes),
+                      _step16;
 
                   try {
                     var _loop11 = function _loop11() {
-                      var i = _step17.value;
+                      var i = _step16.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -40046,14 +39623,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator17.s(); !(_step17 = _iterator17.n()).done;) {
+                    for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
                       _loop11();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator17.e(err);
+                    _iterator16.e(err);
                   } finally {
-                    _iterator17.f();
+                    _iterator16.f();
                   }
 
                   state.filterSizes = totalSizes;

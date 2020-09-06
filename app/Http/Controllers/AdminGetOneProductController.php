@@ -9,10 +9,14 @@ class AdminGetOneProductController extends Controller
 {
     public function index(Request $request, $id){
         $oneProduct = DB::table('products')->where('product_id', '=', $id)->get();
-        $sizesData = DB::table('catalog_size')
+        $sizesData = DB::table('catalog_size')->where('product_id', '=', $id)
             ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
             ->select('sizes_number', 'sizes.sizes_id', 'catalog_size_amount')
             ->get();
+        if (!count($sizesData)) {
+            $sizesData = DB::table('catalog_size')->where('product_id', '=', $id)
+                ->get();
+        }
         $oneProduct['allSizes'] = $sizesData;
         return $oneProduct;
     }
