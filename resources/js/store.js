@@ -18,8 +18,6 @@ const admin = {
         oneProduct: null,
 
         productSuccess: false,
-
-
     }),
     mutations: {
         // Получаем все товары СТРАНИЧКА ТОВАРЫ
@@ -189,7 +187,9 @@ const store = {
         customerData: [],
 
         // Админ
-        adminRawMenu: null
+        adminRawMenu: null,
+        // Оплата товара
+        paySuccess: false
     },
     mutations: {
         // Регистрация
@@ -1362,15 +1362,19 @@ const store = {
             console.log(postData)
             axios.post(`${state.SITE_URI}order`, postData)
                 .then(response => {
+                    state.paySuccess = true;
                     console.log(response.data);
                 })
-                .catch(e => console.log(e))
+                .catch(e => {
+                    console.log(e)
+                    state.paySuccess = false;
+                })
         }
     },
     actions: {
         register({commit}, user){
             return new Promise((resolve, reject) => {
-                axios({url: 'http://lappinalle.test/api/register', data: user, method: 'POST' })
+                axios({url: 'http://lappinalle.ru/api/register', data: user, method: 'POST' })
                     .then(resp => {
                         const token = resp.data;
                         localStorage.setItem('token', token);
@@ -1386,7 +1390,7 @@ const store = {
         },
         login({commit}, user){
             return new Promise((resolve, reject) => {
-                axios({url: 'http://lappinalle.test/api/login', data: user, method: 'POST' })
+                axios({url: 'http://lappinalle.ru/api/login', data: user, method: 'POST' })
                     .then(resp => {
                         const token = resp.data;
                         localStorage.setItem('token', token);
@@ -1456,6 +1460,11 @@ const store = {
         }
     },
     getters:{
+        // Оплата товара успех или нет
+        paySuccess: state => {
+            return state.paySuccess;
+        },
+        // Регистрация
         isLoggedIn: state => {
             return state.token;
         },

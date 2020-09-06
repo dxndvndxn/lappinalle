@@ -207,6 +207,20 @@
                 this.$store.dispatch('sentData', data);
                 //this.$router.push({name: 'choosePay'})
             }
+        },
+        watch: {
+            paySuccess(newValue){
+                if (newValue) {
+                    this.$router.push({name: 'paySuccess'})
+                }else{
+
+                }
+            }
+        },
+        computed: {
+            paySuccess(){
+                return this.$store.getters.paySuccess;
+            }
         }
     }
 </script>

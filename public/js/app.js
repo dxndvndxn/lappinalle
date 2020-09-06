@@ -6245,6 +6245,20 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$store.dispatch('sentData', data); //this.$router.push({name: 'choosePay'})
     }
+  },
+  watch: {
+    paySuccess: function paySuccess(newValue) {
+      if (newValue) {
+        this.$router.push({
+          name: 'paySuccess'
+        });
+      } else {}
+    }
+  },
+  computed: {
+    paySuccess: function paySuccess() {
+      return this.$store.getters.paySuccess;
+    }
   }
 });
 
@@ -39851,7 +39865,9 @@ var store = {
     totalPrice: JSON.parse(localStorage.getItem('totalPrice') || '0'),
     customerData: [],
     // Админ
-    adminRawMenu: null
+    adminRawMenu: null,
+    // Оплата товара
+    paySuccess: false
   },
   mutations: {
     // Регистрация
@@ -41237,9 +41253,11 @@ var store = {
       });
       console.log(postData);
       axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "order"), postData).then(function (response) {
+        state.paySuccess = true;
         console.log(response.data);
       })["catch"](function (e) {
-        return console.log(e);
+        console.log(e);
+        state.paySuccess = false;
       });
     }
   },
@@ -41248,7 +41266,7 @@ var store = {
       var commit = _ref7.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
-          url: 'http://lappinalle.test/api/register',
+          url: 'http://lappinalle.ru/api/register',
           data: user,
           method: 'POST'
         }).then(function (resp) {
@@ -41267,7 +41285,7 @@ var store = {
       var commit = _ref8.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
-          url: 'http://lappinalle.test/api/login',
+          url: 'http://lappinalle.ru/api/login',
           data: user,
           method: 'POST'
         }).then(function (resp) {
@@ -41356,6 +41374,11 @@ var store = {
     }
   },
   getters: {
+    // Оплата товара успех или нет
+    paySuccess: function paySuccess(state) {
+      return state.paySuccess;
+    },
+    // Регистрация
     isLoggedIn: function isLoggedIn(state) {
       return state.token;
     },
