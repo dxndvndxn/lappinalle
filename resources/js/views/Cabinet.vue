@@ -162,8 +162,11 @@
             }
         },
         created() {
-            // this.$Progress.start();
-            this.$Progress.set(100);
+            this.$Progress.start();
+            // this.$Progress.set(100);
+        },
+        mounted() {
+            this.$Progress.finish();
         }
     }
 </script>

@@ -76,6 +76,19 @@ const app = new Vue({
     }
 });
 // router.beforeEach((to, from, next) => {
+//     console.log(to.name)
+//     if(to.matched.some(record => record.meta.requiresAuth)) {
+//         console.log('Hi mark')
+//         if (store.getters.isLoggedIn) {
+//             next()
+//             return
+//         }
+//         next('/login')
+//     } else {
+//         next()
+//     }
+// });
+// router.beforeEach((to, from, next) => {
 //     console.log(to)
 //     next();
 // });

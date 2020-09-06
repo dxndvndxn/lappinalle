@@ -163,6 +163,22 @@ class DatabaseSeeder extends Seeder
             [ 'delivery_name' => 'ПЭК',
                 'delivery_confirm' => true
             ]);
+
+//        DB::table('orders')->insert(
+//
+//            [
+//                'orders_name' => 'Иван Иванович Иванов',
+//                'orders_email' => 'ivanIvanov@yandex.ru',
+//                'orders_city' => 'Москва',
+//                'orders_street' => 'Ленина',
+//                'orders_house' => '20',
+//                'orders_apart' => '55',
+//                'orders_corps' => '1',
+//                'orders_indexPost' => '197372',
+//                'orders_deliveryName' => 'Почта России',
+//                'orders_korzina' => 'Что-то',
+//            ]
+//        );
 //        DB::table('products')->insert([
 //            // Верхняя одежада Зима комбинезоны мальчики и девочки
 //            ['product_title' => 'Комбинезон мальчики ЗИМА Lappinalle',

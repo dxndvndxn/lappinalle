@@ -50,8 +50,14 @@ Route::get('/adminallsizes','AllSizesController@index');
 // Email
 Route::post('/mailer', 'MailerController@send');
 
-// Оформление заказа
-Route::post('/order', 'CheckoutOrderController@index');
+//Вывод заказов в админку
+Route::get('/admorders', 'AdmOrdersController@all');
+
+//Карточка заказа в админке
+Route::get('/admorder', 'AdmOrdersController@order');
+
+//Смена статуса заказа
+Route::post('/ordstatus', 'AdmOrdersController@status');
 
 //Админка карточка пользователя
 Route::get('/lkadm', 'LKController@admin');
@@ -63,6 +69,9 @@ Route::get('/admin-product-{id}', 'AdminGetOneProductController@index');
 
 
 // SITE
+// Оформление заказа
+Route::post('/order', 'CheckoutOrderController@index');
+
 // Получаем базовые данные для приложения типа категори и т.д
 Route::get('/menu', 'BasicDataController@index');
 

@@ -3459,9 +3459,775 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/admin/views/ProductCard.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************************************************************************************************/
 /*! exports provided: default */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:\\WebServer\\nginx\\html\\lappinalle\\resources\\js\\admin\\views\\ProductCard.vue: Unexpected token, expected \",\" (158:8)\n\n\u001b[0m \u001b[90m 156 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 157 | \u001b[39m        \u001b[90m// Данные на сервер\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 158 | \u001b[39m        dataToBack\u001b[33m:\u001b[39m {}\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     | \u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 159 | \u001b[39m        productSucc\u001b[33m:\u001b[39m \u001b[36mfalse\u001b[39m\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 160 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 161 | \u001b[39m        \u001b[90m// Кол-во товара, если нету размера\u001b[39m\u001b[0m\n    at Parser._raise (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:762:17)\n    at Parser.raiseWithData (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:755:17)\n    at Parser.raise (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:749:17)\n    at Parser.unexpected (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:8913:16)\n    at Parser.expect (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:8899:28)\n    at Parser.parseObj (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10559:14)\n    at Parser.parseExprAtom (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10164:28)\n    at Parser.parseExprSubscripts (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9759:23)\n    at Parser.parseMaybeUnary (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9739:21)\n    at Parser.parseExprOps (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9609:23)\n    at Parser.parseMaybeConditional (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9582:23)\n    at Parser.parseMaybeAssign (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9545:21)\n    at Parser.parseParenAndDistinguishExpression (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10387:28)\n    at Parser.parseExprAtom (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10116:21)\n    at Parser.parseExprSubscripts (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9759:23)\n    at Parser.parseMaybeUnary (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9739:21)\n    at Parser.parseExprOps (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9609:23)\n    at Parser.parseMaybeConditional (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9582:23)\n    at Parser.parseMaybeAssign (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9545:21)\n    at Parser.parseFunctionBody (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10825:24)\n    at Parser.parseArrowExpression (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10801:10)\n    at Parser.parseParenAndDistinguishExpression (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10415:12)\n    at Parser.parseExprAtom (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10116:21)\n    at Parser.parseExprSubscripts (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9759:23)\n    at Parser.parseMaybeUnary (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9739:21)\n    at Parser.parseExprOps (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9609:23)\n    at Parser.parseMaybeConditional (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9582:23)\n    at Parser.parseMaybeAssign (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9545:21)\n    at Parser.parseObjectProperty (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10710:101)\n    at Parser.parseObjPropValue (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10735:101)\n    at Parser.parseObjectMember (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10659:10)\n    at Parser.parseObj (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10568:25)\n    at Parser.parseExprAtom (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:10164:28)\n    at Parser.parseExprSubscripts (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9759:23)\n    at Parser.parseMaybeUnary (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9739:21)\n    at Parser.parseExprOps (C:\\WebServer\\nginx\\html\\lappinalle\\node_modules\\@babel\\parser\\lib\\index.js:9609:23)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_AdminCrumbs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/AdminCrumbs */ "./resources/js/admin/components/AdminCrumbs.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ProductCart",
+  components: {
+    AdminCrumbs: _components_AdminCrumbs__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      // Товар
+      nameProduct: null,
+      priceProduct: null,
+      saleProduct: null,
+      textProduct: null,
+      // Картинки
+      mainImg: null,
+      loadedImg: null,
+      files: [],
+      clickedImg: 0,
+      uploadedImgs: [],
+      clickedUploadedImg: 0,
+      deleteUploadImg: false,
+      activeBtn: false,
+      activeBtnSize: false,
+      // Размеры
+      amountStock: null,
+      sizes: [],
+      newSize: null,
+      chozenSizeAfterClick: null,
+      chozenSizeStockAfterClick: null,
+      // Размеры, уже пришедшие с бэка
+      presentSizes: [],
+      timeToChangePresetnSizes: false,
+      // Видео
+      video: null,
+      videoOrImg: false,
+      loadedVideo: null,
+      // Данные на сервер
+      dataToBack: {},
+      productSucc: false,
+      // Кол-во товара, если нету размера
+      stockAmountWithoutSizes: null,
+      //Ошибка ввода
+      errorInput: false,
+      // Если отправляем кол-во товара размера первый раз
+      noSizesNoCount: false
+    };
+  },
+  methods: {
+    // addSize(){
+    //     if (this.newSize) this.sizes.push(this.newSize)
+    // },
+    pushImg: function pushImg() {
+      var _this = this;
+
+      var imgs = this.$refs.img.files; // for (let i in imgs){
+      //     this.files.push(imgs[i]);
+      // }
+      // this.getPrevious();
+      // Загруженные фотки
+
+      this.loadedImg = imgs;
+      var stringData = {
+        id: this.$route.params.id
+      };
+      var formData = new FormData();
+      formData.append('stringData', JSON.stringify(stringData));
+      var i = 0;
+
+      var _iterator = _createForOfIteratorHelper(imgs),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var img = _step.value;
+          i++;
+          formData.append("img-".concat(i), img);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(this.URI, "updprod"), formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        console.log('Success post imgs');
+      }).then(function () {
+        _this.$store.dispatch('GetOneProduct', _this.$route.params.id);
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+    },
+    // getPrevious(){
+    //     for( let i = 0; i < this.files.length; i++ ){
+    //
+    //         if ( /\.(jpe?g|png|gif|svg)$/i.test(this.files[i].name) ) {
+    //
+    //             if (i == 0) this.files[i].active = true;
+    //             else this.files[i].active = false;
+    //
+    //             let reader = new FileReader();
+    //             reader.addEventListener("load", function(){
+    //                 this.$refs['image'+parseInt(i)][0].src = reader.result;
+    //                 if (i === 0) this.mainImg = this.$refs['image' + parseInt(i)][0].src;
+    //             }.bind(this), false);
+    //             reader.readAsDataURL(this.files[i]);
+    //         }
+    //     }
+    //     console.log(this.$refs);
+    //     this.files = this.files.filter(el => (typeof el) === "object");
+    //     console.log(this.files)
+    // },
+    deleteImg: function deleteImg() {// Если кликнули по первой или второй фотографии
+      // if(this.clickedImg === 0 || this.clickedImg === 1){
+      //
+      //     this.files = this.files.filter(el => el.active === false);
+      //     this.getPrevious();
+      //
+      //     // Обнуляем главную картинку
+      //     if ((this.clickedImg === 0 || this.clickedImg === 1) && this.files.length === 0){
+      //         this.mainImg = null;
+      //     }
+      // }
+      // if (this.clickedImg > 1){
+      //     this.files.splice(this.clickedImg, 1);
+      //     this.clickedImg =  this.clickedImg - 1;
+      //     this.mainImg = this.$refs['image' + parseInt(this.clickedImg)][0].src;
+      //     this.files[this.clickedImg].active = true;
+      //     this.getPrevious();
+      // }
+      // if (this.videoOrImg){
+      //     let stringData = {
+      //         id: this.$route.params.id,
+      //         vidRemove: this.video
+      //     };
+      //
+      //     let formData = new FormData();
+      //     formData.append('stringData',  JSON.stringify(stringData));
+      //
+      //     axios.post(`${this.URI}updprod`, formData, {
+      //         headers: {
+      //             'Content-Type': 'multipart/form-data'
+      //         }
+      //     })
+      //         .then(res => {
+      //             console.log(res.data)
+      //             console.log('Success delete video')
+      //         })
+      //         .catch(e => console.log(e));
+      //     this.video = null;
+      //     this.videoOrImg = false;
+      // }
+      // if (this.files.length === 0 && this.video !== null){
+      //     this.videoOrImg = true;
+      // }
+    },
+    deleteUploadedImg: function deleteUploadedImg() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var stringData, formData, deletedImg, insertUpdatedString, _stringData, _formData, _deletedImg, _insertUpdatedString, _stringData2, _formData2;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!_this2.videoOrImg) {
+                  _context.next = 9;
+                  break;
+                }
+
+                stringData = {
+                  id: _this2.$route.params.id,
+                  vidRemove: _this2.video
+                };
+                formData = new FormData();
+                formData.append('stringData', JSON.stringify(stringData));
+                axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this2.URI, "updprod"), formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                }).then(function (res) {
+                  console.log(res.data);
+                  console.log('Success delete video');
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+                _this2.video = null;
+                _this2.videoOrImg = false; // Если есть загруженные фотки, то ставим на галвную первую фотку
+                //Если нет, то NULL
+
+                if (_this2.uploadedImgs.length) {
+                  _this2.mainImg = _this2.uploadedImgs[0].img;
+                } else {
+                  _this2.mainImg = null;
+                }
+
+                return _context.abrupt("return");
+
+              case 9:
+                if (!(_this2.clickedUploadedImg === 0 || _this2.clickedUploadedImg === 1)) {
+                  _context.next = 30;
+                  break;
+                }
+
+                deletedImg = _this2.uploadedImgs[_this2.clickedUploadedImg].img;
+
+                _this2.uploadedImgs.splice(_this2.clickedUploadedImg, 1);
+
+                insertUpdatedString = '';
+
+                _this2.uploadedImgs.forEach(function (el) {
+                  insertUpdatedString += "".concat(el.img, ", ");
+                });
+
+                _stringData = {
+                  id: _this2.$route.params.id,
+                  deletedImg: deletedImg,
+                  updatedImg: insertUpdatedString === '' ? null : insertUpdatedString
+                };
+                _formData = new FormData();
+
+                _formData.append('stringData', JSON.stringify(_stringData));
+
+                _context.next = 19;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this2.URI, "updprod"), _formData, {
+                  headers: {
+                    'Content-Type': 'html/text'
+                  }
+                }).then(function (res) {
+                  console.log('Success delete img');
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 19:
+                if (_this2.uploadedImgs.length !== 0) {
+                  console.log(1);
+                  _this2.mainImg = _this2.uploadedImgs[0].img;
+                } // Если длинна массива с картинками равна нулю, то на главную превью возвращаем NULL
+
+
+                if (!(_this2.uploadedImgs.length === 0 && _this2.video == null)) {
+                  _context.next = 23;
+                  break;
+                }
+
+                _this2.mainImg = null;
+                return _context.abrupt("return");
+
+              case 23:
+                if (!(!_this2.uploadedImgs.length && _this2.video !== null)) {
+                  _context.next = 26;
+                  break;
+                }
+
+                _this2.videoOrImg = true;
+                return _context.abrupt("return");
+
+              case 26:
+                if (_this2.clickedUploadedImg === 1) {
+                  _this2.clickedUploadedImg = 0;
+                }
+
+                if (!(_this2.video !== null)) {
+                  _context.next = 29;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 29:
+                // // Обнуляем главную картинку
+                if ((_this2.clickedUploadedImg === 0 || _this2.clickedUploadedImg === 1) && _this2.uploadedImgs.length === 0) {
+                  _this2.mainImg = null;
+                }
+
+              case 30:
+                if (!(_this2.clickedUploadedImg > 1)) {
+                  _context.next = 41;
+                  break;
+                }
+
+                _deletedImg = _this2.uploadedImgs[_this2.clickedUploadedImg].img;
+
+                _this2.uploadedImgs.splice(_this2.clickedUploadedImg, 1);
+
+                _insertUpdatedString = '';
+
+                _this2.uploadedImgs.forEach(function (el) {
+                  _insertUpdatedString += "".concat(el.img, ", ");
+                });
+
+                _stringData2 = {
+                  id: _this2.$route.params.id,
+                  deletedImg: _deletedImg,
+                  updatedImg: _insertUpdatedString === '' ? null : _insertUpdatedString
+                };
+                _formData2 = new FormData();
+
+                _formData2.append('stringData', JSON.stringify(_stringData2));
+
+                _context.next = 40;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this2.URI, "updprod"), _formData2, {
+                  headers: {
+                    'Content-Type': 'html/text'
+                  }
+                }).then(function (res) {
+                  console.log(res.data);
+                  console.log('Success delete img');
+                }).then(function () {
+                  _this2.clickedUploadedImg = _this2.clickedUploadedImg - 1;
+                  _this2.mainImg = _this2.uploadedImgs[_this2.clickedUploadedImg].img;
+                  _this2.uploadedImgs[_this2.clickedUploadedImg].active = true;
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 40:
+                _this2.videoOrImg = false;
+
+              case 41:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    loadVid: function loadVid() {
+      var _this3 = this;
+
+      if (this.video !== null) return;
+      var video = this.$refs.vid.files;
+      this.videoOrImg = true;
+      this.video = URL.createObjectURL(video[0]); // Загруженные видео
+
+      this.loadedVideo = video[0];
+      var stringData = {
+        id: this.$route.params.id
+      };
+      var formData = new FormData();
+      formData.append('stringData', JSON.stringify(stringData));
+      formData.append('video', video[0]);
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(this.URI, "updprod"), formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        console.log(res.data);
+        console.log('Success post video');
+      }).then(function () {
+        _this3.$store.dispatch('GetOneProduct', _this3.$route.params.id);
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+    },
+    // clickImg(i){
+    //     this.clickedImg = i;
+    //     this.mainImg = this.$refs['image' + parseInt(i)][0].src;
+    //     this.files.forEach(el => {
+    //         el.active = false
+    //     });
+    //     this.files[i].active = true;
+    //
+    //     // Делаем видео не активным
+    //     this.videoOrImg = false;
+    //
+    //     this.deleteUploadImg = false;
+    // },
+    clickUploadedImg: function clickUploadedImg(i) {
+      this.clickedUploadedImg = i;
+      this.mainImg = this.uploadedImgs[i].img;
+      this.uploadedImgs.forEach(function (el) {
+        el.active = false;
+      });
+      this.uploadedImgs[i].active = true; // Делаем видео не активным
+
+      this.videoOrImg = false; // this.deleteUploadImg = true;
+    },
+    // Клик по видео
+    // Присваиваем тру и тогда в большом варианте картинки возвращается первью видео
+    clickVideo: function clickVideo() {
+      this.videoOrImg = true;
+    },
+    // Клик по картинке и возвращаем mainImg
+    getMainImg: function getMainImg() {
+      return this.mainImg;
+    },
+    // Отправляем данные на сервер
+    sentProductData: function sentProductData() {
+      this.dataToBack = {
+        video: this.loadedVideo,
+        imgs: this.loadedImg,
+        description: this.textProduct,
+        price: this.priceProduct,
+        sale: this.saleProduct,
+        sizes: this.sizes.length ? this.sizes : null,
+        amountWithoutSizes: this.stockAmountWithoutSizes
+      };
+      this.$store.dispatch('SentDataToBackend', this.dataToBack);
+    },
+    // Выбираем рамзеры
+    addNewSize: function addNewSize(data) {
+      var checkSize = this.sizes.find(function (el) {
+        return el.size === data.size && el.id === data.sizeId;
+      });
+      var checkSizeold = this.presentSizes.find(function (el) {
+        return el.sizes_number === data.size && el.sizes_id === data.sizeId;
+      });
+      if (checkSize || checkSizeold) return;
+      this.sizes.push({
+        size: data.size,
+        id: data.sizeId,
+        count: 0
+      });
+      this.chozenSizeStockAfterClick = null;
+      this.chozenSizeAfterClick = null;
+    },
+    // Выбираем размер для определения кол-во
+    selectSizeForStock: function selectSizeForStock(i) {
+      this.newSize = i;
+      this.chozenSizeAfterClick = this.sizes[i].size;
+      this.chozenSizeStockAfterClick = this.sizes[i].count;
+      this.timeToChangePresetnSizes = false;
+    },
+    // Кликаем на старые размеры
+    selectSizeForStockUpdate: function selectSizeForStockUpdate(count, size, i) {
+      this.newSize = i;
+      this.chozenSizeAfterClick = size;
+      this.chozenSizeStockAfterClick = count;
+      this.timeToChangePresetnSizes = true;
+      this.errorInput = false;
+    },
+    // Изменяем кол-во размера
+    insertAmountStock: function insertAmountStock() {
+      // Если вводят, но размер не выбран
+      if (this.presentSizes.length) {
+        this.errorInput = true;
+        return;
+      } // Если длинна массива 0
+
+
+      if (!this.sizes.length) {
+        // То проверяем это новый товар, если да то отправляем на post
+        // если нет, то на апдейт
+        if (this.noSizesNoCount) {
+          this.updateProduct(this.$route.params.id, 'sizeFresh', {
+            sizeId: null,
+            count: this.chozenSizeStockAfterClick
+          });
+          this.$Progress.start();
+          this.$store.dispatch('GetOneProduct', this.$route.params.id);
+        } else {
+          this.updateProduct(this.$route.params.id, 'sizeOld', {
+            sizeId: null,
+            count: this.chozenSizeStockAfterClick
+          });
+          this.$Progress.start();
+          this.$store.dispatch('GetOneProduct', this.$route.params.id);
+        }
+      } else {
+        this.sizes[this.newSize].count = this.chozenSizeStockAfterClick;
+        this.updateProduct(this.$route.params.id, 'sizeFresh', {
+          sizeId: this.sizes[this.newSize].id,
+          count: this.sizes[this.newSize].count
+        }); // Запрашиваем данные снова
+
+        this.$Progress.start();
+        this.$store.dispatch('GetOneProduct', this.$route.params.id); //Обнуляем свежие данные
+
+        this.sizes = [];
+        this.chozenSizeStockAfterClick = null;
+        this.chozenSizeAfterClick = null;
+        this.stockAmountWithoutSizes = null;
+      }
+    },
+    // Апдейтим кол-во для размера
+    insertAmountStockUpdate: function insertAmountStockUpdate() {
+      this.updateProduct(this.$route.params.id, 'sizeOld', {
+        sizeId: this.presentSizes[this.newSize].sizes_id,
+        count: this.chozenSizeStockAfterClick
+      });
+    },
+    // Удаляем размер
+    deleteSize: function deleteSize(i) {
+      this.sizes.splice(i, 1); // Если массив новых добавленных товаров  == 0, то обнуляем переменные с выводом данных
+
+      if (!this.sizes.length) {
+        this.chozenSizeAfterClick = this.chozenSizeStockAfterClick = null;
+      }
+    },
+    // АПДЕЙТИМ ТОВАР
+    // @whatNeedToChange - имя поля, которое надо поменять
+    // @newValue - новое значение
+    updateProduct: function updateProduct(id, whatNeedToChange, newValue) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var stringData, formData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                stringData = _defineProperty({
+                  id: id
+                }, whatNeedToChange, newValue);
+                formData = new FormData();
+                formData.append('stringData', JSON.stringify(stringData));
+                _context2.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this4.URI, "updprod"), formData).then(function (res) {
+                  console.log('Success change', whatNeedToChange);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    // Апдейтим описание
+    changeTextProduct: function changeTextProduct() {
+      this.updateProduct(this.$route.params.id, 'description', this.textProduct);
+    },
+    // Апдейтим цену
+    changePriceProduct: function changePriceProduct() {
+      this.updateProduct(this.$route.params.id, 'price', this.priceProduct);
+    },
+    // Апдейтим sale
+    changeSaleProduct: function changeSaleProduct() {
+      var dataSale = {
+        newPrice: this.saleProduct,
+        oldPrice: this.priceProduct
+      };
+      this.updateProduct(this.$route.params.id, 'sale', dataSale);
+    }
+  },
+  created: function created() {
+    this.$Progress.start();
+    this.$store.dispatch('GetAllSizes');
+    this.$store.dispatch('GetOneProduct', this.$route.params.id); // this.$store.dispatch('GetSizeForOneProduct');
+    // this.$store.dispatch('GetAllReviews')
+  },
+  watch: {
+    files: function files(val) {
+      this.files = val;
+    },
+    getProductSuccess: function getProductSuccess(newVal, oldVal) {
+      if (newVal) this.$router.push({
+        name: 'AdminProducts'
+      });else console.log('Something goes wrong');
+    },
+    getOneProduct: function getOneProduct(newValue) {
+      this.textProduct = newValue[0].product_description;
+      this.priceProduct = newValue[0].product_sale ? newValue[0].product_old_price : newValue[0].product_price;
+      this.saleProduct = newValue[0].product_sale ? newValue[0].product_price : null;
+      this.nameProduct = newValue[0].product_title;
+      this.video = newValue[0].product_video;
+      this.uploadedImgs = [];
+
+      if (newValue[0].product_video) {
+        this.mainImg = this.video;
+        this.videoOrImg = true;
+      } else {
+        this.videoOrImg = false;
+      }
+
+      if (newValue[0].product_img !== null) {
+        var imgs = newValue[0].product_img.split(', ');
+
+        if (imgs.length) {
+          // this.deleteUploadImg = true;
+          for (var i = 0; i < imgs.length; i++) {
+            if (imgs[i] !== '') {
+              this.uploadedImgs.push({
+                img: imgs[i],
+                active: i === 0 ? true : false
+              });
+            }
+          }
+
+          this.mainImg = this.uploadedImgs[0].img;
+        }
+      } // Если массив с размерами длинна есть
+
+
+      if (newValue.allSizes.length) {
+        // Проверяем если sizes_id, так как товар может быть без размера
+        var findIdWithoutSize = newValue.allSizes.find(function (el) {
+          return el.sizes_id === null;
+        }); //Отменяем, чтобы отпралялась уже old размер на update
+
+        this.noSizesNoCount = false; // Если нашли, то просто присвааиваем переменную и выводим размеры
+
+        if (!findIdWithoutSize) {
+          this.presentSizes = newValue.allSizes;
+        } else {
+          // Если нашли, то в инпут где вставляется колв-во присваиваем значение
+          this.chozenSizeStockAfterClick = newValue.allSizes[0].catalog_size_amount;
+        }
+      } else {
+        // ЕСли длинна массива равна нулю, то значит это новый товар, и присваиваем тру, чтобы при введении нового значения отправлялись данные на post
+        this.noSizesNoCount = true;
+      }
+
+      this.$Progress.finish();
+    }
+  },
+  computed: {
+    getAllSizes: function getAllSizes() {
+      return this.$store.getters.getAllSizes;
+    },
+    getProductSuccess: function getProductSuccess() {
+      return this.$store.getters.productSuccess;
+    },
+    URI: function URI() {
+      return this.$store.getters.URI;
+    },
+    getOneProduct: function getOneProduct() {
+      return this.$store.getters.oneProduct;
+    }
+  }
+});
 
 /***/ }),
 
@@ -3864,6 +4630,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
   data: function data() {
@@ -3977,6 +4748,9 @@ __webpack_require__.r(__webpack_exports__);
     getUpdatedCartCount: function getUpdatedCartCount() {
       this.getCartCount = this.$store.getters.updatedCart.cartCount;
       return this.$store.getters.updatedCart.cartCount;
+    },
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     }
   },
   watch: {
@@ -4430,8 +5204,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    // this.$Progress.start();
-    this.$Progress.set(100);
+    this.$Progress.start(); // this.$Progress.set(100);
+  },
+  mounted: function mounted() {
+    this.$Progress.finish();
   }
 });
 
@@ -4926,6 +5702,71 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5756,6 +6597,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -5771,16 +6614,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Login",
   data: function data() {
     return {
       email: null,
-      pass: null
+      pass: null,
+      err: false
     };
   },
+  validations: {
+    email: {
+      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"],
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    pass: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(6)
+    }
+  },
   methods: {
-    logIn: function logIn() {}
+    logIn: function logIn() {
+      var _this = this;
+
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      } else {
+        this.$store.dispatch('login', {
+          email: this.email,
+          password: this.pass
+        }).then(function () {
+          return _this.$router.push({
+            name: 'cabinet'
+          });
+        })["catch"](function () {
+          return _this.err = true;
+        });
+      }
+    }
   },
   created: function created() {
     this.$Progress.start();
@@ -6066,6 +6950,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -6099,6 +6985,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Registration",
   data: function data() {
@@ -6109,10 +7012,50 @@ __webpack_require__.r(__webpack_exports__);
       passRepeat: null,
       checkAgree: false,
       regWhat: false,
-      error: null
+      error: false
     };
   },
-  methods: {},
+  validations: {
+    name: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(2),
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(16)
+    },
+    email: {
+      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"],
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    pass: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(6)
+    },
+    passRepeat: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      sameAsPassword: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["sameAs"])('pass')
+    }
+  },
+  methods: {
+    registerMe: function registerMe() {
+      var _this = this;
+
+      if (this.$v.$invalid && this.checkAgree) {
+        this.$v.$touch();
+        return;
+      } else {
+        this.$store.dispatch('register', {
+          name: this.name,
+          email: this.email,
+          password: this.pass
+        }).then(function () {
+          return _this.$router.push({
+            name: 'cabinet'
+          });
+        })["catch"](function () {
+          return _this.err = true;
+        });
+      }
+    }
+  },
   created: function created() {
     this.$Progress.start();
   },
@@ -12826,29 +13769,61 @@ var render = function() {
                 "ul",
                 { staticClass: "nav-icons-items" },
                 [
-                  _c("router-link", { attrs: { tag: "li", to: "/login" } }, [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c(
-                        "svg",
-                        {
-                          attrs: {
-                            xmlns: "http://www.w3.org/2000/svg",
-                            viewBox: "0 0 448.51 426.18"
-                          }
-                        },
+                  !_vm.isLoggedIn
+                    ? _c(
+                        "router-link",
+                        { attrs: { tag: "li", to: "/login" } },
                         [
-                          _c("title", [_vm._v("icon_lk")]),
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M553,389.48c-1.08,4.89-1.81,9.89-3.31,14.65-3.57,11.27-8.4,22.08-16.72,30.64-11.7,12-26.16,18.57-43.11,18.6q-126.32.21-252.64.27c-24,0-48.05.3-72.08,0-23.72-.25-41.08-11-51.6-32.54-11.89-24.32-11.41-49-2.4-73.9,8.17-22.57,22.45-40.88,40.33-56.55,10.85-9.52,26.19-20.05,35.44-24.59l13.9,14.7c-5.09,3-10.34,5.94-15.39,9.18-18.84,12.09-35.16,26.8-46.82,46.17-9.36,15.54-14.68,32.31-13.95,50.61a54.25,54.25,0,0,0,12.4,32.81A33,33,0,0,0,163.28,432q78,0,156.07-.13,85.13-.11,170.25-.32c14-.05,25.12-6.12,33.06-17.7,5.19-7.56,9-15.79,9.94-25,.92-8.51-.25-16.9-2.27-25.15-5.09-20.8-16.51-37.83-31.66-52.56-18.21-17.69-39.73-30.16-63.11-39.63-5.29-2.14-10.74-3.88-16.06-5.94a4,4,0,0,0-4.5.83,130.41,130.41,0,0,1-50.26,25.73c-69.53,18.46-140.32-19.07-163.38-86.62C175.27,129.09,222.81,46.22,301.89,30.31,374.47,15.7,445.31,61.94,460.26,134.65c8.43,41-.06,78.87-25.88,112.36-.36.48-.7,1-1.2,1.67,3.16,1.21,6.19,2.33,9.18,3.53,26.51,10.63,50.78,24.84,71.19,45.07,18.07,17.91,31.22,38.75,36.81,63.86,1.06,4.75,1.5,9.63,2.23,14.44.11.67.27,1.33.41,2ZM328.93,50c-61.88,0-112.28,50.29-112.34,112.1s50.27,112.34,111.83,112.39A112.41,112.41,0,0,0,440.86,162.26C440.87,100.51,390.52,50,328.93,50Z",
-                              transform: "translate(-104.49 -27.62)"
-                            }
-                          })
+                          _c("a", { attrs: { href: "" } }, [
+                            _c(
+                              "svg",
+                              {
+                                attrs: {
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  viewBox: "0 0 448.51 426.18"
+                                }
+                              },
+                              [
+                                _c("title", [_vm._v("icon_lk")]),
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M553,389.48c-1.08,4.89-1.81,9.89-3.31,14.65-3.57,11.27-8.4,22.08-16.72,30.64-11.7,12-26.16,18.57-43.11,18.6q-126.32.21-252.64.27c-24,0-48.05.3-72.08,0-23.72-.25-41.08-11-51.6-32.54-11.89-24.32-11.41-49-2.4-73.9,8.17-22.57,22.45-40.88,40.33-56.55,10.85-9.52,26.19-20.05,35.44-24.59l13.9,14.7c-5.09,3-10.34,5.94-15.39,9.18-18.84,12.09-35.16,26.8-46.82,46.17-9.36,15.54-14.68,32.31-13.95,50.61a54.25,54.25,0,0,0,12.4,32.81A33,33,0,0,0,163.28,432q78,0,156.07-.13,85.13-.11,170.25-.32c14-.05,25.12-6.12,33.06-17.7,5.19-7.56,9-15.79,9.94-25,.92-8.51-.25-16.9-2.27-25.15-5.09-20.8-16.51-37.83-31.66-52.56-18.21-17.69-39.73-30.16-63.11-39.63-5.29-2.14-10.74-3.88-16.06-5.94a4,4,0,0,0-4.5.83,130.41,130.41,0,0,1-50.26,25.73c-69.53,18.46-140.32-19.07-163.38-86.62C175.27,129.09,222.81,46.22,301.89,30.31,374.47,15.7,445.31,61.94,460.26,134.65c8.43,41-.06,78.87-25.88,112.36-.36.48-.7,1-1.2,1.67,3.16,1.21,6.19,2.33,9.18,3.53,26.51,10.63,50.78,24.84,71.19,45.07,18.07,17.91,31.22,38.75,36.81,63.86,1.06,4.75,1.5,9.63,2.23,14.44.11.67.27,1.33.41,2ZM328.93,50c-61.88,0-112.28,50.29-112.34,112.1s50.27,112.34,111.83,112.39A112.41,112.41,0,0,0,440.86,162.26C440.87,100.51,390.52,50,328.93,50Z",
+                                    transform: "translate(-104.49 -27.62)"
+                                  }
+                                })
+                              ]
+                            )
+                          ])
                         ]
                       )
-                    ])
-                  ]),
+                    : _c(
+                        "router-link",
+                        { attrs: { tag: "li", to: "/cabinet" } },
+                        [
+                          _c("a", { attrs: { href: "" } }, [
+                            _c(
+                              "svg",
+                              {
+                                attrs: {
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  viewBox: "0 0 448.51 426.18"
+                                }
+                              },
+                              [
+                                _c("title", [_vm._v("icon_lk")]),
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M553,389.48c-1.08,4.89-1.81,9.89-3.31,14.65-3.57,11.27-8.4,22.08-16.72,30.64-11.7,12-26.16,18.57-43.11,18.6q-126.32.21-252.64.27c-24,0-48.05.3-72.08,0-23.72-.25-41.08-11-51.6-32.54-11.89-24.32-11.41-49-2.4-73.9,8.17-22.57,22.45-40.88,40.33-56.55,10.85-9.52,26.19-20.05,35.44-24.59l13.9,14.7c-5.09,3-10.34,5.94-15.39,9.18-18.84,12.09-35.16,26.8-46.82,46.17-9.36,15.54-14.68,32.31-13.95,50.61a54.25,54.25,0,0,0,12.4,32.81A33,33,0,0,0,163.28,432q78,0,156.07-.13,85.13-.11,170.25-.32c14-.05,25.12-6.12,33.06-17.7,5.19-7.56,9-15.79,9.94-25,.92-8.51-.25-16.9-2.27-25.15-5.09-20.8-16.51-37.83-31.66-52.56-18.21-17.69-39.73-30.16-63.11-39.63-5.29-2.14-10.74-3.88-16.06-5.94a4,4,0,0,0-4.5.83,130.41,130.41,0,0,1-50.26,25.73c-69.53,18.46-140.32-19.07-163.38-86.62C175.27,129.09,222.81,46.22,301.89,30.31,374.47,15.7,445.31,61.94,460.26,134.65c8.43,41-.06,78.87-25.88,112.36-.36.48-.7,1-1.2,1.67,3.16,1.21,6.19,2.33,9.18,3.53,26.51,10.63,50.78,24.84,71.19,45.07,18.07,17.91,31.22,38.75,36.81,63.86,1.06,4.75,1.5,9.63,2.23,14.44.11.67.27,1.33.41,2ZM328.93,50c-61.88,0-112.28,50.29-112.34,112.1s50.27,112.34,111.83,112.39A112.41,112.41,0,0,0,440.86,162.26C440.87,100.51,390.52,50,328.93,50Z",
+                                    transform: "translate(-104.49 -27.62)"
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ]
+                      ),
                   _vm._v(" "),
                   _c(
                     "router-link",
@@ -14431,10 +15406,12 @@ var render = function() {
         _vm._v(" "),
         _c("h1", { staticClass: "item-title" }, [
           _vm._v(
-            "\n        " + _vm._s(_vm.returnDataForItem.itemTitle) + "\n    "
+            "\n            " +
+              _vm._s(_vm.returnDataForItem.itemTitle) +
+              "\n        "
           )
         ]),
-        _vm._v("\n    " + _vm._s(_vm.returnDataForItem) + "\n    "),
+        _vm._v(" "),
         _c("div", { staticClass: "item-info" }, [
           _c("div", { ref: "itemImgs", staticClass: "item-pics" }, [
             _c(
@@ -14646,9 +15623,9 @@ var render = function() {
                   ])
                 : _c("div", { staticClass: "item-main-price" }, [
                     _vm._v(
-                      "\n                    " +
+                      "\n                        " +
                         _vm._s(_vm.returnDataForItem.itemPrice) +
-                        " ₽\n                "
+                        " ₽\n                    "
                     )
                   ]),
               _vm._v(" "),
@@ -14672,9 +15649,9 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                        " +
+                        "\n                            " +
                           _vm._s(size.sz) +
-                          "\n                    "
+                          "\n                        "
                       )
                     ]
                   )
@@ -14685,7 +15662,7 @@ var render = function() {
               _vm.errorAdd
                 ? _c("div", { staticClass: "error-add" }, [
                     _vm._v(
-                      "\n                    Пожалуйста, укажите размер.\n                "
+                      "\n                        Пожалуйста, укажите размер.\n                    "
                     )
                   ])
                 : _vm._e(),
@@ -14773,9 +15750,9 @@ var render = function() {
               _vm._v("Информация о товаре: ")
             ]),
             _vm._v(
-              "\n            " +
+              "\n                " +
                 _vm._s(_vm.returnDataForItem.itemDesc) +
-                "\n        "
+                "\n            "
             )
           ])
         ]),
@@ -14853,9 +15830,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("p", { staticClass: "user-text" }, [
                         _vm._v(
-                          "\n                        " +
+                          "\n                            " +
                             _vm._s(inf.reviews_text) +
-                            "\n                    "
+                            "\n                        "
                         )
                       ])
                     ])
@@ -14881,28 +15858,80 @@ var render = function() {
                           _c(
                             "svg",
                             {
-                              staticClass: "filled",
                               attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                viewBox: "0 0 361.33 348.7"
+                                width: "18px",
+                                height: "17px",
+                                viewBox: "0 0 18 17"
                               }
                             },
                             [
-                              _c("title", [_vm._v("icon_izb")]),
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
-                                  transform: "translate(-139 -54.46)"
-                                }
-                              }),
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
-                                  transform: "translate(-139 -54.46)"
-                                }
-                              })
+                              _c(
+                                "g",
+                                {
+                                  attrs: {
+                                    id: "Icons",
+                                    stroke: "none",
+                                    "stroke-width": "1",
+                                    fill: "none",
+                                    "fill-rule": "evenodd"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "g",
+                                    {
+                                      attrs: {
+                                        id: "Rounded",
+                                        transform:
+                                          "translate(-273.000000, -4323.000000)"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "g",
+                                        {
+                                          attrs: {
+                                            id: "Toggle",
+                                            transform:
+                                              "translate(100.000000, 4266.000000)"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "g",
+                                            {
+                                              attrs: {
+                                                id: "-Round-/-Toggle-/-star",
+                                                transform:
+                                                  "translate(170.000000, 54.000000)"
+                                              }
+                                            },
+                                            [
+                                              _c("g", [
+                                                _c("polygon", {
+                                                  attrs: {
+                                                    points:
+                                                      "0 0 24 0 24 24 0 24"
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  staticClass: "filled",
+                                                  attrs: {
+                                                    d:
+                                                      "M12,17.27 L16.15,19.78 C16.91,20.24 17.84,19.56 17.64,18.7 L16.54,13.98 L20.21,10.8 C20.88,10.22 20.52,9.12 19.64,9.05 L14.81,8.64 L12.92,4.18 C12.58,3.37 11.42,3.37 11.08,4.18 L9.19,8.63 L4.36,9.04 C3.48,9.11 3.12,10.21 3.79,10.79 L7.46,13.97 L6.36,18.69 C6.16,19.55 7.09,20.23 7.85,19.77 L12,17.27 Z",
+                                                    id: "🔹-Icon-Color"
+                                                  }
+                                                })
+                                              ])
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
                             ]
                           )
                         ])
@@ -14915,26 +15944,80 @@ var render = function() {
                             {
                               class: 4 >= item ? "filled" : null,
                               attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                viewBox: "0 0 361.33 348.7"
+                                width: "18px",
+                                height: "17px",
+                                viewBox: "0 0 18 17"
                               }
                             },
                             [
-                              _c("title", [_vm._v("icon_izb")]),
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
-                                  transform: "translate(-139 -54.46)"
-                                }
-                              }),
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
-                                  transform: "translate(-139 -54.46)"
-                                }
-                              })
+                              _c(
+                                "g",
+                                {
+                                  attrs: {
+                                    id: "Icons",
+                                    stroke: "none",
+                                    "stroke-width": "1",
+                                    fill: "none",
+                                    "fill-rule": "evenodd"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "g",
+                                    {
+                                      attrs: {
+                                        id: "Rounded",
+                                        transform:
+                                          "translate(-273.000000, -4323.000000)"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "g",
+                                        {
+                                          attrs: {
+                                            id: "Toggle",
+                                            transform:
+                                              "translate(100.000000, 4266.000000)"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "g",
+                                            {
+                                              attrs: {
+                                                id: "-Round-/-Toggle-/-star",
+                                                transform:
+                                                  "translate(170.000000, 54.000000)"
+                                              }
+                                            },
+                                            [
+                                              _c("g", [
+                                                _c("polygon", {
+                                                  attrs: {
+                                                    points:
+                                                      "0 0 24 0 24 24 0 24"
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  class:
+                                                    4 >= item ? "filled" : null,
+                                                  attrs: {
+                                                    d:
+                                                      "M12,17.27 L16.15,19.78 C16.91,20.24 17.84,19.56 17.64,18.7 L16.54,13.98 L20.21,10.8 C20.88,10.22 20.52,9.12 19.64,9.05 L14.81,8.64 L12.92,4.18 C12.58,3.37 11.42,3.37 11.08,4.18 L9.19,8.63 L4.36,9.04 C3.48,9.11 3.12,10.21 3.79,10.79 L7.46,13.97 L6.36,18.69 C6.16,19.55 7.09,20.23 7.85,19.77 L12,17.27 Z",
+                                                    id: "🔹-Icon-Color"
+                                                  }
+                                                })
+                                              ])
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
                             ]
                           )
                         ])
@@ -14945,28 +16028,81 @@ var render = function() {
                           _c(
                             "svg",
                             {
-                              class: 3 >= item ? "filled" : null,
                               attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                viewBox: "0 0 361.33 348.7"
+                                width: "18px",
+                                height: "17px",
+                                viewBox: "0 0 18 17"
                               }
                             },
                             [
-                              _c("title", [_vm._v("icon_izb")]),
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
-                                  transform: "translate(-139 -54.46)"
-                                }
-                              }),
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
-                                  transform: "translate(-139 -54.46)"
-                                }
-                              })
+                              _c(
+                                "g",
+                                {
+                                  attrs: {
+                                    id: "Icons",
+                                    stroke: "none",
+                                    "stroke-width": "1",
+                                    fill: "none",
+                                    "fill-rule": "evenodd"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "g",
+                                    {
+                                      attrs: {
+                                        id: "Rounded",
+                                        transform:
+                                          "translate(-273.000000, -4323.000000)"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "g",
+                                        {
+                                          attrs: {
+                                            id: "Toggle",
+                                            transform:
+                                              "translate(100.000000, 4266.000000)"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "g",
+                                            {
+                                              attrs: {
+                                                id: "-Round-/-Toggle-/-star",
+                                                transform:
+                                                  "translate(170.000000, 54.000000)"
+                                              }
+                                            },
+                                            [
+                                              _c("g", [
+                                                _c("polygon", {
+                                                  attrs: {
+                                                    points:
+                                                      "0 0 24 0 24 24 0 24"
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  class:
+                                                    3 >= item ? "filled" : null,
+                                                  attrs: {
+                                                    d:
+                                                      "M12,17.27 L16.15,19.78 C16.91,20.24 17.84,19.56 17.64,18.7 L16.54,13.98 L20.21,10.8 C20.88,10.22 20.52,9.12 19.64,9.05 L14.81,8.64 L12.92,4.18 C12.58,3.37 11.42,3.37 11.08,4.18 L9.19,8.63 L4.36,9.04 C3.48,9.11 3.12,10.21 3.79,10.79 L7.46,13.97 L6.36,18.69 C6.16,19.55 7.09,20.23 7.85,19.77 L12,17.27 Z",
+                                                    id: "🔹-Icon-Color"
+                                                  }
+                                                })
+                                              ])
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
                             ]
                           )
                         ])
@@ -14977,28 +16113,81 @@ var render = function() {
                           _c(
                             "svg",
                             {
-                              class: 2 >= item ? "filled" : null,
                               attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                viewBox: "0 0 361.33 348.7"
+                                width: "18px",
+                                height: "17px",
+                                viewBox: "0 0 18 17"
                               }
                             },
                             [
-                              _c("title", [_vm._v("icon_izb")]),
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
-                                  transform: "translate(-139 -54.46)"
-                                }
-                              }),
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
-                                  transform: "translate(-139 -54.46)"
-                                }
-                              })
+                              _c(
+                                "g",
+                                {
+                                  attrs: {
+                                    id: "Icons",
+                                    stroke: "none",
+                                    "stroke-width": "1",
+                                    fill: "none",
+                                    "fill-rule": "evenodd"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "g",
+                                    {
+                                      attrs: {
+                                        id: "Rounded",
+                                        transform:
+                                          "translate(-273.000000, -4323.000000)"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "g",
+                                        {
+                                          attrs: {
+                                            id: "Toggle",
+                                            transform:
+                                              "translate(100.000000, 4266.000000)"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "g",
+                                            {
+                                              attrs: {
+                                                id: "-Round-/-Toggle-/-star",
+                                                transform:
+                                                  "translate(170.000000, 54.000000)"
+                                              }
+                                            },
+                                            [
+                                              _c("g", [
+                                                _c("polygon", {
+                                                  attrs: {
+                                                    points:
+                                                      "0 0 24 0 24 24 0 24"
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  class:
+                                                    2 >= item ? "filled" : null,
+                                                  attrs: {
+                                                    d:
+                                                      "M12,17.27 L16.15,19.78 C16.91,20.24 17.84,19.56 17.64,18.7 L16.54,13.98 L20.21,10.8 C20.88,10.22 20.52,9.12 19.64,9.05 L14.81,8.64 L12.92,4.18 C12.58,3.37 11.42,3.37 11.08,4.18 L9.19,8.63 L4.36,9.04 C3.48,9.11 3.12,10.21 3.79,10.79 L7.46,13.97 L6.36,18.69 C6.16,19.55 7.09,20.23 7.85,19.77 L12,17.27 Z",
+                                                    id: "🔹-Icon-Color"
+                                                  }
+                                                })
+                                              ])
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
                             ]
                           )
                         ])
@@ -15009,28 +16198,81 @@ var render = function() {
                           _c(
                             "svg",
                             {
-                              class: 1 >= item ? "filled" : null,
                               attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                viewBox: "0 0 361.33 348.7"
+                                width: "18px",
+                                height: "17px",
+                                viewBox: "0 0 18 17"
                               }
                             },
                             [
-                              _c("title", [_vm._v("icon_izb")]),
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
-                                  transform: "translate(-139 -54.46)"
-                                }
-                              }),
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
-                                  transform: "translate(-139 -54.46)"
-                                }
-                              })
+                              _c(
+                                "g",
+                                {
+                                  attrs: {
+                                    id: "Icons",
+                                    stroke: "none",
+                                    "stroke-width": "1",
+                                    fill: "none",
+                                    "fill-rule": "evenodd"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "g",
+                                    {
+                                      attrs: {
+                                        id: "Rounded",
+                                        transform:
+                                          "translate(-273.000000, -4323.000000)"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "g",
+                                        {
+                                          attrs: {
+                                            id: "Toggle",
+                                            transform:
+                                              "translate(100.000000, 4266.000000)"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "g",
+                                            {
+                                              attrs: {
+                                                id: "-Round-/-Toggle-/-star",
+                                                transform:
+                                                  "translate(170.000000, 54.000000)"
+                                              }
+                                            },
+                                            [
+                                              _c("g", [
+                                                _c("polygon", {
+                                                  attrs: {
+                                                    points:
+                                                      "0 0 24 0 24 24 0 24"
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                _c("path", {
+                                                  class:
+                                                    1 >= item ? "filled" : null,
+                                                  attrs: {
+                                                    d:
+                                                      "M12,17.27 L16.15,19.78 C16.91,20.24 17.84,19.56 17.64,18.7 L16.54,13.98 L20.21,10.8 C20.88,10.22 20.52,9.12 19.64,9.05 L14.81,8.64 L12.92,4.18 C12.58,3.37 11.42,3.37 11.08,4.18 L9.19,8.63 L4.36,9.04 C3.48,9.11 3.12,10.21 3.79,10.79 L7.46,13.97 L6.36,18.69 C6.16,19.55 7.09,20.23 7.85,19.77 L12,17.27 Z",
+                                                    id: "🔹-Icon-Color"
+                                                  }
+                                                })
+                                              ])
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
                             ]
                           )
                         ])
@@ -15047,9 +16289,9 @@ var render = function() {
                         return star == 5
                           ? _c("span", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(el.length) +
-                                  "\n                        "
+                                  "\n                            "
                               )
                             ])
                           : _vm._e()
@@ -15059,9 +16301,9 @@ var render = function() {
                         return star == 4
                           ? _c("span", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(el.length) +
-                                  "\n                        "
+                                  "\n                            "
                               )
                             ])
                           : _vm._e()
@@ -15071,9 +16313,9 @@ var render = function() {
                         return star == 3
                           ? _c("span", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(el.length) +
-                                  "\n                        "
+                                  "\n                            "
                               )
                             ])
                           : _vm._e()
@@ -15083,9 +16325,9 @@ var render = function() {
                         return star == 2
                           ? _c("span", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(el.length) +
-                                  "\n                        "
+                                  "\n                            "
                               )
                             ])
                           : _vm._e()
@@ -15095,9 +16337,9 @@ var render = function() {
                         return star == 1
                           ? _c("span", [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(el.length) +
-                                  "\n                        "
+                                  "\n                            "
                               )
                             ])
                           : _vm._e()
@@ -16334,6 +17576,12 @@ var render = function() {
   return _c("div", { staticClass: "login" }, [
     _c("h1", { staticClass: "h-30 h1-m80" }, [_vm._v("Вход")]),
     _vm._v(" "),
+    _vm.err
+      ? _c("div", { staticClass: "error-log" }, [
+          _vm._v("\n        Не правильный логин или пароль\n    ")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "form",
       {
@@ -16345,61 +17593,95 @@ var render = function() {
         }
       },
       [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model.trim",
-              value: _vm.email,
-              expression: "email",
-              modifiers: { trim: true }
-            }
-          ],
-          staticClass: "classic-input",
-          attrs: { type: "email", placeholder: "E-mail", autocomplete: "on" },
-          domProps: { value: _vm.email },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+        _c("div", { staticClass: "input-wrap" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.trim",
+                value: _vm.email,
+                expression: "email",
+                modifiers: { trim: true }
               }
-              _vm.email = $event.target.value.trim()
+            ],
+            staticClass: "classic-input",
+            class: {
+              invalid:
+                (_vm.$v.email.$dirty && !_vm.$v.email.required) ||
+                (_vm.$v.email.$dirty && !_vm.$v.email.email)
             },
-            blur: function($event) {
-              return _vm.$forceUpdate()
+            attrs: { type: "email", placeholder: "E-mail", autocomplete: "on" },
+            domProps: { value: _vm.email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.email = $event.target.value.trim()
+              },
+              blur: function($event) {
+                return _vm.$forceUpdate()
+              }
             }
-          }
-        }),
+          }),
+          _vm._v(" "),
+          _vm.$v.email.$dirty && !_vm.$v.email.email
+            ? _c("small", { staticClass: "small-invalid" }, [
+                _vm._v("Поле E-mail заполнено не корректно")
+              ])
+            : _vm.$v.email.$dirty && !_vm.$v.email.required
+            ? _c("small", { staticClass: "small-invalid" }, [
+                _vm._v("Поле E-mail должно быть заполнено")
+              ])
+            : _vm._e()
+        ]),
         _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model.trim",
-              value: _vm.pass,
-              expression: "pass",
-              modifiers: { trim: true }
-            }
-          ],
-          staticClass: "classic-input",
-          attrs: {
-            type: "password",
-            placeholder: "Пароль",
-            autocomplete: "on"
-          },
-          domProps: { value: _vm.pass },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+        _c("div", { staticClass: "input-wrap" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.trim",
+                value: _vm.pass,
+                expression: "pass",
+                modifiers: { trim: true }
               }
-              _vm.pass = $event.target.value.trim()
+            ],
+            staticClass: "classic-input",
+            class: {
+              invalid:
+                (!_vm.$v.pass.required && _vm.$v.pass.$dirty) ||
+                (!_vm.$v.pass.minLength && _vm.$v.pass.$dirty)
             },
-            blur: function($event) {
-              return _vm.$forceUpdate()
+            attrs: {
+              type: "password",
+              placeholder: "Пароль",
+              autocomplete: "on"
+            },
+            domProps: { value: _vm.pass },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.pass = $event.target.value.trim()
+              },
+              blur: function($event) {
+                return _vm.$forceUpdate()
+              }
             }
-          }
-        }),
+          }),
+          _vm._v(" "),
+          !_vm.$v.pass.required && _vm.$v.pass.$dirty
+            ? _c("small", { staticClass: "small-invalid" }, [
+                _vm._v("Поле Пароль должно быть заполнено")
+              ])
+            : !_vm.$v.pass.minLength && _vm.$v.pass.$dirty
+            ? _c("small", { staticClass: "small-invalid" }, [
+                _vm._v("Пароль должен быть не менее 6 символов")
+              ])
+            : _vm._e()
+        ]),
         _vm._v(" "),
         _c("button", { staticClass: "btn classic-btn-sz" }, [_vm._v("Войти")]),
         _vm._v(" "),
@@ -16987,7 +18269,9 @@ var render = function() {
           _c("h1", { staticClass: "h-30 h1-m80" }, [_vm._v("Регистрация")]),
           _vm._v(" "),
           _vm.error
-            ? _c("div", [_vm._v("\n            Иди на хуй\n        ")])
+            ? _c("div", { staticClass: "error-log" }, [
+                _vm._v("\n            Ошибка регистрации\n        ")
+              ])
             : _vm._e(),
           _vm._v(" "),
           _c(
@@ -16997,126 +18281,202 @@ var render = function() {
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.register($event)
+                  return _vm.registerMe()
                 }
               }
             },
             [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.trim",
-                    value: _vm.name,
-                    expression: "name",
-                    modifiers: { trim: true }
-                  }
-                ],
-                staticClass: "classic-input",
-                attrs: { type: "text", placeholder: "Имя", autocomplete: "on" },
-                domProps: { value: _vm.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.name,
+                      expression: "name",
+                      modifiers: { trim: true }
                     }
-                    _vm.name = $event.target.value.trim()
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.name.$dirty && !_vm.$v.name.required) ||
+                      (_vm.$v.name.$dirty && !_vm.$v.name.minLength) ||
+                      (_vm.$v.name.$dirty && !_vm.$v.name.maxLength)
                   },
-                  blur: function($event) {
-                    return _vm.$forceUpdate()
+                  attrs: {
+                    type: "text",
+                    placeholder: "Имя",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.name = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
                   }
-                }
-              }),
+                }),
+                _vm._v(" "),
+                _vm.$v.name.$dirty && !_vm.$v.name.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Имя должно быть заполнено")
+                    ])
+                  : (_vm.$v.name.$dirty && !_vm.$v.name.minLength) ||
+                    (_vm.$v.name.$dirty && !_vm.$v.name.maxLength)
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Имя заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.trim",
-                    value: _vm.email,
-                    expression: "email",
-                    modifiers: { trim: true }
-                  }
-                ],
-                staticClass: "classic-input",
-                attrs: {
-                  type: "email",
-                  placeholder: "E-mail",
-                  autocomplete: "on"
-                },
-                domProps: { value: _vm.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.email,
+                      expression: "email",
+                      modifiers: { trim: true }
                     }
-                    _vm.email = $event.target.value.trim()
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.email.$dirty && !_vm.$v.email.required) ||
+                      (_vm.$v.email.$dirty && !_vm.$v.email.email)
                   },
-                  blur: function($event) {
-                    return _vm.$forceUpdate()
+                  attrs: {
+                    type: "email",
+                    placeholder: "E-mail",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.email = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
                   }
-                }
-              }),
+                }),
+                _vm._v(" "),
+                _vm.$v.email.$dirty && !_vm.$v.email.email
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле E-mail заполнено не корректно")
+                    ])
+                  : _vm.$v.email.$dirty && !_vm.$v.email.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле E-mail должно быть заполнено")
+                    ])
+                  : _vm._e()
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.trim",
-                    value: _vm.pass,
-                    expression: "pass",
-                    modifiers: { trim: true }
-                  }
-                ],
-                staticClass: "classic-input",
-                attrs: {
-                  type: "password",
-                  placeholder: "Пароль",
-                  autocomplete: "on"
-                },
-                domProps: { value: _vm.pass },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.pass,
+                      expression: "pass",
+                      modifiers: { trim: true }
                     }
-                    _vm.pass = $event.target.value.trim()
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (!_vm.$v.pass.required && _vm.$v.pass.$dirty) ||
+                      (!_vm.$v.pass.minLength && _vm.$v.pass.$dirty)
                   },
-                  blur: function($event) {
-                    return _vm.$forceUpdate()
+                  attrs: {
+                    type: "password",
+                    placeholder: "Пароль",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.pass },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.pass = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
                   }
-                }
-              }),
+                }),
+                _vm._v(" "),
+                !_vm.$v.pass.required && _vm.$v.pass.$dirty
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Пароль должно быть заполнено")
+                    ])
+                  : !_vm.$v.pass.minLength && _vm.$v.pass.$dirty
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Пароль должен быть не менее 6 символов")
+                    ])
+                  : _vm._e()
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.trim",
-                    value: _vm.passRepeat,
-                    expression: "passRepeat",
-                    modifiers: { trim: true }
-                  }
-                ],
-                staticClass: "classic-input",
-                attrs: {
-                  type: "password",
-                  placeholder: "Повторите пароль",
-                  autocomplete: "on"
-                },
-                domProps: { value: _vm.passRepeat },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.passRepeat,
+                      expression: "passRepeat",
+                      modifiers: { trim: true }
                     }
-                    _vm.passRepeat = $event.target.value.trim()
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (!_vm.$v.passRepeat.required &&
+                        _vm.$v.passRepeat.$dirty) ||
+                      (!_vm.$v.passRepeat.sameAsPassword &&
+                        _vm.$v.passRepeat.$dirty)
                   },
-                  blur: function($event) {
-                    return _vm.$forceUpdate()
+                  attrs: {
+                    type: "password",
+                    placeholder: "Повторите пароль",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.passRepeat },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.passRepeat = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
                   }
-                }
-              }),
+                }),
+                _vm._v(" "),
+                !_vm.$v.passRepeat.sameAsPassword && _vm.$v.passRepeat.$dirty
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Пароль введен не верно")
+                    ])
+                  : !_vm.$v.passRepeat.required && _vm.$v.passRepeat.$dirty
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Пароль должно быть заполнено")
+                    ])
+                  : _vm._e()
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "check-agree" }, [
                 _c("input", {
@@ -37215,6 +38575,19 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     Appi: _Appi__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
 }); // router.beforeEach((to, from, next) => {
+//     console.log(to.name)
+//     if(to.matched.some(record => record.meta.requiresAuth)) {
+//         console.log('Hi mark')
+//         if (store.getters.isLoggedIn) {
+//             next()
+//             return
+//         }
+//         next('/login')
+//     } else {
+//         next()
+//     }
+// });
+// router.beforeEach((to, from, next) => {
 //     console.log(to)
 //     next();
 // });
@@ -37971,29 +39344,40 @@ var routes = [{
   path: '/login',
   name: 'login',
   meta: {
-    layout: 'Main',
-    auth: false
+    layout: 'Main'
   },
   component: _views_Login__WEBPACK_IMPORTED_MODULE_7__["default"]
 }, {
   path: '/registration',
   name: 'registration',
   meta: {
-    layout: 'Main',
-    auth: false
+    layout: 'Main'
   },
   component: _views_Registration__WEBPACK_IMPORTED_MODULE_8__["default"]
 }, {
   path: '/cabinet',
   name: 'cabinet',
-  params: {
-    successRegistrationRedirect: false
-  },
   meta: {
     layout: 'Main',
-    auth: true
+    requiresAuth: true
   },
-  component: _views_Cabinet__WEBPACK_IMPORTED_MODULE_16__["default"]
+  component: _views_Cabinet__WEBPACK_IMPORTED_MODULE_16__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (to.matched.some(function (record) {
+      return record.meta.requiresAuth;
+    })) {
+      console.log('Hi mark');
+
+      if (_store__WEBPACK_IMPORTED_MODULE_26__["default"].getters.isLoggedIn) {
+        next();
+        return;
+      }
+
+      next('/login');
+    } else {
+      next();
+    }
+  }
 }, {
   path: '/reset',
   name: 'reset',
@@ -38455,6 +39839,7 @@ var store = {
     // Данные по меню для админа
     menuAdmin: null,
     SITE_URI: 'http://lappinalle.test/api/',
+    token: localStorage.getItem('token') || 0,
     // Корзина
     cart: JSON.parse(localStorage.getItem('cart') || '[]'),
     countCart: JSON.parse(localStorage.getItem('countCart') || '0'),
@@ -38469,6 +39854,14 @@ var store = {
     adminRawMenu: null
   },
   mutations: {
+    // Регистрация
+    auth_success: function auth_success(state, token) {
+      state.status = true;
+      state.token = token;
+    },
+    auth_error: function auth_error(state) {
+      state.status = false;
+    },
     // Получаем категории и подкатегории меню
     getMenuDataMutate: function getMenuDataMutate(state) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
@@ -39851,80 +41244,121 @@ var store = {
     }
   },
   actions: {
-    getMenuData: function getMenuData(_ref7) {
+    register: function register(_ref7, user) {
       var commit = _ref7.commit;
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_3___default()({
+          url: 'http://lappinalle.test/api/register',
+          data: user,
+          method: 'POST'
+        }).then(function (resp) {
+          var token = resp.data;
+          localStorage.setItem('token', token);
+          commit('auth_success', token);
+          resolve(resp);
+        })["catch"](function (err) {
+          commit('auth_error', err);
+          localStorage.removeItem('token');
+          reject(err);
+        });
+      });
+    },
+    login: function login(_ref8, user) {
+      var commit = _ref8.commit;
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_3___default()({
+          url: 'http://lappinalle.test/api/login',
+          data: user,
+          method: 'POST'
+        }).then(function (resp) {
+          var token = resp.data;
+          localStorage.setItem('token', token);
+          commit('auth_success', token);
+          resolve(resp);
+        })["catch"](function (err) {
+          commit('auth_error');
+          localStorage.removeItem('token');
+          reject(err);
+        });
+      });
+    },
+    getMenuData: function getMenuData(_ref9) {
+      var commit = _ref9.commit;
       commit('getMenuDataMutate');
     },
-    showDepartments: function showDepartments(_ref8, data) {
-      var commit = _ref8.commit;
+    showDepartments: function showDepartments(_ref10, data) {
+      var commit = _ref10.commit;
       commit('sideBarDepartMutate', data);
     },
-    showDepartAfterUpdated: function showDepartAfterUpdated(_ref9, data) {
-      var commit = _ref9.commit;
+    showDepartAfterUpdated: function showDepartAfterUpdated(_ref11, data) {
+      var commit = _ref11.commit;
       commit('sideBarDepartMutateAfterUpdated', data);
     },
-    backToCategory: function backToCategory(_ref10, data) {
-      var commit = _ref10.commit;
+    backToCategory: function backToCategory(_ref12, data) {
+      var commit = _ref12.commit;
       commit('backToCategoryMutate', data);
     },
-    getCatalogData: function getCatalogData(_ref11, data) {
-      var commit = _ref11.commit;
+    getCatalogData: function getCatalogData(_ref13, data) {
+      var commit = _ref13.commit;
       commit('getCatalogDataMutate', data);
     },
-    getItemData: function getItemData(_ref12, data) {
-      var commit = _ref12.commit;
+    getItemData: function getItemData(_ref14, data) {
+      var commit = _ref14.commit;
       commit('getItemDataMutate', data);
     },
-    getItemReviews: function getItemReviews(_ref13, data) {
-      var commit = _ref13.commit;
+    getItemReviews: function getItemReviews(_ref15, data) {
+      var commit = _ref15.commit;
       commit('getItemReviewsMutate', data);
     },
-    showSaleProducts: function showSaleProducts(_ref14, data) {
-      var commit = _ref14.commit;
+    showSaleProducts: function showSaleProducts(_ref16, data) {
+      var commit = _ref16.commit;
       commit('showSaleProductsMutate', data);
     },
-    showCashProducts: function showCashProducts(_ref15, data) {
-      var commit = _ref15.commit;
+    showCashProducts: function showCashProducts(_ref17, data) {
+      var commit = _ref17.commit;
       commit('showCashProductsMutate', data);
     },
-    sortByAction: function sortByAction(_ref16, data) {
-      var commit = _ref16.commit;
+    sortByAction: function sortByAction(_ref18, data) {
+      var commit = _ref18.commit;
       commit('sortByActionMutate', data);
     },
-    showSizeProducts: function showSizeProducts(_ref17, data) {
-      var commit = _ref17.commit;
+    showSizeProducts: function showSizeProducts(_ref19, data) {
+      var commit = _ref19.commit;
       commit('showSizeProductsMutate', data);
     },
-    addToCart: function addToCart(_ref18, data) {
-      var commit = _ref18.commit;
+    addToCart: function addToCart(_ref20, data) {
+      var commit = _ref20.commit;
       commit('addToCartMutate', data);
     },
-    getProductForCart: function getProductForCart(_ref19) {
-      var commit = _ref19.commit;
+    getProductForCart: function getProductForCart(_ref21) {
+      var commit = _ref21.commit;
       commit('getProductForCartMutate');
     },
-    removeCard: function removeCard(_ref20, data) {
-      var commit = _ref20.commit;
+    removeCard: function removeCard(_ref22, data) {
+      var commit = _ref22.commit;
       commit('removeCardMutate', data);
     },
-    totalPrice: function totalPrice(_ref21, data) {
-      var commit = _ref21.commit;
+    totalPrice: function totalPrice(_ref23, data) {
+      var commit = _ref23.commit;
       commit('totalPriceMutate', data);
     },
-    changeCountCart: function changeCountCart(_ref22, data) {
-      var commit = _ref22.commit;
+    changeCountCart: function changeCountCart(_ref24, data) {
+      var commit = _ref24.commit;
       commit('changeCountCartMutate', data);
     },
-    customerData: function customerData(_ref23, data) {
-      var commit = _ref23.commit;
+    customerData: function customerData(_ref25, data) {
+      var commit = _ref25.commit;
       commit('customerDataMutate', data);
     },
-    sentData: function sentData(_ref24, data) {
-      var commit = _ref24.commit;
+    sentData: function sentData(_ref26, data) {
+      var commit = _ref26.commit;
       commit('sentDataMutate', data);
     }
   },
   getters: {
+    isLoggedIn: function isLoggedIn(state) {
+      return state.token;
+    },
     topMenu: function topMenu(state) {
       return state.topMenu;
     },

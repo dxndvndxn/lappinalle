@@ -29,6 +29,7 @@
         transform: scale(-1);
         @include grid-temp(1fr, 1fr, 0px);
         grid-row-gap: 16px;
+        grid-column-gap: 16px;
     }
     .item-pic{
         position: relative;

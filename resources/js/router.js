@@ -205,8 +205,7 @@ const routes = [
         path: '/login',
         name: 'login',
         meta: {
-            layout: 'Main',
-            auth: false
+            layout: 'Main'
         },
         component: Login
     },
@@ -214,22 +213,30 @@ const routes = [
         path: '/registration',
         name: 'registration',
         meta: {
-            layout: 'Main',
-            auth: false
+            layout: 'Main'
         },
         component: Registration
     },
     {
         path: '/cabinet',
         name: 'cabinet',
-        params: {
-            successRegistrationRedirect: false
-        },
         meta: {
             layout: 'Main',
-            auth: true
+            requiresAuth: true
         },
-        component: Cabinet
+        component: Cabinet,
+        beforeEnter: ((to, from, next) =>{
+            if(to.matched.some(record => record.meta.requiresAuth)) {
+                console.log('Hi mark')
+                if (store.getters.isLoggedIn) {
+                    next()
+                    return
+                }
+                next('/login')
+            } else {
+                next()
+            }
+        })
     },
     {
         path: '/reset',

@@ -354,6 +354,20 @@
 .invalid{
     border-bottom: 2px solid $purpp !important;
 }
+.input-wrap{
+    margin-bottom: 40px;
+    @include flex-column(column);
+    .classic-input{
+        margin-bottom: 0;
+    }
+}
+.error-log{
+    @include ptSans(700);
+    text-align: center;
+    color: $purpp;
+    font-size: $regFz;
+    margin-bottom: 40px;
+}
 
 // Админ классы
 .active-admin-tab{

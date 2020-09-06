@@ -175,6 +175,8 @@ const store = {
         menuAdmin: null,
         SITE_URI: 'http://lappinalle.test/api/',
 
+        token: localStorage.getItem('token') || 0,
+
         // Корзина
         cart: JSON.parse(localStorage.getItem('cart') || '[]'),
         countCart: JSON.parse(localStorage.getItem('countCart') || '0'),
@@ -190,6 +192,14 @@ const store = {
         adminRawMenu: null
     },
     mutations: {
+        // Регистрация
+        auth_success(state, token){
+            state.status = true;
+            state.token = token;
+        },
+        auth_error(state){
+            state.status = false;
+        },
         // Получаем категории и подкатегории меню
         async getMenuDataMutate(state){
             await axios.get(`${state.SITE_URI}menu`)
@@ -1358,6 +1368,38 @@ const store = {
         }
     },
     actions: {
+        register({commit}, user){
+            return new Promise((resolve, reject) => {
+                axios({url: 'http://lappinalle.test/api/register', data: user, method: 'POST' })
+                    .then(resp => {
+                        const token = resp.data;
+                        localStorage.setItem('token', token);
+                        commit('auth_success', token);
+                        resolve(resp)
+                    })
+                    .catch(err => {
+                        commit('auth_error', err);
+                        localStorage.removeItem('token');
+                        reject(err)
+                    })
+            })
+        },
+        login({commit}, user){
+            return new Promise((resolve, reject) => {
+                axios({url: 'http://lappinalle.test/api/login', data: user, method: 'POST' })
+                    .then(resp => {
+                        const token = resp.data;
+                        localStorage.setItem('token', token);
+                        commit('auth_success', token);
+                        resolve(resp)
+                    })
+                    .catch(err => {
+                        commit('auth_error');
+                        localStorage.removeItem('token');
+                        reject(err)
+                    })
+            })
+        },
         getMenuData({commit}){
             commit('getMenuDataMutate');
         },
@@ -1414,6 +1456,9 @@ const store = {
         }
     },
     getters:{
+        isLoggedIn: state => {
+            return state.token;
+        },
         topMenu: (state) => {
             return state.topMenu;
         },
