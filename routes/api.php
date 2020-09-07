@@ -25,7 +25,7 @@ Route::post('/login', 'LappiUserController@Log');
 Route::post('/register', 'LappiUserController@Reg');
 
 //Личный кабинет
-Route::get('/lkind', 'LKController@index');
+Route::post('/lkind', 'LKController@index');
 
 Route::post('/lkupd', 'LKController@update');
 
@@ -71,6 +71,9 @@ Route::get('/admin-product-{id}', 'AdminGetOneProductController@index');
 // SITE
 // Оформление заказа
 Route::post('/order', 'CheckoutOrderController@index');
+
+// Проверить пароль в кабинете
+Route::post('/checkpass', 'LKController@CheckPass');
 
 // Получаем базовые данные для приложения типа категори и т.д
 Route::get('/menu', 'BasicDataController@index');

@@ -86,10 +86,15 @@
                 }else{
 
                     if (this.checkAgree) {
-                        console.log('hui')
+                        this.$Progress.start();
                         this.$store.dispatch('register', {name: this.name, email: this.email, password: this.pass })
-                            .then(() => this.$router.push({name: 'cabinet'}))
-                            .catch((() => this.err = true))
+                            .then(() =>{
+                                this.$router.push({name: 'cabinet'})
+                            })
+                            .catch((() => {
+                                this.$Progress.finish();
+                                this.err = true;
+                            }))
                     }
                 }
             }

@@ -207,7 +207,15 @@ const routes = [
         meta: {
             layout: 'Main'
         },
-        component: Login
+        component: Login,
+        beforeEnter: ((to, from, next) =>{
+            console.log(store.getters.isLoggedIn)
+            if (store.getters.isLoggedIn){
+                next({name: 'cabinet'});
+            }else {
+                next();
+            }
+        })
     },
     {
         path: '/registration',
@@ -227,9 +235,8 @@ const routes = [
         component: Cabinet,
         beforeEnter: ((to, from, next) =>{
             if(to.matched.some(record => record.meta.requiresAuth)) {
-                console.log('Hi mark')
                 if (store.getters.isLoggedIn) {
-                    next()
+                    next();
                     return
                 }
                 next('/login')

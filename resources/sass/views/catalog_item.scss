@@ -30,11 +30,12 @@
         @include grid-temp(1fr, 1fr, 0px);
         grid-row-gap: 16px;
         grid-column-gap: 16px;
+        z-index: -11;
     }
     .item-pic{
         position: relative;
         //width: fit-content;
-        width: 173px;
+        width: 100%;
         height: 173px;
         img{
             cursor: pointer;
@@ -69,7 +70,8 @@
         }
     }
     img{
-        object-fit: contain;
+        object-fit: cover;
+        height: 100%;
         width: 100%;
     }
     video{

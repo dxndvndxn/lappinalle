@@ -26,7 +26,7 @@ class LappiUserController extends Controller
     public function Reg (Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:50',
-            'email' => 'required|email|unique:LappiUsers',
+            'email' => 'required|email|unique:lappiusers',
             'password' => 'required|min:6'
         ]);
         if ($validator) {
@@ -37,11 +37,11 @@ class LappiUserController extends Controller
                 $hpass = password_hash($password, PASSWORD_DEFAULT);
 
                 $token = $this->gen_token();
-                $register = DB::table('LappiUsers')->insert(
-                    [ 'LappiUsers_name' => $name,
-                        'LappiUsers_email' => $email,
-                        'LappiUsers_password' => $hpass,
-                        'LappiUsers_token' => $token
+                $register = DB::table('lappiusers')->insert(
+                    [ 'lappiusers_name' => $name,
+                        'lappiusers_email' => $email,
+                        'lappiusers_password' => $hpass,
+                        'lappiusers_token' => $token
                     ]
                 );
 
@@ -66,17 +66,17 @@ class LappiUserController extends Controller
             $data = $request->all();
             $email = $data['email'];
             $password = $data['password'];
-            $serched = DB::table('LappiUsers')->where('LappiUsers_email', '=', $email)->get();
+            $serched = DB::table('lappiusers')->where('lappiusers_email', '=', $email)->get();
 
             $newS = null;
             foreach ($serched as $val){
                 $newS = (array) $val;
             }
 
-            $vpas = password_verify($password, $newS["LappiUsers_password"]);
+            $vpas = password_verify($password, $newS["lappiusers_password"]);
 
             if ($vpas) {
-                return $newS["LappiUsers_token"];
+                return $newS["lappiusers_token"];
             }else{
                 return 0;
             }

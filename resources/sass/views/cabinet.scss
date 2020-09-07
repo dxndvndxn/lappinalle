@@ -49,9 +49,11 @@
                     input{
                         @extend %input-null;
                         @include ptSans(400);
+                        text-overflow: ellipsis;
                         text-transform: uppercase;
                         color: $grey;
                         border-bottom: 1px solid transparent;
+                        width: 300px;
                     }
                 }
             }

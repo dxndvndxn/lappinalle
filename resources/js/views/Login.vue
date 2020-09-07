@@ -48,9 +48,13 @@
                     this.$v.$touch();
                     return;
                 }else{
+                    this.$Progress.start();
                     this.$store.dispatch('login', {email: this.email, password: this.pass })
                         .then(() => this.$router.push({name: 'cabinet'}))
-                        .catch((() => this.err = true))
+                        .catch((() => {
+                            this.$Progress.finish();
+                            this.err = true
+                        }))
                 }
             }
         },

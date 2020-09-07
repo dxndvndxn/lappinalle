@@ -3515,7 +3515,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3957,7 +3956,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     // Изменяем кол-во размера
     insertAmountStock: function insertAmountStock() {
       // Если вводят, но размер не выбран
-      if (this.presentSizes.length) {
+      if (this.chozenSizeAfterClick === null && this.presentSizes.length) {
         this.errorInput = true;
         return;
       } // Если длинна массива 0
@@ -4563,7 +4562,8 @@ __webpack_require__.r(__webpack_exports__);
       departments: null,
       chosenCatg: null,
       categories: null,
-      chosenGender: null
+      chosenGender: null,
+      cabinet: false
     };
   },
   beforeMount: function beforeMount() {
@@ -4675,7 +4675,8 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     categories: function categories(val) {
       this.categories = val;
-    }
+    },
+    isLoggedIn: function isLoggedIn(newVal) {}
   }
 });
 
@@ -4939,6 +4940,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -5043,6 +5056,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var isPhoneCabinet = function isPhoneCabinet(value) {
+  return /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/.test(value);
+};
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Cabinet",
   data: function data() {
@@ -5054,16 +5090,20 @@ __webpack_require__.r(__webpack_exports__);
         name: 'Заказы',
         active: false
       }],
-      userName: 'Назимов илья игоревич',
-      userTel: null,
-      userEmail: null,
-      userCity: null,
-      userAdrr: null,
-      userBuild: null,
-      userCorpus: null,
-      userApart: null,
-      userPostI: null,
-      userPass: null,
+      userData: {
+        userName: null,
+        userTel: null,
+        userEmail: null,
+        userCity: null,
+        userAdrr: null,
+        userBuild: null,
+        userCorpus: null,
+        userApart: null,
+        userPostI: null,
+        userPass: null,
+        userNewPass: null,
+        token: localStorage.getItem('token')
+      },
       orderData: [{
         orders_number: 1234556,
         status: 'В обработке',
@@ -5112,21 +5152,160 @@ __webpack_require__.r(__webpack_exports__);
       }],
       basicData: false,
       basicDataAddr: false,
-      basicDataPass: false
+      basicDataPass: false,
+      // Ошибка пароля
+      passError: false
     };
+  },
+  validations: {
+    userData: {
+      userName: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"],
+        minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["minLength"])(2),
+        maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["maxLength"])(80)
+      },
+      userEmail: {
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["email"],
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"]
+      },
+      userTel: {
+        phoneValid: isPhoneCabinet
+      },
+      userCity: {
+        maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["maxLength"])(40)
+      },
+      userAdrr: {
+        maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["maxLength"])(40)
+      },
+      userBuild: {
+        maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["maxLength"])(8)
+      },
+      userCorpus: {
+        maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["maxLength"])(5)
+      },
+      userApart: {
+        maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["maxLength"])(7)
+      },
+      userPostI: {
+        maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["maxLength"])(6)
+      },
+      userPass: {
+        minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["minLength"])(6)
+      },
+      userNewPass: {
+        minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["minLength"])(6)
+      }
+    }
   },
   methods: {
     clickTab: function clickTab() {
       this.tabs.forEach(function (el) {
         return el.active = !el.active;
       });
+    },
+    changeData: function changeData() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var formData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!_this.$v.userData.$invalid) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _this.$v.$touch();
+
+                console.log('hui');
+                return _context.abrupt("return");
+
+              case 6:
+                formData = new FormData();
+                formData.append('userUpdate', JSON.stringify(_this.userData));
+                console.log(1);
+
+                if (_this.passError) {
+                  _context.next = 13;
+                  break;
+                }
+
+                console.log(2);
+                _context.next = 13;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "lkupd"), formData).then(function (res) {
+                  console.log(res.data);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    checkOldPass: function checkOldPass() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var check, formData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                check = {
+                  token: _this2.userData.token,
+                  password: _this2.userData.userPass
+                };
+                formData = new FormData();
+                formData.append('check', JSON.stringify(check));
+                _context2.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this2.URI, "checkpass"), formData).then(function (res) {
+                  _this2.passError = !res.data;
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   created: function created() {
-    this.$Progress.start(); // this.$Progress.set(100);
+    this.$Progress.start();
+    this.$store.dispatch('GetUserData');
   },
   mounted: function mounted() {
     this.$Progress.finish();
+  },
+  watch: {
+    getUserData: function getUserData(user) {
+      this.userData.userName = user[0][1];
+      this.userData.userTel = user[0][3];
+      this.userData.userEmail = user[0][2];
+      this.userData.userCity = user[0][4];
+      this.userData.userAdrr = user[0][5];
+      this.userData.userBuild = user[0][6];
+      this.userData.userCorpus = user[0][7];
+      this.userData.userApart = user[0][8];
+      this.userData.userPostI = user[0][9];
+    }
+  },
+  computed: {
+    URI: function URI() {
+      return this.$store.getters.URI;
+    },
+    getUserData: function getUserData() {
+      return this.$store.getters.userData;
+    }
   }
 });
 
@@ -5889,7 +6068,7 @@ __webpack_require__.r(__webpack_exports__);
     addToCart: function addToCart(itemId, itemPrice) {
       // Если длинна вообще есть размеры, то проверяем выбраны ли размеры
       if (this.returnDataForItem.itemSizes.length) {
-        if (this.clickedSize) {
+        if (this.clickedSize !== null) {
           var data = [];
           this.clickedSize.forEach(function (el) {
             data.push({
@@ -5956,6 +6135,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6580,6 +6779,7 @@ __webpack_require__.r(__webpack_exports__);
         this.$v.$touch();
         return;
       } else {
+        this.$Progress.start();
         this.$store.dispatch('login', {
           email: this.email,
           password: this.pass
@@ -6588,7 +6788,9 @@ __webpack_require__.r(__webpack_exports__);
             name: 'cabinet'
           });
         })["catch"](function () {
-          return _this.err = true;
+          _this.$Progress.finish();
+
+          _this.err = true;
         });
       }
     }
@@ -6970,17 +7172,19 @@ __webpack_require__.r(__webpack_exports__);
         return;
       } else {
         if (this.checkAgree) {
-          console.log('hui');
+          this.$Progress.start();
           this.$store.dispatch('register', {
             name: this.name,
             email: this.email,
             password: this.pass
           }).then(function () {
-            return _this.$router.push({
+            _this.$router.push({
               name: 'cabinet'
             });
           })["catch"](function () {
-            return _this.err = true;
+            _this.$Progress.finish();
+
+            _this.err = true;
           });
         }
       }
@@ -9069,7 +9273,14 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [_c(_vm.layout, { tag: "component" }, [_c("router-view")], 1)],
+    [
+      _c(
+        _vm.layout,
+        { tag: "component" },
+        [_c("router-view", { key: _vm.$route.fullPath })],
+        1
+      )
+    ],
     1
   )
 }
@@ -12032,7 +12243,7 @@ var render = function() {
             }
           ],
           staticClass: "input-transp",
-          attrs: { type: "text" },
+          attrs: { type: "text", disabled: _vm.priceProduct === null },
           domProps: { value: _vm.saleProduct },
           on: {
             change: _vm.changeSaleProduct,
@@ -12141,7 +12352,7 @@ var render = function() {
             _vm._v(" "),
             _vm.errorInput
               ? _c("small", { staticClass: "small-invalid" }, [
-                  _vm._v("Пожалуйста, укажите сначала размер.")
+                  _vm._v("Пожалуйста, укажите размер.")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -12423,16 +12634,13 @@ var render = function() {
               _vm._v(" "),
               _vm.mainImg && !_vm.videoOrImg
                 ? _c("img", {
-                    staticClass: "width-300",
+                    staticClass: "admin-main-photo-selected",
                     attrs: { src: _vm.mainImg, alt: "" }
                   })
                 : _vm._e(),
               _vm._v(" "),
               _vm.videoOrImg
-                ? _c("video", {
-                    staticClass: "width-300",
-                    attrs: { src: _vm.video }
-                  })
+                ? _c("video", { attrs: { src: _vm.video } })
                 : _vm._e(),
               _vm._v(" "),
               _c("img", {
@@ -13410,7 +13618,7 @@ var render = function() {
                   !_vm.isLoggedIn
                     ? _c(
                         "router-link",
-                        { attrs: { tag: "li", to: "/login" } },
+                        { attrs: { tag: "li", to: { name: "login" } } },
                         [
                           _c("a", { attrs: { href: "" } }, [
                             _c(
@@ -13437,7 +13645,7 @@ var render = function() {
                       )
                     : _c(
                         "router-link",
-                        { attrs: { tag: "li", to: "/cabinet" } },
+                        { attrs: { tag: "li", to: { name: "cabinet" } } },
                         [
                           _c("a", { attrs: { href: "" } }, [
                             _c(
@@ -14088,7 +14296,7 @@ var render = function() {
     [
       _c("header", [_c("Header")], 1),
       _vm._v(" "),
-      _c("router-view"),
+      _c("router-view", { key: _vm.$route.fullPath }),
       _vm._v(" "),
       _c("footer", [_c("Footer")], 1)
     ],
@@ -14248,26 +14456,44 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model.trim",
-                      value: _vm.userName,
-                      expression: "userName",
+                      value: _vm.userData.userName,
+                      expression: "userData.userName",
                       modifiers: { trim: true }
                     }
                   ],
                   class: _vm.basicData ? "active-input" : null,
                   attrs: { type: "text", id: "name" },
-                  domProps: { value: _vm.userName },
+                  domProps: { value: _vm.userData.userName },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.userName = $event.target.value.trim()
+                      _vm.$set(
+                        _vm.userData,
+                        "userName",
+                        $event.target.value.trim()
+                      )
                     },
                     blur: function($event) {
                       return _vm.$forceUpdate()
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.$v.userData.userName.$dirty &&
+                !_vm.$v.userData.userName.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле ФИО должно быть заполнено")
+                    ])
+                  : (_vm.$v.userData.userName.$dirty &&
+                      !_vm.$v.userData.userName.minLength) ||
+                    (_vm.$v.userData.userName.$dirty &&
+                      !_vm.$v.userData.userName.maxLength)
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Имя заполнено не корректно")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
@@ -14278,26 +14504,37 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model.trim",
-                      value: _vm.userTel,
-                      expression: "userTel",
+                      value: _vm.userData.userTel,
+                      expression: "userData.userTel",
                       modifiers: { trim: true }
                     }
                   ],
                   class: _vm.basicData ? "active-input" : null,
                   attrs: { type: "tel", id: "tel" },
-                  domProps: { value: _vm.userTel },
+                  domProps: { value: _vm.userData.userTel },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.userTel = $event.target.value.trim()
+                      _vm.$set(
+                        _vm.userData,
+                        "userTel",
+                        $event.target.value.trim()
+                      )
                     },
                     blur: function($event) {
                       return _vm.$forceUpdate()
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.$v.userData.userTel.$dirty &&
+                !_vm.$v.userData.userTel.phoneValid
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Телефон заполнено не корректно")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
@@ -14308,26 +14545,42 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model.trim",
-                      value: _vm.userTel,
-                      expression: "userTel",
+                      value: _vm.userData.userEmail,
+                      expression: "userData.userEmail",
                       modifiers: { trim: true }
                     }
                   ],
                   class: _vm.basicData ? "active-input" : null,
                   attrs: { type: "text", id: "email" },
-                  domProps: { value: _vm.userTel },
+                  domProps: { value: _vm.userData.userEmail },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.userTel = $event.target.value.trim()
+                      _vm.$set(
+                        _vm.userData,
+                        "userEmail",
+                        $event.target.value.trim()
+                      )
                     },
                     blur: function($event) {
                       return _vm.$forceUpdate()
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.$v.userData.userEmail.$dirty &&
+                !_vm.$v.userData.userEmail.email
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле E-mail заполнено не корректно")
+                    ])
+                  : _vm.$v.userData.userEmail.$dirty &&
+                    !_vm.$v.userData.userEmail.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле E-mail должно быть заполнено")
+                    ])
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -14355,26 +14608,37 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model.trim",
-                      value: _vm.userCity,
-                      expression: "userCity",
+                      value: _vm.userData.userCity,
+                      expression: "userData.userCity",
                       modifiers: { trim: true }
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
-                  domProps: { value: _vm.userCity },
+                  domProps: { value: _vm.userData.userCity },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.userCity = $event.target.value.trim()
+                      _vm.$set(
+                        _vm.userData,
+                        "userCity",
+                        $event.target.value.trim()
+                      )
                     },
                     blur: function($event) {
                       return _vm.$forceUpdate()
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.$v.userData.userCity.$dirty &&
+                !_vm.$v.userData.userCity.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Город заполнено не корректно")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
@@ -14385,26 +14649,37 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model.trim",
-                      value: _vm.userAdrr,
-                      expression: "userAdrr",
+                      value: _vm.userData.userAdrr,
+                      expression: "userData.userAdrr",
                       modifiers: { trim: true }
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
-                  domProps: { value: _vm.userAdrr },
+                  domProps: { value: _vm.userData.userAdrr },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.userAdrr = $event.target.value.trim()
+                      _vm.$set(
+                        _vm.userData,
+                        "userAdrr",
+                        $event.target.value.trim()
+                      )
                     },
                     blur: function($event) {
                       return _vm.$forceUpdate()
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.$v.userData.userAdrr.$dirty &&
+                !_vm.$v.userData.userAdrr.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Улица заполнено не корректно")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
@@ -14415,26 +14690,37 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model.trim",
-                      value: _vm.userBuild,
-                      expression: "userBuild",
+                      value: _vm.userData.userBuild,
+                      expression: "userData.userBuild",
                       modifiers: { trim: true }
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
-                  domProps: { value: _vm.userBuild },
+                  domProps: { value: _vm.userData.userBuild },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.userBuild = $event.target.value.trim()
+                      _vm.$set(
+                        _vm.userData,
+                        "userBuild",
+                        $event.target.value.trim()
+                      )
                     },
                     blur: function($event) {
                       return _vm.$forceUpdate()
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.$v.userData.userBuild.$dirty &&
+                !_vm.$v.userData.userBuild.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Дом заполнено не корректно")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
@@ -14445,26 +14731,37 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model.trim",
-                      value: _vm.userCorpus,
-                      expression: "userCorpus",
+                      value: _vm.userData.userCorpus,
+                      expression: "userData.userCorpus",
                       modifiers: { trim: true }
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
-                  domProps: { value: _vm.userCorpus },
+                  domProps: { value: _vm.userData.userCorpus },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.userCorpus = $event.target.value.trim()
+                      _vm.$set(
+                        _vm.userData,
+                        "userCorpus",
+                        $event.target.value.trim()
+                      )
                     },
                     blur: function($event) {
                       return _vm.$forceUpdate()
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.$v.userData.userCorpus.$dirty &&
+                !_vm.$v.userData.userCorpus.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Корпус Дом заполнено не корректно")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
@@ -14475,26 +14772,37 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model.trim",
-                      value: _vm.userApart,
-                      expression: "userApart",
+                      value: _vm.userData.userApart,
+                      expression: "userData.userApart",
                       modifiers: { trim: true }
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
-                  domProps: { value: _vm.userApart },
+                  domProps: { value: _vm.userData.userApart },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.userApart = $event.target.value.trim()
+                      _vm.$set(
+                        _vm.userData,
+                        "userApart",
+                        $event.target.value.trim()
+                      )
                     },
                     blur: function($event) {
                       return _vm.$forceUpdate()
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.$v.userData.userApart.$dirty &&
+                !_vm.$v.userData.userApart.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Корпус Квартира заполнено не корректно")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
@@ -14505,26 +14813,37 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model.trim",
-                      value: _vm.userPostI,
-                      expression: "userPostI",
+                      value: _vm.userData.userPostI,
+                      expression: "userData.userPostI",
                       modifiers: { trim: true }
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
                   attrs: { type: "text" },
-                  domProps: { value: _vm.userPostI },
+                  domProps: { value: _vm.userData.userPostI },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.userPostI = $event.target.value.trim()
+                      _vm.$set(
+                        _vm.userData,
+                        "userPostI",
+                        $event.target.value.trim()
+                      )
                     },
                     blur: function($event) {
                       return _vm.$forceUpdate()
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.$v.userData.userPostI.$dirty &&
+                !_vm.$v.userData.userPostI.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Корпус Почтовый индекс заполнено не корректно")
+                    ])
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -14545,27 +14864,72 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", [_vm._v("Пароль: ")]),
+                _c("label", [_vm._v("Старый пароль: ")]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model.trim",
-                      value: _vm.userPass,
-                      expression: "userPass",
+                      value: _vm.userData.userPass,
+                      expression: "userData.userPass",
                       modifiers: { trim: true }
                     }
                   ],
                   class: _vm.basicDataPass ? "active-input" : null,
                   attrs: { type: "password" },
-                  domProps: { value: _vm.userPass },
+                  domProps: { value: _vm.userData.userPass },
+                  on: {
+                    change: _vm.checkOldPass,
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.userData,
+                        "userPass",
+                        $event.target.value.trim()
+                      )
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.passError
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Неверный пароль")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("label", [_vm._v("Новый пароль: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.userData.userNewPass,
+                      expression: "userData.userNewPass",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  class: _vm.basicDataPass ? "active-input" : null,
+                  attrs: { type: "password" },
+                  domProps: { value: _vm.userData.userNewPass },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.userPass = $event.target.value.trim()
+                      _vm.$set(
+                        _vm.userData,
+                        "userNewPass",
+                        $event.target.value.trim()
+                      )
                     },
                     blur: function($event) {
                       return _vm.$forceUpdate()
@@ -15069,6 +15433,10 @@ var render = function() {
                   },
                   [
                     img.video
+                      ? _c("video", { attrs: { src: img.video } })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    img.video
                       ? _c(
                           "svg",
                           {
@@ -15114,10 +15482,6 @@ var render = function() {
                             })
                           ]
                         )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    img.video
-                      ? _c("video", { attrs: { src: img.video } })
                       : _vm._e(),
                     _vm._v(" "),
                     img.img
@@ -16628,6 +16992,202 @@ var render = function() {
                 _vm.$v.city.$dirty && !_vm.$v.city.maxLength
                   ? _c("small", { staticClass: "small-invalid" }, [
                       _vm._v("Поле Город заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.street,
+                      expression: "street",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.street.$dirty && !_vm.$v.street.required) ||
+                      (_vm.$v.street.$dirty && !_vm.$v.street.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Улица",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.street },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.street = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.street.$dirty && !_vm.$v.street.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Улица должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.street.$dirty && !_vm.$v.street.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Улица заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.house,
+                      expression: "house",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.house.$dirty && !_vm.$v.house.required) ||
+                      (_vm.$v.house.$dirty && !_vm.$v.house.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Дом",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.house },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.house = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.house.$dirty && !_vm.$v.house.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Дом должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.house.$dirty && !_vm.$v.house.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Дом заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.corps,
+                      expression: "corps",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.corps.$dirty && !_vm.$v.corps.required) ||
+                      (_vm.$v.corps.$dirty && !_vm.$v.corps.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Корпус",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.corps },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.corps = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.corps.$dirty && !_vm.$v.corps.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Корпус должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Корпус заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.apart,
+                      expression: "apart",
+                      modifiers: { trim: true }
+                    }
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.apart.$dirty && !_vm.$v.apart.required) ||
+                      (_vm.$v.apart.$dirty && !_vm.$v.apart.maxLength)
+                  },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Квартира",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.apart },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.apart = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.$v.apart.$dirty && !_vm.$v.apart.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Квартира должно быть заполнено")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$v.apart.$dirty && !_vm.$v.apart.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Квартира заполнено не корректно")
                     ])
                   : _vm._e()
               ])
@@ -38997,7 +39557,18 @@ var routes = [{
   meta: {
     layout: 'Main'
   },
-  component: _views_Login__WEBPACK_IMPORTED_MODULE_7__["default"]
+  component: _views_Login__WEBPACK_IMPORTED_MODULE_7__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    console.log(_store__WEBPACK_IMPORTED_MODULE_26__["default"].getters.isLoggedIn);
+
+    if (_store__WEBPACK_IMPORTED_MODULE_26__["default"].getters.isLoggedIn) {
+      next({
+        name: 'cabinet'
+      });
+    } else {
+      next();
+    }
+  }
 }, {
   path: '/registration',
   name: 'registration',
@@ -39017,8 +39588,6 @@ var routes = [{
     if (to.matched.some(function (record) {
       return record.meta.requiresAuth;
     })) {
-      console.log('Hi mark');
-
       if (_store__WEBPACK_IMPORTED_MODULE_26__["default"].getters.isLoggedIn) {
         next();
         return;
@@ -39256,10 +39825,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
+var URI = 'http://lappinalle.test/api/';
 var admin = {
   state: function state() {
     return {
-      SITE_URI: 'http://lappinalle.ru/api/',
+      SITE_URI: URI,
       adminProducts: null,
       adminRawMenu: null,
       // Данные по новому товару со страницы Продукты
@@ -39519,8 +40089,8 @@ var store = {
     filterSizes: null,
     // Данные по меню для админа
     menuAdmin: null,
-    SITE_URI: 'http://lappinalle.ru/api/',
-    token: localStorage.getItem('token') || 0,
+    SITE_URI: URI,
+    token: localStorage.getItem('token') || null,
     // Корзина
     cart: JSON.parse(localStorage.getItem('cart') || '[]'),
     countCart: JSON.parse(localStorage.getItem('countCart') || '0'),
@@ -39534,7 +40104,9 @@ var store = {
     // Админ
     adminRawMenu: null,
     // Оплата товара
-    paySuccess: false
+    paySuccess: false,
+    // Данные юзера
+    userData: null
   },
   mutations: {
     // Регистрация
@@ -40925,6 +41497,15 @@ var store = {
       })["catch"](function (e) {
         console.log(e);
       });
+    },
+    GetUserDataMutate: function GetUserDataMutate(state) {
+      var formData = new FormData();
+      formData.append('token', JSON.stringify(state.token));
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "lkind"), formData).then(function (res) {
+        state.userData = res.data;
+      })["catch"](function (e) {
+        return console.log(e);
+      });
     }
   },
   actions: {
@@ -40932,7 +41513,7 @@ var store = {
       var commit = _ref8.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
-          url: 'http://lappinalle.test/api/register',
+          url: "".concat(URI, "register"),
           data: user,
           method: 'POST'
         }).then(function (resp) {
@@ -40951,7 +41532,7 @@ var store = {
       var commit = _ref9.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
-          url: 'http://lappinalle.test/api/login',
+          url: "".concat(URI, "login"),
           data: user,
           method: 'POST'
         }).then(function (resp) {
@@ -41037,6 +41618,10 @@ var store = {
     sentData: function sentData(_ref27, data) {
       var commit = _ref27.commit;
       commit('sentDataMutate', data);
+    },
+    GetUserData: function GetUserData(_ref28) {
+      var commit = _ref28.commit;
+      commit('GetUserDataMutate');
     }
   },
   getters: {
@@ -41046,7 +41631,11 @@ var store = {
     },
     // Регистрация
     isLoggedIn: function isLoggedIn(state) {
-      return state.token;
+      if (state.token !== null) {
+        return true;
+      } else {
+        return false;
+      }
     },
     topMenu: function topMenu(state) {
       return state.topMenu;
@@ -41116,6 +41705,9 @@ var store = {
     },
     adminRawMenu: function adminRawMenu(state) {
       return state.adminRawMenu;
+    },
+    userData: function userData(state) {
+      return state.userData;
     }
   }
 };

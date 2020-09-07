@@ -114,7 +114,7 @@ nav{
         @include ptSans(400);
         position: absolute;
         width: 100%;
-        z-index: 1;
+        z-index: 999999999999;
 
         .menu-categories{
             width: 100%;

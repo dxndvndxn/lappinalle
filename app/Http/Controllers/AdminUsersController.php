@@ -8,7 +8,7 @@ class AdminUsersController extends Controller
 {
     public function index(Request $request) {
 
-        $dbusers = DB::table('LappiUsers')->get();
+        $dbusers = DB::table('lappiusers')->get();
 
         $users = [null];
         $i=0;
@@ -22,10 +22,10 @@ class AdminUsersController extends Controller
         $users_adm = [null];
 
         foreach ($users as $val){
-            $users_adm[$j][0] = $val['LappiUsers_id'];
-            $users_adm[$j][1] = $val['LappiUsers_name'];
-            $users_adm[$j][2] = $val['LappiUsers_tel'];
-            $users_adm[$j][3] = $val['LappiUsers_email'];
+            $users_adm[$j][0] = $val['lappiusers_id'];
+            $users_adm[$j][1] = $val['lappiusers_name'];
+            $users_adm[$j][2] = $val['lappiusers_tel'];
+            $users_adm[$j][3] = $val['lappiusers_email'];
             $j++;
         }
 

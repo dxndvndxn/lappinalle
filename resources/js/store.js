@@ -2,9 +2,10 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
+const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
-        SITE_URI: 'http://lappinalle.ru/api/',
+        SITE_URI: URI,
         adminProducts: null,
         adminRawMenu: null,
 
@@ -186,9 +187,9 @@ const store = {
 
         // Данные по меню для админа
         menuAdmin: null,
-        SITE_URI: 'http://lappinalle.ru/api/',
+        SITE_URI: URI,
 
-        token: localStorage.getItem('token') || 0,
+        token: localStorage.getItem('token') || null,
 
         // Корзина
         cart: JSON.parse(localStorage.getItem('cart') || '[]'),
@@ -203,8 +204,12 @@ const store = {
 
         // Админ
         adminRawMenu: null,
+
         // Оплата товара
-        paySuccess: false
+        paySuccess: false,
+
+        // Данные юзера
+        userData: null
     },
     mutations: {
         // Регистрация
@@ -1384,12 +1389,21 @@ const store = {
                 .catch(e => {
                     console.log(e);
                 })
+        },
+
+        GetUserDataMutate(state){
+            let formData = new FormData();
+            formData.append('token', JSON.stringify(state.token));
+            axios.post(`${state.SITE_URI}lkind`, formData)
+                .then(res => {
+                    state.userData = res.data;
+                }).catch(e => console.log(e))
         }
     },
     actions: {
         register({commit}, user){
             return new Promise((resolve, reject) => {
-                axios({url: 'http://lappinalle.test/api/register', data: user, method: 'POST' })
+                axios({url: `${URI}register`, data: user, method: 'POST' })
                     .then(resp => {
                         const token = resp.data;
                         localStorage.setItem('token', token);
@@ -1405,7 +1419,7 @@ const store = {
         },
         login({commit}, user){
             return new Promise((resolve, reject) => {
-                axios({url: 'http://lappinalle.test/api/login', data: user, method: 'POST' })
+                axios({url: `${URI}login`, data: user, method: 'POST' })
                     .then(resp => {
                         const token = resp.data;
                         localStorage.setItem('token', token);
@@ -1472,6 +1486,9 @@ const store = {
         },
         sentData({commit}, data){
             commit('sentDataMutate', data);
+        },
+        GetUserData({commit}){
+            commit('GetUserDataMutate');
         }
     },
     getters:{
@@ -1481,7 +1498,11 @@ const store = {
         },
         // Регистрация
         isLoggedIn: state => {
-            return state.token;
+            if (state.token !== null){
+                return true;
+            }else{
+                return false
+            }
         },
         topMenu: (state) => {
             return state.topMenu;
@@ -1551,8 +1572,10 @@ const store = {
         },
         adminRawMenu: state => {
             return state.adminRawMenu;
+        },
+        userData: state => {
+            return state.userData;
         }
-
 
     },
 }

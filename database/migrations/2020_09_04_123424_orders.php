@@ -15,8 +15,8 @@ class Orders extends Migration
     {
         Schema::create('orders', function(Blueprint $table){
             $table->bigIncrements('orders_id');
-            $table->unsignedInteger('LappiUsers_id')->nullable();
-            $table->foreign('LappiUsers_id')->references('LappiUsers_id')->on('LappiUsers')->onDelete('cascade');
+            $table->unsignedInteger('lappiusers_id')->nullable();
+            $table->foreign('lappiusers_id')->references('lappiusers_id')->on('lappiusers')->onDelete('cascade');
             $table->string('orders_name', 255)->collation('utf8_general_ci')->nullable();
             $table->string('orders_email', 255)->collation('utf8_general_ci')->nullable();
             $table->string('orders_city', 255)->collation('utf8_general_ci')->nullable();

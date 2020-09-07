@@ -67,6 +67,26 @@
                     <small v-if="$v.city.$dirty && !$v.city.required" class="small-invalid">Поле Город должно быть заполнено</small>
                     <small v-if="$v.city.$dirty && !$v.city.maxLength" class="small-invalid">Поле Город заполнено не корректно</small>
                 </div>
+                <div class="input-wrap">
+                    <input type="text" class="classic-input" :class="{invalid: ($v.street.$dirty && !$v.street.required) || ($v.street.$dirty && !$v.street.maxLength)}" v-model.trim="street" placeholder="Улица" autocomplete="on">
+                    <small v-if="$v.street.$dirty && !$v.street.required" class="small-invalid">Поле Улица должно быть заполнено</small>
+                    <small v-if="$v.street.$dirty && !$v.street.maxLength" class="small-invalid">Поле Улица заполнено не корректно</small>
+                </div>
+                <div class="input-wrap">
+                    <input type="text" class="classic-input" v-model.trim="house" :class="{invalid: ($v.house.$dirty && !$v.house.required) || ($v.house.$dirty && !$v.house.maxLength)}" placeholder="Дом" autocomplete="on">
+                    <small v-if="$v.house.$dirty && !$v.house.required" class="small-invalid">Поле Дом должно быть заполнено</small>
+                    <small v-if="$v.house.$dirty && !$v.house.maxLength" class="small-invalid">Поле Дом заполнено не корректно</small>
+                </div>
+                <div class="input-wrap">
+                    <input type="text" class="classic-input" v-model.trim="corps" :class="{invalid: ($v.corps.$dirty && !$v.corps.required) || ($v.corps.$dirty && !$v.corps.maxLength)}" placeholder="Корпус" autocomplete="on">
+                    <small v-if="$v.corps.$dirty && !$v.corps.required" class="small-invalid">Поле Корпус должно быть заполнено</small>
+                    <small v-if="$v.corps.$dirty && !$v.corps.maxLength" class="small-invalid">Поле Корпус заполнено не корректно</small>
+                </div>
+                <div class="input-wrap">
+                    <input type="text" class="classic-input" v-model.trim="apart" :class="{invalid: ($v.apart.$dirty && !$v.apart.required) || ($v.apart.$dirty && !$v.apart.maxLength)}" placeholder="Квартира" autocomplete="on">
+                    <small v-if="$v.apart.$dirty && !$v.apart.required" class="small-invalid">Поле Квартира должно быть заполнено</small>
+                    <small v-if="$v.apart.$dirty && !$v.apart.maxLength" class="small-invalid">Поле Квартира заполнено не корректно</small>
+                </div>
             </div>
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'pek'">
                 <div class="input-wrap">
