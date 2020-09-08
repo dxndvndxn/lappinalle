@@ -68,6 +68,7 @@ class DepartmentsController extends Controller
         $dataByDepart['max'] = $productMax;
         $dataByDepart['min'] = $productMin;
         $dataByDepart['sizes'] = $dataSizes;
+        $dataByDepart['eu'] = GetEUController::EU('http://www.cbr.ru/scripts/XML_daily.asp');
 
         return  $dataByDepart;
     }

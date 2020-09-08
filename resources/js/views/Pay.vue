@@ -16,7 +16,7 @@
     export default {
         name: "Pay",
         data: () => ({
-            payIcons: {lvlOne: ['', '../img/visa-mastercard-mir.jpg', ''], lvlTwo: ['../../img/yandex-icon.png', '../../img/qiwi-icon.png', '../../img/paypal-icon.png']}
+            payIcons: {lvlOne: ['../img/Mk.png', '../img/Viza.png', '../img/Mir.png'], lvlTwo: ['../../img/yandex-icon.png', '../../img/qiwi-icon.png', '../../img/paypal-icon.png']}
         })
     }
 </script>

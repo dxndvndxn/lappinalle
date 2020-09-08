@@ -81,6 +81,7 @@ class GetDataFromDepartSortPriceController extends Controller
         $sortData['max'] = $productMax;
         $sortData['min'] = $productMin;
         $sortData['sizes'] = $dataSizes;
+        $dataByGender['eu'] = GetEUController::EU('http://www.cbr.ru/scripts/XML_daily.asp');
 
         return $sortData;
     }

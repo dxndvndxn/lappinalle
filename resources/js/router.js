@@ -375,6 +375,18 @@ const routes = [
         component: Catalog
     },
     {
+        path: '/:gender/:category',
+        name: 'category',
+        meta: { layout: 'Main' },
+        component: Catalog
+    },
+    {
+        path: '/:gender/:category/:department',
+        name: 'department',
+        meta: { layout: 'Main' },
+        component: Catalog
+    },
+    {
         path: '/:gender/item-:number',
         name: 'item',
         meta: { layout: 'Main' },
@@ -391,19 +403,7 @@ const routes = [
         name: 'item',
         meta: { layout: 'Main' },
         component: Catalogitem
-    },
-    {
-        path: '/:gender/:category',
-        name: 'category',
-        meta: { layout: 'Main' },
-        component: Catalog
-    },
-    {
-        path: '/:gender/:category/:department',
-        name: 'department',
-        meta: { layout: 'Main' },
-        component: Catalog
-    },
+    }
 
 ];
 const router = new VueRouter({

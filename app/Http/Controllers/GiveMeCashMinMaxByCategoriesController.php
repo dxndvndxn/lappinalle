@@ -58,6 +58,7 @@ class GiveMeCashMinMaxByCategoriesController extends Controller
         $dataByCateg['max'] = $productMax;
         $dataByCateg['min'] = $productMin;
         $dataByCateg['sizes'] = $dataSizes;
+        $dataNreview['eu'] = GetEUController::EU('http://www.cbr.ru/scripts/XML_daily.asp');
 
         return $dataByCateg;
     }

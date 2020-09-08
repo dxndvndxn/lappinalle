@@ -40,7 +40,7 @@
             name: {
                 required,
                 minLength: minLength(2),
-                maxLength: maxLength(16)
+                maxLength: maxLength(30)
             },
             email: {
                 email, required
@@ -63,6 +63,26 @@
                 };
                 this.$store.dispatch('customerData', data);
                 this.$router.push({name: 'chooseDelivery'})
+            }
+        },
+        mounted() {
+            this.$Progress.start();
+            this.$store.dispatch('GetUserData')
+                .then(() => this.$Progress.finish());
+        },
+        computed: {
+            isLoggedIn(){
+                return this.$store.getters.isLoggedIn;
+            },
+            getUserData(){
+                return this.$store.getters.userData;
+            }
+        },
+        watch:{
+            getUserData(user){
+                this.name = user[0][1];
+                this.email = user[0][2];
+                this.tel = user[0][3];
             }
         }
     }

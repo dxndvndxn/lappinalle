@@ -226,14 +226,12 @@
             async changeData(){
                 if (this.$v.userData.$invalid){
                     this.$v.$touch();
-                    console.log('hui')
                     return;
                 }else{
                     let formData = new FormData();
                     formData.append('userUpdate',  JSON.stringify(this.userData));
-                    console.log(1)
+
                     if (!this.passError) {
-                        console.log(2)
                         await axios.post(`${this.URI}lkupd`, formData)
                             .then(res => {
                                 console.log(res.data);
@@ -267,8 +265,8 @@
         watch:{
             getUserData(user){
                 this.userData.userName = user[0][1];
-                this.userData.userTel = user[0][3];
                 this.userData.userEmail = user[0][2];
+                this.userData.userTel = user[0][3];
                 this.userData.userCity = user[0][4];
                 this.userData.userAdrr = user[0][5];
                 this.userData.userBuild = user[0][6];

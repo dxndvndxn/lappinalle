@@ -16,6 +16,8 @@
         @include border(bottom, 3px, $palepurpp);
         img{
             object-fit: contain;
+            height: 155px;
+            width: 191px;
         }
     }
 }

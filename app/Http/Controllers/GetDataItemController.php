@@ -41,6 +41,8 @@ class GetDataItemController extends Controller
 
         $dataNreview['stars'] = $stars;
         $dataNreview['sizes'] = $sizes;
+        $dataNreview['eu'] = GetEUController::EU('http://www.cbr.ru/scripts/XML_daily.asp');
+
         return $dataNreview;
     }
 }

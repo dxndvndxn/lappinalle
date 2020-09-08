@@ -262,7 +262,7 @@
             btntext: 'ПЕРЕЙТИ В РАЗДЕЛ',
             chosenCat: 'Мальчики | Верхняя одежда ЗИМ',
             activeBtn: true,
-            whatList: true
+            whatList: null
         })
     }
 </script>

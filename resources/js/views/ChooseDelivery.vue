@@ -60,6 +60,9 @@
                     <small v-if="$v.apart.$dirty && !$v.apart.required" class="small-invalid">Поле Квартира должно быть заполнено</small>
                     <small v-if="$v.apart.$dirty && !$v.apart.maxLength" class="small-invalid">Поле Квартира заполнено не корректно</small>
                 </div>
+                <textarea class="classic-input comment-postman" v-model="commentForPostman" placeholder="Комментарий" autocomplete="on">
+
+                </textarea>
             </div>
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'sdek'">
                 <div class="input-wrap">
@@ -87,12 +90,52 @@
                     <small v-if="$v.apart.$dirty && !$v.apart.required" class="small-invalid">Поле Квартира должно быть заполнено</small>
                     <small v-if="$v.apart.$dirty && !$v.apart.maxLength" class="small-invalid">Поле Квартира заполнено не корректно</small>
                 </div>
+                <div class="input-wrap">
+                    <input type="text" class="classic-input" v-model.trim="passportData" :class="{invalid: ($v.passportData.$dirty && !$v.passportData.required) || ($v.passportData.$dirty && !$v.passportData.validFormat)}" placeholder="Серия и номер паспорта" autocomplete="on">
+                    <small v-if="$v.passportData.$dirty && !$v.passportData.required" class="small-invalid">Серия и номер паспорта должно быть заполнено</small>
+                    <small v-else-if="$v.passportData.$dirty && !$v.passportData.validFormat" class="small-invalid">Серия и номер паспорта должны быть в формате 1234 567890</small>
+                </div>
+                <div class="wrap-checkbox">
+                    <label for="adress">До адреса <input type="radio" id="adress" name="whatList" value="toAdress" v-model="whereGet" ></label>
+                    <label for="stock">До пункта выдачи <input type="radio" id="stock" name="whatList"value="toPoint" v-model="whereGet"></label>
+                    <small v-if="$v.whereGet.$dirty && !$v.whereGet.required" class="small-invalid">Пожалуйста, укажите способ доставки</small>
+                </div>
             </div>
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'pek'">
                 <div class="input-wrap">
                     <input type="text" class="classic-input" :class="{invalid: ($v.city.$dirty && !$v.city.required) || ($v.city.$dirty && !$v.city.maxLength)}" v-model.trim="city" placeholder="Город" autocomplete="on">
                     <small v-if="$v.city.$dirty && !$v.city.required" class="small-invalid">Поле Город должно быть заполнено</small>
                     <small v-if="$v.city.$dirty && !$v.city.maxLength" class="small-invalid">Поле Город заполнено не корректно</small>
+                </div>
+                <div class="input-wrap">
+                    <input type="text" class="classic-input" :class="{invalid: ($v.street.$dirty && !$v.street.required) || ($v.street.$dirty && !$v.street.maxLength)}" v-model.trim="street" placeholder="Улица" autocomplete="on">
+                    <small v-if="$v.street.$dirty && !$v.street.required" class="small-invalid">Поле Улица должно быть заполнено</small>
+                    <small v-if="$v.street.$dirty && !$v.street.maxLength" class="small-invalid">Поле Улица заполнено не корректно</small>
+                </div>
+                <div class="input-wrap">
+                    <input type="text" class="classic-input" v-model.trim="house" :class="{invalid: ($v.house.$dirty && !$v.house.required) || ($v.house.$dirty && !$v.house.maxLength)}" placeholder="Дом" autocomplete="on">
+                    <small v-if="$v.house.$dirty && !$v.house.required" class="small-invalid">Поле Дом должно быть заполнено</small>
+                    <small v-if="$v.house.$dirty && !$v.house.maxLength" class="small-invalid">Поле Дом заполнено не корректно</small>
+                </div>
+                <div class="input-wrap">
+                    <input type="text" class="classic-input" v-model.trim="corps" :class="{invalid: ($v.corps.$dirty && !$v.corps.required) || ($v.corps.$dirty && !$v.corps.maxLength)}" placeholder="Корпус" autocomplete="on">
+                    <small v-if="$v.corps.$dirty && !$v.corps.required" class="small-invalid">Поле Корпус должно быть заполнено</small>
+                    <small v-if="$v.corps.$dirty && !$v.corps.maxLength" class="small-invalid">Поле Корпус заполнено не корректно</small>
+                </div>
+                <div class="input-wrap">
+                    <input type="text" class="classic-input" v-model.trim="apart" :class="{invalid: ($v.apart.$dirty && !$v.apart.required) || ($v.apart.$dirty && !$v.apart.maxLength)}" placeholder="Квартира" autocomplete="on">
+                    <small v-if="$v.apart.$dirty && !$v.apart.required" class="small-invalid">Поле Квартира должно быть заполнено</small>
+                    <small v-if="$v.apart.$dirty && !$v.apart.maxLength" class="small-invalid">Поле Квартира заполнено не корректно</small>
+                </div>
+                <div class="input-wrap">
+                    <input type="text" class="classic-input" v-model.trim="passportData" :class="{invalid: ($v.passportData.$dirty && !$v.passportData.required) || ($v.passportData.$dirty && !$v.passportData.validFormat)}" placeholder="Серия и номер паспорта" autocomplete="on">
+                    <small v-if="$v.passportData.$dirty && !$v.passportData.required" class="small-invalid">Серия и номер паспорта должно быть заполнено</small>
+                    <small v-else-if="$v.passportData.$dirty && !$v.passportData.validFormat" class="small-invalid">Серия и номер паспорта должны быть в формате 1234 567890</small>
+                </div>
+                <div class="wrap-checkbox">
+                    <label for="adress">До адреса <input type="radio" id="adress" name="whatList" value="toAdress" v-model="whereGet" ></label>
+                    <label for="stock">До пункта выдачи <input type="radio" id="stock" name="whatList"value="toPoint" v-model="whereGet"></label>
+                    <small v-if="$v.whereGet.$dirty && !$v.whereGet.required" class="small-invalid">Пожалуйста, укажите способ доставки</small>
                 </div>
             </div>
             <div class="chozen-delivery-text">
@@ -105,7 +148,7 @@
                     <span v-else>{{deliveries[chozenDel].delPrice + ' &#8381;'}} </span>
                 </div>
                 <div class="chozen-delivery-total" v-if="deliveries[chozenDel].delivery_name === 'postman'">
-                    Итоговая стоимость: <span>{{$store.getters.totalPrice + 300 + ' &#8381;'}} </span>
+                    Итоговая стоимость: <span>{{$store.getters.totalPrice >= 2000 ? $store.getters.totalPrice : $store.getters.totalPrice + 300}} &#8381;</span>
                 </div>
             </div>
             <div class="chozen-delivery-btn">
@@ -117,7 +160,7 @@
 
 <script>
     import Back from "../components/Back";
-    import {required, maxLength} from 'vuelidate/lib/validators';
+    import {required, maxLength, minLength} from 'vuelidate/lib/validators';
     export default {
         name: "ChooseDelivery",
         components: {Back},
@@ -162,7 +205,10 @@
             corps: null,
             street: null,
             indexPost: null,
+            passportData: null,
             chozenDel: 0,
+            whereGet: null,
+            commentForPostman: null
         }),
         validations: {
             city: {
@@ -188,6 +234,13 @@
             indexPost: {
                 required,
                 maxLength: maxLength(6)
+            },
+            passportData: {
+                required,
+                validFormat: val => /^\d{4} \d{6}$/.test(val),
+            },
+            whereGet: {
+                required
             }
 
         },
@@ -198,19 +251,19 @@
                 this.deliveries[i].delChooze = true;
             },
             toPay(){
-                if (this.deliveries[this.chozenDel].delivery_name === 'post-russia' && this.$v.$invalid){
+                if (this.deliveries[this.chozenDel].delivery_name === 'post-russia' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid && this.$v.indexPost.$invalid){
                     this.$v.$touch();
                     return;
                 }
-                if (this.deliveries[this.chozenDel].delivery_name === 'postman' && this.$v.$invalid){
+                if (this.deliveries[this.chozenDel].delivery_name === 'postman' && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid){
                     this.$v.$touch();
                     return;
                 }
-                if (this.deliveries[this.chozenDel].delivery_name === 'sdek' && this.$v.city.$invalid){
+                if (this.deliveries[this.chozenDel].delivery_name === 'sdek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid && this.$v.passportData.$invalid && this.$v.whereGet.$invalid){
                     this.$v.$touch();
                     return;
                 }
-                if (this.deliveries[this.chozenDel].delivery_name === 'pek' && this.$v.city.$invalid){
+                if (this.deliveries[this.chozenDel].delivery_name === 'pek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid && this.$v.passportData.$invalid && this.$v.whereGet.$invalid){
                     this.$v.$touch();
                     return;
                 }
@@ -222,19 +275,30 @@
                     street: this.street,
                     indexPost: this.indexPost,
                     deliveryName: this.deliveries[this.chozenDel].delivery_name
-                }
+                };
                 // this.$store.dispatch('orderData', data);
                 this.$store.dispatch('sentData', data);
                 //this.$router.push({name: 'choosePay'})
             }
         },
+        created(){
+            this.$Progress.start();
+        },
+        mounted(){
+            this.$Progress.finish();
+        },
+        beforeDestroy(){
+          this.$store.dispatch('killPaySuccess');
+        },
         watch: {
-            paySuccess(newValue){
-                if (newValue) {
+            paySuccess(newValue, oldValue){
+                console.log(newValue, oldValue)
+                if (newValue || oldValue) {
                     this.$router.push({name: 'paySuccess'})
                 }else{
                     console.log(newValue)
                 }
+
             }
         },
         computed: {

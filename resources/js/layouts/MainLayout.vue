@@ -3,7 +3,7 @@
       <header>
           <Header/>
       </header>
-      <router-view :key="$route.fullPath"></router-view>
+      <router-view></router-view>
       <footer>
           <Footer/>
       </footer>

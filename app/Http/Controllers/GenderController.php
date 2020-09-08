@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Http\Controllers\GetEUController;
 
 class GenderController extends Controller
 {
@@ -44,6 +45,7 @@ class GenderController extends Controller
         $dataByGender['max'] = $productMax;
         $dataByGender['min'] = $productMin;
         $dataByGender['sizes'] = $dataSizes;
+        $dataByGender['eu'] = GetEUController::EU('http://www.cbr.ru/scripts/XML_daily.asp');
 
         return $dataByGender;
     }

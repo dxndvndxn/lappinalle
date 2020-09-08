@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="catalog container">
-            <Sidebar @showSaleProducts="showSaleProducts" @hideSaleProducts="hideSaleProducts" @showSizeProducts="showSizeProducts" @showCashProducts="showCashProducts"/>
+            <Sidebar @showSaleProducts="showSaleProducts" @hideSaleProducts="hideSaleProducts" @showSizeProducts="showSizeProductsPlease" @showCashProducts="showCashProducts"/>
             <CatalogCell v-bind:catalogData="returnCatalogData" v-bind:total="catalogTotalPages"/>
         </div>
         <paginate
@@ -194,23 +194,42 @@
             },
 
             // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
-            showSizeProducts(sizes){
+            showSizeProductsPlease(sizes){
                 let queryStr = '';
 
                 sizes.forEach(el => {
                     queryStr += `size=${el[0]}&`
                 });
-
                 this.$Progress.start();
                 this.pageCatalog = 1;
                 if (sizes.length) {
                     this.whataFunc = 'size';
                     let data = {sizes: sizes, params: this.$route.params, page: this.updatedPage};
                     this.$store.dispatch('showSizeProducts', data);
-                    this.$router.push(`${this.$route.path}?${queryStr}page=1`);
-                }else {
-
+                    this.$router.push(`${this.$route.path}?${queryStr}page=1`).catch(() => {
+                    });
+                }else{
+                    this.getCatalogData(1)
                 }
+                // try {
+                //     let queryStr = '';
+                //
+                //     sizes.forEach(el => {
+                //         queryStr += `size=${el[0]}&`
+                //     });
+                //     console.log(queryStr)
+                //     this.$Progress.start();
+                //     this.pageCatalog = 1;
+                //     if (sizes.length) {
+                //         console.log('HI')
+                //         this.whataFunc = 'size';
+                //         let data = {sizes: sizes, params: this.$route.params, page: this.updatedPage};
+                //         this.$store.dispatch('showSizeProducts', data);
+                //         this.$router.push(`${this.$route.path}?${queryStr}page=1`).catch(()=>{});
+                //     }
+                // }catch (e) {
+                //     console.log(e)
+                // }
             }
         },
         created() {

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'http://lappinalle.test/api/';
+const URI = 'https://lappinalle.ru/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -1290,14 +1290,11 @@ const store = {
             });
 
             let unigIds = new Set(cardIds);
-            await axios.get(`${state.SITE_URI}itemscard/${Array.from(unigIds).join(', ')}`)
+                        await axios.get(`${state.SITE_URI}itemscard/${Array.from(unigIds).join(', ')}`)
                 .then(response => {
-                    const dataCart = state.cart;
+                    console.log(response.data)
+                    let dataCart = state.cart;
                     let data = response.data;
-
-                    data.forEach(el => {
-                        el.product_img = el.product_img.split(', ');
-                    });
 
                     // Проходимся по данным, которые пришли и ищем совпадения по id и вставляем нашу в корзину
                     dataCart.forEach(el => {
@@ -1315,8 +1312,11 @@ const store = {
 
                         });
                     });
+                    data.forEach(el => {
+                        el.product_img = el.product_img.split(', ');
+                    });
                     state.cartProduct = dataCart;
-
+                    console.log(dataCart)
                 })
                 .catch(e => {
                     console.log(e)
@@ -1369,7 +1369,6 @@ const store = {
             state.customerData = data;
         },
 
-
         sentDataMutate(state, data){
             let postData = [];
             let localCart = [];
@@ -1380,11 +1379,9 @@ const store = {
 
             // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
             postData.push({customerData: state.customerData, deliveryData: data, orderData: localCart, totalPrice: state.totalPrice});
-            console.log(postData)
             axios.post(`${state.SITE_URI}order`, postData)
                 .then(response => {
-                    state.paySuccess = true;
-                    console.log(response.data);
+                    state.paySuccess = response.data;
                 })
                 .catch(e => {
                     console.log(e);
@@ -1392,12 +1389,17 @@ const store = {
         },
 
         GetUserDataMutate(state){
-            let formData = new FormData();
-            formData.append('token', JSON.stringify(state.token));
-            axios.post(`${state.SITE_URI}lkind`, formData)
-                .then(res => {
-                    state.userData = res.data;
-                }).catch(e => console.log(e))
+            if (state.token !== null){
+                let formData = new FormData();
+                formData.append('token', JSON.stringify(state.token));
+                axios.post(`${state.SITE_URI}lkind`, formData)
+                    .then(res => {
+                        state.userData = res.data;
+                    }).catch(e => console.log(e))
+            }
+        },
+        killPaySuccessMutate(state){
+            state.paySuccess = false;
         }
     },
     actions: {
@@ -1489,6 +1491,9 @@ const store = {
         },
         GetUserData({commit}){
             commit('GetUserDataMutate');
+        },
+        killPaySuccess({commit}){
+            commit('killPaySuccessMutate');
         }
     },
     getters:{

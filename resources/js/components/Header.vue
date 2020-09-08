@@ -214,9 +214,9 @@
             categories(val){
                 this.categories = val;
             },
-            isLoggedIn(newVal){
-
-            }
+            // isLoggedIn(newVal){
+            //
+            // }
         },
 
     }
