@@ -15320,7 +15320,7 @@ var render = function() {
               return _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: "card-img" }, [
                   _c("img", {
-                    attrs: { src: card.totalCartData.product_img[0], alt: "" }
+                    attrs: { src: card.totalCartData.product_img, alt: "" }
                   })
                 ]),
                 _vm._v(" "),
@@ -40615,7 +40615,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var URI = 'http://lappinalle.test/api/';
+var URI = 'https://lappinalle.ru/api/';
 var admin = {
   state: function state() {
     return {
@@ -42214,6 +42214,7 @@ var store = {
                   });
                   data.forEach(function (el) {
                     el.product_img = el.product_img.split(', ');
+                    el.product_img = el.product_img[0];
                   });
                   state.cartProduct = dataCart;
                   console.log(dataCart);

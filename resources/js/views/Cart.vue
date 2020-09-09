@@ -7,7 +7,7 @@
             <div class="cart-cards">
                 <div class="card" v-for="(card, c) in getProductCart">
                     <div class="card-img">
-                        <img :src="card.totalCartData.product_img[0]" alt="">
+                        <img :src="card.totalCartData.product_img" alt="">
                     </div>
                     <div class="card-info">
                         <div class="card-name">

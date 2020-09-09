@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'http://lappinalle.test/api/';
+const URI = 'https://lappinalle.ru/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -1314,7 +1314,9 @@ const store = {
                     });
                     data.forEach(el => {
                         el.product_img = el.product_img.split(', ');
+                        el.product_img = el.product_img[0];
                     });
+
                     state.cartProduct = dataCart;
                     console.log(dataCart)
                 })
