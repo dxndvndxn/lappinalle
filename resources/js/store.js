@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'https://lappinalle.ru/api/';
+const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -554,7 +554,7 @@ const store = {
 
                             // Создаем массив для размеров и пушим все размеры
                             let localSize = [];
-                            itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number))
+                            itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
 
                             // Выбираем уникальные размеры
                             let sortSizes = new Set(localSize);

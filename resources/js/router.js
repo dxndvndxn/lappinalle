@@ -24,11 +24,13 @@ import AdminUsers from "./admin/views/AdminUsers";
 import AdminDelivery from "./admin/views/AdminDelivery";
 import ProductCard from "./admin/views/ProductCard";
 import Privacy from "./views/Privacy";
+import ReturnProduct from "./views/ReturnProduct";
 import store from "./store";
 import OrderCard from "./admin/views/OrderCard";
 import UserCard from "./admin/views/UserCard";
 import AdminReviews from "./admin/views/AdminReviews";
 import ReviewCard from "./admin/views/ReviewCard";
+
 // export default {
 //     mode: 'history',
 //     routes: [
@@ -295,6 +297,12 @@ const routes = [
         component: Bookmark
     },
     {
+        path: '/returnproduct',
+        name: 'ReturnProduct',
+        meta: { layout: 'Main' },
+        component: ReturnProduct
+    },
+    {
         path: '/adminalle',
         name: 'admin',
         meta: { layout: 'Admin' },
@@ -369,24 +377,6 @@ const routes = [
         ]
     },
     {
-        path: '/:gender',
-        name: 'gender',
-        meta: { layout: 'Main' },
-        component: Catalog
-    },
-    {
-        path: '/:gender/:category',
-        name: 'category',
-        meta: { layout: 'Main' },
-        component: Catalog
-    },
-    {
-        path: '/:gender/:category/:department',
-        name: 'department',
-        meta: { layout: 'Main' },
-        component: Catalog
-    },
-    {
         path: '/:gender/item-:number',
         name: 'item',
         meta: { layout: 'Main' },
@@ -403,6 +393,24 @@ const routes = [
         name: 'item',
         meta: { layout: 'Main' },
         component: Catalogitem
+    },
+    {
+        path: '/:gender',
+        name: 'gender',
+        meta: { layout: 'Main' },
+        component: Catalog
+    },
+    {
+        path: '/:gender/:category',
+        name: 'category',
+        meta: { layout: 'Main' },
+        component: Catalog
+    },
+    {
+        path: '/:gender/:category/:department',
+        name: 'department',
+        meta: { layout: 'Main' },
+        component: Catalog
     }
 
 ];

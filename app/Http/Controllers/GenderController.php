@@ -40,12 +40,13 @@ class GenderController extends Controller
             ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
             ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')->where('sex_id', '=', $newGen['sex_id'])
             ->get();
-
-
+//        $newDataByGender = $value;
+//        foreach ($dataByGender as $value){
+//            echo $value['product_price'];
+//        }
         $dataByGender['max'] = $productMax;
         $dataByGender['min'] = $productMin;
         $dataByGender['sizes'] = $dataSizes;
-        $dataByGender['eu'] = GetEUController::EU('http://www.cbr.ru/scripts/XML_daily.asp');
 
         return $dataByGender;
     }

@@ -79,7 +79,7 @@
                 {
                     name: 'Baner',
                     img: '../../../img/img_2-item-14.png',
-                    banerData: {h1: 'Комбинезон "DREAMLAND"', sale: 25, price: 7200, btn: 'Подробнее', flReverse: false, link: 'malchiki/item-14' }
+                    banerData: {h1: 'Комбинезон "DREAMLAND"', sale: 25, price: 7200, btn: 'Подробнее', flReverse: false, link: 'malchiki/item-15' }
                 },
                 {
                     name: 'Slider',
@@ -93,8 +93,8 @@
                 },
                 {
                     name: 'Baner',
-                    img: '../../../img/item-15/img_2-item-15.png',
-                    banerData: {h1: 'Комбинезон "DREAMLAND"', sale: 25, price: 7200, btn: 'Подробнее', fllReverse: true, link: 'devochki/item-15'}
+                    img: '../../../img/item-14/img_1-item-14.png',
+                    banerData: {h1: 'Комбинезон "DREAMLAND"', sale: 25, price: 7200, btn: 'Подробнее', fllReverse: true, link: 'devochki/item-14'}
                 }
             ]
 

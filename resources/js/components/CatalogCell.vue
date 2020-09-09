@@ -6,10 +6,10 @@
                 {{item.product_title}}
             </div>
             <div class="item-price" v-if="item.product_old_price !== null">
-                <span class="through-line">{{item.product_old_price}} &#8381;</span> <span class="sale-price">{{item.product_price}} &#8381;</span>
+                <span class="through-line">{{item.product_old_price}} &#8364;</span> <span class="sale-price">{{item.product_price}} &#8364;</span>
             </div>
             <div v-else class="item-price">
-                {{item.product_price }} &#8381;
+                {{item.product_price }} &#8364;
             </div>
         </div>
     </div>

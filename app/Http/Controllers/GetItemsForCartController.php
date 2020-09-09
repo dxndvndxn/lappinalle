@@ -14,7 +14,6 @@ class GetItemsForCartController extends Controller
             ->where('product_available', '=', 1)
             ->whereIn('product_id',  $productsId)
             ->get();
-        $products['eu'] = GetEUController::EU('http://www.cbr.ru/scripts/XML_daily.asp');
         return $products;
     }
 }
