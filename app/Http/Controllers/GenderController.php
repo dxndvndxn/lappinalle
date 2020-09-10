@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\GetEUController;
 use Illuminate\Http\Request;
 use DB;
-use App\Http\Controllers\GetEUController;
 
 class GenderController extends Controller
 {
@@ -40,12 +40,11 @@ class GenderController extends Controller
             ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
             ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')->where('sex_id', '=', $newGen['sex_id'])
             ->get();
-//        $newDataByGender = $value;
-//        foreach ($dataByGender as $value){
-//            echo $value['product_price'];
-//        }
-        $dataByGender['max'] = $productMax;
-        $dataByGender['min'] = $productMin;
+
+
+        $dataByGender['eu'] = (int)GetEUController::EU();
+        $dataByGender['max'] = $productMax * (int)GetEUController::EU();
+        $dataByGender['min'] = $productMin * (int)GetEUController::EU();
         $dataByGender['sizes'] = $dataSizes;
 
         return $dataByGender;

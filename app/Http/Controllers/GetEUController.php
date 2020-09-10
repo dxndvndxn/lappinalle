@@ -6,7 +6,7 @@ use Exception;
 
 class GetEUController extends Controller
 {
-    public static function EU($URI) {
+    public static function EU() {
         // Время
         $timestamp = time();
 
@@ -16,7 +16,7 @@ class GetEUController extends Controller
 
         // Сравниваем время которое в файле и время которое сейчас
         if($lastTime + (3600 * 24) < $timestamp){
-            $xml = simplexml_load_string(file_get_contents($URI));
+            $xml = simplexml_load_string(file_get_contents('http://www.cbr.ru/scripts/XML_daily.asp'));
 
             //Возвращаем json
             $json = json_encode($xml);

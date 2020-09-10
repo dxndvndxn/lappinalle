@@ -52,8 +52,9 @@ class GetDataFromGenderSortPriceController extends Controller
                 break;
         }
 
-        $sortData['min'] = $productMin;
-        $sortData['max'] = $productMax;
+        $sortData['eu'] = (int)GetEUController::EU();
+        $sortData['min'] = $productMin * (int)GetEUController::EU();
+        $sortData['max'] = $productMax * (int)GetEUController::EU();
         $sortData['sizes'] = $dataSizes;
 
         return $sortData;

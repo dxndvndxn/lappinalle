@@ -57,8 +57,9 @@ class SaleProductsByCategoriesController extends Controller
             ->where('product_sale', '=', 1)
             ->get();
 
-        $dataByCateg['max'] = $productMax;
-        $dataByCateg['min'] = $productMin;
+        $dataByCateg['eu'] = (int)GetEUController::EU();
+        $dataByCateg['max'] = $productMax * (int)GetEUController::EU();
+        $dataByCateg['min'] = $productMin * (int)GetEUController::EU();
         $dataByCateg['sizes'] = $dataSizes;
 
         return $dataByCateg;

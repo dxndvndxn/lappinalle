@@ -6,10 +6,10 @@
                 {{item.product_title}}
             </div>
             <div class="item-price" v-if="item.product_old_price !== null">
-                <span class="through-line">{{item.product_old_price}} &#8364;</span> <span class="sale-price">{{item.product_price}} &#8364;</span>
+                <span class="through-line">{{item.product_old_price * EU}} &#8381;</span> <span class="sale-price">{{item.product_price * EU}} &#8381;</span>
             </div>
             <div v-else class="item-price">
-                {{item.product_price }} &#8364;
+                {{item.product_price * EU}} &#8381;
             </div>
         </div>
     </div>
@@ -28,6 +28,11 @@
         watch:{
             catalogData(val){
                 this.CatalogData = val;
+            }
+        },
+        computed: {
+            EU(){
+                return this.$store.getters.EU;
             }
         }
     }

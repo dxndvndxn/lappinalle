@@ -78,8 +78,9 @@ class GetDataFromDepartSortPriceController extends Controller
             ->where('categories_id', '=', $newCateg['categories_id'])
             ->get();
 
-        $sortData['max'] = $productMax;
-        $sortData['min'] = $productMin;
+        $sortData['eu'] = (int)GetEUController::EU();
+        $sortData['max'] = $productMax * (int)GetEUController::EU();
+        $sortData['min'] = $productMin * (int)GetEUController::EU();
         $sortData['sizes'] = $dataSizes;
 
         return $sortData;

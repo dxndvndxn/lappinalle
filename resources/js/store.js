@@ -209,7 +209,9 @@ const store = {
         paySuccess: false,
 
         // Данные юзера
-        userData: null
+        userData: null,
+
+        EU: null
     },
     mutations: {
         // Регистрация
@@ -551,6 +553,8 @@ const store = {
                             // Удаляем свойства из объекта
                             delete itemCell.data.min;
                             delete itemCell.data.max;
+                            state.EU = itemCell.data.eu;
+                            delete itemCell.data.eu;
 
                             // Создаем массив для размеров и пушим все размеры
                             let localSize = [];
@@ -601,6 +605,8 @@ const store = {
                             // Удаляем свойства из объекта
                             delete itemCell.data.min;
                             delete itemCell.data.max;
+                            state.EU = itemCell.data.eu;
+                            delete itemCell.data.eu;
 
                             // Создаем массив для размеров и пушим все размеры
                             let localSize = [];
@@ -650,6 +656,8 @@ const store = {
                             // Удаляем свойства из объекта
                             delete itemCell.data.min;
                             delete itemCell.data.max;
+                            state.EU = itemCell.data.eu;
+                            delete itemCell.data.eu;
 
                             // Создаем массив для размеров и пушим все размеры
                             let localSize = [];
@@ -789,6 +797,8 @@ const store = {
                             // Удаляем свойства из объекта
                             delete itemCell.data.min;
                             delete itemCell.data.max;
+                            state.EU = itemCell.data.eu;
+                            delete itemCell.data.eu;
 
                             // Создаем массив для размеров и пушим все размеры
                             let localSize = [];
@@ -837,7 +847,8 @@ const store = {
                             // Удаляем свойства из объекта
                             delete itemCell.data.min;
                             delete itemCell.data.max;
-
+                            state.EU = itemCell.data.eu;
+                            delete itemCell.data.eu;
                             // Создаем массив для размеров и пушим все размеры
                             let localSize = [];
                             itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
@@ -885,7 +896,8 @@ const store = {
                             // Удаляем свойства из объекта
                             delete itemCell.data.min;
                             delete itemCell.data.max;
-
+                            state.EU = itemCell.data.eu;
+                            delete itemCell.data.eu;
                             // Создаем массив для размеров и пушим все размеры
                             let localSize = [];
                             itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
@@ -1106,7 +1118,8 @@ const store = {
                             // Удаляем свойства из объекта
                             delete itemCell.data.min;
                             delete itemCell.data.max;
-
+                            state.EU = itemCell.data.eu;
+                            delete itemCell.data.eu;
                             // Создаем массив для размеров и пушим все размеры
                             let localSize = [];
                             itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
@@ -1155,6 +1168,8 @@ const store = {
                             // Удаляем свойства из объекта
                             delete itemCell.data.min;
                             delete itemCell.data.max;
+                            state.EU = itemCell.data.eu;
+                            delete itemCell.data.eu;
 
                             // Создаем массив для размеров и пушим все размеры
                             let localSize = [];
@@ -1225,6 +1240,8 @@ const store = {
                     // Удаляем свойства из объекта
                     delete itemCell.data.min;
                     delete itemCell.data.max;
+                    state.EU = itemCell.data.eu;
+                    delete itemCell.data.eu;
 
                     // Устанавливаем дату в стейт
                     state.catalogData = itemCell.data;
@@ -1400,6 +1417,7 @@ const store = {
                     }).catch(e => console.log(e))
             }
         },
+
         killPaySuccessMutate(state){
             state.paySuccess = false;
         }
@@ -1582,6 +1600,9 @@ const store = {
         },
         userData: state => {
             return state.userData;
+        },
+        EU: state => {
+            return state.EU;
         }
 
     },

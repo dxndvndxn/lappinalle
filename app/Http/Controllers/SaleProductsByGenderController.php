@@ -45,8 +45,9 @@ class SaleProductsByGenderController extends Controller
             ->where('product_sale', '=', 1)
             ->get();
 
-        $dataSale['min'] = $productMin;
-        $dataSale['max'] = $productMax;
+        $dataSale['eu'] = (int)GetEUController::EU();
+        $dataSale['min'] = $productMin * (int)GetEUController::EU();
+        $dataSale['max'] = $productMax * (int)GetEUController::EU();
         $dataSale['sizes'] = $dataSizes;
 
         return $dataSale;

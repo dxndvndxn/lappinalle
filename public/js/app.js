@@ -4405,6 +4405,11 @@ __webpack_require__.r(__webpack_exports__);
     catalogData: function catalogData(val) {
       this.CatalogData = val;
     }
+  },
+  computed: {
+    EU: function EU() {
+      return this.$store.getters.EU;
+    }
   }
 });
 
@@ -6545,6 +6550,16 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13644,18 +13659,18 @@ var render = function() {
               item.product_old_price !== null
                 ? _c("div", { staticClass: "item-price" }, [
                     _c("span", { staticClass: "through-line" }, [
-                      _vm._v(_vm._s(item.product_old_price) + " €")
+                      _vm._v(_vm._s(item.product_old_price * _vm.EU) + " ₽")
                     ]),
                     _vm._v(" "),
                     _c("span", { staticClass: "sale-price" }, [
-                      _vm._v(_vm._s(item.product_price) + " €")
+                      _vm._v(_vm._s(item.product_price * _vm.EU) + " ₽")
                     ])
                   ])
                 : _c("div", { staticClass: "item-price" }, [
                     _vm._v(
                       "\n            " +
-                        _vm._s(item.product_price) +
-                        " €\n        "
+                        _vm._s(item.product_price * _vm.EU) +
+                        " ₽\n        "
                     )
                   ])
             ],
@@ -15372,7 +15387,7 @@ var render = function() {
                         _vm._v(
                           _vm._s(
                             card.count * +card.totalCartData.product_price
-                          ) + " €"
+                          ) + " ₽"
                         )
                       ])
                     ])
@@ -15405,7 +15420,7 @@ var render = function() {
           _c("div", { staticClass: "cart-total" }, [
             _c("div", { staticClass: "total-price" }, [
               _vm._v("\n                Итого: "),
-              _c("span", [_vm._v(_vm._s(_vm.getTotalCount) + " €")])
+              _c("span", [_vm._v(_vm._s(_vm.getTotalCount) + " ₽")])
             ]),
             _vm._v(" "),
             _c(
@@ -15806,18 +15821,18 @@ var render = function() {
               _vm.returnDataForItem.oldPrice
                 ? _c("div", { staticClass: "item-main-price" }, [
                     _c("span", { staticClass: "through-line" }, [
-                      _vm._v(_vm._s(_vm.returnDataForItem.oldPrice) + " €")
+                      _vm._v(_vm._s(_vm.returnDataForItem.oldPrice) + " ₽")
                     ]),
                     _vm._v(" "),
                     _c("span", { staticClass: "sale" }, [
-                      _vm._v(_vm._s(_vm.returnDataForItem.itemPrice) + " €")
+                      _vm._v(_vm._s(_vm.returnDataForItem.itemPrice) + " ₽")
                     ])
                   ])
                 : _c("div", { staticClass: "item-main-price" }, [
                     _vm._v(
                       "\n                        " +
                         _vm._s(_vm.returnDataForItem.itemPrice) +
-                        " €\n                    "
+                        " ₽\n                    "
                     )
                   ]),
               _vm._v(" "),
@@ -18173,12 +18188,29 @@ var render = function() {
               }
             }
           })
-        ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
       ]
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "wrap-text" }, [
+      _c("p", [
+        _vm._v("\n                ИП И. ЖУРАВЛЕВА:\n                "),
+        _c("br"),
+        _vm._v(
+          "\n                Номер расчетного счета: 40802810355000078566\n                Наименование банка: ПАО Сбербанк\n                Корреспондентский счет: 30101810500000000653\n                БИК: 044030653\n            "
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -18785,7 +18817,7 @@ var render = function() {
   return _c("div", { staticClass: "pay" }, [
     _c("h1", { staticClass: "h-30" }, [_vm._v("Доступные варианты оплаты")]),
     _vm._v(" "),
-    _c("h2", [_vm._v("Банковской картой онлайн")]),
+    _vm._m(0),
     _vm._v(" "),
     _c(
       "div",
@@ -18808,7 +18840,20 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        attrs: { href: "../../Primer_Oplaty_Platezha_Po_Ie.docx", download: "" }
+      },
+      [_c("h2", [_vm._v("Банковской картой онлайн")])]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -40896,7 +40941,8 @@ var store = {
     // Оплата товара
     paySuccess: false,
     // Данные юзера
-    userData: null
+    userData: null,
+    EU: null
   },
   mutations: {
     // Регистрация
@@ -41244,7 +41290,9 @@ var store = {
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+                  delete itemCell.data.max;
+                  state.EU = itemCell.data.eu;
+                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
 
                   var localSize = [];
                   itemCell.data.sizes.forEach(function (el) {
@@ -41303,7 +41351,9 @@ var store = {
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+                  delete itemCell.data.max;
+                  state.EU = itemCell.data.eu;
+                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
 
                   var localSize = [];
                   itemCell.data.sizes.forEach(function (el) {
@@ -41362,7 +41412,9 @@ var store = {
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+                  delete itemCell.data.max;
+                  state.EU = itemCell.data.eu;
+                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
 
                   var localSize = [];
                   itemCell.data.sizes.forEach(function (el) {
@@ -41573,7 +41625,9 @@ var store = {
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+                  delete itemCell.data.max;
+                  state.EU = itemCell.data.eu;
+                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
 
                   var localSize = [];
                   itemCell.data.sizes.forEach(function (el) {
@@ -41631,7 +41685,9 @@ var store = {
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+                  delete itemCell.data.max;
+                  state.EU = itemCell.data.eu;
+                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
 
                   var localSize = [];
                   itemCell.data.sizes.forEach(function (el) {
@@ -41689,7 +41745,9 @@ var store = {
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+                  delete itemCell.data.max;
+                  state.EU = itemCell.data.eu;
+                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
 
                   var localSize = [];
                   itemCell.data.sizes.forEach(function (el) {
@@ -41977,7 +42035,9 @@ var store = {
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+                  delete itemCell.data.max;
+                  state.EU = itemCell.data.eu;
+                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
 
                   var localSize = [];
                   itemCell.data.sizes.forEach(function (el) {
@@ -42033,7 +42093,9 @@ var store = {
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
+                  delete itemCell.data.max;
+                  state.EU = itemCell.data.eu;
+                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
 
                   var localSize = [];
                   itemCell.data.sizes.forEach(function (el) {
@@ -42125,7 +42187,9 @@ var store = {
                   state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
 
                   delete itemCell.data.min;
-                  delete itemCell.data.max; // Устанавливаем дату в стейт
+                  delete itemCell.data.max;
+                  state.EU = itemCell.data.eu;
+                  delete itemCell.data.eu; // Устанавливаем дату в стейт
 
                   state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
 
@@ -42508,6 +42572,9 @@ var store = {
     },
     userData: function userData(state) {
       return state.userData;
+    },
+    EU: function EU(state) {
+      return state.EU;
     }
   }
 };

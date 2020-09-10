@@ -29,10 +29,10 @@
                 <div class="item-main-wrap">
 
                     <div class="item-main-price" v-if="returnDataForItem.oldPrice">
-                        <span class="through-line">{{returnDataForItem.oldPrice}} &#8364;</span> <span class="sale">{{returnDataForItem.itemPrice}} &#8364;</span>
+                        <span class="through-line">{{returnDataForItem.oldPrice}} &#8381;</span> <span class="sale">{{returnDataForItem.itemPrice}} &#8381;</span>
                     </div>
                     <div class="item-main-price" v-else>
-                        {{returnDataForItem.itemPrice}} &#8364;
+                        {{returnDataForItem.itemPrice}} &#8381;
                     </div>
                     <span class="sizes" v-if="returnDataForItem.itemSizes.length">Размеры</span>
                     <div class="item-main-sizes">
@@ -306,7 +306,7 @@
                 set(val){
                     this.pageReview = val;
                 }
-            }
+            },
         },
         watch: {
             returnDataForItem(newVal){

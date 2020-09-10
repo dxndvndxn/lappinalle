@@ -39,8 +39,9 @@ class SizesGetDataFromGenderController extends Controller
             ->where('sex_id', '=', $newGen['sex_id'])
             ->max('product_price');
 
-        $dataSizes['max'] = $productMax;
-        $dataSizes['min'] = $productMin;
+        $dataSizes['eu'] = (int)GetEUController::EU();
+        $dataSizes['max'] = $productMax * (int)GetEUController::EU();
+        $dataSizes['min'] = $productMin * (int)GetEUController::EU();
 
         return $dataSizes;
     }

@@ -70,8 +70,9 @@ class SaleProductsByDepartmentsController extends Controller
             ->get();
 
 
-        $dataByDepart['max'] = $productMax;
-        $dataByDepart['min'] = $productMin;
+        $dataByDepart['eu'] = (int)GetEUController::EU();
+        $dataByDepart['max'] = $productMax * (int)GetEUController::EU();
+        $dataByDepart['min'] = $productMin * (int)GetEUController::EU();
         $dataByDepart['sizes'] = $dataSizes;
 
         return $dataByDepart;

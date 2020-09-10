@@ -1,7 +1,7 @@
 <template>
     <div class="pay">
         <h1 class="h-30">Доступные варианты оплаты</h1>
-        <h2>Банковской картой онлайн</h2>
+        <a href="../../Primer_Oplaty_Platezha_Po_Ie.docx" download><h2>Банковской картой онлайн</h2></a>
         <div class="pay-icons" id="iconsPay">
             <img :src="ic" v-for="(ic, i) in payIcons.lvlOne" alt="">
         </div>

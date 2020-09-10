@@ -27,6 +27,8 @@ class GetDataItemController extends Controller
             array_push($dataNreview, (array) $val);
         }
 
+        $dataNreview[0]['product_price'] = $dataNreview[0]['product_price'] * (int)GetEUController::EU();
+        $dataNreview[0]['product_old_price'] = $dataNreview[0]['product_old_price'] !== null ? $dataNreview[0]['product_old_price'] * (int)GetEUController::EU() : null;
         // Приводи к обрабатываемому виду данные об отзывах
         $stars = [];
         foreach ($reviewStar as $val){

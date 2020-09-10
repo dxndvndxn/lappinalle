@@ -24,7 +24,7 @@
                                     <button class="change-minus" @click="itemMinus(c, card.id, card.size)"></button>
                                 </div>
                             </div>
-                            <div class="card-price">Цена: <span>{{card.count * +card.totalCartData.product_price}} &#8364;</span></div>
+                            <div class="card-price">Цена: <span>{{card.count * +card.totalCartData.product_price}} &#8381;</span></div>
                         </div>
                         <div class="card-desc">
                             {{card.totalCartData.product_description}}
@@ -37,7 +37,7 @@
             </div>
             <div class="cart-total">
                 <div class="total-price">
-                    Итого: <span>{{getTotalCount}} &#8364;</span>
+                    Итого: <span>{{getTotalCount}} &#8381;</span>
                 </div>
                 <button class="classic-btn-sz btn" @click="pushToOrder">Оформить заказ</button>
             </div>

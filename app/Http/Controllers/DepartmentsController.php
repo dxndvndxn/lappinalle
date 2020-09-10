@@ -27,7 +27,6 @@ class DepartmentsController extends Controller
 
         // Узнаем какие подкатегории нужны
         $departmentsId = DB::table('departments')->select("departments_id")->where('departments_alias', '=', $departments)->get();
-        return $departmentsId;
         $newDepart = null;
 
         foreach ($departmentsId as $val) {
@@ -66,8 +65,9 @@ class DepartmentsController extends Controller
             ->where('departments_id', '=', $newDepart['departments_id'])
             ->get();
 
-        $dataByDepart['max'] = $productMax;
-        $dataByDepart['min'] = $productMin;
+        $dataByDepart['eu'] = (int)GetEUController::EU();
+        $dataByDepart['max'] = $productMax * (int)GetEUController::EU();
+        $dataByDepart['min'] = $productMin * (int)GetEUController::EU();
         $dataByDepart['sizes'] = $dataSizes;
 
         return $dataByDepart;

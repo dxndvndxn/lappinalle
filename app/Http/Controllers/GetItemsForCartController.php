@@ -14,6 +14,16 @@ class GetItemsForCartController extends Controller
             ->where('product_available', '=', 1)
             ->whereIn('product_id',  $productsId)
             ->get();
+        $wrapArr = [];
+        foreach ($products as $value){
+            array_push($wrapArr, (array) $value);
+        }
+
+        foreach ($wrapArr as $i => $value){
+            $wrapArr[$i]['product_price'] = $wrapArr[$i]['product_price'] * (int)GetEUController::EU();
+        }
+
+        $products = $wrapArr;
         return $products;
     }
 }
