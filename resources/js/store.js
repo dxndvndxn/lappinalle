@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'https://lappinalle.ru/api/';
+const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -20,7 +20,8 @@ const admin = {
         productSuccess: false,
 
         //ЗАКАЗЫ
-        GetAllOrders: null
+        GetAllOrders: null,
+        oneOrder: null
     }),
     mutations: {
         // Получаем все товары СТРАНИЧКА ТОВАРЫ
@@ -110,6 +111,9 @@ const admin = {
                     state.GetAllOrders = res.data;
                 })
                 .catch(e => console.log(e))
+        },
+        GetOneOrderMutate(state, data){
+            state.oneOrder = data;
         }
     },
     actions: {
@@ -134,10 +138,10 @@ const admin = {
         async GetOneOrder({commit}, id){
             let formData = new FormData();
             formData.append('id', JSON.stringify(id.id));
-
             await axios.post(`${URI}admorder`, formData)
                 .then(res => {
                     console.log(res.data)
+                    commit('GetOneOrderMutate', res.data)
                 })
                 .catch(e => console.log(e))
         }
@@ -160,6 +164,9 @@ const admin = {
         },
         oneProduct: state => {
             return state.oneProduct;
+        },
+        oneOrder: state => {
+            return state.oneOrder;
         }
     }
 };
@@ -1398,6 +1405,10 @@ const store = {
         changeCountCartMutate(state, data){
             // Находим в карточке тоавара нужный размер и id и увеличиваем кол-во
             state.cartProduct.forEach((el, i) => {
+                if (el.id === data.id && el.size === data.size) el.count += data.count;
+            });
+
+            state.cart.forEach((el, i) => {
                 if (el.id === data.id && el.size === data.size) el.count += data.count;
             });
 

@@ -3,11 +3,12 @@
         <div class="warp-head-order-card">
             <AdminTopSide v-bind:H="'Подробности заказа'" v-bind:btn="true"/>
         </div>
-        <div class="wrap-admin-order-card">
-            <div class="order-cl">
+        {{returnOneProduct}}
+        <div class="wrap-admin-order-card" v-if="orderInfo !== null">
+            <div class="order-cl" v-for="(order, i) in orderInfo">
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">№ заказа</label>
-                    <input type="text" class="input-pale-blu" :value="1" disabled>
+                    <input type="text" class="input-pale-blu" :value="order.orders_id" disabled>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">ФИО</label>
@@ -81,6 +82,8 @@
         components: {AdminTopSide},
         data: () => ({
             activeBtn: true,
+            orderInfo: null,
+            orderProducts: null,
             status: [
                 {
                     name: 'В обработке', id: 1
@@ -102,6 +105,17 @@
         }),
         created() {
             this.$store.dispatch('GetOneOrder', {id: this.$route.params.id});
+        },
+        computed: {
+            returnOneProduct(){
+                return this.$store.getters.oneOrder;
+            }
+        },
+        watch: {
+            returnOneProduct(newValue){
+                this.orderInfo = newValue[0];
+                this.orderProducts = newValue[1];
+            }
         }
     }
 </script>

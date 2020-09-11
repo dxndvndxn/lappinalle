@@ -122,11 +122,11 @@
                 console.log(newVal, 'getProductCart')
                 this.getProductCart = newVal;
             },
-            getUpdatedCart(newVal){
-                this.$Progress.finish();
-                console.log(newVal, 'getUpdatedCart')
-                this.thatCart = newVal;
-            }
+            // getUpdatedCart(newVal){
+            //     this.$Progress.finish();
+            //     console.log(newVal, 'getUpdatedCart')
+            //     this.thatCart = newVal;
+            // }
         }
     }
 </script>

@@ -44,50 +44,49 @@ class AdmOrdersController extends Controller
 
     //Вывод информации по заказу по ID заказа
     public function order(Request $request){
-        try{
-            $data = $request->all();
-            $id = json_decode($data['id'], true);
+        $data = $request->all();
+        $id = json_decode($data['id'], true);
 
 
-            $a = DB::table('orders')->where('orders_id', $id)->get();
+        $a = DB::table('orders')->where('orders_id', $id)->get();
 
-            $order = [null];
-            $i=0;
+        $order = [null];
+        $i=0;
 
-            //Убираем лишнюю обёртку массива
-            foreach ($a as $val){
-                $order[$i] = (array) $val;
-                $i++;
-            }
+        //Убираем лишнюю обёртку массива
+        foreach ($a as $val){
+            $order[$i] = (array) $val;
+            $i++;
+        }
 
-            $i = 0;
-            $korzina = explode('|', $order[0]['orders_korzina']);
+        $i = 0;
+        $korzina = explode('|', $order[0]['orders_korzina']);
 
 //            return $korzina;
-            foreach ($korzina as $val) {
-                $korzina[$i] = explode(',', $val);
-                $i++;
-            }
-            //На этом моменте получается массив вида [['1', '46', '1', '2000']['1', '48', '1', '2000']]
-
-            $i = 0;
-            $korzina_adm = [NULL];
-
-            foreach ($korzina as $val) {
-                if ($val[0] === "") break;
-                $prod_name = DB::table('products')->where('product_id', $val[0])->select('product_title')->get();
-                $prod_size = $val[1];
-                $prod_count = $val[2];
-                $prod_name = (array)$prod_name[0];
-
-                $korzina_adm[$i] = $prod_name['product_title'] . ', Размер:' . $prod_size . ', Количество: ' . $prod_count;
-                $i++;
-            }
-
-            return $korzina_adm;
-        }catch (Exception $e){
-            return $e;
+        foreach ($korzina as $val) {
+            $korzina[$i] = explode(',', $val);
+            $i++;
         }
+        //На этом моменте получается массив вида [['1', '46', '1', '2000']['1', '48', '1', '2000']]
+
+        $i = 0;
+        $korzina_adm = [NULL];
+
+        foreach ($korzina as $val) {
+            if ($val[0] === "") break;
+            $prod_name = DB::table('products')->where('product_id', $val[0])->select('product_title')->get();
+            $prod_size = $val[2] === '' ? 'Нет' : $val[2];
+            $prod_count = $val[1];
+            $prod_name = (array)$prod_name[0];
+
+            $korzina_adm[$i] = $prod_name['product_title'] . ', Размер: ' . $prod_size . ', Количество: ' . $prod_count;
+            $i++;
+        }
+        $totalOrder = [];
+
+        array_push($totalOrder, $a);
+        array_push($totalOrder, $korzina_adm);
+        return $totalOrder;
 
     }
 

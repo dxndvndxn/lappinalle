@@ -52,7 +52,7 @@
         methods: {
             sentMessage(){
                 let formData = new FormData();
-                formData.append('mail', JSON.stringify({mailer_name: this.fio, mailer_email: this.email, mailer_text: this.text }));
+                formData.append('mail', JSON.stringify({mailer_name: this.fio, mailer_email: this.email, mailer_text: this.text}));
                 axios.post(`${this.URI}mailer`, formData)
                     .then(res => {
                         console.log(res.data);
