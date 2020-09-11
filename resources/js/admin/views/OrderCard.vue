@@ -99,7 +99,10 @@
                 }
             ],
             actvieStatus: {idStatus: 1, nameStatus: 'В обработке'}
-        })
+        }),
+        created() {
+            this.$store.dispatch('GetOneOrder', {id: this.$route.params.id});
+        }
     }
 </script>
 

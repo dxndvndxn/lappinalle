@@ -54,7 +54,7 @@ Route::post('/mailer', 'MailerController@send');
 Route::get('/admorders', 'AdmOrdersController@all');
 
 //Карточка заказа в админке
-Route::get('/admorder', 'AdmOrdersController@order');
+Route::post('/admorder', 'AdmOrdersController@order');
 
 //Смена статуса заказа
 Route::post('/ordstatus', 'AdmOrdersController@status');

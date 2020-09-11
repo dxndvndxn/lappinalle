@@ -94,6 +94,7 @@ const admin = {
                 .catch(e => console.log(e))
         },
 
+       // Получаем данные по конкретному товару
        async GetOneProductMutate(state, id){
             await axios.get(`${state.SITE_URI}admin-product-${id}`)
                 .then(res => {
@@ -105,6 +106,7 @@ const admin = {
         async GetAllOrdersMutate(state){
             await axios.get(`${state.SITE_URI}admorders`)
                 .then(res => {
+                    console.log(res.data)
                     state.GetAllOrders = res.data;
                 })
                 .catch(e => console.log(e))
@@ -128,6 +130,16 @@ const admin = {
         },
         GetAllOrders({commit}){
             commit('GetAllOrdersMutate');
+        },
+        async GetOneOrder({commit}, id){
+            let formData = new FormData();
+            formData.append('id', JSON.stringify(id.id));
+
+            await axios.post(`${URI}admorder`, formData)
+                .then(res => {
+                    console.log(res.data)
+                })
+                .catch(e => console.log(e))
         }
     },
     getters: {
@@ -723,7 +735,7 @@ const store = {
                             stateItemData.itemPics = [];
                             stateItemData.itemId = itemData[el].product_id;
                             stateItemData.itemSizes = [];
-                            console.log(pics)
+
                             // Пушим картинки
                             pics.forEach((img, ii) => {
                                 if (ii === 0) {
@@ -760,7 +772,7 @@ const store = {
                             });
                         }
                     }
-                    console.log(stateItemData)
+
                     state.catalogItemStars = stars;
                     state.catalogItem = stateItemData;
                 }).catch(errors => console.log(errors))
@@ -1309,33 +1321,46 @@ const store = {
             let unigIds = new Set(cardIds);
                         await axios.get(`${state.SITE_URI}itemscard/${Array.from(unigIds).join(', ')}`)
                 .then(response => {
-                    console.log(response.data)
+
                     let dataCart = state.cart;
                     let data = response.data;
 
-                    // Проходимся по данным, которые пришли и ищем совпадения по id и вставляем нашу в корзину
-                    dataCart.forEach(el => {
-
-                        data.forEach(crEl => {
-
-                            if (el.id === crEl.product_id) {
-                                el.totalCartData = crEl;
-                            }
-                            // try{
-                            //     crEl.product_img = crEl.product_img.split(', ');
-                            // }catch (e) {
-                            //     console.log(e)
-                            // }
-
-                        });
-                    });
                     data.forEach(el => {
                         el.product_img = el.product_img.split(', ');
                         el.product_img = el.product_img[0];
                     });
 
-                    state.cartProduct = dataCart;
-                    console.log(dataCart)
+                    // Проходимся по данным, которые пришли и ищем совпадения по id и вставляем нашу в корзину
+                    // dataCart.forEach(el => {
+                    //
+                    //     data.forEach(crEl => {
+                    //
+                    //         if (el.id === crEl.product_id) {
+                    //             el.totalCartData = crEl;
+                    //         }
+                    //         // try{
+                    //         //     crEl.product_img = crEl.product_img.split(', ');
+                    //         // }catch (e) {
+                    //         //     console.log(e)
+                    //         // }
+                    //
+                    //     });
+                    // });
+                    data.forEach(el => {
+
+                        dataCart.forEach(elCart => {
+
+                            if (el.product_id === elCart.id) {
+
+                                el.id = elCart.id;
+                                el.count = elCart.count;
+                                el.size = elCart.size;
+                                el.price = elCart.price;
+                            }
+                        })
+                    });
+                    console.log(data)
+                    state.cartProduct = data;
                 })
                 .catch(e => {
                     console.log(e)

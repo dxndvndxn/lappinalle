@@ -41,6 +41,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name: "Contacts",
         data: () => ({
@@ -50,8 +51,19 @@
         }),
         methods: {
             sentMessage(){
-                console.log(this.fio, this.email)
+                let formData = new FormData();
+                formData.append('mail', JSON.stringify({mailer_name: this.fio, mailer_email: this.email, mailer_text: this.text }));
+                axios.post(`${this.URI}mailer`, formData)
+                    .then(res => {
+                        console.log(res.data);
+                    })
+                    .catch(e => console.log(e))
             }
+        },
+        computed: {
+            URI(){
+                return this.$store.getters.URI;
+            },
         }
     }
 </script>

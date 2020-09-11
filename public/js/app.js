@@ -3368,6 +3368,11 @@ __webpack_require__.r(__webpack_exports__);
         nameStatus: 'В обработке'
       }
     };
+  },
+  created: function created() {
+    this.$store.dispatch('GetOneOrder', {
+      id: this.$route.params.id
+    });
   }
 });
 
@@ -5383,7 +5388,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      totalPrice: null
+      totalPrice: null,
+      thatCart: []
     };
   },
   methods: {
@@ -5392,7 +5398,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.totalPrice = 0;
       arr.forEach(function (val) {
-        _this.totalPrice += +val.totalCartData.product_price * val.count;
+        _this.totalPrice += +val.product_price * val.count;
       });
     },
     itemPlus: function itemPlus(i, id, size) {
@@ -5414,7 +5420,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     removeCard: function removeCard(id, size, count) {
-      // this.getProductCart = this.getProductCart.filter(item => item.id !== i);
       this.$store.dispatch('removeCard', {
         id: id,
         size: size,
@@ -5431,9 +5436,11 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.$Progress.start();
     if (this.getCart.length) this.$store.dispatch('getProductForCart');
+    console.log(this.$store.getters.cartProduct, 'cart');
   },
   beforeDestroy: function beforeDestroy() {
     this.$store.dispatch('totalPrice', this.totalPrice);
+    this.getProductCart = null;
   },
   computed: {
     getCart: function getCart() {
@@ -5448,6 +5455,9 @@ __webpack_require__.r(__webpack_exports__);
         return val;
       }
     },
+    // getProductCart(){
+    //     return this.$store.getters.cartProduct;
+    // },
     getTotalCount: function getTotalCount() {
       this.countTotal(this.getProductCart);
       return this.totalPrice;
@@ -5455,6 +5465,18 @@ __webpack_require__.r(__webpack_exports__);
     getUpdatedCart: function getUpdatedCart() {
       this.getProductCart = this.$store.getters.updatedCart.cart;
       return this.$store.getters.updatedCart.cart;
+    }
+  },
+  watch: {
+    getProductCart: function getProductCart(newVal) {
+      this.$Progress.finish();
+      console.log(newVal, 'getProductCart');
+      this.getProductCart = newVal;
+    },
+    getUpdatedCart: function getUpdatedCart(newVal) {
+      this.$Progress.finish();
+      console.log(newVal, 'getUpdatedCart');
+      this.thatCart = newVal;
     }
   }
 });
@@ -6550,6 +6572,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -6592,6 +6616,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Contacts",
   data: function data() {
@@ -6603,7 +6628,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sentMessage: function sentMessage() {
-      console.log(this.fio, this.email);
+      var formData = new FormData();
+      formData.append('mail', JSON.stringify({
+        mailer_name: this.fio,
+        mailer_email: this.email,
+        mailer_text: this.text
+      }));
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "mailer"), formData).then(function (res) {
+        console.log(res.data);
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+    }
+  },
+  computed: {
+    URI: function URI() {
+      return this.$store.getters.URI;
     }
   }
 });
@@ -15326,7 +15366,7 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _vm.getProductCart
+    _vm.getProductCart !== null
       ? _c("div", { staticClass: "cart-wrap" }, [
           _c(
             "div",
@@ -15334,16 +15374,14 @@ var render = function() {
             _vm._l(_vm.getProductCart, function(card, c) {
               return _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: "card-img" }, [
-                  _c("img", {
-                    attrs: { src: card.totalCartData.product_img, alt: "" }
-                  })
+                  _c("img", { attrs: { src: card.product_img, alt: "" } })
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-info" }, [
                   _c("div", { staticClass: "card-name" }, [
                     _vm._v(
                       "\n                        " +
-                        _vm._s(card.totalCartData.product_title) +
+                        _vm._s(card.product_title) +
                         "\n                    "
                     )
                   ]),
@@ -15384,11 +15422,7 @@ var render = function() {
                     _c("div", { staticClass: "card-price" }, [
                       _vm._v("Цена: "),
                       _c("span", [
-                        _vm._v(
-                          _vm._s(
-                            card.count * +card.totalCartData.product_price
-                          ) + " ₽"
-                        )
+                        _vm._v(_vm._s(card.count * +card.product_price) + " ₽")
                       ])
                     ])
                   ]),
@@ -15396,7 +15430,7 @@ var render = function() {
                   _c("div", { staticClass: "card-desc" }, [
                     _vm._v(
                       "\n                        " +
-                        _vm._s(card.totalCartData.product_description) +
+                        _vm._s(card.product_description) +
                         "\n                    "
                     )
                   ])
@@ -40806,6 +40840,7 @@ var admin = {
         }, _callee4);
       }))();
     },
+    // Получаем данные по конкретному товару
     GetOneProductMutate: function GetOneProductMutate(state, id) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
@@ -40835,6 +40870,7 @@ var admin = {
               case 0:
                 _context6.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admorders")).then(function (res) {
+                  console.log(res.data);
                   state.GetAllOrders = res.data;
                 })["catch"](function (e) {
                   return console.log(e);
@@ -40873,6 +40909,31 @@ var admin = {
     GetAllOrders: function GetAllOrders(_ref6) {
       var commit = _ref6.commit;
       commit('GetAllOrdersMutate');
+    },
+    GetOneOrder: function GetOneOrder(_ref7, id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        var commit, formData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                commit = _ref7.commit;
+                formData = new FormData();
+                formData.append('id', JSON.stringify(id.id));
+                _context7.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "admorder"), formData).then(function (res) {
+                  console.log(res.data);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 5:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }))();
     }
   },
   getters: {
@@ -40955,12 +41016,12 @@ var store = {
     },
     // Получаем категории и подкатегории меню
     getMenuDataMutate: function getMenuDataMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context7.next = 2;
+                _context8.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "menu")).then(function (response) {
                   // массив с изначальной датой
                   var menu = response.data; // Сырые данные меню
@@ -41192,10 +41253,10 @@ var store = {
 
               case 2:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7);
+        }, _callee8);
       }))();
     },
     sideBarDepartMutate: function sideBarDepartMutate(state, data) {
@@ -41271,17 +41332,17 @@ var store = {
     },
     // Получаем дату в каталог по категориям
     getCatalogDataMutate: function getCatalogDataMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                _context8.t0 = Object.keys(data.params).length;
-                _context8.next = _context8.t0 === 1 ? 3 : _context8.t0 === 2 ? 6 : _context8.t0 === 3 ? 9 : 12;
+                _context9.t0 = Object.keys(data.params).length;
+                _context9.next = _context9.t0 === 1 ? 3 : _context9.t0 === 2 ? 6 : _context9.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context8.next = 5;
+                _context9.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -41339,10 +41400,10 @@ var store = {
                 });
 
               case 5:
-                return _context8.abrupt("break", 12);
+                return _context9.abrupt("break", 12);
 
               case 6:
-                _context8.next = 8;
+                _context9.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по категории
                   var itemCell = response.data; // Устанавливаес min и max
@@ -41400,10 +41461,10 @@ var store = {
                 });
 
               case 8:
-                return _context8.abrupt("break", 12);
+                return _context9.abrupt("break", 12);
 
               case 9:
-                _context8.next = 11;
+                _context9.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по категории
                   var itemCell = response.data; // Устанавливаес min и max
@@ -41461,36 +41522,36 @@ var store = {
                 });
 
               case 11:
-                return _context8.abrupt("break", 12);
+                return _context9.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8);
+        }, _callee9);
       }))();
     },
     // Получаем дату для конкретного товара
     getItemDataMutate: function getItemDataMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
-                _context10.next = 2;
+                _context11.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "item-").concat(data)).then( /*#__PURE__*/function () {
-                  var _ref7 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9(response) {
+                  var _ref8 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10(response) {
                     var itemData, stateItemData, pics, stars, el;
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
                       while (1) {
-                        switch (_context9.prev = _context9.next) {
+                        switch (_context10.prev = _context10.next) {
                           case 0:
-                            _context9.next = 2;
+                            _context10.next = 2;
                             return response.data;
 
                           case 2:
-                            itemData = _context9.sent;
+                            itemData = _context10.sent;
                             stateItemData = {};
                             pics = null;
                             stars = {
@@ -41510,8 +41571,7 @@ var store = {
                                 pics = itemData[el].product_img.split(',');
                                 stateItemData.itemPics = [];
                                 stateItemData.itemId = itemData[el].product_id;
-                                stateItemData.itemSizes = [];
-                                console.log(pics); // Пушим картинки
+                                stateItemData.itemSizes = []; // Пушим картинки
 
                                 pics.forEach(function (img, ii) {
                                   if (ii === 0) {
@@ -41555,45 +41615,22 @@ var store = {
                               }
                             }
 
-                            console.log(stateItemData);
                             state.catalogItemStars = stars;
                             state.catalogItem = stateItemData;
 
-                          case 10:
+                          case 9:
                           case "end":
-                            return _context9.stop();
+                            return _context10.stop();
                         }
                       }
-                    }, _callee9);
+                    }, _callee10);
                   }));
 
                   return function (_x) {
-                    return _ref7.apply(this, arguments);
+                    return _ref8.apply(this, arguments);
                   };
                 }())["catch"](function (errors) {
                   return console.log(errors);
-                });
-
-              case 2:
-              case "end":
-                return _context10.stop();
-            }
-          }
-        }, _callee10);
-      }))();
-    },
-    // Получаем отзывы
-    getItemReviewsMutate: function getItemReviewsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
-          while (1) {
-            switch (_context11.prev = _context11.next) {
-              case 0:
-                _context11.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemsreview-").concat(data.item, "?page=").concat(data.page)).then(function (response) {
-                  var reviews = response.data;
-                  state.catalogItemReview = reviews.data;
-                  state.catalogItemReviewCount = reviews.total;
                 });
 
               case 2:
@@ -41604,19 +41641,41 @@ var store = {
         }, _callee11);
       }))();
     },
-    // Получаем товары по скидки
-    showSaleProductsMutate: function showSaleProductsMutate(state, data) {
+    // Получаем отзывы
+    getItemReviewsMutate: function getItemReviewsMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
-                _context12.t0 = Object.keys(data.params).length;
-                _context12.next = _context12.t0 === 1 ? 3 : _context12.t0 === 2 ? 6 : _context12.t0 === 3 ? 9 : 12;
+                _context12.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemsreview-").concat(data.item, "?page=").concat(data.page)).then(function (response) {
+                  var reviews = response.data;
+                  state.catalogItemReview = reviews.data;
+                  state.catalogItemReviewCount = reviews.total;
+                });
+
+              case 2:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12);
+      }))();
+    },
+    // Получаем товары по скидки
+    showSaleProductsMutate: function showSaleProductsMutate(state, data) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
+                _context13.t0 = Object.keys(data.params).length;
+                _context13.next = _context13.t0 === 1 ? 3 : _context13.t0 === 2 ? 6 : _context13.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context12.next = 5;
+                _context13.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -41673,10 +41732,10 @@ var store = {
                 });
 
               case 5:
-                return _context12.abrupt("break", 12);
+                return _context13.abrupt("break", 12);
 
               case 6:
-                _context12.next = 8;
+                _context13.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -41733,10 +41792,10 @@ var store = {
                 });
 
               case 8:
-                return _context12.abrupt("break", 12);
+                return _context13.abrupt("break", 12);
 
               case 9:
-                _context12.next = 11;
+                _context13.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -41793,29 +41852,29 @@ var store = {
                 });
 
               case 11:
-                return _context12.abrupt("break", 12);
+                return _context13.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12);
+        }, _callee13);
       }))();
     },
     // Получаем данные по фильтрку кешу
     showCashProductsMutate: function showCashProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
-                _context13.t0 = Object.keys(data.params).length;
-                _context13.next = _context13.t0 === 1 ? 3 : _context13.t0 === 2 ? 6 : _context13.t0 === 3 ? 9 : 12;
+                _context14.t0 = Object.keys(data.params).length;
+                _context14.next = _context14.t0 === 1 ? 3 : _context14.t0 === 2 ? 6 : _context14.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context13.next = 5;
+                _context14.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -41870,10 +41929,10 @@ var store = {
                 });
 
               case 5:
-                return _context13.abrupt("break", 12);
+                return _context14.abrupt("break", 12);
 
               case 6:
-                _context13.next = 8;
+                _context14.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -41928,10 +41987,10 @@ var store = {
                 });
 
               case 8:
-                return _context13.abrupt("break", 12);
+                return _context14.abrupt("break", 12);
 
               case 9:
-                _context13.next = 11;
+                _context14.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -41986,44 +42045,44 @@ var store = {
                 });
 
               case 11:
-                return _context13.abrupt("break", 12);
+                return _context14.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee13);
+        }, _callee14);
       }))();
     },
     // Сортинг
     sortByActionMutate: function sortByActionMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
         var params;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
                 params = null;
-                _context14.t0 = Object.keys(data.params).length;
-                _context14.next = _context14.t0 === 1 ? 4 : _context14.t0 === 2 ? 6 : _context14.t0 === 3 ? 8 : 10;
+                _context15.t0 = Object.keys(data.params).length;
+                _context15.next = _context15.t0 === 1 ? 4 : _context15.t0 === 2 ? 6 : _context15.t0 === 3 ? 8 : 10;
                 break;
 
               case 4:
                 params = data.params.gender + '/';
-                return _context14.abrupt("break", 10);
+                return _context15.abrupt("break", 10);
 
               case 6:
                 params = data.params.gender + '/' + data.params.category;
-                return _context14.abrupt("break", 10);
+                return _context15.abrupt("break", 10);
 
               case 8:
                 params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context14.abrupt("break", 10);
+                return _context15.abrupt("break", 10);
 
               case 10:
-                _context14.t1 = data.price;
-                _context14.next = _context14.t1 === "low" ? 13 : _context14.t1 === "high" ? 15 : 16;
+                _context15.t1 = data.price;
+                _context15.next = _context15.t1 === "low" ? 13 : _context15.t1 === "high" ? 15 : 16;
                 break;
 
               case 13:
@@ -42082,7 +42141,7 @@ var store = {
 
                   state.catalogDataCellCount = itemCell.total;
                 });
-                return _context14.abrupt("break", 16);
+                return _context15.abrupt("break", 16);
 
               case 15:
                 axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "price-").concat(data.price, "/").concat(params, "?page=").concat(data.page)).then(function (response) {
@@ -42143,36 +42202,36 @@ var store = {
 
               case 16:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14);
+        }, _callee15);
       }))();
     },
     // Получаем данные по фильтру размеры
     showSizeProductsMutate: function showSizeProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16() {
         var params, queryStr;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context15.prev = _context15.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
                 params = null;
-                _context15.t0 = Object.keys(data.params).length;
-                _context15.next = _context15.t0 === 1 ? 4 : _context15.t0 === 2 ? 6 : _context15.t0 === 3 ? 8 : 10;
+                _context16.t0 = Object.keys(data.params).length;
+                _context16.next = _context16.t0 === 1 ? 4 : _context16.t0 === 2 ? 6 : _context16.t0 === 3 ? 8 : 10;
                 break;
 
               case 4:
                 params = data.params.gender + '/';
-                return _context15.abrupt("break", 10);
+                return _context16.abrupt("break", 10);
 
               case 6:
                 params = data.params.gender + '/' + data.params.category;
-                return _context15.abrupt("break", 10);
+                return _context16.abrupt("break", 10);
 
               case 8:
                 params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context15.abrupt("break", 10);
+                return _context16.abrupt("break", 10);
 
               case 10:
                 queryStr = '';
@@ -42198,10 +42257,10 @@ var store = {
 
               case 13:
               case "end":
-                return _context15.stop();
+                return _context16.stop();
             }
           }
-        }, _callee15);
+        }, _callee16);
       }))();
     },
     // Добавляем товары в корзину
@@ -42247,51 +42306,63 @@ var store = {
     },
     // Получаем товары для корзины
     getProductForCartMutate: function getProductForCartMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17() {
         var cardIds, unigIds;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
           while (1) {
-            switch (_context16.prev = _context16.next) {
+            switch (_context17.prev = _context17.next) {
               case 0:
                 cardIds = [];
                 state.cart.forEach(function (el) {
                   cardIds.push(el.id);
                 });
                 unigIds = new Set(cardIds);
-                _context16.next = 5;
+                _context17.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemscard/").concat(Array.from(unigIds).join(', '))).then(function (response) {
-                  console.log(response.data);
                   var dataCart = state.cart;
-                  var data = response.data; // Проходимся по данным, которые пришли и ищем совпадения по id и вставляем нашу в корзину
-
-                  dataCart.forEach(function (el) {
-                    data.forEach(function (crEl) {
-                      if (el.id === crEl.product_id) {
-                        el.totalCartData = crEl;
-                      } // try{
-                      //     crEl.product_img = crEl.product_img.split(', ');
-                      // }catch (e) {
-                      //     console.log(e)
-                      // }
-
-                    });
-                  });
+                  var data = response.data;
                   data.forEach(function (el) {
                     el.product_img = el.product_img.split(', ');
                     el.product_img = el.product_img[0];
+                  }); // Проходимся по данным, которые пришли и ищем совпадения по id и вставляем нашу в корзину
+                  // dataCart.forEach(el => {
+                  //
+                  //     data.forEach(crEl => {
+                  //
+                  //         if (el.id === crEl.product_id) {
+                  //             el.totalCartData = crEl;
+                  //         }
+                  //         // try{
+                  //         //     crEl.product_img = crEl.product_img.split(', ');
+                  //         // }catch (e) {
+                  //         //     console.log(e)
+                  //         // }
+                  //
+                  //     });
+                  // });
+
+                  data.forEach(function (el) {
+                    dataCart.forEach(function (elCart) {
+                      if (el.product_id === elCart.id) {
+                        el.id = elCart.id;
+                        el.count = elCart.count;
+                        el.size = elCart.size;
+                        el.price = elCart.price;
+                      }
+                    });
                   });
-                  state.cartProduct = dataCart;
-                  console.log(dataCart);
+                  console.log(data);
+                  state.cartProduct = data;
                 })["catch"](function (e) {
                   console.log(e);
                 });
 
               case 5:
               case "end":
-                return _context16.stop();
+                return _context17.stop();
             }
           }
-        }, _callee16);
+        }, _callee17);
       }))();
     },
     // Удаляем карточку товара
@@ -42369,8 +42440,8 @@ var store = {
     }
   },
   actions: {
-    register: function register(_ref8, user) {
-      var commit = _ref8.commit;
+    register: function register(_ref9, user) {
+      var commit = _ref9.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
           url: "".concat(URI, "register"),
@@ -42388,8 +42459,8 @@ var store = {
         });
       });
     },
-    login: function login(_ref9, user) {
-      var commit = _ref9.commit;
+    login: function login(_ref10, user) {
+      var commit = _ref10.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
           url: "".concat(URI, "login"),
@@ -42407,84 +42478,84 @@ var store = {
         });
       });
     },
-    getMenuData: function getMenuData(_ref10) {
-      var commit = _ref10.commit;
+    getMenuData: function getMenuData(_ref11) {
+      var commit = _ref11.commit;
       commit('getMenuDataMutate');
     },
-    showDepartments: function showDepartments(_ref11, data) {
-      var commit = _ref11.commit;
+    showDepartments: function showDepartments(_ref12, data) {
+      var commit = _ref12.commit;
       commit('sideBarDepartMutate', data);
     },
-    showDepartAfterUpdated: function showDepartAfterUpdated(_ref12, data) {
-      var commit = _ref12.commit;
+    showDepartAfterUpdated: function showDepartAfterUpdated(_ref13, data) {
+      var commit = _ref13.commit;
       commit('sideBarDepartMutateAfterUpdated', data);
     },
-    backToCategory: function backToCategory(_ref13, data) {
-      var commit = _ref13.commit;
+    backToCategory: function backToCategory(_ref14, data) {
+      var commit = _ref14.commit;
       commit('backToCategoryMutate', data);
     },
-    getCatalogData: function getCatalogData(_ref14, data) {
-      var commit = _ref14.commit;
+    getCatalogData: function getCatalogData(_ref15, data) {
+      var commit = _ref15.commit;
       commit('getCatalogDataMutate', data);
     },
-    getItemData: function getItemData(_ref15, data) {
-      var commit = _ref15.commit;
+    getItemData: function getItemData(_ref16, data) {
+      var commit = _ref16.commit;
       commit('getItemDataMutate', data);
     },
-    getItemReviews: function getItemReviews(_ref16, data) {
-      var commit = _ref16.commit;
+    getItemReviews: function getItemReviews(_ref17, data) {
+      var commit = _ref17.commit;
       commit('getItemReviewsMutate', data);
     },
-    showSaleProducts: function showSaleProducts(_ref17, data) {
-      var commit = _ref17.commit;
+    showSaleProducts: function showSaleProducts(_ref18, data) {
+      var commit = _ref18.commit;
       commit('showSaleProductsMutate', data);
     },
-    showCashProducts: function showCashProducts(_ref18, data) {
-      var commit = _ref18.commit;
+    showCashProducts: function showCashProducts(_ref19, data) {
+      var commit = _ref19.commit;
       commit('showCashProductsMutate', data);
     },
-    sortByAction: function sortByAction(_ref19, data) {
-      var commit = _ref19.commit;
+    sortByAction: function sortByAction(_ref20, data) {
+      var commit = _ref20.commit;
       commit('sortByActionMutate', data);
     },
-    showSizeProducts: function showSizeProducts(_ref20, data) {
-      var commit = _ref20.commit;
+    showSizeProducts: function showSizeProducts(_ref21, data) {
+      var commit = _ref21.commit;
       commit('showSizeProductsMutate', data);
     },
-    addToCart: function addToCart(_ref21, data) {
-      var commit = _ref21.commit;
+    addToCart: function addToCart(_ref22, data) {
+      var commit = _ref22.commit;
       commit('addToCartMutate', data);
     },
-    getProductForCart: function getProductForCart(_ref22) {
-      var commit = _ref22.commit;
+    getProductForCart: function getProductForCart(_ref23) {
+      var commit = _ref23.commit;
       commit('getProductForCartMutate');
     },
-    removeCard: function removeCard(_ref23, data) {
-      var commit = _ref23.commit;
+    removeCard: function removeCard(_ref24, data) {
+      var commit = _ref24.commit;
       commit('removeCardMutate', data);
     },
-    totalPrice: function totalPrice(_ref24, data) {
-      var commit = _ref24.commit;
+    totalPrice: function totalPrice(_ref25, data) {
+      var commit = _ref25.commit;
       commit('totalPriceMutate', data);
     },
-    changeCountCart: function changeCountCart(_ref25, data) {
-      var commit = _ref25.commit;
+    changeCountCart: function changeCountCart(_ref26, data) {
+      var commit = _ref26.commit;
       commit('changeCountCartMutate', data);
     },
-    customerData: function customerData(_ref26, data) {
-      var commit = _ref26.commit;
+    customerData: function customerData(_ref27, data) {
+      var commit = _ref27.commit;
       commit('customerDataMutate', data);
     },
-    sentData: function sentData(_ref27, data) {
-      var commit = _ref27.commit;
+    sentData: function sentData(_ref28, data) {
+      var commit = _ref28.commit;
       commit('sentDataMutate', data);
     },
-    GetUserData: function GetUserData(_ref28) {
-      var commit = _ref28.commit;
+    GetUserData: function GetUserData(_ref29) {
+      var commit = _ref29.commit;
       commit('GetUserDataMutate');
     },
-    killPaySuccess: function killPaySuccess(_ref29) {
-      var commit = _ref29.commit;
+    killPaySuccess: function killPaySuccess(_ref30) {
+      var commit = _ref30.commit;
       commit('killPaySuccessMutate');
     }
   },
