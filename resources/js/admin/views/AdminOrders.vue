@@ -49,7 +49,7 @@
                     <input type="text" class="input-pale-blu" :value="order[4]" disabled>
                 </div>
                 <div class="list-cell">
-                    <input type="text" class="input-pale-blu" :value="order[5]" disabled>
+                    <input type="text" class="input-pale-blu" :value="order[5]" :class="order[5] === 'В обработке' ? 'weight-status' : null" disabled>
                     <router-link :to="{path: `order-${order[0]}`}"><img @click="editOrder()" src="../../../img/admin-set.png" alt=""></router-link>
                 </div>
             </div>

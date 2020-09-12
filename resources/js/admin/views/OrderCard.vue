@@ -3,38 +3,83 @@
         <div class="warp-head-order-card">
             <AdminTopSide v-bind:H="'Подробности заказа'" v-bind:btn="true"/>
         </div>
-        {{returnOneProduct}}
-        <div class="wrap-admin-order-card" v-if="orderInfo !== null">
-            <div class="order-cl" v-for="(order, i) in orderInfo">
+        <div class="wrap-admin-order-card" v-for="(order, i) in orderInfo" v-if="orderInfo !== null">
+            <div class="order-cl">
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">№ заказа</label>
                     <input type="text" class="input-pale-blu" :value="order.orders_id" disabled>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">ФИО</label>
-                    <input type="text" class="input-pale-blu" :value="'Иванов Иван Иванович'" disabled>
+                    <input type="text" class="input-pale-blu" :value="order.orders_name" disabled>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Телефон</label>
-                    <input type="text" class="input-pale-blu" :value="'89111234567'" disabled>
+                    <input type="text" class="input-pale-blu" :value="order.orders_tel" disabled>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">E-mail</label>
-                    <input type="text" class="input-pale-blu" :value="'ivaivanov@yandex.ru'" disabled>
+                    <input type="text" class="input-pale-blu" :value="order.orders_email" disabled>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Дата и время</label>
-                    <input type="text" class="input-pale-blu" :value="'21.08.2020  21:40'" disabled>
+                    <input type="text" class="input-pale-blu" :value="order.created_at" disabled>
                 </div>
             </div>
             <div class="order-cl">
-                <div class="wrap-main-page admin-cl-lbl-inp width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300" v-if="order.orders_deliveryName === 'post-russia'">
                     <label class="admin-h3">Способ доставки</label>
-                    <input type="text" class="input-pale-blu" :value="'СДЭК'" disabled>
+                    <input type="text" class="input-pale-blu" value="Почта России" disabled>
                 </div>
-                <div class="wrap-main-page admin-cl-lbl-inp width-300">
+                <div class="wrap-main-page admin-cl-lbl-inp width-300" v-else-if="order.orders_deliveryName === 'sdek'">
+                    <label class="admin-h3">Способ доставки</label>
+                    <input type="text" class="input-pale-blu" value="СДЭК" disabled>
+                </div>
+                <div class="wrap-main-page admin-cl-lbl-inp width-300" v-else-if="order.orders_deliveryName === 'pek'">
+                    <label class="admin-h3">Способ доставки</label>
+                    <input type="text" class="input-pale-blu" value="ПЭК" disabled>
+                </div>
+                <div class="wrap-main-page admin-cl-lbl-inp width-300" v-else-if="order.orders_deliveryName === 'postman'">
+                    <label class="admin-h3">Способ доставки</label>
+                    <input type="text" class="input-pale-blu" value="Курьерская доставка" disabled>
+                </div>
+                <div class="wrap-main-page admin-cl-lbl-inp width-300" v-if="order.orders_deliveryName === 'post-russia'">
                     <label class="admin-h3">Адрес доставки</label>
-                    <input type="text" class="input-pale-blu" :value="'СПБ, ул. Долгоозёрная, дом 1, кв 458'" disabled>
+                    <input type="text" class="input-pale-blu" :value="
+                    order.orders_city + ', '
+                     + order.orders_street + ', '
+                      + 'дом ' + order.orders_house + ', '
+                       + 'корпус ' + order.orders_corps + ', '
+                        + 'кв ' + order.orders_apart + ', '
+                         + 'почтовый индекс ' + order.orders_indexPost" disabled>
+                </div>
+                <div class="wrap-main-page admin-cl-lbl-inp width-300" v-else-if="order.orders_deliveryName === 'sdek' || order.orders_deliveryName === 'pek'">
+                    <label class="admin-h3">Адрес доставки</label>
+                    <input type="text" class="input-pale-blu" :value="
+                    order.orders_city + ', '
+                     + order.orders_street + ', '
+                      + 'дом ' + order.orders_house + ', '
+                       + 'корпус ' + order.orders_corps + ', '
+                        + 'кв ' + order.orders_apart + ', '
+                         " disabled>
+                </div>
+                <div class="wrap-main-page admin-cl-lbl-inp width-300" v-else-if="order.orders_deliveryName === 'postman'">
+                    <label class="admin-h3">Адрес доставки</label>
+                    <input type="text" class="input-pale-blu" :value="
+                    'Санкт-Петербург, '
+                     + order.orders_street + ', '
+                      + 'дом ' + order.orders_house + ', '
+                       + 'корпус ' + order.orders_corps + ', '
+                        + 'кв ' + order.orders_apart + ', '
+                         " disabled>
+                </div>
+                <div class="wrap-main-page admin-cl-lbl-inp width-300" v-if="order.orders_deliveryName === 'sdek' || order.orders_deliveryName === 'pek'">
+                    <label class="admin-h3">Паспортные данные</label>
+                    <input type="text" class="input-pale-blu" :value="order.orders_passportData" disabled>
+                </div>
+                <div class="wrap-main-page admin-cl-lbl-inp width-300" v-if="order.orders_Comment !== null">
+                    <label class="admin-h3">Комментарий</label>
+                    <textarea class="input-pale-blu width-300" :value="order.orders_Comment" disabled> </textarea>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Способ оплаты</label>
@@ -43,10 +88,10 @@
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Статус заказа</label>
                     <div class="wrap-input">
-                        <input type="text" class="input-transp input-transp-p" :value="actvieStatus.nameStatus" disabled>
+                        <input type="text" class="input-transp input-transp-p" v-model="actvieStatus" disabled>
                         <button class="btn-admin-arrow" @click="activeBtn = !activeBtn" v-bind:class="activeBtn ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
                     </div>
-                    <div type="text" class="input-transp input-transp-p" v-for="(st, i) in status" @click="actvieStatus = {idStatus: st.id, nameStatus: st.name}" v-if="!activeBtn">
+                    <div type="text" class="input-transp input-transp-p" v-for="(st, i) in status" @click="changeStatus(st.name)" v-if="!activeBtn">
                         {{st.name}}
                     </div>
                 </div>
@@ -54,18 +99,14 @@
             <div class="order-cl">
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Корзина</label>
-                    <div class="wrap-admin-order">
-                        <input type="text" class="input-pale-blu" :value="'Комбинезон LAPPINALLE, 46 размер'" disabled>
-                        <img src="../../../img/returnBack.png" alt="">
-                    </div>
-                    <div class="wrap-admin-order">
-                        <input type="text" class="input-pale-blu" :value="'Комбинезон LAPPINALLE, 46 размер'" disabled>
+                    <div class="wrap-admin-order" v-for="(product, i) in orderProducts">
+                        <input type="text" class="input-pale-blu" :value="product" disabled>
                         <img src="../../../img/returnBack.png" alt="">
                     </div>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
-                    <label class="admin-h3">Стоимость с учётом доставки</label>
-                    <input type="text" class="input-pale-blu" :value="'11800'" disabled>
+                    <label class="admin-h3">Стоимость с без учёта доставки</label>
+                    <input type="text" class="input-pale-blu" :value="order.orders_totalPrice + ' ₽'" disabled>
                 </div>
                 <button class="admin-btn-add pdf width-300">
                     скачать накладную <img src="../../../img/pdf.png" alt="">
@@ -76,6 +117,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     import AdminTopSide from "../components/AdminTopSide";
     export default {
         name: "OrderCard",
@@ -86,35 +128,51 @@
             orderProducts: null,
             status: [
                 {
-                    name: 'В обработке', id: 1
+                    name: 'В обработке'
                 },
                 {
-                    name: 'Подтверждён', id: 2
+                    name: 'Подтверждён'
                 },
                 {
-                    name: 'Отправлен', id: 3
+                    name: 'Отправлен'
                 },
                 {
-                    name: 'Получен', id: 4
+                    name: 'Получен'
                 },
                 {
-                    name: 'Возврат', id: 5
+                    name: 'Возврат'
                 }
             ],
-            actvieStatus: {idStatus: 1, nameStatus: 'В обработке'}
+            actvieStatus: null
         }),
         created() {
             this.$store.dispatch('GetOneOrder', {id: this.$route.params.id});
         },
+        methods: {
+            changeStatus(status){
+                this.$Progress.start();
+                this.actvieStatus = status;
+
+                axios.post(`${this.URI}ordstatus`, {id: this.$route.params.id, status: status})
+                    .then(res => {
+                        this.$Progress.finish();
+                    })
+                    .catch(e => console.log(e))
+            }
+        },
         computed: {
             returnOneProduct(){
                 return this.$store.getters.oneOrder;
-            }
+            },
+            URI(){
+                return this.$store.getters.URI;
+            },
         },
         watch: {
             returnOneProduct(newValue){
                 this.orderInfo = newValue[0];
                 this.orderProducts = newValue[1];
+                this.actvieStatus = this.orderInfo[0].orders_status;
             }
         }
     }

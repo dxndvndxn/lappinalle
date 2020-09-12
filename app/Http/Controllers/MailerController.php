@@ -16,12 +16,14 @@ class MailerController extends Controller
             $mailer_email = $dataMail['mailer_email'];
             $mailer_text = $dataMail['mailer_text'];
             $mailer = 'Имя: '.$mailer_name.', E-mail: '.$mailer_email.', Текст: '.$mailer_text;
+            $headers = 'From: no-reply@lappinalle.ru';
 
-            Mail::raw($mailer, function($message)
-            {
-                $message->from(env('MAIL_USERNAME', ''), 'LAPPINALLE');
-                $message->to('ilyanazimov@yandex.ru');
-            });
+            mail("ilyanazimov@yandex.ru", "LAPPINALLE", $mailer, $headers);
+//            Mail::raw($mailer, function($message)
+//            {
+//                $message->from(env('MAIL_USERNAME', ''), 'LAPPINALLE');
+//                $message->to('ilyanazimov@yandex.ru');
+//            });
         }catch (Exception $e){
             return 'Назимов пидорас';
         }

@@ -140,7 +140,6 @@ const admin = {
             formData.append('id', JSON.stringify(id.id));
             await axios.post(`${URI}admorder`, formData)
                 .then(res => {
-                    console.log(res.data)
                     commit('GetOneOrderMutate', res.data)
                 })
                 .catch(e => console.log(e))
@@ -1421,6 +1420,7 @@ const store = {
         },
 
         customerDataMutate(state, data){
+            data.token = state.token;
             state.customerData = data;
         },
 
@@ -1431,7 +1431,7 @@ const store = {
             state.cart.forEach(el => {
                 localCart.push({id: el.id, count: el.count, size: el.size, price: el.price})
             });
-
+            console.log(state.customerData)
             // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
             postData.push({customerData: state.customerData, deliveryData: data, orderData: localCart, totalPrice: state.totalPrice});
             axios.post(`${state.SITE_URI}order`, postData)

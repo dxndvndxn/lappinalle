@@ -518,7 +518,10 @@
     }
     input{
         width: 100%;
-        text-overflow: ellipsis;
     }
+}
+.weight-status{
+    color: $palepurpp;
+    @include ptSans(700);
 }
 

@@ -1,6 +1,9 @@
 .wrap-admin-order-card{
     @include grid-temp(300px, 300px, 350px);
     grid-column-gap: 43px;
+    textarea{
+        height: 124px;
+    }
     .input-transp{
         color: $grey;
         margin-bottom: 3px;

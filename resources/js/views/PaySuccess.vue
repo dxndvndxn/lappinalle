@@ -5,7 +5,7 @@
                 &#8470; заказа:
             </span>
             <span class="pay-success-number">
-                1
+                {{payID}}
             </span>
         </h1>
         <p class="pay-success-text">
@@ -16,7 +16,18 @@
 
 <script>
     export default {
-        name: "PaySuccess"
+        name: "PaySuccess",
+        data: () => ({
+           id: null
+        }),
+        computed: {
+            payID(){
+                return this.$store.getters.paySuccess;
+            }
+        },
+        beforeDestroy(){
+            this.$store.dispatch('killPaySuccess');
+        },
     }
 </script>
 

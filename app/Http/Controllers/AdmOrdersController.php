@@ -34,7 +34,7 @@ class AdmOrdersController extends Controller
             $orders_adm[$j][1] = $val['orders_name'];
             $orders_adm[$j][2] = $val['orders_tel'];
             $orders_adm[$j][3] = $val['orders_email'];
-            $orders_adm[$j][4] = $val['orders_created'];
+            $orders_adm[$j][4] = $val['created_at'];
             $orders_adm[$j][5] = $val['orders_status'];
             $j++;
         }
@@ -97,9 +97,8 @@ class AdmOrdersController extends Controller
         $id = $id['id'];
         $status = $request->only('status');
         $status = $status['status'];
-
         DB::table('orders')
-            ->where('orders_id', $id['id'])
-            ->update(['orders_status' => $status['status']]);
+            ->where('orders_id', $id)
+            ->update(['orders_status' => $status]);
     }
 }

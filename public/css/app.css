@@ -775,7 +775,12 @@
 
 .list-cell input {
   width: 100%;
-  text-overflow: ellipsis;
+}
+
+.weight-status {
+  color: #848ccf;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
 }
 
 .admin-categories ul,
@@ -3531,6 +3536,10 @@ aside {
   display: grid;
   grid-template-columns: 300px 300px 350px;
   grid-column-gap: 43px;
+}
+
+.wrap-admin-order-card textarea {
+  height: 124px;
 }
 
 .wrap-admin-order-card .input-transp {

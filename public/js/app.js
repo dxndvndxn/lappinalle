@@ -3261,7 +3261,50 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/AdminTopSide */ "./resources/js/admin/components/AdminTopSide.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/AdminTopSide */ "./resources/js/admin/components/AdminTopSide.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3340,10 +3383,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "OrderCard",
   components: {
-    AdminTopSide: _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_0__["default"]
+    AdminTopSide: _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -3351,25 +3395,17 @@ __webpack_require__.r(__webpack_exports__);
       orderInfo: null,
       orderProducts: null,
       status: [{
-        name: 'В обработке',
-        id: 1
+        name: 'В обработке'
       }, {
-        name: 'Подтверждён',
-        id: 2
+        name: 'Подтверждён'
       }, {
-        name: 'Отправлен',
-        id: 3
+        name: 'Отправлен'
       }, {
-        name: 'Получен',
-        id: 4
+        name: 'Получен'
       }, {
-        name: 'Возврат',
-        id: 5
+        name: 'Возврат'
       }],
-      actvieStatus: {
-        idStatus: 1,
-        nameStatus: 'В обработке'
-      }
+      actvieStatus: null
     };
   },
   created: function created() {
@@ -3377,15 +3413,35 @@ __webpack_require__.r(__webpack_exports__);
       id: this.$route.params.id
     });
   },
+  methods: {
+    changeStatus: function changeStatus(status) {
+      var _this = this;
+
+      this.$Progress.start();
+      this.actvieStatus = status;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "ordstatus"), {
+        id: this.$route.params.id,
+        status: status
+      }).then(function (res) {
+        _this.$Progress.finish();
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+    }
+  },
   computed: {
     returnOneProduct: function returnOneProduct() {
       return this.$store.getters.oneOrder;
+    },
+    URI: function URI() {
+      return this.$store.getters.URI;
     }
   },
   watch: {
     returnOneProduct: function returnOneProduct(newValue) {
       this.orderInfo = newValue[0];
       this.orderProducts = newValue[1];
+      this.actvieStatus = this.orderInfo[0].orders_status;
     }
   }
 });
@@ -6477,7 +6533,10 @@ __webpack_require__.r(__webpack_exports__);
         corps: this.corps,
         street: this.street,
         indexPost: this.indexPost,
-        deliveryName: this.deliveries[this.chozenDel].delivery_name
+        deliveryName: this.deliveries[this.chozenDel].delivery_name,
+        passportData: this.passportData,
+        whereGet: this.whereGet,
+        comment: this.commentForPostman
       }; // this.$store.dispatch('orderData', data);
 
       this.$store.dispatch('sentData', data); //this.$router.push({name: 'choosePay'})
@@ -6489,19 +6548,12 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.$Progress.finish();
   },
-  beforeDestroy: function beforeDestroy() {
-    this.$store.dispatch('killPaySuccess');
-  },
   watch: {
-    paySuccess: function paySuccess(newValue, oldValue) {
-      console.log(newValue, oldValue);
-
-      if (newValue || oldValue) {
+    paySuccess: function paySuccess(newValue) {
+      if (newValue) {
         this.$router.push({
           name: 'paySuccess'
         });
-      } else {
-        console.log(newValue);
       }
     }
   },
@@ -7147,7 +7199,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "PaySuccess"
+  name: "PaySuccess",
+  data: function data() {
+    return {
+      id: null
+    };
+  },
+  computed: {
+    payID: function payID() {
+      return this.$store.getters.paySuccess;
+    }
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$store.dispatch('killPaySuccess');
+  }
 });
 
 /***/ }),
@@ -11341,6 +11406,7 @@ var render = function() {
                 [
                   _c("input", {
                     staticClass: "input-pale-blu",
+                    class: order[5] === "В обработке" ? "weight-status" : null,
                     attrs: { type: "text", disabled: "" },
                     domProps: { value: order[5] }
                   }),
@@ -12130,21 +12196,21 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "admin-order-card" }, [
-    _c(
-      "div",
-      { staticClass: "warp-head-order-card" },
-      [_c("AdminTopSide", { attrs: { H: "Подробности заказа", btn: true } })],
-      1
-    ),
-    _vm._v("\n    " + _vm._s(_vm.returnOneProduct) + "\n    "),
-    _vm.orderInfo !== null
-      ? _c(
-          "div",
-          { staticClass: "wrap-admin-order-card" },
-          [
-            _vm._l(_vm.orderInfo, function(order, i) {
-              return _c("div", { staticClass: "order-cl" }, [
+  return _c(
+    "div",
+    { staticClass: "admin-order-card" },
+    [
+      _c(
+        "div",
+        { staticClass: "warp-head-order-card" },
+        [_c("AdminTopSide", { attrs: { H: "Подробности заказа", btn: true } })],
+        1
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.orderInfo, function(order, i) {
+        return _vm.orderInfo !== null
+          ? _c("div", { staticClass: "wrap-admin-order-card" }, [
+              _c("div", { staticClass: "order-cl" }, [
                 _c(
                   "div",
                   { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
@@ -12170,7 +12236,7 @@ var render = function() {
                     _c("input", {
                       staticClass: "input-pale-blu",
                       attrs: { type: "text", disabled: "" },
-                      domProps: { value: "Иванов Иван Иванович" }
+                      domProps: { value: order.orders_name }
                     })
                   ]
                 ),
@@ -12186,7 +12252,7 @@ var render = function() {
                     _c("input", {
                       staticClass: "input-pale-blu",
                       attrs: { type: "text", disabled: "" },
-                      domProps: { value: "89111234567" }
+                      domProps: { value: order.orders_tel }
                     })
                   ]
                 ),
@@ -12202,7 +12268,7 @@ var render = function() {
                     _c("input", {
                       staticClass: "input-pale-blu",
                       attrs: { type: "text", disabled: "" },
-                      domProps: { value: "ivaivanov@yandex.ru" }
+                      domProps: { value: order.orders_email }
                     })
                   ]
                 ),
@@ -12218,183 +12284,376 @@ var render = function() {
                     _c("input", {
                       staticClass: "input-pale-blu",
                       attrs: { type: "text", disabled: "" },
-                      domProps: { value: "21.08.2020  21:40" }
+                      domProps: { value: order.created_at }
                     })
                   ]
                 )
-              ])
-            }),
-            _vm._v(" "),
-            _c("div", { staticClass: "order-cl" }, [
-              _c(
-                "div",
-                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-                [
-                  _c("label", { staticClass: "admin-h3" }, [
-                    _vm._v("Способ доставки")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "input-pale-blu",
-                    attrs: { type: "text", disabled: "" },
-                    domProps: { value: "СДЭК" }
-                  })
-                ]
-              ),
+              ]),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-                [
-                  _c("label", { staticClass: "admin-h3" }, [
-                    _vm._v("Адрес доставки")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "input-pale-blu",
-                    attrs: { type: "text", disabled: "" },
-                    domProps: { value: "СПБ, ул. Долгоозёрная, дом 1, кв 458" }
-                  })
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-                [
-                  _c("label", { staticClass: "admin-h3" }, [
-                    _vm._v("Способ оплаты")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "input-pale-blu",
-                    attrs: { type: "text", disabled: "" },
-                    domProps: { value: "Сбербанк Онлайн" }
-                  })
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-                [
-                  _c("label", { staticClass: "admin-h3" }, [
-                    _vm._v("Статус заказа")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "wrap-input" }, [
-                    _c("input", {
-                      staticClass: "input-transp input-transp-p",
-                      attrs: { type: "text", disabled: "" },
-                      domProps: { value: _vm.actvieStatus.nameStatus }
-                    }),
+              _c("div", { staticClass: "order-cl" }, [
+                order.orders_deliveryName === "post-russia"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Способ доставки")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: {
+                            type: "text",
+                            value: "Почта России",
+                            disabled: ""
+                          }
+                        })
+                      ]
+                    )
+                  : order.orders_deliveryName === "sdek"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Способ доставки")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text", value: "СДЭК", disabled: "" }
+                        })
+                      ]
+                    )
+                  : order.orders_deliveryName === "pek"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Способ доставки")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text", value: "ПЭК", disabled: "" }
+                        })
+                      ]
+                    )
+                  : order.orders_deliveryName === "postman"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Способ доставки")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: {
+                            type: "text",
+                            value: "Курьерская доставка",
+                            disabled: ""
+                          }
+                        })
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                order.orders_deliveryName === "post-russia"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Адрес доставки")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text", disabled: "" },
+                          domProps: {
+                            value:
+                              order.orders_city +
+                              ", " +
+                              order.orders_street +
+                              ", " +
+                              "дом " +
+                              order.orders_house +
+                              ", " +
+                              "корпус " +
+                              order.orders_corps +
+                              ", " +
+                              "кв " +
+                              order.orders_apart +
+                              ", " +
+                              "почтовый индекс " +
+                              order.orders_indexPost
+                          }
+                        })
+                      ]
+                    )
+                  : order.orders_deliveryName === "sdek" ||
+                    order.orders_deliveryName === "pek"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Адрес доставки")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text", disabled: "" },
+                          domProps: {
+                            value:
+                              order.orders_city +
+                              ", " +
+                              order.orders_street +
+                              ", " +
+                              "дом " +
+                              order.orders_house +
+                              ", " +
+                              "корпус " +
+                              order.orders_corps +
+                              ", " +
+                              "кв " +
+                              order.orders_apart +
+                              ", "
+                          }
+                        })
+                      ]
+                    )
+                  : order.orders_deliveryName === "postman"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Адрес доставки")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text", disabled: "" },
+                          domProps: {
+                            value:
+                              "Санкт-Петербург, " +
+                              order.orders_street +
+                              ", " +
+                              "дом " +
+                              order.orders_house +
+                              ", " +
+                              "корпус " +
+                              order.orders_corps +
+                              ", " +
+                              "кв " +
+                              order.orders_apart +
+                              ", "
+                          }
+                        })
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                order.orders_deliveryName === "sdek" ||
+                order.orders_deliveryName === "pek"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Паспортные данные")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text", disabled: "" },
+                          domProps: { value: order.orders_passportData }
+                        })
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                order.orders_Comment !== null
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Комментарий")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          staticClass: "input-pale-blu width-300",
+                          attrs: { disabled: "" },
+                          domProps: { value: order.orders_Comment }
+                        })
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+                  [
+                    _c("label", { staticClass: "admin-h3" }, [
+                      _vm._v("Способ оплаты")
+                    ]),
                     _vm._v(" "),
-                    _c("button", {
-                      staticClass: "btn-admin-arrow",
-                      class: _vm.activeBtn
-                        ? "admin-btn-arrow-pass"
-                        : "admin-btn-arrow",
-                      on: {
-                        click: function($event) {
-                          _vm.activeBtn = !_vm.activeBtn
-                        }
-                      }
+                    _c("input", {
+                      staticClass: "input-pale-blu",
+                      attrs: { type: "text", disabled: "" },
+                      domProps: { value: "Сбербанк Онлайн" }
                     })
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.status, function(st, i) {
-                    return !_vm.activeBtn
-                      ? _c(
-                          "div",
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+                  [
+                    _c("label", { staticClass: "admin-h3" }, [
+                      _vm._v("Статус заказа")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "wrap-input" }, [
+                      _c("input", {
+                        directives: [
                           {
-                            staticClass: "input-transp input-transp-p",
-                            attrs: { type: "text" },
-                            on: {
-                              click: function($event) {
-                                _vm.actvieStatus = {
-                                  idStatus: st.id,
-                                  nameStatus: st.name
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actvieStatus,
+                            expression: "actvieStatus"
+                          }
+                        ],
+                        staticClass: "input-transp input-transp-p",
+                        attrs: { type: "text", disabled: "" },
+                        domProps: { value: _vm.actvieStatus },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.actvieStatus = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("button", {
+                        staticClass: "btn-admin-arrow",
+                        class: _vm.activeBtn
+                          ? "admin-btn-arrow-pass"
+                          : "admin-btn-arrow",
+                        on: {
+                          click: function($event) {
+                            _vm.activeBtn = !_vm.activeBtn
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.status, function(st, i) {
+                      return !_vm.activeBtn
+                        ? _c(
+                            "div",
+                            {
+                              staticClass: "input-transp input-transp-p",
+                              attrs: { type: "text" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.changeStatus(st.name)
                                 }
                               }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(st.name) +
-                                "\n                "
-                            )
-                          ]
-                        )
-                      : _vm._e()
-                  })
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "order-cl" }, [
-              _c(
-                "div",
-                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-                [
-                  _c("label", { staticClass: "admin-h3" }, [_vm._v("Корзина")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "wrap-admin-order" }, [
+                            },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(st.name) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "order-cl" }, [
+                _c(
+                  "div",
+                  { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+                  [
+                    _c("label", { staticClass: "admin-h3" }, [
+                      _vm._v("Корзина")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.orderProducts, function(product, i) {
+                      return _c("div", { staticClass: "wrap-admin-order" }, [
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text", disabled: "" },
+                          domProps: { value: product }
+                        }),
+                        _vm._v(" "),
+                        _c("img", {
+                          attrs: {
+                            src: __webpack_require__(/*! ../../../img/returnBack.png */ "./resources/img/returnBack.png"),
+                            alt: ""
+                          }
+                        })
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+                  [
+                    _c("label", { staticClass: "admin-h3" }, [
+                      _vm._v("Стоимость с без учёта доставки")
+                    ]),
+                    _vm._v(" "),
                     _c("input", {
                       staticClass: "input-pale-blu",
                       attrs: { type: "text", disabled: "" },
-                      domProps: { value: "Комбинезон LAPPINALLE, 46 размер" }
-                    }),
-                    _vm._v(" "),
-                    _c("img", {
-                      attrs: {
-                        src: __webpack_require__(/*! ../../../img/returnBack.png */ "./resources/img/returnBack.png"),
-                        alt: ""
-                      }
+                      domProps: { value: order.orders_totalPrice + " ₽" }
                     })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "wrap-admin-order" }, [
-                    _c("input", {
-                      staticClass: "input-pale-blu",
-                      attrs: { type: "text", disabled: "" },
-                      domProps: { value: "Комбинезон LAPPINALLE, 46 размер" }
-                    }),
-                    _vm._v(" "),
-                    _c("img", {
-                      attrs: {
-                        src: __webpack_require__(/*! ../../../img/returnBack.png */ "./resources/img/returnBack.png"),
-                        alt: ""
-                      }
-                    })
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-                [
-                  _c("label", { staticClass: "admin-h3" }, [
-                    _vm._v("Стоимость с учётом доставки")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "input-pale-blu",
-                    attrs: { type: "text", disabled: "" },
-                    domProps: { value: "11800" }
-                  })
-                ]
-              ),
-              _vm._v(" "),
-              _vm._m(0)
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(0, true)
+              ])
             ])
-          ],
-          2
-        )
-      : _vm._e()
-  ])
+          : _vm._e()
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = [
   function() {
@@ -17562,12 +17821,12 @@ var render = function() {
                       type: "radio",
                       id: "adress",
                       name: "whatList",
-                      value: "toAdress"
+                      value: "До адреса"
                     },
-                    domProps: { checked: _vm._q(_vm.whereGet, "toAdress") },
+                    domProps: { checked: _vm._q(_vm.whereGet, "До адреса") },
                     on: {
                       change: function($event) {
-                        _vm.whereGet = "toAdress"
+                        _vm.whereGet = "До адреса"
                       }
                     }
                   })
@@ -17588,12 +17847,14 @@ var render = function() {
                       type: "radio",
                       id: "stock",
                       name: "whatList",
-                      value: "toPoint"
+                      value: "До пункта выдачи"
                     },
-                    domProps: { checked: _vm._q(_vm.whereGet, "toPoint") },
+                    domProps: {
+                      checked: _vm._q(_vm.whereGet, "До пункта выдачи")
+                    },
                     on: {
                       change: function($event) {
-                        _vm.whereGet = "toPoint"
+                        _vm.whereGet = "До пункта выдачи"
                       }
                     }
                   })
@@ -17923,12 +18184,12 @@ var render = function() {
                       type: "radio",
                       id: "adress",
                       name: "whatList",
-                      value: "toAdress"
+                      value: "До адреса"
                     },
-                    domProps: { checked: _vm._q(_vm.whereGet, "toAdress") },
+                    domProps: { checked: _vm._q(_vm.whereGet, "До адреса") },
                     on: {
                       change: function($event) {
-                        _vm.whereGet = "toAdress"
+                        _vm.whereGet = "До адреса"
                       }
                     }
                   })
@@ -17949,12 +18210,14 @@ var render = function() {
                       type: "radio",
                       id: "stock",
                       name: "whatList",
-                      value: "toPoint"
+                      value: "До пункта выдачи"
                     },
-                    domProps: { checked: _vm._q(_vm.whereGet, "toPoint") },
+                    domProps: {
+                      checked: _vm._q(_vm.whereGet, "До пункта выдачи")
+                    },
                     on: {
                       change: function($event) {
-                        _vm.whereGet = "toPoint"
+                        _vm.whereGet = "До пункта выдачи"
                       }
                     }
                   })
@@ -18950,32 +19213,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "pay-success container" }, [
-      _c("h1", { staticClass: "h1-m50" }, [
-        _c("span", { staticClass: "pay-success-order" }, [
-          _vm._v("\n            № заказа:\n        ")
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "pay-success-number" }, [
-          _vm._v("\n            1\n        ")
-        ])
+  return _c("div", { staticClass: "pay-success container" }, [
+    _c("h1", { staticClass: "h1-m50" }, [
+      _c("span", { staticClass: "pay-success-order" }, [
+        _vm._v("\n            № заказа:\n        ")
       ]),
       _vm._v(" "),
-      _c("p", { staticClass: "pay-success-text" }, [
-        _vm._v(
-          "\n        Заказ успешно оформлен. Детали заказа отправлены на указанный E-mail.\n    "
-        )
+      _c("span", { staticClass: "pay-success-number" }, [
+        _vm._v("\n            " + _vm._s(_vm.payID) + "\n        ")
       ])
+    ]),
+    _vm._v(" "),
+    _c("p", { staticClass: "pay-success-text" }, [
+      _vm._v(
+        "\n        Заказ успешно оформлен. Детали заказа отправлены на указанный E-mail.\n    "
+      )
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -40967,7 +41223,6 @@ var admin = {
                 formData.append('id', JSON.stringify(id.id));
                 _context7.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "admorder"), formData).then(function (res) {
-                  console.log(res.data);
                   commit('GetOneOrderMutate', res.data);
                 })["catch"](function (e) {
                   return console.log(e);
@@ -42450,6 +42705,7 @@ var store = {
       window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
     },
     customerDataMutate: function customerDataMutate(state, data) {
+      data.token = state.token;
       state.customerData = data;
     },
     sentDataMutate: function sentDataMutate(state, data) {
@@ -42462,7 +42718,8 @@ var store = {
           size: el.size,
           price: el.price
         });
-      }); // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
+      });
+      console.log(state.customerData); // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
 
       postData.push({
         customerData: state.customerData,

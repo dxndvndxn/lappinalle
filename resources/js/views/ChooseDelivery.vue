@@ -96,8 +96,8 @@
                     <small v-else-if="$v.passportData.$dirty && !$v.passportData.validFormat" class="small-invalid">Серия и номер паспорта должны быть в формате 1234 567890</small>
                 </div>
                 <div class="wrap-checkbox">
-                    <label for="adress">До адреса <input type="radio" id="adress" name="whatList" value="toAdress" v-model="whereGet" ></label>
-                    <label for="stock">До пункта выдачи <input type="radio" id="stock" name="whatList"value="toPoint" v-model="whereGet"></label>
+                    <label for="adress">До адреса <input type="radio" id="adress" name="whatList" value="До адреса" v-model="whereGet" ></label>
+                    <label for="stock">До пункта выдачи <input type="radio" id="stock" name="whatList" value="До пункта выдачи" v-model="whereGet"></label>
                     <small v-if="$v.whereGet.$dirty && !$v.whereGet.required" class="small-invalid">Пожалуйста, укажите способ доставки</small>
                 </div>
             </div>
@@ -133,8 +133,8 @@
                     <small v-else-if="$v.passportData.$dirty && !$v.passportData.validFormat" class="small-invalid">Серия и номер паспорта должны быть в формате 1234 567890</small>
                 </div>
                 <div class="wrap-checkbox">
-                    <label for="adress">До адреса <input type="radio" id="adress" name="whatList" value="toAdress" v-model="whereGet" ></label>
-                    <label for="stock">До пункта выдачи <input type="radio" id="stock" name="whatList"value="toPoint" v-model="whereGet"></label>
+                    <label for="adress">До адреса <input type="radio" id="adress" name="whatList" value="До адреса" v-model="whereGet" ></label>
+                    <label for="stock">До пункта выдачи <input type="radio" id="stock" name="whatList" value="До пункта выдачи" v-model="whereGet"></label>
                     <small v-if="$v.whereGet.$dirty && !$v.whereGet.required" class="small-invalid">Пожалуйста, укажите способ доставки</small>
                 </div>
             </div>
@@ -274,7 +274,11 @@
                     corps: this.corps,
                     street: this.street,
                     indexPost: this.indexPost,
-                    deliveryName: this.deliveries[this.chozenDel].delivery_name
+                    deliveryName: this.deliveries[this.chozenDel].delivery_name,
+                    passportData: this.passportData,
+                    whereGet: this.whereGet,
+                    comment: this.commentForPostman
+
                 };
                 // this.$store.dispatch('orderData', data);
                 this.$store.dispatch('sentData', data);
@@ -287,16 +291,10 @@
         mounted(){
             this.$Progress.finish();
         },
-        beforeDestroy(){
-          this.$store.dispatch('killPaySuccess');
-        },
         watch: {
-            paySuccess(newValue, oldValue){
-                console.log(newValue, oldValue)
-                if (newValue || oldValue) {
+            paySuccess(newValue){
+                if (newValue) {
                     this.$router.push({name: 'paySuccess'})
-                }else{
-                    console.log(newValue)
                 }
 
             }

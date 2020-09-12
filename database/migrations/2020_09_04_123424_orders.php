@@ -27,9 +27,14 @@ class Orders extends Migration
             $table->string('orders_corps', 255)->collation('utf8_general_ci')->nullable();
             $table->string('orders_indexPost', 255)->collation('utf8_general_ci')->nullable();
             $table->string('orders_deliveryName', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('orders_passportData', 20)->collation('utf8_general_ci')->nullable();
+            $table->string('orders_whereGet', 20)->collation('utf8_general_ci')->nullable();
             $table->string('orders_korzina', 255)->collation('utf8_general_ci');
-            $table->string('orders_status', 255)->collation('utf8_general_ci');
-            $table->date('orders_created');
+            $table->string('orders_status', 30)->collation('utf8_general_ci');
+            $table->string('orders_totalPrice', 10)->collation('utf8_general_ci');
+            $table->string('orders_Comment', 255)->collation('utf8_general_ci')->nullable();
+//            $table->date('orders_created');
+            $table->timestamps();
         });
     }
 
