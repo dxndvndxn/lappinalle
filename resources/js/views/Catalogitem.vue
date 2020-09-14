@@ -47,7 +47,7 @@
                     </div>
                     <div class="item-buttons">
                         <button class="btn-cart" @click="addToCart(returnDataForItem.itemId, returnDataForItem.itemPrice)">Добавить в корзину <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510.2 418.41"><defs></defs><title>icon_kor</title><path d="M552.72,93.5c-.77,3.55-1.1,7.26-2.39,10.61q-5.24,13.55-11.15,26.83-27,60.36-54.24,120.61a187.52,187.52,0,0,1-9.51,17.29c-6.51,11.1-16.9,15.39-29.17,16.13-3.11.19-6.24.2-9.36.2H210.66a62,62,0,0,0,8,17c7.14,10.51,16.82,15.78,29.82,15.75,64.81-.18,129.63-.09,194.44-.08a20.25,20.25,0,0,1,4.13.26,10.44,10.44,0,0,1,8.35,11.25,10.59,10.59,0,0,1-9.85,9.71c-1,.09-2.09.05-3.13.05-64.37,0-128.75-.15-193.13.08-21.91.08-38-9.46-49.64-27.46-6.72-10.41-10-22.12-13.3-33.94-8.74-31.45-17.85-62.8-27-94.14C148.26,145.41,136.94,107.22,125.7,69c-2.74-9.34-13.21-17.12-23.47-17.18-16-.1-32.1,0-48.15,0-5.21,0-9-2.42-10.77-6.68-2.75-6.75,2.06-14.52,9.38-14.52,21.17,0,42.34,0,63.49.62,5.3.14,10.77,1.88,15.75,3.89,7.21,2.92,11.72,8.75,13.81,16.27q29.14,104.75,58.18,209.5c.69,2.49,1.68,3.19,4.2,3.18q114.66-.1,229.31-.06c2.78,0,5.55-.18,8.32-.25,5.67-.14,10-2.41,12.64-7.61,5.07-10,10.53-19.91,15.16-30.16q27.33-60.5,54.14-121.22a48.89,48.89,0,0,0,3.56-13.48c.89-7-.71-8.5-7.75-8.55s-14.05.08-21.08.09q-58.95.06-117.91.09c-22.73,0-45.46-.08-68.19-.1L200,82.7c-6.46,0-10.43-2.71-11.84-8a10.46,10.46,0,0,1,8.09-13,25,25,0,0,1,4.66-.31q132.09.07,264.19.19c18.74,0,37.48-.22,56.22-.14a52.19,52.19,0,0,1,12.6,1.4c10.22,2.63,16.16,9.56,18.27,19.84.14.65.37,1.29.55,1.94Z" transform="translate(-42.53 -30.59)"/><path d="M437.67,449c-4.33-1.14-8.81-1.9-13-3.5A49.57,49.57,0,0,1,437.16,350c26.07-3,50.22,15.1,54.56,40.83,4.41,26.13-12.49,51.39-38.13,57-1.83.4-3.67.78-5.51,1.17Zm-24.18-49.62a29.39,29.39,0,0,0,29.34,29.25c15.94-.07,29.24-13.38,29.16-29.19a29.25,29.25,0,1,0-58.5-.06Z" transform="translate(-42.53 -30.59)"/><path d="M235.67,449c-5.22-1.5-10.69-2.42-15.61-4.6-20.4-9-31.76-30.29-28.6-52.74,2.94-20.83,20.25-38.15,41.44-41.46,27.06-4.22,53,14.75,56.84,41.67A49.75,49.75,0,0,1,247,448.55a8.76,8.76,0,0,0-1.46.45Zm4.85-78.92a29.28,29.28,0,1,0,.22,58.55c15.84-.11,29.07-13.29,29.09-29A29.38,29.38,0,0,0,240.52,370.08Z" transform="translate(-42.53 -30.59)"/><path class="cls-1" d="M413.49,399.38a29.25,29.25,0,1,1,58.5.06c.08,15.81-13.22,29.12-29.16,29.19A29.39,29.39,0,0,1,413.49,399.38Z" transform="translate(-42.53 -30.59)"/><path class="cls-1" d="M240.52,370.08a29.38,29.38,0,0,1,29.31,29.55c0,15.71-13.25,28.89-29.09,29a29.28,29.28,0,1,1-.22-58.55Z" transform="translate(-42.53 -30.59)"/></svg></button>
-                        <button class="btn btn-buynow">Купить в 1 клик</button>
+                        <button class="btn btn-buynow" @click="addToCartOneClick(returnDataForItem.itemId, returnDataForItem.itemPrice)">Купить в 1 клик</button>
                     </div>
                 </div>
             </div>
@@ -65,10 +65,23 @@
                 <div class="review-user-wrap">
                     <div class="review-user" v-for="(inf, i) in returnReviewForItem">
                         <div class="user-info">
-                        <span class="user-stars" v-for="(star, st) in 5">
-                            <svg id="Слой_1" data-name="Слой 1" v-bind:class="inf.reviews_star > st ? 'filled' : null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 361.33 348.7"><title>icon_izb</title><path d="M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z" transform="translate(-139 -54.46)"/><path d="M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z" transform="translate(-139 -54.46)"/></svg>
-                        </span>
-                            <span class="user-name"> {{inf.users_name}}  / </span>
+                            <span class="user-stars" v-for="item in 5">
+                                <svg viewBox="0 0 18 17">
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Rounded" transform="translate(-273.000000, -4323.000000)">
+            <g id="Toggle" transform="translate(100.000000, 4266.000000)">
+                <g id="-Round-/-Toggle-/-star" transform="translate(170.000000, 54.000000)">
+                    <g>
+                        <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                        <path v-bind:class="inf.reviews_star >= item ? 'filled' : null" d="M12,17.27 L16.15,19.78 C16.91,20.24 17.84,19.56 17.64,18.7 L16.54,13.98 L20.21,10.8 C20.88,10.22 20.52,9.12 19.64,9.05 L14.81,8.64 L12.92,4.18 C12.58,3.37 11.42,3.37 11.08,4.18 L9.19,8.63 L4.36,9.04 C3.48,9.11 3.12,10.21 3.79,10.79 L7.46,13.97 L6.36,18.69 C6.16,19.55 7.09,20.23 7.85,19.77 L12,17.27 Z"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+                            </span>
+                            <span class="user-name"> {{inf.lappiusers_name}}  / </span>
                             <span class="user-date"> {{inf.reviews_created.split('-').reverse().join('-')}}</span>
                         </div>
                         <p class="user-text">
@@ -181,7 +194,16 @@
                             </span>
                         </div>
                     </div>
-                    <button class="leave-btn">Оставить отзыв</button>
+                    <button class="leave-btn" @click="leaveReview()" :class="{hideBtn: reviewBool}">Оставить отзыв</button>
+                    <p v-if="successSentReview" class="reviewleave-success">Отзыв успешно отправлен.</p>
+                    <button class="leave-btn" @click="sentReview()" v-if="reviewBool">Отправить</button>
+                    <div class="reviewleave-stars" v-if="reviewBool">
+                        <div class="wrap-reviewleave-stars" v-for="(star) in 5">
+                            <input type="radio" name="leaveStar" :value="star" @change="starReview = star">
+                            <label>{{star}}</label>
+                        </div>
+                    </div>
+                    <textarea v-if="reviewBool" class="input-transp input-transp-p" v-model="reviewText"></textarea>
                 </div>
             </div>
             <paginate
@@ -204,6 +226,7 @@
 
 <script>
     import Breadcrumbs from "../components/Breadcrumbs";
+    import axios from 'axios'
     export default {
         name: "Catalogitem",
         components: {Breadcrumbs},
@@ -214,7 +237,11 @@
             pageReview: 1,
             productId: null,
             errorAdd: false,
-            noSizes: false
+            noSizes: false,
+            reviewBool: false,
+            reviewText: null,
+            starReview: null,
+            successSentReview: false
         }),
         created(){
            this.$Progress.start();
@@ -263,6 +290,7 @@
                 this.getItemReview(this.pageReview);
                 this.$router.push(`${this.$route.path}?page=${this.pageReview}`)
             },
+
             addToCart(itemId, itemPrice){
                 // Если длинна вообще есть размеры, то проверяем выбраны ли размеры
                 if (this.returnDataForItem.itemSizes.length) {
@@ -279,6 +307,48 @@
                 }else{
                     this.$store.dispatch('addToCart', [{id: itemId, count: 1, size: null, price: itemPrice}]);
                 }
+            },
+            addToCartOneClick(itemId, itemPrice){
+                // Если длинна вообще есть размеры, то проверяем выбраны ли размеры
+                if (this.returnDataForItem.itemSizes.length) {
+
+                    if (this.clickedSize !== null) {
+                        let data = [];
+                        this.clickedSize.forEach(el => {
+                            data.push({id: itemId, count: 1, size: el.sz, price: itemPrice});
+                        });
+                        this.$store.dispatch('addToCart', data).then(() => this.$router.push({name: 'cart'}));
+                    }else{
+                        this.errorAdd = true;
+                    }
+                }else{
+                    this.$store.dispatch('addToCart', [{id: itemId, count: 1, size: null, price: itemPrice}]).then(() => this.$router.push({name: 'cart'}));
+                }
+            },
+            leaveReview(){
+                if (this.authBool){
+                    this.reviewBool = !this.reviewBool;
+                }else{
+                    this.$router.push({name: 'login'})
+                }
+
+            },
+            async sentReview(){
+                if (this.reviewText == null && this.starReview == null) return;
+                let review = {
+                    review_text: this.reviewText,
+                    review_star: this.starReview,
+                    token: localStorage.getItem('token'),
+                    product_id: this.$route.params.number
+                };
+                await axios.post(`${this.returnURI}newreview`, review)
+                    .then(res => {
+                        if (res.data) {
+                            this.reviewBool = !this.reviewBool;
+                            this.successSentReview = !this.successSentReview;
+                        }
+                    })
+                    .catch(e => console.log(e))
             }
         },
         computed: {
@@ -307,6 +377,12 @@
                     this.pageReview = val;
                 }
             },
+            returnURI(){
+                return this.$store.getters.URI;
+            },
+            authBool(){
+                return this.$store.getters.isLoggedIn;
+            }
         },
         watch: {
             returnDataForItem(newVal){

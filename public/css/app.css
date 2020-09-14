@@ -1745,6 +1745,11 @@ nav ul,
   vertical-align: sub;
 }
 
+.review-wrap .review-user .user-info .user-stars svg {
+  width: 30px;
+  height: 34px;
+}
+
 .review-wrap .review-user .user-info .user-stars:nth-child(5) {
   margin-right: 45px;
 }
@@ -1807,6 +1812,31 @@ nav ul,
   margin: auto;
 }
 
+.review-wrap .review-leave textarea {
+  height: 100px;
+  margin-bottom: 30px;
+}
+
+.review-wrap .reviewleave-stars {
+  display: flex;
+  justify-content: space-between;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.review-wrap .reviewleave-stars input {
+  cursor: pointer;
+}
+
+.review-wrap .reviewleave-success {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  color: #848ccf;
+  font-size: 16px;
+}
+
 .leave-btn {
   background-color: #93b5e1;
   color: #fff;
@@ -1815,7 +1845,7 @@ nav ul,
   text-transform: uppercase;
   border: none;
   cursor: pointer;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .error-add {
@@ -1824,6 +1854,10 @@ nav ul,
   font-size: 16px;
   color: #bd5583;
   margin: 15px 0;
+}
+
+.hideBtn {
+  display: none;
 }
 
 #btnMain a {

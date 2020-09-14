@@ -2336,7 +2336,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/AdminTopSide */ "./resources/js/admin/components/AdminTopSide.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/AdminTopSide */ "./resources/js/admin/components/AdminTopSide.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2350,50 +2360,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminDelivery",
   components: {
-    AdminTopSide: _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_0__["default"]
+    AdminTopSide: _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
-    return {
-      deliveries: [{
-        name: 'Курьерская доставка по СПБ',
-        show: true,
-        delId: 1
-      }, {
-        name: 'СДЭК',
-        show: true,
-        delId: 2
-      }, {
-        name: 'ПЭК',
-        show: true,
-        delId: 3
-      }, {
-        name: 'Почта России',
-        show: false,
-        delId: 4
-      }],
-      changedDeliveries: []
-    };
+    return {};
   },
   methods: {
     changeDel: function changeDel(i, delId) {
-      this.deliveries[i].show = !this.deliveries[i].show; // Находим есть ли уже такой элемент в массиве
+      var _this = this;
 
-      var isThereDel = this.changedDeliveries.find(function (el) {
-        return el === delId;
-      }); // Если есть, то удаляем
-      // нету - добавляем, на выходе получается массив с id, которые нужно поменять
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.$Progress.start();
 
-      if (isThereDel) {
-        this.changedDeliveries = this.changedDeliveries.filter(function (el) {
-          return el !== isThereDel;
-        });
-      } else {
-        this.changedDeliveries.push(delId);
-      }
+                _this.returnDeliveries[i].delivery_confirm = _this.returnDeliveries[i].delivery_confirm === 1 ? 0 : 1;
+                _context.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "deladmin"), {
+                  id: delId
+                }).then(function (res) {
+                  _this.$Progress.finish();
+
+                  console.log(res.data);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
+  created: function created() {
+    this.$Progress.start();
+    this.$store.dispatch('GetAllDeliveries');
+  },
+  computed: {
+    returnDeliveries: function returnDeliveries() {
+      this.$Progress.finish();
+      return this.$store.getters.GetAllDeliveries;
+    },
+    URI: function URI() {
+      return this.$store.getters.URI;
     }
   }
 });
@@ -3185,6 +3205,14 @@ __webpack_require__.r(__webpack_exports__);
   name: "AdminReviews",
   components: {
     AdminTopSide: _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  created: function created() {
+    this.$store.dispatch('GetAllReviews');
+  },
+  computed: {
+    returnGetAllReviews: function returnGetAllReviews() {
+      return this.$store.getters.GetAllReviews;
+    }
   }
 });
 
@@ -3245,8 +3273,14 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     AdminTopSide: _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  methods: {
-    editUser: function editUser() {}
+  methods: {},
+  created: function created() {
+    this.$store.dispatch('GetAllUsers');
+  },
+  computed: {
+    returnAllUsers: function returnAllUsers() {
+      return this.$store.getters.GetAllUsers;
+    }
   }
 });
 
@@ -4008,7 +4042,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.sizes.push({
         size: data.size,
         id: data.sizeId,
-        count: 0
+        count: 0,
+        active: false
       });
       this.chozenSizeStockAfterClick = null;
       this.chozenSizeAfterClick = null;
@@ -4016,6 +4051,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     // Выбираем размер для определения кол-во
     selectSizeForStock: function selectSizeForStock(i) {
       this.newSize = i;
+      this.sizes[i].active = !this.sizes[i].active;
+
+      if (this.presentSizes.length) {
+        this.presentSizes.forEach(function (el) {
+          el.active = false;
+        });
+      }
+
       this.chozenSizeAfterClick = this.sizes[i].size;
       this.chozenSizeStockAfterClick = this.sizes[i].count;
       this.timeToChangePresetnSizes = false;
@@ -4023,6 +4066,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     // Кликаем на старые размеры
     selectSizeForStockUpdate: function selectSizeForStockUpdate(count, size, i) {
       this.newSize = i;
+      this.presentSizes[i].active = !this.presentSizes[i].active;
+
+      if (this.sizes.length) {
+        this.sizes.forEach(function (el) {
+          el.active = false;
+        });
+      }
+
       this.chozenSizeAfterClick = size;
       this.chozenSizeStockAfterClick = count;
       this.timeToChangePresetnSizes = true;
@@ -4194,6 +4245,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
         if (!findIdWithoutSize) {
           this.presentSizes = newValue.allSizes;
+          this.presentSizes.forEach(function (el) {
+            el.active = false;
+          });
+          console.log(this.presentSizes);
         } else {
           // Если нашли, то в инпут где вставляется колв-во присваиваем значение
           this.chozenSizeStockAfterClick = newValue.allSizes[0].catalog_size_amount;
@@ -4233,7 +4288,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/AdminTopSide */ "./resources/js/admin/components/AdminTopSide.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/AdminTopSide */ "./resources/js/admin/components/AdminTopSide.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
 //
 //
 //
@@ -4290,10 +4357,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ReviewCard",
   components: {
-    AdminTopSide: _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_0__["default"]
+    AdminTopSide: _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  created: function created() {
+    this.$Progress.start();
+    this.$store.dispatch('GetOneReview', this.$route.params.id);
+  },
+  computed: {
+    returnGetOneReview: function returnGetOneReview() {
+      this.$Progress.finish();
+      return this.$store.getters.GetOneReview;
+    },
+    URI: function URI() {
+      return this.$store.getters.URI;
+    }
+  },
+  methods: {
+    ChangeStatusReview: function ChangeStatusReview(status) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.$Progress.start();
+
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "modreview"), {
+                  reviews_id: _this.$route.params.id,
+                  reviews_available: status
+                }).then(function (res) {
+                  console.log(res.data);
+
+                  _this.$Progress.finish();
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
   }
 });
 
@@ -4344,15 +4457,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserCard",
   components: {
     AdminTopSide: _components_AdminTopSide__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      adress: '',
+      name: null,
+      tel: null,
+      email: null,
+      ordersUser: null
+    };
+  },
+  created: function created() {
+    this.$store.dispatch('GetOneUser', {
+      id: this.$route.params.id
+    });
+  },
+  computed: {
+    returnOneUser: function returnOneUser() {
+      return this.$store.getters.GetOneUser;
+    }
+  },
+  watch: {
+    returnOneUser: function returnOneUser(newValue) {
+      // Заполняем адресс
+      this.adress += newValue[0][3] !== null ? newValue[0][3] + ', ' : '';
+      this.adress += newValue[0][4] !== null ? newValue[0][4] + ', ' : '';
+      this.adress += newValue[0][5] !== null ? 'дом ' + newValue[0][5] + ', ' : '';
+      this.adress += newValue[0][6] !== null ? 'корпус ' + newValue[0][6] + ', ' : '';
+      this.adress += newValue[0][7] !== null ? 'кв ' + newValue[0][7] + ', ' : '';
+      this.adress += newValue[0][8] !== null ? 'почтовый индекс ' + newValue[0][8] : ''; // Инфо юзера
+
+      this.name = newValue[0][0];
+      this.email = newValue[0][1];
+      this.tel = newValue[0][2]; // Корзина
+
+      this.ordersUser = newValue[1];
+    }
   }
 });
 
@@ -5154,6 +5299,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 var isPhoneCabinet = function isPhoneCabinet(value) {
@@ -5186,52 +5334,40 @@ var isPhoneCabinet = function isPhoneCabinet(value) {
         userNewPass: null,
         token: localStorage.getItem('token')
       },
-      orderData: [{
-        orders_number: 1234556,
-        status: 'В обработке',
-        active: true,
-        order_data: [{
-          img: '../../img/order-img.png',
-          order_name: 'Комбинезон LAPPINALE',
-          count: 1,
-          size: 43,
-          price: 5400
-        }, {
-          img: '../../img/order-img.png',
-          order_name: 'Комбинезон LAPPINALE',
-          count: 1,
-          size: 43,
-          price: 5400
-        }],
-        delivery: 'курьерская по СПБ, 14.08.2020, 300',
-        totalPrice: 11100
-      }, {
-        orders_number: 1234556,
-        status: 'Доставлен',
-        active: false,
-        order_data: [{
-          img: '../../img/order-img.png',
-          order_name: 'Комбинезон LAPPINALE',
-          count: 1,
-          size: 43,
-          price: 5400
-        }],
-        delivery: 'курьерская по СПБ, 14.08.2020, 300',
-        totalPrice: 11100
-      }, {
-        orders_number: 1234556,
-        status: 'Доставлен',
-        active: false,
-        order_data: [{
-          img: '../../img/order-img.png',
-          order_name: 'Комбинезон LAPPINALE',
-          count: 1,
-          size: 43,
-          price: 5400
-        }],
-        delivery: 'курьерская по СПБ, 14.08.2020, 300',
-        totalPrice: 11100
-      }],
+      // orderData: [
+      //     {
+      //         orders_number: 1234556,
+      //         status: 'В обработке',
+      //         active: true,
+      //         order_data: [
+      //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400},
+      //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400},
+      //         ],
+      //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
+      //         totalPrice: 11100
+      //     },
+      //     {
+      //         orders_number: 1234556,
+      //         status: 'Доставлен',
+      //         active: false,
+      //         order_data: [
+      //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400}
+      //         ],
+      //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
+      //         totalPrice: 11100
+      //     },
+      //     {
+      //         orders_number: 1234556,
+      //         status: 'Доставлен',
+      //         active: false,
+      //         order_data: [
+      //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400}
+      //         ],
+      //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
+      //         totalPrice: 11100
+      //     }
+      //     ],
+      orderData: null,
       basicData: false,
       basicDataAddr: false,
       basicDataPass: false,
@@ -5376,6 +5512,7 @@ var isPhoneCabinet = function isPhoneCabinet(value) {
       this.userData.userCorpus = user[0][7];
       this.userData.userApart = user[0][8];
       this.userData.userPostI = user[0][9];
+      this.orderData = user[1];
     }
   },
   computed: {
@@ -5916,7 +6053,39 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6122,10 +6291,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Catalogitem",
   components: {
-    Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -6135,7 +6305,11 @@ __webpack_require__.r(__webpack_exports__);
       pageReview: 1,
       productId: null,
       errorAdd: false,
-      noSizes: false
+      noSizes: false,
+      reviewBool: false,
+      reviewText: null,
+      starReview: null,
+      successSentReview: false
     };
   },
   created: function created() {
@@ -6207,6 +6381,92 @@ __webpack_require__.r(__webpack_exports__);
           price: itemPrice
         }]);
       }
+    },
+    addToCartOneClick: function addToCartOneClick(itemId, itemPrice) {
+      var _this = this;
+
+      // Если длинна вообще есть размеры, то проверяем выбраны ли размеры
+      if (this.returnDataForItem.itemSizes.length) {
+        if (this.clickedSize !== null) {
+          var data = [];
+          this.clickedSize.forEach(function (el) {
+            data.push({
+              id: itemId,
+              count: 1,
+              size: el.sz,
+              price: itemPrice
+            });
+          });
+          this.$store.dispatch('addToCart', data).then(function () {
+            return _this.$router.push({
+              name: 'cart'
+            });
+          });
+        } else {
+          this.errorAdd = true;
+        }
+      } else {
+        this.$store.dispatch('addToCart', [{
+          id: itemId,
+          count: 1,
+          size: null,
+          price: itemPrice
+        }]).then(function () {
+          return _this.$router.push({
+            name: 'cart'
+          });
+        });
+      }
+    },
+    leaveReview: function leaveReview() {
+      if (this.authBool) {
+        this.reviewBool = !this.reviewBool;
+      } else {
+        this.$router.push({
+          name: 'login'
+        });
+      }
+    },
+    sentReview: function sentReview() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var review;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this2.reviewText == null && _this2.starReview == null)) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 2:
+                review = {
+                  review_text: _this2.reviewText,
+                  review_star: _this2.starReview,
+                  token: localStorage.getItem('token'),
+                  product_id: _this2.$route.params.number
+                };
+                _context.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this2.returnURI, "newreview"), review).then(function (res) {
+                  if (res.data) {
+                    _this2.reviewBool = !_this2.reviewBool;
+                    _this2.successSentReview = !_this2.successSentReview;
+                  }
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   computed: {
@@ -6234,6 +6494,12 @@ __webpack_require__.r(__webpack_exports__);
       set: function set(val) {
         this.pageReview = val;
       }
+    },
+    returnURI: function returnURI() {
+      return this.$store.getters.URI;
+    },
+    authBool: function authBool() {
+      return this.$store.getters.isLoggedIn;
     }
   },
   watch: {
@@ -6427,19 +6693,19 @@ __webpack_require__.r(__webpack_exports__);
       deliveries: [{
         delivery_name: 'post-russia',
         delImg: '../img/post-icon.png',
-        delText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis cum cumque eum mollitia, nulla perferendis saepe sequi sit? Ad assumenda beatae doloribus eos magni natus quod repellat similique voluptates.\n',
+        delText: '',
         delPrice: null,
         delChooze: true
       }, {
         delivery_name: 'sdek',
         delImg: '../img/sdek-icon.png',
-        delText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis cum cumque eum mollitia, nulla perferendis saepe sequi sit? Ad assumenda beatae doloribus eos magni natus quod repellat similique voluptates.\n',
+        delText: 'При выборе доставки до пункта выдачи детали сообщит менеджер.',
         delPrice: null,
         delChooze: false
       }, {
         delivery_name: 'pek',
         delImg: '../img/pek-icon.png',
-        delText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis cum cumque eum mollitia, nulla perferendis saepe sequi sit? Ad assumenda beatae doloribus eos magni natus quod repellat similique voluptates.\n',
+        delText: 'Доставка ПЭК действительна при сумме заказа от 20000 рублей. При выборе доставки до пункта выдачи детали сообщит менеджер.',
         delPrice: null,
         delChooze: false
       }, {
@@ -10159,23 +10425,23 @@ var render = function() {
       _c("h2", { staticClass: "admin-h2" }, [
         _vm._v("Доступные варианты доставки")
       ]),
-      _vm._v(" "),
+      _vm._v("\n    " + _vm._s(_vm.returnDeliveries) + "\n    "),
       _c(
         "div",
         { staticClass: "delivery-vars" },
-        _vm._l(_vm.deliveries, function(del, i) {
+        _vm._l(_vm.returnDeliveries, function(del, i) {
           return _c("div", { staticClass: "delivery-var" }, [
             _c("input", {
-              class: del.show ? "active-size" : null,
+              class: del.delivery_confirm ? "active-size" : null,
               attrs: { type: "checkbox" },
               on: {
                 change: function($event) {
-                  return _vm.changeDel(i, del.delId)
+                  return _vm.changeDel(i, del.delivery_id)
                 }
               }
             }),
             _vm._v(" "),
-            _c("label", [_vm._v(_vm._s(del.name))])
+            _c("label", [_vm._v(_vm._s(del.delivery_name))])
           ])
         }),
         0
@@ -11953,42 +12219,61 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "admin-reviews-list" }, [
-        _vm._m(1),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _vm._m(3),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "list-cell" },
-          [
+      _vm._l(_vm.returnGetAllReviews, function(review, i) {
+        return _c("div", { staticClass: "admin-reviews-list" }, [
+          _c("div", { staticClass: "list-cell" }, [
             _c("input", {
               staticClass: "input-pale-blu",
-              attrs: {
-                type: "text",
-                value: "Комбинезон LAPPINALLE",
-                disabled: ""
-              }
-            }),
-            _vm._v(" "),
-            _c("router-link", { attrs: { to: { path: "review-1" } } }, [
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"), alt: "" },
-                on: {
-                  click: function($event) {
-                    return _vm.editOrder()
-                  }
-                }
-              })
-            ])
-          ],
-          1
-        )
-      ])
+              attrs: { type: "text", disabled: "" },
+              domProps: { value: review.reviews_id }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "list-cell" }, [
+            _c("input", {
+              staticClass: "input-pale-blu",
+              attrs: { type: "text", disabled: "" },
+              domProps: { value: review.reviews_created }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "list-cell" }, [
+            _c("input", {
+              staticClass: "input-pale-blu",
+              attrs: { type: "text", disabled: "" },
+              domProps: { value: review.lappiusers_name }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "list-cell" },
+            [
+              _c("input", {
+                staticClass: "input-pale-blu",
+                attrs: { type: "text", disabled: "" },
+                domProps: { value: review.product_title }
+              }),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                { attrs: { to: { path: "review-" + review.reviews_id } } },
+                [
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"),
+                      alt: ""
+                    }
+                  })
+                ]
+              )
+            ],
+            1
+          )
+        ])
+      })
     ],
-    1
+    2
   )
 }
 var staticRenderFns = [
@@ -12014,39 +12299,6 @@ var staticRenderFns = [
       _c("div", { staticClass: "list-cell" }, [
         _c("h1", { staticClass: "admin-h3" }, [_vm._v("Товар")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "1", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "21.08.2020  21:40", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "Иван Иванович Иванов", disabled: "" }
-      })
     ])
   }
 ]
@@ -12079,42 +12331,59 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "admin-users-list" }, [
-        _vm._m(1),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _vm._m(3),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "list-cell" },
-          [
+      _vm._l(_vm.returnAllUsers, function(user, i) {
+        return _c("div", { staticClass: "admin-users-list" }, [
+          _c("div", { staticClass: "list-cell" }, [
+            _c("div", { staticClass: "admin-h3" }, [
+              _vm._v("\n                " + _vm._s(user[0]) + "\n            ")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "list-cell" }, [
             _c("input", {
               staticClass: "input-pale-blu",
-              attrs: {
-                type: "text",
-                value: "ivanIvanov@yandex.ru",
-                disabled: ""
-              }
-            }),
-            _vm._v(" "),
-            _c("router-link", { attrs: { to: { path: "user-1" } } }, [
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"), alt: "" },
-                on: {
-                  click: function($event) {
-                    return _vm.editUser()
-                  }
-                }
-              })
-            ])
-          ],
-          1
-        )
-      ])
+              attrs: { type: "text", disabled: "" },
+              domProps: { value: user[1] }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "list-cell" }, [
+            _c("input", {
+              staticClass: "input-pale-blu",
+              attrs: { type: "text", disabled: "" },
+              domProps: { value: user[2] }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "list-cell" },
+            [
+              _c("input", {
+                staticClass: "input-pale-blu",
+                attrs: { type: "text", disabled: "" },
+                domProps: { value: user[3] }
+              }),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                { attrs: { to: { path: "user-" + user[0] } } },
+                [
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"),
+                      alt: ""
+                    }
+                  })
+                ]
+              )
+            ],
+            1
+          )
+        ])
+      })
     ],
-    1
+    2
   )
 }
 var staticRenderFns = [
@@ -12140,38 +12409,6 @@ var staticRenderFns = [
       _c("div", { staticClass: "list-cell" }, [
         _c("h1", { staticClass: "admin-h3" }, [_vm._v("E-mail")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("div", { staticClass: "admin-h3" }, [
-        _vm._v("\n                1.\n            ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "Иван Иванович Иванов", disabled: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "list-cell" }, [
-      _c("input", {
-        staticClass: "input-pale-blu",
-        attrs: { type: "text", value: "89111234567", disabled: "" }
-      })
     ])
   }
 ]
@@ -12946,6 +13183,7 @@ var render = function() {
                 return _c(
                   "span",
                   {
+                    class: sz.active ? "active-size" : null,
                     on: {
                       click: function($event) {
                         return _vm.selectSizeForStockUpdate(
@@ -12970,6 +13208,7 @@ var render = function() {
                 return _c(
                   "span",
                   {
+                    class: sz.active ? "active-size" : null,
                     on: {
                       click: function($event) {
                         return _vm.selectSizeForStock(i)
@@ -13422,211 +13661,199 @@ var render = function() {
     "div",
     { staticClass: "admin-review-card" },
     [
-      _c("AdminTopSide", { attrs: { H: "ОТЗЫВ №12345", btn: true } }),
+      _c("AdminTopSide", {
+        attrs: { H: "ОТЗЫВ №" + this.$route.params.id, btn: true }
+      }),
       _vm._v(" "),
-      _c("div", { staticClass: "wrap-admin-review-card" }, [
-        _c("div", { staticClass: "order-cl" }, [
-          _c("div", { staticClass: "wrap-main-page admin-cl-lbl-inp" }, [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("ФИО")]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: "Иван Иванович Иванов" }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-main-page admin-cl-lbl-inp" }, [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Товар")]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: "89111234567" }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-main-page admin-cl-lbl-inp" }, [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Оценка")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "star-container" }, [
-              _c("span", [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      width: "15",
-                      height: "15",
-                      viewBox: "0 0 15 15",
-                      fill: "none",
-                      xmlns: "http://www.w3.org/2000/svg"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M14.9519 5.65442C14.8367 5.28455 14.5238 5.0091 14.1548 4.95246L10.1679 4.34771L8.38508 0.575386C8.22049 0.225916 7.87326 0 7.50029 0C7.12693 0 6.77916 0.225813 6.61428 0.575181L4.8319 4.34771L0.844183 4.95256C0.47575 5.009 0.163028 5.28445 0.0474144 5.65462C-0.0675617 6.02503 0.0306741 6.43978 0.297538 6.71113L3.18228 9.64834L2.50196 13.7946C2.43821 14.1783 2.59216 14.5743 2.89405 14.8032C3.06348 14.9319 3.26432 15 3.47498 15C3.63461 15 3.79351 14.9591 3.93432 14.8819L7.50032 12.924L11.0661 14.8819C11.2068 14.9591 11.3655 15 11.525 15C11.7355 15 11.9362 14.9319 12.1057 14.8032C12.4075 14.5739 12.5616 14.1781 12.4983 13.795L11.8172 9.64831L14.7025 6.7112C14.9699 6.43903 15.0679 6.02406 14.9519 5.65442ZM14.4139 6.40212L11.4508 9.41843C11.4022 9.46806 11.3798 9.53947 11.3914 9.60951L12.091 13.8683C12.1277 14.0908 12.0382 14.3209 11.8626 14.4543C11.7643 14.529 11.6476 14.5686 11.525 14.5686C11.4322 14.5686 11.3401 14.5448 11.2585 14.5L7.59652 12.4892C7.56635 12.4727 7.53338 12.4645 7.50032 12.4645C7.46725 12.4645 7.43419 12.4727 7.40414 12.4892L3.74204 14.5C3.55236 14.604 3.30998 14.5857 3.13694 14.4542C2.96152 14.3212 2.87204 14.0912 2.90914 13.868L3.60797 9.60956C3.61944 9.53963 3.59724 9.46811 3.54856 9.41858L0.585897 6.40212C0.4307 6.24427 0.373592 6.00312 0.440333 5.78821C0.507588 5.57297 0.689746 5.41263 0.903914 5.37972L4.99888 4.75856C5.06614 4.74832 5.12442 4.70417 5.15447 4.64041L6.9849 0.76603C7.08078 0.562844 7.28306 0.431559 7.50032 0.431559C7.71698 0.431559 7.91865 0.562742 8.01441 0.766132L9.84545 4.64041C9.87562 4.70417 9.93369 4.7483 10.0011 4.75856L14.0951 5.37961C14.3099 5.41263 14.492 5.57284 14.5592 5.78842C14.6264 6.00305 14.5695 6.24396 14.4139 6.40212Z",
-                        fill: "#848CCF"
-                      }
-                    })
-                  ]
-                )
-              ]),
+      _vm._l(_vm.returnGetOneReview, function(review, i) {
+        return _c("div", { staticClass: "wrap-admin-review-card" }, [
+          _c("div", { staticClass: "order-cl" }, [
+            _c("div", { staticClass: "wrap-main-page admin-cl-lbl-inp" }, [
+              _c("label", { staticClass: "admin-h3" }, [_vm._v("ФИО")]),
               _vm._v(" "),
-              _c("span", [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      width: "15",
-                      height: "15",
-                      viewBox: "0 0 15 15",
-                      fill: "none",
-                      xmlns: "http://www.w3.org/2000/svg"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M14.9519 5.65442C14.8367 5.28455 14.5238 5.0091 14.1548 4.95246L10.1679 4.34771L8.38508 0.575386C8.22049 0.225916 7.87326 0 7.50029 0C7.12693 0 6.77916 0.225813 6.61428 0.575181L4.8319 4.34771L0.844183 4.95256C0.47575 5.009 0.163028 5.28445 0.0474144 5.65462C-0.0675617 6.02503 0.0306741 6.43978 0.297538 6.71113L3.18228 9.64834L2.50196 13.7946C2.43821 14.1783 2.59216 14.5743 2.89405 14.8032C3.06348 14.9319 3.26432 15 3.47498 15C3.63461 15 3.79351 14.9591 3.93432 14.8819L7.50032 12.924L11.0661 14.8819C11.2068 14.9591 11.3655 15 11.525 15C11.7355 15 11.9362 14.9319 12.1057 14.8032C12.4075 14.5739 12.5616 14.1781 12.4983 13.795L11.8172 9.64831L14.7025 6.7112C14.9699 6.43903 15.0679 6.02406 14.9519 5.65442ZM14.4139 6.40212L11.4508 9.41843C11.4022 9.46806 11.3798 9.53947 11.3914 9.60951L12.091 13.8683C12.1277 14.0908 12.0382 14.3209 11.8626 14.4543C11.7643 14.529 11.6476 14.5686 11.525 14.5686C11.4322 14.5686 11.3401 14.5448 11.2585 14.5L7.59652 12.4892C7.56635 12.4727 7.53338 12.4645 7.50032 12.4645C7.46725 12.4645 7.43419 12.4727 7.40414 12.4892L3.74204 14.5C3.55236 14.604 3.30998 14.5857 3.13694 14.4542C2.96152 14.3212 2.87204 14.0912 2.90914 13.868L3.60797 9.60956C3.61944 9.53963 3.59724 9.46811 3.54856 9.41858L0.585897 6.40212C0.4307 6.24427 0.373592 6.00312 0.440333 5.78821C0.507588 5.57297 0.689746 5.41263 0.903914 5.37972L4.99888 4.75856C5.06614 4.74832 5.12442 4.70417 5.15447 4.64041L6.9849 0.76603C7.08078 0.562844 7.28306 0.431559 7.50032 0.431559C7.71698 0.431559 7.91865 0.562742 8.01441 0.766132L9.84545 4.64041C9.87562 4.70417 9.93369 4.7483 10.0011 4.75856L14.0951 5.37961C14.3099 5.41263 14.492 5.57284 14.5592 5.78842C14.6264 6.00305 14.5695 6.24396 14.4139 6.40212Z",
-                        fill: "#848CCF"
-                      }
-                    })
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("span", [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      width: "15",
-                      height: "15",
-                      viewBox: "0 0 15 15",
-                      fill: "none",
-                      xmlns: "http://www.w3.org/2000/svg"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M14.9519 5.65442C14.8367 5.28455 14.5238 5.0091 14.1548 4.95246L10.1679 4.34771L8.38508 0.575386C8.22049 0.225916 7.87326 0 7.50029 0C7.12693 0 6.77916 0.225813 6.61428 0.575181L4.8319 4.34771L0.844183 4.95256C0.47575 5.009 0.163028 5.28445 0.0474144 5.65462C-0.0675617 6.02503 0.0306741 6.43978 0.297538 6.71113L3.18228 9.64834L2.50196 13.7946C2.43821 14.1783 2.59216 14.5743 2.89405 14.8032C3.06348 14.9319 3.26432 15 3.47498 15C3.63461 15 3.79351 14.9591 3.93432 14.8819L7.50032 12.924L11.0661 14.8819C11.2068 14.9591 11.3655 15 11.525 15C11.7355 15 11.9362 14.9319 12.1057 14.8032C12.4075 14.5739 12.5616 14.1781 12.4983 13.795L11.8172 9.64831L14.7025 6.7112C14.9699 6.43903 15.0679 6.02406 14.9519 5.65442ZM14.4139 6.40212L11.4508 9.41843C11.4022 9.46806 11.3798 9.53947 11.3914 9.60951L12.091 13.8683C12.1277 14.0908 12.0382 14.3209 11.8626 14.4543C11.7643 14.529 11.6476 14.5686 11.525 14.5686C11.4322 14.5686 11.3401 14.5448 11.2585 14.5L7.59652 12.4892C7.56635 12.4727 7.53338 12.4645 7.50032 12.4645C7.46725 12.4645 7.43419 12.4727 7.40414 12.4892L3.74204 14.5C3.55236 14.604 3.30998 14.5857 3.13694 14.4542C2.96152 14.3212 2.87204 14.0912 2.90914 13.868L3.60797 9.60956C3.61944 9.53963 3.59724 9.46811 3.54856 9.41858L0.585897 6.40212C0.4307 6.24427 0.373592 6.00312 0.440333 5.78821C0.507588 5.57297 0.689746 5.41263 0.903914 5.37972L4.99888 4.75856C5.06614 4.74832 5.12442 4.70417 5.15447 4.64041L6.9849 0.76603C7.08078 0.562844 7.28306 0.431559 7.50032 0.431559C7.71698 0.431559 7.91865 0.562742 8.01441 0.766132L9.84545 4.64041C9.87562 4.70417 9.93369 4.7483 10.0011 4.75856L14.0951 5.37961C14.3099 5.41263 14.492 5.57284 14.5592 5.78842C14.6264 6.00305 14.5695 6.24396 14.4139 6.40212Z",
-                        fill: "#848CCF"
-                      }
-                    })
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("span", [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      width: "15",
-                      height: "15",
-                      viewBox: "0 0 15 15",
-                      fill: "none",
-                      xmlns: "http://www.w3.org/2000/svg"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M14.9519 5.65442C14.8367 5.28455 14.5238 5.0091 14.1548 4.95246L10.1679 4.34771L8.38508 0.575386C8.22049 0.225916 7.87326 0 7.50029 0C7.12693 0 6.77916 0.225813 6.61428 0.575181L4.8319 4.34771L0.844183 4.95256C0.47575 5.009 0.163028 5.28445 0.0474144 5.65462C-0.0675617 6.02503 0.0306741 6.43978 0.297538 6.71113L3.18228 9.64834L2.50196 13.7946C2.43821 14.1783 2.59216 14.5743 2.89405 14.8032C3.06348 14.9319 3.26432 15 3.47498 15C3.63461 15 3.79351 14.9591 3.93432 14.8819L7.50032 12.924L11.0661 14.8819C11.2068 14.9591 11.3655 15 11.525 15C11.7355 15 11.9362 14.9319 12.1057 14.8032C12.4075 14.5739 12.5616 14.1781 12.4983 13.795L11.8172 9.64831L14.7025 6.7112C14.9699 6.43903 15.0679 6.02406 14.9519 5.65442ZM14.4139 6.40212L11.4508 9.41843C11.4022 9.46806 11.3798 9.53947 11.3914 9.60951L12.091 13.8683C12.1277 14.0908 12.0382 14.3209 11.8626 14.4543C11.7643 14.529 11.6476 14.5686 11.525 14.5686C11.4322 14.5686 11.3401 14.5448 11.2585 14.5L7.59652 12.4892C7.56635 12.4727 7.53338 12.4645 7.50032 12.4645C7.46725 12.4645 7.43419 12.4727 7.40414 12.4892L3.74204 14.5C3.55236 14.604 3.30998 14.5857 3.13694 14.4542C2.96152 14.3212 2.87204 14.0912 2.90914 13.868L3.60797 9.60956C3.61944 9.53963 3.59724 9.46811 3.54856 9.41858L0.585897 6.40212C0.4307 6.24427 0.373592 6.00312 0.440333 5.78821C0.507588 5.57297 0.689746 5.41263 0.903914 5.37972L4.99888 4.75856C5.06614 4.74832 5.12442 4.70417 5.15447 4.64041L6.9849 0.76603C7.08078 0.562844 7.28306 0.431559 7.50032 0.431559C7.71698 0.431559 7.91865 0.562742 8.01441 0.766132L9.84545 4.64041C9.87562 4.70417 9.93369 4.7483 10.0011 4.75856L14.0951 5.37961C14.3099 5.41263 14.492 5.57284 14.5592 5.78842C14.6264 6.00305 14.5695 6.24396 14.4139 6.40212Z",
-                        fill: "#848CCF"
-                      }
-                    })
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("span", [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      width: "15",
-                      height: "15",
-                      viewBox: "0 0 15 15",
-                      fill: "none",
-                      xmlns: "http://www.w3.org/2000/svg"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M14.9519 5.65442C14.8367 5.28455 14.5238 5.0091 14.1548 4.95246L10.1679 4.34771L8.38508 0.575386C8.22049 0.225916 7.87326 0 7.50029 0C7.12693 0 6.77916 0.225813 6.61428 0.575181L4.8319 4.34771L0.844183 4.95256C0.47575 5.009 0.163028 5.28445 0.0474144 5.65462C-0.0675617 6.02503 0.0306741 6.43978 0.297538 6.71113L3.18228 9.64834L2.50196 13.7946C2.43821 14.1783 2.59216 14.5743 2.89405 14.8032C3.06348 14.9319 3.26432 15 3.47498 15C3.63461 15 3.79351 14.9591 3.93432 14.8819L7.50032 12.924L11.0661 14.8819C11.2068 14.9591 11.3655 15 11.525 15C11.7355 15 11.9362 14.9319 12.1057 14.8032C12.4075 14.5739 12.5616 14.1781 12.4983 13.795L11.8172 9.64831L14.7025 6.7112C14.9699 6.43903 15.0679 6.02406 14.9519 5.65442ZM14.4139 6.40212L11.4508 9.41843C11.4022 9.46806 11.3798 9.53947 11.3914 9.60951L12.091 13.8683C12.1277 14.0908 12.0382 14.3209 11.8626 14.4543C11.7643 14.529 11.6476 14.5686 11.525 14.5686C11.4322 14.5686 11.3401 14.5448 11.2585 14.5L7.59652 12.4892C7.56635 12.4727 7.53338 12.4645 7.50032 12.4645C7.46725 12.4645 7.43419 12.4727 7.40414 12.4892L3.74204 14.5C3.55236 14.604 3.30998 14.5857 3.13694 14.4542C2.96152 14.3212 2.87204 14.0912 2.90914 13.868L3.60797 9.60956C3.61944 9.53963 3.59724 9.46811 3.54856 9.41858L0.585897 6.40212C0.4307 6.24427 0.373592 6.00312 0.440333 5.78821C0.507588 5.57297 0.689746 5.41263 0.903914 5.37972L4.99888 4.75856C5.06614 4.74832 5.12442 4.70417 5.15447 4.64041L6.9849 0.76603C7.08078 0.562844 7.28306 0.431559 7.50032 0.431559C7.71698 0.431559 7.91865 0.562742 8.01441 0.766132L9.84545 4.64041C9.87562 4.70417 9.93369 4.7483 10.0011 4.75856L14.0951 5.37961C14.3099 5.41263 14.492 5.57284 14.5592 5.78842C14.6264 6.00305 14.5695 6.24396 14.4139 6.40212Z",
-                        fill: "#848CCF"
-                      }
-                    })
-                  ]
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-main-page admin-cl-lbl-inp" }, [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Дата/время")]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: "21.08.2020  21:40" }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "wrap-main-page admin-cl-lbl-inp" }, [
-            _c("label", { staticClass: "admin-h3" }, [
-              _vm._v("ID пользователя в системе")
+              _c("input", {
+                staticClass: "input-pale-blu",
+                attrs: { type: "text", disabled: "" },
+                domProps: { value: review.lappiusers_name }
+              })
             ]),
             _vm._v(" "),
-            _c("input", {
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: "12345" }
-            })
+            _c("div", { staticClass: "wrap-main-page admin-cl-lbl-inp" }, [
+              _c("label", { staticClass: "admin-h3" }, [_vm._v("Товар")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "input-pale-blu",
+                attrs: { type: "text", disabled: "" },
+                domProps: { value: review.product_title }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-main-page admin-cl-lbl-inp" }, [
+              _c("label", { staticClass: "admin-h3" }, [_vm._v("Оценка")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "star-container" },
+                _vm._l(5, function(item) {
+                  return _c("span", [
+                    _c(
+                      "svg",
+                      {
+                        attrs: {
+                          width: "18px",
+                          height: "17px",
+                          viewBox: "0 0 18 17"
+                        }
+                      },
+                      [
+                        _c(
+                          "g",
+                          {
+                            attrs: {
+                              id: "Icons",
+                              stroke: "none",
+                              "stroke-width": "1",
+                              fill: "none",
+                              "fill-rule": "evenodd"
+                            }
+                          },
+                          [
+                            _c(
+                              "g",
+                              {
+                                attrs: {
+                                  id: "Rounded",
+                                  transform:
+                                    "translate(-273.000000, -4323.000000)"
+                                }
+                              },
+                              [
+                                _c(
+                                  "g",
+                                  {
+                                    attrs: {
+                                      id: "Toggle",
+                                      transform:
+                                        "translate(100.000000, 4266.000000)"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "g",
+                                      {
+                                        attrs: {
+                                          id: "-Round-/-Toggle-/-star",
+                                          transform:
+                                            "translate(170.000000, 54.000000)"
+                                        }
+                                      },
+                                      [
+                                        _c("g", [
+                                          _c("polygon", {
+                                            attrs: {
+                                              points: "0 0 24 0 24 24 0 24"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("path", {
+                                            class:
+                                              +review.reviews_star >= item
+                                                ? "filled"
+                                                : null,
+                                            attrs: {
+                                              d:
+                                                "M12,17.27 L16.15,19.78 C16.91,20.24 17.84,19.56 17.64,18.7 L16.54,13.98 L20.21,10.8 C20.88,10.22 20.52,9.12 19.64,9.05 L14.81,8.64 L12.92,4.18 C12.58,3.37 11.42,3.37 11.08,4.18 L9.19,8.63 L4.36,9.04 C3.48,9.11 3.12,10.21 3.79,10.79 L7.46,13.97 L6.36,18.69 C6.16,19.55 7.09,20.23 7.85,19.77 L12,17.27 Z",
+                                              id: "🔹-Icon-Color"
+                                            }
+                                          })
+                                        ])
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-main-page admin-cl-lbl-inp" }, [
+              _c("label", { staticClass: "admin-h3" }, [_vm._v("Дата/время")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "input-pale-blu",
+                attrs: { type: "text", disabled: "" },
+                domProps: { value: review.reviews_created }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-main-page admin-cl-lbl-inp" }, [
+              _c("label", { staticClass: "admin-h3" }, [
+                _vm._v("ID пользователя в системе")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "input-pale-blu",
+                attrs: { type: "text", disabled: "" },
+                domProps: { value: review.lappiusers_id }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "admin-btn-complete",
+                on: {
+                  click: function($event) {
+                    return _vm.ChangeStatusReview(1)
+                  }
+                }
+              },
+              [_vm._v("Принять")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "admin-btn-add",
+                on: {
+                  click: function($event) {
+                    return _vm.ChangeStatusReview(0)
+                  }
+                }
+              },
+              [_vm._v("\n                    Отклонить\n                ")]
+            )
           ]),
           _vm._v(" "),
-          _c("button", { staticClass: "admin-btn-complete" }, [
-            _vm._v("Принять")
-          ]),
-          _vm._v(" "),
-          _c("button", { staticClass: "admin-btn-add" }, [
-            _vm._v("\n                Отклонить\n            ")
+          _c("div", { staticClass: "order-cl" }, [
+            _c(
+              "div",
+              { staticClass: "review-text admin-cl-lbl-inp width-300" },
+              [
+                _c("label", { staticClass: "admin-h3" }, [
+                  _vm._v("Текст отзыва")
+                ]),
+                _vm._v(" "),
+                _c("textarea", { staticClass: "input-pale-blu" }, [
+                  _vm._v(_vm._s(review.reviews_text))
+                ])
+              ]
+            )
           ])
-        ]),
-        _vm._v(" "),
-        _vm._m(0)
-      ])
+        ])
+      })
     ],
-    1
+    2
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "order-cl" }, [
-      _c("div", { staticClass: "review-text admin-cl-lbl-inp width-300" }, [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Текст отзыва")]),
-        _vm._v(" "),
-        _c("textarea", { staticClass: "input-pale-blu" }, [
-          _vm._v(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur augue erat, tempor scelerisque sodales sed, porta vitae leo. Maecenas vehicula orci sed mollis tristique. Maecenas eu sollicitudin sapien. Mauris facilisis commodo lobortis. Nulla tincidunt nisi massa, faucibus viverra erat pellentesque sed. Fusce non nibh at purus imperdiet convallis. Etiam malesuada sed nisi et ultrices.\n                "
-          )
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -13665,7 +13892,7 @@ var render = function() {
               _c("input", {
                 staticClass: "input-pale-blu",
                 attrs: { type: "text", disabled: "" },
-                domProps: { value: "Иван Иванович Иванов" }
+                domProps: { value: _vm.name }
               })
             ]
           ),
@@ -13679,7 +13906,7 @@ var render = function() {
               _c("input", {
                 staticClass: "input-pale-blu",
                 attrs: { type: "text", disabled: "" },
-                domProps: { value: "89111234567" }
+                domProps: { value: _vm.tel }
               })
             ]
           ),
@@ -13693,7 +13920,7 @@ var render = function() {
               _c("input", {
                 staticClass: "input-pale-blu",
                 attrs: { type: "text", disabled: "" },
-                domProps: { value: "ivanovIvan@yandex.ru" }
+                domProps: { value: _vm.email }
               })
             ]
           ),
@@ -13707,76 +13934,53 @@ var render = function() {
               _c("input", {
                 staticClass: "input-pale-blu",
                 attrs: { type: "text", disabled: "" },
-                domProps: {
-                  value: "СПБ, ул. Долгоозерная, дом 1, квартира 458"
-                }
+                domProps: { value: this.adress }
               })
             ]
           )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "order-cl" }, [
-          _c(
-            "div",
-            { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-            [
-              _c("label", { staticClass: "admin-h3" }, [_vm._v("Корзина")]),
-              _vm._v(" "),
-              _c(
+          _vm.ordersUser !== null
+            ? _c(
                 "div",
-                { staticClass: "wrap-admin-order" },
+                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
                 [
-                  _c("input", {
-                    staticClass: "input-pale-blu",
-                    attrs: { type: "text", disabled: "" },
-                    domProps: { value: "Комбинезон LAPPINALLE, 46 размер" }
-                  }),
+                  _c("label", { staticClass: "admin-h3" }, [
+                    _vm._v("История заказов")
+                  ]),
                   _vm._v(" "),
-                  _c("router-link", { attrs: { to: { path: "order-1" } } }, [
-                    _c("img", {
-                      attrs: {
-                        src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"),
-                        alt: ""
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.editOrder()
-                        }
-                      }
-                    })
-                  ])
+                  _vm._l(_vm.ordersUser, function(order, i) {
+                    return _c(
+                      "div",
+                      { staticClass: "wrap-admin-order" },
+                      [
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text", disabled: "" },
+                          domProps: { value: "Заказ №" + order }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          { attrs: { to: { path: "order-" + order } } },
+                          [
+                            _c("img", {
+                              attrs: {
+                                src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"),
+                                alt: ""
+                              }
+                            })
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  })
                 ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "wrap-admin-order" },
-                [
-                  _c("input", {
-                    staticClass: "input-pale-blu",
-                    attrs: { type: "text", disabled: "" },
-                    domProps: { value: "Комбинезон LAPPINALLE, 46 размер" }
-                  }),
-                  _vm._v(" "),
-                  _c("router-link", { attrs: { to: { path: "order-1" } } }, [
-                    _c("img", {
-                      attrs: {
-                        src: __webpack_require__(/*! ../../../img/admin-set.png */ "./resources/img/admin-set.png"),
-                        alt: ""
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.editOrder()
-                        }
-                      }
-                    })
-                  ])
-                ],
-                1
+                2
               )
-            ]
-          )
+            : _vm._e()
         ])
       ])
     ],
@@ -15503,7 +15707,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("span", { staticClass: "order-view" }, [
-                      _vm._v(_vm._s(ord.orders_number))
+                      _vm._v(_vm._s(ord.orders_id))
                     ])
                   ]),
                   _vm._v(" "),
@@ -15514,7 +15718,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("span", { staticClass: "order-view" }, [
-                        _vm._v(" " + _vm._s(ord.status))
+                        _vm._v(" " + _vm._s(ord.orders_status))
                       ]),
                       _vm._v(" "),
                       _c("span", {
@@ -15532,21 +15736,21 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._l(ord.order_data, function(dt, k) {
+                _vm._l(ord.orders_korzina, function(dt, k) {
                   return ord.active
                     ? _c("div", { staticClass: "user-order-data" }, [
-                        _c("img", { attrs: { src: dt.img, alt: "" } }),
+                        _c("img", { attrs: { src: dt[4], alt: "" } }),
                         _vm._v(" "),
                         _c("ul", { staticClass: "order-data-desc" }, [
                           _c("li", { staticClass: "cabinet-h" }, [
-                            _vm._v(_vm._s(dt.order_name))
+                            _vm._v(_vm._s(dt[0]))
                           ]),
                           _vm._v(" "),
-                          _c("li", [_vm._v("Количество: " + _vm._s(dt.count))]),
+                          _c("li", [_vm._v("Количество: " + _vm._s(dt[1]))]),
                           _vm._v(" "),
-                          _c("li", [_vm._v("Размер: " + _vm._s(dt.size))]),
+                          _c("li", [_vm._v("Размер: " + _vm._s(dt[2]))]),
                           _vm._v(" "),
-                          _c("li", [_vm._v("Цена: " + _vm._s(dt.price) + " ₽")])
+                          _c("li", [_vm._v("Цена: " + _vm._s(dt[3]) + " ₽")])
                         ])
                       ])
                     : _vm._e()
@@ -15557,9 +15761,23 @@ var render = function() {
                     _vm._v("Доставка: ")
                   ]),
                   _vm._v(" "),
-                  _c("span", { staticClass: "user-order-delivery-text" }, [
-                    _vm._v(_vm._s(ord.delivery) + " ₽")
-                  ])
+                  ord.orders_deliveryName === "post-russia"
+                    ? _c("span", { staticClass: "user-order-delivery-text" }, [
+                        _vm._v("Почта России")
+                      ])
+                    : ord.orders_deliveryName === "pek"
+                    ? _c("span", { staticClass: "user-order-delivery-text" }, [
+                        _vm._v("Пэк")
+                      ])
+                    : ord.orders_deliveryName === "sdek"
+                    ? _c("span", { staticClass: "user-order-delivery-text" }, [
+                        _vm._v("Сдэк")
+                      ])
+                    : ord.orders_deliveryName === "postman"
+                    ? _c("span", { staticClass: "user-order-delivery-text" }, [
+                        _vm._v("Курьерская доставка")
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "user-order-total" }, [
@@ -15568,7 +15786,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("span", { staticClass: "user-order-total-text" }, [
-                    _vm._v(_vm._s(ord.totalPrice) + " ₽")
+                    _vm._v(_vm._s(ord.orders_totalPrice) + " ₽")
                   ])
                 ])
               ],
@@ -16277,9 +16495,21 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _c("button", { staticClass: "btn btn-buynow" }, [
-                  _vm._v("Купить в 1 клик")
-                ])
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-buynow",
+                    on: {
+                      click: function($event) {
+                        return _vm.addToCartOneClick(
+                          _vm.returnDataForItem.itemId,
+                          _vm.returnDataForItem.itemPrice
+                        )
+                      }
+                    }
+                  },
+                  [_vm._v("Купить в 1 клик")]
+                )
               ])
             ])
           ])
@@ -16315,43 +16545,84 @@ var render = function() {
                         "div",
                         { staticClass: "user-info" },
                         [
-                          _vm._l(5, function(star, st) {
+                          _vm._l(5, function(item) {
                             return _c("span", { staticClass: "user-stars" }, [
-                              _c(
-                                "svg",
-                                {
-                                  class:
-                                    inf.reviews_star > st ? "filled" : null,
-                                  attrs: {
-                                    id: "Слой_1",
-                                    "data-name": "Слой 1",
-                                    xmlns: "http://www.w3.org/2000/svg",
-                                    viewBox: "0 0 361.33 348.7"
-                                  }
-                                },
-                                [
-                                  _c("title", [_vm._v("icon_izb")]),
-                                  _c("path", {
+                              _c("svg", { attrs: { viewBox: "0 0 18 17" } }, [
+                                _c(
+                                  "g",
+                                  {
                                     attrs: {
-                                      d:
-                                        "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
-                                      transform: "translate(-139 -54.46)"
+                                      id: "Icons",
+                                      stroke: "none",
+                                      "stroke-width": "1",
+                                      fill: "none",
+                                      "fill-rule": "evenodd"
                                     }
-                                  }),
-                                  _c("path", {
-                                    attrs: {
-                                      d:
-                                        "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
-                                      transform: "translate(-139 -54.46)"
-                                    }
-                                  })
-                                ]
-                              )
+                                  },
+                                  [
+                                    _c(
+                                      "g",
+                                      {
+                                        attrs: {
+                                          id: "Rounded",
+                                          transform:
+                                            "translate(-273.000000, -4323.000000)"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "g",
+                                          {
+                                            attrs: {
+                                              id: "Toggle",
+                                              transform:
+                                                "translate(100.000000, 4266.000000)"
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "g",
+                                              {
+                                                attrs: {
+                                                  id: "-Round-/-Toggle-/-star",
+                                                  transform:
+                                                    "translate(170.000000, 54.000000)"
+                                                }
+                                              },
+                                              [
+                                                _c("g", [
+                                                  _c("polygon", {
+                                                    attrs: {
+                                                      points:
+                                                        "0 0 24 0 24 24 0 24"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("path", {
+                                                    class:
+                                                      inf.reviews_star >= item
+                                                        ? "filled"
+                                                        : null,
+                                                    attrs: {
+                                                      d:
+                                                        "M12,17.27 L16.15,19.78 C16.91,20.24 17.84,19.56 17.64,18.7 L16.54,13.98 L20.21,10.8 C20.88,10.22 20.52,9.12 19.64,9.05 L14.81,8.64 L12.92,4.18 C12.58,3.37 11.42,3.37 11.08,4.18 L9.19,8.63 L4.36,9.04 C3.48,9.11 3.12,10.21 3.79,10.79 L7.46,13.97 L6.36,18.69 C6.16,19.55 7.09,20.23 7.85,19.77 L12,17.27 Z"
+                                                    }
+                                                  })
+                                                ])
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
                             ])
                           }),
                           _vm._v(" "),
                           _c("span", { staticClass: "user-name" }, [
-                            _vm._v(" " + _vm._s(inf.users_name) + "  / ")
+                            _vm._v(" " + _vm._s(inf.lappiusers_name) + "  / ")
                           ]),
                           _vm._v(" "),
                           _c("span", { staticClass: "user-date" }, [
@@ -16890,9 +17161,90 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("button", { staticClass: "leave-btn" }, [
-                  _vm._v("Оставить отзыв")
-                ])
+                _c(
+                  "button",
+                  {
+                    staticClass: "leave-btn",
+                    class: { hideBtn: _vm.reviewBool },
+                    on: {
+                      click: function($event) {
+                        return _vm.leaveReview()
+                      }
+                    }
+                  },
+                  [_vm._v("Оставить отзыв")]
+                ),
+                _vm._v(" "),
+                _vm.successSentReview
+                  ? _c("p", { staticClass: "reviewleave-success" }, [
+                      _vm._v("Отзыв успешно отправлен.")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.reviewBool
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "leave-btn",
+                        on: {
+                          click: function($event) {
+                            return _vm.sentReview()
+                          }
+                        }
+                      },
+                      [_vm._v("Отправить")]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.reviewBool
+                  ? _c(
+                      "div",
+                      { staticClass: "reviewleave-stars" },
+                      _vm._l(5, function(star) {
+                        return _c(
+                          "div",
+                          { staticClass: "wrap-reviewleave-stars" },
+                          [
+                            _c("input", {
+                              attrs: { type: "radio", name: "leaveStar" },
+                              domProps: { value: star },
+                              on: {
+                                change: function($event) {
+                                  _vm.starReview = star
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", [_vm._v(_vm._s(star))])
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.reviewBool
+                  ? _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.reviewText,
+                          expression: "reviewText"
+                        }
+                      ],
+                      staticClass: "input-transp input-transp-p",
+                      domProps: { value: _vm.reviewText },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.reviewText = $event.target.value
+                        }
+                      }
+                    })
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -41007,7 +41359,15 @@ var admin = {
       productSuccess: false,
       //ЗАКАЗЫ
       GetAllOrders: null,
-      oneOrder: null
+      oneOrder: null,
+      // ЮЗЕРЫ
+      GetAllUsers: null,
+      GetOneUser: null,
+      // ОТЗЫВЫ
+      GetAllReviews: null,
+      GetOneReview: null,
+      // ДОСТАВКА
+      GetAllDeliveries: null
     };
   },
   mutations: {
@@ -41116,16 +41476,16 @@ var admin = {
         }, _callee3);
       }))();
     },
-    // Получать все отзывы
-    GetAllReviewsMutate: function GetAllReviewsMutate(state) {
+    // Получаем данные по конкретному товару
+    GetOneProductMutate: function GetOneProductMutate(state, id) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallreviews")).then(function (response) {
-                  console.log(response.data);
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admin-product-").concat(id)).then(function (res) {
+                  state.oneProduct = res.data;
                 })["catch"](function (e) {
                   return console.log(e);
                 });
@@ -41138,16 +41498,16 @@ var admin = {
         }, _callee4);
       }))();
     },
-    // Получаем данные по конкретному товару
-    GetOneProductMutate: function GetOneProductMutate(state, id) {
+    GetAllOrdersMutate: function GetAllOrdersMutate(state) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admin-product-").concat(id)).then(function (res) {
-                  state.oneProduct = res.data;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admorders")).then(function (res) {
+                  console.log(res.data);
+                  state.GetAllOrders = res.data;
                 })["catch"](function (e) {
                   return console.log(e);
                 });
@@ -41160,30 +41520,23 @@ var admin = {
         }, _callee5);
       }))();
     },
-    GetAllOrdersMutate: function GetAllOrdersMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admorders")).then(function (res) {
-                  console.log(res.data);
-                  state.GetAllOrders = res.data;
-                })["catch"](function (e) {
-                  return console.log(e);
-                });
-
-              case 2:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      }))();
-    },
     GetOneOrderMutate: function GetOneOrderMutate(state, data) {
       state.oneOrder = data;
+    },
+    GetAllUsersMutate: function GetAllUsersMutate(state, data) {
+      state.GetAllUsers = data;
+    },
+    GetOneUserMutate: function GetOneUserMutate(state, data) {
+      state.GetOneUser = data;
+    },
+    GetAllReviewsMutate: function GetAllReviewsMutate(state, data) {
+      state.GetAllReviews = data;
+    },
+    GetOneReviewMutate: function GetOneReviewMutate(state, data) {
+      state.GetOneReview = data;
+    },
+    GetAllDeliveriesMutate: function GetAllDeliveriesMutate(state, data) {
+      state.GetAllDeliveries = data;
     }
   },
   actions: {
@@ -41199,29 +41552,25 @@ var admin = {
       var commit = _ref3.commit;
       commit('GetAllSizesMutate');
     },
-    GetAllReviews: function GetAllReviews(_ref4) {
+    GetOneProduct: function GetOneProduct(_ref4, data) {
       var commit = _ref4.commit;
-      commit('GetAllReviewsMutate');
-    },
-    GetOneProduct: function GetOneProduct(_ref5, data) {
-      var commit = _ref5.commit;
       commit('GetOneProductMutate', data);
     },
-    GetAllOrders: function GetAllOrders(_ref6) {
-      var commit = _ref6.commit;
+    GetAllOrders: function GetAllOrders(_ref5) {
+      var commit = _ref5.commit;
       commit('GetAllOrdersMutate');
     },
-    GetOneOrder: function GetOneOrder(_ref7, id) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+    GetOneOrder: function GetOneOrder(_ref6, id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
         var commit, formData;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                commit = _ref7.commit;
+                commit = _ref6.commit;
                 formData = new FormData();
                 formData.append('id', JSON.stringify(id.id));
-                _context7.next = 5;
+                _context6.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "admorder"), formData).then(function (res) {
                   commit('GetOneOrderMutate', res.data);
                 })["catch"](function (e) {
@@ -41230,10 +41579,125 @@ var admin = {
 
               case 5:
               case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    GetAllUsers: function GetAllUsers(_ref7) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                commit = _ref7.commit;
+                _context7.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "adminusers")).then(function (res) {
+                  commit('GetAllUsersMutate', res.data);
+                });
+
+              case 3:
+              case "end":
                 return _context7.stop();
             }
           }
         }, _callee7);
+      }))();
+    },
+    GetOneUser: function GetOneUser(_ref8, data) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                commit = _ref8.commit;
+                _context8.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "lkadm"), data).then(function (res) {
+                  commit('GetOneUserMutate', res.data);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 3:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8);
+      }))();
+    },
+    GetAllReviews: function GetAllReviews(_ref9) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                commit = _ref9.commit;
+                _context9.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "allrev")).then(function (res) {
+                  commit('GetAllReviewsMutate', res.data);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 3:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }))();
+    },
+    GetOneReview: function GetOneReview(_ref10, id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                commit = _ref10.commit;
+                _context10.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "revcard-").concat(id)).then(function (res) {
+                  commit('GetOneReviewMutate', res.data);
+                  console.log(res.data);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 3:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10);
+      }))();
+    },
+    GetAllDeliveries: function GetAllDeliveries(_ref11) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                commit = _ref11.commit;
+                _context11.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "delsite")).then(function (res) {
+                  commit('GetAllDeliveriesMutate', res.data);
+                  console.log(res.data);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 3:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
       }))();
     }
   },
@@ -41258,6 +41722,21 @@ var admin = {
     },
     oneOrder: function oneOrder(state) {
       return state.oneOrder;
+    },
+    GetAllUsers: function GetAllUsers(state) {
+      return state.GetAllUsers;
+    },
+    GetOneUser: function GetOneUser(state) {
+      return state.GetOneUser;
+    },
+    GetAllReviews: function GetAllReviews(state) {
+      return state.GetAllReviews;
+    },
+    GetOneReview: function GetOneReview(state) {
+      return state.GetOneReview;
+    },
+    GetAllDeliveries: function GetAllDeliveries(state) {
+      return state.GetAllDeliveries;
     }
   }
 };
@@ -41320,12 +41799,12 @@ var store = {
     },
     // Получаем категории и подкатегории меню
     getMenuDataMutate: function getMenuDataMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                _context8.next = 2;
+                _context12.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "menu")).then(function (response) {
                   // массив с изначальной датой
                   var menu = response.data; // Сырые данные меню
@@ -41557,10 +42036,10 @@ var store = {
 
               case 2:
               case "end":
-                return _context8.stop();
+                return _context12.stop();
             }
           }
-        }, _callee8);
+        }, _callee12);
       }))();
     },
     sideBarDepartMutate: function sideBarDepartMutate(state, data) {
@@ -41636,17 +42115,17 @@ var store = {
     },
     // Получаем дату в каталог по категориям
     getCatalogDataMutate: function getCatalogDataMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                _context9.t0 = Object.keys(data.params).length;
-                _context9.next = _context9.t0 === 1 ? 3 : _context9.t0 === 2 ? 6 : _context9.t0 === 3 ? 9 : 12;
+                _context13.t0 = Object.keys(data.params).length;
+                _context13.next = _context13.t0 === 1 ? 3 : _context13.t0 === 2 ? 6 : _context13.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context9.next = 5;
+                _context13.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -41704,10 +42183,10 @@ var store = {
                 });
 
               case 5:
-                return _context9.abrupt("break", 12);
+                return _context13.abrupt("break", 12);
 
               case 6:
-                _context9.next = 8;
+                _context13.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по категории
                   var itemCell = response.data; // Устанавливаес min и max
@@ -41765,10 +42244,10 @@ var store = {
                 });
 
               case 8:
-                return _context9.abrupt("break", 12);
+                return _context13.abrupt("break", 12);
 
               case 9:
-                _context9.next = 11;
+                _context13.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по категории
                   var itemCell = response.data; // Устанавливаес min и max
@@ -41826,36 +42305,36 @@ var store = {
                 });
 
               case 11:
-                return _context9.abrupt("break", 12);
+                return _context13.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context9.stop();
+                return _context13.stop();
             }
           }
-        }, _callee9);
+        }, _callee13);
       }))();
     },
     // Получаем дату для конкретного товара
     getItemDataMutate: function getItemDataMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
-                _context11.next = 2;
+                _context15.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "item-").concat(data)).then( /*#__PURE__*/function () {
-                  var _ref8 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10(response) {
+                  var _ref12 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14(response) {
                     var itemData, stateItemData, pics, stars, el;
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
                       while (1) {
-                        switch (_context10.prev = _context10.next) {
+                        switch (_context14.prev = _context14.next) {
                           case 0:
-                            _context10.next = 2;
+                            _context14.next = 2;
                             return response.data;
 
                           case 2:
-                            itemData = _context10.sent;
+                            itemData = _context14.sent;
                             stateItemData = {};
                             pics = null;
                             stars = {
@@ -41924,14 +42403,14 @@ var store = {
 
                           case 9:
                           case "end":
-                            return _context10.stop();
+                            return _context14.stop();
                         }
                       }
-                    }, _callee10);
+                    }, _callee14);
                   }));
 
                   return function (_x) {
-                    return _ref8.apply(this, arguments);
+                    return _ref12.apply(this, arguments);
                   };
                 }())["catch"](function (errors) {
                   return console.log(errors);
@@ -41939,47 +42418,50 @@ var store = {
 
               case 2:
               case "end":
-                return _context11.stop();
+                return _context15.stop();
             }
           }
-        }, _callee11);
+        }, _callee15);
       }))();
     },
     // Получаем отзывы
     getItemReviewsMutate: function getItemReviewsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
-                _context12.next = 2;
+                _context16.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemsreview-").concat(data.item, "?page=").concat(data.page)).then(function (response) {
                   var reviews = response.data;
+                  console.log(reviews);
                   state.catalogItemReview = reviews.data;
                   state.catalogItemReviewCount = reviews.total;
+                })["catch"](function (e) {
+                  return console.log(e);
                 });
 
               case 2:
               case "end":
-                return _context12.stop();
+                return _context16.stop();
             }
           }
-        }, _callee12);
+        }, _callee16);
       }))();
     },
     // Получаем товары по скидки
     showSaleProductsMutate: function showSaleProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context17.prev = _context17.next) {
               case 0:
-                _context13.t0 = Object.keys(data.params).length;
-                _context13.next = _context13.t0 === 1 ? 3 : _context13.t0 === 2 ? 6 : _context13.t0 === 3 ? 9 : 12;
+                _context17.t0 = Object.keys(data.params).length;
+                _context17.next = _context17.t0 === 1 ? 3 : _context17.t0 === 2 ? 6 : _context17.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context13.next = 5;
+                _context17.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -42036,10 +42518,10 @@ var store = {
                 });
 
               case 5:
-                return _context13.abrupt("break", 12);
+                return _context17.abrupt("break", 12);
 
               case 6:
-                _context13.next = 8;
+                _context17.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -42096,10 +42578,10 @@ var store = {
                 });
 
               case 8:
-                return _context13.abrupt("break", 12);
+                return _context17.abrupt("break", 12);
 
               case 9:
-                _context13.next = 11;
+                _context17.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -42156,29 +42638,29 @@ var store = {
                 });
 
               case 11:
-                return _context13.abrupt("break", 12);
+                return _context17.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context13.stop();
+                return _context17.stop();
             }
           }
-        }, _callee13);
+        }, _callee17);
       }))();
     },
     // Получаем данные по фильтрку кешу
     showCashProductsMutate: function showCashProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context18.prev = _context18.next) {
               case 0:
-                _context14.t0 = Object.keys(data.params).length;
-                _context14.next = _context14.t0 === 1 ? 3 : _context14.t0 === 2 ? 6 : _context14.t0 === 3 ? 9 : 12;
+                _context18.t0 = Object.keys(data.params).length;
+                _context18.next = _context18.t0 === 1 ? 3 : _context18.t0 === 2 ? 6 : _context18.t0 === 3 ? 9 : 12;
                 break;
 
               case 3:
-                _context14.next = 5;
+                _context18.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -42233,10 +42715,10 @@ var store = {
                 });
 
               case 5:
-                return _context14.abrupt("break", 12);
+                return _context18.abrupt("break", 12);
 
               case 6:
-                _context14.next = 8;
+                _context18.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -42291,10 +42773,10 @@ var store = {
                 });
 
               case 8:
-                return _context14.abrupt("break", 12);
+                return _context18.abrupt("break", 12);
 
               case 9:
-                _context14.next = 11;
+                _context18.next = 11;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -42349,44 +42831,44 @@ var store = {
                 });
 
               case 11:
-                return _context14.abrupt("break", 12);
+                return _context18.abrupt("break", 12);
 
               case 12:
               case "end":
-                return _context14.stop();
+                return _context18.stop();
             }
           }
-        }, _callee14);
+        }, _callee18);
       }))();
     },
     // Сортинг
     sortByActionMutate: function sortByActionMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee19() {
         var params;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee19$(_context19) {
           while (1) {
-            switch (_context15.prev = _context15.next) {
+            switch (_context19.prev = _context19.next) {
               case 0:
                 params = null;
-                _context15.t0 = Object.keys(data.params).length;
-                _context15.next = _context15.t0 === 1 ? 4 : _context15.t0 === 2 ? 6 : _context15.t0 === 3 ? 8 : 10;
+                _context19.t0 = Object.keys(data.params).length;
+                _context19.next = _context19.t0 === 1 ? 4 : _context19.t0 === 2 ? 6 : _context19.t0 === 3 ? 8 : 10;
                 break;
 
               case 4:
                 params = data.params.gender + '/';
-                return _context15.abrupt("break", 10);
+                return _context19.abrupt("break", 10);
 
               case 6:
                 params = data.params.gender + '/' + data.params.category;
-                return _context15.abrupt("break", 10);
+                return _context19.abrupt("break", 10);
 
               case 8:
                 params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context15.abrupt("break", 10);
+                return _context19.abrupt("break", 10);
 
               case 10:
-                _context15.t1 = data.price;
-                _context15.next = _context15.t1 === "low" ? 13 : _context15.t1 === "high" ? 15 : 16;
+                _context19.t1 = data.price;
+                _context19.next = _context19.t1 === "low" ? 13 : _context19.t1 === "high" ? 15 : 16;
                 break;
 
               case 13:
@@ -42445,7 +42927,7 @@ var store = {
 
                   state.catalogDataCellCount = itemCell.total;
                 });
-                return _context15.abrupt("break", 16);
+                return _context19.abrupt("break", 16);
 
               case 15:
                 axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "price-").concat(data.price, "/").concat(params, "?page=").concat(data.page)).then(function (response) {
@@ -42506,36 +42988,36 @@ var store = {
 
               case 16:
               case "end":
-                return _context15.stop();
+                return _context19.stop();
             }
           }
-        }, _callee15);
+        }, _callee19);
       }))();
     },
     // Получаем данные по фильтру размеры
     showSizeProductsMutate: function showSizeProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee20() {
         var params, queryStr;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee20$(_context20) {
           while (1) {
-            switch (_context16.prev = _context16.next) {
+            switch (_context20.prev = _context20.next) {
               case 0:
                 params = null;
-                _context16.t0 = Object.keys(data.params).length;
-                _context16.next = _context16.t0 === 1 ? 4 : _context16.t0 === 2 ? 6 : _context16.t0 === 3 ? 8 : 10;
+                _context20.t0 = Object.keys(data.params).length;
+                _context20.next = _context20.t0 === 1 ? 4 : _context20.t0 === 2 ? 6 : _context20.t0 === 3 ? 8 : 10;
                 break;
 
               case 4:
                 params = data.params.gender + '/';
-                return _context16.abrupt("break", 10);
+                return _context20.abrupt("break", 10);
 
               case 6:
                 params = data.params.gender + '/' + data.params.category;
-                return _context16.abrupt("break", 10);
+                return _context20.abrupt("break", 10);
 
               case 8:
                 params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context16.abrupt("break", 10);
+                return _context20.abrupt("break", 10);
 
               case 10:
                 queryStr = '';
@@ -42561,10 +43043,10 @@ var store = {
 
               case 13:
               case "end":
-                return _context16.stop();
+                return _context20.stop();
             }
           }
-        }, _callee16);
+        }, _callee20);
       }))();
     },
     // Добавляем товары в корзину
@@ -42610,18 +43092,18 @@ var store = {
     },
     // Получаем товары для корзины
     getProductForCartMutate: function getProductForCartMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee21() {
         var cardIds, unigIds;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee21$(_context21) {
           while (1) {
-            switch (_context17.prev = _context17.next) {
+            switch (_context21.prev = _context21.next) {
               case 0:
                 cardIds = [];
                 state.cart.forEach(function (el) {
                   cardIds.push(el.id);
                 });
                 unigIds = new Set(cardIds);
-                _context17.next = 5;
+                _context21.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemscard/").concat(Array.from(unigIds).join(', '))).then(function (response) {
                   var dataCart = state.cart;
                   var data = response.data;
@@ -42663,10 +43145,10 @@ var store = {
 
               case 5:
               case "end":
-                return _context17.stop();
+                return _context21.stop();
             }
           }
-        }, _callee17);
+        }, _callee21);
       }))();
     },
     // Удаляем карточку товара
@@ -42738,6 +43220,7 @@ var store = {
         var formData = new FormData();
         formData.append('token', JSON.stringify(state.token));
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "lkind"), formData).then(function (res) {
+          console.log(res.data);
           state.userData = res.data;
         })["catch"](function (e) {
           return console.log(e);
@@ -42749,8 +43232,8 @@ var store = {
     }
   },
   actions: {
-    register: function register(_ref9, user) {
-      var commit = _ref9.commit;
+    register: function register(_ref13, user) {
+      var commit = _ref13.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
           url: "".concat(URI, "register"),
@@ -42768,8 +43251,8 @@ var store = {
         });
       });
     },
-    login: function login(_ref10, user) {
-      var commit = _ref10.commit;
+    login: function login(_ref14, user) {
+      var commit = _ref14.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
           url: "".concat(URI, "login"),
@@ -42787,84 +43270,84 @@ var store = {
         });
       });
     },
-    getMenuData: function getMenuData(_ref11) {
-      var commit = _ref11.commit;
+    getMenuData: function getMenuData(_ref15) {
+      var commit = _ref15.commit;
       commit('getMenuDataMutate');
     },
-    showDepartments: function showDepartments(_ref12, data) {
-      var commit = _ref12.commit;
+    showDepartments: function showDepartments(_ref16, data) {
+      var commit = _ref16.commit;
       commit('sideBarDepartMutate', data);
     },
-    showDepartAfterUpdated: function showDepartAfterUpdated(_ref13, data) {
-      var commit = _ref13.commit;
+    showDepartAfterUpdated: function showDepartAfterUpdated(_ref17, data) {
+      var commit = _ref17.commit;
       commit('sideBarDepartMutateAfterUpdated', data);
     },
-    backToCategory: function backToCategory(_ref14, data) {
-      var commit = _ref14.commit;
+    backToCategory: function backToCategory(_ref18, data) {
+      var commit = _ref18.commit;
       commit('backToCategoryMutate', data);
     },
-    getCatalogData: function getCatalogData(_ref15, data) {
-      var commit = _ref15.commit;
+    getCatalogData: function getCatalogData(_ref19, data) {
+      var commit = _ref19.commit;
       commit('getCatalogDataMutate', data);
     },
-    getItemData: function getItemData(_ref16, data) {
-      var commit = _ref16.commit;
+    getItemData: function getItemData(_ref20, data) {
+      var commit = _ref20.commit;
       commit('getItemDataMutate', data);
     },
-    getItemReviews: function getItemReviews(_ref17, data) {
-      var commit = _ref17.commit;
+    getItemReviews: function getItemReviews(_ref21, data) {
+      var commit = _ref21.commit;
       commit('getItemReviewsMutate', data);
     },
-    showSaleProducts: function showSaleProducts(_ref18, data) {
-      var commit = _ref18.commit;
+    showSaleProducts: function showSaleProducts(_ref22, data) {
+      var commit = _ref22.commit;
       commit('showSaleProductsMutate', data);
     },
-    showCashProducts: function showCashProducts(_ref19, data) {
-      var commit = _ref19.commit;
+    showCashProducts: function showCashProducts(_ref23, data) {
+      var commit = _ref23.commit;
       commit('showCashProductsMutate', data);
     },
-    sortByAction: function sortByAction(_ref20, data) {
-      var commit = _ref20.commit;
+    sortByAction: function sortByAction(_ref24, data) {
+      var commit = _ref24.commit;
       commit('sortByActionMutate', data);
     },
-    showSizeProducts: function showSizeProducts(_ref21, data) {
-      var commit = _ref21.commit;
+    showSizeProducts: function showSizeProducts(_ref25, data) {
+      var commit = _ref25.commit;
       commit('showSizeProductsMutate', data);
     },
-    addToCart: function addToCart(_ref22, data) {
-      var commit = _ref22.commit;
+    addToCart: function addToCart(_ref26, data) {
+      var commit = _ref26.commit;
       commit('addToCartMutate', data);
     },
-    getProductForCart: function getProductForCart(_ref23) {
-      var commit = _ref23.commit;
+    getProductForCart: function getProductForCart(_ref27) {
+      var commit = _ref27.commit;
       commit('getProductForCartMutate');
     },
-    removeCard: function removeCard(_ref24, data) {
-      var commit = _ref24.commit;
+    removeCard: function removeCard(_ref28, data) {
+      var commit = _ref28.commit;
       commit('removeCardMutate', data);
     },
-    totalPrice: function totalPrice(_ref25, data) {
-      var commit = _ref25.commit;
+    totalPrice: function totalPrice(_ref29, data) {
+      var commit = _ref29.commit;
       commit('totalPriceMutate', data);
     },
-    changeCountCart: function changeCountCart(_ref26, data) {
-      var commit = _ref26.commit;
+    changeCountCart: function changeCountCart(_ref30, data) {
+      var commit = _ref30.commit;
       commit('changeCountCartMutate', data);
     },
-    customerData: function customerData(_ref27, data) {
-      var commit = _ref27.commit;
+    customerData: function customerData(_ref31, data) {
+      var commit = _ref31.commit;
       commit('customerDataMutate', data);
     },
-    sentData: function sentData(_ref28, data) {
-      var commit = _ref28.commit;
+    sentData: function sentData(_ref32, data) {
+      var commit = _ref32.commit;
       commit('sentDataMutate', data);
     },
-    GetUserData: function GetUserData(_ref29) {
-      var commit = _ref29.commit;
+    GetUserData: function GetUserData(_ref33) {
+      var commit = _ref33.commit;
       commit('GetUserDataMutate');
     },
-    killPaySuccess: function killPaySuccess(_ref30) {
-      var commit = _ref30.commit;
+    killPaySuccess: function killPaySuccess(_ref34) {
+      var commit = _ref34.commit;
       commit('killPaySuccessMutate');
     }
   },

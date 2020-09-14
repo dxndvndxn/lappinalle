@@ -62,7 +62,6 @@ class AdmOrdersController extends Controller
         $i = 0;
         $korzina = explode('|', $order[0]['orders_korzina']);
 
-//            return $korzina;
         foreach ($korzina as $val) {
             $korzina[$i] = explode(',', $val);
             $i++;

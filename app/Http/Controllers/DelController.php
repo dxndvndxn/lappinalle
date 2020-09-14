@@ -8,38 +8,23 @@ class DelController extends Controller
 {
     public function admin(Request $request) {
 
-        $deldata = $request->all();
+        $deldata = $request->only('id');
 
-        foreach ($deldata as $val) {
+        $con = DB::table('delivery')->where('delivery_id', '=', $deldata)->select('delivery_confirm')->value('delivery_confirm');
 
-            $con = DB::table('delivery')->where('delivery_id', '=', $val)->select('confirm')->get();
-
-            if ($con == true) {
-                DB::table('delivery')
-                    ->where('delivery_id', $val)
-                    ->update(['confirm' => false]);
-            }else{
-                DB::table('delivery')
-                    ->where('delivery_id', $val)
-                    ->update(['confirm' => true]);
-            }
+        if ($con) {
+            DB::table('delivery')
+                ->where('delivery_id', $deldata)
+                ->update(['delivery_confirm' => 0]);
+        }else{
+            DB::table('delivery')
+                ->where('delivery_id', $deldata)
+                ->update(['delivery_confirm' => 1]);
         }
     }
 
     public function site(Request $request) {
-
-        $d1 = DB::table('delivery')->where('delivery_id', '=', 1)->select('confirm')->get();
-        $d2 = DB::table('delivery')->where('delivery_id', '=', 2)->select('confirm')->get();
-        $d3 = DB::table('delivery')->where('delivery_id', '=', 3)->select('confirm')->get();
-        $d4 = DB::table('delivery')->where('delivery_id', '=', 4)->select('confirm')->get();
-
-        $delconfirms = [
-            [1, 'Курьерская доставка', $d1],
-            [2, 'Почта России', $d2],
-            [3, 'СДЭК', $d3],
-            [4, 'ПЭК', $d4]
-        ];
-
-        return $delconfirms;
+        $deliveries = DB::table('delivery')->get();
+        return $deliveries;
     }
 }

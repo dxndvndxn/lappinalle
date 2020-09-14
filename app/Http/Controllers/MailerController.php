@@ -19,11 +19,6 @@ class MailerController extends Controller
             $headers = 'From: no-reply@lappinalle.ru';
 
             mail("ilyanazimov@yandex.ru", "LAPPINALLE", $mailer, $headers);
-//            Mail::raw($mailer, function($message)
-//            {
-//                $message->from(env('MAIL_USERNAME', ''), 'LAPPINALLE');
-//                $message->to('ilyanazimov@yandex.ru');
-//            });
         }catch (Exception $e){
             return 'Назимов пидорас';
         }

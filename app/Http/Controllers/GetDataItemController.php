@@ -9,7 +9,8 @@ class GetDataItemController extends Controller
 {
     public function index(Request $request, $number){
         // Забираем данные для товара
-        $getItemData = DB::table('products')->select('product_id','product_title','product_price','product_description','product_img','product_video','product_old_price')
+        $getItemData = DB::table('products')
+            ->select('product_id','product_title','product_price','product_description','product_img','product_video','product_old_price')
             ->where('product_id', '=', $number)->get();
 
         $reviewStar = DB::table('reviews')->select('reviews_star')->where('reviews.product_id', '=', $number)->get();
@@ -29,6 +30,7 @@ class GetDataItemController extends Controller
 
         $dataNreview[0]['product_price'] = $dataNreview[0]['product_price'] * (int)GetEUController::EU();
         $dataNreview[0]['product_old_price'] = $dataNreview[0]['product_old_price'] !== null ? $dataNreview[0]['product_old_price'] * (int)GetEUController::EU() : null;
+
         // Приводи к обрабатываемому виду данные об отзывах
         $stars = [];
         foreach ($reviewStar as $val){

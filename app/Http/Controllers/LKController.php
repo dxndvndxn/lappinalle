@@ -30,16 +30,88 @@ class LKController extends Controller
             $user["lappiusers_ipost"]
         ];
 
-        $dbord = DB::table('orders')->where('lappiusers_id', '=', $lkdata[0])->get();
+        $orders = DB::table('orders')->select('orders_id', "orders_status", 'orders_korzina', 'orders_totalPrice', 'orders_deliveryName')->where('lappiusers_id', '=', $lkdata[0])->get();
 
-        $orders = null;
-        foreach ($dbord as $vol){
-            $orders = (array) $vol;
+        $wrapOrder = [];
+
+        // Обрабатываем заказы пользователя
+        foreach ($orders as $i => $val) {
+
+            // Делаем обертку
+            $localArr = (array) $val;
+
+            //Пушим обертку в новый массив
+            array_push( $wrapOrder, $localArr);
+
+            // Разделяем коризну по знаку
+            $localCart = explode('|', $localArr['orders_korzina']);
+
+            // Если пустое значение, то вырезаем
+            if (array_pop($localCart) === "") array_slice($localCart, 1, -1);
+
+            $newCart = null;
+            $wrapOrder[$i]['orders_korzina'] = [];
+            $wrapOrder[$i]['active'] = false;
+            foreach ($localCart as $cartVal) {
+
+                // Разделяем на корзину по запятой
+                $splashCart = explode(',', $cartVal);
+
+                // Запрос к бд на товар
+                $product = DB::table('products')->where('product_id', $splashCart[0])->select('product_title', 'product_price', 'product_img')->get();
+                $productWrap = [];
+
+                // Делаем обертку
+                foreach ($product as $prdVal) {
+                    $localProductArr = (array) $prdVal;
+                    $imgCart = explode(',', $localProductArr['product_img']);
+
+                    // Массив с данным о заказах
+                    array_push($wrapOrder[$i]['orders_korzina'], [$localProductArr['product_title'], $splashCart[1], $splashCart[2], $splashCart[3], $imgCart[0]]);
+                }
+            }
         }
 
-        $lkall = [$lkdata, $orders];
+        $lkall = [$lkdata, $wrapOrder];
 
         return $lkall;
+//        // Получаем все заказы у конкретного юзера
+//        $order = DB::table('orders')->select('orders_korzina')->where('lappiusers_id', '=', $id)->get();
+//
+//        $korzina = [];
+//
+//        // Получакм корзину конкретного юзера
+//        foreach ($order as $val) {
+//            $localArr = (array) $val;
+//            $localArr = explode('|', $localArr['orders_korzina']);
+//            if (array_pop($localArr) === "") array_slice($localArr, 1, -1);
+//            foreach ($localArr as $localVal) {
+//                array_push($korzina, $localVal);
+//            }
+//        }
+//
+//        $korzina_adm = [];
+//
+//        foreach ($korzina as $val) {
+//            $splashKorzina = explode(',', $val);
+//
+//            // Получаем название
+//            $prod_name = DB::table('products')->where('product_id', $splashKorzina[0])->select('product_title')->value('product_title');
+//
+//            // Получаем кол-во
+//            $prod_count = $splashKorzina[1];
+//
+//            // Получаем размер
+//            $prod_size = $splashKorzina[2] === '' ? 'Нет' : $splashKorzina[2];
+//
+//            // Получаем строку
+//            $stringKorzina = $prod_name . ', Размер: ' . $prod_size . ', Количество: ' . $prod_count;
+//            array_push($korzina_adm, [$splashKorzina[0], $stringKorzina]);
+//        }
+//
+//        $lkall = [$lkdata, $korzina_adm];
+//
+//        return $lkall;
     }
 
     public function update(Request $request) {
@@ -99,7 +171,6 @@ class LKController extends Controller
     }
 
     public function admin(Request $request) {
-
         $id = $request->only('id');
 
         $dbdata = DB::table('lappiusers')->where('lappiusers_id', '=', $id)->get();
@@ -110,7 +181,6 @@ class LKController extends Controller
         }
 
         $lkdata = [
-            $user["lappiusers_id"],
             $user["lappiusers_name"],
             $user["lappiusers_email"],
             $user["lappiusers_tel"],
@@ -122,14 +192,18 @@ class LKController extends Controller
             $user["lappiusers_ipost"]
         ];
 
-        $dbord = DB::table('orders')->where('lappiusers_id', '=', $id)->get();
+        // Получаем все заказы у конкретного юзера
+        $order = DB::table('orders')->select('orders_id')->where('lappiusers_id', '=', $id)->get();
 
-        $orders = null;
-        foreach ($dbord as $vol){
-            $orders = (array) $vol;
+        $ordersId = [];
+
+        // Получакм корзину конкретного юзера
+        foreach ($order as $val) {
+            $localArr = (array) $val;
+            array_push($ordersId, $localArr['orders_id']);
         }
 
-        $lkall = [$lkdata, $orders];
+        $lkall = [$lkdata, $ordersId];
 
         return $lkall;
     }

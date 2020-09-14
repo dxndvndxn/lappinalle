@@ -86,32 +86,35 @@
                 <div class="user-order-head">
                     <div class="order-head-number">
                         <span class="cabinet-h">Заказ &#8470; </span>
-                        <span class="order-view">{{ord.orders_number}}</span>
+                        <span class="order-view">{{ord.orders_id}}</span>
                     </div>
                     <div class="order-head-status">
                         <div class="head-status-wrap">
                             <span class="cabinet-h">Статус: </span>
-                            <span class="order-view"> {{ord.status}}</span>
+                            <span class="order-view"> {{ord.orders_status}}</span>
                             <span class="head-status-btn" @click="ord.active = !ord.active" v-bind:class="ord.active ? 'active-arrow-cab' : 'passive-arrow-cab'"></span>
                         </div>
                     </div>
                 </div>
-                <div class="user-order-data"  v-if="ord.active" v-for="(dt, k) in ord.order_data">
-                    <img :src="dt.img" alt="">
+                <div class="user-order-data"  v-if="ord.active" v-for="(dt, k) in ord.orders_korzina">
+                    <img :src="dt[4]" alt="">
                     <ul class="order-data-desc">
-                        <li class="cabinet-h">{{dt.order_name}}</li>
-                        <li>Количество: {{dt.count}}</li>
-                        <li>Размер: {{dt.size}}</li>
-                        <li>Цена: {{dt.price}} &#8381;</li>
+                        <li class="cabinet-h">{{dt[0]}}</li>
+                        <li>Количество: {{dt[1]}}</li>
+                        <li>Размер: {{dt[2]}}</li>
+                        <li>Цена: {{dt[3]}} &#8381;</li>
                     </ul>
                 </div>
                 <div class="user-order-delivery">
                     <span class="cabinet-h">Доставка: </span>
-                    <span class="user-order-delivery-text">{{ord.delivery}} &#8381;</span>
+                    <span class="user-order-delivery-text" v-if="ord.orders_deliveryName === 'post-russia'">Почта России</span>
+                    <span class="user-order-delivery-text" v-else-if="ord.orders_deliveryName === 'pek'">Пэк</span>
+                    <span class="user-order-delivery-text" v-else-if="ord.orders_deliveryName === 'sdek'">Сдэк</span>
+                    <span class="user-order-delivery-text" v-else-if="ord.orders_deliveryName === 'postman'">Курьерская доставка</span>
                 </div>
                 <div class="user-order-total">
                     <span class="cabinet-h">Итоговая стоимость: </span>
-                    <span class="user-order-total-text">{{ord.totalPrice}} &#8381;</span>
+                    <span class="user-order-total-text">{{ord.orders_totalPrice}} &#8381;</span>
                 </div>
             </div>
         </div>
@@ -140,39 +143,40 @@
                 userNewPass: null,
                 token: localStorage.getItem('token')
             },
-            orderData: [
-                {
-                    orders_number: 1234556,
-                    status: 'В обработке',
-                    active: true,
-                    order_data: [
-                        {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400},
-                        {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400},
-                    ],
-                    delivery: 'курьерская по СПБ, 14.08.2020, 300',
-                    totalPrice: 11100
-                },
-                {
-                    orders_number: 1234556,
-                    status: 'Доставлен',
-                    active: false,
-                    order_data: [
-                        {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400}
-                    ],
-                    delivery: 'курьерская по СПБ, 14.08.2020, 300',
-                    totalPrice: 11100
-                },
-                {
-                    orders_number: 1234556,
-                    status: 'Доставлен',
-                    active: false,
-                    order_data: [
-                        {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400}
-                    ],
-                    delivery: 'курьерская по СПБ, 14.08.2020, 300',
-                    totalPrice: 11100
-                }
-                ],
+            // orderData: [
+            //     {
+            //         orders_number: 1234556,
+            //         status: 'В обработке',
+            //         active: true,
+            //         order_data: [
+            //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400},
+            //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400},
+            //         ],
+            //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
+            //         totalPrice: 11100
+            //     },
+            //     {
+            //         orders_number: 1234556,
+            //         status: 'Доставлен',
+            //         active: false,
+            //         order_data: [
+            //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400}
+            //         ],
+            //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
+            //         totalPrice: 11100
+            //     },
+            //     {
+            //         orders_number: 1234556,
+            //         status: 'Доставлен',
+            //         active: false,
+            //         order_data: [
+            //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400}
+            //         ],
+            //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
+            //         totalPrice: 11100
+            //     }
+            //     ],
+            orderData: null,
             basicData: false,
             basicDataAddr: false,
             basicDataPass: false,
@@ -273,6 +277,8 @@
                 this.userData.userCorpus = user[0][7];
                 this.userData.userApart = user[0][8];
                 this.userData.userPostI = user[0][9];
+
+                this.orderData = user[1];
             }
         },
         computed: {

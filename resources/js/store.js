@@ -21,7 +21,18 @@ const admin = {
 
         //ЗАКАЗЫ
         GetAllOrders: null,
-        oneOrder: null
+        oneOrder: null,
+
+        // ЮЗЕРЫ
+        GetAllUsers: null,
+        GetOneUser: null,
+
+        // ОТЗЫВЫ
+        GetAllReviews: null,
+        GetOneReview: null,
+
+        // ДОСТАВКА
+        GetAllDeliveries: null
     }),
     mutations: {
         // Получаем все товары СТРАНИЧКА ТОВАРЫ
@@ -85,16 +96,6 @@ const admin = {
                     console.log(e)
                 })
         },
-
-        // Получать все отзывы
-       async GetAllReviewsMutate(state){
-            await axios.get(`${state.SITE_URI}adminallreviews`)
-                .then(response => {
-                    console.log(response.data);
-                })
-                .catch(e => console.log(e))
-        },
-
        // Получаем данные по конкретному товару
        async GetOneProductMutate(state, id){
             await axios.get(`${state.SITE_URI}admin-product-${id}`)
@@ -104,7 +105,7 @@ const admin = {
                 .catch(e => console.log(e))
        },
 
-        async GetAllOrdersMutate(state){
+       async GetAllOrdersMutate(state){
             await axios.get(`${state.SITE_URI}admorders`)
                 .then(res => {
                     console.log(res.data)
@@ -112,8 +113,23 @@ const admin = {
                 })
                 .catch(e => console.log(e))
         },
-        GetOneOrderMutate(state, data){
+       GetOneOrderMutate(state, data){
             state.oneOrder = data;
+       },
+       GetAllUsersMutate(state, data){
+            state.GetAllUsers = data;
+       },
+        GetOneUserMutate(state, data){
+            state.GetOneUser = data;
+        },
+        GetAllReviewsMutate(state, data){
+            state.GetAllReviews = data;
+        },
+        GetOneReviewMutate(state, data) {
+            state.GetOneReview = data;
+        },
+        GetAllDeliveriesMutate(state, data){
+            state.GetAllDeliveries = data;
         }
     },
     actions: {
@@ -125,9 +141,6 @@ const admin = {
         },
         GetAllSizes({commit}){
             commit('GetAllSizesMutate');
-        },
-        GetAllReviews({commit}){
-            commit('GetAllReviewsMutate');
         },
         GetOneProduct({commit}, data){
             commit('GetOneProductMutate', data);
@@ -141,6 +154,42 @@ const admin = {
             await axios.post(`${URI}admorder`, formData)
                 .then(res => {
                     commit('GetOneOrderMutate', res.data)
+                })
+                .catch(e => console.log(e))
+        },
+        async GetAllUsers({commit}){
+            await axios.get(`${URI}adminusers`)
+                .then(res => {
+                    commit('GetAllUsersMutate', res.data);
+                })
+        },
+        async GetOneUser({commit}, data){
+            await axios.post(`${URI}lkadm`, data)
+                .then(res => {
+                    commit('GetOneUserMutate', res.data);
+                })
+                .catch(e => console.log(e))
+        },
+        async GetAllReviews({commit}){
+            await axios.get(`${URI}allrev`)
+                .then(res => {
+                    commit('GetAllReviewsMutate', res.data)
+                })
+                .catch(e => console.log(e))
+        },
+        async GetOneReview({commit}, id){
+            await axios.get(`${URI}revcard-${id}`)
+                .then(res => {
+                    commit('GetOneReviewMutate', res.data);
+                    console.log(res.data);
+                })
+                .catch(e => console.log(e))
+        },
+        async GetAllDeliveries({commit}){
+            await axios.get(`${URI}delsite`)
+                .then(res => {
+                    commit('GetAllDeliveriesMutate', res.data);
+                    console.log(res.data)
                 })
                 .catch(e => console.log(e))
         }
@@ -166,6 +215,21 @@ const admin = {
         },
         oneOrder: state => {
             return state.oneOrder;
+        },
+        GetAllUsers: state => {
+            return state.GetAllUsers;
+        },
+        GetOneUser: state => {
+            return state.GetOneUser;
+        },
+        GetAllReviews: state => {
+            return state.GetAllReviews;
+        },
+        GetOneReview: state => {
+            return state.GetOneReview;
+        },
+        GetAllDeliveries: state => {
+            return state.GetAllDeliveries;
         }
     }
 };
@@ -789,9 +853,11 @@ const store = {
             await axios.get(`${state.SITE_URI}itemsreview-${data.item}?page=${data.page}`)
                 .then(response => {
                     let reviews = response.data;
+                    console.log(reviews)
                     state.catalogItemReview = reviews.data;
                     state.catalogItemReviewCount = reviews.total
                 })
+                .catch(e => console.log(e))
         },
 
         // Получаем товары по скидки
@@ -1449,6 +1515,7 @@ const store = {
                 formData.append('token', JSON.stringify(state.token));
                 axios.post(`${state.SITE_URI}lkind`, formData)
                     .then(res => {
+                        console.log(res.data)
                         state.userData = res.data;
                     }).catch(e => console.log(e))
             }

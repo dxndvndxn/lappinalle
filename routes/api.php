@@ -60,7 +60,7 @@ Route::post('/admorder', 'AdmOrdersController@order');
 Route::post('/ordstatus', 'AdmOrdersController@status');
 
 //Админка карточка пользователя
-Route::get('/lkadm', 'LKController@admin');
+Route::post('/lkadm', 'LKController@admin');
 
 //Админка все пользователи
 Route::get('/adminusers', 'AdminUsersController@index');
@@ -122,6 +122,22 @@ Route::get('/sizesIds={numbers}/{genders}/{categories}', 'SizesGetDataFromCatego
 
 // Получаем размеры по товару по подкатегории
 Route::get('/sizesIds={numbers}/{genders}/{categories}/{departments}', 'SizesGetDataFromDepartmentsController@index');
+
+//Все отзывы
+Route::get('/allrev', 'OtzovController@allrev');
+
+//Отправка нового отзыва
+Route::post('/newreview', 'OtzovController@newreview');
+
+//Модерация отзыва
+Route::post('/modreview', 'OtzovController@moder');
+
+//Карточка отзыва
+Route::get('/revcard-{id}', 'OtzovController@revcard');
+
+//Варианты доставки
+Route::post('/deladmin', 'DelController@admin');
+Route::get('/delsite', 'DelController@site');
 
 // Получаем данные для каталога по гнедеру
 Route::get('/{genders}', 'GenderController@index');

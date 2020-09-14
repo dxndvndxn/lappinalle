@@ -176,6 +176,10 @@
                 display: inline-block;
                 margin-right: 15px;
                 vertical-align: sub;
+                svg{
+                    width: 30px;
+                    height: 34px;
+                }
                 &:nth-child(5){
                     margin-right: 45px;
                 }
@@ -224,6 +228,24 @@
                 }
             }
         }
+        textarea{
+            height: 100px;
+            margin-bottom: 30px;
+        }
+    }
+    .reviewleave-stars{
+        @include flexin(space-between);
+        @include ptSans(400);
+        font-size: $regFz;
+        margin-bottom: 15px;
+        input{
+            cursor: pointer;
+        }
+    }
+    .reviewleave-success{
+        @include ptSans(700);
+        color: $palepurpp;
+        font-size: $regFz - 2px;
     }
 }
 .leave-btn{
@@ -234,11 +256,14 @@
     text-transform: uppercase;
     border: none;
     cursor: pointer;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 .error-add{
     @include ptSans(700);
     font-size: 16px;
     color: $purpp;
     margin: 15px 0;
+}
+.hideBtn{
+    display: none;
 }

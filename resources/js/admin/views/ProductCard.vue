@@ -39,10 +39,10 @@
                 <div class="size-grid">
                     <h1 class="admin-h3">Добавленные размеры</h1>
                     <div class="wrap-size-grid">
-                        <span v-for="(sz, i) in presentSizes" @click="selectSizeForStockUpdate(sz.catalog_size_amount, sz.sizes_number, i)">
+                        <span v-for="(sz, i) in presentSizes" :class="sz.active ? 'active-size' : null" @click="selectSizeForStockUpdate(sz.catalog_size_amount, sz.sizes_number, i)">
                             {{sz.sizes_number}}
                         </span>
-                        <span v-for="(sz, i) in sizes" @click="selectSizeForStock(i)" @dblclick="deleteSize(i)">
+                        <span v-for="(sz, i) in sizes" @click="selectSizeForStock(i)" :class="sz.active ? 'active-size' : null" @dblclick="deleteSize(i)">
                         {{sz.size}}
                         </span>
                     </div>
@@ -495,7 +495,7 @@
                 let checkSize = this.sizes.find(el => el.size === data.size && el.id === data.sizeId);
                 let checkSizeold = this.presentSizes.find(el => el.sizes_number === data.size && el.sizes_id=== data.sizeId);
                 if (checkSize || checkSizeold) return;
-                this.sizes.push({size: data.size, id: data.sizeId, count: 0});
+                this.sizes.push({size: data.size, id: data.sizeId, count: 0, active: false});
                 this.chozenSizeStockAfterClick = null;
                 this.chozenSizeAfterClick = null;
             },
@@ -504,6 +504,12 @@
             // Выбираем размер для определения кол-во
             selectSizeForStock(i){
                 this.newSize = i;
+                this.sizes[i].active = !this.sizes[i].active;
+                if (this.presentSizes.length) {
+                    this.presentSizes.forEach(el => {
+                        el.active = false;
+                    })
+                }
                 this.chozenSizeAfterClick = this.sizes[i].size;
                 this.chozenSizeStockAfterClick = this.sizes[i].count;
                 this.timeToChangePresetnSizes = false
@@ -513,6 +519,12 @@
             // Кликаем на старые размеры
             selectSizeForStockUpdate(count, size, i) {
                 this.newSize = i;
+                this.presentSizes[i].active = !this.presentSizes[i].active;
+                if (this.sizes.length) {
+                    this.sizes.forEach(el => {
+                        el.active = false;
+                    })
+                }
                 this.chozenSizeAfterClick = size;
                 this.chozenSizeStockAfterClick = count;
                 this.timeToChangePresetnSizes = true;
@@ -671,6 +683,10 @@
                     // Если нашли, то просто присвааиваем переменную и выводим размеры
                     if (!findIdWithoutSize) {
                         this.presentSizes = newValue.allSizes;
+                        this.presentSizes.forEach(el => {
+                            el.active = false;
+                        });
+                        console.log(this.presentSizes)
                     }else{
                         // Если нашли, то в инпут где вставляется колв-во присваиваем значение
                         this.chozenSizeStockAfterClick = newValue.allSizes[0].catalog_size_amount;

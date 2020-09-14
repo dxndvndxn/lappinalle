@@ -2,61 +2,50 @@
     <div class="admin-delivery">
         <AdminTopSide v-bind:H="'Страница доставки'" v-bind:btn="true"/>
         <h2 class="admin-h2">Доступные варианты доставки</h2>
+        {{returnDeliveries}}
         <div class="delivery-vars">
-            <div class="delivery-var" v-for="(del, i) in deliveries">
-                <input type="checkbox" v-bind:class="del.show ? 'active-size' : null" @change="changeDel(i, del.delId)">
-                <label>{{del.name}}</label>
+            <div class="delivery-var" v-for="(del, i) in returnDeliveries">
+                <input type="checkbox" v-bind:class="del.delivery_confirm ? 'active-size' : null" @change="changeDel(i, del.delivery_id)">
+                <label>{{del.delivery_name}}</label>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import axios from 'axios'
     import AdminTopSide from "../components/AdminTopSide";
     export default {
         name: "AdminDelivery",
         components: {AdminTopSide},
         data: () =>({
-            deliveries: [
-                {
-                    name: 'Курьерская доставка по СПБ',
-                    show: true,
-                    delId: 1,
-                },
-                {
-                    name: 'СДЭК',
-                    show: true,
-                    delId: 2
-                },
-                {
-                    name: 'ПЭК',
-                    show: true,
-                    delId: 3,
-                },
-                {
-                    name: 'Почта России',
-                    show: false,
-                    delId: 4
-                },
-            ],
-            changedDeliveries: []
+
         }),
         methods: {
-            changeDel(i, delId){
-                this.deliveries[i].show = !this.deliveries[i].show;
+            async changeDel(i, delId){
+                this.$Progress.start();
+                this.returnDeliveries[i].delivery_confirm = this.returnDeliveries[i].delivery_confirm === 1 ? 0 : 1;
 
-                // Находим есть ли уже такой элемент в массиве
-                let isThereDel = this.changedDeliveries.find(el => el === delId);
-
-                // Если есть, то удаляем
-                // нету - добавляем, на выходе получается массив с id, которые нужно поменять
-                if (isThereDel) {
-                    this.changedDeliveries = this.changedDeliveries.filter(el => el !== isThereDel);
-                }else {
-                    this.changedDeliveries.push(delId);
-                }
-
+               await axios.post(`${this.URI}deladmin`, {id: delId})
+                    .then(res => {
+                        this.$Progress.finish();
+                        console.log(res.data);
+                    })
+                    .catch(e => console.log(e))
             }
+        },
+        created() {
+            this.$Progress.start();
+            this.$store.dispatch('GetAllDeliveries');
+        },
+        computed: {
+            returnDeliveries(){
+                this.$Progress.finish();
+                return this.$store.getters.GetAllDeliveries;
+            },
+            URI(){
+                return this.$store.getters.URI;
+            },
         }
     }
 </script>

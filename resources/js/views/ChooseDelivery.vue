@@ -169,21 +169,21 @@
                 {
                     delivery_name: 'post-russia',
                     delImg: '../img/post-icon.png',
-                    delText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis cum cumque eum mollitia, nulla perferendis saepe sequi sit? Ad assumenda beatae doloribus eos magni natus quod repellat similique voluptates.\n',
+                    delText: '',
                     delPrice: null,
                     delChooze: true
                 },
                 {
                     delivery_name: 'sdek',
                     delImg: '../img/sdek-icon.png',
-                    delText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis cum cumque eum mollitia, nulla perferendis saepe sequi sit? Ad assumenda beatae doloribus eos magni natus quod repellat similique voluptates.\n',
+                    delText: 'При выборе доставки до пункта выдачи детали сообщит менеджер.',
                     delPrice: null,
                     delChooze: false
                 },
                 {
                     delivery_name: 'pek',
                     delImg: '../img/pek-icon.png',
-                    delText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis cum cumque eum mollitia, nulla perferendis saepe sequi sit? Ad assumenda beatae doloribus eos magni natus quod repellat similique voluptates.\n',
+                    delText: 'Доставка ПЭК действительна при сумме заказа от 20000 рублей. При выборе доставки до пункта выдачи детали сообщит менеджер.',
                     delPrice: null,
                     delChooze: false
                 },

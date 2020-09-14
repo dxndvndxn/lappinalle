@@ -15,7 +15,7 @@ class Delivery extends Migration
     {
         {
             Schema::create('delivery', function (Blueprint $table) {
-                $table->increments('delivery_id');
+                $table->tinyIncrements('delivery_id');
                 $table->string('delivery_name', 100)->collation('utf8_general_ci');
                 $table->boolean('delivery_confirm');
             });

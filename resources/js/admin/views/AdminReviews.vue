@@ -17,19 +17,19 @@
                 <h1 class="admin-h3">Товар</h1>
             </div>
         </div>
-        <div class="admin-reviews-list">
+        <div class="admin-reviews-list" v-for="(review, i) in returnGetAllReviews">
             <div class="list-cell">
-                <input type="text" class="input-pale-blu" value="1" disabled>
+                <input type="text" class="input-pale-blu" :value="review.reviews_id" disabled>
             </div>
             <div class="list-cell">
-                <input type="text" class="input-pale-blu" value="21.08.2020  21:40" disabled>
+                <input type="text" class="input-pale-blu" :value="review.reviews_created" disabled>
             </div>
             <div class="list-cell">
-                <input type="text" class="input-pale-blu" value="Иван Иванович Иванов" disabled>
+                <input type="text" class="input-pale-blu" :value="review.lappiusers_name" disabled>
             </div>
             <div class="list-cell">
-                <input type="text" class="input-pale-blu" value="Комбинезон LAPPINALLE" disabled>
-                <router-link :to="{path: `review-1`}"><img @click="editOrder()" src="../../../img/admin-set.png" alt=""></router-link>
+                <input type="text" class="input-pale-blu" :value="review.product_title" disabled>
+                <router-link :to="{path: `review-${review.reviews_id}`}"><img src="../../../img/admin-set.png" alt=""></router-link>
             </div>
         </div>
     </div>
@@ -39,7 +39,15 @@
     import AdminTopSide from "../components/AdminTopSide";
     export default {
         name: "AdminReviews",
-        components: {AdminTopSide}
+        components: {AdminTopSide},
+        created() {
+            this.$store.dispatch('GetAllReviews');
+        },
+        computed: {
+            returnGetAllReviews(){
+                return this.$store.getters.GetAllReviews;
+            }
+        }
     }
 </script>
 
