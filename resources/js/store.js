@@ -293,7 +293,12 @@ const store = {
         // Данные юзера
         userData: null,
 
-        EU: null
+        EU: null,
+
+        // Медиа
+        tablet: 768,
+        mobile: 576,
+        wind: window.innerWidth
     },
     mutations: {
         // Регистрация
@@ -1706,6 +1711,13 @@ const store = {
         },
         EU: state => {
             return state.EU;
+        },
+        media: state => {
+            return {
+                tablet: state.tablet,
+                mobile: state.mobile,
+                wind: state.wind
+            }
         }
 
     },

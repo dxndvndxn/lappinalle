@@ -61,7 +61,32 @@ class CheckoutOrderController extends Controller
             ]
         );
         if ($ordersend) {
-            return DB::table('orders')->select('orders_id')->orderBy('orders_id', 'desc')->value('orders_id');
+            try{
+                $y = 0;
+                $tovar = [NULL];
+                foreach ($order[0]['orderData'] as $val) {
+                    $tovar[$y][0] = DB::table('products')->where(['product_id' => $val['id']])->select('product_title')->value('product_title');
+                    $tovar[$y][1] = $val['size'];
+                    $tovar[$y][2] = $val['count'];
+                    $y++;
+                }
+
+                $mailer = "Вы совершили покупку в интернет-магазине Lappinalle.ru \n Корзина: ";
+
+                foreach ($tovar as $val) {
+                    $mailer .= $val[0] . ', размер ' . $val[1] . ', ' . $val[2] . "шт. \n";
+                }
+
+                $mailer .= 'Общая стоимость: ' . $totalPrice;
+
+                $headers = 'From: no-reply@lappinalle.ru';
+                $zakazn = DB::table('orders')->select('orders_id')->orderBy('orders_id', 'desc')->value('orders_id');
+                mail($email, "LAPPINALLE: ЗАКАЗ №".$zakazn, $mailer, $headers);
+
+                return $zakazn;
+            }catch (Exception $e){
+                return $e;
+            }
         } else {
             return false;
         }

@@ -2,7 +2,6 @@
     <div class="admin-delivery">
         <AdminTopSide v-bind:H="'Страница доставки'" v-bind:btn="true"/>
         <h2 class="admin-h2">Доступные варианты доставки</h2>
-        {{returnDeliveries}}
         <div class="delivery-vars">
             <div class="delivery-var" v-for="(del, i) in returnDeliveries">
                 <input type="checkbox" v-bind:class="del.delivery_confirm ? 'active-size' : null" @change="changeDel(i, del.delivery_id)">

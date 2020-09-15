@@ -41,10 +41,12 @@
         name: "AdminReviews",
         components: {AdminTopSide},
         created() {
+            this.$Progress.start();
             this.$store.dispatch('GetAllReviews');
         },
         computed: {
             returnGetAllReviews(){
+                this.$Progress.finish();
                 return this.$store.getters.GetAllReviews;
             }
         }

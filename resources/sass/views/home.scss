@@ -22,6 +22,9 @@
     padding-top: 30px;
     img{
         object-fit: contain;
+        @media screen and (max-width: 1370px) {
+            object-fit: cover;
+        }
     }
     .baner-block{
         position: absolute;
@@ -33,6 +36,7 @@
         text-align: center;
         text-transform: uppercase;
         color: #fff;
+        width: 460px;
         @include ptSans(700);
         h1{
             margin: 0 0 50px;
@@ -63,6 +67,12 @@
         .img-container{
             width: 300px;
             height: 300px;
+            @media screen and (max-width: 1400px) {
+                width: 250px;
+            }
+            @media screen and (max-width: 1200px) {
+                width: 200px;
+            }
             img{
                 object-fit: cover;
                 height: 100%;
@@ -100,16 +110,26 @@
         display: flex;
         flex-direction: column;
         width: 368px;
+        @media screen and (max-width: 1220px) {
+            width: 300px;
+        }
         h1{
             margin: 0;
             font-size: 36px;
+            @media screen and (max-width: 1220px) {
+                font-size: 28px;
+            }
         }
         &-title{
             text-align: center;
             margin-bottom: 30px;
+
         }
         span{
             font-size: 36px;
+            @media screen and (max-width: 1220px) {
+                font-size: 28px;
+            }
         }
         &-sale{
             text-align: center;
@@ -121,6 +141,9 @@
             .sale-now{
                 font-size: 50px;
                 margin-bottom: 80px;
+                @media screen and (max-width: 1220px) {
+                    font-size: 35px;
+                }
             }
 
         }
@@ -129,9 +152,87 @@
             @include ptSans(700);
             margin: 0 80px;
             font-size: $regFz + 2px;
+            @media screen and (max-width: 1220px) {
+                margin: 0 45px;
+                width: 200px;
+                font-size: $regFz - 2px;
+            }
             a{
                 text-decoration: none;
                 color: #fff;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: $tablet) {
+    .home-baner{
+        margin: -5px 0 150px;
+        padding-top: 0;
+        .baner-block{
+            padding: 55px 0 0;
+            transform: translate(-50%, 17.4%);
+            h1{
+                font-size: 36px;
+            }
+            h2{
+                font-size: 24px;
+            }
+            button{
+                margin: 0;
+                width: 100%;
+                font-size: $regFz;
+            }
+        }
+    }
+    .home-conveyor{
+        .owl-stage{
+            margin-left: -50px;
+        }
+        .home-slider{
+            .carousel-mobile{
+                margin-bottom: 75px;
+            }
+            .slide-title{
+                width: 174px
+            }
+            .slide-price{
+                width: 174px
+            }
+        }
+    }
+    .sale-baner{
+        margin: 0 30px;
+       @include flex-column(column-reverse);
+        img{
+            object-fit: contain;
+            height: 400px;
+        }
+        .baner{
+            width: 100%;
+        }
+        .baner-sale{
+            .sale-now{
+                margin-bottom: 30px;
+            }
+        }
+    }
+    .sale-baner, .fl-reverse{
+        margin-bottom: 200px
+    }
+    .wrap-img{
+        img{
+            object-fit: contain;
+            width: 100%;
+        }
+        button{
+            margin: 0;
+            width: 100%;
+            font-size: $regFz;
+            height: 48px;
+            a{
+                color: #fff;
+                text-decoration: none;
             }
         }
     }

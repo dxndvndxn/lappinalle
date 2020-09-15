@@ -139,6 +139,9 @@ Route::get('/revcard-{id}', 'OtzovController@revcard');
 Route::post('/deladmin', 'DelController@admin');
 Route::get('/delsite', 'DelController@site');
 
+//Удаление товара
+Route::post('/delprod', 'DelProdController@del');
+
 // Получаем данные для каталога по гнедеру
 Route::get('/{genders}', 'GenderController@index');
 

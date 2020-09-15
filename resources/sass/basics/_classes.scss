@@ -111,6 +111,10 @@
     display: flex;
     justify-content: space-between;
     z-index: -1;
+    @media screen and (max-width: 1400px) {
+        width: 125%;
+        left: -12.5%;
+    }
     &:hover{
         background: none;
     }
@@ -177,7 +181,10 @@
     }
 }
 .home-baner{
-    margin: 0 230px
+    margin: 0 230px;
+    @media screen and (max-width: 1200px) {
+        margin: 0 170px;
+    }
 }
 .fl-reverse{
     flex-direction: row-reverse;
@@ -524,4 +531,9 @@
     color: $palepurpp;
     @include ptSans(700);
 }
-
+.activeSize{
+    background-color: $palepurpp !important;
+}
+.activeNullSize{
+    border: 1px solid $purpp;
+}

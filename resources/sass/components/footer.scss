@@ -1,6 +1,7 @@
 footer{
     background-color: $palepurpp;
     padding: 75px 0 30px;
+
     .footer{
         display: grid;
         grid-template-columns: 50% 50%;
@@ -33,15 +34,33 @@ footer{
         margin-top: 70px;
         width: 100%;
         text-align: center;
-        //width: 370px;
-        //@include flexin(space-between);
-        //margin: 0 auto;
         span{
             @include ptSans(400);
             text-transform: uppercase;
             font-size: $regFz - 2px;
             &:nth-child(1){
                 margin-right: 3%;
+            }
+        }
+    }
+}
+@media screen and (max-width: $tablet) {
+    footer {
+        .footer {
+            @include template(0px, 75px);
+            grid-template-columns: 100%;
+            text-transform: uppercase;
+            .bottom-foot{
+                grid-column: 1;
+            }
+            .right-foot{
+                margin-top: 50px;
+            }
+            .right-foot, .left-foot{
+                justify-self: center;
+                dt, dd{
+                    text-align: center;
+                }
             }
         }
     }

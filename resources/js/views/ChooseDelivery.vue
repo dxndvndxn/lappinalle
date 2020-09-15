@@ -3,8 +3,8 @@
         <div class="chozen-delivery-header h1-m50">
             <Back v-bind:color="'grey'" v-bind:word="'Контактная информация'"/><h1 class="h1-bold-grey">Способ доставки</h1>
         </div>
-        <div class="chozen-delivery-img chozen-imgs">
-            <img :src="del.delImg" v-for="(del, i) in deliveries" v-bind:class="del.delChooze ? 'chozenImg' : null" alt="" @click="clickDel(i)">
+        <div class="chozen-delivery-img chozen-imgs" v-if="returnDeliveries !== null">
+            <img :src="del.delImg" v-for="(del, i) in deliveries" v-if="returnDeliveries[i].delivery_confirm === 1" v-bind:class="del.delChooze ? 'chozenImg' : null" alt="" @click="clickDel(i)">
         </div>
         <form @submit.prevent="toPay" class="chozen-delivery-fill">
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'post-russia'">
@@ -167,11 +167,22 @@
         data: () => ({
             deliveries: [
                 {
+                    delivery_name: 'postman',
+                    delImg: '../img/postman-icon.png',
+                    delText: 'Действует бесплатная курьерская доставка по СПБ\n' +
+                        'в пределах КАД при заказе от 2000 рублей. При заказе на сумму\n' +
+                        'менее 2000 рублей, отказе или выкупе товара на сумму менее\n' +
+                        '2000 рублей стоимость курьерской доставки по СПБ 300 рублей.',
+                    delPrice: 300,
+                    delChooze: true,
+                    freeShip: 2000
+                },
+                {
                     delivery_name: 'post-russia',
                     delImg: '../img/post-icon.png',
                     delText: '',
                     delPrice: null,
-                    delChooze: true
+                    delChooze: false
                 },
                 {
                     delivery_name: 'sdek',
@@ -186,17 +197,6 @@
                     delText: 'Доставка ПЭК действительна при сумме заказа от 20000 рублей. При выборе доставки до пункта выдачи детали сообщит менеджер.',
                     delPrice: null,
                     delChooze: false
-                },
-                {
-                    delivery_name: 'postman',
-                    delImg: '../img/postman-icon.png',
-                    delText: 'Действует бесплатная курьерская доставка по СПБ\n' +
-                        'в пределах КАД при заказе от 2000 рублей. При заказе на сумму\n' +
-                        'менее 2000 рублей, отказе или выкупе товара на сумму менее\n' +
-                        '2000 рублей стоимость курьерской доставки по СПБ 300 рублей.',
-                    delPrice: 300,
-                    delChooze: false,
-                    freeShip: 2000
                 },
             ],
             city: null,
@@ -287,6 +287,7 @@
         },
         created(){
             this.$Progress.start();
+            this.$store.dispatch('GetAllDeliveries');
         },
         mounted(){
             this.$Progress.finish();
@@ -302,7 +303,11 @@
         computed: {
             paySuccess(){
                 return this.$store.getters.paySuccess;
-            }
+            },
+            returnDeliveries(){
+                this.$Progress.finish();
+                return this.$store.getters.GetAllDeliveries;
+            },
         }
     }
 </script>

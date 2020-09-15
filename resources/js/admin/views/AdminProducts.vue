@@ -62,7 +62,7 @@
                         <input type="text" class="input-pale-blu" value="0" disabled>
                     </div>
                     <div class="list-set">
-                        <router-link :to="{path: `card-${newId}`}"><img @click="addNewProductData(newId)" src="../../../img/admin-set.png" alt=""></router-link>
+                        <router-link :to="{path: `card-${newId}`}"><img src="../../../img/admin-set.png" alt=""></router-link>
                         <img src="../../../img/krest-btn.png" alt="">
                     </div>
                 </div>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="list-set">
                         <router-link :to="{path: `card-${prd.product_id}`}"><img src="../../../img/admin-set.png" alt=""></router-link>
-                        <img src="../../../img/krest-btn.png" alt="">
+                        <img src="../../../img/krest-btn.png" alt="" @click="removeProduct(prd.product_id)">
                     </div>
                 </div>
             </div>
@@ -280,8 +280,15 @@
                 // Отправляем на апдейет
                 this.updateProduct(this.activeProduct.id, 'category', {sexId: data.sexId, categId: data.categId, departId: data.departId});
             },
-            addNewProductData(newId){
-
+            removeProduct(id){
+                this.$Progress.start();
+               axios.post(`${this.URI}delprod`, {id})
+                   .then(res => {
+                       console.log(res.data);
+                       this.$Progress.start();
+                       this.$store.dispatch('AdminGetAllPrducts');
+                   })
+                   .catch(e => console.log(e))
             }
         },
         created() {

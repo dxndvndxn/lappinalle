@@ -46,6 +46,7 @@
            ordersUser: null
         }),
         created() {
+            this.$Progress.start();
             this.$store.dispatch('GetOneUser', {id: this.$route.params.id})
         },
         computed: {
@@ -70,6 +71,7 @@
 
                 // Корзина
                 this.ordersUser= newValue[1];
+                this.$Progress.finish();
             }
         }
     }

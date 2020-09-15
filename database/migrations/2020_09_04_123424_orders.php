@@ -33,7 +33,6 @@ class Orders extends Migration
             $table->string('orders_status', 30)->collation('utf8_general_ci');
             $table->string('orders_totalPrice', 10)->collation('utf8_general_ci');
             $table->string('orders_Comment', 255)->collation('utf8_general_ci')->nullable();
-//            $table->date('orders_created');
             $table->timestamps();
         });
     }

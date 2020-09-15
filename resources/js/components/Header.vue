@@ -2,13 +2,16 @@
     <nav>
         <div class="menu-top">
             <ul class="grid-nav-top container">
-                <li>
-                    <form class="nav-search">
+                <li class="wrap-hamburger">
+                    <form class="nav-search" v-if="media.wind > media.tablet">
                         <div class="search">
                             <input type="search" id="search" placeholder="Поиск">
                             <label for="search"><img src="../../img/search.png" alt=""></label>
                         </div>
                     </form>
+                    <div class="hamburger" @click="EatHamburger()" v-else>
+                        <span></span><span></span><span></span>
+                    </div>
                 </li>
                 <router-link class="flexin-center logo" tag="li" to="/"><a href="#"><img src="../../img/logo-admin.png" alt=""></a></router-link>
                 <li class="nav-icons">
@@ -40,20 +43,21 @@
                 </li>
             </ul>
         </div>
-        <div class="menu-wrap" @mouseleave="unHoverTopMenu()">
+        <div class="menu-wrap" v-if="menuHide" @mouseleave="unHoverTopMenu()">
             <div class="menu-middle">
                 <ul class="container genders" v-bind:class="returnWidth" >
                     <li v-for="(gen, k) in $store.getters.topMenu"
                         :key="k"
                     >
                         <router-link :to="{name: 'gender', params: {gender: gen.url}}">
-                            <span @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'" @click="closeMenu">{{gen.title}}</span>
+                            <span v-if="media.wind > media.tablet" @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</span>
+                            <span v-else @click="ClickShowCategories(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</span>
                         </router-link>
                     </li>
                 </ul>
             </div>
             <div class="menu-bottom" v-if="showMenu">
-                <ul class="menu-categories">
+                <ul class="menu-categories" v-if="categoriesHide">
                     <li
                         v-for="(categ, value, i) in categories"
                         :key="i+'c'"
@@ -61,12 +65,16 @@
                         @mouseleave="categ[0].hover = false"
                     >
                         <router-link :to="{name: 'category', params: {gender: categ[0].sex_alias, category: categ[0].categories_alias}}" >
-                            <span @mouseover="showDepartment(value, categories, categ)" @click="closeMenu()" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
+                            <span v-if="media.wind > media.tablet" @mouseover="showDepartment(value, categories, categ)" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
+                            <span v-else @click="ClickShowDepartments(categ)" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
                         </router-link>
                     </li>
                 </ul>
-                <ul class="menu-departments" @mouseover="hoverCategories()" @mouseleave="getChosenCategory !== null ? categories[getChosenCategory][0].hover = false : true">
-                    <li  v-for="(depart, d) in getDepartments" :key="d+'d'" @click="closeMenu()">
+                <ul class="menu-departments" v-if="departmentsHide" @mouseover="hoverCategories()" @mouseleave="getChosenCategory !== null ? categories[getChosenCategory][0].hover = false : true">
+                    <li v-if="media.wind <= media.tablet" class="back-to-categories" @click="backToCategories()">
+                        <router-link :to="{name: 'category', params: {gender: getDepartments[0].sex_alias, category: getDepartments[0].categories_alias}}">{{getDepartments[0].category}}</router-link>
+                    </li>
+                    <li  v-for="(depart, d) in getDepartments" v-if="depart.department !== null" :key="d+'d'">
                         <router-link :to="{name: 'department', params: {gender: depart.sex_alias, category: depart.categories_alias, department: depart.departments_alias}}">{{depart.department}}</router-link>
                     </li>
                 </ul>
@@ -89,7 +97,17 @@
             chosenCatg: null,
             categories: null,
             chosenGender: null,
-            cabinet: false
+            cabinet: false,
+
+            // Для скрытия главного меню
+            menuHide: true,
+
+            // Сркываем подкатегории
+            departmentsHide: true,
+
+            // Скрываем категории
+            categoriesHide: true,
+
         }),
         beforeMount() {
             this.$Progress.start();
@@ -141,14 +159,55 @@
                 if (this.chosenCatg !== null) this.categories[this.chosenCatg][0].hover = true
             },
 
-            closeMenu(){
-                this.showMenu = false;
+            // МОБИЛКА
+            // Открываем меню в мобилке
+            EatHamburger(){
+                this.menuHide = !this.menuHide;
+            },
+
+            // Открываем гендеров
+            ClickShowCategories(genderTitle, k){
+                // Получаем категории
+                this.categories = this.$store.getters.lastMenu[genderTitle];
+
+                // Показываем меню
+                this.showMenu = !this.showMenu;
+
+                // Скрываем подкатегории
+                this.departmentsHide = false;
+
+                // Открываем категории
+                this.categoriesHide = true;
+            },
+
+            // Открываем подкатегории
+            ClickShowDepartments(categ){
+                // Показываем подкатегории
+                this.departments = categ;
+                this.departmentsHide = true;
+
+                // Скрываем категории, чтобы открыть подкатегории
+                this.categoriesHide = false;
+            },
+
+            backToCategories(){
+                // Скрываем подкатегории
+                this.departmentsHide = false;
+
+                // Открываем категории
+                this.categoriesHide = true;
             }
         },
         // Получаем меню
         created(){
             if (!this.$store.getters.lastMenu.length && !this.$store.getters.topMenu.length) this.$store.dispatch('getMenuData');
             this.$Progress.finish();
+
+            // @media tablet 768px
+            // Скрываем меню
+            if (this.media.wind < this.media.tablet) {
+                this.menuHide = !this.menuHide;
+            }
         },
         // Котролируем ширину меню
         updated() {
@@ -208,6 +267,9 @@
             },
             isLoggedIn(){
                 return this.$store.getters.isLoggedIn;
+            },
+            media(){
+                return this.$store.getters.media;
             }
         },
         watch: {

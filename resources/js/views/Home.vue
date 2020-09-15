@@ -18,7 +18,16 @@
         <div class="home-conveyor home-baner" v-for="(data, index, i) in sliderBanersData" :key="i">
             <div class="home-slider" v-if="data.name === 'Slider'">
                 <h1 class="h-30">{{data.h1}}</h1>
-                <carousel :nav="true" :dots="false" :lazyLoad="true">
+                <carousel :nav="true" :dots="false" :lazyLoad="true" v-if="media.wind > media.tablet">
+                    <div class="slide-wrap" v-for='(img, ii) in data.sliderData' :key="ii">
+                        <router-link :to="img.sliderLink" class="img-container">
+                            <img :src="img.sliderImg" alt="">
+                        </router-link>
+                        <span class="slide-title">{{img.sliderTitle}}</span>
+                        <span class="slide-price">{{img.sliderPrice}} &#8381;</span>
+                    </div>
+                </carousel>
+                <carousel class="carousel-mobile" :nav="false" :dots="false" :lazyLoad="true" :margin="100" :autoWidth="true" :responsive="{768:{items:3}}" v-else>
                     <div class="slide-wrap" v-for='(img, ii) in data.sliderData' :key="ii">
                         <router-link :to="img.sliderLink" class="img-container">
                             <img :src="img.sliderImg" alt="">
@@ -29,7 +38,15 @@
                 </carousel>
             </div>
             <div class="sale-baner" v-if="data.name === 'Baner'" v-bind:class="data.banerData.fllReverse ? 'fl-reverse' : null">
-                <img :src="data.img" alt="">
+                <img :src="data.img" alt="" v-if="media.wind > media.tablet">
+                <div class="wrap-img" v-else>
+                    <img :src="data.img" alt="">
+                    <button class="btn">
+                        <router-link :to="{path: data.banerData.link}">
+                            {{data.banerData.btn}}
+                        </router-link>
+                    </button>
+                </div>
                 <div class="baner" >
                     <div class="baner-title">
                         <h1>{{data.banerData.h1}}</h1>
@@ -37,13 +54,13 @@
                     </div>
                     <div class="baner-sale">
                         <div class="sale-was">
-                            {{data.banerData.price}}
+                            {{data.banerData.price}} &#8381;
                         </div>
                         <div class="sale-now">
                             {{data.banerData.price - ((data.banerData.sale / 100) *data.banerData.price)}} &#8381;
                         </div>
                     </div>
-                    <button class="btn">
+                    <button class="btn" v-if="media.wind > media.tablet">
                         <router-link :to="{path: data.banerData.link}">
                             {{data.banerData.btn}}
                         </router-link>
@@ -74,6 +91,10 @@
                         { sliderImg: '../../../img/malchiki2.jpg', sliderLink: 'malchiki/item-9', sliderTitle: 'Комплект JONATHAN STAR', sliderPrice: '5760'},
                         { sliderImg: '../../../img/malchiki3.jpg', sliderLink: 'malchiki/item-12', sliderTitle: 'Комбинезон LAPPINALLE', sliderPrice: '4680'},
                         { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/item-18', sliderTitle: 'Комбинезон RASAVIL', sliderPrice: '4140'},
+                        { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/item-18', sliderTitle: 'Комбинезон RASAVIL', sliderPrice: '4140'},
+                        { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/item-18', sliderTitle: 'Комбинезон RASAVIL', sliderPrice: '4140'},
+                        { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/item-18', sliderTitle: 'Комбинезон RASAVIL', sliderPrice: '4140'},
+                        { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/item-18', sliderTitle: 'Комбинезон RASAVIL', sliderPrice: '4140'},
                     ]
                 },
                 {
@@ -98,6 +119,11 @@
                 }
             ]
 
-        })
+        }),
+        computed: {
+            media(){
+                return this.$store.getters.media;
+            }
+        }
     }
 </script>

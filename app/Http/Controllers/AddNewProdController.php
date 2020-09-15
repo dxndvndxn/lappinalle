@@ -6,7 +6,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use DB;
-
+use Exception;
 class AddNewProdController extends Controller
 {
     public function add(Request $request) {
@@ -101,23 +101,56 @@ class AddNewProdController extends Controller
 
         $product_id = $productStr['id'];
 
-        if (isset($product['img-1'])){
+        if (isset($productStr['img'])){
+
             $imgPath = "";
 
-            for ($prd = 0; $prd < count($product); $prd++) {
-
-                if ($request->hasFile("img-$prd")) {
-                    $img = $request->file("img-$prd");
-                    $img->move(public_path() . "/img/item-$product_id", "img_$prd-item-$product_id" . ".png");
-                    $imgPath .= "/img/item-$product_id/" . "img_$prd-item-$product_id" . ".png" . ", ";
-                }
-            }
-            DB::table('products')
+            $imgString = DB::table('products')
                 ->where('product_id', $productStr['id'])
-                ->update(['product_img' => $imgPath]);
+                ->select('product_img')
+                ->value('product_img');
 
+            // Если в БД есть уже фотки, то
+            // @imgArr - разделяем строку на массив по запятой
+            // @countFrom - длина для определения названия следующей фотографии (минус 1 так в массиве в конце добавляется пустая строка)
+            // @imgPath - присваиваем уже существующую строку из БД
+            // Дальше в цикле добавляем $countFrom в название новой фотографии
+            if ($imgString !== NULL){
+
+                $imgArr = explode(', ', $imgString);
+                $countFrom = count($imgArr);
+                $imgPath .= $imgString;
+
+                for ($prd = 0; $prd < count($product); $prd++) {
+
+                    if ($request->hasFile("img-$prd")) {
+                        $img = $request->file("img-$prd");
+                        $img->move(public_path() . "/img/item-$product_id", "img_$countFrom-item-$product_id" . ".png");
+                        $imgPath .= "/img/item-$product_id/" . "img_$countFrom-item-$product_id" . ".png" . ", ";
+                        $countFrom += $countFrom;
+                    }
+                }
+
+                DB::table('products')
+                    ->where('product_id', $productStr['id'])
+                    ->update(['product_img' => $imgPath]);
+            }
+            // Если в БД вернула пустую строку, то просто добавляем фотографии как обычно
+            else{
+                for ($prd = 0; $prd < count($product); $prd++) {
+
+                    if ($request->hasFile("img-$prd")) {
+                        $img = $request->file("img-$prd");
+                        $img->move(public_path() . "/img/item-$product_id", "img_$prd-item-$product_id" . ".png");
+                        $imgPath .= "/img/item-$product_id/" . "img_$prd-item-$product_id" . ".png" . ", ";
+                    }
+                }
+
+                DB::table('products')
+                    ->where('product_id', $productStr['id'])
+                    ->update(['product_img' => $imgPath]);
+            }
         }
-
         $videoPath = "";
         if (isset($product['video'])) {
 

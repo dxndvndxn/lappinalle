@@ -146,6 +146,7 @@
             actvieStatus: null
         }),
         created() {
+            this.$Progress.start();
             this.$store.dispatch('GetOneOrder', {id: this.$route.params.id});
         },
         methods: {
@@ -173,6 +174,7 @@
                 this.orderInfo = newValue[0];
                 this.orderProducts = newValue[1];
                 this.actvieStatus = this.orderInfo[0].orders_status;
+                this.$Progress.finish();
             }
         }
     }

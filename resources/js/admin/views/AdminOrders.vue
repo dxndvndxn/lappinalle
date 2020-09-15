@@ -70,11 +70,13 @@
 
             }
         },
-        mounted() {
+        created() {
+            this.$Progress.start();
             this.$store.dispatch('GetAllOrders');
         },
         computed: {
             GetOrders(){
+                this.$Progress.finish();
                 return this.$store.getters.GetAllOrders;
             }
         }

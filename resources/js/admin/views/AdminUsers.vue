@@ -46,10 +46,12 @@
 
         },
         created() {
+            this.$Progress.start();
           this.$store.dispatch('GetAllUsers');
         },
         computed: {
             returnAllUsers(){
+                this.$Progress.finish();
                 return this.$store.getters.GetAllUsers;
             }
         }
