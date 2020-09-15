@@ -1,6 +1,6 @@
 <template>
     <div class="catalog-sidebar">
-        <ul v-if="$route.params.gender && getSidebar" class="sidebar-category">
+        <ul v-if="($route.params.gender && getSidebar) && (media.wind > media.tablet)" class="sidebar-category">
 
             <li v-for="(aliasData, alias, i) in getSidebar[$route.params.gender]" :key="i" v-if="aliasData.show_category || alias === 'sex_name'">
                 <router-link :to="{name: 'gender', params: {gender: $route.params.gender}}" v-if="alias === 'sex_name'">
@@ -18,7 +18,7 @@
                 </router-link>
             </li>
         </ul>
-        <div class="sidebar-sizing">
+        <div v-if="showSidebar" class="sidebar-sizing">
             <span>Размер</span>
             <div class="sizing-cell">
                 <button type="button" v-for="(el, size, s) in getSizes"
@@ -28,16 +28,19 @@
                 </button>
             </div>
         </div>
-        <div class="sidebar-price">
-            <span class="price">
+        <div v-if="showSidebar" class="sidebar-price">
+            <span class="price" v-if="(media.wind > media.tablet)">
                 Цена
             </span>
+            <span class="price" v-else>
+                Цена от - до
+            </span>
             <form>
-                <label for="min">От</label><input type="number" @focusout="showProductsByCashMin(min)" v-model.number="min" id="min" :placeholder="getMinMax.min"><span>&#8381;</span>
-                <label for="max">До</label><input type="number" @focusout="showProductsByCashMax(max)" v-model.number="max" id="max" :placeholder="getMinMax.max"><span>&#8381;</span>
+                <label for="min" v-if="(media.wind > media.tablet)">От</label><input type="number" @focusout="showProductsByCashMin(min)" v-model.number="min" id="min" :placeholder="getMinMax.min"><span v-if="(media.wind > media.tablet)">&#8381;</span>
+                <label for="max" v-if="(media.wind > media.tablet)">До</label><input type="number" @focusout="showProductsByCashMax(max)" v-model.number="max" id="max" :placeholder="getMinMax.max"><span v-if="(media.wind > media.tablet)">&#8381;</span>
             </form>
         </div>
-        <div class="sidebar-sale">
+        <div v-if="showSidebar" class="sidebar-sale">
             <form>
                 <label for="sale">Распродажа</label><input type="checkbox" @change="showSales"  v-model="checkSale" v-bind:class="checkSale ? 'active-size' : null" id="sale">
             </form>
@@ -48,6 +51,7 @@
 <script>
     export default {
         name: "Sidebar",
+        props: ['showSidebar'],
         data: () => ({
             checkSale: false,
             min: null,
@@ -63,6 +67,9 @@
             },
             getSizes(){
                 return this.$store.getters.filterSizes;
+            },
+            media(){
+                return this.$store.getters.media;
             }
         },
         created(){

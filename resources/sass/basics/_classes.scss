@@ -375,7 +375,26 @@
     font-size: $regFz;
     margin-bottom: 40px;
 }
-
+.show{
+    @media screen and (max-width: $tablet) {
+        height: 90%;
+        padding: 18px 22px;
+        transition: .2s all ease-out;
+    }
+}
+.hide{
+    @media screen and (max-width: $tablet) {
+        height: 0%;
+        padding: 0;
+        transition: .2s all ease-out;
+    }
+}
+.pale-stroke{
+    stroke: $paleblue;
+}
+.filled-leave{
+    stroke: $purpp;
+}
 // Админ классы
 .active-admin-tab{
     font-family: 'PT Sans', sans-serif !important;

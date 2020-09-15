@@ -8,6 +8,20 @@
     grid-row-gap: 30px;
     grid-column-gap: 30px;
     .item{
+        position: relative;
+        .icon-cell{
+            fill: $paleblue;
+            cursor: pointer;
+            position: absolute;
+        }
+        .t-shirt{
+            top: 0;
+            left: 0;
+        }
+        .book{
+            top: 0;
+            right: 0;
+        }
         a{
             @include flexin(center);
             img{
@@ -35,4 +49,26 @@
     font-family: "PT Sans", sans-serif;
     font-weight: 400;
     font-size: $regFz;
+}
+
+@media screen and (max-width: $tablet) {
+    .catalog{
+        grid-template-columns: 100%;
+        .bread-mobile{
+            padding: 28px 0 20px;
+        }
+    }
+    .catalog-items{
+        grid-template-columns: 100%;
+        grid-row-gap: 35px;
+        .item {
+            a {
+                img {
+                    width: 320px;
+                    height: 320px;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
 }

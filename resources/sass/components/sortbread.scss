@@ -58,3 +58,29 @@
         }
     }
 }
+@media screen and (max-width: $tablet) {
+    .bread{
+        padding: 20px 0 20px;
+    }
+    .wrap-bread{
+        background-color: $paleblue;
+        height: 61px;
+        box-sizing: border-box;
+    }
+    .sort{
+        grid-column: 2;
+        label{
+            color: #fff;
+        }
+        select{
+            @include ptSans(700);
+            color: #fff;
+        }
+    }
+    .filter-icon{
+        @include flexin(flex-end);
+        svg{
+            cursor: pointer;
+        }
+    }
+}

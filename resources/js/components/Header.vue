@@ -1,5 +1,6 @@
 <template>
     <nav>
+        <vue-progress-bar v-if="media.wind <= media.tablet"></vue-progress-bar>
         <div class="menu-top">
             <ul class="grid-nav-top container">
                 <li class="wrap-hamburger">
@@ -83,7 +84,7 @@
 
             </div>
         </div>
-        <vue-progress-bar></vue-progress-bar>
+        <vue-progress-bar v-if="media.wind > media.tablet"></vue-progress-bar>
     </nav>
 </template>
 
@@ -211,7 +212,7 @@
 
             // @media tablet 768px
             // Скрываем меню
-            if (this.media.wind < this.media.tablet) {
+            if (this.media.wind <= this.media.tablet) {
                 this.menuHide = !this.menuHide;
             }
         },

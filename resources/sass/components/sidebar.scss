@@ -113,3 +113,91 @@
         @extend %checkbox;
     }
 }
+@media screen and (max-width: $tablet) {
+    .catalog-sidebar{
+        background-color: $ocean;
+        position: relative;
+        &:before{
+            position: absolute;
+            content: '';
+            width: 16px;
+            height: 100%;
+            top: 0;
+            left: -16px;
+            background-color: $ocean;
+        }
+        &:after{
+            position: absolute;
+            content: '';
+            width: 16px;
+            height: 100%;
+            top: 0;
+            right: -16px;
+            background-color: $ocean;
+        }
+        .sidebar-sizing{
+            margin-bottom: 18px;
+            span{
+                margin-bottom: 18px;
+                text-transform: none;
+            }
+        }
+        .sizing-cell{
+            grid-template-columns: repeat(auto-fill, minmax(46px, 46px));
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            width: 100%;
+            button{
+                background-color: #fff;
+                padding: 10px;
+            }
+        }
+        .sidebar-price{
+            margin-bottom: 18px;
+           .price{
+               text-transform: none;
+               margin-bottom: 18px;
+           }
+            form{
+                grid-template-columns: 122px 122px;
+                grid-column-gap: 60px;
+                width: 304px;
+                position: relative;
+                &:before{
+                    position: absolute;
+                    content: '';
+                    top: 50%;
+                    left: 45%;
+                    height: 3px;
+                    width: 30px;
+                    background-color: $palepurpp;
+                }
+                input{
+                    padding: 10px 20px;
+                    border: 2px solid $blu;
+                    background: none;
+                    @include ptSans(400);
+                    font-size: 14px;
+                    height: 40px;
+                    box-sizing: border-box;
+                    width: 120px;
+                    text-overflow: ellipsis;
+                    background-color: #fff;
+                }
+            }
+        }
+        .sidebar-sale{
+            form{
+                flex-direction: column;
+                label{
+                    text-transform: none;
+                    margin-bottom: 18px;
+                    font-size: $regFz;
+                }
+                input{
+                    background-color: #fff;
+                }
+            }
+        }
+    }
+}
