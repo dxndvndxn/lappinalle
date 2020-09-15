@@ -4178,25 +4178,56 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         this.chozenSizeAfterClick = this.chozenSizeStockAfterClick = null;
       }
     },
+    deleteOldSize: function deleteOldSize(id) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this4.URI, "removesize"), {
+                  id: id
+                }).then(function (res) {
+                  if (res.data) {
+                    _this4.$Progress.start();
+
+                    _this4.$store.dispatch('GetOneProduct', _this4.$route.params.id);
+
+                    _this4.chozenSizeAfterClick = _this4.chozenSizeStockAfterClick = null;
+                  }
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
     // АПДЕЙТИМ ТОВАР
     // @whatNeedToChange - имя поля, которое надо поменять
     // @newValue - новое значение
     updateProduct: function updateProduct(id, whatNeedToChange, newValue) {
-      var _this4 = this;
+      var _this5 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var stringData, formData;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 stringData = _defineProperty({
                   id: id
                 }, whatNeedToChange, newValue);
                 formData = new FormData();
                 formData.append('stringData', JSON.stringify(stringData));
-                _context2.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this4.URI, "updprod"), formData).then(function (res) {
+                _context3.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this5.URI, "updprod"), formData).then(function (res) {
                   console.log('Success change', whatNeedToChange);
                 })["catch"](function (e) {
                   return console.log(e);
@@ -4204,10 +4235,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
               case 5:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     // Апдейтим описание
@@ -4890,6 +4921,11 @@ __webpack_require__.r(__webpack_exports__);
     // Оставляем hover на категориях, если переходим на поле с подкатегориями
     hoverCategories: function hoverCategories() {
       if (this.chosenCatg !== null) this.categories[this.chosenCatg][0].hover = true;
+    },
+    closeMenu: function closeMenu() {
+      if (this.media.wind > this.media.tablet) {
+        this.showMenu = false;
+      }
     },
     // МОБИЛКА
     // Открываем меню в мобилке
@@ -13370,6 +13406,9 @@ var render = function() {
                           sz.sizes_number,
                           i
                         )
+                      },
+                      dblclick: function($event) {
+                        return _vm.deleteOldSize(sz.catalog_size_id)
                       }
                     }
                   },
@@ -14595,6 +14634,9 @@ var render = function() {
                                     on: {
                                       mouseover: function($event) {
                                         return _vm.hoverTopMenu(gen.title, k)
+                                      },
+                                      click: function($event) {
+                                        return _vm.closeMenu()
                                       }
                                     }
                                   },
@@ -14675,6 +14717,9 @@ var render = function() {
                                                   _vm.categories,
                                                   categ
                                                 )
+                                              },
+                                              click: function($event) {
+                                                return _vm.closeMenu()
                                               }
                                             }
                                           },
@@ -14769,7 +14814,14 @@ var render = function() {
                               return depart.department !== null
                                 ? _c(
                                     "li",
-                                    { key: d + "d" },
+                                    {
+                                      key: d + "d",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.closeMenu()
+                                        }
+                                      }
+                                    },
                                     [
                                       _c(
                                         "router-link",

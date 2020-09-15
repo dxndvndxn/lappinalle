@@ -39,7 +39,7 @@
                 <div class="size-grid">
                     <h1 class="admin-h3">Добавленные размеры</h1>
                     <div class="wrap-size-grid">
-                        <span v-for="(sz, i) in presentSizes" v-bind:class="sz.catalog_size_amount === 0 ? 'zero-border' : null" :class="{activeSize: sz.active, activeNullSize: sz.catalog_size_amount === 0}" @click="selectSizeForStockUpdate(sz.catalog_size_amount, sz.sizes_number, i)">
+                        <span v-for="(sz, i) in presentSizes" v-bind:class="sz.catalog_size_amount === 0 ? 'zero-border' : null" :class="{activeSize: sz.active, activeNullSize: sz.catalog_size_amount === 0}" @click="selectSizeForStockUpdate(sz.catalog_size_amount, sz.sizes_number, i)" @dblclick="deleteOldSize(sz.catalog_size_id)">
                             {{sz.sizes_number}}
                         </span>
                         <span v-for="(sz, i) in sizes" @click="selectSizeForStock(i)" :class="sz.active ? 'active-size' : null" @dblclick="deleteSize(i)">
@@ -599,6 +599,18 @@
                 if (!this.sizes.length) {
                     this.chozenSizeAfterClick = this.chozenSizeStockAfterClick = null;
                 }
+            },
+
+            async deleteOldSize(id){
+                await axios.post(`${this.URI}removesize`, {id})
+                    .then(res => {
+                        if (res.data) {
+                            this.$Progress.start();
+                            this.$store.dispatch('GetOneProduct', this.$route.params.id)
+                            this.chozenSizeAfterClick = this.chozenSizeStockAfterClick = null;
+                        }
+                    })
+                    .catch(e => console.log(e))
             },
 
             // АПДЕЙТИМ ТОВАР

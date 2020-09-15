@@ -67,6 +67,10 @@ Route::get('/adminusers', 'AdminUsersController@index');
 
 Route::get('/admin-product-{id}', 'AdminGetOneProductController@index');
 
+//Удаление товара
+Route::post('/delprod', 'DelProdController@del');
+
+Route::post('/removesize', 'AdminDeleteSizeController@remove');
 
 // SITE
 // Оформление заказа
@@ -138,9 +142,6 @@ Route::get('/revcard-{id}', 'OtzovController@revcard');
 //Варианты доставки
 Route::post('/deladmin', 'DelController@admin');
 Route::get('/delsite', 'DelController@site');
-
-//Удаление товара
-Route::post('/delprod', 'DelProdController@del');
 
 // Получаем данные для каталога по гнедеру
 Route::get('/{genders}', 'GenderController@index');

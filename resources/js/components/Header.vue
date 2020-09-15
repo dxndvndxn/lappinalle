@@ -50,7 +50,7 @@
                         :key="k"
                     >
                         <router-link :to="{name: 'gender', params: {gender: gen.url}}">
-                            <span v-if="media.wind > media.tablet" @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</span>
+                            <span v-if="media.wind > media.tablet" @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'" @click="closeMenu()">{{gen.title}}</span>
                             <span v-else @click="ClickShowCategories(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</span>
                         </router-link>
                     </li>
@@ -65,7 +65,7 @@
                         @mouseleave="categ[0].hover = false"
                     >
                         <router-link :to="{name: 'category', params: {gender: categ[0].sex_alias, category: categ[0].categories_alias}}" >
-                            <span v-if="media.wind > media.tablet" @mouseover="showDepartment(value, categories, categ)" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
+                            <span v-if="media.wind > media.tablet" @mouseover="showDepartment(value, categories, categ)" :class="value === 'Распродажа' ? 'sale' : null" @click="closeMenu()">{{value}}</span>
                             <span v-else @click="ClickShowDepartments(categ)" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
                         </router-link>
                     </li>
@@ -74,8 +74,8 @@
                     <li v-if="media.wind <= media.tablet" class="back-to-categories" @click="backToCategories()">
                         <router-link :to="{name: 'category', params: {gender: getDepartments[0].sex_alias, category: getDepartments[0].categories_alias}}">{{getDepartments[0].category}}</router-link>
                     </li>
-                    <li  v-for="(depart, d) in getDepartments" v-if="depart.department !== null" :key="d+'d'">
-                        <router-link :to="{name: 'department', params: {gender: depart.sex_alias, category: depart.categories_alias, department: depart.departments_alias}}">{{depart.department}}</router-link>
+                    <li  v-for="(depart, d) in getDepartments" v-if="depart.department !== null" :key="d+'d'" @click="closeMenu()">
+                        <router-link :to="{name: 'department', params: {gender: depart.sex_alias, category: depart.categories_alias, department: depart.departments_alias}}" >{{depart.department}}</router-link>
                     </li>
                 </ul>
             </div>
@@ -157,6 +157,12 @@
             // Оставляем hover на категориях, если переходим на поле с подкатегориями
             hoverCategories(){
                 if (this.chosenCatg !== null) this.categories[this.chosenCatg][0].hover = true
+            },
+
+            closeMenu(){
+                if (this.media.wind > this.media.tablet) {
+                    this.showMenu = false;
+                }
             },
 
             // МОБИЛКА

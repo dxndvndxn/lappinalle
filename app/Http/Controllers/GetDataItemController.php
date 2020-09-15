@@ -16,7 +16,9 @@ class GetDataItemController extends Controller
         $reviewStar = DB::table('reviews')->select('reviews_star')->where('reviews.product_id', '=', $number)->get();
 
         // Получаем размеры к данному товару
-        $sizesData = DB::table('catalog_size')->where('product_id', '=', $number)
+        $sizesData = DB::table('catalog_size')
+            ->where('product_id', '=', $number)
+            ->where('catalog_size_amount', '>', 0)
             ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
             ->select('sizes_number')
             ->get();

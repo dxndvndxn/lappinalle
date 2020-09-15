@@ -11,7 +11,7 @@ class AdminGetOneProductController extends Controller
         $oneProduct = DB::table('products')->where('product_id', '=', $id)->get();
         $sizesData = DB::table('catalog_size')->where('product_id', '=', $id)
             ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
-            ->select('sizes_number', 'sizes.sizes_id', 'catalog_size_amount')
+            ->select('sizes_number', 'sizes.sizes_id', 'catalog_size_amount', 'catalog_size_id')
             ->get();
         if (!count($sizesData)) {
             $sizesData = DB::table('catalog_size')->where('product_id', '=', $id)
