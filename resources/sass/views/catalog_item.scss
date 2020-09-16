@@ -247,11 +247,6 @@
             width: 0%;
         }
     }
-    .reviewleave-success{
-        @include ptSans(700);
-        color: $palepurpp;
-        font-size: $regFz - 2px;
-    }
 }
 .leave-btn{
     background-color: $paleblue;

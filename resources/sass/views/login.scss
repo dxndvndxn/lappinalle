@@ -5,3 +5,23 @@
         align-items: center;
     }
 }
+@media screen and (max-width: $tablet) {
+    .login{
+        @include margins-template(0, 26px, 50px);
+        form{
+            align-items: inherit;
+            button{
+                width: 100%;
+            }
+        }
+    }
+}
+@media screen and (max-width: $mobile) {
+    .login{
+        form{
+            button{
+                font-size: $mini;
+            }
+        }
+    }
+}

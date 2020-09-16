@@ -14,3 +14,20 @@
         text-align: center;
     }
 }
+@media screen and (max-width: $tablet) {
+    .pay-success{
+        h1{
+            font-size: 24px;
+        }
+        &-text{
+            margin-bottom: 47px;
+        }
+    }
+}
+@media screen and (max-width: $mobile) {
+    .pay-success{
+        &-text{
+            font-size: $mini;
+        }
+    }
+}

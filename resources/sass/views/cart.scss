@@ -164,3 +164,144 @@
         margin-top: 60px;
     }
 }
+@media screen and (max-width: $tablet) {
+    .cart-head{
+        h1{
+            color: #000;
+        }
+        .back{
+            .grey{
+                color: #000;
+            }
+        }
+    }
+    .cart-cards{
+        margin: 40px 0 0;
+        height: auto;
+        transform: none;
+        overflow: auto;
+        flex-direction: column;
+        &::-webkit-scrollbar-track{
+            background-color: unset;
+        }
+        &::-webkit-scrollbar{
+            width: 0;
+            background-color: unset;
+        }
+        &::-webkit-scrollbar-thumb
+        {
+            background-color: unset;
+        }
+        .card{
+            transform: none;
+            grid-template-columns: 100%;
+            .card-name{
+                @include ptSans(700);
+                font-size: $regFz;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            .card-img{
+                display: flex;
+                justify-content: center;
+                margin-bottom: 30px;
+                img{
+                    object-fit: contain;
+                    width: 325px;
+                    height: 325px;
+                }
+            }
+        }
+        .card-info{
+            .card-counts{
+                display: block;
+                margin-bottom: 32px;
+                .card-size, .card-amount, .card-price{
+                    margin-bottom: 20px;
+                }
+                .card-amount{
+                    span{
+                        margin: auto 85px;
+                    }
+                    .change-amount{
+                        &:before{
+                            content: none;
+                        }
+                        button{
+                            &:first-child{
+                                position: absolute;
+                                left: -40px;
+                                top: 5px;
+                                &:before{
+                                    transform: rotate(-90deg);
+                                    height: 2.5px;
+                                    width: 19px;
+                                    position: absolute;
+                                    top: 5px;
+                                    left: -3.5px;
+                                    background: $blu;
+                                }
+                                &:after{
+                                    transform: none;
+                                    height: 2.5px;
+                                    width: 19px;
+                                    position: absolute;
+                                    top: 5px;
+                                    left: -3.5px;
+                                    background: $blu;
+                                }
+                            }
+                            &:last-child{
+                                position: absolute;
+                                left: -150px;
+                                top: 15px;
+                                &:after{
+                                    content: none;
+                                }
+                                &:before{
+                                    transform: none;
+                                    content: "";
+                                    height: 2.5px;
+                                    width: 19px;
+                                    position: absolute;
+                                    top: -5px;
+                                    left: -3.5px;
+                                    background: $blu;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .card-close{
+            grid-row: 1;
+            .close-btn{
+                top: 50px;
+                right: 110px;
+                &:before{
+                    height: 2.5px;
+                    width: 30.5px;
+                    color: #CCCCCC;
+                }
+                &:after{
+                    height: 2.5px;
+                    width: 30.5px;
+                    color: #CCCCCC;
+                }
+            }
+        }
+    }
+    .cart-total{
+        flex-direction: column;
+        button{
+            margin-top: 16px;
+            width: 100%;
+        }
+        .total-price{
+            text-transform: uppercase;
+            @include ptSans(700);
+            font-size: 30px;
+        }
+    }
+}

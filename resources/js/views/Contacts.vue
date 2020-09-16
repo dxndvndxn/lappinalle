@@ -1,21 +1,20 @@
 <template>
     <div class="contacts">
-        <h1 class="h-30">Контакты</h1>
+        <h1 class="h-30" v-if="media.wind > media.tablet">Контакты</h1>
+        <div class="wrap-h" v-else>
+            <Back v-bind:color="'grey'" v-bind:word="'Назад'"/>
+            <h1 class="h-30">Контакты</h1>
+        </div>
         <form v-on:submit.prevent="sentMessage">
             <div class="contact">
                 <div class="call">
-                    <a href="tel:+79111234567">
+                    <a href=" https://wa.me/+79213294015">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 71 70">
                             <image id="e65c5be7773ae91757512b34777ead72" xlink:href="data:img/png;base64,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"/>
                         </svg>
                         +7 (911) 123-45-67
                     </a>
                 </div>
-                <input type="text" v-model.trim="fio" class="classic-input" placeholder="ФИО">
-                <input type="email" v-model.trim="email" class="classic-input" placeholder="E-MAIL">
-                <button class="btn">Отправить</button>
-            </div>
-            <div class="email">
                 <div class="mail">
                     <a href="mailto:info@lappinalle.com">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 68 50">
@@ -24,8 +23,31 @@
                         info@lappinalle.com
                     </a>
                 </div>
-                <textarea v-model.trim="text" placeholder="Текст сообщения"></textarea>
             </div>
+            <div class="email">
+                <div class="wrap-email">
+                    <div class="input-wrap">
+                        <input type="text" class="classic-input" :class="{invalid: ($v.fio.$dirty && !$v.fio.required) || ($v.fio.$dirty && !$v.fio.minLength) || ($v.fio.$dirty && !$v.fio.maxLength)}" v-model.trim="fio" placeholder="ФИО" autocomplete="on">
+                        <small v-if="$v.fio.$dirty && !$v.fio.required" class="small-invalid">Поле ФИО должно быть заполнено</small>
+                        <small v-else-if="($v.fio.$dirty && !$v.fio.minLength) || ($v.fio.$dirty && !$v.fio.maxLength) " class="small-invalid">Поле ФИО заполнено не корректно</small>
+                    </div>
+                    <div class="input-wrap">
+                        <input type="email" class="classic-input" :class="{invalid: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}" v-model.trim="email" placeholder="E-mail" autocomplete="on">
+                        <small v-if="$v.email.$dirty && !$v.email.email" class="small-invalid">Поле E-mail заполнено не корректно</small>
+                        <small v-else-if="$v.email.$dirty && !$v.email.required" class="small-invalid">Поле E-mail должно быть заполнено</small>
+                    </div>
+                    <button class="btn" v-if="media.wind > media.tablet">Отправить</button>
+                </div>
+                <div class="wrap-textarea">
+                    <textarea v-model.trim="text" :class="{invalid: ($v.text.$dirty && !$v.text.required) || ($v.text.$dirty && !$v.text.maxLength)}" placeholder="Текст сообщения"></textarea>
+                    <small v-if="$v.text.$dirty && !$v.text.maxLength" class="small-invalid">Поле Текст заполнено не корректно</small>
+                    <small v-else-if="$v.text.$dirty && !$v.text.required" class="small-invalid">Поле Текст должно быть заполнено</small>
+                    <button class="btn" v-if="media.wind < media.tablet">Отправить</button>
+                </div>
+            </div>
+            <p class="reviewleave-success" v-if="successSent">
+                Ваше письмо успешно отправлено.
+            </p>
             <div class="wrap-text">
                 <p>
                     ИП И. ЖУРАВЛЕВА:
@@ -41,29 +63,64 @@
 </template>
 
 <script>
+    import {email, required, minLength, maxLength} from 'vuelidate/lib/validators'
     import axios from 'axios';
+    import Back from "../components/Back";
     export default {
         name: "Contacts",
+        components: {
+            Back
+        },
         data: () => ({
             fio: null,
             email: null,
-            text: null
+            text: null,
+            successSent: false
         }),
+        validations: {
+            fio: {
+                required,
+                minLength: minLength(2),
+                maxLength: maxLength(30)
+            },
+            email: {
+                email, required
+            },
+            text: {
+                required,
+                maxLength: maxLength(250)
+            }
+        },
         methods: {
             sentMessage(){
+                if (this.$v.$invalid){
+                    this.$v.$touch();
+                    return;
+                }
+                this.$Progress.start();
                 let formData = new FormData();
                 formData.append('mail', JSON.stringify({mailer_name: this.fio, mailer_email: this.email, mailer_text: this.text}));
                 axios.post(`${this.URI}mailer`, formData)
                     .then(res => {
-                        console.log(res.data);
+                        this.$Progress.finish();
+                        this.successSent = true;
                     })
                     .catch(e => console.log(e))
             }
+        },
+        created() {
+            this.$Progress.start();
+        },
+        mounted() {
+            this.$Progress.finish();
         },
         computed: {
             URI(){
                 return this.$store.getters.URI;
             },
+            media(){
+                return this.$store.getters.media;
+            }
         }
     }
 </script>

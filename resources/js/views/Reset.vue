@@ -5,7 +5,11 @@
                 восстановление пароля
             </h1>
             <form @submit.prevent="resetPas">
-                <input type="email" class="classic-input" v-model.trim="email" placeholder="E-mail" autocomplete="on">
+                <div class="input-wrap">
+                    <input type="email" class="classic-input" :class="{invalid: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}" v-model.trim="email" placeholder="E-mail" autocomplete="on">
+                    <small v-if="$v.email.$dirty && !$v.email.email" class="small-invalid">Поле E-mail заполнено не корректно</small>
+                    <small v-else-if="$v.email.$dirty && !$v.email.required" class="small-invalid">Поле E-mail должно быть заполнено</small>
+                </div>
                 <button class="btn classic-btn-sz">отправить новый пароль</button>
                 <div class="added-links">
                     <router-link :to="{path: 'registration'}" class="link-first">Регистрация</router-link>
@@ -23,15 +27,24 @@
 </template>
 
 <script>
+    import {email, minLength, required} from 'vuelidate/lib/validators';
     export default {
         name: "Reset",
         data: () => ({
             email: null,
             resetWhat: false
         }),
+        validations: {
+            email: {
+                email, required
+            }
+        },
         methods: {
             async resetPas(){
-
+                if (this.$v.$invalid){
+                    this.$v.$touch();
+                    return;
+                }
                 if (this.email){
                     this.$Progress.start();
                     await setTimeout(() => {

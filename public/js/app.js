@@ -4870,6 +4870,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
   data: function data() {
@@ -5479,39 +5491,6 @@ var isPhoneCabinet = function isPhoneCabinet(value) {
         userNewPass: null,
         token: localStorage.getItem('token')
       },
-      // orderData: [
-      //     {
-      //         orders_number: 1234556,
-      //         status: 'В обработке',
-      //         active: true,
-      //         order_data: [
-      //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400},
-      //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400},
-      //         ],
-      //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
-      //         totalPrice: 11100
-      //     },
-      //     {
-      //         orders_number: 1234556,
-      //         status: 'Доставлен',
-      //         active: false,
-      //         order_data: [
-      //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400}
-      //         ],
-      //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
-      //         totalPrice: 11100
-      //     },
-      //     {
-      //         orders_number: 1234556,
-      //         status: 'Доставлен',
-      //         active: false,
-      //         order_data: [
-      //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400}
-      //         ],
-      //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
-      //         totalPrice: 11100
-      //     }
-      //     ],
       orderData: null,
       basicData: false,
       basicDataAddr: false,
@@ -5666,6 +5645,9 @@ var isPhoneCabinet = function isPhoneCabinet(value) {
     },
     getUserData: function getUserData() {
       return this.$store.getters.userData;
+    },
+    media: function media() {
+      return this.$store.getters.media;
     }
   }
 });
@@ -5682,6 +5664,10 @@ var isPhoneCabinet = function isPhoneCabinet(value) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -5817,6 +5803,9 @@ __webpack_require__.r(__webpack_exports__);
     getUpdatedCart: function getUpdatedCart() {
       this.getProductCart = this.$store.getters.updatedCart.cart;
       return this.$store.getters.updatedCart.cart;
+    },
+    media: function media() {
+      return this.$store.getters.media;
     }
   },
   watch: {
@@ -5824,12 +5813,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.finish();
       console.log(newVal, 'getProductCart');
       this.getProductCart = newVal;
-    } // getUpdatedCart(newVal){
-    //     this.$Progress.finish();
-    //     console.log(newVal, 'getUpdatedCart')
-    //     this.thatCart = newVal;
-    // }
-
+    }
   }
 });
 
@@ -7116,8 +7100,33 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7161,33 +7170,73 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Contacts",
+  components: {
+    Back: _components_Back__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
   data: function data() {
     return {
       fio: null,
       email: null,
-      text: null
+      text: null,
+      successSent: false
     };
+  },
+  validations: {
+    fio: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(2),
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(30)
+    },
+    email: {
+      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"],
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    text: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(250)
+    }
   },
   methods: {
     sentMessage: function sentMessage() {
+      var _this = this;
+
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+
+      this.$Progress.start();
       var formData = new FormData();
       formData.append('mail', JSON.stringify({
         mailer_name: this.fio,
         mailer_email: this.email,
         mailer_text: this.text
       }));
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "mailer"), formData).then(function (res) {
-        console.log(res.data);
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(this.URI, "mailer"), formData).then(function (res) {
+        _this.$Progress.finish();
+
+        _this.successSent = true;
       })["catch"](function (e) {
         return console.log(e);
       });
     }
   },
+  created: function created() {
+    this.$Progress.start();
+  },
+  mounted: function mounted() {
+    this.$Progress.finish();
+  },
   computed: {
     URI: function URI() {
       return this.$store.getters.URI;
+    },
+    media: function media() {
+      return this.$store.getters.media;
     }
   }
 });
@@ -7203,8 +7252,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
 //
 //
 //
@@ -7225,8 +7279,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Delivery",
+  components: {
+    Back: _components_Back__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       imgDelivery: [{
@@ -7275,6 +7333,9 @@ __webpack_require__.r(__webpack_exports__);
     returnDeliveries: function returnDeliveries() {
       this.$Progress.finish();
       return this.$store.getters.GetAllDeliveries;
+    },
+    media: function media() {
+      return this.$store.getters.media;
     }
   }
 });
@@ -7697,6 +7758,7 @@ var isPhone = function isPhone(value) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
 //
 //
 //
@@ -7711,8 +7773,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Pay",
+  components: {
+    Back: _components_Back__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       payIcons: {
@@ -7720,6 +7790,11 @@ __webpack_require__.r(__webpack_exports__);
         lvlTwo: ['../../img/yandex-icon.png', '../../img/qiwi-icon.png', '../../img/paypal-icon.png']
       }
     };
+  },
+  computed: {
+    media: function media() {
+      return this.$store.getters.media;
+    }
   }
 });
 
@@ -8013,6 +8088,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -8043,6 +8120,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Reset",
   data: function data() {
@@ -8050,6 +8132,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       email: null,
       resetWhat: false
     };
+  },
+  validations: {
+    email: {
+      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["email"],
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
+    }
   },
   methods: {
     resetPas: function resetPas() {
@@ -8060,14 +8148,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                if (!_this.$v.$invalid) {
+                  _context.next = 3;
+                  break;
+                }
+
+                _this.$v.$touch();
+
+                return _context.abrupt("return");
+
+              case 3:
                 if (!_this.email) {
-                  _context.next = 4;
+                  _context.next = 7;
                   break;
                 }
 
                 _this.$Progress.start();
 
-                _context.next = 4;
+                _context.next = 7;
                 return setTimeout(function () {
                   console.log(_this.email);
                   _this.resetWhat = true;
@@ -8075,7 +8173,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.$Progress.finish();
                 }, 5000);
 
-              case 4:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -14549,9 +14647,59 @@ var render = function() {
               },
               [
                 _c("a", { attrs: { href: "#" } }, [
-                  _c("img", {
-                    attrs: { src: __webpack_require__(/*! ../../img/logo-admin.png */ "./resources/img/logo-admin.png"), alt: "" }
-                  })
+                  _c(
+                    "svg",
+                    {
+                      attrs: {
+                        viewBox: "0 0 60 14",
+                        fill: "none",
+                        xmlns: "http://www.w3.org/2000/svg",
+                        "xmlns:xlink": "http://www.w3.org/1999/xlink"
+                      }
+                    },
+                    [
+                      _c("rect", {
+                        attrs: {
+                          width: "60",
+                          height: "13.9535",
+                          fill: "url(#pattern0)"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("defs", [
+                        _c(
+                          "pattern",
+                          {
+                            attrs: {
+                              id: "pattern0",
+                              patternContentUnits: "objectBoundingBox",
+                              width: "1",
+                              height: "1"
+                            }
+                          },
+                          [
+                            _c("use", {
+                              attrs: {
+                                "xlink:href": "#image0",
+                                transform:
+                                  "translate(0 -0.00758157) scale(0.00191939 0.00825336)"
+                              }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("image", {
+                          attrs: {
+                            id: "image0",
+                            width: "521",
+                            height: "123",
+                            "xlink:href":
+                              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgkAAAB7CAYAAAD+FxMbAAABN2lDQ1BBZG9iZSBSR0IgKDE5OTgpAAAokZWPv0rDUBSHvxtFxaFWCOLgcCdRUGzVwYxJW4ogWKtDkq1JQ5ViEm6uf/oQjm4dXNx9AidHwUHxCXwDxamDQ4QMBYvf9J3fORzOAaNi152GUYbzWKt205Gu58vZF2aYAoBOmKV2q3UAECdxxBjf7wiA10277jTG+38yH6ZKAyNguxtlIYgK0L/SqQYxBMygn2oQD4CpTto1EE9AqZf7G1AKcv8ASsr1fBBfgNlzPR+MOcAMcl8BTB1da4Bakg7UWe9Uy6plWdLuJkEkjweZjs4zuR+HiUoT1dFRF8jvA2AxH2w3HblWtay99X/+PRHX82Vun0cIQCw9F1lBeKEuf1UYO5PrYsdwGQ7vYXpUZLs3cLcBC7dFtlqF8hY8Dn8AwMZP/fNTP8gAAAAJcEhZcwAACxMAAAsTAQCanBgAAAW5aVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA2LjAtYzAwMiA3OS4xNjQzNTIsIDIwMjAvMDEvMzAtMTU6NTA6MzggICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyMS4xIChXaW5kb3dzKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjAtMDgtMTlUMTY6MzErMDM6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMjAtMDgtMTlUMTY6MzErMDM6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDIwLTA4LTE5VDE2OjMxKzAzOjAwIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjhmODRlNDI4LTg5YzMtN2E0Mi05ZjAzLTI4YjcwMDEwNWRhZSIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjM3YmQ5MTE5LTdlMGItNWU0My04NDNmLWE2NDZlZGRhZTcwMCIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjU1NjI3MTIwLWNkODgtZjI0OS05ZmU3LTBmNmVhZjIxODZkZCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjcmVhdGVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjU1NjI3MTIwLWNkODgtZjI0OS05ZmU3LTBmNmVhZjIxODZkZCIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQxNjozMSswMzowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjEgKFdpbmRvd3MpIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Zjg0ZTQyOC04OWMzLTdhNDItOWYwMy0yOGI3MDAxMDVkYWUiIHN0RXZ0OndoZW49IjIwMjAtMDgtMTlUMTY6MzErMDM6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyMS4xIChXaW5kb3dzKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3Jp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"
+                          }
+                        })
+                      ])
+                    ]
+                  )
                 ])
               ]
             ),
@@ -15498,21 +15646,25 @@ var render = function() {
             _c("ul", { staticClass: "user-data-basic" }, [
               _c("li", { staticClass: "cabinet-h" }, [
                 _vm._v("\n                Основное "),
-                _c("img", {
-                  attrs: {
-                    src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"),
-                    alt: ""
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.basicData = !_vm.basicData
-                    }
-                  }
-                })
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("img", {
+                      attrs: {
+                        src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"),
+                        alt: ""
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.basicData = !_vm.basicData
+                        }
+                      }
+                    })
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", { attrs: { for: "name" } }, [_vm._v("ФИО: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", { attrs: { for: "name" } }, [_vm._v("ФИО: ")])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15560,7 +15712,11 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", { attrs: { for: "tel" } }, [_vm._v("Телефон: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", { attrs: { for: "tel" } }, [
+                      _vm._v("Телефон: ")
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15573,7 +15729,12 @@ var render = function() {
                     }
                   ],
                   class: _vm.basicData ? "active-input" : null,
-                  attrs: { type: "tel", id: "tel" },
+                  attrs: {
+                    type: "tel",
+                    id: "tel",
+                    placeholder:
+                      _vm.media.wind <= _vm.media.tablet ? "Телефон" : null
+                  },
                   domProps: { value: _vm.userData.userTel },
                   on: {
                     input: function($event) {
@@ -15601,7 +15762,11 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", { attrs: { for: "email" } }, [_vm._v("E-mail: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", { attrs: { for: "email" } }, [
+                      _vm._v("E-mail: ")
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15650,21 +15815,25 @@ var render = function() {
             _c("ul", { staticClass: "user-data-addr" }, [
               _c("li", { staticClass: "cabinet-h" }, [
                 _vm._v("\n                Адрес "),
-                _c("img", {
-                  attrs: {
-                    src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"),
-                    alt: ""
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.basicDataAddr = !_vm.basicDataAddr
-                    }
-                  }
-                })
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("img", {
+                      attrs: {
+                        src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"),
+                        alt: ""
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.basicDataAddr = !_vm.basicDataAddr
+                        }
+                      }
+                    })
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", [_vm._v("Город: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", [_vm._v("Город: ")])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15677,7 +15846,11 @@ var render = function() {
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
-                  attrs: { type: "text" },
+                  attrs: {
+                    type: "text",
+                    placeholder:
+                      _vm.media.wind <= _vm.media.tablet ? "Город" : null
+                  },
                   domProps: { value: _vm.userData.userCity },
                   on: {
                     input: function($event) {
@@ -15705,7 +15878,9 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", [_vm._v("Улица: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", [_vm._v("Улица: ")])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15718,7 +15893,11 @@ var render = function() {
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
-                  attrs: { type: "text" },
+                  attrs: {
+                    type: "text",
+                    placeholder:
+                      _vm.media.wind <= _vm.media.tablet ? "Поле" : null
+                  },
                   domProps: { value: _vm.userData.userAdrr },
                   on: {
                     input: function($event) {
@@ -15746,7 +15925,9 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", [_vm._v("Дом: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", [_vm._v("Дом: ")])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15759,7 +15940,11 @@ var render = function() {
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
-                  attrs: { type: "text" },
+                  attrs: {
+                    type: "text",
+                    placeholder:
+                      _vm.media.wind <= _vm.media.tablet ? "Дом" : null
+                  },
                   domProps: { value: _vm.userData.userBuild },
                   on: {
                     input: function($event) {
@@ -15787,7 +15972,9 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", [_vm._v("Корпус: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", [_vm._v("Корпус: ")])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15800,7 +15987,11 @@ var render = function() {
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
-                  attrs: { type: "text" },
+                  attrs: {
+                    type: "text",
+                    placeholder:
+                      _vm.media.wind <= _vm.media.tablet ? "Корпус" : null
+                  },
                   domProps: { value: _vm.userData.userCorpus },
                   on: {
                     input: function($event) {
@@ -15822,13 +16013,15 @@ var render = function() {
                 _vm.$v.userData.userCorpus.$dirty &&
                 !_vm.$v.userData.userCorpus.maxLength
                   ? _c("small", { staticClass: "small-invalid" }, [
-                      _vm._v("Корпус Дом заполнено не корректно")
+                      _vm._v("Поле Корпус заполнено не корректно")
                     ])
                   : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", [_vm._v("Квартира: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", [_vm._v("Квартира: ")])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15841,7 +16034,11 @@ var render = function() {
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
-                  attrs: { type: "text" },
+                  attrs: {
+                    type: "text",
+                    placeholder:
+                      _vm.media.wind <= _vm.media.tablet ? "Квартира" : null
+                  },
                   domProps: { value: _vm.userData.userApart },
                   on: {
                     input: function($event) {
@@ -15863,13 +16060,15 @@ var render = function() {
                 _vm.$v.userData.userApart.$dirty &&
                 !_vm.$v.userData.userApart.maxLength
                   ? _c("small", { staticClass: "small-invalid" }, [
-                      _vm._v("Корпус Квартира заполнено не корректно")
+                      _vm._v("Поле Квартира заполнено не корректно")
                     ])
                   : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", [_vm._v("Почтовый индекс: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", [_vm._v("Почтовый индекс: ")])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15882,7 +16081,13 @@ var render = function() {
                     }
                   ],
                   class: _vm.basicDataAddr ? "active-input" : null,
-                  attrs: { type: "text" },
+                  attrs: {
+                    type: "text",
+                    placeholder:
+                      _vm.media.wind <= _vm.media.tablet
+                        ? "Почтовый индекс"
+                        : null
+                  },
                   domProps: { value: _vm.userData.userPostI },
                   on: {
                     input: function($event) {
@@ -15913,21 +16118,25 @@ var render = function() {
             _c("ul", { staticClass: "user-data-security" }, [
               _c("li", { staticClass: "cabinet-h" }, [
                 _vm._v("\n                Безопасность "),
-                _c("img", {
-                  attrs: {
-                    src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"),
-                    alt: ""
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.basicDataPass = !_vm.basicDataPass
-                    }
-                  }
-                })
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("img", {
+                      attrs: {
+                        src: __webpack_require__(/*! ../../img/cabinet-icon.png */ "./resources/img/cabinet-icon.png"),
+                        alt: ""
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.basicDataPass = !_vm.basicDataPass
+                        }
+                      }
+                    })
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", [_vm._v("Старый пароль: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", [_vm._v("Старый пароль: ")])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15940,7 +16149,13 @@ var render = function() {
                     }
                   ],
                   class: _vm.basicDataPass ? "active-input" : null,
-                  attrs: { type: "password" },
+                  attrs: {
+                    type: "password",
+                    placeholder:
+                      _vm.media.wind <= _vm.media.tablet
+                        ? "Старый пароль"
+                        : null
+                  },
                   domProps: { value: _vm.userData.userPass },
                   on: {
                     change: _vm.checkOldPass,
@@ -15968,7 +16183,9 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("li", [
-                _c("label", [_vm._v("Новый пароль: ")]),
+                _vm.media.wind > _vm.media.tablet
+                  ? _c("label", [_vm._v("Новый пароль: ")])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -15981,7 +16198,11 @@ var render = function() {
                     }
                   ],
                   class: _vm.basicDataPass ? "active-input" : null,
-                  attrs: { type: "password" },
+                  attrs: {
+                    type: "password",
+                    placeholder:
+                      _vm.media.wind <= _vm.media.tablet ? "Новый пароль" : null
+                  },
                   domProps: { value: _vm.userData.userNewPass },
                   on: {
                     input: function($event) {
@@ -16207,18 +16428,30 @@ var render = function() {
             { staticClass: "cart-cards" },
             _vm._l(_vm.getProductCart, function(card, c) {
               return _c("div", { staticClass: "card" }, [
+                _vm.media.wind < _vm.media.tablet
+                  ? _c("div", { staticClass: "card-name" }, [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(card.product_title) +
+                          "\n                "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
                 _c("div", { staticClass: "card-img" }, [
                   _c("img", { attrs: { src: card.product_img, alt: "" } })
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-info" }, [
-                  _c("div", { staticClass: "card-name" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(card.product_title) +
-                        "\n                    "
-                    )
-                  ]),
+                  _vm.media.wind > _vm.media.tablet
+                    ? _c("div", { staticClass: "card-name" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(card.product_title) +
+                            "\n                    "
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-counts" }, [
                     card.size !== null
@@ -19265,7 +19498,18 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "contacts" }, [
-    _c("h1", { staticClass: "h-30" }, [_vm._v("Контакты")]),
+    _vm.media.wind > _vm.media.tablet
+      ? _c("h1", { staticClass: "h-30" }, [_vm._v("Контакты")])
+      : _c(
+          "div",
+          { staticClass: "wrap-h" },
+          [
+            _c("Back", { attrs: { color: "grey", word: "Назад" } }),
+            _vm._v(" "),
+            _c("h1", { staticClass: "h-30" }, [_vm._v("Контакты")])
+          ],
+          1
+        ),
     _vm._v(" "),
     _c(
       "form",
@@ -19280,7 +19524,7 @@ var render = function() {
       [
         _c("div", { staticClass: "contact" }, [
           _c("div", { staticClass: "call" }, [
-            _c("a", { attrs: { href: "tel:+79111234567" } }, [
+            _c("a", { attrs: { href: " https://wa.me/+79213294015" } }, [
               _c(
                 "svg",
                 {
@@ -19306,62 +19550,6 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model.trim",
-                value: _vm.fio,
-                expression: "fio",
-                modifiers: { trim: true }
-              }
-            ],
-            staticClass: "classic-input",
-            attrs: { type: "text", placeholder: "ФИО" },
-            domProps: { value: _vm.fio },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.fio = $event.target.value.trim()
-              },
-              blur: function($event) {
-                return _vm.$forceUpdate()
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model.trim",
-                value: _vm.email,
-                expression: "email",
-                modifiers: { trim: true }
-              }
-            ],
-            staticClass: "classic-input",
-            attrs: { type: "email", placeholder: "E-MAIL" },
-            domProps: { value: _vm.email },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.email = $event.target.value.trim()
-              },
-              blur: function($event) {
-                return _vm.$forceUpdate()
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("button", { staticClass: "btn" }, [_vm._v("Отправить")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "email" }, [
           _c("div", { staticClass: "mail" }, [
             _c("a", { attrs: { href: "mailto:info@lappinalle.com" } }, [
               _c(
@@ -19388,33 +19576,160 @@ var render = function() {
                 "\n                    info@lappinalle.com\n                "
               )
             ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "email" }, [
+          _c("div", { staticClass: "wrap-email" }, [
+            _c("div", { staticClass: "input-wrap" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model.trim",
+                    value: _vm.fio,
+                    expression: "fio",
+                    modifiers: { trim: true }
+                  }
+                ],
+                staticClass: "classic-input",
+                class: {
+                  invalid:
+                    (_vm.$v.fio.$dirty && !_vm.$v.fio.required) ||
+                    (_vm.$v.fio.$dirty && !_vm.$v.fio.minLength) ||
+                    (_vm.$v.fio.$dirty && !_vm.$v.fio.maxLength)
+                },
+                attrs: { type: "text", placeholder: "ФИО", autocomplete: "on" },
+                domProps: { value: _vm.fio },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.fio = $event.target.value.trim()
+                  },
+                  blur: function($event) {
+                    return _vm.$forceUpdate()
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.$v.fio.$dirty && !_vm.$v.fio.required
+                ? _c("small", { staticClass: "small-invalid" }, [
+                    _vm._v("Поле ФИО должно быть заполнено")
+                  ])
+                : (_vm.$v.fio.$dirty && !_vm.$v.fio.minLength) ||
+                  (_vm.$v.fio.$dirty && !_vm.$v.fio.maxLength)
+                ? _c("small", { staticClass: "small-invalid" }, [
+                    _vm._v("Поле ФИО заполнено не корректно")
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-wrap" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model.trim",
+                    value: _vm.email,
+                    expression: "email",
+                    modifiers: { trim: true }
+                  }
+                ],
+                staticClass: "classic-input",
+                class: {
+                  invalid:
+                    (_vm.$v.email.$dirty && !_vm.$v.email.required) ||
+                    (_vm.$v.email.$dirty && !_vm.$v.email.email)
+                },
+                attrs: {
+                  type: "email",
+                  placeholder: "E-mail",
+                  autocomplete: "on"
+                },
+                domProps: { value: _vm.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.email = $event.target.value.trim()
+                  },
+                  blur: function($event) {
+                    return _vm.$forceUpdate()
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.$v.email.$dirty && !_vm.$v.email.email
+                ? _c("small", { staticClass: "small-invalid" }, [
+                    _vm._v("Поле E-mail заполнено не корректно")
+                  ])
+                : _vm.$v.email.$dirty && !_vm.$v.email.required
+                ? _c("small", { staticClass: "small-invalid" }, [
+                    _vm._v("Поле E-mail должно быть заполнено")
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _vm.media.wind > _vm.media.tablet
+              ? _c("button", { staticClass: "btn" }, [_vm._v("Отправить")])
+              : _vm._e()
           ]),
           _vm._v(" "),
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model.trim",
-                value: _vm.text,
-                expression: "text",
-                modifiers: { trim: true }
-              }
-            ],
-            attrs: { placeholder: "Текст сообщения" },
-            domProps: { value: _vm.text },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+          _c("div", { staticClass: "wrap-textarea" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.trim",
+                  value: _vm.text,
+                  expression: "text",
+                  modifiers: { trim: true }
                 }
-                _vm.text = $event.target.value.trim()
+              ],
+              class: {
+                invalid:
+                  (_vm.$v.text.$dirty && !_vm.$v.text.required) ||
+                  (_vm.$v.text.$dirty && !_vm.$v.text.maxLength)
               },
-              blur: function($event) {
-                return _vm.$forceUpdate()
+              attrs: { placeholder: "Текст сообщения" },
+              domProps: { value: _vm.text },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.text = $event.target.value.trim()
+                },
+                blur: function($event) {
+                  return _vm.$forceUpdate()
+                }
               }
-            }
-          })
+            }),
+            _vm._v(" "),
+            _vm.$v.text.$dirty && !_vm.$v.text.maxLength
+              ? _c("small", { staticClass: "small-invalid" }, [
+                  _vm._v("Поле Текст заполнено не корректно")
+                ])
+              : _vm.$v.text.$dirty && !_vm.$v.text.required
+              ? _c("small", { staticClass: "small-invalid" }, [
+                  _vm._v("Поле Текст должно быть заполнено")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.media.wind < _vm.media.tablet
+              ? _c("button", { staticClass: "btn" }, [_vm._v("Отправить")])
+              : _vm._e()
+          ])
         ]),
+        _vm._v(" "),
+        _vm.successSent
+          ? _c("p", { staticClass: "reviewleave-success" }, [
+              _vm._v("\n            Ваше письмо успешно отправлено.\n        ")
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _vm._m(0)
       ]
@@ -19462,9 +19777,20 @@ var render = function() {
     "div",
     { staticClass: "delivery" },
     [
-      _c("h1", { staticClass: "h-30" }, [
-        _vm._v("\n        Доступные варианты доставки\n    ")
-      ]),
+      _vm.media.wind > _vm.media.tablet
+        ? _c("h1", { staticClass: "h-30" }, [
+            _vm._v("\n        Доступные варианты доставки\n    ")
+          ])
+        : _c(
+            "div",
+            { staticClass: "wrap-h" },
+            [
+              _c("Back", { attrs: { color: "grey", word: "Назад" } }),
+              _vm._v(" "),
+              _c("h1", { staticClass: "h-30" }, [_vm._v("Оплата")])
+            ],
+            1
+          ),
       _vm._v(" "),
       _vm.returnDeliveries !== null
         ? _c(
@@ -20114,7 +20440,18 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "pay" }, [
-    _c("h1", { staticClass: "h-30" }, [_vm._v("Доступные варианты оплаты")]),
+    _vm.media.wind > _vm.media.tablet
+      ? _c("h1", { staticClass: "h-30" }, [_vm._v("Доступные варианты оплаты")])
+      : _c(
+          "div",
+          { staticClass: "wrap-h" },
+          [
+            _c("Back", { attrs: { color: "grey", word: "Назад" } }),
+            _vm._v(" "),
+            _c("h1", { staticClass: "h-30" }, [_vm._v("Оплата")])
+          ],
+          1
+        ),
     _vm._v(" "),
     _vm._m(0),
     _vm._v(" "),
@@ -20127,7 +20464,9 @@ var render = function() {
       0
     ),
     _vm._v(" "),
-    _c("h2", [_vm._v("Онлайн кошельки")]),
+    _vm.media.wind > _vm.media.tablet
+      ? _c("h2", [_vm._v("Онлайн кошельки")])
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -20813,35 +21152,52 @@ var render = function() {
               }
             },
             [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.trim",
-                    value: _vm.email,
-                    expression: "email",
-                    modifiers: { trim: true }
-                  }
-                ],
-                staticClass: "classic-input",
-                attrs: {
-                  type: "email",
-                  placeholder: "E-mail",
-                  autocomplete: "on"
-                },
-                domProps: { value: _vm.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.email,
+                      expression: "email",
+                      modifiers: { trim: true }
                     }
-                    _vm.email = $event.target.value.trim()
+                  ],
+                  staticClass: "classic-input",
+                  class: {
+                    invalid:
+                      (_vm.$v.email.$dirty && !_vm.$v.email.required) ||
+                      (_vm.$v.email.$dirty && !_vm.$v.email.email)
                   },
-                  blur: function($event) {
-                    return _vm.$forceUpdate()
+                  attrs: {
+                    type: "email",
+                    placeholder: "E-mail",
+                    autocomplete: "on"
+                  },
+                  domProps: { value: _vm.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.email = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
                   }
-                }
-              }),
+                }),
+                _vm._v(" "),
+                _vm.$v.email.$dirty && !_vm.$v.email.email
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле E-mail заполнено не корректно")
+                    ])
+                  : _vm.$v.email.$dirty && !_vm.$v.email.required
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле E-mail должно быть заполнено")
+                    ])
+                  : _vm._e()
+              ]),
               _vm._v(" "),
               _c("button", { staticClass: "btn classic-btn-sz" }, [
                 _vm._v("отправить новый пароль")

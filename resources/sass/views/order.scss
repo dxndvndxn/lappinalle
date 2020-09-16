@@ -12,3 +12,28 @@
         @include margins-template(100px, 0px, 100px);
     }
 }
+@media screen and (max-width: $tablet) {
+    .order {
+        &-header {
+            grid-template-columns: 100%;
+            .back{
+                justify-self: center;
+                margin-bottom: 40px;
+                .grey{
+                    color: #000;
+                }
+            }
+            h1{
+                color: #000;
+            }
+        }
+        .order-from{
+            align-items: normal;
+            margin: 36px 0 60px;
+            button{
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    }
+}

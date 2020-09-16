@@ -2,7 +2,7 @@
 .container{
     @include template(0px, 60px);
     @media screen and (max-width: $tablet) {
-        @include template(0px, 16px);
+        @include template(0px, 22px);
     }
 }
 
@@ -11,6 +11,9 @@
     @include grid-temp(1fr, 1fr, 1fr);
     @media screen and (max-width: $tablet) {
         @include grid-temp(1fr, 2fr, 1fr);
+    }
+    @media screen and (max-width: $mobile) {
+        @include grid-temp(1fr, 1fr, 1fr);
     }
 }
 .grid-nav-bottom{

@@ -127,3 +127,157 @@
         }
     }
 }
+@media screen and (max-width: $tablet) {
+    .cabinet{
+        grid-template-columns: 100%;
+        .cabinet-user-data{
+            button{
+                width: 100%;
+            }
+            &:before{
+                content: none;
+            }
+            ul{
+                li{
+                    margin-bottom: 3px !important;
+                    input{
+                        width: 100% !important;
+                        border: 2px solid $blu !important;
+                        padding: 11px 14px !important;
+                        box-sizing: border-box !important;
+                        text-transform: none !important;
+                        &::placeholder{
+                            text-transform: none;
+                        }
+                    }
+                }
+            }
+        }
+        .cabinet-user-data, .cabinet-user-order{
+            background-color: #fff;
+            padding: 25px;
+            .cabinet-h{
+                text-transform: none;
+                padding: 15px 0;
+            }
+            &:before{
+                content: none;
+            }
+        }
+        .cabinet-user-order{
+            .user-order-wrap{
+                .user-order-head{
+                    justify-content: space-between;
+                    .order-view{
+                        padding: 17px 0 0 5px;
+                    }
+                }
+            }
+            .user-order-data{
+                background-color: $ocean;
+                padding: 25px 0;
+                position: relative;
+                &:before{
+                    content: '';
+                    position: absolute;
+                    height: 100%;
+                    background-color: $ocean;
+                    width: 26px;
+                    top: 0;
+                    left: -26px;
+                }
+                &:after{
+                    content: '';
+                    position: absolute;
+                    height: 100%;
+                    background-color: $ocean;
+                    width: 26px;
+                    top: 0;
+                    right: -26px;
+                }
+            }
+        }
+    }
+    .cabinet-tabs{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        padding: 0;
+        li{
+            justify-content: center;
+            color: $palepurpp;
+            text-transform: none;
+            background-color: $ocean;
+            padding: 15px 0;
+        }
+    }
+}
+@media screen and (max-width: $mobile) {
+    .cabinet-tabs{
+        li{
+            font-size: $mini;
+        }
+    }
+    .cabinet{
+        .cabinet-user-data{
+
+            button{
+                height: 40px;
+            }
+            ul{
+                li{
+                    input{
+                        font-size: $mini;
+                        &::placeholder{
+                            font-size: $mini;
+                        }
+                    }
+                }
+            }
+        }
+        .cabinet-user-data, .cabinet-user-order{
+            .cabinet-h{
+                font-size: $mini;
+            }
+        }
+        .cabinet-user-order{
+            .user-order-delivery-text, .user-order-total-text{
+                font-size: $mini;
+            }
+            .user-order-wrap{
+                .user-order-head{
+                    .order-view{
+                        padding: 15px 0 0 5px;
+                    }
+                }
+            }
+            .user-order-data{
+                background-color: $ocean;
+                padding: 25px 0;
+                position: relative;
+                &:before{
+                    content: '';
+                    position: absolute;
+                    height: 100%;
+                    background-color: $ocean;
+                    width: 26px;
+                    top: 0;
+                    left: -26px;
+                }
+                &:after{
+                    content: '';
+                    position: absolute;
+                    height: 100%;
+                    background-color: $ocean;
+                    width: 26px;
+                    top: 0;
+                    right: -26px;
+                }
+                .order-data-desc{
+                    li{
+                        font-size: $tiny !important;
+                    }
+                }
+            }
+        }
+    }
+}

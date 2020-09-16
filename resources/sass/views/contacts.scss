@@ -1,22 +1,30 @@
 .contacts{
     @include margins-template(0, 270px, 100px);
+    @media screen and (max-width: 1305px) {
+        @include margins-template(0, 180px, 100px);
+    }
+    @media screen and (max-width: 1130px) {
+        @include margins-template(0, 100px, 100px);
+    }
+    @media screen and (max-width: 966px) {
+        @include margins-template(0, 50px, 100px);
+    }
     h1{
         margin: 80px 0 45px;
     }
     form{
-        @include grid-temp(315px, 315px, 0px);
-        grid-column-gap: 140px;
-        justify-content: center;
         button{
             height: 50px;
+            width: 100%;
         }
-        .contact{
-            display: flex;
-            flex-direction: column;
+        .contact, .email{
+            @include grid-temp(315px, 315px, 0px);
+            grid-column-gap: 140px;
+            justify-content: space-between;
         }
         textarea{
             border: 2px solid $palepurpp;
-            height: 190px;
+            height: 187px;
             resize: none;
             padding: 2%;
             width: 100%;
@@ -50,4 +58,43 @@
         }
     }
 }
+@media screen and (max-width: $tablet) {
+    .contacts{
+        @include template(0px, 26px);
+        h1{
+            margin: 0;
+        }
+        form{
+            .contact, .email{
+                grid-template-columns: 100%;
+            }
+            .contact{
+                margin-bottom: 80px;
+            }
+            .email{
+                input{
+                    width: 100%;
+                }
+                .wrap-email{
+                    margin-bottom: 40px;
+                }
+            }
+            textarea{
+                box-sizing: border-box;
+                margin-bottom: 10px;
+            }
+        }
+        .wrap-text{
+            margin-top: 25px;
+        }
+    }
+    .call, .mail {
+        margin-bottom: 40px;
 
+        a{
+            svg{
+                height: 40px;
+            }
+        }
+    }
+}

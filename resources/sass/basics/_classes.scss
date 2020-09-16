@@ -34,7 +34,6 @@
 .active-catg{
     background-color: $ocean;
     position: relative;
-
     &:after{
         content: '';
         position: absolute;
@@ -44,6 +43,12 @@
         right: -100%;
         background-color: $ocean;
         z-index: -1;
+        @media screen and (max-width: $tablet) {
+            content: none;
+        }
+    }
+    @media screen and (max-width: $tablet) {
+        background-color: #ffff !important;
     }
     a{
         color: $palepurpp !important;
@@ -194,6 +199,9 @@
     font-size: $bigFz + 4px;
     @include ptSans(700);
     text-transform: uppercase;
+    @media screen and (max-width: $mobile) {
+        font-size: $regFz;
+    }
 }
 .h-30-ease{
     text-align: center;
@@ -247,15 +255,26 @@
     margin-top: 60px;
     @include flex-column(column);
     align-self: center;
+    @media screen and (max-width: $mobile) {
+        a{
+            font-size: $regFz;
+        }
+    }
 }
 
 .h1-m80{
     margin: 80px 0 80px;
+    @media screen and (max-width: $tablet) {
+        margin: 26px 0 40px;
+    }
 }
 
 .classic-btn-sz{
     width: 315px;
     height: 50px;
+    @media screen and (max-width: $mobile) {
+        height: 40px;
+    }
 }
 .h1-bold-grey{
     @include ptSans(700);
@@ -266,6 +285,9 @@
 }
 .h1-m50{
     margin-top: 50px;
+    @media screen and (max-width: $tablet) {
+        margin-top: 23px;
+    }
 }
 
 .back{
@@ -274,6 +296,9 @@
     position: relative;
     cursor: pointer;
     padding-left: 30px;
+    @media screen and (max-width: $mobile) {
+        font-size: 16px;
+    }
 }
 .black{
     color: #000;
@@ -320,6 +345,20 @@
         left: 0px;
         background: $grey;
     }
+    @media screen and (max-width: $mobile) {
+        &:before{
+            height: 3.5px;
+            width: 12.5px;
+            top: 4px;
+            left: 9px;
+        }
+        &:after{
+            height: 3.5px;
+            width: 12.5px;
+            top: 12px;
+            left: 8px;
+        }
+    }
 }
 .chozenImg{
     background-color: $ocean;
@@ -347,10 +386,16 @@
 }
 
 .active-arrow-cab{
-    @include arrow($purpp, 3.5px, 16.5px, 45deg, -45deg, 25px, 25px,19px, 29px);
+    @include arrow($purpp, 3.5px, 16.5px, 45deg, -45deg, 25px, 25px, 19px, 29px);
+    @media screen and (max-width: $mobile) {
+        @include arrow($purpp, 3.5px, 13.5px, 45deg, -45deg, 22px, 22px, 10px, 18px);
+    }
 }
 .passive-arrow-cab{
     @include arrow($palepurpp, 3.5px, 16.5px, 45deg, -45deg, 20px, 31px, 27px, 28px);
+    @media screen and (max-width: $mobile) {
+        @include arrow($palepurpp, 3.5px, 13.5px, 45deg, -45deg, 16px, 24px, 14px, 14px);
+    }
 }
 
 .active-cart{
@@ -366,6 +411,23 @@
     @include flex-column(column);
     .classic-input{
         margin-bottom: 0;
+    }
+    input{
+        appearance: none;
+    }
+    @media screen and (max-width: $tablet) {
+        margin-bottom: 26px;
+        input{
+            width: 100%;
+        }
+    }
+    @media screen and (max-width: $mobile) {
+        input{
+            font-size: $mini;
+            &::placeholder{
+                font-size: $mini;
+            }
+        }
     }
 }
 .error-log{
@@ -395,6 +457,17 @@
 .filled-leave{
     stroke: $purpp;
 }
+.reviewleave-success{
+    @include ptSans(700);
+    color: $palepurpp;
+    font-size: $regFz - 2px;
+}
+
+.wrap-h{
+    margin: 25px 0 60px;
+    @include grid-temp(1fr, 1fr, 1fr);
+}
+
 // Админ классы
 .active-admin-tab{
     font-family: 'PT Sans', sans-serif !important;

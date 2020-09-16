@@ -5,3 +5,14 @@
         align-items: center;
     }
 }
+@media screen and (max-width: $tablet) {
+    .reset{
+        @include margins-template(0, 26px, 50px);
+        form{
+            align-items: inherit;
+            button{
+                width: 100%;
+            }
+        }
+    }
+}

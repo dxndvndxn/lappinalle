@@ -65,3 +65,21 @@ footer{
         }
     }
 }
+@media screen and (max-width: $mobile) {
+    footer {
+        .footer {
+            @include template(0px, 26px);
+            dt{
+                font-size: $mini;
+            }
+            dd{
+                font-size: $tiny;
+            }
+            .bottom-foot{
+                span{
+                    font-size: $tiny - 2px;
+                }
+            }
+        }
+    }
+}

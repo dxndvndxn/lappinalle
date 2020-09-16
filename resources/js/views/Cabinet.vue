@@ -8,21 +8,21 @@
         <form @submit.prevent="changeData" v-if="tabs[0].active" class="cabinet-user-data">
             <ul class="user-data-basic">
                 <li class="cabinet-h">
-                    Основное <img src="../../img/cabinet-icon.png" @click="basicData = !basicData" alt="">
+                    Основное <img src="../../img/cabinet-icon.png" v-if="media.wind > media.tablet" @click="basicData = !basicData" alt="">
                 </li>
                 <li>
-                    <label for="name">ФИО: </label>
+                    <label for="name" v-if="media.wind > media.tablet">ФИО: </label>
                     <input type="text" id="name" v-bind:class="basicData ? 'active-input' : null" v-model.trim="userData.userName">
                     <small v-if="$v.userData.userName.$dirty && !$v.userData.userName.required" class="small-invalid">Поле ФИО должно быть заполнено</small>
                     <small v-else-if="($v.userData.userName.$dirty && !$v.userData.userName.minLength) || ($v.userData.userName.$dirty && !$v.userData.userName.maxLength) " class="small-invalid">Поле Имя заполнено не корректно</small>
                 </li>
                 <li>
-                    <label for="tel">Телефон: </label>
-                    <input type="tel" id="tel" v-bind:class="basicData ? 'active-input' : null" v-model.trim="userData.userTel">
+                    <label for="tel" v-if="media.wind > media.tablet">Телефон: </label>
+                    <input type="tel" id="tel" v-bind:class="basicData ? 'active-input' : null" v-model.trim="userData.userTel" v-bind:placeholder="media.wind <= media.tablet ? 'Телефон' : null">
                     <small v-if="$v.userData.userTel.$dirty && !$v.userData.userTel.phoneValid" class="small-invalid">Поле Телефон заполнено не корректно</small>
                 </li>
                 <li>
-                    <label for="email">E-mail: </label>
+                    <label for="email" v-if="media.wind > media.tablet">E-mail: </label>
                     <input type="text" id="email" v-bind:class="basicData ? 'active-input' : null" v-model.trim="userData.userEmail">
                     <small v-if="$v.userData.userEmail.$dirty && !$v.userData.userEmail.email" class="small-invalid">Поле E-mail заполнено не корректно</small>
                     <small v-else-if="$v.userData.userEmail.$dirty && !$v.userData.userEmail.required" class="small-invalid">Поле E-mail должно быть заполнено</small>
@@ -30,51 +30,51 @@
             </ul>
             <ul class="user-data-addr">
                 <li class="cabinet-h">
-                    Адрес <img src="../../img/cabinet-icon.png" @click="basicDataAddr = !basicDataAddr" alt="">
+                    Адрес <img src="../../img/cabinet-icon.png" v-if="media.wind > media.tablet" @click="basicDataAddr = !basicDataAddr" alt="">
                 </li>
                 <li>
-                    <label>Город: </label>
-                    <input type="text" v-model.trim="userData.userCity" v-bind:class="basicDataAddr ? 'active-input' : null">
+                    <label v-if="media.wind > media.tablet">Город: </label>
+                    <input type="text" v-model.trim="userData.userCity" v-bind:class="basicDataAddr ? 'active-input' : null" v-bind:placeholder="media.wind <= media.tablet ? 'Город' : null">
                     <small v-if="$v.userData.userCity.$dirty && !$v.userData.userCity.maxLength" class="small-invalid">Поле Город заполнено не корректно</small>
                 </li>
                 <li>
-                    <label>Улица: </label>
-                    <input type="text" v-model.trim="userData.userAdrr" v-bind:class="basicDataAddr ? 'active-input' : null">
+                    <label v-if="media.wind > media.tablet">Улица: </label>
+                    <input type="text" v-model.trim="userData.userAdrr" v-bind:class="basicDataAddr ? 'active-input' : null" v-bind:placeholder="media.wind <= media.tablet ? 'Поле' : null">
                     <small v-if="$v.userData.userAdrr.$dirty && !$v.userData.userAdrr.maxLength" class="small-invalid">Поле Улица заполнено не корректно</small>
                 </li>
                 <li>
-                    <label>Дом: </label>
-                    <input type="text" v-model.trim="userData.userBuild" v-bind:class="basicDataAddr ? 'active-input' : null">
+                    <label v-if="media.wind > media.tablet">Дом: </label>
+                    <input type="text" v-model.trim="userData.userBuild" v-bind:class="basicDataAddr ? 'active-input' : null" v-bind:placeholder="media.wind <= media.tablet ? 'Дом' : null">
                     <small v-if="$v.userData.userBuild.$dirty && !$v.userData.userBuild.maxLength" class="small-invalid">Поле Дом заполнено не корректно</small>
                 </li>
                 <li>
-                    <label>Корпус: </label>
-                    <input type="text" v-model.trim="userData.userCorpus" v-bind:class="basicDataAddr ? 'active-input' : null">
-                    <small v-if="$v.userData.userCorpus.$dirty && !$v.userData.userCorpus.maxLength" class="small-invalid">Корпус Дом заполнено не корректно</small>
+                    <label v-if="media.wind > media.tablet">Корпус: </label>
+                    <input type="text" v-model.trim="userData.userCorpus" v-bind:class="basicDataAddr ? 'active-input' : null" v-bind:placeholder="media.wind <= media.tablet ? 'Корпус' : null">
+                    <small v-if="$v.userData.userCorpus.$dirty && !$v.userData.userCorpus.maxLength" class="small-invalid">Поле Корпус заполнено не корректно</small>
                 </li>
                 <li>
-                    <label>Квартира: </label>
-                    <input type="text" v-model.trim="userData.userApart" v-bind:class="basicDataAddr ? 'active-input' : null">
-                    <small v-if="$v.userData.userApart.$dirty && !$v.userData.userApart.maxLength" class="small-invalid">Корпус Квартира заполнено не корректно</small>
+                    <label v-if="media.wind > media.tablet">Квартира: </label>
+                    <input type="text" v-model.trim="userData.userApart" v-bind:class="basicDataAddr ? 'active-input' : null" v-bind:placeholder="media.wind <= media.tablet ? 'Квартира' : null">
+                    <small v-if="$v.userData.userApart.$dirty && !$v.userData.userApart.maxLength" class="small-invalid">Поле Квартира заполнено не корректно</small>
                 </li>
                 <li>
-                    <label>Почтовый индекс: </label>
-                    <input type="text" v-model.trim="userData.userPostI" v-bind:class="basicDataAddr ? 'active-input' : null">
+                    <label v-if="media.wind > media.tablet">Почтовый индекс: </label>
+                    <input type="text" v-model.trim="userData.userPostI" v-bind:class="basicDataAddr ? 'active-input' : null" v-bind:placeholder="media.wind <= media.tablet ? 'Почтовый индекс' : null">
                     <small v-if="$v.userData.userPostI.$dirty && !$v.userData.userPostI.maxLength" class="small-invalid">Корпус Почтовый индекс заполнено не корректно</small>
                 </li>
             </ul>
             <ul class="user-data-security">
                 <li class="cabinet-h">
-                    Безопасность <img src="../../img/cabinet-icon.png" @click="basicDataPass = !basicDataPass" alt="">
+                    Безопасность <img src="../../img/cabinet-icon.png" v-if="media.wind > media.tablet" @click="basicDataPass = !basicDataPass" alt="">
                 </li>
                 <li>
-                    <label>Старый пароль: </label>
-                    <input type="password" v-model.trim="userData.userPass" @change="checkOldPass" v-bind:class="basicDataPass ? 'active-input' : null">
+                    <label v-if="media.wind > media.tablet">Старый пароль: </label>
+                    <input type="password" v-model.trim="userData.userPass" @change="checkOldPass" v-bind:class="basicDataPass ? 'active-input' : null" v-bind:placeholder="media.wind <= media.tablet ? 'Старый пароль' : null">
                     <small v-if="passError" class="small-invalid">Неверный пароль</small>
                 </li>
                 <li>
-                    <label>Новый пароль: </label>
-                    <input type="password" v-model.trim="userData.userNewPass" v-bind:class="basicDataPass ? 'active-input' : null">
+                    <label v-if="media.wind > media.tablet">Новый пароль: </label>
+                    <input type="password" v-model.trim="userData.userNewPass" v-bind:class="basicDataPass ? 'active-input' : null" v-bind:placeholder="media.wind <= media.tablet ? 'Новый пароль' : null">
                 </li>
             </ul>
             <button class="btn">
@@ -143,39 +143,6 @@
                 userNewPass: null,
                 token: localStorage.getItem('token')
             },
-            // orderData: [
-            //     {
-            //         orders_number: 1234556,
-            //         status: 'В обработке',
-            //         active: true,
-            //         order_data: [
-            //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400},
-            //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400},
-            //         ],
-            //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
-            //         totalPrice: 11100
-            //     },
-            //     {
-            //         orders_number: 1234556,
-            //         status: 'Доставлен',
-            //         active: false,
-            //         order_data: [
-            //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400}
-            //         ],
-            //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
-            //         totalPrice: 11100
-            //     },
-            //     {
-            //         orders_number: 1234556,
-            //         status: 'Доставлен',
-            //         active: false,
-            //         order_data: [
-            //             {img: '../../img/order-img.png', order_name: 'Комбинезон LAPPINALE', count: 1, size: 43, price: 5400}
-            //         ],
-            //         delivery: 'курьерская по СПБ, 14.08.2020, 300',
-            //         totalPrice: 11100
-            //     }
-            //     ],
             orderData: null,
             basicData: false,
             basicDataAddr: false,
@@ -287,6 +254,9 @@
             },
             getUserData(){
                 return this.$store.getters.userData;
+            },
+            media(){
+                return this.$store.getters.media;
             }
         }
     }

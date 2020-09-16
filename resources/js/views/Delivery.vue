@@ -1,8 +1,12 @@
 <template>
     <div class="delivery">
-        <h1 class="h-30">
+        <h1 class="h-30" v-if="media.wind > media.tablet">
             Доступные варианты доставки
         </h1>
+        <div class="wrap-h" v-else>
+            <Back v-bind:color="'grey'" v-bind:word="'Назад'"/>
+            <h1 class="h-30">Оплата</h1>
+        </div>
         <div class="delivery-icons" v-if="returnDeliveries !== null">
             <img v-for="(del, i) in imgDelivery" v-if="returnDeliveries[i].delivery_confirm === 1" :src="del.img" alt="" @click="chosenDel(del.id)">
         </div>
@@ -18,9 +22,13 @@
 </template>
 
 <script>
+    import Back from "../components/Back";
     import axios from 'axios'
     export default {
         name: "Delivery",
+        components: {
+          Back
+        },
         data: () => ({
             imgDelivery: [{img: '../img/postman-icon.png', id: 1}, {img: '../img/post-icon.png', id: 2}, {img: '../img/sdek-icon.png', id: 3}, {img: '../img/pek-icon.png', id: 4}],
             imgText: [
@@ -46,6 +54,9 @@
                 this.$Progress.finish();
                 return this.$store.getters.GetAllDeliveries;
             },
+            media(){
+                return this.$store.getters.media;
+            }
         }
     }
 </script>
