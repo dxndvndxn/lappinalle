@@ -179,6 +179,7 @@
 
 .fill-svg {
   fill: #bd5583 !important;
+  stroke: #bd5583 !important;
   transition: all ease-in-out 0.2s;
   transform: scale(1.5);
 }
@@ -736,7 +737,7 @@
 }
 
 .filled-leave {
-  stroke: #bd5583;
+  stroke: #bd5583 !important;
 }
 
 .reviewleave-success {
@@ -1092,7 +1093,7 @@ nav ul {
 
 nav .menu-top {
   background-color: #848ccf;
-  padding: 30px 0 20px;
+  padding: 27px 0 20px;
 }
 
 nav .nav-search .search {
@@ -1145,7 +1146,7 @@ nav .nav-search .search label {
 }
 
 nav .logo svg {
-  height: 30px;
+  height: 31px;
 }
 
 nav .nav-icons {
@@ -1179,7 +1180,7 @@ nav .nav-icons .nav-icons-items li a img {
 
 nav .nav-icons .nav-icons-items li a svg {
   fill: #fff;
-  width: 33px;
+  width: 32px;
 }
 
 nav .menu-middle {
@@ -1530,6 +1531,21 @@ footer .bottom-foot span:nth-child(1) {
   position: relative;
 }
 
+.catalog-items .item-sizes {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 55px;
+  left: 21px;
+}
+
+.catalog-items .item-sizes span {
+  margin-bottom: 12px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
 .catalog-items .item .icon-cell {
   fill: #93b5e1;
   cursor: pointer;
@@ -1537,13 +1553,13 @@ footer .bottom-foot span:nth-child(1) {
 }
 
 .catalog-items .item .t-shirt {
-  top: 0;
-  left: 0;
+  top: 15px;
+  left: 15px;
 }
 
 .catalog-items .item .book {
-  top: 0;
-  right: 0;
+  top: 15px;
+  right: 15px;
 }
 
 .catalog-items .item a {

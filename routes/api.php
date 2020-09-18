@@ -76,6 +76,12 @@ Route::post('/removesize', 'AdminDeleteSizeController@remove');
 // Оформление заказа
 Route::post('/order', 'CheckoutOrderController@index');
 
+// Самый охуевший в мире фильтр + выдача каталога
+Route::get('/filter/{sexalias}/{catalias}/{depalias}/{sortmode}/{sale}/{min}/{max}/{sizes}', 'InfernalFilterFromNalimkaAkaTatarinBitchController@universal');
+
+// Получаем все размеры для sidebar
+Route::get('/allsizesforsidebar', 'AllSizeForSideBarController@index');
+
 // Проверить пароль в кабинете
 Route::post('/checkpass', 'LKController@CheckPass');
 

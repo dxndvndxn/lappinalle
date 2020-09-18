@@ -9,18 +9,30 @@
     grid-column-gap: 30px;
     .item{
         position: relative;
+        &-sizes{
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            top: 55px;
+            left: 21px;
+            span{
+                margin-bottom: 12px;
+                @include ptSans(400);
+                font-size: $tiny;
+            }
+        }
         .icon-cell{
             fill: $paleblue;
             cursor: pointer;
             position: absolute;
         }
         .t-shirt{
-            top: 0;
-            left: 0;
+            top: 15px;
+            left: 15px;
         }
         .book{
-            top: 0;
-            right: 0;
+            top: 15px;
+            right: 15px;
         }
         a{
             @include flexin(center);

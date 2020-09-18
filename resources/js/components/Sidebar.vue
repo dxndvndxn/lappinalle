@@ -21,9 +21,9 @@
         <div v-if="showSidebar" class="sidebar-sizing">
             <span>Размер</span>
             <div class="sizing-cell">
-                <button type="button" v-for="(el, size, s) in getSizes"
+                <button type="button" v-for="(el, size, s) in localSizes"
                        @click="clickSize(size)"
-                       v-bind:class="el.active ? 'active-size' : null" :datatype="s">
+                       v-bind:class="el.active ? 'active-size' : null">
                     {{size}}
                 </button>
             </div>
@@ -56,7 +56,8 @@
             checkSale: false,
             min: null,
             max: null,
-            sizesArr: null
+            sizesArr: null,
+            localSizes: null
         }),
         computed: {
             getSidebar(){
@@ -87,12 +88,12 @@
                 if (this.checkSale){
                     this.$emit('showSaleProducts', this.checkSale);
                 } else{
-                    this.$emit('hideSaleProducts',this.checkSale);
+                    this.$emit('showSaleProducts',this.checkSale);
                 }
             },
             clickSize(size){
-                this.getSizes[size].active = !this.getSizes[size].active;
-                this.sizesArr = Object.entries(this.getSizes).filter(el => el[1].active === true);
+                this.localSizes[size].active = !this.localSizes[size].active;
+                this.sizesArr = Object.entries(this.localSizes).filter(el => el[1].active === true);
                 this.$emit('showSizeProducts', this.sizesArr);
             },
             // Фильтруем по cash
@@ -132,6 +133,29 @@
                 if (from.query.min || from.query.max){
                     this.min = null;
                     this.max = null;
+                }
+            },
+            getSizes(sizes){
+                if (this.$route.query.size !== undefined) {
+                    if (typeof(this.$route.query.size) !== "object") {
+
+                        for (let sz in sizes) {
+
+                            if (sz === this.$route.query.size) sizes[sz].active = true;
+                        }
+                    }else{
+
+                        for (let sz in sizes) {
+
+                            this.$route.query.size.forEach(el => {
+
+                                if (sz === el) sizes[sz].active = true;
+                            });
+                        }
+                    }
+                    this.localSizes = sizes;
+                }else{
+                    this.localSizes = sizes;
                 }
             },
             checkSale(val){

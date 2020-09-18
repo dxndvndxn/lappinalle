@@ -4698,20 +4698,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CatalogCell",
   props: ['catalogData', 'total'],
   data: function data() {
-    return {};
+    return {
+      book: null
+    };
   },
   watch: {
     catalogData: function catalogData(val) {
       this.CatalogData = val;
     }
   },
+  methods: {
+    hideElements: function hideElements(i) {
+      this.catalogData[i].activeIconT = false;
+      this.catalogData[i].activeIconB = false;
+      this.catalogData[i].activeTshirt = false;
+    },
+    showElements: function showElements(i) {
+      this.catalogData[i].activeIconT = true;
+      this.catalogData[i].activeIconB = true;
+    },
+    addBookmark: function addBookmark(i, id) {
+      this.catalogData[i].activeBook = !this.catalogData[i].activeBook;
+      var idThere = this.returnBook.find(function (el) {
+        return el === id;
+      });
+      if (!idThere) this.$store.dispatch('AddBookmark', id);
+    }
+  },
   computed: {
     EU: function EU() {
       return this.$store.getters.EU;
+    },
+    sizesForProduct: function sizesForProduct() {
+      return this.$store.getters.filterSizes;
+    },
+    returnBook: function returnBook() {
+      return this.$store.getters.bookmarks;
     }
   }
 });
@@ -5045,6 +5076,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     media: function media() {
       return this.$store.getters.media;
+    },
+    returnBook: function returnBook() {
+      return this.$store.getters.bookmarks;
     }
   },
   watch: {
@@ -5068,6 +5102,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 //
 //
 //
@@ -5126,7 +5162,8 @@ __webpack_require__.r(__webpack_exports__);
       checkSale: false,
       min: null,
       max: null,
-      sizesArr: null
+      sizesArr: null,
+      localSizes: null
     };
   },
   computed: {
@@ -5165,12 +5202,12 @@ __webpack_require__.r(__webpack_exports__);
       if (this.checkSale) {
         this.$emit('showSaleProducts', this.checkSale);
       } else {
-        this.$emit('hideSaleProducts', this.checkSale);
+        this.$emit('showSaleProducts', this.checkSale);
       }
     },
     clickSize: function clickSize(size) {
-      this.getSizes[size].active = !this.getSizes[size].active;
-      this.sizesArr = Object.entries(this.getSizes).filter(function (el) {
+      this.localSizes[size].active = !this.localSizes[size].active;
+      this.sizesArr = Object.entries(this.localSizes).filter(function (el) {
         return el[1].active === true;
       });
       this.$emit('showSizeProducts', this.sizesArr);
@@ -5224,6 +5261,31 @@ __webpack_require__.r(__webpack_exports__);
       if (from.query.min || from.query.max) {
         this.min = null;
         this.max = null;
+      }
+    },
+    getSizes: function getSizes(sizes) {
+      var _this = this;
+
+      if (this.$route.query.size !== undefined) {
+        if (_typeof(this.$route.query.size) !== "object") {
+          for (var sz in sizes) {
+            if (sz === this.$route.query.size) sizes[sz].active = true;
+          }
+        } else {
+          var _loop = function _loop(_sz) {
+            _this.$route.query.size.forEach(function (el) {
+              if (_sz === el) sizes[_sz].active = true;
+            });
+          };
+
+          for (var _sz in sizes) {
+            _loop(_sz);
+          }
+        }
+
+        this.localSizes = sizes;
+      } else {
+        this.localSizes = sizes;
       }
     },
     checkSale: function checkSale(val) {
@@ -5828,9 +5890,21 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
-/* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Sidebar */ "./resources/js/components/Sidebar.vue");
-/* harmony import */ var _components_CatalogCell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/CatalogCell */ "./resources/js/components/CatalogCell.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Breadcrumbs */ "./resources/js/components/Breadcrumbs.vue");
+/* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Sidebar */ "./resources/js/components/Sidebar.vue");
+/* harmony import */ var _components_CatalogCell__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/CatalogCell */ "./resources/js/components/CatalogCell.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -5887,6 +5961,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -5908,25 +5983,71 @@ __webpack_require__.r(__webpack_exports__);
       pageCatalog: 1,
       whataFunc: null,
       rollbackPage: true,
+      // ФИЛЬТР
+      // Сортировка
+      sort: null,
+      // Размеры
+      sizes: null,
+      sizeStr: null,
+      // Цена
+      min: null,
+      max: null,
+      // Скидка
+      sale: null,
+      // МОБИЛКА
       showSidebar: true
     };
   },
   components: {
-    Sidebar: _components_Sidebar__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__["default"],
-    CatalogCell: _components_CatalogCell__WEBPACK_IMPORTED_MODULE_2__["default"]
+    Sidebar: _components_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Breadcrumbs: _components_Breadcrumbs__WEBPACK_IMPORTED_MODULE_1__["default"],
+    CatalogCell: _components_CatalogCell__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   methods: {
-    // Метод который отпралвяет запрос на полечение данных
-    getCatalogData: function getCatalogData(page) {
+    InfernalFilterFromDanilkaOnFront: function InfernalFilterFromDanilkaOnFront(page) {
       this.$Progress.start();
-      this.$store.dispatch('getCatalogData', {
+      var idsSizes = '';
+      var query = "";
+      if (this.sort !== null) query += "sortBy=".concat(this.sort, "&");
+
+      if (this.sizes !== null) {
+        query += this.sizeStr;
+
+        if (this.sizes[0] !== undefined) {
+          if (this.sizes[0][1] !== undefined) {
+            this.sizes.forEach(function (el) {
+              idsSizes += el[1].ids.join(',') + ',';
+            });
+          } else {
+            if (this.$route.query.size) {
+              idsSizes = this.sizes.join(',') + ',';
+            }
+          }
+        } else {
+          this.sizes = null;
+        }
+      }
+
+      if (this.min !== null && this.max !== null) query += "min=".concat(this.min, "&max=").concat(this.max, "&");
+
+      if (this.sale) {
+        query += "sale=".concat(this.sale, "&");
+      }
+
+      var parameters = {
         page: page,
+        sort: this.sort === null ? JSON.stringify(this.sort) : this.sort,
+        sizes: this.sizes !== null && idsSizes !== "" ? idsSizes : this.sizes,
+        min: JSON.stringify(this.min),
+        max: JSON.stringify(this.max),
+        sale: this.sale ? 1 : JSON.stringify(null),
         params: this.$route.params
-      });
-      this.$router.push("".concat(this.$route.path, "?page=").concat(this.updatedPage))["catch"](function (e) {
+      };
+      this.$store.dispatch('getCatalogData', parameters);
+      this.$router.push("".concat(this.$route.path, "?").concat(query, "page=").concat(page))["catch"](function (e) {
         console.log(e);
       });
+      this.$Progress.finish();
     },
     // Обработчик по нажатию на страницы пагинации
     // Вызываем функцию, которая выводит новые товары
@@ -5934,260 +6055,187 @@ __webpack_require__.r(__webpack_exports__);
     pageChange: function pageChange(page) {
       // Присваиваем переменной выбранную страницу по клику на пагинцию
       this.pageCatalog = page;
-
-      switch (this.returnWhataFunc) {
-        case 'sort':
-          this.selectSort(false);
-          break;
-
-        case 'sale':
-          this.filterSalePagination();
-          break;
-
-        case 'cash':
-          this.filterCashPagination();
-          break;
-
-        case 'size':
-          this.filterSizePagination();
-          break;
-
-        default:
-          this.getCatalogData(this.updatedPage);
-      }
-    },
-    // ФУНКЦИЯ ДЛЯ ПАГИНАЦИИ ПО ФИЛЬТРУ CASH
-    filterCashPagination: function filterCashPagination() {
-      var minmax = {
-        min: this.$route.query.min,
-        max: this.$route.query.max
-      };
-      this.$Progress.start();
-      minmax.page = this.updatedPage;
-      minmax.params = this.$route.params;
-      this.$store.dispatch('showCashProducts', minmax);
-      this.$router.push("".concat(this.$route.path, "?min=").concat(minmax.min, "&max=").concat(minmax.max, "&page=").concat(this.updatedPage))["catch"](function (e) {
-        console.log(e);
-      });
-    },
-    // ФУНКЦИЯ ДЛЯ ПАГИНАЦИИ ПО ФИЛЬРУ SALE
-    filterSalePagination: function filterSalePagination() {
-      this.$Progress.start();
-      this.$store.dispatch('showSaleProducts', {
-        page: this.updatedPage,
-        params: this.$route.params
-      });
-      this.$router.push("".concat(this.$route.path, "?sale=").concat(this.$route.query.sale, "&page=").concat(this.updatedPage))["catch"](function (e) {
-        console.log(e);
-      });
-    },
-    // ФУНКЦИЯ ДЛЯ ПАГИНАЦИИ ПО ФИЛЬТРУ SIZES
-    filterSizePagination: function filterSizePagination() {// console.log(this.$route.query.size);
-      // console.log(this.getSizes);
-      // let data = {sizes: sizes, params: this.$route.params, page: this.updatedPage};
-      // this.$store.dispatch('showSizeProducts', data);
-      // this.$router.push(`${this.$route.path}?${queryStr}page=${this.updatedPage}`);
-    },
-    // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
-    // Если убрали sale, то отправляем на главную страницу каталогов в зависимости от параметров
-    hideSaleProducts: function hideSaleProducts(sale) {
-      this.pageCatalog = 1;
-      this.whataFunc = null;
-      this.getCatalogData(this.updatedPage);
+      this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
     },
     // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
     // Отправляем запрос по фильтру по скидке
     // где sale данные из компонента sidebar
     showSaleProducts: function showSaleProducts(sale) {
+      this.sale = sale;
       this.pageCatalog = 1;
-      this.whataFunc = 'sale';
-      this.$Progress.start();
-      this.$store.dispatch('showSaleProducts', {
-        page: this.pageCatalog,
-        params: this.$route.params
-      });
-      this.$router.push("".concat(this.$route.path, "?sale=").concat(sale, "&page=1"))["catch"](function (e) {
-        console.log(e);
-      });
+      this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
     },
     // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
     // Отправляем запрос по фильтру по цене и переходим на первую страницу
     showCashProducts: function showCashProducts(minmax) {
+      this.min = minmax.min;
+      this.max = minmax.max;
       this.pageCatalog = 1;
-      this.whataFunc = 'cash';
-      minmax.page = this.updatedPage;
-      minmax.params = this.$route.params;
-      this.$store.dispatch('showCashProducts', minmax);
-      this.$router.push("".concat(this.$route.path, "?min=").concat(minmax.min, "&max=").concat(minmax.max, "&page=1"))["catch"](function (e) {
-        console.log(e);
-      });
-      this.$Progress.start();
+      this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
     },
     // Метод для сортировки
-    selectSort: function selectSort(rollbackPage) {
+    selectSort: function selectSort() {
       switch (this.selected) {
-        // Если новейшие товары
-        case this.sortBy[0].value:
-          // Вызываем общую функцию по выдаче товаров
-          this.getCatalogData(this.updatedPage); // Определяем куда пушить
-
-          switch (Object.keys(this.$route.params).length) {
-            case 1:
-              this.$router.push({
-                name: 'gender'
-              });
-              break;
-
-            case 2:
-              this.$router.push({
-                name: 'category'
-              });
-              break;
-
-            case 3:
-              this.$router.push({
-                name: 'department'
-              });
-              break;
-          }
-
+        case 'по нарастающей цене':
+          this.sort = 'low';
           break;
-        // Если от маленько цены
 
-        case this.sortBy[1].value:
-          if (rollbackPage) this.pageCatalog = 1;
-          this.whataFunc = 'sort';
-          this.$Progress.start();
-          this.$store.dispatch('sortByAction', {
-            price: 'low',
-            params: this.$route.params,
-            page: this.pageCatalog
-          });
-          this.$router.push("".concat(this.$route.path, "?sortOrder=").concat(this.sortBy[1].name, "&page=").concat(this.updatedPage))["catch"](function (e) {
-            console.log(e);
-          });
+        case 'по убывающей цене':
+          this.sort = 'high';
           break;
-        // Если от большой цены
 
-        case this.sortBy[2].value:
-          if (rollbackPage) this.pageCatalog = 1;
-          this.whataFunc = 'sort';
-          this.$Progress.start();
-          this.$store.dispatch('sortByAction', {
-            price: 'high',
-            params: this.$route.params,
-            page: this.pageCatalog
-          });
-          this.$router.push("".concat(this.$route.path, "?sortOrder=").concat(this.sortBy[2].name, "&page=").concat(this.updatedPage))["catch"](function (e) {
-            console.log(e);
-          });
+        default:
+          this.sort = null;
           break;
       }
+
+      this.pageCatalog = 1;
+      this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
     },
-    // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR
+    // ФУНКЦИЯ ДЛЯ КОМПОНЕНТА SIDEBAR РАЗМЕРЫ
     showSizeProductsPlease: function showSizeProductsPlease(sizes) {
       var queryStr = '';
       sizes.forEach(function (el) {
         queryStr += "size=".concat(el[0], "&");
       });
-      this.$Progress.start();
+      this.sizes = sizes;
+      this.sizeStr = queryStr;
       this.pageCatalog = 1;
-
-      if (sizes.length) {
-        this.whataFunc = 'size';
-        var data = {
-          sizes: sizes,
-          params: this.$route.params,
-          page: this.updatedPage
-        };
-        this.$store.dispatch('showSizeProducts', data);
-        this.$router.push("".concat(this.$route.path, "?").concat(queryStr, "page=1"))["catch"](function (e) {
-          console.log(e);
-        });
-      } else {
-        this.getCatalogData(1);
-      } // try {
-      //     let queryStr = '';
-      //
-      //     sizes.forEach(el => {
-      //         queryStr += `size=${el[0]}&`
-      //     });
-      //     console.log(queryStr)
-      //     this.$Progress.start();
-      //     this.pageCatalog = 1;
-      //     if (sizes.length) {
-      //         console.log('HI')
-      //         this.whataFunc = 'size';
-      //         let data = {sizes: sizes, params: this.$route.params, page: this.updatedPage};
-      //         this.$store.dispatch('showSizeProducts', data);
-      //         this.$router.push(`${this.$route.path}?${queryStr}page=1`).catch(()=>{});
-      //     }
-      // }catch (e) {
-      //     console.log(e)
-      // }
-
+      this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
     }
   },
   created: function created() {
     var _this = this;
 
-    // При создании компонента присваиваем текущую страницу для пагинции
-    this.pageCatalog = +this.$route.query.page || 1; // Если запрос на sale
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var localSizes;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // При создании компонента присваиваем текущую страницу для пагинции
+              _this.pageCatalog = +_this.$route.query.page || 1;
 
-    if (this.$route.query.sale) {
-      this.filterSalePagination();
-    } // Если запрос на мин макс цену
-    else if (this.$route.query.min && this.$route.query.max) {
-        this.filterCashPagination();
-      } // Если запрос на sorting
-      else if (this.$route.query.sortOrder) {
-          this.sortBy.forEach(function (el) {
-            if (el.name === _this.$route.query.sortOrder) _this.selected = el.value;
-          });
-          this.selectSort();
-        } else {
-          // Вызываем данные просто по каталогу если нету query sale
-          this.getCatalogData(this.pageCatalog);
-        } // МОБИЛКА
-    // Скрываем сайдбар
+              if (!_this.$route.query.size) {
+                _context.next = 7;
+                break;
+              }
+
+              localSizes = [];
+
+              if (_typeof(_this.$route.query.size) !== "object") {
+                localSizes.push(_this.$route.query.size);
+              } else {
+                localSizes = _this.$route.query.size;
+              }
+
+              _this.sizes = [];
+              _context.next = 7;
+              return axios__WEBPACK_IMPORTED_MODULE_4___default.a.get("".concat(_this.URI, "allsizesforsidebar")).then(function (res) {
+                res.data.forEach(function (el) {
+                  var findSize = localSizes.find(function (size) {
+                    return +size === el.sizes_number;
+                  });
+                  if (findSize) _this.sizes.push(el.product_id);
+                });
+                var queryStr = '';
+                localSizes.forEach(function (el) {
+                  queryStr += "size=".concat(el, "&");
+                });
+                _this.sizeStr = queryStr;
+              });
+
+            case 7:
+              // Если запрос на sale
+              if (_this.$route.query.sale) {
+                _this.sale = _this.$route.query.sale;
+              } // Если запрос на мин макс цену
 
 
-    if (this.media.wind <= this.media.tablet) this.showSidebar = false;
+              if (_this.$route.query.min && _this.$route.query.max) {
+                _this.min = +_this.$route.query.min;
+                _this.max = +_this.$route.query.max;
+              } // Если запрос на sorting
+
+
+              if (!_this.$route.query.sortBy) {
+                _context.next = 20;
+                break;
+              }
+
+              _this.sort = _this.$route.query.sortBy; // Присваиваем this.selected значение в зависимсоти от URL
+
+              _context.t0 = _this.sort;
+              _context.next = _context.t0 === 'low' ? 14 : _context.t0 === 'high' ? 16 : 18;
+              break;
+
+            case 14:
+              _this.selected = 'по нарастающей цене';
+              return _context.abrupt("break", 20);
+
+            case 16:
+              _this.selected = 'по убывающей цене';
+              return _context.abrupt("break", 20);
+
+            case 18:
+              _this.selected = 'новейшие товары';
+              return _context.abrupt("break", 20);
+
+            case 20:
+              _this.InfernalFilterFromDanilkaOnFront(_this.pageCatalog); // МОБИЛКА
+              // Скрываем сайдбар
+
+
+              if (_this.media.wind <= _this.media.tablet) _this.showSidebar = false;
+
+            case 22:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   watch: {
     $route: function $route(to, from) {
       // Если пришли к страницы гендер
       if (to.name === 'gender' && !this.$route.query.page) {
-        console.log('Hi Watch gender');
         this.pageCatalog = 1;
-        this.whataFunc = null;
-        this.getCatalogData(this.pageCatalog);
+        this.sort = null;
+        this.sizes = null;
+        this.min = null;
+        this.max = null;
+        this.sale = null;
+        this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
       } // категории
 
 
       if (to.name === 'category' && !this.$route.query.page) {
-        console.log('Hi Watch category');
         this.pageCatalog = 1;
-        this.whataFunc = null;
-        this.getCatalogData(this.pageCatalog);
+        this.sort = null;
+        this.sizes = null;
+        this.min = null;
+        this.max = null;
+        this.sale = null;
+        this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
       } // подкатегории
 
 
       if (to.name === 'department' && !this.$route.query.page) {
-        console.log('Hi Watch department');
         this.pageCatalog = 1;
-        this.whataFunc = null;
-        this.getCatalogData(this.pageCatalog);
-      } // if (this.$route.query.page){
-      //     this.pageCatalog = +this.$route.query.page;
-      // }
-
+        this.sort = null;
+        this.sizes = null;
+        this.min = null;
+        this.max = null;
+        this.sale = null;
+        this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
+      }
     }
   },
   computed: {
     // Возвращаем данные по каталогу
     returnCatalogData: function returnCatalogData() {
-      this.$Progress.finish();
+      // this.$Progress.finish();
       if (this.$store.getters.catalogData !== null) return this.$store.getters.catalogData;
     },
     // Возвращаем данные по кол-во товаров для пагинции
@@ -6211,6 +6259,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     media: function media() {
       return this.$store.getters.media;
+    },
+    URI: function URI() {
+      return this.$store.getters.URI;
     }
   }
 });
@@ -14398,36 +14449,72 @@ var render = function() {
         _vm._l(_vm.catalogData, function(item, i) {
           return _c(
             "div",
-            { staticClass: "item" },
+            {
+              staticClass: "item",
+              on: {
+                mouseleave: function($event) {
+                  return _vm.hideElements(i)
+                }
+              }
+            },
             [
-              _c(
-                "svg",
-                {
-                  staticClass: "icon-cell t-shirt",
-                  attrs: {
-                    width: "30",
-                    height: "28",
-                    viewBox: "0 0 30 28",
-                    xmlns: "http://www.w3.org/2000/svg"
-                  }
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      d:
-                        "M23.5405 27.6801H23.2594C18.037 27.6801 12.815 27.6801 7.59337 27.6801C7.21784 27.6801 6.87614 27.6066 6.69304 27.2521C6.60598 27.0701 6.5617 26.8707 6.56358 26.669C6.55659 21.2716 6.55659 15.8735 6.56358 10.4746V10.1247C6.46095 10.2157 6.39798 10.2647 6.34433 10.3218C5.86034 10.8443 5.37519 11.3656 4.8947 11.8904C4.77807 12.0175 4.68128 12.161 4.56465 12.2869C4.53615 12.3267 4.49859 12.359 4.45509 12.3814C4.41159 12.4037 4.36339 12.4153 4.3145 12.4153C4.2656 12.4153 4.2174 12.4037 4.1739 12.3814C4.1304 12.359 4.09284 12.3267 4.06434 12.2869C3.49055 11.6867 2.9187 11.0845 2.3488 10.4804C1.88697 9.99217 1.42709 9.50196 0.969145 9.00981C0.651928 8.66927 0.338209 8.32406 0 7.96019C0.289227 7.6803 0.553963 7.42606 0.816366 7.16948C1.24787 6.74614 1.68288 6.32746 2.09923 5.89595C2.64153 5.34199 3.17566 4.7787 3.70864 4.21541C4.18213 3.71509 4.65562 3.21361 5.11862 2.6993C5.39735 2.39374 5.64226 2.05553 5.93498 1.76631C6.15773 1.53306 6.42713 1.35346 6.67204 1.14587C7.27616 0.635056 8.02605 0.591905 8.75844 0.489276C9.3159 0.411138 9.87453 0.338831 10.4297 0.246698C10.7644 0.190719 11.0944 0.0997533 11.4268 0.0309452C11.9504 -0.0786811 12.3061 0.102086 12.5639 0.587241C12.7785 0.993092 12.9997 1.39544 13.2275 1.7943C13.3036 1.9193 13.3919 2.03649 13.491 2.14417C13.8176 2.51153 14.1663 2.8649 14.6001 3.09348C14.9197 3.26259 15.2894 3.2381 15.6497 3.15296C16.2643 3.00602 16.6189 2.53952 16.9419 2.06253C17.2288 1.63569 17.4504 1.16569 17.7081 0.720192C18.1746 -0.0821794 18.3542 -0.0646863 19.1846 0.0764284C20.3753 0.28052 21.5614 0.505603 22.751 0.719025C23.0371 0.754551 23.3027 0.886123 23.5043 1.09222C24.1971 1.82812 24.9038 2.55002 25.6036 3.28242C26.0304 3.73025 26.4444 4.18975 26.8666 4.64108C27.6725 5.4971 28.4842 6.34729 29.2842 7.2068C29.5175 7.45288 29.7076 7.73044 29.9291 7.98235C30.0224 8.08964 30.0248 8.15729 29.9291 8.25875C29.5404 8.65527 29.154 9.05607 28.7699 9.46114C27.9924 10.2798 27.2188 11.1001 26.4491 11.9219C26.2788 12.1027 26.1179 12.2916 25.9395 12.491L23.6128 9.95796L23.5557 9.98478L23.5405 27.6801ZM25.9418 10.5726C26.0397 10.4559 26.1132 10.3521 26.1984 10.2635C26.8526 9.5766 27.5069 8.89085 28.1681 8.21093C28.2731 8.10364 28.2626 8.04066 28.1681 7.94037C27.6701 7.41906 27.1792 6.89075 26.6858 6.36595C26.21 5.85747 25.7377 5.34432 25.2584 4.83934C24.6053 4.15009 23.9475 3.46785 23.2933 2.78093C23.2186 2.7028 23.1638 2.60366 23.0833 2.53252C22.8956 2.36342 22.7696 2.11851 22.4851 2.06603C21.9894 1.97273 21.4973 1.85727 21.0016 1.76864C20.3473 1.65201 19.6908 1.54939 19.0353 1.44093C18.9653 1.41777 18.8891 1.42212 18.8222 1.45309C18.7553 1.48406 18.7026 1.53934 18.675 1.6077C18.3612 2.2258 18.0627 2.8579 17.5717 3.36405C17.2883 3.65678 17.0259 3.99965 16.6854 4.20258C16.3794 4.39521 16.0365 4.52153 15.6787 4.57336C15.321 4.62519 14.9563 4.60137 14.6083 4.50346C14.2563 4.39372 13.9226 4.23217 13.6182 4.02414C13.171 3.71738 12.7741 3.34326 12.4414 2.91505C12.1125 2.52086 11.8723 2.05087 11.6122 1.60303C11.5845 1.5391 11.5348 1.48718 11.4721 1.45661C11.4095 1.42604 11.338 1.41883 11.2705 1.43626C10.846 1.50857 10.4227 1.58204 9.99815 1.65318C9.47101 1.74065 8.94271 1.82928 8.41324 1.90859C7.90826 1.98556 7.42077 2.12901 7.06157 2.50104C6.52976 3.0515 6.04344 3.64628 5.52097 4.20608C4.73726 5.0481 3.94188 5.88079 3.14418 6.71115C2.78148 7.09018 2.41295 7.46571 2.02809 7.82374C1.85315 7.98702 1.88814 8.09314 2.02809 8.23892C2.43277 8.65411 2.82929 9.07628 3.22931 9.49496C3.28762 9.55677 3.33894 9.62441 3.39725 9.68506C3.69231 9.99528 3.98853 10.3043 4.29409 10.6239L7.67967 6.93041C7.70008 6.99089 7.71568 7.0529 7.72632 7.11584C7.76248 7.71178 7.82429 8.30773 7.82545 8.90368C7.83245 14.6167 7.83245 20.3312 7.82545 26.0474V26.3413H22.2576V26.1162C22.2576 20.159 22.2576 14.2015 22.2576 8.24359C22.2576 8.06282 22.2961 7.95086 22.4757 7.88672C22.674 7.81675 22.8606 7.71295 23.0588 7.65347C23.0992 7.64403 23.1411 7.64385 23.1815 7.65294C23.2219 7.66203 23.2597 7.68015 23.2921 7.70595C23.4764 7.88555 23.642 8.08498 23.8169 8.27391C24.2134 8.69725 24.6123 9.11943 25.0076 9.54394C25.0496 9.58826 25.0776 9.64541 25.1243 9.69089C25.3773 9.97079 25.6491 10.2553 25.9395 10.5726H25.9418Z"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("path", {
-                    attrs: {
-                      d:
-                        "M11.9248 9.01564H12.1837C14.0741 9.01564 15.9646 9.01564 17.8551 9.01564C18.0673 9.01564 18.1536 8.96549 18.1327 8.74274C18.1128 8.53981 18.1233 8.33339 18.1222 8.12813C18.1222 7.83774 18.2854 7.73044 18.5303 7.88205C19.0843 8.22493 19.6301 8.5818 20.1806 8.93167C20.2867 8.99814 20.3998 9.05412 20.5024 9.12643C20.6995 9.26638 20.7042 9.42965 20.5024 9.55677C20.1153 9.80518 19.7211 10.0396 19.3304 10.2833C19.0738 10.4431 18.8242 10.6145 18.5653 10.7697C18.2843 10.9376 18.1303 10.8501 18.1257 10.5306C18.1257 10.3265 18.1152 10.1201 18.1257 9.91597C18.1362 9.74687 18.0732 9.70255 17.9099 9.70372C16.8603 9.70955 15.799 9.70372 14.7436 9.70372C13.8771 9.70372 13.0105 9.70955 12.144 9.70372C11.9539 9.70372 11.87 9.74454 11.8875 9.94979C11.8974 10.1468 11.8974 10.3441 11.8875 10.5411C11.8875 10.8431 11.7265 10.9364 11.4606 10.7743C10.9941 10.5003 10.5416 10.2169 10.0856 9.93463C9.88736 9.81218 9.69143 9.68622 9.5025 9.55444C9.31357 9.42265 9.32989 9.24072 9.52232 9.11827C9.96433 8.83953 10.4122 8.5713 10.8553 8.29373C11.0524 8.17711 11.2367 8.029 11.4385 7.91121C11.7487 7.72694 11.891 7.80975 11.8921 8.16545V8.92117C11.9004 8.9535 11.9113 8.98509 11.9248 9.01564Z",
-                      fill: "#848CCF"
-                    }
-                  })
-                ]
-              ),
+              item.activeIconT
+                ? _c(
+                    "svg",
+                    {
+                      staticClass: "icon-cell t-shirt",
+                      class: item.activeTshirt ? "fill-svg" : null,
+                      attrs: {
+                        width: "30",
+                        height: "28",
+                        viewBox: "0 0 30 28",
+                        xmlns: "http://www.w3.org/2000/svg"
+                      },
+                      on: {
+                        click: function($event) {
+                          item.activeTshirt = !item.activeTshirt
+                        }
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M23.5405 27.6801H23.2594C18.037 27.6801 12.815 27.6801 7.59337 27.6801C7.21784 27.6801 6.87614 27.6066 6.69304 27.2521C6.60598 27.0701 6.5617 26.8707 6.56358 26.669C6.55659 21.2716 6.55659 15.8735 6.56358 10.4746V10.1247C6.46095 10.2157 6.39798 10.2647 6.34433 10.3218C5.86034 10.8443 5.37519 11.3656 4.8947 11.8904C4.77807 12.0175 4.68128 12.161 4.56465 12.2869C4.53615 12.3267 4.49859 12.359 4.45509 12.3814C4.41159 12.4037 4.36339 12.4153 4.3145 12.4153C4.2656 12.4153 4.2174 12.4037 4.1739 12.3814C4.1304 12.359 4.09284 12.3267 4.06434 12.2869C3.49055 11.6867 2.9187 11.0845 2.3488 10.4804C1.88697 9.99217 1.42709 9.50196 0.969145 9.00981C0.651928 8.66927 0.338209 8.32406 0 7.96019C0.289227 7.6803 0.553963 7.42606 0.816366 7.16948C1.24787 6.74614 1.68288 6.32746 2.09923 5.89595C2.64153 5.34199 3.17566 4.7787 3.70864 4.21541C4.18213 3.71509 4.65562 3.21361 5.11862 2.6993C5.39735 2.39374 5.64226 2.05553 5.93498 1.76631C6.15773 1.53306 6.42713 1.35346 6.67204 1.14587C7.27616 0.635056 8.02605 0.591905 8.75844 0.489276C9.3159 0.411138 9.87453 0.338831 10.4297 0.246698C10.7644 0.190719 11.0944 0.0997533 11.4268 0.0309452C11.9504 -0.0786811 12.3061 0.102086 12.5639 0.587241C12.7785 0.993092 12.9997 1.39544 13.2275 1.7943C13.3036 1.9193 13.3919 2.03649 13.491 2.14417C13.8176 2.51153 14.1663 2.8649 14.6001 3.09348C14.9197 3.26259 15.2894 3.2381 15.6497 3.15296C16.2643 3.00602 16.6189 2.53952 16.9419 2.06253C17.2288 1.63569 17.4504 1.16569 17.7081 0.720192C18.1746 -0.0821794 18.3542 -0.0646863 19.1846 0.0764284C20.3753 0.28052 21.5614 0.505603 22.751 0.719025C23.0371 0.754551 23.3027 0.886123 23.5043 1.09222C24.1971 1.82812 24.9038 2.55002 25.6036 3.28242C26.0304 3.73025 26.4444 4.18975 26.8666 4.64108C27.6725 5.4971 28.4842 6.34729 29.2842 7.2068C29.5175 7.45288 29.7076 7.73044 29.9291 7.98235C30.0224 8.08964 30.0248 8.15729 29.9291 8.25875C29.5404 8.65527 29.154 9.05607 28.7699 9.46114C27.9924 10.2798 27.2188 11.1001 26.4491 11.9219C26.2788 12.1027 26.1179 12.2916 25.9395 12.491L23.6128 9.95796L23.5557 9.98478L23.5405 27.6801ZM25.9418 10.5726C26.0397 10.4559 26.1132 10.3521 26.1984 10.2635C26.8526 9.5766 27.5069 8.89085 28.1681 8.21093C28.2731 8.10364 28.2626 8.04066 28.1681 7.94037C27.6701 7.41906 27.1792 6.89075 26.6858 6.36595C26.21 5.85747 25.7377 5.34432 25.2584 4.83934C24.6053 4.15009 23.9475 3.46785 23.2933 2.78093C23.2186 2.7028 23.1638 2.60366 23.0833 2.53252C22.8956 2.36342 22.7696 2.11851 22.4851 2.06603C21.9894 1.97273 21.4973 1.85727 21.0016 1.76864C20.3473 1.65201 19.6908 1.54939 19.0353 1.44093C18.9653 1.41777 18.8891 1.42212 18.8222 1.45309C18.7553 1.48406 18.7026 1.53934 18.675 1.6077C18.3612 2.2258 18.0627 2.8579 17.5717 3.36405C17.2883 3.65678 17.0259 3.99965 16.6854 4.20258C16.3794 4.39521 16.0365 4.52153 15.6787 4.57336C15.321 4.62519 14.9563 4.60137 14.6083 4.50346C14.2563 4.39372 13.9226 4.23217 13.6182 4.02414C13.171 3.71738 12.7741 3.34326 12.4414 2.91505C12.1125 2.52086 11.8723 2.05087 11.6122 1.60303C11.5845 1.5391 11.5348 1.48718 11.4721 1.45661C11.4095 1.42604 11.338 1.41883 11.2705 1.43626C10.846 1.50857 10.4227 1.58204 9.99815 1.65318C9.47101 1.74065 8.94271 1.82928 8.41324 1.90859C7.90826 1.98556 7.42077 2.12901 7.06157 2.50104C6.52976 3.0515 6.04344 3.64628 5.52097 4.20608C4.73726 5.0481 3.94188 5.88079 3.14418 6.71115C2.78148 7.09018 2.41295 7.46571 2.02809 7.82374C1.85315 7.98702 1.88814 8.09314 2.02809 8.23892C2.43277 8.65411 2.82929 9.07628 3.22931 9.49496C3.28762 9.55677 3.33894 9.62441 3.39725 9.68506C3.69231 9.99528 3.98853 10.3043 4.29409 10.6239L7.67967 6.93041C7.70008 6.99089 7.71568 7.0529 7.72632 7.11584C7.76248 7.71178 7.82429 8.30773 7.82545 8.90368C7.83245 14.6167 7.83245 20.3312 7.82545 26.0474V26.3413H22.2576V26.1162C22.2576 20.159 22.2576 14.2015 22.2576 8.24359C22.2576 8.06282 22.2961 7.95086 22.4757 7.88672C22.674 7.81675 22.8606 7.71295 23.0588 7.65347C23.0992 7.64403 23.1411 7.64385 23.1815 7.65294C23.2219 7.66203 23.2597 7.68015 23.2921 7.70595C23.4764 7.88555 23.642 8.08498 23.8169 8.27391C24.2134 8.69725 24.6123 9.11943 25.0076 9.54394C25.0496 9.58826 25.0776 9.64541 25.1243 9.69089C25.3773 9.97079 25.6491 10.2553 25.9395 10.5726H25.9418Z"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M11.9248 9.01564H12.1837C14.0741 9.01564 15.9646 9.01564 17.8551 9.01564C18.0673 9.01564 18.1536 8.96549 18.1327 8.74274C18.1128 8.53981 18.1233 8.33339 18.1222 8.12813C18.1222 7.83774 18.2854 7.73044 18.5303 7.88205C19.0843 8.22493 19.6301 8.5818 20.1806 8.93167C20.2867 8.99814 20.3998 9.05412 20.5024 9.12643C20.6995 9.26638 20.7042 9.42965 20.5024 9.55677C20.1153 9.80518 19.7211 10.0396 19.3304 10.2833C19.0738 10.4431 18.8242 10.6145 18.5653 10.7697C18.2843 10.9376 18.1303 10.8501 18.1257 10.5306C18.1257 10.3265 18.1152 10.1201 18.1257 9.91597C18.1362 9.74687 18.0732 9.70255 17.9099 9.70372C16.8603 9.70955 15.799 9.70372 14.7436 9.70372C13.8771 9.70372 13.0105 9.70955 12.144 9.70372C11.9539 9.70372 11.87 9.74454 11.8875 9.94979C11.8974 10.1468 11.8974 10.3441 11.8875 10.5411C11.8875 10.8431 11.7265 10.9364 11.4606 10.7743C10.9941 10.5003 10.5416 10.2169 10.0856 9.93463C9.88736 9.81218 9.69143 9.68622 9.5025 9.55444C9.31357 9.42265 9.32989 9.24072 9.52232 9.11827C9.96433 8.83953 10.4122 8.5713 10.8553 8.29373C11.0524 8.17711 11.2367 8.029 11.4385 7.91121C11.7487 7.72694 11.891 7.80975 11.8921 8.16545V8.92117C11.9004 8.9535 11.9113 8.98509 11.9248 9.01564Z",
+                          fill: "#848CCF"
+                        }
+                      })
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              item.activeTshirt
+                ? _c(
+                    "div",
+                    { staticClass: "item-sizes" },
+                    _vm._l(_vm.sizesForProduct, function(sizeInner, size, i) {
+                      return sizeInner.ids.find(function(el) {
+                        return el === item.product_id
+                      })
+                        ? _c("span", [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(size) +
+                                "\n            "
+                            )
+                          ])
+                        : _vm._e()
+                    }),
+                    0
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "router-link",
@@ -14439,40 +14526,62 @@ var render = function() {
                 },
                 [
                   _c("img", {
-                    attrs: { src: item.product_img.split(",")[0], alt: "" }
+                    attrs: { src: item.product_img.split(",")[0], alt: "" },
+                    on: {
+                      mouseover: function($event) {
+                        return _vm.showElements(i)
+                      }
+                    }
                   })
                 ]
               ),
               _vm._v(" "),
-              _c(
-                "svg",
-                {
-                  staticClass: "icon-cell book",
-                  attrs: {
-                    width: "30",
-                    height: "28",
-                    xmlns: "http://www.w3.org/2000/svg",
-                    viewBox: "0 0 361.33 348.7"
-                  }
-                },
-                [
-                  _c("title", [_vm._v("icon_izb")]),
-                  _c("path", {
-                    attrs: {
-                      d:
-                        "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
-                      transform: "translate(-139 -54.46)"
-                    }
-                  }),
-                  _c("path", {
-                    attrs: {
-                      d:
-                        "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
-                      transform: "translate(-139 -54.46)"
-                    }
-                  })
-                ]
-              ),
+              item.activeIconB ||
+              _vm.returnBook.find(function(el) {
+                return el === item.product_id
+              })
+                ? _c(
+                    "svg",
+                    {
+                      staticClass: "icon-cell book",
+                      class:
+                        item.activeBook ||
+                        _vm.returnBook.find(function(el) {
+                          return el === item.product_id
+                        })
+                          ? "fill-svg"
+                          : null,
+                      attrs: {
+                        width: "30",
+                        height: "28",
+                        xmlns: "http://www.w3.org/2000/svg",
+                        viewBox: "0 0 361.33 348.7"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.addBookmark(i, item.product_id)
+                        }
+                      }
+                    },
+                    [
+                      _c("title", [_vm._v("icon_izb")]),
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
+                          transform: "translate(-139 -54.46)"
+                        }
+                      }),
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
+                          transform: "translate(-139 -54.46)"
+                        }
+                      })
+                    ]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "item-title" }, [
                 _vm._v(
@@ -14769,34 +14878,41 @@ var render = function() {
                     "router-link",
                     { attrs: { tag: "li", to: "/izbrannoe" } },
                     [
-                      _c("a", { attrs: { href: "" } }, [
-                        _c(
-                          "svg",
-                          {
-                            attrs: {
-                              xmlns: "http://www.w3.org/2000/svg",
-                              viewBox: "0 0 361.33 348.7"
-                            }
-                          },
-                          [
-                            _c("title", [_vm._v("icon_izb")]),
-                            _c("path", {
+                      _c(
+                        "a",
+                        {
+                          class: _vm.returnBook.length ? "active-cart" : null,
+                          attrs: { href: "" }
+                        },
+                        [
+                          _c(
+                            "svg",
+                            {
                               attrs: {
-                                d:
-                                  "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
-                                transform: "translate(-139 -54.46)"
+                                xmlns: "http://www.w3.org/2000/svg",
+                                viewBox: "0 0 361.33 348.7"
                               }
-                            }),
-                            _c("path", {
-                              attrs: {
-                                d:
-                                  "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
-                                transform: "translate(-139 -54.46)"
-                              }
-                            })
-                          ]
-                        )
-                      ])
+                            },
+                            [
+                              _c("title", [_vm._v("icon_izb")]),
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M139,187.84c.31-1.27.57-2.56.95-3.8,3.15-10.21,10.48-15.77,20.64-17.29,30.69-4.59,61.42-8.88,92.15-13.22a4.56,4.56,0,0,0,3.84-2.8q20.55-41.22,41.2-82.39c4.8-9.58,12.7-14.39,23.36-13.83C331,55,337.71,60.6,342,69.18c7.6,15,15.11,30.14,22.66,45.22q9.12,18.22,18.21,36.47a4.41,4.41,0,0,0,3.75,2.64c15.4,2.14,30.78,4.4,46.16,6.6s30.65,4.46,46,6.54c11.84,1.61,20.49,10.23,21.44,22.11.61,7.72-2.59,14.1-8.07,19.39q-17.49,16.86-35,33.68c-8.22,7.9-16.41,15.84-24.68,23.7a11.12,11.12,0,0,1-14.66,1.1,10.81,10.81,0,0,1-1.08-16.8c8.81-8.56,17.71-17,26.57-25.55q16.64-16,33.22-32a3.46,3.46,0,0,0,1.1-2.48c-.08-.52-1.4-1.09-2.22-1.21q-40.37-5.88-80.74-11.64c-4.3-.62-8.61-1.17-12.9-1.85-8.67-1.37-14.81-6.11-18.72-14q-15.4-30.93-30.92-61.79c-3.47-6.92-6.91-13.86-10.45-20.74a3.73,3.73,0,0,0-2.12-1.94c-.54-.09-1.53,1.09-1.93,1.89-13.43,26.77-27,53.47-40.11,80.42-5,10.28-12.6,15.42-23.8,16.82-20.05,2.51-40,5.65-60,8.52-9.91,1.42-19.82,2.8-29.72,4.27-.82.12-2,.63-2.22,1.23s.41,1.75,1,2.32c21.63,20.87,43.12,41.88,65,62.44,8.5,8,11.23,16.81,9.09,28.18-5,26.6-9.39,53.3-14,80-.45,2.61-1,5.2-1.35,7.82-.11.83,0,2.1.56,2.49s1.79.12,2.52-.26q36.57-18.89,73.08-37.85c5.14-2.66,10.4-1.94,14,1.9,5.12,5.38,3.67,13.79-3.13,17.4-8.27,4.41-16.62,8.67-24.94,13q-24.37,12.64-48.77,25.29c-11.62,6-25.2,2.73-32.13-7.7-3.93-5.91-4.43-12.33-3.22-19.19,5.31-29.93,10.47-59.89,15.71-89.83a3.81,3.81,0,0,0-1.48-3.63Q188.7,248.08,163.64,224q-8.44-8.13-16.89-16.25a23.68,23.68,0,0,1-7.44-14.08,4.2,4.2,0,0,0-.31-.88Z",
+                                  transform: "translate(-139 -54.46)"
+                                }
+                              }),
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M383.14,346.75H380.6c-13.66,0-27.33,0-41,0a20.3,20.3,0,0,1-5.05-.53,10.74,10.74,0,0,1,.25-21.09,19.27,19.27,0,0,1,4.49-.44c13.73,0,27.46,0,41.19,0H383c0-.81.11-1.53.11-2.25,0-13.61,0-27.21,0-40.82a19.65,19.65,0,0,1,.52-4.85,11.12,11.12,0,0,1,10.92-8.47,11.25,11.25,0,0,1,10.55,9,18.88,18.88,0,0,1,.4,4.12q0,20.49,0,41v2.3h2.34c13.85,0,27.71,0,41.57,0a18.73,18.73,0,0,1,4.67.5,11,11,0,0,1,8.53,11.58c-.39,4.92-5,9.31-10.4,9.87-1.13.11-2.27.12-3.4.12H405.55v2.38c0,13.67,0,27.34,0,41a17.21,17.21,0,0,1-.7,5,11,11,0,0,1-11.63,7.95,11.64,11.64,0,0,1-10-10.54c-.09-1-.08-2-.08-3q0-20.11,0-40.25Z",
+                                  transform: "translate(-139 -54.46)"
+                                }
+                              })
+                            ]
+                          )
+                        ]
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -15319,12 +15435,12 @@ var render = function() {
           _c(
             "div",
             { staticClass: "sizing-cell" },
-            _vm._l(_vm.getSizes, function(el, size, s) {
+            _vm._l(_vm.localSizes, function(el, size, s) {
               return _c(
                 "button",
                 {
                   class: el.active ? "active-size" : null,
-                  attrs: { type: "button", datatype: s },
+                  attrs: { type: "button" },
                   on: {
                     click: function($event) {
                       return _vm.clickSize(size)
@@ -16611,7 +16727,7 @@ var render = function() {
                             : $$selectedVal[0]
                         },
                         function($event) {
-                          return _vm.selectSort(true)
+                          return _vm.selectSort()
                         }
                       ]
                     }
@@ -16744,7 +16860,6 @@ var render = function() {
             attrs: { showSidebar: _vm.showSidebar },
             on: {
               showSaleProducts: _vm.showSaleProducts,
-              hideSaleProducts: _vm.hideSaleProducts,
               showSizeProducts: _vm.showSizeProductsPlease,
               showCashProducts: _vm.showCashProducts
             }
@@ -42752,6 +42867,8 @@ var store = {
     // Данные юзера
     userData: null,
     EU: null,
+    // Закладки
+    bookmarks: JSON.parse(localStorage.getItem('bookmark') || '[]'),
     // Медиа
     tablet: 768,
     mobile: 576,
@@ -43085,35 +43202,51 @@ var store = {
     // Получаем дату в каталог по категориям
     getCatalogDataMutate: function getCatalogDataMutate(state, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
+        var params;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
+                params = null;
                 _context13.t0 = Object.keys(data.params).length;
-                _context13.next = _context13.t0 === 1 ? 3 : _context13.t0 === 2 ? 6 : _context13.t0 === 3 ? 9 : 12;
+                _context13.next = _context13.t0 === 1 ? 4 : _context13.t0 === 2 ? 6 : _context13.t0 === 3 ? 8 : 10;
                 break;
 
-              case 3:
-                _context13.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
+              case 4:
+                params = data.params.gender + '/' + 'null' + '/' + 'null';
+                return _context13.abrupt("break", 10);
+
+              case 6:
+                params = data.params.gender + '/' + data.params.category + '/' + 'null';
+                return _context13.abrupt("break", 10);
+
+              case 8:
+                params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
+                return _context13.abrupt("break", 10);
+
+              case 10:
+                console.log(data);
+                _context13.next = 13;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "filter/").concat(params, "/").concat(data.sort, "/").concat(data.sale, "/").concat(data.min, "/").concat(data.max, "/").concat(data.sizes, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
 
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
+                  state.filterMin = itemCell.min;
+                  state.filterMax = itemCell.max; // Удаляем свойства из объекта
 
-                  delete itemCell.data.min;
-                  delete itemCell.data.max;
-                  state.EU = itemCell.data.eu;
-                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
+                  delete itemCell.min;
+                  delete itemCell.max;
+                  state.EU = itemCell.eu;
+                  delete itemCell.eu; // Создаем массив для размеров и пушим все размеры
 
                   var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
+                  itemCell.sizes.forEach(function (el) {
                     return localSize.push(el.sizes_number);
                   }); // Выбираем уникальные размеры
 
                   var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
+                  var totalSizes = {}; // let sizesForOneProduct = [];
+                  // Проходимся по объекту с уникальынми размерами
                   // делаем ключом каждый размер и создаем пустой массив
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
@@ -43128,8 +43261,10 @@ var store = {
                         active: false,
                         ids: []
                       };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
+                      itemCell.sizes.forEach(function (el) {
+                        if (el.sizes_number === i) {
+                          totalSizes[i].ids.push(el.product_id);
+                        }
                       });
                     };
 
@@ -43144,139 +43279,21 @@ var store = {
                   }
 
                   state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes; // Устанавливаем дату в стейт
+                  delete itemCell.sizes;
+                  itemCell.myData.data.forEach(function (el) {
+                    el.activeIconT = false;
+                    el.activeIconB = false;
+                    el.activeTshirt = false;
+                    el.activeBook = false;
+                  }); // Устанавливаем дату в стейт
 
-                  state.catalogData = itemCell.data; // Получаем общее число товаров для пагинации
+                  state.catalogData = itemCell.myData.data;
+                  console.log(state.catalogData); // Получаем общее число товаров для пагинации
 
-                  state.catalogDataCellCount = itemCell.total;
+                  state.catalogDataCellCount = itemCell.myData.total;
                 });
 
-              case 5:
-                return _context13.abrupt("break", 12);
-
-              case 6:
-                _context13.next = 8;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по категории
-                  var itemCell = response.data; // Устанавливаес min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max;
-                  state.EU = itemCell.data.eu;
-                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
-
-                  var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
-                    return localSize.push(el.sizes_number);
-                  }); // Выбираем уникальные размеры
-
-                  var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
-                  // делаем ключом каждый размер и создаем пустой массив
-                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-                  // если так, то пушим id продуктов
-
-                  var _iterator7 = _createForOfIteratorHelper(sortSizes),
-                      _step7;
-
-                  try {
-                    var _loop2 = function _loop2() {
-                      var i = _step7.value;
-                      totalSizes[i] = {
-                        active: false,
-                        ids: []
-                      };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
-                      });
-                    };
-
-                    for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-                      _loop2();
-                    } // Устанаваливаем размеры
-
-                  } catch (err) {
-                    _iterator7.e(err);
-                  } finally {
-                    _iterator7.f();
-                  }
-
-                  state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes; // Устанавливаем дату в стейт
-
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-
-              case 8:
-                return _context13.abrupt("break", 12);
-
-              case 9:
-                _context13.next = 11;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI).concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по категории
-                  var itemCell = response.data; // Устанавливаес min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max;
-                  state.EU = itemCell.data.eu;
-                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
-
-                  var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
-                    return localSize.push(el.sizes_number);
-                  }); // Выбираем уникальные размеры
-
-                  var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
-                  // делаем ключом каждый размер и создаем пустой массив
-                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-                  // если так, то пушим id продуктов
-
-                  var _iterator8 = _createForOfIteratorHelper(sortSizes),
-                      _step8;
-
-                  try {
-                    var _loop3 = function _loop3() {
-                      var i = _step8.value;
-                      totalSizes[i] = {
-                        active: false,
-                        ids: []
-                      };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
-                      });
-                    };
-
-                    for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-                      _loop3();
-                    } // Устанаваливаем размеры
-
-                  } catch (err) {
-                    _iterator8.e(err);
-                  } finally {
-                    _iterator8.f();
-                  }
-
-                  state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes; // Устанавливаем дату в стейт
-
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-
-              case 11:
-                return _context13.abrupt("break", 12);
-
-              case 12:
+              case 13:
               case "end":
                 return _context13.stop();
             }
@@ -43418,606 +43435,480 @@ var store = {
         }, _callee16);
       }))();
     },
-    // Получаем товары по скидки
-    showSaleProductsMutate: function showSaleProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
-          while (1) {
-            switch (_context17.prev = _context17.next) {
-              case 0:
-                _context17.t0 = Object.keys(data.params).length;
-                _context17.next = _context17.t0 === 1 ? 3 : _context17.t0 === 2 ? 6 : _context17.t0 === 3 ? 9 : 12;
-                break;
-
-              case 3:
-                _context17.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по гендеру
-                  var itemCell = response.data; // Устанавливаем min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max;
-                  state.EU = itemCell.data.eu;
-                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
-
-                  var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
-                    return localSize.push(el.sizes_number);
-                  }); // Выбираем уникальные размеры
-
-                  var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
-                  // делаем ключом каждый размер и создаем пустой массив
-                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-                  // если так, то пушим id продуктов
-
-                  var _iterator9 = _createForOfIteratorHelper(sortSizes),
-                      _step9;
-
-                  try {
-                    var _loop4 = function _loop4() {
-                      var i = _step9.value;
-                      totalSizes[i] = {
-                        active: false,
-                        ids: []
-                      };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
-                      });
-                    };
-
-                    for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-                      _loop4();
-                    } // Устанаваливаем размеры
-
-                  } catch (err) {
-                    _iterator9.e(err);
-                  } finally {
-                    _iterator9.f();
-                  }
-
-                  state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes;
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-
-              case 5:
-                return _context17.abrupt("break", 12);
-
-              case 6:
-                _context17.next = 8;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по гендеру
-                  var itemCell = response.data; // Устанавливаем min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max;
-                  state.EU = itemCell.data.eu;
-                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
-
-                  var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
-                    return localSize.push(el.sizes_number);
-                  }); // Выбираем уникальные размеры
-
-                  var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
-                  // делаем ключом каждый размер и создаем пустой массив
-                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-                  // если так, то пушим id продуктов
-
-                  var _iterator10 = _createForOfIteratorHelper(sortSizes),
-                      _step10;
-
-                  try {
-                    var _loop5 = function _loop5() {
-                      var i = _step10.value;
-                      totalSizes[i] = {
-                        active: false,
-                        ids: []
-                      };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
-                      });
-                    };
-
-                    for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
-                      _loop5();
-                    } // Устанаваливаем размеры
-
-                  } catch (err) {
-                    _iterator10.e(err);
-                  } finally {
-                    _iterator10.f();
-                  }
-
-                  state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes;
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-
-              case 8:
-                return _context17.abrupt("break", 12);
-
-              case 9:
-                _context17.next = 11;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sale/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по гендеру
-                  var itemCell = response.data; // Устанавливаем min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max;
-                  state.EU = itemCell.data.eu;
-                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
-
-                  var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
-                    return localSize.push(el.sizes_number);
-                  }); // Выбираем уникальные размеры
-
-                  var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
-                  // делаем ключом каждый размер и создаем пустой массив
-                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-                  // если так, то пушим id продуктов
-
-                  var _iterator11 = _createForOfIteratorHelper(sortSizes),
-                      _step11;
-
-                  try {
-                    var _loop6 = function _loop6() {
-                      var i = _step11.value;
-                      totalSizes[i] = {
-                        active: false,
-                        ids: []
-                      };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
-                      });
-                    };
-
-                    for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
-                      _loop6();
-                    } // Устанаваливаем размеры
-
-                  } catch (err) {
-                    _iterator11.e(err);
-                  } finally {
-                    _iterator11.f();
-                  }
-
-                  state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes;
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-
-              case 11:
-                return _context17.abrupt("break", 12);
-
-              case 12:
-              case "end":
-                return _context17.stop();
-            }
-          }
-        }, _callee17);
-      }))();
-    },
-    // Получаем данные по фильтрку кешу
-    showCashProductsMutate: function showCashProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
-          while (1) {
-            switch (_context18.prev = _context18.next) {
-              case 0:
-                _context18.t0 = Object.keys(data.params).length;
-                _context18.next = _context18.t0 === 1 ? 3 : _context18.t0 === 2 ? 6 : _context18.t0 === 3 ? 9 : 12;
-                break;
-
-              case 3:
-                _context18.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по гендеру
-                  var itemCell = response.data; // Устанавливаем min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
-
-                  var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
-                    return localSize.push(el.sizes_number);
-                  }); // Выбираем уникальные размеры
-
-                  var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
-                  // делаем ключом каждый размер и создаем пустой массив
-                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-                  // если так, то пушим id продуктов
-
-                  var _iterator12 = _createForOfIteratorHelper(sortSizes),
-                      _step12;
-
-                  try {
-                    var _loop7 = function _loop7() {
-                      var i = _step12.value;
-                      totalSizes[i] = {
-                        active: false,
-                        ids: []
-                      };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
-                      });
-                    };
-
-                    for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
-                      _loop7();
-                    } // Устанаваливаем размеры
-
-                  } catch (err) {
-                    _iterator12.e(err);
-                  } finally {
-                    _iterator12.f();
-                  }
-
-                  state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes;
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-
-              case 5:
-                return _context18.abrupt("break", 12);
-
-              case 6:
-                _context18.next = 8;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по гендеру
-                  var itemCell = response.data; // Устанавливаем min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
-
-                  var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
-                    return localSize.push(el.sizes_number);
-                  }); // Выбираем уникальные размеры
-
-                  var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
-                  // делаем ключом каждый размер и создаем пустой массив
-                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-                  // если так, то пушим id продуктов
-
-                  var _iterator13 = _createForOfIteratorHelper(sortSizes),
-                      _step13;
-
-                  try {
-                    var _loop8 = function _loop8() {
-                      var i = _step13.value;
-                      totalSizes[i] = {
-                        active: false,
-                        ids: []
-                      };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
-                      });
-                    };
-
-                    for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
-                      _loop8();
-                    } // Устанаваливаем размеры
-
-                  } catch (err) {
-                    _iterator13.e(err);
-                  } finally {
-                    _iterator13.f();
-                  }
-
-                  state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes;
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-
-              case 8:
-                return _context18.abrupt("break", 12);
-
-              case 9:
-                _context18.next = 11;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "cash/").concat(data.params.gender, "/").concat(data.params.category, "/").concat(data.params.department, "/min-").concat(data.min, "/max-").concat(data.max, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по гендеру
-                  var itemCell = response.data; // Устанавливаем min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max; // Создаем массив для размеров и пушим все размеры
-
-                  var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
-                    return localSize.push(el.sizes_number);
-                  }); // Выбираем уникальные размеры
-
-                  var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
-                  // делаем ключом каждый размер и создаем пустой массив
-                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-                  // если так, то пушим id продуктов
-
-                  var _iterator14 = _createForOfIteratorHelper(sortSizes),
-                      _step14;
-
-                  try {
-                    var _loop9 = function _loop9() {
-                      var i = _step14.value;
-                      totalSizes[i] = {
-                        active: false,
-                        ids: []
-                      };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
-                      });
-                    };
-
-                    for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
-                      _loop9();
-                    } // Устанаваливаем размеры
-
-                  } catch (err) {
-                    _iterator14.e(err);
-                  } finally {
-                    _iterator14.f();
-                  }
-
-                  state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes;
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-
-              case 11:
-                return _context18.abrupt("break", 12);
-
-              case 12:
-              case "end":
-                return _context18.stop();
-            }
-          }
-        }, _callee18);
-      }))();
-    },
-    // Сортинг
-    sortByActionMutate: function sortByActionMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee19() {
-        var params;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee19$(_context19) {
-          while (1) {
-            switch (_context19.prev = _context19.next) {
-              case 0:
-                params = null;
-                _context19.t0 = Object.keys(data.params).length;
-                _context19.next = _context19.t0 === 1 ? 4 : _context19.t0 === 2 ? 6 : _context19.t0 === 3 ? 8 : 10;
-                break;
-
-              case 4:
-                params = data.params.gender + '/';
-                return _context19.abrupt("break", 10);
-
-              case 6:
-                params = data.params.gender + '/' + data.params.category;
-                return _context19.abrupt("break", 10);
-
-              case 8:
-                params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context19.abrupt("break", 10);
-
-              case 10:
-                _context19.t1 = data.price;
-                _context19.next = _context19.t1 === "low" ? 13 : _context19.t1 === "high" ? 15 : 16;
-                break;
-
-              case 13:
-                axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "price-").concat(data.price, "/").concat(params, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по категории
-                  var itemCell = response.data; // Устанавливаес min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max;
-                  state.EU = itemCell.data.eu;
-                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
-
-                  var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
-                    return localSize.push(el.sizes_number);
-                  }); // Выбираем уникальные размеры
-
-                  var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
-                  // делаем ключом каждый размер и создаем пустой массив
-                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-                  // если так, то пушим id продуктов
-
-                  var _iterator15 = _createForOfIteratorHelper(sortSizes),
-                      _step15;
-
-                  try {
-                    var _loop10 = function _loop10() {
-                      var i = _step15.value;
-                      totalSizes[i] = {
-                        active: false,
-                        ids: []
-                      };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
-                      });
-                    };
-
-                    for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
-                      _loop10();
-                    } // Устанаваливаем размеры
-
-                  } catch (err) {
-                    _iterator15.e(err);
-                  } finally {
-                    _iterator15.f();
-                  }
-
-                  state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes; // Устанавливаем дату в стейт
-
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-                return _context19.abrupt("break", 16);
-
-              case 15:
-                axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "price-").concat(data.price, "/").concat(params, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по категории
-                  var itemCell = response.data; // Устанавливаес min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max;
-                  state.EU = itemCell.data.eu;
-                  delete itemCell.data.eu; // Создаем массив для размеров и пушим все размеры
-
-                  var localSize = [];
-                  itemCell.data.sizes.forEach(function (el) {
-                    return localSize.push(el.sizes_number);
-                  }); // Выбираем уникальные размеры
-
-                  var sortSizes = new Set(localSize);
-                  var totalSizes = {}; // Проходимся по объекту с уникальынми размерами
-                  // делаем ключом каждый размер и создаем пустой массив
-                  // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-                  // если так, то пушим id продуктов
-
-                  var _iterator16 = _createForOfIteratorHelper(sortSizes),
-                      _step16;
-
-                  try {
-                    var _loop11 = function _loop11() {
-                      var i = _step16.value;
-                      totalSizes[i] = {
-                        active: false,
-                        ids: []
-                      };
-                      itemCell.data.sizes.forEach(function (el) {
-                        if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id);
-                      });
-                    };
-
-                    for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
-                      _loop11();
-                    } // Устанаваливаем размеры
-
-                  } catch (err) {
-                    _iterator16.e(err);
-                  } finally {
-                    _iterator16.f();
-                  }
-
-                  state.filterSizes = totalSizes;
-                  delete itemCell.data.sizes; // Устанавливаем дату в стейт
-
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-
-              case 16:
-              case "end":
-                return _context19.stop();
-            }
-          }
-        }, _callee19);
-      }))();
-    },
-    // Получаем данные по фильтру размеры
-    showSizeProductsMutate: function showSizeProductsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee20() {
-        var params, queryStr;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee20$(_context20) {
-          while (1) {
-            switch (_context20.prev = _context20.next) {
-              case 0:
-                params = null;
-                _context20.t0 = Object.keys(data.params).length;
-                _context20.next = _context20.t0 === 1 ? 4 : _context20.t0 === 2 ? 6 : _context20.t0 === 3 ? 8 : 10;
-                break;
-
-              case 4:
-                params = data.params.gender + '/';
-                return _context20.abrupt("break", 10);
-
-              case 6:
-                params = data.params.gender + '/' + data.params.category;
-                return _context20.abrupt("break", 10);
-
-              case 8:
-                params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context20.abrupt("break", 10);
-
-              case 10:
-                queryStr = '';
-                data.sizes.forEach(function (el) {
-                  queryStr += el[1].ids.join(', ') + ', ';
-                });
-                axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "sizesIds=").concat(queryStr, "/").concat(params, "?page=").concat(data.page)).then(function (response) {
-                  // Получаем данные для отображения товаров в каталоге по категории
-                  var itemCell = response.data; // Устанавливаес min и max
-
-                  state.filterMin = itemCell.data.min;
-                  state.filterMax = itemCell.data.max; // Удаляем свойства из объекта
-
-                  delete itemCell.data.min;
-                  delete itemCell.data.max;
-                  state.EU = itemCell.data.eu;
-                  delete itemCell.data.eu; // Устанавливаем дату в стейт
-
-                  state.catalogData = itemCell.data; //Получаем общее число товаров для пагинации
-
-                  state.catalogDataCellCount = itemCell.total;
-                });
-
-              case 13:
-              case "end":
-                return _context20.stop();
-            }
-          }
-        }, _callee20);
-      }))();
-    },
+    // // Получаем товары по скидки
+    // async showSaleProductsMutate(state, data){
+    //     // Смотрим по длинне объекта с параметрами
+    //     // 1 - значит запрос по гендеру
+    //     // 2 - значит запрос по категории
+    //     // 3 - запрос по подкатегории
+    //     // let itemCell = null;
+    //     switch (Object.keys(data.params).length) {
+    //         case 1:
+    //             await axios.get(`${state.SITE_URI}sale/${data.params.gender}?page=${data.page}`)
+    //                 .then(response => {
+    //                     // Получаем данные для отображения товаров в каталоге по гендеру
+    //                     let itemCell = response.data;
+    //
+    //                     // Устанавливаем min и max
+    //                     state.filterMin = itemCell.data.min;
+    //                     state.filterMax = itemCell.data.max;
+    //
+    //                     // Удаляем свойства из объекта
+    //                     delete itemCell.data.min;
+    //                     delete itemCell.data.max;
+    //                     state.EU = itemCell.data.eu;
+    //                     delete itemCell.data.eu;
+    //
+    //                     // Создаем массив для размеров и пушим все размеры
+    //                     let localSize = [];
+    //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
+    //
+    //                     // Выбираем уникальные размеры
+    //                     let sortSizes = new Set(localSize);
+    //                     let totalSizes = {};
+    //
+    //                     // Проходимся по объекту с уникальынми размерами
+    //                     // делаем ключом каждый размер и создаем пустой массив
+    //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+    //                     // если так, то пушим id продуктов
+    //                     for (let i of sortSizes) {
+    //                         totalSizes[i] = {
+    //                             active: false,
+    //                             ids: []
+    //                         };
+    //
+    //                         itemCell.data.sizes.forEach(el => {
+    //
+    //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
+    //                         })
+    //                     }
+    //
+    //                     // Устанаваливаем размеры
+    //                     state.filterSizes = totalSizes;
+    //                     delete itemCell.data.sizes;
+    //
+    //                     state.catalogData = itemCell.data;
+    //
+    //                     //Получаем общее число товаров для пагинации
+    //                     state.catalogDataCellCount = itemCell.total;
+    //                 });
+    //             break;
+    //         case 2:
+    //             await axios.get(`${state.SITE_URI}sale/${data.params.gender}/${data.params.category}?page=${data.page}`)
+    //                 .then(response => {
+    //                     // Получаем данные для отображения товаров в каталоге по гендеру
+    //                     let itemCell = response.data;
+    //
+    //                     // Устанавливаем min и max
+    //                     state.filterMin = itemCell.data.min;
+    //                     state.filterMax = itemCell.data.max;
+    //
+    //                     // Удаляем свойства из объекта
+    //                     delete itemCell.data.min;
+    //                     delete itemCell.data.max;
+    //                     state.EU = itemCell.data.eu;
+    //                     delete itemCell.data.eu;
+    //                     // Создаем массив для размеров и пушим все размеры
+    //                     let localSize = [];
+    //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
+    //
+    //                     // Выбираем уникальные размеры
+    //                     let sortSizes = new Set(localSize);
+    //                     let totalSizes = {};
+    //
+    //                     // Проходимся по объекту с уникальынми размерами
+    //                     // делаем ключом каждый размер и создаем пустой массив
+    //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+    //                     // если так, то пушим id продуктов
+    //                     for (let i of sortSizes) {
+    //                         totalSizes[i] = {
+    //                             active: false,
+    //                             ids: []
+    //                         };
+    //
+    //                         itemCell.data.sizes.forEach(el => {
+    //
+    //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
+    //                         })
+    //                     }
+    //
+    //                     // Устанаваливаем размеры
+    //                     state.filterSizes = totalSizes;
+    //                     delete itemCell.data.sizes;
+    //
+    //                     state.catalogData = itemCell.data;
+    //
+    //                     //Получаем общее число товаров для пагинации
+    //                     state.catalogDataCellCount = itemCell.total;
+    //                 });
+    //             break;
+    //         case 3:
+    //             await axios.get(`${state.SITE_URI}sale/${data.params.gender}/${data.params.category}/${data.params.department}?page=${data.page}`)
+    //                 .then(response => {
+    //                     // Получаем данные для отображения товаров в каталоге по гендеру
+    //                     let itemCell = response.data;
+    //
+    //                     // Устанавливаем min и max
+    //                     state.filterMin = itemCell.data.min;
+    //                     state.filterMax = itemCell.data.max;
+    //
+    //                     // Удаляем свойства из объекта
+    //                     delete itemCell.data.min;
+    //                     delete itemCell.data.max;
+    //                     state.EU = itemCell.data.eu;
+    //                     delete itemCell.data.eu;
+    //                     // Создаем массив для размеров и пушим все размеры
+    //                     let localSize = [];
+    //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
+    //
+    //                     // Выбираем уникальные размеры
+    //                     let sortSizes = new Set(localSize);
+    //                     let totalSizes = {};
+    //
+    //                     // Проходимся по объекту с уникальынми размерами
+    //                     // делаем ключом каждый размер и создаем пустой массив
+    //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+    //                     // если так, то пушим id продуктов
+    //                     for (let i of sortSizes) {
+    //                         totalSizes[i] = {
+    //                             active: false,
+    //                             ids: []
+    //                         };
+    //
+    //                         itemCell.data.sizes.forEach(el => {
+    //
+    //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
+    //                         })
+    //                     }
+    //
+    //                     // Устанаваливаем размеры
+    //                     state.filterSizes = totalSizes;
+    //                     delete itemCell.data.sizes;
+    //
+    //                     state.catalogData = itemCell.data;
+    //
+    //                     //Получаем общее число товаров для пагинации
+    //                     state.catalogDataCellCount = itemCell.total;
+    //                 });
+    //             break;
+    //     }
+    // },
+    //
+    // // Получаем данные по фильтрку кешу
+    // async showCashProductsMutate(state, data){
+    //     // Смотрим по длинне объекта с параметрами
+    //     // 1 - значит запрос по гендеру
+    //     // 2 - значит запрос по категории
+    //     // 3 - запрос по подкатегории
+    //     // let itemCell = null;
+    //     switch (Object.keys(data.params).length) {
+    //         case 1:
+    //             await axios.get(`${state.SITE_URI}cash/${data.params.gender}/min-${data.min}/max-${data.max}?page=${data.page}`)
+    //                 .then(response => {
+    //                     // Получаем данные для отображения товаров в каталоге по гендеру
+    //                     let itemCell = response.data;
+    //
+    //                     // Устанавливаем min и max
+    //                     state.filterMin = itemCell.data.min;
+    //                     state.filterMax = itemCell.data.max;
+    //
+    //                     // Удаляем свойства из объекта
+    //                     delete itemCell.data.min;
+    //                     delete itemCell.data.max;
+    //
+    //                     // Создаем массив для размеров и пушим все размеры
+    //                     let localSize = [];
+    //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
+    //
+    //                     // Выбираем уникальные размеры
+    //                     let sortSizes = new Set(localSize);
+    //                     let totalSizes = {};
+    //
+    //                     // Проходимся по объекту с уникальынми размерами
+    //                     // делаем ключом каждый размер и создаем пустой массив
+    //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+    //                     // если так, то пушим id продуктов
+    //                     for (let i of sortSizes) {
+    //                         totalSizes[i] = {
+    //                             active: false,
+    //                             ids: []
+    //                         };
+    //
+    //                         itemCell.data.sizes.forEach(el => {
+    //
+    //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
+    //                         })
+    //                     }
+    //
+    //                     // Устанаваливаем размеры
+    //                     state.filterSizes = totalSizes;
+    //                     delete itemCell.data.sizes;
+    //
+    //                     state.catalogData = itemCell.data;
+    //
+    //                     //Получаем общее число товаров для пагинации
+    //                     state.catalogDataCellCount = itemCell.total;
+    //                 });
+    //             break;
+    //         case 2:
+    //             await axios.get(`${state.SITE_URI}cash/${data.params.gender}/${data.params.category}/min-${data.min}/max-${data.max}?page=${data.page}`)
+    //                 .then(response => {
+    //                     // Получаем данные для отображения товаров в каталоге по гендеру
+    //                     let itemCell = response.data;
+    //
+    //                     // Устанавливаем min и max
+    //                     state.filterMin = itemCell.data.min;
+    //                     state.filterMax = itemCell.data.max;
+    //
+    //                     // Удаляем свойства из объекта
+    //                     delete itemCell.data.min;
+    //                     delete itemCell.data.max;
+    //
+    //                     // Создаем массив для размеров и пушим все размеры
+    //                     let localSize = [];
+    //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
+    //
+    //                     // Выбираем уникальные размеры
+    //                     let sortSizes = new Set(localSize);
+    //                     let totalSizes = {};
+    //
+    //                     // Проходимся по объекту с уникальынми размерами
+    //                     // делаем ключом каждый размер и создаем пустой массив
+    //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+    //                     // если так, то пушим id продуктов
+    //                     for (let i of sortSizes) {
+    //                         totalSizes[i] = {
+    //                             active: false,
+    //                             ids: []
+    //                         };
+    //
+    //                         itemCell.data.sizes.forEach(el => {
+    //
+    //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
+    //                         })
+    //                     }
+    //
+    //                     // Устанаваливаем размеры
+    //                     state.filterSizes = totalSizes;
+    //                     delete itemCell.data.sizes;
+    //
+    //                     state.catalogData = itemCell.data;
+    //
+    //                     //Получаем общее число товаров для пагинации
+    //                     state.catalogDataCellCount = itemCell.total;
+    //                 });
+    //             break;
+    //         case 3:
+    //             await axios.get(`${state.SITE_URI}cash/${data.params.gender}/${data.params.category}/${data.params.department}/min-${data.min}/max-${data.max}?page=${data.page}`)
+    //                 .then(response => {
+    //                     // Получаем данные для отображения товаров в каталоге по гендеру
+    //                     let itemCell = response.data;
+    //
+    //                     // Устанавливаем min и max
+    //                     state.filterMin = itemCell.data.min;
+    //                     state.filterMax = itemCell.data.max;
+    //
+    //                     // Удаляем свойства из объекта
+    //                     delete itemCell.data.min;
+    //                     delete itemCell.data.max;
+    //
+    //                     // Создаем массив для размеров и пушим все размеры
+    //                     let localSize = [];
+    //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
+    //
+    //                     // Выбираем уникальные размеры
+    //                     let sortSizes = new Set(localSize);
+    //                     let totalSizes = {};
+    //
+    //                     // Проходимся по объекту с уникальынми размерами
+    //                     // делаем ключом каждый размер и создаем пустой массив
+    //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+    //                     // если так, то пушим id продуктов
+    //                     for (let i of sortSizes) {
+    //                         totalSizes[i] = {
+    //                             active: false,
+    //                             ids: []
+    //                         };
+    //
+    //                         itemCell.data.sizes.forEach(el => {
+    //
+    //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
+    //                         })
+    //                     }
+    //
+    //                     // Устанаваливаем размеры
+    //                     state.filterSizes = totalSizes;
+    //                     delete itemCell.data.sizes;
+    //
+    //                     state.catalogData = itemCell.data;
+    //
+    //                     //Получаем общее число товаров для пагинации
+    //                     state.catalogDataCellCount = itemCell.total;
+    //                 });
+    //             break;
+    //     }
+    // },
+    //
+    // // Сортинг
+    // async sortByActionMutate(state, data){
+    //     let params = null;
+    //     switch (Object.keys(data.params).length) {
+    //         case 1:
+    //             params = data.params.gender + '/';
+    //             break;
+    //         case 2:
+    //             params = data.params.gender + '/' + data.params.category;
+    //             break;
+    //         case 3:
+    //             params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
+    //             break;
+    //     }
+    //     switch (data.price) {
+    //         case "low":
+    //             axios.get(`${state.SITE_URI}price-${data.price}/${params}?page=${data.page}`)
+    //                 .then(response => {
+    //                     // Получаем данные для отображения товаров в каталоге по категории
+    //                     let itemCell = response.data;
+    //
+    //                     // Устанавливаес min и max
+    //                     state.filterMin = itemCell.data.min;
+    //                     state.filterMax = itemCell.data.max;
+    //
+    //                     // Удаляем свойства из объекта
+    //                     delete itemCell.data.min;
+    //                     delete itemCell.data.max;
+    //                     state.EU = itemCell.data.eu;
+    //                     delete itemCell.data.eu;
+    //                     // Создаем массив для размеров и пушим все размеры
+    //                     let localSize = [];
+    //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
+    //
+    //                     // Выбираем уникальные размеры
+    //                     let sortSizes = new Set(localSize);
+    //                     let totalSizes = {};
+    //
+    //                     // Проходимся по объекту с уникальынми размерами
+    //                     // делаем ключом каждый размер и создаем пустой массив
+    //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+    //                     // если так, то пушим id продуктов
+    //                     for (let i of sortSizes) {
+    //                         totalSizes[i] = {
+    //                             active: false,
+    //                             ids: []
+    //                         };
+    //
+    //                         itemCell.data.sizes.forEach(el => {
+    //
+    //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
+    //                         })
+    //                     }
+    //
+    //                     // Устанаваливаем размеры
+    //                     state.filterSizes = totalSizes;
+    //                     delete itemCell.data.sizes;
+    //
+    //                     // Устанавливаем дату в стейт
+    //                     state.catalogData = itemCell.data;
+    //
+    //                     //Получаем общее число товаров для пагинации
+    //                     state.catalogDataCellCount = itemCell.total;
+    //                 });
+    //             break;
+    //         case "high":
+    //             axios.get(`${state.SITE_URI}price-${data.price}/${params}?page=${data.page}`)
+    //                 .then(response => {
+    //                     // Получаем данные для отображения товаров в каталоге по категории
+    //                     let itemCell = response.data;
+    //
+    //                     // Устанавливаес min и max
+    //                     state.filterMin = itemCell.data.min;
+    //                     state.filterMax = itemCell.data.max;
+    //
+    //                     // Удаляем свойства из объекта
+    //                     delete itemCell.data.min;
+    //                     delete itemCell.data.max;
+    //                     state.EU = itemCell.data.eu;
+    //                     delete itemCell.data.eu;
+    //
+    //                     // Создаем массив для размеров и пушим все размеры
+    //                     let localSize = [];
+    //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
+    //
+    //                     // Выбираем уникальные размеры
+    //                     let sortSizes = new Set(localSize);
+    //                     let totalSizes = {};
+    //
+    //                     // Проходимся по объекту с уникальынми размерами
+    //                     // делаем ключом каждый размер и создаем пустой массив
+    //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
+    //                     // если так, то пушим id продуктов
+    //                     for (let i of sortSizes) {
+    //                         totalSizes[i] = {
+    //                             active: false,
+    //                             ids: []
+    //                         };
+    //
+    //                         itemCell.data.sizes.forEach(el => {
+    //
+    //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
+    //                         })
+    //                     }
+    //
+    //                     // Устанаваливаем размеры
+    //                     state.filterSizes = totalSizes;
+    //                     delete itemCell.data.sizes;
+    //
+    //                     // Устанавливаем дату в стейт
+    //                     state.catalogData = itemCell.data;
+    //
+    //                     //Получаем общее число товаров для пагинации
+    //                     state.catalogDataCellCount = itemCell.total;
+    //                 });
+    //     }
+    // },
+    //
+    // // Получаем данные по фильтру размеры
+    // async showSizeProductsMutate(state, data){
+    //     let params = null;
+    //     switch (Object.keys(data.params).length) {
+    //         case 1:
+    //             params = data.params.gender + '/';
+    //             break;
+    //         case 2:
+    //             params = data.params.gender + '/' + data.params.category;
+    //             break;
+    //         case 3:
+    //             params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
+    //             break;
+    //     }
+    //     let queryStr = '';
+    //
+    //     data.sizes.forEach(el => {
+    //         queryStr +=  el[1].ids.join(', ') + ', ';
+    //     });
+    //
+    //     axios.get(`${state.SITE_URI}sizesIds=${queryStr}/${params}?page=${data.page}`)
+    //         .then(response => {
+    //             // Получаем данные для отображения товаров в каталоге по категории
+    //             let itemCell = response.data;
+    //
+    //             // Устанавливаес min и max
+    //             state.filterMin = itemCell.data.min;
+    //             state.filterMax = itemCell.data.max;
+    //
+    //             // Удаляем свойства из объекта
+    //             delete itemCell.data.min;
+    //             delete itemCell.data.max;
+    //             state.EU = itemCell.data.eu;
+    //             delete itemCell.data.eu;
+    //
+    //             // Устанавливаем дату в стейт
+    //             state.catalogData = itemCell.data;
+    //
+    //             //Получаем общее число товаров для пагинации
+    //             state.catalogDataCellCount = itemCell.total;
+    //         });
+    // },
     // Добавляем товары в корзину
     addToCartMutate: function addToCartMutate(state, item) {
       var found = [];
@@ -44061,18 +43952,18 @@ var store = {
     },
     // Получаем товары для корзины
     getProductForCartMutate: function getProductForCartMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee21() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17() {
         var cardIds, unigIds;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee21$(_context21) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
           while (1) {
-            switch (_context21.prev = _context21.next) {
+            switch (_context17.prev = _context17.next) {
               case 0:
                 cardIds = [];
                 state.cart.forEach(function (el) {
                   cardIds.push(el.id);
                 });
                 unigIds = new Set(cardIds);
-                _context21.next = 5;
+                _context17.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemscard/").concat(Array.from(unigIds).join(', '))).then(function (response) {
                   var dataCart = state.cart;
                   var data = response.data;
@@ -44114,10 +44005,10 @@ var store = {
 
               case 5:
               case "end":
-                return _context21.stop();
+                return _context17.stop();
             }
           }
-        }, _callee21);
+        }, _callee17);
       }))();
     },
     // Удаляем карточку товара
@@ -44198,6 +44089,11 @@ var store = {
     },
     killPaySuccessMutate: function killPaySuccessMutate(state) {
       state.paySuccess = false;
+    },
+    // Добавляем закладку
+    AddBookmarkMutate: function AddBookmarkMutate(state, id) {
+      state.bookmarks.push(id);
+      window.localStorage.setItem('bookmark', JSON.stringify(state.bookmarks));
     }
   },
   actions: {
@@ -44318,6 +44214,10 @@ var store = {
     killPaySuccess: function killPaySuccess(_ref34) {
       var commit = _ref34.commit;
       commit('killPaySuccessMutate');
+    },
+    AddBookmark: function AddBookmark(_ref35, id) {
+      var commit = _ref35.commit;
+      commit('AddBookmarkMutate', id);
     }
   },
   getters: {
@@ -44414,6 +44314,9 @@ var store = {
         mobile: state.mobile,
         wind: state.wind
       };
+    },
+    bookmarks: function bookmarks(state) {
+      return state.bookmarks;
     }
   }
 };
