@@ -167,11 +167,17 @@
 
 @media screen and (max-width: $tablet) {
     .home-baner{
-        margin: -5px 0 150px;
+        &:not(:first-child){
+            margin: 0px 0 75px;
+        }
+        &:first-child{
+            margin: 0px 0 150px;
+        }
         padding-top: 0;
         .baner-block{
             padding: 55px 0 0;
-            transform: translate(-50%, 17.4%);
+            transform: translate(-50%, 17.3%);
+
             h1{
                 font-size: 36px;
             }
@@ -186,12 +192,9 @@
         }
     }
     .home-conveyor{
-        .owl-stage{
-            margin-left: -50px;
-        }
         .home-slider{
             .carousel-mobile{
-                margin-bottom: 75px;
+
             }
             .slide-title{
                 width: 174px
@@ -203,13 +206,18 @@
     }
     .sale-baner{
         margin: 0 30px;
+        height: 100%;
        @include flex-column(column-reverse);
+        justify-content: space-between;
         img{
             object-fit: contain;
             height: 400px;
         }
         .baner{
             width: 100%;
+            button{
+                width: 100%;
+            }
         }
         .baner-sale{
             .sale-now{
@@ -218,7 +226,7 @@
         }
     }
     .sale-baner, .fl-reverse{
-        margin-bottom: 200px
+        margin-bottom: 0px
     }
     .wrap-img{
         img{
@@ -234,6 +242,74 @@
                 color: #fff;
                 text-decoration: none;
             }
+        }
+    }
+}
+
+@media screen and (max-width: $mobile) {
+    .home-baner{
+        .baner-block{
+            width: 380px;
+            transform: translate(-50%, 14%);
+            h1{
+                font-size: 27px;
+            }
+            h2{
+                font-size: 21px;
+            }
+            h3{
+                font-size: 19px;
+                margin-bottom: 45px;
+            }
+            button{
+                font-size: $tiny;
+                padding: 0;
+            }
+        }
+    }
+    .home-conveyor{
+        .home-slider{
+            .carousel-mobile{
+            }
+            .slide-title{
+                width: 174px
+            }
+            .slide-price{
+                width: 174px
+            }
+        }
+    }
+    .sale-baner{
+        margin: 0 30px;
+        @include flex-column(column-reverse);
+        img{
+            object-fit: contain;
+            height: 400px;
+        }
+        .baner{
+            width: 100%;
+            h1{
+                font-size: 22px;
+                margin-bottom: 8px;
+            }
+            span{
+                font-size: 21px;
+            }
+        }
+        .baner-sale{
+            .sale-now{
+                margin-bottom: 0;
+                font-size: 31px;
+
+            }
+        }
+    }
+    .sale-baner, .fl-reverse{
+        margin-bottom: 0px
+    }
+    .wrap-img{
+        button{
+            height: 40px;
         }
     }
 }

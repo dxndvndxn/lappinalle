@@ -24,16 +24,16 @@
                             <img :src="img.sliderImg" alt="">
                         </router-link>
                         <span class="slide-title">{{img.sliderTitle}}</span>
-                        <span class="slide-price">{{img.sliderPrice}} &#8381;</span>
+                        <span class="slide-price">{{img.sliderPrice}} ₽</span>
                     </div>
                 </carousel>
-                <carousel class="carousel-mobile" :nav="false" :dots="false" :lazyLoad="true" :margin="100" :autoWidth="true" :responsive="{768:{items:3}}" v-else>
+                <carousel class="carousel-mobile" :nav="false" :dots="false" :lazyLoad="true" :loop="true" :margin="50" :autoWidth="true" :items="1" v-else>
                     <div class="slide-wrap" v-for='(img, ii) in data.sliderData' :key="ii">
                         <router-link :to="img.sliderLink" class="img-container">
                             <img :src="img.sliderImg" alt="">
                         </router-link>
                         <span class="slide-title">{{img.sliderTitle}}</span>
-                        <span class="slide-price">{{img.sliderPrice}} &#8381;</span>
+                        <span class="slide-price">{{img.sliderPrice}} ₽</span>
                     </div>
                 </carousel>
             </div>
@@ -54,10 +54,10 @@
                     </div>
                     <div class="baner-sale">
                         <div class="sale-was">
-                            {{data.banerData.price}} &#8381;
+                            {{data.banerData.price}} ₽
                         </div>
                         <div class="sale-now">
-                            {{data.banerData.price - ((data.banerData.sale / 100) *data.banerData.price)}} &#8381;
+                            {{data.banerData.price - ((data.banerData.sale / 100) *data.banerData.price)}} ₽
                         </div>
                     </div>
                     <button class="btn" v-if="media.wind > media.tablet">

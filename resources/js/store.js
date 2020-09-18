@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'http://lappinalle.test/api/';
+const URI = 'https://lappinalle.ru/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -297,6 +297,7 @@ const store = {
 
         // Закладки
         bookmarks: JSON.parse(localStorage.getItem('bookmark') || '[]'),
+        bookmarkProducts: null,
 
         // Медиа
         tablet: 768,
@@ -637,7 +638,7 @@ const store = {
                     params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
                     break;
             }
-            console.log(data)
+
             await axios.get(`${state.SITE_URI}filter/${params}/${data.sort}/${data.sale}/${data.min}/${data.max}/${data.sizes}?page=${data.page}`)
                 .then(response => {
 
@@ -687,15 +688,20 @@ const store = {
                     delete itemCell.sizes;
 
                     itemCell.myData.data.forEach(el => {
-                        el.activeIconT = false;
-                        el.activeIconB = false;
+                        if (state.wind > state.tablet){
+                            el.activeIconT = false;
+                            el.activeIconB = false;
+                        }else{
+                            el.activeIconT = true
+                            el.activeIconB = true;
+                        }
                         el.activeTshirt = false;
                         el.activeBook = false;
                     })
 
                     // Устанавливаем дату в стейт
                     state.catalogData = itemCell.myData.data;
-                    console.log(state.catalogData)
+
                     // Получаем общее число товаров для пагинации
                     state.catalogDataCellCount = itemCell.myData.total;
                 });
@@ -775,487 +781,12 @@ const store = {
             await axios.get(`${state.SITE_URI}itemsreview-${data.item}?page=${data.page}`)
                 .then(response => {
                     let reviews = response.data;
-                    console.log(reviews)
+
                     state.catalogItemReview = reviews.data;
                     state.catalogItemReviewCount = reviews.total
                 })
                 .catch(e => console.log(e))
         },
-
-        // // Получаем товары по скидки
-        // async showSaleProductsMutate(state, data){
-        //     // Смотрим по длинне объекта с параметрами
-        //     // 1 - значит запрос по гендеру
-        //     // 2 - значит запрос по категории
-        //     // 3 - запрос по подкатегории
-        //     // let itemCell = null;
-        //     switch (Object.keys(data.params).length) {
-        //         case 1:
-        //             await axios.get(`${state.SITE_URI}sale/${data.params.gender}?page=${data.page}`)
-        //                 .then(response => {
-        //                     // Получаем данные для отображения товаров в каталоге по гендеру
-        //                     let itemCell = response.data;
-        //
-        //                     // Устанавливаем min и max
-        //                     state.filterMin = itemCell.data.min;
-        //                     state.filterMax = itemCell.data.max;
-        //
-        //                     // Удаляем свойства из объекта
-        //                     delete itemCell.data.min;
-        //                     delete itemCell.data.max;
-        //                     state.EU = itemCell.data.eu;
-        //                     delete itemCell.data.eu;
-        //
-        //                     // Создаем массив для размеров и пушим все размеры
-        //                     let localSize = [];
-        //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
-        //
-        //                     // Выбираем уникальные размеры
-        //                     let sortSizes = new Set(localSize);
-        //                     let totalSizes = {};
-        //
-        //                     // Проходимся по объекту с уникальынми размерами
-        //                     // делаем ключом каждый размер и создаем пустой массив
-        //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-        //                     // если так, то пушим id продуктов
-        //                     for (let i of sortSizes) {
-        //                         totalSizes[i] = {
-        //                             active: false,
-        //                             ids: []
-        //                         };
-        //
-        //                         itemCell.data.sizes.forEach(el => {
-        //
-        //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
-        //                         })
-        //                     }
-        //
-        //                     // Устанаваливаем размеры
-        //                     state.filterSizes = totalSizes;
-        //                     delete itemCell.data.sizes;
-        //
-        //                     state.catalogData = itemCell.data;
-        //
-        //                     //Получаем общее число товаров для пагинации
-        //                     state.catalogDataCellCount = itemCell.total;
-        //                 });
-        //             break;
-        //         case 2:
-        //             await axios.get(`${state.SITE_URI}sale/${data.params.gender}/${data.params.category}?page=${data.page}`)
-        //                 .then(response => {
-        //                     // Получаем данные для отображения товаров в каталоге по гендеру
-        //                     let itemCell = response.data;
-        //
-        //                     // Устанавливаем min и max
-        //                     state.filterMin = itemCell.data.min;
-        //                     state.filterMax = itemCell.data.max;
-        //
-        //                     // Удаляем свойства из объекта
-        //                     delete itemCell.data.min;
-        //                     delete itemCell.data.max;
-        //                     state.EU = itemCell.data.eu;
-        //                     delete itemCell.data.eu;
-        //                     // Создаем массив для размеров и пушим все размеры
-        //                     let localSize = [];
-        //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
-        //
-        //                     // Выбираем уникальные размеры
-        //                     let sortSizes = new Set(localSize);
-        //                     let totalSizes = {};
-        //
-        //                     // Проходимся по объекту с уникальынми размерами
-        //                     // делаем ключом каждый размер и создаем пустой массив
-        //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-        //                     // если так, то пушим id продуктов
-        //                     for (let i of sortSizes) {
-        //                         totalSizes[i] = {
-        //                             active: false,
-        //                             ids: []
-        //                         };
-        //
-        //                         itemCell.data.sizes.forEach(el => {
-        //
-        //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
-        //                         })
-        //                     }
-        //
-        //                     // Устанаваливаем размеры
-        //                     state.filterSizes = totalSizes;
-        //                     delete itemCell.data.sizes;
-        //
-        //                     state.catalogData = itemCell.data;
-        //
-        //                     //Получаем общее число товаров для пагинации
-        //                     state.catalogDataCellCount = itemCell.total;
-        //                 });
-        //             break;
-        //         case 3:
-        //             await axios.get(`${state.SITE_URI}sale/${data.params.gender}/${data.params.category}/${data.params.department}?page=${data.page}`)
-        //                 .then(response => {
-        //                     // Получаем данные для отображения товаров в каталоге по гендеру
-        //                     let itemCell = response.data;
-        //
-        //                     // Устанавливаем min и max
-        //                     state.filterMin = itemCell.data.min;
-        //                     state.filterMax = itemCell.data.max;
-        //
-        //                     // Удаляем свойства из объекта
-        //                     delete itemCell.data.min;
-        //                     delete itemCell.data.max;
-        //                     state.EU = itemCell.data.eu;
-        //                     delete itemCell.data.eu;
-        //                     // Создаем массив для размеров и пушим все размеры
-        //                     let localSize = [];
-        //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
-        //
-        //                     // Выбираем уникальные размеры
-        //                     let sortSizes = new Set(localSize);
-        //                     let totalSizes = {};
-        //
-        //                     // Проходимся по объекту с уникальынми размерами
-        //                     // делаем ключом каждый размер и создаем пустой массив
-        //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-        //                     // если так, то пушим id продуктов
-        //                     for (let i of sortSizes) {
-        //                         totalSizes[i] = {
-        //                             active: false,
-        //                             ids: []
-        //                         };
-        //
-        //                         itemCell.data.sizes.forEach(el => {
-        //
-        //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
-        //                         })
-        //                     }
-        //
-        //                     // Устанаваливаем размеры
-        //                     state.filterSizes = totalSizes;
-        //                     delete itemCell.data.sizes;
-        //
-        //                     state.catalogData = itemCell.data;
-        //
-        //                     //Получаем общее число товаров для пагинации
-        //                     state.catalogDataCellCount = itemCell.total;
-        //                 });
-        //             break;
-        //     }
-        // },
-        //
-        // // Получаем данные по фильтрку кешу
-        // async showCashProductsMutate(state, data){
-        //     // Смотрим по длинне объекта с параметрами
-        //     // 1 - значит запрос по гендеру
-        //     // 2 - значит запрос по категории
-        //     // 3 - запрос по подкатегории
-        //     // let itemCell = null;
-        //     switch (Object.keys(data.params).length) {
-        //         case 1:
-        //             await axios.get(`${state.SITE_URI}cash/${data.params.gender}/min-${data.min}/max-${data.max}?page=${data.page}`)
-        //                 .then(response => {
-        //                     // Получаем данные для отображения товаров в каталоге по гендеру
-        //                     let itemCell = response.data;
-        //
-        //                     // Устанавливаем min и max
-        //                     state.filterMin = itemCell.data.min;
-        //                     state.filterMax = itemCell.data.max;
-        //
-        //                     // Удаляем свойства из объекта
-        //                     delete itemCell.data.min;
-        //                     delete itemCell.data.max;
-        //
-        //                     // Создаем массив для размеров и пушим все размеры
-        //                     let localSize = [];
-        //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
-        //
-        //                     // Выбираем уникальные размеры
-        //                     let sortSizes = new Set(localSize);
-        //                     let totalSizes = {};
-        //
-        //                     // Проходимся по объекту с уникальынми размерами
-        //                     // делаем ключом каждый размер и создаем пустой массив
-        //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-        //                     // если так, то пушим id продуктов
-        //                     for (let i of sortSizes) {
-        //                         totalSizes[i] = {
-        //                             active: false,
-        //                             ids: []
-        //                         };
-        //
-        //                         itemCell.data.sizes.forEach(el => {
-        //
-        //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
-        //                         })
-        //                     }
-        //
-        //                     // Устанаваливаем размеры
-        //                     state.filterSizes = totalSizes;
-        //                     delete itemCell.data.sizes;
-        //
-        //                     state.catalogData = itemCell.data;
-        //
-        //                     //Получаем общее число товаров для пагинации
-        //                     state.catalogDataCellCount = itemCell.total;
-        //                 });
-        //             break;
-        //         case 2:
-        //             await axios.get(`${state.SITE_URI}cash/${data.params.gender}/${data.params.category}/min-${data.min}/max-${data.max}?page=${data.page}`)
-        //                 .then(response => {
-        //                     // Получаем данные для отображения товаров в каталоге по гендеру
-        //                     let itemCell = response.data;
-        //
-        //                     // Устанавливаем min и max
-        //                     state.filterMin = itemCell.data.min;
-        //                     state.filterMax = itemCell.data.max;
-        //
-        //                     // Удаляем свойства из объекта
-        //                     delete itemCell.data.min;
-        //                     delete itemCell.data.max;
-        //
-        //                     // Создаем массив для размеров и пушим все размеры
-        //                     let localSize = [];
-        //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
-        //
-        //                     // Выбираем уникальные размеры
-        //                     let sortSizes = new Set(localSize);
-        //                     let totalSizes = {};
-        //
-        //                     // Проходимся по объекту с уникальынми размерами
-        //                     // делаем ключом каждый размер и создаем пустой массив
-        //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-        //                     // если так, то пушим id продуктов
-        //                     for (let i of sortSizes) {
-        //                         totalSizes[i] = {
-        //                             active: false,
-        //                             ids: []
-        //                         };
-        //
-        //                         itemCell.data.sizes.forEach(el => {
-        //
-        //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
-        //                         })
-        //                     }
-        //
-        //                     // Устанаваливаем размеры
-        //                     state.filterSizes = totalSizes;
-        //                     delete itemCell.data.sizes;
-        //
-        //                     state.catalogData = itemCell.data;
-        //
-        //                     //Получаем общее число товаров для пагинации
-        //                     state.catalogDataCellCount = itemCell.total;
-        //                 });
-        //             break;
-        //         case 3:
-        //             await axios.get(`${state.SITE_URI}cash/${data.params.gender}/${data.params.category}/${data.params.department}/min-${data.min}/max-${data.max}?page=${data.page}`)
-        //                 .then(response => {
-        //                     // Получаем данные для отображения товаров в каталоге по гендеру
-        //                     let itemCell = response.data;
-        //
-        //                     // Устанавливаем min и max
-        //                     state.filterMin = itemCell.data.min;
-        //                     state.filterMax = itemCell.data.max;
-        //
-        //                     // Удаляем свойства из объекта
-        //                     delete itemCell.data.min;
-        //                     delete itemCell.data.max;
-        //
-        //                     // Создаем массив для размеров и пушим все размеры
-        //                     let localSize = [];
-        //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
-        //
-        //                     // Выбираем уникальные размеры
-        //                     let sortSizes = new Set(localSize);
-        //                     let totalSizes = {};
-        //
-        //                     // Проходимся по объекту с уникальынми размерами
-        //                     // делаем ключом каждый размер и создаем пустой массив
-        //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-        //                     // если так, то пушим id продуктов
-        //                     for (let i of sortSizes) {
-        //                         totalSizes[i] = {
-        //                             active: false,
-        //                             ids: []
-        //                         };
-        //
-        //                         itemCell.data.sizes.forEach(el => {
-        //
-        //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
-        //                         })
-        //                     }
-        //
-        //                     // Устанаваливаем размеры
-        //                     state.filterSizes = totalSizes;
-        //                     delete itemCell.data.sizes;
-        //
-        //                     state.catalogData = itemCell.data;
-        //
-        //                     //Получаем общее число товаров для пагинации
-        //                     state.catalogDataCellCount = itemCell.total;
-        //                 });
-        //             break;
-        //     }
-        // },
-        //
-        // // Сортинг
-        // async sortByActionMutate(state, data){
-        //     let params = null;
-        //     switch (Object.keys(data.params).length) {
-        //         case 1:
-        //             params = data.params.gender + '/';
-        //             break;
-        //         case 2:
-        //             params = data.params.gender + '/' + data.params.category;
-        //             break;
-        //         case 3:
-        //             params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-        //             break;
-        //     }
-        //     switch (data.price) {
-        //         case "low":
-        //             axios.get(`${state.SITE_URI}price-${data.price}/${params}?page=${data.page}`)
-        //                 .then(response => {
-        //                     // Получаем данные для отображения товаров в каталоге по категории
-        //                     let itemCell = response.data;
-        //
-        //                     // Устанавливаес min и max
-        //                     state.filterMin = itemCell.data.min;
-        //                     state.filterMax = itemCell.data.max;
-        //
-        //                     // Удаляем свойства из объекта
-        //                     delete itemCell.data.min;
-        //                     delete itemCell.data.max;
-        //                     state.EU = itemCell.data.eu;
-        //                     delete itemCell.data.eu;
-        //                     // Создаем массив для размеров и пушим все размеры
-        //                     let localSize = [];
-        //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
-        //
-        //                     // Выбираем уникальные размеры
-        //                     let sortSizes = new Set(localSize);
-        //                     let totalSizes = {};
-        //
-        //                     // Проходимся по объекту с уникальынми размерами
-        //                     // делаем ключом каждый размер и создаем пустой массив
-        //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-        //                     // если так, то пушим id продуктов
-        //                     for (let i of sortSizes) {
-        //                         totalSizes[i] = {
-        //                             active: false,
-        //                             ids: []
-        //                         };
-        //
-        //                         itemCell.data.sizes.forEach(el => {
-        //
-        //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
-        //                         })
-        //                     }
-        //
-        //                     // Устанаваливаем размеры
-        //                     state.filterSizes = totalSizes;
-        //                     delete itemCell.data.sizes;
-        //
-        //                     // Устанавливаем дату в стейт
-        //                     state.catalogData = itemCell.data;
-        //
-        //                     //Получаем общее число товаров для пагинации
-        //                     state.catalogDataCellCount = itemCell.total;
-        //                 });
-        //             break;
-        //         case "high":
-        //             axios.get(`${state.SITE_URI}price-${data.price}/${params}?page=${data.page}`)
-        //                 .then(response => {
-        //                     // Получаем данные для отображения товаров в каталоге по категории
-        //                     let itemCell = response.data;
-        //
-        //                     // Устанавливаес min и max
-        //                     state.filterMin = itemCell.data.min;
-        //                     state.filterMax = itemCell.data.max;
-        //
-        //                     // Удаляем свойства из объекта
-        //                     delete itemCell.data.min;
-        //                     delete itemCell.data.max;
-        //                     state.EU = itemCell.data.eu;
-        //                     delete itemCell.data.eu;
-        //
-        //                     // Создаем массив для размеров и пушим все размеры
-        //                     let localSize = [];
-        //                     itemCell.data.sizes.forEach(el => localSize.push(el.sizes_number));
-        //
-        //                     // Выбираем уникальные размеры
-        //                     let sortSizes = new Set(localSize);
-        //                     let totalSizes = {};
-        //
-        //                     // Проходимся по объекту с уникальынми размерами
-        //                     // делаем ключом каждый размер и создаем пустой массив
-        //                     // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
-        //                     // если так, то пушим id продуктов
-        //                     for (let i of sortSizes) {
-        //                         totalSizes[i] = {
-        //                             active: false,
-        //                             ids: []
-        //                         };
-        //
-        //                         itemCell.data.sizes.forEach(el => {
-        //
-        //                             if (el.sizes_number === i) totalSizes[i].ids.push(el.product_id,)
-        //                         })
-        //                     }
-        //
-        //                     // Устанаваливаем размеры
-        //                     state.filterSizes = totalSizes;
-        //                     delete itemCell.data.sizes;
-        //
-        //                     // Устанавливаем дату в стейт
-        //                     state.catalogData = itemCell.data;
-        //
-        //                     //Получаем общее число товаров для пагинации
-        //                     state.catalogDataCellCount = itemCell.total;
-        //                 });
-        //     }
-        // },
-        //
-        // // Получаем данные по фильтру размеры
-        // async showSizeProductsMutate(state, data){
-        //     let params = null;
-        //     switch (Object.keys(data.params).length) {
-        //         case 1:
-        //             params = data.params.gender + '/';
-        //             break;
-        //         case 2:
-        //             params = data.params.gender + '/' + data.params.category;
-        //             break;
-        //         case 3:
-        //             params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-        //             break;
-        //     }
-        //     let queryStr = '';
-        //
-        //     data.sizes.forEach(el => {
-        //         queryStr +=  el[1].ids.join(', ') + ', ';
-        //     });
-        //
-        //     axios.get(`${state.SITE_URI}sizesIds=${queryStr}/${params}?page=${data.page}`)
-        //         .then(response => {
-        //             // Получаем данные для отображения товаров в каталоге по категории
-        //             let itemCell = response.data;
-        //
-        //             // Устанавливаес min и max
-        //             state.filterMin = itemCell.data.min;
-        //             state.filterMax = itemCell.data.max;
-        //
-        //             // Удаляем свойства из объекта
-        //             delete itemCell.data.min;
-        //             delete itemCell.data.max;
-        //             state.EU = itemCell.data.eu;
-        //             delete itemCell.data.eu;
-        //
-        //             // Устанавливаем дату в стейт
-        //             state.catalogData = itemCell.data;
-        //
-        //             //Получаем общее число товаров для пагинации
-        //             state.catalogDataCellCount = itemCell.total;
-        //         });
-        // },
 
         // Добавляем товары в корзину
         addToCartMutate(state, item) {
@@ -1451,7 +982,24 @@ const store = {
         AddBookmarkMutate(state, id){
             state.bookmarks.push(id);
             window.localStorage.setItem('bookmark', JSON.stringify(state.bookmarks));
+        },
+
+        // Получаем продукты для избранного
+        async BookmarkProductsMutate(state){
+            if (state.bookmarks.length) {
+                await axios.get(`${state.SITE_URI}bookmark/${state.bookmarks.join(',')}`)
+                    .then(res => {
+                        state.EU = res.data.eu;
+                        state.bookmarkProducts = res.data.products;
+                    })
+            }
+        },
+
+        RemoveBookmarkMutate(state, id) {
+            state.bookmarks = state.bookmarks.filter(el => el !== id);
+            window.localStorage.setItem('bookmark', JSON.stringify(state.bookmarks));
         }
+
     },
     actions: {
         register({commit}, user){
@@ -1548,6 +1096,12 @@ const store = {
         },
         AddBookmark({commit}, id){
             commit('AddBookmarkMutate', id)
+        },
+        BookmarkProducts({commit}){
+            commit('BookmarkProductsMutate');
+        },
+        RemoveBookmark({commit}, id){
+            commit('RemoveBookmarkMutate', id);
         }
     },
     getters:{
@@ -1647,6 +1201,9 @@ const store = {
         },
         bookmarks: state => {
             return state.bookmarks;
+        },
+        bookmarkProducts: state => {
+            return state.bookmarkProducts;
         }
 
     },

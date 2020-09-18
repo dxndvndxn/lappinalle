@@ -221,6 +221,7 @@
                 v-model="updatedPage"
                 :page-count="Math.ceil(reviewsTotalPages / 3)"
                 :click-handler="pageChange"
+                :page-range="3"
                 :prev-text="'Назад'"
                 :next-text="'Следующая страница'"
                 :page-class="'pages'"
@@ -228,9 +229,22 @@
                 :next-class="'next-page'"
                 :active-class="'sale'"
                 :container-class="'pagination'"
-                v-if="reviewsTotalPages">
+                v-if="media.wind > media.tablet && reviewsTotalPages">
             </paginate>
-
+            <paginate
+                v-if="media.wind <= media.tablet && reviewsTotalPages"
+                v-model="updatedPage"
+                :page-range="3"
+                :page-count="Math.ceil(reviewsTotalPages / 3)"
+                :click-handler="pageChange"
+                :prev-text="''"
+                :next-text="''"
+                :page-class="'pages'"
+                :prev-class="'this-page'"
+                :next-class="'next-page'"
+                :active-class="'sale'"
+                :container-class="'pagination'">
+            </paginate>
         </div>
     </div>
 </template>

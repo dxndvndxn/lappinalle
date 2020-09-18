@@ -1,4 +1,5 @@
 .bookmark{
+    margin-bottom: 80px;
     &-header{
         @include grid-temp(1fr, 1fr, 1fr);
         svg{

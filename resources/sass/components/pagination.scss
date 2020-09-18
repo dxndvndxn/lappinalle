@@ -1,6 +1,6 @@
 .pagination{
     @include flexin(center);
-   padding: 0;
+    padding: 0;
     margin: 0 0 55px;
     list-style: none;
     ul{
@@ -23,5 +23,75 @@
         @include ptSans(700);
         color: $paleblue;
         margin: 0 25px;
+    }
+}
+@media screen and (max-width: $tablet) {
+    .pagination{
+        @include template(0px, 22px);
+        margin-bottom: 55px;
+        .this-page{
+            transform: rotate(90deg);
+            position: absolute;
+            left: 21px;
+            width: 20px;
+            height: 20px;
+            a{
+                width: 20px;
+                height: 20px;
+                display: block;
+            }
+            &:before{
+                transform: skew(0deg, 35deg);
+                content: "";
+                height: 21%;
+                width: 48%;
+                position: absolute;
+                top: 10px;
+                left: 0%;
+                background: $paleblue;
+            }
+            &:after{
+                transform: skew(0deg, -35deg);
+                content: "";
+                height: 21%;
+                width: 48%;
+                position: absolute;
+                top: 10px;
+                left: 48%;
+                background: $paleblue;
+            }
+        }
+        .next-page{
+            position: absolute;
+            right: 18px;
+            width: 20px;
+            height: 20px;
+            transform: rotate(-90deg);
+            a{
+                width: 20px;
+                height: 20px;
+                display: block;
+            }
+            &:before{
+                transform: skew(0deg, -36deg);
+                content: "";
+                height: 21%;
+                width: 50%;
+                position: absolute;
+                top: 10px;
+                left: 48%;
+                background: $paleblue;
+            }
+            &:after{
+                transform: skew(0deg, 35deg);
+                content: "";
+                height: 21%;
+                width: 50%;
+                position: absolute;
+                top: 10px;
+                left: 0%;
+                background: $paleblue;
+            }
+        }
     }
 }

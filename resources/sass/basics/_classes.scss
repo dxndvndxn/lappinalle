@@ -102,6 +102,10 @@
     @include ptSans(700);
     text-transform: uppercase;
     cursor: pointer;
+    @media screen and (max-width: $mobile) {
+        height: 40px !important;
+        padding: 0;
+    }
 }
 .fill-svg{
     fill: $purpp !important;
@@ -155,6 +159,9 @@
             left: 48%;
             background: $paleblue;
         }
+        @media screen and (max-width: $mobile) {
+            margin: 0px -4px !important;
+        }
     }
     .owl-next{
         height: 9px;
@@ -183,6 +190,9 @@
             top: 10px;
             left: 48%;
             background: $paleblue;
+        }
+        @media screen and (max-width: $mobile) {
+            margin: 0px -4px !important;
         }
     }
 }
@@ -226,6 +236,9 @@
         font-size: $regFz;
         color: $grey;
         text-transform: uppercase;
+    }
+    @media screen and (max-width: $mobile) {
+        appearance: none;
     }
 }
 .small-invalid{

@@ -76,11 +76,25 @@
             @include ptSans(700);
             color: #fff;
         }
+        form{
+            justify-content: flex-start;
+        }
     }
     .filter-icon{
         @include flexin(flex-end);
         svg{
             cursor: pointer;
+        }
+    }
+}
+@media screen and (max-width: $mobile) {
+    .crumbs{
+        ul{
+            li{
+                a{
+                    font-size: $tiny;
+                }
+            }
         }
     }
 }

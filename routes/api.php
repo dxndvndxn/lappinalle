@@ -82,6 +82,9 @@ Route::get('/filter/{sexalias}/{catalias}/{depalias}/{sortmode}/{sale}/{min}/{ma
 // Получаем все размеры для sidebar
 Route::get('/allsizesforsidebar', 'AllSizeForSideBarController@index');
 
+// Получаем товары в избранное
+Route::get('/bookmark/{ids}', 'BookmarkProductsController@index');
+
 // Проверить пароль в кабинете
 Route::post('/checkpass', 'LKController@CheckPass');
 

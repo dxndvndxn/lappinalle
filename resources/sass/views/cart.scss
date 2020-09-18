@@ -231,7 +231,7 @@
                             &:first-child{
                                 position: absolute;
                                 left: -40px;
-                                top: 5px;
+                                top: 7px;
                                 &:before{
                                     transform: rotate(-90deg);
                                     height: 2.5px;
@@ -264,7 +264,7 @@
                                     height: 2.5px;
                                     width: 19px;
                                     position: absolute;
-                                    top: -5px;
+                                    top: -2px;
                                     left: -3.5px;
                                     background: $blu;
                                 }
@@ -302,6 +302,87 @@
             text-transform: uppercase;
             @include ptSans(700);
             font-size: 30px;
+        }
+    }
+}
+@media screen and (max-width: $mobile) {
+    .cart-head{
+        h1{
+            font-size: $regFz;
+        }
+        svg{
+            height: 19px;
+        }
+    }
+    .cart-cards{
+
+        .card{
+            .card-name{
+
+            }
+            .card-img{
+
+                img{
+
+                }
+            }
+        }
+        .card-info{
+            .card-counts{
+
+                .card-size, .card-amount, .card-price{
+                    font-size: $regFz;
+                }
+                .card-amount{
+                    span{
+
+                    }
+                    .change-amount{
+                        &:before{
+
+                        }
+                        button{
+                            &:first-child{
+                                top: 2px;
+                                &:before{
+
+                                }
+                                &:after{
+
+                                }
+                            }
+                            &:last-child{
+                                top: 9px;
+                                &:after{
+
+                                }
+                                &:before{
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .card-desc{
+            line-height: 36px;
+            font-size: $tiny;
+        }
+        .card-close{
+            .close-btn{
+                right: 15px;
+
+            }
+        }
+    }
+    .cart-total{
+
+        button{
+
+        }
+        .total-price{
+            font-size: $bigFz;
         }
     }
 }

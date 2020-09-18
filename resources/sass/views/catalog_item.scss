@@ -257,6 +257,10 @@
     border: none;
     cursor: pointer;
     margin-bottom: 30px;
+    @media screen and (max-width: $mobile) {
+        height: 40px;
+        font-size: $mini;
+    }
 }
 .error-add{
     @include ptSans(700);
@@ -333,6 +337,10 @@
             grid-column-gap: 10px;
             grid-row-gap: 10px;
             margin-bottom: 40px;
+            button{
+                height: 40px;
+                padding: 0;
+            }
         }
         .item-buttons{
             margin-bottom: 40px;
@@ -373,6 +381,98 @@
         }
         .review-user-no{
             margin: 0 0 30px;
+        }
+    }
+}
+@media screen and (max-width: $mobile) {
+    .item-title{
+        font-size: $regFz;
+    }
+    .catalog-item{
+        .bread{
+
+        }
+    }
+    .item-info{
+    }
+    .item-pics{
+
+        .wrap{
+
+            .owl-nav{
+
+            }
+        }
+        .item-pic{
+
+            img{
+
+            }
+        }
+    }
+    .item-main-info{
+        .item-main-price{
+            font-size: $bigFz;
+            color: $paleblue;
+        }
+        .sizes{
+            font-size: $mini;
+        }
+        .item-main-sizes{
+            button{
+                height: 40px;
+                padding: 0;
+            }
+        }
+        .item-buttons{
+            font-size: $mini;
+            button{
+                padding: 0;
+            }
+        }
+    }
+    .item-description{
+
+        span{
+            font-size: $mini;
+        }
+        p{
+            font-size: $tiny;
+        }
+    }
+    .btn-cart{
+        height: 40px;
+        svg{
+
+        }
+    }
+    .item-review{
+        h1{
+            font-size: $tiny;
+        }
+    }
+    .review-wrap{
+        .review-user{
+            .user-text{
+                font-size: $tiny;
+            }
+            .user-info{
+                .user-name, .user-date{
+                    font-size: $mini;
+                }
+                .user-stars{
+                    svg{
+                        width: 23px;
+                        height: 25px;
+                    }
+                }
+            }
+        }
+        .review-leave{
+
+        }
+        .review-user-no{
+            font-size: $mini;
         }
     }
 }
