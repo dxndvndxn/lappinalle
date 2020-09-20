@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'https://lappinalle.ru/api/';
+const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -48,44 +48,6 @@ const admin = {
                 }).catch(e => console.log(e))
         },
 
-        // Отправлем данные о новоном товаре на сервер
-        async SentDataToBackendMutate(state, data){
-            let formData = new FormData();
-            formData.append('video', data.video);
-
-            let i = 0;
-            for (let img of data.imgs) {
-                i++;
-                formData.append(`img-${i}`, img);
-            }
-
-            let stringData = {
-                description: data.description,
-                price: data.price,
-                sale: data.sale,
-                sizes: data.sizes,
-                amountWithoutSizes: data.amountWithoutSizes
-            };
-
-            formData.append('stringData', JSON.stringify(stringData));
-
-           await axios.post(`${state.SITE_URI}addproduct`,
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
-                )
-                .then(success => {
-                    state.productSuccess = success.data;
-                })
-                .catch(err => {
-                    state.productSuccess = err.data;
-                    console.log(err)
-                })
-        },
-
         // Получаем все размеры для нового товара
        async GetAllSizesMutate(state){
             await axios.get(`${state.SITE_URI}adminallsizes`)
@@ -96,6 +58,7 @@ const admin = {
                     console.log(e)
                 })
         },
+
        // Получаем данные по конкретному товару
        async GetOneProductMutate(state, id){
             await axios.get(`${state.SITE_URI}admin-product-${id}`)
@@ -113,12 +76,15 @@ const admin = {
                 })
                 .catch(e => console.log(e))
         },
+
        GetOneOrderMutate(state, data){
             state.oneOrder = data;
        },
+
        GetAllUsersMutate(state, data){
             state.GetAllUsers = data;
        },
+
         GetOneUserMutate(state, data){
             state.GetOneUser = data;
         },
@@ -135,9 +101,6 @@ const admin = {
     actions: {
         AdminGetAllPrducts({commit}){
             commit('AdminGetAllPrductsMutate');
-        },
-        SentDataToBackend({commit}, data){
-            commit('SentDataToBackendMutate', data);
         },
         GetAllSizes({commit}){
             commit('GetAllSizesMutate');
@@ -157,12 +120,14 @@ const admin = {
                 })
                 .catch(e => console.log(e))
         },
+
         async GetAllUsers({commit}){
             await axios.get(`${URI}adminusers`)
                 .then(res => {
                     commit('GetAllUsersMutate', res.data);
                 })
         },
+
         async GetOneUser({commit}, data){
             await axios.post(`${URI}lkadm`, data)
                 .then(res => {
@@ -170,6 +135,7 @@ const admin = {
                 })
                 .catch(e => console.log(e))
         },
+
         async GetAllReviews({commit}){
             await axios.get(`${URI}allrev`)
                 .then(res => {
@@ -177,6 +143,7 @@ const admin = {
                 })
                 .catch(e => console.log(e))
         },
+
         async GetOneReview({commit}, id){
             await axios.get(`${URI}revcard-${id}`)
                 .then(res => {
@@ -185,6 +152,7 @@ const admin = {
                 })
                 .catch(e => console.log(e))
         },
+
         async GetAllDeliveries({commit}){
             await axios.get(`${URI}delsite`)
                 .then(res => {
@@ -192,6 +160,20 @@ const admin = {
                     console.log(res.data)
                 })
                 .catch(e => console.log(e))
+        },
+
+        async GetMainPageAdmin({commit}){
+            return new Promise((resolve, reject) => {
+                axios.get(`${URI}mainpage`)
+                    .then(resp => {
+                        console.log(resp.data)
+                        // commit('auth_success', token);
+                        // resolve(resp)
+                    })
+                    .catch(err => {
+                        reject(err)
+                    })
+            })
         }
     },
     getters: {
@@ -310,6 +292,7 @@ const store = {
             state.status = true;
             state.token = token;
         },
+
         auth_error(state){
             state.status = false;
         },

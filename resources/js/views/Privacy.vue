@@ -1,5 +1,5 @@
 <template>
-    <div class="privacy">
+    <div class="privacy container">
         <h1>
             Политика конфиденциальности
         </h1>
@@ -95,8 +95,6 @@
 <style scoped>
     .privacy{
         position: relative;
-        margin: 0 auto;
-        width: 900px;
     }
     h1{
         font-family: 'PT Sans', sans-serif;
@@ -121,4 +119,36 @@
         line-height: 1.8;
         margin-bottom: 50px;
     }
+    @media screen and (max-width: 576px) {
+        .privacy{
+            position: relative;
+        }
+        h1{
+            font-family: 'PT Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            margin-top: 30px;
+        }
+        h2{
+            font-family: 'PT Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.5;
+            color: #848CCF;
+            margin-bottom: 25px;
+        }
+        p{
+            font-family: 'PT Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.8;
+            margin-bottom: 50px;
+        }
+        p:last-child{
+            margin-bottom: 0;
+        }
+    }
+
 </style>

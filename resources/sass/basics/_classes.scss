@@ -22,7 +22,9 @@
 .width-default{
     width: 100%;
 }
-
+.my-transition-enter{
+    transition: .2s all ease;
+}
 .active-top-menu{
     padding-bottom: 3px;
     border-bottom: 3px solid #fff;
@@ -239,6 +241,7 @@
     }
     @media screen and (max-width: $mobile) {
         appearance: none;
+        border-radius: 0;
     }
 }
 .small-invalid{
@@ -296,6 +299,9 @@
     color: $grey;
     text-transform: uppercase;
     text-align: center;
+    @media screen and (max-width: $mobile) {
+        font-size: $regFz;
+    }
 }
 .h1-m50{
     margin-top: 50px;
@@ -453,7 +459,7 @@
 }
 .show{
     @media screen and (max-width: $tablet) {
-        height: 90%;
+        height: 100%;
         padding: 18px 22px;
         transition: .2s all ease-out;
     }
@@ -481,6 +487,15 @@
     margin: 25px 0 60px;
     @include grid-temp(1fr, 1fr, 1fr);
 }
+
+.unfill-svg{
+    transition: all ease-in-out 0.2s;
+    transform: scale(1);
+    fill: $paleblue;
+}
+
+
+
 
 // Админ классы
 .active-admin-tab{

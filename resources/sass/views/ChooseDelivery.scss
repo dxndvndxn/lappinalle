@@ -1,4 +1,7 @@
 .chozen-delivery{
+    .chozen-imgs{
+        margin: 55px 0;
+    }
     &-header{
         @include grid-temp(1fr, 1fr, 1fr);
         h1{
@@ -136,6 +139,57 @@
     }
     .chozen-delivery-price{
         margin-bottom: 10px;
+    }
+    .chozen-delivery-btn{
+        width: 100%;
+        grid-column: 1;
+        button{
+            width: 100%;
+        }
+    }
+}
+@media screen and (max-width: $mobile) {
+    .chozen-delivery {
+        &-header {
+            .back{
+                .grey{
+
+                }
+            }
+            h1{
+
+            }
+        }
+
+    }
+    .chozen-imgs{
+
+        img{
+
+        }
+    }
+    .chozen-delivery-fill{
+
+        .fill-inputs{
+
+        }
+        .chozen-delivery-text{
+
+            p{
+                font-size: $tiny;
+            }
+        }
+        .comment-postman{
+            width: 100%;
+            margin-bottom: 0;
+            &::placeholder{
+                font-size: $mini;
+            }
+        }
+    }
+    .chozen-delivery-price, .chozen-delivery-total{
+        font-size: $regFz;
+        @include ptSans(700);
     }
     .chozen-delivery-btn{
         width: 100%;

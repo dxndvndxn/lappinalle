@@ -15,7 +15,7 @@ class Sizes extends Migration
     {
         Schema::create('sizes', function(Blueprint $table){
             $table->increments('sizes_id');
-            $table->smallInteger('sizes_number');
+            $table->string('sizes_number', 7);
         });
     }
 

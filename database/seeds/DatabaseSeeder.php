@@ -1800,5 +1800,25 @@ class DatabaseSeeder extends Seeder
                 'sizes_id' => rand(1, 50)
             ],
         ]);
+
+        DB::table('mainpage')->insert([
+            [
+                'mainpage_name' => null,
+                'mainpage_main_img' => null,
+                'mainpage_main_h1' => null,
+                'mainpage_main_h2' => null,
+                'mainpage_main_h3' => null,
+                'mainpage_main_but_text' => null,
+                'mainpage_main_but_href' => null,
+                'mainpage_block_sex' => null,
+                'mainpage_block_cat' => null,
+                'mainpage_block_dep' => null,
+                'mainpage_block_h1' => null,
+                'mainpage_block_sale' => null,
+                'mainpage_block_price' => null,
+                'mainpage_block_but_text' => null,
+                'mainpage_block_but_href' => null
+            ]
+        ]);
     }
 }

@@ -22,8 +22,9 @@
         }),
         methods: {
             chooseCategory(sexId, categId, departId){
+                // триггеры для страницы AdminProducts
                 this.$emit('addNewCategory', {sexId, categId, departId});
-                this.$emit('addNewCategoryForFresh', {sexId, categId, departId})
+                this.$emit('addNewCategoryForFresh', {sexId, categId, departId});
             },
             chooseSize(size, sizeId){
                 this.$emit('addNewSize', {size, sizeId})

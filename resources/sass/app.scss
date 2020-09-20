@@ -40,9 +40,9 @@
 @import "admin/views/admin-users";
 @import "admin/views/admin-reviews";
 @import "admin/views/admin-reviewcard";
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
 html,body{
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 @font-face {
     font-family: 'Gotham Pro';
@@ -54,5 +54,27 @@ html,body{
     font-weight: 900;
     font-style: normal;
 }
+@font-face {
+    font-family: 'PtSans-Regular';
+    src: url('../fonts/PtSans-Regular.eot');
+    src: url('../fonts/PtSans-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/PtSans-Regular.woff') format('woff'),
+    url('../fonts/PtSans-Regular.ttf') format('truetype'),
+    url('../fonts/PtSans-Regular.svg#pt_sansregular') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PtSans-Bold';
+    src: url('../fonts/PTS75F-webfont.eot');
+    src: url('../fonts/PTS75F-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/PTS75F-webfont.woff') format('woff'),
+    url('../fonts/PTS75F-webfont.ttf') format('truetype'),
+    url('../fonts/PTS75F-webfont.svg#pt_sansbold') format('svg');
+    font-weight: 700;
+    font-style: normal;
+
+}
+
 @include normalize();
 

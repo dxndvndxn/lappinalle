@@ -307,6 +307,7 @@
 }
 @media screen and (max-width: $mobile) {
     .cart-head{
+        grid-template-columns: .5fr 2fr .5fr;
         h1{
             font-size: $regFz;
         }

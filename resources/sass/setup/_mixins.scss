@@ -28,8 +28,12 @@
 }
 
 @mixin ptSans($weight){
-    font-family: 'PT Sans', sans-serif;
-    font-weight: $weight;
+    @if $weight == 700 {
+        font-family: 'PtSans-Bold', sans-serif;
+    }
+    @else if $weight == 400 {
+        font-family: 'PtSans-Regular', sans-serif;
+    }
 }
 @mixin ptGot($weight){
     font-family: 'Gotham Pro', sans-serif;

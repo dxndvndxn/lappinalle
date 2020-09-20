@@ -220,6 +220,8 @@ nav{
                     @include ptSans(700);
                     a{
                         position: relative;
+                        width: 55%;
+                        display: inline-flex;
                         &:before{
                             transform: skew(45deg, -40deg);
                             content: "";
@@ -246,6 +248,28 @@ nav{
         }
     }
     @media screen and (max-width: $mobile) {
+        .menu-bottom{
+            .menu-categories{
+                li{
+                    a{
+                        font-size: $mini;
+                    }
+                }
+            }
+            .menu-departments{
+                li{
+                    a{
+                        font-size: $mini;
+                    }
+                }
+                .back-to-categories{
+                    @include ptSans(700);
+                    a{
+                        font-size: $mini + 1px;
+                    }
+                }
+            }
+        }
         .hamburger{
             height: 15px;
             width: 19px;

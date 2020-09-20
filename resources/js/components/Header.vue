@@ -7,7 +7,23 @@
                     <form class="nav-search" v-if="media.wind > media.tablet">
                         <div class="search">
                             <input type="search" id="search" placeholder="Поиск">
-                            <label for="search"><img src="../../img/search.png" alt=""></label>
+                            <label for="search">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="22px" height="24px" viewBox="0 0 22 24" enable-background="new 0 0 22 24">
+                                    <image width="22" height="24" x="0" y="0" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAYCAQAAABUt8XAAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElN
+RQfkCRMKHQmFmjhaAAABw0lEQVQ4y43SvWtTYRTH8W/SpO21poZKlRoQilVxKfiCOjgoDmL+ARct
+oji4OAi+IFgEJ6cOvmwKDoroYhG0WHxDiFshUgTFraAGUq1pSdRCvg43lxvbBPs7y33gw3MfzjkJ
++ScdpMlQ5wd1liXV9J3lEEPspkyOT0xSYHaJNqpjjlu1bpSarzzjOmNBovGMUS4SMM9nJhngCzny
+9CHjnOR7880Jz6n6zBEHTdtpxlUe9JaL6k0z0c2IB5xXnzjQ/Esx4w1VL5mOcOAjtWj/EorY6x11
+2k0R3mFVPdGCIu61pB4NT0mGCfjKBK1TpAjsCQ9JtgHvKbfBNaaBzfSEeDUw12pejcwBPXSHuARk
+SbfFWaBCNcQfgSFybWiKncAMtRB/4BuD7G+D97ELmIomGHhfnXJri8alfKy+dUM8wcOW1TdR6xuV
+tNcxVa82jzvpKRfUF47Yb4drxY0e8UFj/16aizGmvGJF1Xde8563fW1Vrfhb1YduiTFi3rvOGKfq
+U4971kVVn9sX7zNAwHaGybPAL2YpUKBEJ2OcJkGdCS4v70DgelPRUopdXvBPeDv+vzq9blUdTcgK
+0sV5ulkhhjX8hL+Lj5IQ+tNauAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMC0wOS0xOVQxMDoyOTow
+OSswMzowMDZZp/IAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjAtMDktMTlUMTA6Mjk6MDkrMDM6MDBH
+BB9OAAAAAElFTkSuQmCC" />
+</svg>
+                            </label>
                         </div>
                     </form>
                     <div class="hamburger" @click="EatHamburger()" v-else>

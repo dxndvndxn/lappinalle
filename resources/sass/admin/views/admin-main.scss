@@ -10,12 +10,36 @@
             display: inline-block;
         }
     }
+    #loadMainImg{
+        width: 0;
+        height: 0;
+    }
     .admin-main-wrap{
         @include variableColumns(3, 300px);
         justify-content: space-between;
         .admin-main-baner{
             @include flex-column(column);
             align-items: flex-start;
+            .admin-main-img{
+                width: 100%;
+                height: 300px;
+                border: 1px solid $ocean;
+            }
+            .admin-btn-add{
+                text-align: center;
+                box-sizing: border-box;
+                padding: 6px;
+                cursor: pointer;
+                margin-bottom: 10px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                img{
+                    transform: rotate(90deg);
+                    object-fit: contain;
+                }
+            }
         }
         .wrap-main-page{
             .wrap-input{
@@ -41,28 +65,28 @@
                 }
             }
         }
-        .wrap-checkbox{
-            @include flex-column(column);
-            align-items: flex-end;
-            margin-top: 15px;
-            input{
-                width: 40px;
-                appearance: none;
-                background-color: #e7eff8;
-                padding: 15px 0;
-                cursor: pointer;
-                margin-left: 15px;
-            }
-            input:checked{
-                background-color: $palepurpp !important;
-            }
-            label{
-                display: inline-flex;
-                @include ptSans(400);
-                font-size: 14px;
-                align-items: center;
-            }
-        }
+        //.wrap-checkbox{
+        //    @include flex-column(column);
+        //    align-items: flex-end;
+        //    margin-top: 15px;
+        //    input{
+        //        width: 40px;
+        //        appearance: none;
+        //        background-color: #e7eff8;
+        //        padding: 15px 0;
+        //        cursor: pointer;
+        //        margin-left: 15px;
+        //    }
+        //    input:checked{
+        //        background-color: $palepurpp !important;
+        //    }
+        //    label{
+        //        display: inline-flex;
+        //        @include ptSans(400);
+        //        font-size: 14px;
+        //        align-items: center;
+        //    }
+        //}
     }
     .admin-main-blocks{
         margin-bottom: 30px;

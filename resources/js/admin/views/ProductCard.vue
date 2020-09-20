@@ -207,75 +207,6 @@
                     .catch(e => console.log(e))
             },
 
-            // getPrevious(){
-            //     for( let i = 0; i < this.files.length; i++ ){
-            //
-            //         if ( /\.(jpe?g|png|gif|svg)$/i.test(this.files[i].name) ) {
-            //
-            //             if (i == 0) this.files[i].active = true;
-            //             else this.files[i].active = false;
-            //
-            //             let reader = new FileReader();
-            //             reader.addEventListener("load", function(){
-            //                 this.$refs['image'+parseInt(i)][0].src = reader.result;
-            //                 if (i === 0) this.mainImg = this.$refs['image' + parseInt(i)][0].src;
-            //             }.bind(this), false);
-            //             reader.readAsDataURL(this.files[i]);
-            //         }
-            //     }
-            //     console.log(this.$refs);
-            //     this.files = this.files.filter(el => (typeof el) === "object");
-            //     console.log(this.files)
-            // },
-
-            deleteImg(){
-                 // Если кликнули по первой или второй фотографии
-                // if(this.clickedImg === 0 || this.clickedImg === 1){
-                //
-                //     this.files = this.files.filter(el => el.active === false);
-                //     this.getPrevious();
-                //
-                //     // Обнуляем главную картинку
-                //     if ((this.clickedImg === 0 || this.clickedImg === 1) && this.files.length === 0){
-                //         this.mainImg = null;
-                //     }
-                // }
-                // if (this.clickedImg > 1){
-                //     this.files.splice(this.clickedImg, 1);
-                //     this.clickedImg =  this.clickedImg - 1;
-                //     this.mainImg = this.$refs['image' + parseInt(this.clickedImg)][0].src;
-                //     this.files[this.clickedImg].active = true;
-                //     this.getPrevious();
-                // }
-
-                // if (this.videoOrImg){
-                //     let stringData = {
-                //         id: this.$route.params.id,
-                //         vidRemove: this.video
-                //     };
-                //
-                //     let formData = new FormData();
-                //     formData.append('stringData',  JSON.stringify(stringData));
-                //
-                //     axios.post(`${this.URI}updprod`, formData, {
-                //         headers: {
-                //             'Content-Type': 'multipart/form-data'
-                //         }
-                //     })
-                //         .then(res => {
-                //             console.log(res.data)
-                //             console.log('Success delete video')
-                //         })
-                //         .catch(e => console.log(e));
-                //     this.video = null;
-                //     this.videoOrImg = false;
-                // }
-
-                // if (this.files.length === 0 && this.video !== null){
-                //     this.videoOrImg = true;
-                // }
-            },
-
            async deleteUploadedImg(){
                 // Если кликнули по первой или второй фотографии
                 if (this.videoOrImg){
@@ -406,7 +337,6 @@
 
             loadVid() {
                 if (this.video !== null) {
-                    console.log('HI MARK')
                     return;
                 }
                 let video = this.$refs.vid.files;
@@ -439,21 +369,6 @@
                     .catch(e => console.log(e))
             },
 
-
-            // clickImg(i){
-            //     this.clickedImg = i;
-            //     this.mainImg = this.$refs['image' + parseInt(i)][0].src;
-            //     this.files.forEach(el => {
-            //         el.active = false
-            //     });
-            //     this.files[i].active = true;
-            //
-            //     // Делаем видео не активным
-            //     this.videoOrImg = false;
-            //
-            //     this.deleteUploadImg = false;
-            // },
-
             clickUploadedImg(i){
                 this.clickedUploadedImg = i;
                 this.mainImg = this.uploadedImgs[i].img;
@@ -478,20 +393,6 @@
             getMainImg(){
                 return this.mainImg;
             },
-
-            // Отправляем данные на сервер
-            // sentProductData(){
-            //     this.dataToBack = {
-            //         video: this.loadedVideo,
-            //         imgs: this.loadedImg,
-            //         description: this.textProduct,
-            //         price: this.priceProduct,
-            //         sale: this.saleProduct,
-            //         sizes: this.sizes.length ? this.sizes : null,
-            //         amountWithoutSizes: this.stockAmountWithoutSizes
-            //     };
-            //     this.$store.dispatch('SentDataToBackend', this.dataToBack);
-            // },
 
             // Выбираем рамзеры
             addNewSize(data){

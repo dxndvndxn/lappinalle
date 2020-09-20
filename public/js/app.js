@@ -2053,6 +2053,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     chooseCategory: function chooseCategory(sexId, categId, departId) {
+      // триггеры для страницы AdminProducts
       this.$emit('addNewCategory', {
         sexId: sexId,
         categId: categId,
@@ -2428,6 +2429,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_AdminCrumbs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/AdminCrumbs */ "./resources/js/admin/components/AdminCrumbs.vue");
+
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2512,188 +2526,137 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminMainPage",
+  components: {
+    AdminCrumbs: _components_AdminCrumbs__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
   data: function data() {
     return {
-      head: 'Акция',
-      minihead: 'СКИДКА 10%',
-      text: 'НА ОСЕННЮЮ КОЛЛЕКЦИЮ',
-      btntext: 'ПЕРЕЙТИ В РАЗДЕЛ',
-      chosenCat: 'Мальчики | Верхняя одежда ЗИМ',
+      // Самый первый блок
+      mainpage_main_h1: null,
+      mainpage_main_h2: null,
+      mainpage_main_h3: null,
+      mainpage_main_but_text: null,
+      mainpage_main_but_href: null,
+      mainpage_main_img: null,
+      chosenCat: null,
       activeBtn: true,
       whatList: null
     };
+  },
+  methods: {
+    uploadMainBaner: function uploadMainBaner(name, value, id, img, addBlock) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var formData, _img, data, _data;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                // this.$Progress.start()
+                formData = new FormData();
+
+                if (!addBlock) {
+                  _context.next = 5;
+                  break;
+                }
+
+                formData.append('data', JSON.stringify({
+                  addEmptyBlock: true
+                }));
+                axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "mainupd"), formData).then(function (res) {
+                  console.log(res.data);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+                return _context.abrupt("return");
+
+              case 5:
+                if (img) {
+                  _img = _this.$refs.mainImg.files[0];
+                  data = {
+                    id: id
+                  };
+                  formData.append('data', JSON.stringify(data));
+                  formData.append('mainpage_main_img', _img);
+                  axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "mainupd"), formData, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    }
+                  }).then(function (res) {
+                    console.log(res.data);
+                  })["catch"](function (e) {
+                    return console.log(e);
+                  });
+                } else {
+                  _data = _defineProperty({
+                    id: id
+                  }, name, value);
+                  formData.append('data', JSON.stringify(_data));
+                  axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "mainupd"), formData).then(function (res) {
+                    console.log(res.data);
+                  })["catch"](function (e) {
+                    return console.log(e);
+                  });
+                }
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    chooseCategoryCarousel: function chooseCategoryCarousel(data) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var localData, formData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                localData = {
+                  id: id,
+                  mainpage_block_menu_sex: data.sexId,
+                  mainpage_block_menu_dep: data.departId,
+                  mainpage_block_menu_cat: data.categId
+                };
+                formData = new FormData();
+                formData.append('data', JSON.stringify(localData));
+                axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this2.URI, "mainupd"), formData).then(function (res) {
+                  console.log(res.data);
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    }
+  },
+  created: function created() {
+    // this.$Progress.start()
+    this.$store.dispatch('GetMainPageAdmin');
+    if (this.getCrumbs === null) this.$store.dispatch('getMenuData');
+  },
+  computed: {
+    URI: function URI() {
+      return this.$store.getters.URI;
+    },
+    getCrumbs: function getCrumbs() {
+      return this.$store.getters.adminRawMenu;
+    }
   }
 });
 
@@ -3741,70 +3704,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return console.log(e);
       });
     },
-    // getPrevious(){
-    //     for( let i = 0; i < this.files.length; i++ ){
-    //
-    //         if ( /\.(jpe?g|png|gif|svg)$/i.test(this.files[i].name) ) {
-    //
-    //             if (i == 0) this.files[i].active = true;
-    //             else this.files[i].active = false;
-    //
-    //             let reader = new FileReader();
-    //             reader.addEventListener("load", function(){
-    //                 this.$refs['image'+parseInt(i)][0].src = reader.result;
-    //                 if (i === 0) this.mainImg = this.$refs['image' + parseInt(i)][0].src;
-    //             }.bind(this), false);
-    //             reader.readAsDataURL(this.files[i]);
-    //         }
-    //     }
-    //     console.log(this.$refs);
-    //     this.files = this.files.filter(el => (typeof el) === "object");
-    //     console.log(this.files)
-    // },
-    deleteImg: function deleteImg() {// Если кликнули по первой или второй фотографии
-      // if(this.clickedImg === 0 || this.clickedImg === 1){
-      //
-      //     this.files = this.files.filter(el => el.active === false);
-      //     this.getPrevious();
-      //
-      //     // Обнуляем главную картинку
-      //     if ((this.clickedImg === 0 || this.clickedImg === 1) && this.files.length === 0){
-      //         this.mainImg = null;
-      //     }
-      // }
-      // if (this.clickedImg > 1){
-      //     this.files.splice(this.clickedImg, 1);
-      //     this.clickedImg =  this.clickedImg - 1;
-      //     this.mainImg = this.$refs['image' + parseInt(this.clickedImg)][0].src;
-      //     this.files[this.clickedImg].active = true;
-      //     this.getPrevious();
-      // }
-      // if (this.videoOrImg){
-      //     let stringData = {
-      //         id: this.$route.params.id,
-      //         vidRemove: this.video
-      //     };
-      //
-      //     let formData = new FormData();
-      //     formData.append('stringData',  JSON.stringify(stringData));
-      //
-      //     axios.post(`${this.URI}updprod`, formData, {
-      //         headers: {
-      //             'Content-Type': 'multipart/form-data'
-      //         }
-      //     })
-      //         .then(res => {
-      //             console.log(res.data)
-      //             console.log('Success delete video')
-      //         })
-      //         .catch(e => console.log(e));
-      //     this.video = null;
-      //     this.videoOrImg = false;
-      // }
-      // if (this.files.length === 0 && this.video !== null){
-      //     this.videoOrImg = true;
-      // }
-    },
     deleteUploadedImg: function deleteUploadedImg() {
       var _this2 = this;
 
@@ -3982,7 +3881,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this3 = this;
 
       if (this.video !== null) {
-        console.log('HI MARK');
         return;
       }
 
@@ -4010,19 +3908,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return console.log(e);
       });
     },
-    // clickImg(i){
-    //     this.clickedImg = i;
-    //     this.mainImg = this.$refs['image' + parseInt(i)][0].src;
-    //     this.files.forEach(el => {
-    //         el.active = false
-    //     });
-    //     this.files[i].active = true;
-    //
-    //     // Делаем видео не активным
-    //     this.videoOrImg = false;
-    //
-    //     this.deleteUploadImg = false;
-    // },
     clickUploadedImg: function clickUploadedImg(i) {
       this.clickedUploadedImg = i;
       this.mainImg = this.uploadedImgs[i].img;
@@ -4042,19 +3927,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     getMainImg: function getMainImg() {
       return this.mainImg;
     },
-    // Отправляем данные на сервер
-    // sentProductData(){
-    //     this.dataToBack = {
-    //         video: this.loadedVideo,
-    //         imgs: this.loadedImg,
-    //         description: this.textProduct,
-    //         price: this.priceProduct,
-    //         sale: this.saleProduct,
-    //         sizes: this.sizes.length ? this.sizes : null,
-    //         amountWithoutSizes: this.stockAmountWithoutSizes
-    //     };
-    //     this.$store.dispatch('SentDataToBackend', this.dataToBack);
-    // },
     // Выбираем рамзеры
     addNewSize: function addNewSize(data) {
       var checkSize = this.sizes.find(function (el) {
@@ -4818,6 +4690,22 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6095,7 +5983,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$router.push("".concat(this.$route.path, "?").concat(query, "page=").concat(page))["catch"](function (e) {
         console.log(e);
       });
-      this.$Progress.finish();
     },
     // Обработчик по нажатию на страницы пагинации
     // Вызываем функцию, которая выводит новые товары
@@ -6284,7 +6171,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     // Возвращаем данные по каталогу
     returnCatalogData: function returnCatalogData() {
       // this.$Progress.finish();
-      if (this.$store.getters.catalogData !== null) return this.$store.getters.catalogData;
+      if (this.$store.getters.catalogData !== null) {
+        this.$Progress.finish();
+        return this.$store.getters.catalogData;
+      }
     },
     // Возвращаем данные по кол-во товаров для пагинции
     catalogTotalPages: function catalogTotalPages() {
@@ -6621,7 +6511,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.$store.dispatch('getItemData', this.$route.params.number); //Получаем отзывы
 
     this.getItemReview(this.pageReview);
-    this.$Progress.finish();
   },
   methods: {
     // Кликаем по фотографии товара
@@ -6773,7 +6662,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: {
     // Возвращаем дату для товара
     returnDataForItem: function returnDataForItem() {
-      return this.$store.getters.catalogItem;
+      if (this.$store.getters.catalogItem !== null) {
+        this.$Progress.finish();
+        return this.$store.getters.catalogItem;
+      }
     },
     // Возвращаем отзывы для товара
     returnReviewForItem: function returnReviewForItem() {
@@ -7218,6 +7110,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+//
+//
+//
 //
 //
 //
@@ -8428,7 +8323,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.privacy[data-v-74bdb3b9]{\n    position: relative;\n    margin: 0 auto;\n    width: 900px;\n}\nh1[data-v-74bdb3b9]{\n    font-family: 'PT Sans', sans-serif;\n    font-size: 24px;\n    font-weight: 700;\n    line-height: 1.5;\n    margin-bottom: 75px;\n    margin-top: 75px;\n}\nh2[data-v-74bdb3b9]{\n    font-family: 'PT Sans', sans-serif;\n    font-size: 18px;\n    font-weight: 700;\n    line-height: 1.5;\n    color: #848CCF;\n    margin-bottom: 25px;\n}\np[data-v-74bdb3b9]{\n    font-family: 'PT Sans', sans-serif;\n    font-size: 14px;\n    font-weight: 400;\n    line-height: 1.8;\n    margin-bottom: 50px;\n}\n", ""]);
+exports.push([module.i, "\n.privacy[data-v-74bdb3b9]{\n    position: relative;\n}\nh1[data-v-74bdb3b9]{\n    font-family: 'PT Sans', sans-serif;\n    font-size: 24px;\n    font-weight: 700;\n    line-height: 1.5;\n    margin-bottom: 75px;\n    margin-top: 75px;\n}\nh2[data-v-74bdb3b9]{\n    font-family: 'PT Sans', sans-serif;\n    font-size: 18px;\n    font-weight: 700;\n    line-height: 1.5;\n    color: #848CCF;\n    margin-bottom: 25px;\n}\np[data-v-74bdb3b9]{\n    font-family: 'PT Sans', sans-serif;\n    font-size: 14px;\n    font-weight: 400;\n    line-height: 1.8;\n    margin-bottom: 50px;\n}\n@media screen and (max-width: 576px) {\n.privacy[data-v-74bdb3b9]{\n        position: relative;\n}\nh1[data-v-74bdb3b9]{\n        font-family: 'PT Sans', sans-serif;\n        font-size: 24px;\n        font-weight: 700;\n        line-height: 1.5;\n        margin-bottom: 30px;\n        margin-top: 30px;\n}\nh2[data-v-74bdb3b9]{\n        font-family: 'PT Sans', sans-serif;\n        font-size: 18px;\n        font-weight: 700;\n        line-height: 1.5;\n        color: #848CCF;\n        margin-bottom: 25px;\n}\np[data-v-74bdb3b9]{\n        font-family: 'PT Sans', sans-serif;\n        font-size: 14px;\n        font-weight: 400;\n        line-height: 1.8;\n        margin-bottom: 50px;\n}\np[data-v-74bdb3b9]:last-child{\n        margin-bottom: 0;\n}\n}\n\n", ""]);
 
 // exports
 
@@ -10970,11 +10865,69 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "admin-main-page" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "admin-main-page-header" }, [
+      _c("h1", { staticClass: "admin-h1" }, [_vm._v("главная страница")]),
+      _vm._v(" "),
+      _c("button", { staticClass: "admin-btn-complete width-300" }, [
+        _vm._v("Сохранить изменения")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "admin-btn-add width-300",
+          on: {
+            click: function($event) {
+              return _vm.uploadMainBaner(null, null, null, false, true)
+            }
+          }
+        },
+        [
+          _vm._v("\n            Добавить блок "),
+          _c("img", {
+            attrs: { src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png"), alt: "" }
+          })
+        ]
+      )
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "admin-main-wrap" }, [
       _c("div", { staticClass: "admin-main-baner" }, [
         _c("h2", { staticClass: "admin-h2" }, [_vm._v("Основной баннер")]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "wrap-main-page width-300 admin-cl-lbl-inp" },
+          [
+            _c(
+              "label",
+              { staticClass: "admin-h3", attrs: { for: "main-head" } },
+              [_vm._v("Главная картинка")]
+            ),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "admin-main-img",
+              attrs: { src: _vm.mainpage_main_img, alt: "" }
+            }),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("input", {
+              ref: "mainImg",
+              attrs: {
+                type: "file",
+                value: "Добавить изображение",
+                id: "loadMainImg",
+                accept: "image/jpeg,image/png"
+              },
+              on: {
+                change: function($event) {
+                  return _vm.uploadMainBaner(null, null, 1, true)
+                }
+              }
+            })
+          ]
+        ),
         _vm._v(" "),
         _c(
           "div",
@@ -10991,20 +10944,28 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model.trim",
-                  value: _vm.head,
-                  expression: "head",
+                  value: _vm.mainpage_main_h1,
+                  expression: "mainpage_main_h1",
                   modifiers: { trim: true }
                 }
               ],
               staticClass: "input-pale-blu",
               attrs: { type: "text", id: "main-head" },
-              domProps: { value: _vm.head },
+              domProps: { value: _vm.mainpage_main_h1 },
               on: {
+                change: function($event) {
+                  return _vm.uploadMainBaner(
+                    "mainpage_main_h1",
+                    _vm.mainpage_main_h1,
+                    1,
+                    false
+                  )
+                },
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.head = $event.target.value.trim()
+                  _vm.mainpage_main_h1 = $event.target.value.trim()
                 },
                 blur: function($event) {
                   return _vm.$forceUpdate()
@@ -11029,20 +10990,28 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model.trim",
-                  value: _vm.minihead,
-                  expression: "minihead",
+                  value: _vm.mainpage_main_h2,
+                  expression: "mainpage_main_h2",
                   modifiers: { trim: true }
                 }
               ],
               staticClass: "input-pale-blu",
               attrs: { type: "text", id: "main-minhead" },
-              domProps: { value: _vm.minihead },
+              domProps: { value: _vm.mainpage_main_h2 },
               on: {
+                change: function($event) {
+                  return _vm.uploadMainBaner(
+                    "mainpage_main_h2",
+                    _vm.mainpage_main_h2,
+                    1,
+                    false
+                  )
+                },
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.minihead = $event.target.value.trim()
+                  _vm.mainpage_main_h2 = $event.target.value.trim()
                 },
                 blur: function($event) {
                   return _vm.$forceUpdate()
@@ -11067,20 +11036,28 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model.trim",
-                  value: _vm.text,
-                  expression: "text",
+                  value: _vm.mainpage_main_h3,
+                  expression: "mainpage_main_h3",
                   modifiers: { trim: true }
                 }
               ],
               staticClass: "input-pale-blu",
               attrs: { type: "text", id: "main-text" },
-              domProps: { value: _vm.text },
+              domProps: { value: _vm.mainpage_main_h3 },
               on: {
+                change: function($event) {
+                  return _vm.uploadMainBaner(
+                    "mainpage_main_h3",
+                    _vm.mainpage_main_h3,
+                    1,
+                    false
+                  )
+                },
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.text = $event.target.value.trim()
+                  _vm.mainpage_main_h3 = $event.target.value.trim()
                 },
                 blur: function($event) {
                   return _vm.$forceUpdate()
@@ -11105,20 +11082,28 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model.trim",
-                  value: _vm.btntext,
-                  expression: "btntext",
+                  value: _vm.mainpage_main_but_text,
+                  expression: "mainpage_main_but_text",
                   modifiers: { trim: true }
                 }
               ],
               staticClass: "input-pale-blu",
               attrs: { type: "text", id: "btn-text" },
-              domProps: { value: _vm.btntext },
+              domProps: { value: _vm.mainpage_main_but_text },
               on: {
+                change: function($event) {
+                  return _vm.uploadMainBaner(
+                    "mainpage_main_but_text",
+                    _vm.mainpage_main_but_text,
+                    1,
+                    false
+                  )
+                },
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.btntext = $event.target.value.trim()
+                  _vm.mainpage_main_but_text = $event.target.value.trim()
                 },
                 blur: function($event) {
                   return _vm.$forceUpdate()
@@ -11139,113 +11124,35 @@ var render = function() {
                 directives: [
                   {
                     name: "model",
-                    rawName: "v-model",
-                    value: _vm.chosenCat,
-                    expression: "chosenCat"
+                    rawName: "v-model.trim",
+                    value: _vm.mainpage_main_but_href,
+                    expression: "mainpage_main_but_href",
+                    modifiers: { trim: true }
                   }
                 ],
                 staticClass: "input-pale-blu",
-                attrs: { type: "text", disabled: "" },
-                domProps: { value: _vm.chosenCat },
+                attrs: { type: "text" },
+                domProps: { value: _vm.mainpage_main_but_href },
                 on: {
+                  change: function($event) {
+                    return _vm.uploadMainBaner(
+                      "mainpage_main_but_href",
+                      _vm.mainpage_main_but_href,
+                      1,
+                      false
+                    )
+                  },
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.chosenCat = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-admin-arrow",
-                class: _vm.activeBtn
-                  ? "admin-btn-arrow-pass"
-                  : "admin-btn-arrow",
-                on: {
-                  click: function($event) {
-                    _vm.activeBtn = !_vm.activeBtn
+                    _vm.mainpage_main_but_href = $event.target.value.trim()
+                  },
+                  blur: function($event) {
+                    return _vm.$forceUpdate()
                   }
                 }
               })
-            ]),
-            _vm._v(" "),
-            !_vm.activeBtn
-              ? _c("ul", { staticClass: "wrap-links" }, [
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-checkbox" }, [
-              _c("label", { attrs: { for: "category" } }, [
-                _vm._v("Категория "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.whatList,
-                      expression: "whatList"
-                    }
-                  ],
-                  attrs: {
-                    type: "radio",
-                    name: "whatList",
-                    value: "category",
-                    id: "category"
-                  },
-                  domProps: { checked: _vm._q(_vm.whatList, "category") },
-                  on: {
-                    change: function($event) {
-                      _vm.whatList = "category"
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "product" } }, [
-                _vm._v("Товар "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.whatList,
-                      expression: "whatList"
-                    }
-                  ],
-                  attrs: {
-                    type: "radio",
-                    name: "whatList",
-                    value: "product",
-                    id: "product"
-                  },
-                  domProps: { checked: _vm._q(_vm.whatList, "product") },
-                  on: {
-                    change: function($event) {
-                      _vm.whatList = "product"
-                    }
-                  }
-                })
-              ])
             ])
           ]
         )
@@ -11260,7 +11167,7 @@ var render = function() {
           "div",
           { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
           [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
+            _c("label", { staticClass: "admin-h3" }, [_vm._v("Карусель")]),
             _vm._v(" "),
             _c("div", { staticClass: "wrap-input" }, [
               _c("input", {
@@ -11298,30 +11205,12 @@ var render = function() {
               })
             ]),
             _vm._v(" "),
-            !_vm.activeBtn
-              ? _c("ul", { staticClass: "wrap-links" }, [
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-                ])
-              : _vm._e()
-          ]
+            _c("AdminCrumbs", {
+              attrs: { lvl: 3, crumbs: _vm.getCrumbs },
+              on: { addNewCategory: _vm.chooseCategoryCarousel }
+            })
+          ],
+          1
         ),
         _vm._v(" "),
         _vm._m(2),
@@ -11372,470 +11261,6 @@ var render = function() {
                   }
                 }
               })
-            ]),
-            _vm._v(" "),
-            !_vm.activeBtn
-              ? _c("ul", { staticClass: "wrap-links" }, [
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-checkbox" }, [
-              _c("label", { attrs: { for: "category" } }, [
-                _vm._v("Категория "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.whatList,
-                      expression: "whatList"
-                    }
-                  ],
-                  attrs: { type: "radio", name: "whatList", value: "category" },
-                  domProps: { checked: _vm._q(_vm.whatList, "category") },
-                  on: {
-                    change: function($event) {
-                      _vm.whatList = "category"
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "product" } }, [
-                _vm._v("Товар "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.whatList,
-                      expression: "whatList"
-                    }
-                  ],
-                  attrs: { type: "radio", name: "whatList", value: "product" },
-                  domProps: { checked: _vm._q(_vm.whatList, "product") },
-                  on: {
-                    change: function($event) {
-                      _vm.whatList = "product"
-                    }
-                  }
-                })
-              ])
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c("button", { staticClass: "admin-btn-delete width-300" }, [
-          _vm._v("удалить блок")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "admin-main-blocks" }, [
-        _c("h2", { staticClass: "admin-h2" }, [_vm._v("Блок №2")]),
-        _vm._v(" "),
-        _vm._m(6),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-          [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-input" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.chosenCat,
-                    expression: "chosenCat"
-                  }
-                ],
-                staticClass: "input-pale-blu",
-                attrs: { type: "text", disabled: "" },
-                domProps: { value: _vm.chosenCat },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.chosenCat = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-admin-arrow",
-                class: _vm.activeBtn
-                  ? "admin-btn-arrow-pass"
-                  : "admin-btn-arrow",
-                on: {
-                  click: function($event) {
-                    _vm.activeBtn = !_vm.activeBtn
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            !_vm.activeBtn
-              ? _c("ul", { staticClass: "wrap-links" }, [
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-                ])
-              : _vm._e()
-          ]
-        ),
-        _vm._v(" "),
-        _vm._m(7),
-        _vm._v(" "),
-        _vm._m(8),
-        _vm._v(" "),
-        _vm._m(9),
-        _vm._v(" "),
-        _vm._m(10),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-          [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Ссылка")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-input" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.chosenCat,
-                    expression: "chosenCat"
-                  }
-                ],
-                staticClass: "input-pale-blu",
-                attrs: { type: "text", disabled: "" },
-                domProps: { value: _vm.chosenCat },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.chosenCat = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-admin-arrow",
-                class: _vm.activeBtn
-                  ? "admin-btn-arrow-pass"
-                  : "admin-btn-arrow",
-                on: {
-                  click: function($event) {
-                    _vm.activeBtn = !_vm.activeBtn
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            !_vm.activeBtn
-              ? _c("ul", { staticClass: "wrap-links" }, [
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-checkbox" }, [
-              _c("label", { attrs: { for: "category" } }, [
-                _vm._v("Категория "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.whatList,
-                      expression: "whatList"
-                    }
-                  ],
-                  attrs: { type: "radio", name: "whatList", value: "category" },
-                  domProps: { checked: _vm._q(_vm.whatList, "category") },
-                  on: {
-                    change: function($event) {
-                      _vm.whatList = "category"
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "product" } }, [
-                _vm._v("Товар "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.whatList,
-                      expression: "whatList"
-                    }
-                  ],
-                  attrs: { type: "radio", name: "whatList", value: "product" },
-                  domProps: { checked: _vm._q(_vm.whatList, "product") },
-                  on: {
-                    change: function($event) {
-                      _vm.whatList = "product"
-                    }
-                  }
-                })
-              ])
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c("button", { staticClass: "admin-btn-delete width-300" }, [
-          _vm._v("удалить блок")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "admin-main-blocks" }, [
-        _c("h2", { staticClass: "admin-h2" }, [_vm._v("Блок №3")]),
-        _vm._v(" "),
-        _vm._m(11),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-          [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-input" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.chosenCat,
-                    expression: "chosenCat"
-                  }
-                ],
-                staticClass: "input-pale-blu",
-                attrs: { type: "text", disabled: "" },
-                domProps: { value: _vm.chosenCat },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.chosenCat = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-admin-arrow",
-                class: _vm.activeBtn
-                  ? "admin-btn-arrow-pass"
-                  : "admin-btn-arrow",
-                on: {
-                  click: function($event) {
-                    _vm.activeBtn = !_vm.activeBtn
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            !_vm.activeBtn
-              ? _c("ul", { staticClass: "wrap-links" }, [
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-                ])
-              : _vm._e()
-          ]
-        ),
-        _vm._v(" "),
-        _vm._m(12),
-        _vm._v(" "),
-        _vm._m(13),
-        _vm._v(" "),
-        _vm._m(14),
-        _vm._v(" "),
-        _vm._m(15),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-          [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Ссылка")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-input" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.chosenCat,
-                    expression: "chosenCat"
-                  }
-                ],
-                staticClass: "input-pale-blu",
-                attrs: { type: "text", disabled: "" },
-                domProps: { value: _vm.chosenCat },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.chosenCat = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-admin-arrow",
-                class: _vm.activeBtn
-                  ? "admin-btn-arrow-pass"
-                  : "admin-btn-arrow",
-                on: {
-                  click: function($event) {
-                    _vm.activeBtn = !_vm.activeBtn
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            !_vm.activeBtn
-              ? _c("ul", { staticClass: "wrap-links" }, [
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-checkbox" }, [
-              _c("label", { attrs: { for: "category" } }, [
-                _vm._v("Категория "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.whatList,
-                      expression: "whatList"
-                    }
-                  ],
-                  attrs: { type: "radio", name: "whatList", value: "category" },
-                  domProps: { checked: _vm._q(_vm.whatList, "category") },
-                  on: {
-                    change: function($event) {
-                      _vm.whatList = "category"
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "product" } }, [
-                _vm._v("Товар "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.whatList,
-                      expression: "whatList"
-                    }
-                  ],
-                  attrs: { type: "radio", name: "whatList", value: "product" },
-                  domProps: { checked: _vm._q(_vm.whatList, "product") },
-                  on: {
-                    change: function($event) {
-                      _vm.whatList = "product"
-                    }
-                  }
-                })
-              ])
             ])
           ]
         ),
@@ -11852,158 +11277,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "admin-main-page-header" }, [
-      _c("h1", { staticClass: "admin-h1" }, [_vm._v("главная страница")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "admin-btn-complete width-300" }, [
-        _vm._v("Сохранить изменения")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "admin-btn-add width-300" }, [
-        _vm._v("\n            Добавить блок "),
+    return _c(
+      "label",
+      { staticClass: "admin-btn-add", attrs: { for: "loadMainImg" } },
+      [
+        _vm._v("Добавить изображение "),
         _c("img", {
-          attrs: { src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png"), alt: "" }
+          attrs: { src: __webpack_require__(/*! ../../../img/purpp-krest.png */ "./resources/img/purpp-krest.png"), alt: "" }
         })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок баннера")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Скидка")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Новая цена")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Текст кнопки")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок баннера")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Скидка")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Новая цена")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Текст кнопки")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
       ]
     )
   },
@@ -14525,7 +13806,7 @@ var render = function() {
                     "svg",
                     {
                       staticClass: "icon-cell t-shirt",
-                      class: item.activeTshirt ? "fill-svg" : null,
+                      class: item.activeTshirt ? "fill-svg" : "unfill-svg",
                       attrs: {
                         width: "30",
                         height: "28",
@@ -14811,7 +14092,48 @@ var render = function() {
           [
             _c("li", { staticClass: "wrap-hamburger" }, [
               _vm.media.wind > _vm.media.tablet
-                ? _c("form", { staticClass: "nav-search" }, [_vm._m(0)])
+                ? _c("form", { staticClass: "nav-search" }, [
+                    _c("div", { staticClass: "search" }, [
+                      _c("input", {
+                        attrs: {
+                          type: "search",
+                          id: "search",
+                          placeholder: "Поиск"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "search" } }, [
+                        _c(
+                          "svg",
+                          {
+                            attrs: {
+                              version: "1.1",
+                              xmlns: "http://www.w3.org/2000/svg",
+                              "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                              x: "0px",
+                              y: "0px",
+                              width: "22px",
+                              height: "24px",
+                              viewBox: "0 0 22 24",
+                              "enable-background": "new 0 0 22 24"
+                            }
+                          },
+                          [
+                            _c("image", {
+                              attrs: {
+                                width: "22",
+                                height: "24",
+                                x: "0",
+                                y: "0",
+                                "xlink:href":
+                                  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAYCAQAAABUt8XAAAAABGdBTUEAALGPC/xhBQAAACBjSFJN\nAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElN\nRQfkCRMKHQmFmjhaAAABw0lEQVQ4y43SvWtTYRTH8W/SpO21poZKlRoQilVxKfiCOjgoDmL+ARct\noji4OAi+IFgEJ6cOvmwKDoroYhG0WHxDiFshUgTFraAGUq1pSdRCvg43lxvbBPs7y33gw3MfzjkJ\n+ScdpMlQ5wd1liXV9J3lEEPspkyOT0xSYHaJNqpjjlu1bpSarzzjOmNBovGMUS4SMM9nJhngCzny\n9CHjnOR7880Jz6n6zBEHTdtpxlUe9JaL6k0z0c2IB5xXnzjQ/Esx4w1VL5mOcOAjtWj/EorY6x11\n2k0R3mFVPdGCIu61pB4NT0mGCfjKBK1TpAjsCQ9JtgHvKbfBNaaBzfSEeDUw12pejcwBPXSHuARk\nSbfFWaBCNcQfgSFybWiKncAMtRB/4BuD7G+D97ELmIomGHhfnXJri8alfKy+dUM8wcOW1TdR6xuV\ntNcxVa82jzvpKRfUF47Yb4drxY0e8UFj/16aizGmvGJF1Xde8563fW1Vrfhb1YduiTFi3rvOGKfq\nU4971kVVn9sX7zNAwHaGybPAL2YpUKBEJ2OcJkGdCS4v70DgelPRUopdXvBPeDv+vzq9blUdTcgK\n0sV5ulkhhjX8hL+Lj5IQ+tNauAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMC0wOS0xOVQxMDoyOTow\nOSswMzowMDZZp/IAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjAtMDktMTlUMTA6Mjk6MDkrMDM6MDBH\nBB9OAAAAAElFTkSuQmCC"
+                              }
+                            })
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
                 : _c(
                     "div",
                     {
@@ -15056,9 +14378,9 @@ var render = function() {
                     _vm.getCartCount
                       ? _c("span", [
                           _vm._v(
-                            "\n                            " +
+                            "\n                                " +
                               _vm._s(_vm.getCartCount) +
-                              "\n                        "
+                              "\n                            "
                           )
                         ])
                       : _vm._e()
@@ -15341,22 +14663,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "search" }, [
-      _c("input", {
-        attrs: { type: "search", id: "search", placeholder: "Поиск" }
-      }),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "search" } }, [
-        _c("img", { attrs: { src: __webpack_require__(/*! ../../img/search.png */ "./resources/img/search.png"), alt: "" } })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -16957,7 +16264,7 @@ var render = function() {
           _vm.media.wind <= _vm.media.tablet
             ? _c(
                 "div",
-                { staticClass: "bread container bread-mobile" },
+                { staticClass: "bread bread-mobile" },
                 [
                   _c("div"),
                   _vm._v(" "),
@@ -17052,7 +16359,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.returnDataForItem !== null
+  return _vm.returnDataForItem !== null && _vm.returnDataForItem !== undefined
     ? _c("div", { staticClass: "catalog-item container" }, [
         _c(
           "div",
@@ -17162,7 +16469,7 @@ var render = function() {
                       {
                         attrs: {
                           dots: false,
-                          lazyLoad: true,
+                          lazyLoad: false,
                           autoWidth: false,
                           items: 1
                         }
@@ -19799,7 +19106,7 @@ var render = function() {
                 ]
               ),
               _vm._v(
-                "\n                    +7 (911) 123-45-67\n                "
+                "\n                    +7 (921) 329-40-15\n                "
               )
             ])
           ]),
@@ -19985,27 +19292,30 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm._m(0)
+        _c("div", { staticClass: "wrap-text" }, [
+          _c("p", [
+            _vm._v("\n                ИП И. ЖУРАВЛЕВА:\n                "),
+            _c("br"),
+            _vm._v(
+              "\n                Номер расчетного счета: 40802810355000078566\n                "
+            ),
+            _vm.media.wind <= _vm.media.tablet ? _c("br") : _vm._e(),
+            _vm._v(
+              "\n                Наименование банка: ПАО Сбербанк\n                "
+            ),
+            _vm.media.wind <= _vm.media.tablet ? _c("br") : _vm._e(),
+            _vm._v(
+              "\n                Корреспондентский счет: 30101810500000000653\n                "
+            ),
+            _vm.media.wind <= _vm.media.tablet ? _c("br") : _vm._e(),
+            _vm._v("\n                БИК: 044030653\n            ")
+          ])
+        ])
       ]
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrap-text" }, [
-      _c("p", [
-        _vm._v("\n                ИП И. ЖУРАВЛЕВА:\n                "),
-        _c("br"),
-        _vm._v(
-          "\n                Номер расчетного счета: 40802810355000078566\n                Наименование банка: ПАО Сбербанк\n                Корреспондентский счет: 30101810500000000653\n                БИК: 044030653\n            "
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -20815,7 +20125,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "privacy" }, [
+    return _c("div", { staticClass: "privacy container" }, [
       _c("h1", [_vm._v("\n        Политика конфиденциальности\n    ")]),
       _vm._v(" "),
       _c("h2", [_vm._v("\n        Общие положения\n    ")]),
@@ -21534,7 +20844,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "return-product" }, [
+    return _c("div", { staticClass: "return-product container" }, [
       _c("h1", [_vm._v("\n        Правила возврата товаров\n    ")]),
       _vm._v(" "),
       _c("h2", [_vm._v("\n        Возврат товара надлежащего качества\n    ")]),
@@ -40151,17 +39461,6 @@ module.exports = "/images/returnBack.png?4ffd67760393552bf68e40b4b13a8e39";
 
 /***/ }),
 
-/***/ "./resources/img/search.png":
-/*!**********************************!*\
-  !*** ./resources/img/search.png ***!
-  \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/search.png?de19de9bf3e5aa7b19342627efeafa27";
-
-/***/ }),
-
 /***/ "./resources/js/Appi.vue":
 /*!*******************************!*\
   !*** ./resources/js/Appi.vue ***!
@@ -42525,7 +41824,13 @@ var routes = [{
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   history: true,
   mode: 'history',
-  routes: routes
+  routes: routes,
+  scrollBehavior: function scrollBehavior(to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0
+    };
+  }
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
@@ -42563,7 +41868,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var URI = 'https://lappinalle.ru/api/';
+var URI = 'http://lappinalle.test/api/';
 var admin = {
   state: function state() {
     return {
@@ -42620,53 +41925,21 @@ var admin = {
         }, _callee);
       }))();
     },
-    // Отправлем данные о новоном товаре на сервер
-    SentDataToBackendMutate: function SentDataToBackendMutate(state, data) {
+    // Получаем все размеры для нового товара
+    GetAllSizesMutate: function GetAllSizesMutate(state) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var formData, i, _iterator, _step, img, stringData;
-
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                formData = new FormData();
-                formData.append('video', data.video);
-                i = 0;
-                _iterator = _createForOfIteratorHelper(data.imgs);
-
-                try {
-                  for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                    img = _step.value;
-                    i++;
-                    formData.append("img-".concat(i), img);
-                  }
-                } catch (err) {
-                  _iterator.e(err);
-                } finally {
-                  _iterator.f();
-                }
-
-                stringData = {
-                  description: data.description,
-                  price: data.price,
-                  sale: data.sale,
-                  sizes: data.sizes,
-                  amountWithoutSizes: data.amountWithoutSizes
-                };
-                formData.append('stringData', JSON.stringify(stringData));
-                _context2.next = 9;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "addproduct"), formData, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }).then(function (success) {
-                  state.productSuccess = success.data;
-                })["catch"](function (err) {
-                  state.productSuccess = err.data;
-                  console.log(err);
+                _context2.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallsizes")).then(function (response) {
+                  state.allSizes = response.data;
+                })["catch"](function (e) {
+                  console.log(e);
                 });
 
-              case 9:
+              case 2:
               case "end":
                 return _context2.stop();
             }
@@ -42674,18 +41947,18 @@ var admin = {
         }, _callee2);
       }))();
     },
-    // Получаем все размеры для нового товара
-    GetAllSizesMutate: function GetAllSizesMutate(state) {
+    // Получаем данные по конкретному товару
+    GetOneProductMutate: function GetOneProductMutate(state, id) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "adminallsizes")).then(function (response) {
-                  state.allSizes = response.data;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admin-product-").concat(id)).then(function (res) {
+                  state.oneProduct = res.data;
                 })["catch"](function (e) {
-                  console.log(e);
+                  return console.log(e);
                 });
 
               case 2:
@@ -42696,16 +41969,16 @@ var admin = {
         }, _callee3);
       }))();
     },
-    // Получаем данные по конкретному товару
-    GetOneProductMutate: function GetOneProductMutate(state, id) {
+    GetAllOrdersMutate: function GetAllOrdersMutate(state) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admin-product-").concat(id)).then(function (res) {
-                  state.oneProduct = res.data;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admorders")).then(function (res) {
+                  console.log(res.data);
+                  state.GetAllOrders = res.data;
                 })["catch"](function (e) {
                   return console.log(e);
                 });
@@ -42716,28 +41989,6 @@ var admin = {
             }
           }
         }, _callee4);
-      }))();
-    },
-    GetAllOrdersMutate: function GetAllOrdersMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admorders")).then(function (res) {
-                  console.log(res.data);
-                  state.GetAllOrders = res.data;
-                })["catch"](function (e) {
-                  return console.log(e);
-                });
-
-              case 2:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
       }))();
     },
     GetOneOrderMutate: function GetOneOrderMutate(state, data) {
@@ -42764,33 +42015,29 @@ var admin = {
       var commit = _ref.commit;
       commit('AdminGetAllPrductsMutate');
     },
-    SentDataToBackend: function SentDataToBackend(_ref2, data) {
+    GetAllSizes: function GetAllSizes(_ref2) {
       var commit = _ref2.commit;
-      commit('SentDataToBackendMutate', data);
-    },
-    GetAllSizes: function GetAllSizes(_ref3) {
-      var commit = _ref3.commit;
       commit('GetAllSizesMutate');
     },
-    GetOneProduct: function GetOneProduct(_ref4, data) {
-      var commit = _ref4.commit;
+    GetOneProduct: function GetOneProduct(_ref3, data) {
+      var commit = _ref3.commit;
       commit('GetOneProductMutate', data);
     },
-    GetAllOrders: function GetAllOrders(_ref5) {
-      var commit = _ref5.commit;
+    GetAllOrders: function GetAllOrders(_ref4) {
+      var commit = _ref4.commit;
       commit('GetAllOrdersMutate');
     },
-    GetOneOrder: function GetOneOrder(_ref6, id) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+    GetOneOrder: function GetOneOrder(_ref5, id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var commit, formData;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                commit = _ref6.commit;
+                commit = _ref5.commit;
                 formData = new FormData();
                 formData.append('id', JSON.stringify(id.id));
-                _context6.next = 5;
+                _context5.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "admorder"), formData).then(function (res) {
                   commit('GetOneOrderMutate', res.data);
                 })["catch"](function (e) {
@@ -42799,13 +42046,34 @@ var admin = {
 
               case 5:
               case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
+    GetAllUsers: function GetAllUsers(_ref6) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                commit = _ref6.commit;
+                _context6.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "adminusers")).then(function (res) {
+                  commit('GetAllUsersMutate', res.data);
+                });
+
+              case 3:
+              case "end":
                 return _context6.stop();
             }
           }
         }, _callee6);
       }))();
     },
-    GetAllUsers: function GetAllUsers(_ref7) {
+    GetOneUser: function GetOneUser(_ref7, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
         var commit;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
@@ -42814,8 +42082,10 @@ var admin = {
               case 0:
                 commit = _ref7.commit;
                 _context7.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "adminusers")).then(function (res) {
-                  commit('GetAllUsersMutate', res.data);
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "lkadm"), data).then(function (res) {
+                  commit('GetOneUserMutate', res.data);
+                })["catch"](function (e) {
+                  return console.log(e);
                 });
 
               case 3:
@@ -42826,7 +42096,7 @@ var admin = {
         }, _callee7);
       }))();
     },
-    GetOneUser: function GetOneUser(_ref8, data) {
+    GetAllReviews: function GetAllReviews(_ref8) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
         var commit;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
@@ -42835,8 +42105,8 @@ var admin = {
               case 0:
                 commit = _ref8.commit;
                 _context8.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "lkadm"), data).then(function (res) {
-                  commit('GetOneUserMutate', res.data);
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "allrev")).then(function (res) {
+                  commit('GetAllReviewsMutate', res.data);
                 })["catch"](function (e) {
                   return console.log(e);
                 });
@@ -42849,7 +42119,7 @@ var admin = {
         }, _callee8);
       }))();
     },
-    GetAllReviews: function GetAllReviews(_ref9) {
+    GetOneReview: function GetOneReview(_ref9, id) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
         var commit;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
@@ -42858,8 +42128,9 @@ var admin = {
               case 0:
                 commit = _ref9.commit;
                 _context9.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "allrev")).then(function (res) {
-                  commit('GetAllReviewsMutate', res.data);
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "revcard-").concat(id)).then(function (res) {
+                  commit('GetOneReviewMutate', res.data);
+                  console.log(res.data);
                 })["catch"](function (e) {
                   return console.log(e);
                 });
@@ -42872,7 +42143,7 @@ var admin = {
         }, _callee9);
       }))();
     },
-    GetOneReview: function GetOneReview(_ref10, id) {
+    GetAllDeliveries: function GetAllDeliveries(_ref10) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
         var commit;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
@@ -42881,8 +42152,8 @@ var admin = {
               case 0:
                 commit = _ref10.commit;
                 _context10.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "revcard-").concat(id)).then(function (res) {
-                  commit('GetOneReviewMutate', res.data);
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "delsite")).then(function (res) {
+                  commit('GetAllDeliveriesMutate', res.data);
                   console.log(res.data);
                 })["catch"](function (e) {
                   return console.log(e);
@@ -42896,7 +42167,7 @@ var admin = {
         }, _callee10);
       }))();
     },
-    GetAllDeliveries: function GetAllDeliveries(_ref11) {
+    GetMainPageAdmin: function GetMainPageAdmin(_ref11) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
         var commit;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
@@ -42904,15 +42175,16 @@ var admin = {
             switch (_context11.prev = _context11.next) {
               case 0:
                 commit = _ref11.commit;
-                _context11.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "delsite")).then(function (res) {
-                  commit('GetAllDeliveriesMutate', res.data);
-                  console.log(res.data);
-                })["catch"](function (e) {
-                  return console.log(e);
-                });
+                return _context11.abrupt("return", new Promise(function (resolve, reject) {
+                  axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "mainpage")).then(function (resp) {
+                    console.log(resp.data); // commit('auth_success', token);
+                    // resolve(resp)
+                  })["catch"](function (err) {
+                    reject(err);
+                  });
+                }));
 
-              case 3:
+              case 2:
               case "end":
                 return _context11.stop();
             }
@@ -43154,12 +42426,12 @@ var store = {
                   var lastMenu = {};
                   var menuForAdmin = {};
 
-                  var _iterator2 = _createForOfIteratorHelper(genders),
-                      _step2;
+                  var _iterator = _createForOfIteratorHelper(genders),
+                      _step;
 
                   try {
-                    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                      var _i6 = _step2.value;
+                    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                      var _i6 = _step.value;
                       gendersObj[_i6] = [];
                       lastMenu[_i6] = {};
                       menuForAdmin[_i6] = {
@@ -43168,27 +42440,27 @@ var store = {
                     } // Пушим данным по гендарным различиям
 
                   } catch (err) {
-                    _iterator2.e(err);
+                    _iterator.e(err);
                   } finally {
-                    _iterator2.f();
+                    _iterator.f();
                   }
 
                   for (var _i4 in menu) {
-                    var _iterator3 = _createForOfIteratorHelper(genders),
-                        _step3;
+                    var _iterator2 = _createForOfIteratorHelper(genders),
+                        _step2;
 
                     try {
-                      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-                        var k = _step3.value;
+                      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                        var k = _step2.value;
 
                         if (k === menu[_i4].sex_name) {
                           gendersObj[k].push(menu[_i4]);
                         }
                       }
                     } catch (err) {
-                      _iterator3.e(err);
+                      _iterator2.e(err);
                     } finally {
-                      _iterator3.f();
+                      _iterator2.f();
                     }
                   } // Выбираем уникальные категории
 
@@ -43197,31 +42469,31 @@ var store = {
                   var categoriesObj = {}; // Распределяем категории по гендеру
 
                   for (var _i5 in lastMenu) {
-                    var _iterator4 = _createForOfIteratorHelper(categories),
-                        _step4;
+                    var _iterator3 = _createForOfIteratorHelper(categories),
+                        _step3;
 
                     try {
-                      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-                        var _k = _step4.value;
+                      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                        var _k = _step3.value;
                         lastMenu[_i5][_k] = [];
                         categoriesObj[_k] = [];
                         menuForAdmin[_i5][_k] = [];
                       }
                     } catch (err) {
-                      _iterator4.e(err);
+                      _iterator3.e(err);
                     } finally {
-                      _iterator4.f();
+                      _iterator3.f();
                     }
                   }
 
                   for (var g in gendersObj) {
                     for (var gg in gendersObj[g]) {
-                      var _iterator5 = _createForOfIteratorHelper(categories),
-                          _step5;
+                      var _iterator4 = _createForOfIteratorHelper(categories),
+                          _step4;
 
                       try {
-                        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-                          var c = _step5.value;
+                        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                          var c = _step4.value;
 
                           if (c === gendersObj[g][gg].categories_name && gendersObj[g][gg].sex_name === g) {
                             lastMenu[g][c].push({
@@ -43240,9 +42512,9 @@ var store = {
                           }
                         }
                       } catch (err) {
-                        _iterator5.e(err);
+                        _iterator4.e(err);
                       } finally {
-                        _iterator5.f();
+                        _iterator4.f();
                       }
                     }
                   } // Удаляем категорию, в которой ничего нету
@@ -43391,12 +42663,12 @@ var store = {
                   // в forEach условие при котором сравниваем размеры их исходного массив с данными с i, которая является ключом из уникального объекта с размерами
                   // если так, то пушим id продуктов
 
-                  var _iterator6 = _createForOfIteratorHelper(sortSizes),
-                      _step6;
+                  var _iterator5 = _createForOfIteratorHelper(sortSizes),
+                      _step5;
 
                   try {
                     var _loop = function _loop() {
-                      var i = _step6.value;
+                      var i = _step5.value;
                       totalSizes[i] = {
                         active: false,
                         ids: []
@@ -43408,14 +42680,14 @@ var store = {
                       });
                     };
 
-                    for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+                    for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
                       _loop();
                     } // Устанаваливаем размеры
 
                   } catch (err) {
-                    _iterator6.e(err);
+                    _iterator5.e(err);
                   } finally {
-                    _iterator6.f();
+                    _iterator5.f();
                   }
 
                   state.filterSizes = totalSizes;

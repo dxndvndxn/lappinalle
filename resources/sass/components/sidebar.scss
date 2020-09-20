@@ -117,22 +117,23 @@
     .catalog-sidebar{
         background-color: $ocean;
         position: relative;
+        box-sizing: border-box;
         &:before{
             position: absolute;
             content: '';
-            width: 16px;
+            width: 22px;
             height: 100%;
             top: 0;
-            left: -16px;
+            left: -22px;
             background-color: $ocean;
         }
         &:after{
             position: absolute;
             content: '';
-            width: 16px;
+            width: 22px;
             height: 100%;
             top: 0;
-            right: -16px;
+            right: -22px;
             background-color: $ocean;
         }
         .sidebar-sizing{
@@ -196,6 +197,47 @@
                 }
                 input{
                     background-color: #fff;
+                }
+            }
+        }
+    }
+}
+@media screen and (max-width: $tablet) {
+    .catalog-sidebar{
+        .sidebar-sizing{
+            span{
+                font-size: $mini;
+            }
+        }
+        .sizing-cell{
+
+            button{
+
+            }
+        }
+        .sidebar-price{
+
+            .price{
+                font-size: $mini;
+            }
+            form{
+
+                &:before{
+
+                }
+                input{
+
+                }
+            }
+        }
+        .sidebar-sale{
+            form{
+
+                label{
+
+                }
+                input{
+
                 }
             }
         }

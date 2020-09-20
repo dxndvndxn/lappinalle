@@ -45,3 +45,10 @@
         }
     }
 }
+@media screen and (max-width: $mobile) {
+    .delivery{
+       .delivery-text{
+           font-size: $mini;
+       }
+    }
+}

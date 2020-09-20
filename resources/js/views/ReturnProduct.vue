@@ -1,5 +1,5 @@
 <template>
-    <div class="return-product">
+    <div class="return-product container">
         <h1>
             Правила возврата товаров
         </h1>

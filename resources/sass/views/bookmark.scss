@@ -19,3 +19,34 @@
         margin-bottom: 100px;
     }
 }
+@media screen and (max-width: $tablet) {
+    .bookmark-header{
+        h1{
+            color: #000;
+            margin: 0 0 40px;
+        }
+        .back{
+            .grey{
+                color: #000;
+            }
+        }
+    }
+}
+@media screen and (max-width: $mobile) {
+    .bookmark-header{
+        grid-template-columns: .5fr 2fr .5fr;
+        h1{
+            font-size: $regFz;
+        }
+        svg{
+            height: 19px;
+        }
+    }
+    .bookmark{
+        margin-bottom: 70px;
+        &-text{
+            font-size: $regFz;
+            line-height: 28px;
+        }
+    }
+}

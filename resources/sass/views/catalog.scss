@@ -16,6 +16,7 @@
             flex-direction: column;
             top: 55px;
             left: 21px;
+            margin-top: 12px;
             span{
                 margin-bottom: 12px;
                 @include ptSans(400);
@@ -40,7 +41,7 @@
             img{
                 width: 300px;
                 height: 300px;
-                object-fit: cover;
+                object-fit: contain;
             }
         }
         &-title{
@@ -109,17 +110,22 @@
                 img {
                     width: 320px;
                     height: 320px;
-                    object-fit: cover;
+                    object-fit: contain;
                 }
             }
         }
     }
 }
 @media screen and (max-width: $mobile) {
+    .catalog{
+        .bread-mobile{
+            grid-template-columns: 0 1fr 0;
+        }
+    }
     .wrap-bread{
         height: 59px !important;
         .bread{
-            grid-template-columns: 0fr 2fr 1fr;
+            grid-template-columns: 0 2fr 1fr;
         }
     }
     .sort{

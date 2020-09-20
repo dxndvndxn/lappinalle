@@ -98,3 +98,40 @@
         }
     }
 }
+@media screen and (max-width: $mobile) {
+    .contacts{
+        h1{
+        }
+        form{
+            .contact, .email{
+            }
+            .contact{
+
+            }
+            .email{
+                input{
+
+                }
+                .wrap-email{
+
+                }
+            }
+            textarea{
+
+            }
+        }
+        .wrap-text{
+            font-size: $mini;
+        }
+    }
+    .call, .mail {
+        margin-bottom: 40px;
+
+        a{
+            font-size: $regFz;
+            svg{
+                height: 40px;
+            }
+        }
+    }
+}

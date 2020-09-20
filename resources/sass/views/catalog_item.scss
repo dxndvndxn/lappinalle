@@ -71,7 +71,7 @@
     }
     img{
         object-fit: cover;
-        height: 100%;
+        height: 515px;
         width: 100%;
     }
     video{
@@ -149,7 +149,7 @@
     p{
         @include ptSans(400);
         font-size: $regFz;
-        line-height: 28px;
+        line-height: 41px;
     }
 }
 .boldinfo{
@@ -197,7 +197,7 @@
             @include ptSans(400);
             font-size: $regFz;
             margin: 0;
-            line-height: 28px;
+            line-height: 33px;
         }
     }
     .review-user-no{
@@ -461,6 +461,10 @@
                     font-size: $mini;
                 }
                 .user-stars{
+                    margin-right: 7px;
+                    &:nth-child(5){
+                        margin-right: 0;
+                    }
                     svg{
                         width: 23px;
                         height: 25px;

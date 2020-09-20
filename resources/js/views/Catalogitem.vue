@@ -1,5 +1,5 @@
 <template>
-    <div class="catalog-item container" v-if="returnDataForItem !== null">
+    <div class="catalog-item container" v-if="returnDataForItem !== null && returnDataForItem !== undefined">
         <div class="bread"><div></div> <Breadcrumbs/> <div></div></div>
         <h1 class="item-title">
             {{returnDataForItem.itemTitle}}
@@ -14,11 +14,11 @@
                     </div>
                 </div>
                 <div class="wrap" v-else>
-                        <carousel :dots="false" :lazyLoad="true" :autoWidth="false" :items="1">
+                        <carousel :dots="false" :lazyLoad="false" :autoWidth="false" :items="1">
                         <div class="item-pic" v-for="(img, i) in returnDataForItem.itemPics" v-if="img.img" :key="i">
                             <img v-bind:src="img.img" alt="">
                         </div>
-                    </carousel>
+                        </carousel>
                 </div>
             </div>
 
@@ -281,8 +281,6 @@
            //Получаем отзывы
            this.getItemReview(this.pageReview);
 
-           this.$Progress.finish();
-
        },
         methods: {
             // Кликаем по фотографии товара
@@ -380,7 +378,10 @@
         computed: {
             // Возвращаем дату для товара
             returnDataForItem(){
-                return this.$store.getters.catalogItem;
+                if (this.$store.getters.catalogItem !== null){
+                    this.$Progress.finish();
+                    return this.$store.getters.catalogItem;
+                }
             },
             // Возвращаем отзывы для товара
             returnReviewForItem(){

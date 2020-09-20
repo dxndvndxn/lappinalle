@@ -31,7 +31,7 @@
         </div>
         <div class="catalog container">
             <Sidebar :class="showSidebar ? 'show' : 'hide'" v-bind:showSidebar="showSidebar" @showSaleProducts="showSaleProducts" @showSizeProducts="showSizeProductsPlease" @showCashProducts="showCashProducts"/>
-            <div class="bread container bread-mobile" v-if="media.wind <= media.tablet">
+            <div class="bread bread-mobile" v-if="media.wind <= media.tablet">
                 <div></div>
                 <Breadcrumbs/>
                 <div></div>
@@ -154,8 +154,9 @@
                 }
 
                 this.$store.dispatch('getCatalogData', parameters);
-                this.$router.push(`${this.$route.path}?${query}page=${page}`).catch((e)=>{console.log(e)});
-                this.$Progress.finish();
+                this.$router.push(`${this.$route.path}?${query}page=${page}`)
+                    .catch((e)=>{console.log(e)});
+
             },
 
             // Обработчик по нажатию на страницы пагинации
@@ -329,7 +330,10 @@
             // Возвращаем данные по каталогу
             returnCatalogData(){
                 // this.$Progress.finish();
-                if (this.$store.getters.catalogData !== null) return this.$store.getters.catalogData;
+                if (this.$store.getters.catalogData !== null){
+                    this.$Progress.finish();
+                    return this.$store.getters.catalogData;
+                }
             },
 
             // Возвращаем данные по кол-во товаров для пагинции
