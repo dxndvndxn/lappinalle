@@ -2045,6 +2045,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminCrumbs",
   props: ['lvl', 'crumbs', 'sizes'],
@@ -2526,6 +2531,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2542,13 +2555,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       mainpage_main_but_text: null,
       mainpage_main_but_href: null,
       mainpage_main_img: null,
-      chosenCat: null,
-      activeBtn: true,
-      whatList: null
+      // Остальные блоки
+      blocks: null,
+      blockModel: {},
+      // Активный блок
+      activeId: null,
+      // Счет блоков
+      blockNumber: 1
     };
   },
   methods: {
-    uploadMainBaner: function uploadMainBaner(name, value, id, img, addBlock) {
+    uploadMainBaner: function uploadMainBaner(name, value, id, img, i, addBlock) {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -2558,11 +2575,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                // this.$Progress.start()
-                formData = new FormData();
+                _this.$Progress.start();
+
+                formData = new FormData(); // Добавление пустого блока
 
                 if (!addBlock) {
-                  _context.next = 5;
+                  _context.next = 6;
                   break;
                 }
 
@@ -2570,17 +2588,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   addEmptyBlock: true
                 }));
                 axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "mainupd"), formData).then(function (res) {
-                  console.log(res.data);
+                  _this.$store.dispatch('GetMainPageAdmin').then(function (res) {
+                    if (res) _this.$Progress.finish();
+                  })["catch"](function (e) {
+                    return _this.$Progress.fail();
+                  });
                 })["catch"](function (e) {
                   return console.log(e);
                 });
                 return _context.abrupt("return");
 
-              case 5:
+              case 6:
+                // Добавление картинки
                 if (img) {
-                  _img = _this.$refs.mainImg.files[0];
+                  _img = null; // Если изменятся главная картинка
+
+                  if (_this.$refs.mainImg.files[0] !== undefined) {
+                    _img = _this.$refs.mainImg.files[0];
+                  } // Если изменяются остальные блоки
+
+
+                  if (i !== null) {
+                    if (_this.$refs.blockImg[i].files[0] !== undefined) {
+                      _img = _this.$refs.blockImg[i].files[0];
+                    }
+                  }
+
                   data = {
-                    id: id
+                    id: id,
+                    nameImg: i !== null ? _this.blocks[i].block_img : _this.mainpage_main_img
                   };
                   formData.append('data', JSON.stringify(data));
                   formData.append('mainpage_main_img', _img);
@@ -2590,22 +2626,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     }
                   }).then(function (res) {
                     console.log(res.data);
-                  })["catch"](function (e) {
-                    return console.log(e);
-                  });
-                } else {
-                  _data = _defineProperty({
-                    id: id
-                  }, name, value);
-                  formData.append('data', JSON.stringify(_data));
-                  axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "mainupd"), formData).then(function (res) {
-                    console.log(res.data);
-                  })["catch"](function (e) {
-                    return console.log(e);
-                  });
-                }
 
-              case 6:
+                    _this.$store.dispatch('GetMainPageAdmin').then(function (res) {
+                      if (res) _this.$Progress.finish();
+                    })["catch"](function (e) {
+                      return _this.$Progress.fail();
+                    });
+                  })["catch"](function (e) {
+                    return console.log(e);
+                  });
+                } // Если изменяются строковые значения
+                else {
+                    _data = _defineProperty({
+                      id: id
+                    }, name, value);
+                    formData.append('data', JSON.stringify(_data));
+                    axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "mainupd"), formData).then(function (res) {
+                      _this.$Progress.finish();
+                    })["catch"](function (e) {
+                      return console.log(e);
+                    });
+                  }
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -2613,6 +2656,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    // Выбор категории
     chooseCategoryCarousel: function chooseCategoryCarousel(data) {
       var _this2 = this;
 
@@ -2623,32 +2667,88 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 localData = {
-                  id: id,
-                  mainpage_block_menu_sex: data.sexId,
-                  mainpage_block_menu_dep: data.departId,
-                  mainpage_block_menu_cat: data.categId
+                  id: _this2.activeId,
+                  mainpage_block_sex: data.sexId,
+                  mainpage_block_dep: data.departId,
+                  mainpage_block_cat: data.categId
                 };
                 formData = new FormData();
                 formData.append('data', JSON.stringify(localData));
+
+                _this2.$Progress.start();
+
                 axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this2.URI, "mainupd"), formData).then(function (res) {
-                  console.log(res.data);
+                  _this2.$store.dispatch('GetMainPageAdmin').then(function (res) {
+                    if (res) _this2.$Progress.finish();
+                  })["catch"](function (e) {
+                    return _this2.$Progress.fail();
+                  });
                 })["catch"](function (e) {
                   return console.log(e);
                 });
 
-              case 4:
+              case 5:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
       }))();
+    },
+    // Получаем активный ID
+    GetActiveBlock: function GetActiveBlock(i, id) {
+      this.activeId = id;
+      this.blocks[i].active = !this.blocks[i].active;
+    },
+    // Удаление блока
+    DeleteBlock: function DeleteBlock(id) {
+      var _this3 = this;
+
+      var data = {
+        id: id,
+        removeBlock: true
+      };
+      var formData = new FormData();
+      formData.append('data', JSON.stringify(data));
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(this.URI, "mainupd"), formData).then(function (res) {
+        if (res.data) {
+          _this3.$store.dispatch('GetMainPageAdmin').then(function (res) {
+            console.log(res.data);
+            if (res) _this3.$Progress.finish();
+          })["catch"](function () {
+            return _this3.$Progress.fail();
+          });
+        }
+      })["catch"](function () {
+        return _this3.$Progress.fail();
+      });
     }
   },
   created: function created() {
-    // this.$Progress.start()
-    this.$store.dispatch('GetMainPageAdmin');
+    var _this4 = this;
+
+    this.$Progress.start();
+    this.$store.dispatch('GetMainPageAdmin').then(function (res) {
+      if (res) _this4.$Progress.finish();
+    })["catch"](function (e) {
+      return _this4.$Progress.fail();
+    });
     if (this.getCrumbs === null) this.$store.dispatch('getMenuData');
+  },
+  watch: {
+    GetMainPageAdmin: function GetMainPageAdmin(newValue) {
+      // Главный банер
+      this.mainpage_main_img = newValue[0][0];
+      this.mainpage_main_h1 = newValue[0][1];
+      this.mainpage_main_h2 = newValue[0][2];
+      this.mainpage_main_h3 = newValue[0][3];
+      this.mainpage_main_but_text = newValue[0][4];
+      this.mainpage_main_but_href = newValue[0][5];
+      this.blocks = newValue[1];
+    },
+    blocks: function blocks(newValue) {
+      this.blocks = newValue;
+    }
   },
   computed: {
     URI: function URI() {
@@ -2656,6 +2756,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     getCrumbs: function getCrumbs() {
       return this.$store.getters.adminRawMenu;
+    },
+    GetMainPageAdmin: {
+      get: function get() {
+        return this.$store.getters.GetMainPageAdmin;
+      },
+      set: function set(val) {
+        return val;
+      }
     }
   }
 });
@@ -7540,9 +7648,15 @@ __webpack_require__.r(__webpack_exports__);
       }]
     };
   },
+  created: function created() {
+    if (this.GetMainPageAdmin === null) this.$store.dispatch('GetMainPageAdmin');
+  },
   computed: {
     media: function media() {
       return this.$store.getters.media;
+    },
+    GetMainPageAdmin: function GetMainPageAdmin() {
+      return this.$store.getters.GetMainPageAdmin;
     }
   }
 });
@@ -10344,6 +10458,48 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "admin-crumbs" }, [
+    _vm.lvl === 1
+      ? _c(
+          "ul",
+          _vm._l(_vm.crumbs, function(crmb, i) {
+            return crmb.menu_lvlmenu === 1 ||
+              crmb.menu_lvlmenu === 2 ||
+              crmb.menu_lvlmenu === 3
+              ? _c(
+                  "li",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.chooseCategory(
+                          crmb.sex_id,
+                          crmb.categories_id,
+                          crmb.departments_id
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(crmb.sex_name) +
+                        " " +
+                        _vm._s(crmb.categories_name !== null ? "|" : null) +
+                        " " +
+                        _vm._s(crmb.categories_name) +
+                        " " +
+                        _vm._s(crmb.departments_name !== null ? "|" : null) +
+                        " " +
+                        _vm._s(crmb.departments_name) +
+                        "\n        "
+                    )
+                  ]
+                )
+              : _vm._e()
+          }),
+          0
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _vm.lvl === 3
       ? _c(
           "ul",
@@ -10878,7 +11034,7 @@ var render = function() {
           staticClass: "admin-btn-add width-300",
           on: {
             click: function($event) {
-              return _vm.uploadMainBaner(null, null, null, false, true)
+              return _vm.uploadMainBaner(null, null, null, false, null, true)
             }
           }
         },
@@ -10891,385 +11047,739 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "admin-main-wrap" }, [
-      _c("div", { staticClass: "admin-main-baner" }, [
-        _c("h2", { staticClass: "admin-h2" }, [_vm._v("Основной баннер")]),
-        _vm._v(" "),
-        _c(
+    _vm.GetMainPageAdmin !== null
+      ? _c(
           "div",
-          { staticClass: "wrap-main-page width-300 admin-cl-lbl-inp" },
+          { staticClass: "admin-main-wrap" },
           [
-            _c(
-              "label",
-              { staticClass: "admin-h3", attrs: { for: "main-head" } },
-              [_vm._v("Главная картинка")]
-            ),
-            _vm._v(" "),
-            _c("img", {
-              staticClass: "admin-main-img",
-              attrs: { src: _vm.mainpage_main_img, alt: "" }
-            }),
-            _vm._v(" "),
-            _vm._m(0),
-            _vm._v(" "),
-            _c("input", {
-              ref: "mainImg",
-              attrs: {
-                type: "file",
-                value: "Добавить изображение",
-                id: "loadMainImg",
-                accept: "image/jpeg,image/png"
-              },
-              on: {
-                change: function($event) {
-                  return _vm.uploadMainBaner(null, null, 1, true)
-                }
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page width-300 admin-cl-lbl-inp" },
-          [
-            _c(
-              "label",
-              { staticClass: "admin-h3", attrs: { for: "main-head" } },
-              [_vm._v("Заголовок")]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model.trim",
-                  value: _vm.mainpage_main_h1,
-                  expression: "mainpage_main_h1",
-                  modifiers: { trim: true }
-                }
-              ],
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", id: "main-head" },
-              domProps: { value: _vm.mainpage_main_h1 },
-              on: {
-                change: function($event) {
-                  return _vm.uploadMainBaner(
-                    "mainpage_main_h1",
-                    _vm.mainpage_main_h1,
-                    1,
-                    false
-                  )
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.mainpage_main_h1 = $event.target.value.trim()
-                },
-                blur: function($event) {
-                  return _vm.$forceUpdate()
-                }
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-          [
-            _c(
-              "label",
-              { staticClass: "admin-h3", attrs: { for: "main-minhead" } },
-              [_vm._v("Подзаголовок")]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model.trim",
-                  value: _vm.mainpage_main_h2,
-                  expression: "mainpage_main_h2",
-                  modifiers: { trim: true }
-                }
-              ],
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", id: "main-minhead" },
-              domProps: { value: _vm.mainpage_main_h2 },
-              on: {
-                change: function($event) {
-                  return _vm.uploadMainBaner(
-                    "mainpage_main_h2",
-                    _vm.mainpage_main_h2,
-                    1,
-                    false
-                  )
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.mainpage_main_h2 = $event.target.value.trim()
-                },
-                blur: function($event) {
-                  return _vm.$forceUpdate()
-                }
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-          [
-            _c(
-              "label",
-              { staticClass: "admin-h3", attrs: { for: "main-text" } },
-              [_vm._v("Текст")]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model.trim",
-                  value: _vm.mainpage_main_h3,
-                  expression: "mainpage_main_h3",
-                  modifiers: { trim: true }
-                }
-              ],
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", id: "main-text" },
-              domProps: { value: _vm.mainpage_main_h3 },
-              on: {
-                change: function($event) {
-                  return _vm.uploadMainBaner(
-                    "mainpage_main_h3",
-                    _vm.mainpage_main_h3,
-                    1,
-                    false
-                  )
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.mainpage_main_h3 = $event.target.value.trim()
-                },
-                blur: function($event) {
-                  return _vm.$forceUpdate()
-                }
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-          [
-            _c(
-              "label",
-              { staticClass: "admin-h3", attrs: { for: "btn-text" } },
-              [_vm._v("Текст кнопки")]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model.trim",
-                  value: _vm.mainpage_main_but_text,
-                  expression: "mainpage_main_but_text",
-                  modifiers: { trim: true }
-                }
-              ],
-              staticClass: "input-pale-blu",
-              attrs: { type: "text", id: "btn-text" },
-              domProps: { value: _vm.mainpage_main_but_text },
-              on: {
-                change: function($event) {
-                  return _vm.uploadMainBaner(
-                    "mainpage_main_but_text",
-                    _vm.mainpage_main_but_text,
-                    1,
-                    false
-                  )
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.mainpage_main_but_text = $event.target.value.trim()
-                },
-                blur: function($event) {
-                  return _vm.$forceUpdate()
-                }
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-          [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Ссылка")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-input" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.trim",
-                    value: _vm.mainpage_main_but_href,
-                    expression: "mainpage_main_but_href",
-                    modifiers: { trim: true }
-                  }
-                ],
-                staticClass: "input-pale-blu",
-                attrs: { type: "text" },
-                domProps: { value: _vm.mainpage_main_but_href },
-                on: {
-                  change: function($event) {
-                    return _vm.uploadMainBaner(
-                      "mainpage_main_but_href",
-                      _vm.mainpage_main_but_href,
-                      1,
-                      false
-                    )
-                  },
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.mainpage_main_but_href = $event.target.value.trim()
-                  },
-                  blur: function($event) {
-                    return _vm.$forceUpdate()
-                  }
-                }
-              })
-            ])
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "admin-main-blocks" }, [
-        _c("h2", { staticClass: "admin-h2" }, [_vm._v("Блок №1")]),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-          [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Карусель")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-input" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.chosenCat,
-                    expression: "chosenCat"
-                  }
-                ],
-                staticClass: "input-pale-blu",
-                attrs: { type: "text", disabled: "" },
-                domProps: { value: _vm.chosenCat },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.chosenCat = $event.target.value
-                  }
-                }
-              }),
+            _c("div", { staticClass: "admin-main-baner" }, [
+              _c("h2", { staticClass: "admin-h2" }, [
+                _vm._v("Основной баннер")
+              ]),
               _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-admin-arrow",
-                class: _vm.activeBtn
-                  ? "admin-btn-arrow-pass"
-                  : "admin-btn-arrow",
-                on: {
-                  click: function($event) {
-                    _vm.activeBtn = !_vm.activeBtn
-                  }
-                }
-              })
+              _c(
+                "div",
+                { staticClass: "wrap-main-page width-300 admin-cl-lbl-inp" },
+                [
+                  _c(
+                    "label",
+                    { staticClass: "admin-h3", attrs: { for: "main-head" } },
+                    [_vm._v("Главная картинка")]
+                  ),
+                  _vm._v(" "),
+                  _c("img", {
+                    staticClass: "admin-main-img",
+                    attrs: { src: _vm.mainpage_main_img, alt: "" }
+                  }),
+                  _vm._v(" "),
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("input", {
+                    ref: "mainImg",
+                    attrs: {
+                      type: "file",
+                      value: "Добавить изображение",
+                      id: "loadMainImg",
+                      accept: "image/jpeg,image/png"
+                    },
+                    on: {
+                      change: function($event) {
+                        return _vm.uploadMainBaner(
+                          null,
+                          null,
+                          1,
+                          true,
+                          null,
+                          false
+                        )
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "wrap-main-page width-300 admin-cl-lbl-inp" },
+                [
+                  _c(
+                    "label",
+                    { staticClass: "admin-h3", attrs: { for: "main-head" } },
+                    [_vm._v("Заголовок")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model.trim",
+                        value: _vm.mainpage_main_h1,
+                        expression: "mainpage_main_h1",
+                        modifiers: { trim: true }
+                      }
+                    ],
+                    staticClass: "input-pale-blu",
+                    attrs: { type: "text", id: "main-head" },
+                    domProps: { value: _vm.mainpage_main_h1 },
+                    on: {
+                      change: function($event) {
+                        return _vm.uploadMainBaner(
+                          "mainpage_main_h1",
+                          _vm.mainpage_main_h1,
+                          1,
+                          null,
+                          null,
+                          false
+                        )
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.mainpage_main_h1 = $event.target.value.trim()
+                      },
+                      blur: function($event) {
+                        return _vm.$forceUpdate()
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+                [
+                  _c(
+                    "label",
+                    { staticClass: "admin-h3", attrs: { for: "main-minhead" } },
+                    [_vm._v("Подзаголовок")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model.trim",
+                        value: _vm.mainpage_main_h2,
+                        expression: "mainpage_main_h2",
+                        modifiers: { trim: true }
+                      }
+                    ],
+                    staticClass: "input-pale-blu",
+                    attrs: { type: "text", id: "main-minhead" },
+                    domProps: { value: _vm.mainpage_main_h2 },
+                    on: {
+                      change: function($event) {
+                        return _vm.uploadMainBaner(
+                          "mainpage_main_h2",
+                          _vm.mainpage_main_h2,
+                          1,
+                          null,
+                          null,
+                          false
+                        )
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.mainpage_main_h2 = $event.target.value.trim()
+                      },
+                      blur: function($event) {
+                        return _vm.$forceUpdate()
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+                [
+                  _c(
+                    "label",
+                    { staticClass: "admin-h3", attrs: { for: "main-text" } },
+                    [_vm._v("Текст")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model.trim",
+                        value: _vm.mainpage_main_h3,
+                        expression: "mainpage_main_h3",
+                        modifiers: { trim: true }
+                      }
+                    ],
+                    staticClass: "input-pale-blu",
+                    attrs: { type: "text", id: "main-text" },
+                    domProps: { value: _vm.mainpage_main_h3 },
+                    on: {
+                      change: function($event) {
+                        return _vm.uploadMainBaner(
+                          "mainpage_main_h3",
+                          _vm.mainpage_main_h3,
+                          1,
+                          null,
+                          null,
+                          false
+                        )
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.mainpage_main_h3 = $event.target.value.trim()
+                      },
+                      blur: function($event) {
+                        return _vm.$forceUpdate()
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+                [
+                  _c(
+                    "label",
+                    { staticClass: "admin-h3", attrs: { for: "btn-text" } },
+                    [_vm._v("Текст кнопки")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model.trim",
+                        value: _vm.mainpage_main_but_text,
+                        expression: "mainpage_main_but_text",
+                        modifiers: { trim: true }
+                      }
+                    ],
+                    staticClass: "input-pale-blu",
+                    attrs: { type: "text", id: "btn-text" },
+                    domProps: { value: _vm.mainpage_main_but_text },
+                    on: {
+                      change: function($event) {
+                        return _vm.uploadMainBaner(
+                          "mainpage_main_but_text",
+                          _vm.mainpage_main_but_text,
+                          1,
+                          null,
+                          false
+                        )
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.mainpage_main_but_text = $event.target.value.trim()
+                      },
+                      blur: function($event) {
+                        return _vm.$forceUpdate()
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
+                [
+                  _c("label", { staticClass: "admin-h3" }, [_vm._v("Ссылка")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "wrap-input" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.trim",
+                          value: _vm.mainpage_main_but_href,
+                          expression: "mainpage_main_but_href",
+                          modifiers: { trim: true }
+                        }
+                      ],
+                      staticClass: "input-pale-blu",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.mainpage_main_but_href },
+                      on: {
+                        change: function($event) {
+                          return _vm.uploadMainBaner(
+                            "mainpage_main_but_href",
+                            _vm.mainpage_main_but_href,
+                            1,
+                            null,
+                            false
+                          )
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.mainpage_main_but_href = $event.target.value.trim()
+                        },
+                        blur: function($event) {
+                          return _vm.$forceUpdate()
+                        }
+                      }
+                    })
+                  ])
+                ]
+              )
             ]),
             _vm._v(" "),
-            _c("AdminCrumbs", {
-              attrs: { lvl: 3, crumbs: _vm.getCrumbs },
-              on: { addNewCategory: _vm.chooseCategoryCarousel }
+            _vm._l(_vm.blocks, function(block, i) {
+              return _vm.blocks !== null
+                ? _c("div", { staticClass: "admin-main-blocks" }, [
+                    _c("h2", { staticClass: "admin-h2" }, [
+                      _vm._v("Блок №" + _vm._s(_vm.blockNumber + i))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page width-300 admin-cl-lbl-inp"
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "admin-h3",
+                            attrs: { for: "main-head" }
+                          },
+                          [_vm._v("Картинка банера")]
+                        ),
+                        _vm._v(" "),
+                        _c("img", {
+                          staticClass: "admin-main-img",
+                          attrs: { src: block.block_img, alt: "" }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticClass: "admin-btn-add",
+                            attrs: { for: "blockImg" + block.block_id }
+                          },
+                          [
+                            _vm._v("Добавить изображение "),
+                            _c("img", {
+                              attrs: {
+                                src: __webpack_require__(/*! ../../../img/purpp-krest.png */ "./resources/img/purpp-krest.png"),
+                                alt: ""
+                              }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          ref: "blockImg",
+                          refInFor: true,
+                          attrs: {
+                            type: "file",
+                            value: "Добавить изображение",
+                            id: "blockImg" + block.block_id,
+                            accept: "image/jpeg,image/png"
+                          },
+                          on: {
+                            change: function($event) {
+                              return _vm.uploadMainBaner(
+                                null,
+                                null,
+                                block.block_id,
+                                true,
+                                i,
+                                false
+                              )
+                            }
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Заголовок")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.lazy",
+                              value: _vm.blocks[i].block_carousel_h1,
+                              expression: "blocks[i].block_carousel_h1",
+                              modifiers: { lazy: true }
+                            }
+                          ],
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.blocks[i].block_carousel_h1 },
+                          on: {
+                            change: [
+                              function($event) {
+                                return _vm.$set(
+                                  _vm.blocks[i],
+                                  "block_carousel_h1",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                return _vm.uploadMainBaner(
+                                  "mainpage_name",
+                                  _vm.blocks[i].block_carousel_h1,
+                                  block.block_id,
+                                  false,
+                                  i,
+                                  false
+                                )
+                              }
+                            ]
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Карусель")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "wrap-input" },
+                          [
+                            _vm._l(_vm.getCrumbs, function(current, i) {
+                              return current.sex_id == block.block_sex &&
+                                current.categories_id == block.block_cat &&
+                                current.departments_id == block.block_dep
+                                ? _c("input", {
+                                    staticClass: "input-pale-blu",
+                                    attrs: { type: "text", disabled: "" },
+                                    domProps: {
+                                      value:
+                                        current.sex_name +
+                                        (current.categories_name !== null
+                                          ? " | " + current.categories_name
+                                          : "") +
+                                        (current.departments_name !== null
+                                          ? " | " + current.departments_name
+                                          : "")
+                                    }
+                                  })
+                                : _vm._e()
+                            }),
+                            _vm._v(" "),
+                            block.block_sex == null &&
+                            block.block_cat == null &&
+                            block.block_dep == null
+                              ? _c("input", {
+                                  staticClass: "input-pale-blu",
+                                  attrs: { type: "text" }
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("button", {
+                              staticClass: "btn-admin-arrow",
+                              class: block.active
+                                ? "admin-btn-arrow-pass"
+                                : "admin-btn-arrow",
+                              on: {
+                                click: function($event) {
+                                  return _vm.GetActiveBlock(i, block.block_id)
+                                }
+                              }
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        block.active
+                          ? _c("AdminCrumbs", {
+                              attrs: { lvl: 1, crumbs: _vm.getCrumbs },
+                              on: { addNewCategory: _vm.chooseCategoryCarousel }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Заголовок баннера")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.lazy",
+                              value: _vm.blocks[i].block_h1,
+                              expression: "blocks[i].block_h1",
+                              modifiers: { lazy: true }
+                            }
+                          ],
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.blocks[i].block_h1 },
+                          on: {
+                            change: [
+                              function($event) {
+                                return _vm.$set(
+                                  _vm.blocks[i],
+                                  "block_h1",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                return _vm.uploadMainBaner(
+                                  "mainpage_block_h1",
+                                  _vm.blocks[i].block_h1,
+                                  block.block_id,
+                                  false,
+                                  i,
+                                  false
+                                )
+                              }
+                            ]
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Скидка")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.lazy",
+                              value: _vm.blocks[i].block_sale,
+                              expression: "blocks[i].block_sale",
+                              modifiers: { lazy: true }
+                            }
+                          ],
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.blocks[i].block_sale },
+                          on: {
+                            change: [
+                              function($event) {
+                                return _vm.$set(
+                                  _vm.blocks[i],
+                                  "block_sale",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                return _vm.uploadMainBaner(
+                                  "mainpage_block_sale",
+                                  _vm.blocks[i].block_sale,
+                                  block.block_id,
+                                  false,
+                                  i,
+                                  false
+                                )
+                              }
+                            ]
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Новая цена")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.lazy",
+                              value: _vm.blocks[i].block_price,
+                              expression: "blocks[i].block_price",
+                              modifiers: { lazy: true }
+                            }
+                          ],
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.blocks[i].block_price },
+                          on: {
+                            change: [
+                              function($event) {
+                                return _vm.$set(
+                                  _vm.blocks[i],
+                                  "block_price",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                return _vm.uploadMainBaner(
+                                  "mainpage_block_price",
+                                  _vm.blocks[i].block_price,
+                                  block.block_id,
+                                  false,
+                                  i,
+                                  false
+                                )
+                              }
+                            ]
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Текст кнопки")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.lazy",
+                              value: _vm.blocks[i].block_but_text,
+                              expression: "blocks[i].block_but_text",
+                              modifiers: { lazy: true }
+                            }
+                          ],
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.blocks[i].block_but_text },
+                          on: {
+                            change: [
+                              function($event) {
+                                return _vm.$set(
+                                  _vm.blocks[i],
+                                  "block_but_text",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                return _vm.uploadMainBaner(
+                                  "mainpage_block_but_text",
+                                  _vm.blocks[i].block_but_text,
+                                  block.block_id,
+                                  false,
+                                  i,
+                                  false
+                                )
+                              }
+                            ]
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("Ссылка")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.lazy",
+                              value: _vm.blocks[i].block_but_href,
+                              expression: "blocks[i].block_but_href",
+                              modifiers: { lazy: true }
+                            }
+                          ],
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.blocks[i].block_but_href },
+                          on: {
+                            change: [
+                              function($event) {
+                                return _vm.$set(
+                                  _vm.blocks[i],
+                                  "block_but_href",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                return _vm.uploadMainBaner(
+                                  "mainpage_block_but_href",
+                                  _vm.blocks[i].block_but_href,
+                                  block.block_id,
+                                  false,
+                                  i,
+                                  false
+                                )
+                              }
+                            ]
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "admin-btn-delete width-300",
+                        on: {
+                          click: function($event) {
+                            return _vm.DeleteBlock(block.block_id)
+                          }
+                        }
+                      },
+                      [_vm._v("удалить блок")]
+                    )
+                  ])
+                : _vm._e()
             })
           ],
-          1
-        ),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _vm._m(3),
-        _vm._v(" "),
-        _vm._m(4),
-        _vm._v(" "),
-        _vm._m(5),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-          [
-            _c("label", { staticClass: "admin-h3" }, [_vm._v("Ссылка")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "wrap-input" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.chosenCat,
-                    expression: "chosenCat"
-                  }
-                ],
-                staticClass: "input-pale-blu",
-                attrs: { type: "text", disabled: "" },
-                domProps: { value: _vm.chosenCat },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.chosenCat = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-admin-arrow",
-                class: _vm.activeBtn
-                  ? "admin-btn-arrow-pass"
-                  : "admin-btn-arrow",
-                on: {
-                  click: function($event) {
-                    _vm.activeBtn = !_vm.activeBtn
-                  }
-                }
-              })
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c("button", { staticClass: "admin-btn-delete width-300" }, [
-          _vm._v("удалить блок")
-        ])
-      ])
-    ])
+          2
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -11285,76 +11795,6 @@ var staticRenderFns = [
         _c("img", {
           attrs: { src: __webpack_require__(/*! ../../../img/purpp-krest.png */ "./resources/img/purpp-krest.png"), alt: "" }
         })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Заголовок баннера")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Скидка")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Новая цена")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
-      [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Текст кнопки")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "input-pale-blu", attrs: { type: "text" } })
       ]
     )
   }
@@ -19415,228 +19855,283 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "home" },
-    [
-      _c("div", { staticClass: "home-baner" }, [
-        _c("img", { attrs: { src: _vm.mainPic, alt: "" } }),
-        _vm._v(" "),
-        _c("div", { staticClass: "baner-block" }, [
-          _c("h1", [_vm._v(_vm._s(_vm.mainBanerH1))]),
-          _vm._v(" "),
-          _c("h2", [_vm._v(_vm._s(_vm.mainBanerH2))]),
-          _vm._v(" "),
-          _c("h3", [_vm._v(_vm._s(_vm.mainBanerCollect))]),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn", attrs: { id: "btnMain" } },
-            [
+  return _vm.GetMainPageAdmin !== null
+    ? _c(
+        "div",
+        { staticClass: "home" },
+        [
+          _c("div", { staticClass: "home-baner" }, [
+            _c("img", { attrs: { src: _vm.GetMainPageAdmin[0][0], alt: "" } }),
+            _vm._v(" "),
+            _c("div", { staticClass: "baner-block" }, [
+              _c("h1", [_vm._v(_vm._s(_vm.GetMainPageAdmin[0][1]))]),
+              _vm._v(" "),
+              _c("h2", [_vm._v(_vm._s(_vm.GetMainPageAdmin[0][2]))]),
+              _vm._v(" "),
+              _c("h3", [_vm._v(_vm._s(_vm.GetMainPageAdmin[0][3]))]),
+              _vm._v(" "),
               _c(
-                "router-link",
-                { attrs: { to: { path: "malchiki/verhodejda-zima" } } },
+                "button",
+                { staticClass: "btn", attrs: { id: "btnMain" } },
                 [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.mainBanerBtn) +
-                      "\n                "
+                  _c(
+                    "router-link",
+                    { attrs: { to: _vm.GetMainPageAdmin[0][5] } },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.GetMainPageAdmin[0][4]) +
+                          "\n                "
+                      )
+                    ]
                   )
-                ]
-              )
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.sliderBanersData, function(data, index, i) {
-        return _c("div", { key: i, staticClass: "home-conveyor home-baner" }, [
-          data.name === "Slider"
-            ? _c(
-                "div",
-                { staticClass: "home-slider" },
-                [
-                  _c("h1", { staticClass: "h-30" }, [_vm._v(_vm._s(data.h1))]),
-                  _vm._v(" "),
-                  _vm.media.wind > _vm.media.tablet
-                    ? _c(
-                        "carousel",
-                        { attrs: { nav: true, dots: false, lazyLoad: true } },
-                        _vm._l(data.sliderData, function(img, ii) {
-                          return _c(
-                            "div",
-                            { key: ii, staticClass: "slide-wrap" },
-                            [
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "img-container",
-                                  attrs: { to: img.sliderLink }
-                                },
-                                [
-                                  _c("img", {
-                                    attrs: { src: img.sliderImg, alt: "" }
-                                  })
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "slide-title" }, [
-                                _vm._v(_vm._s(img.sliderTitle))
-                              ]),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "slide-price" }, [
-                                _vm._v(_vm._s(img.sliderPrice) + " ₽")
-                              ])
-                            ],
-                            1
-                          )
-                        }),
-                        0
-                      )
-                    : _c(
-                        "carousel",
-                        {
-                          staticClass: "carousel-mobile",
-                          attrs: {
-                            nav: false,
-                            dots: false,
-                            lazyLoad: true,
-                            loop: true,
-                            margin: 50,
-                            autoWidth: true,
-                            items: 1
-                          }
-                        },
-                        _vm._l(data.sliderData, function(img, ii) {
-                          return _c(
-                            "div",
-                            { key: ii, staticClass: "slide-wrap" },
-                            [
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "img-container",
-                                  attrs: { to: img.sliderLink }
-                                },
-                                [
-                                  _c("img", {
-                                    attrs: { src: img.sliderImg, alt: "" }
-                                  })
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "slide-title" }, [
-                                _vm._v(_vm._s(img.sliderTitle))
-                              ]),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "slide-price" }, [
-                                _vm._v(_vm._s(img.sliderPrice) + " ₽")
-                              ])
-                            ],
-                            1
-                          )
-                        }),
-                        0
-                      )
                 ],
                 1
               )
-            : _vm._e(),
+            ])
+          ]),
           _vm._v(" "),
-          data.name === "Baner"
-            ? _c(
-                "div",
-                {
-                  staticClass: "sale-baner",
-                  class: data.banerData.fllReverse ? "fl-reverse" : null
-                },
-                [
-                  _vm.media.wind > _vm.media.tablet
-                    ? _c("img", { attrs: { src: data.img, alt: "" } })
-                    : _c("div", { staticClass: "wrap-img" }, [
-                        _c("img", { attrs: { src: data.img, alt: "" } }),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          { staticClass: "btn" },
-                          [
-                            _c(
-                              "router-link",
-                              { attrs: { to: { path: data.banerData.link } } },
-                              [
-                                _vm._v(
-                                  "\n                        " +
-                                    _vm._s(data.banerData.btn) +
-                                    "\n                    "
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        )
-                      ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "baner" }, [
-                    _c("div", { staticClass: "baner-title" }, [
-                      _c("h1", [_vm._v(_vm._s(data.banerData.h1))]),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(_vm._s("-" + data.banerData.sale + "%"))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "baner-sale" }, [
-                      _c("div", { staticClass: "sale-was" }, [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(data.banerData.price) +
-                            " ₽\n                    "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "sale-now" }, [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(
-                              data.banerData.price -
-                                (data.banerData.sale / 100) *
-                                  data.banerData.price
-                            ) +
-                            " ₽\n                    "
-                        )
-                      ])
+          _vm._l(_vm.GetMainPageAdmin[1], function(block, i) {
+            return _c(
+              "div",
+              { key: i, staticClass: "home-conveyor home-baner" },
+              [
+                _c(
+                  "div",
+                  { staticClass: "home-slider" },
+                  [
+                    _c("h1", { staticClass: "h-30" }, [
+                      _vm._v(_vm._s(block.block_carousel_h1))
                     ]),
                     _vm._v(" "),
                     _vm.media.wind > _vm.media.tablet
                       ? _c(
-                          "button",
-                          { staticClass: "btn" },
-                          [
-                            _c(
-                              "router-link",
-                              { attrs: { to: { path: data.banerData.link } } },
+                          "carousel",
+                          { attrs: { nav: true, dots: false, lazyLoad: true } },
+                          _vm._l(block.block_carousel, function(img, ii) {
+                            return _c(
+                              "div",
+                              { key: ii, staticClass: "slide-wrap" },
                               [
-                                _vm._v(
-                                  "\n                        " +
-                                    _vm._s(data.banerData.btn) +
-                                    "\n                    "
+                                _c(
+                                  "router-link",
+                                  {
+                                    staticClass: "img-container",
+                                    attrs: {
+                                      to: {
+                                        path:
+                                          block.alias +
+                                          "/item-" +
+                                          img.product_id
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("img", {
+                                      attrs: {
+                                        src: img.product_img.split(",")[0],
+                                        alt: ""
+                                      }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "slide-title" }, [
+                                  _vm._v(_vm._s(img.product_title))
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "slide-price",
+                                    class:
+                                      img.product_sale !== 0 ? "sale" : null
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(
+                                        parseInt(img.product_price) *
+                                          parseInt(block.eu)
+                                      ) + " ₽"
+                                    )
+                                  ]
                                 )
-                              ]
+                              ],
+                              1
                             )
-                          ],
-                          1
+                          }),
+                          0
                         )
-                      : _vm._e()
-                  ])
-                ]
-              )
-            : _vm._e()
-        ])
-      })
-    ],
-    2
-  )
+                      : _c(
+                          "carousel",
+                          {
+                            staticClass: "carousel-mobile",
+                            attrs: {
+                              nav: false,
+                              dots: false,
+                              lazyLoad: true,
+                              loop: true,
+                              margin: 50,
+                              autoWidth: true,
+                              items: 1
+                            }
+                          },
+                          _vm._l(block.block_carousel, function(img, ii) {
+                            return _c(
+                              "div",
+                              { key: ii, staticClass: "slide-wrap" },
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    staticClass: "img-container",
+                                    attrs: {
+                                      to: {
+                                        path:
+                                          block.alias +
+                                          "/item-" +
+                                          img.product_id
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("img", {
+                                      attrs: {
+                                        src: img.product_img.split(",")[0],
+                                        alt: ""
+                                      }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "slide-title" }, [
+                                  _vm._v(_vm._s(img.product_title))
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "slide-price",
+                                    class:
+                                      img.product_sale !== 0 ? "sale" : null
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(
+                                        parseInt(img.product_price) *
+                                          parseInt(block.eu)
+                                      ) + " ₽"
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          }),
+                          0
+                        )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "sale-baner",
+                    class: (i + 1) % 2 === 0 ? "fl-reverse" : null
+                  },
+                  [
+                    _vm.media.wind > _vm.media.tablet
+                      ? _c("img", { attrs: { src: block.block_img, alt: "" } })
+                      : _c("div", { staticClass: "wrap-img" }, [
+                          _c("img", {
+                            attrs: { src: block.block_img, alt: "" }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            { staticClass: "btn" },
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  attrs: { to: { path: block.block_but_href } }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                        " +
+                                      _vm._s(block.block_but_text) +
+                                      "\n                    "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "baner" }, [
+                      _c("div", { staticClass: "baner-title" }, [
+                        _c("h1", [_vm._v(_vm._s(block.block_h1))]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(block.block_sale))])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "baner-sale" }, [
+                        _c("div", { staticClass: "sale-was" }, [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(block.block_price) +
+                              " ₽\n                    "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "sale-now" }, [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(
+                                Math.ceil(
+                                  block.block_price -
+                                    (block.block_sale / 100) * block.block_price
+                                )
+                              ) +
+                              " ₽\n                    "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm.media.wind > _vm.media.tablet
+                        ? _c(
+                            "button",
+                            { staticClass: "btn" },
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  attrs: { to: { path: block.block_but_href } }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                        " +
+                                      _vm._s(block.block_but_text) +
+                                      "\n                    "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              ]
+            )
+          })
+        ],
+        2
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -41892,7 +42387,9 @@ var admin = {
       GetAllReviews: null,
       GetOneReview: null,
       // ДОСТАВКА
-      GetAllDeliveries: null
+      GetAllDeliveries: null,
+      // ГЛАВНАЯ
+      GetMainPageAdmin: null
     };
   },
   mutations: {
@@ -42008,6 +42505,9 @@ var admin = {
     },
     GetAllDeliveriesMutate: function GetAllDeliveriesMutate(state, data) {
       state.GetAllDeliveries = data;
+    },
+    GetMainPageAdminMutate: function GetMainPageAdminMutate(state, data) {
+      state.GetMainPageAdmin = data;
     }
   },
   actions: {
@@ -42177,8 +42677,9 @@ var admin = {
                 commit = _ref11.commit;
                 return _context11.abrupt("return", new Promise(function (resolve, reject) {
                   axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "mainpage")).then(function (resp) {
-                    console.log(resp.data); // commit('auth_success', token);
-                    // resolve(resp)
+                    console.log(resp.data);
+                    commit('GetMainPageAdminMutate', resp.data);
+                    resolve(true);
                   })["catch"](function (err) {
                     reject(err);
                   });
@@ -42229,6 +42730,9 @@ var admin = {
     },
     GetAllDeliveries: function GetAllDeliveries(state) {
       return state.GetAllDeliveries;
+    },
+    GetMainPageAdmin: function GetMainPageAdmin(state) {
+      return state.GetMainPageAdmin;
     }
   }
 };

@@ -1,5 +1,10 @@
 <template>
     <div class="admin-crumbs">
+        <ul v-if="lvl === 1">
+            <li v-for="(crmb, i) in crumbs" v-if="(crmb.menu_lvlmenu === 1) || (crmb.menu_lvlmenu === 2) || (crmb.menu_lvlmenu === 3)" @click="chooseCategory(crmb.sex_id, crmb.categories_id, crmb.departments_id)">
+                {{crmb.sex_name}} {{crmb.categories_name !== null ? '|' : null}} {{crmb.categories_name}} {{crmb.departments_name !== null ? '|' : null}} {{crmb.departments_name}}
+            </li>
+        </ul>
         <ul v-if="lvl === 3">
             <li v-for="(crmb, i) in crumbs" v-if="crmb.menu_lvlmenu === 3" @click="chooseCategory(crmb.sex_id, crmb.categories_id, crmb.departments_id)">
                 {{crmb.sex_name}} | {{crmb.categories_name}} | {{crmb.departments_name}}

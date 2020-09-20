@@ -32,7 +32,10 @@ const admin = {
         GetOneReview: null,
 
         // ДОСТАВКА
-        GetAllDeliveries: null
+        GetAllDeliveries: null,
+
+        // ГЛАВНАЯ
+        GetMainPageAdmin: null
     }),
     mutations: {
         // Получаем все товары СТРАНИЧКА ТОВАРЫ
@@ -96,6 +99,9 @@ const admin = {
         },
         GetAllDeliveriesMutate(state, data){
             state.GetAllDeliveries = data;
+        },
+        GetMainPageAdminMutate(state, data) {
+            state.GetMainPageAdmin = data;
         }
     },
     actions: {
@@ -167,8 +173,8 @@ const admin = {
                 axios.get(`${URI}mainpage`)
                     .then(resp => {
                         console.log(resp.data)
-                        // commit('auth_success', token);
-                        // resolve(resp)
+                        commit('GetMainPageAdminMutate', resp.data);
+                        resolve(true)
                     })
                     .catch(err => {
                         reject(err)
@@ -212,6 +218,9 @@ const admin = {
         },
         GetAllDeliveries: state => {
             return state.GetAllDeliveries;
+        },
+        GetMainPageAdmin: state => {
+            return state.GetMainPageAdmin;
         }
     }
 };

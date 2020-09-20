@@ -10,7 +10,7 @@
             display: inline-block;
         }
     }
-    #loadMainImg{
+    input[type="file"] {
         width: 0;
         height: 0;
     }
@@ -24,6 +24,7 @@
                 width: 100%;
                 height: 300px;
                 border: 1px solid $ocean;
+                object-fit: cover;
             }
             .admin-btn-add{
                 text-align: center;
@@ -42,6 +43,27 @@
             }
         }
         .wrap-main-page{
+            .admin-main-img{
+                width: 100%;
+                height: 300px;
+                border: 1px solid $ocean;
+                object-fit: cover;
+            }
+            .admin-btn-add{
+                text-align: center;
+                box-sizing: border-box;
+                padding: 6px;
+                cursor: pointer;
+                margin-bottom: 10px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                img{
+                    transform: rotate(90deg);
+                    object-fit: contain;
+                }
+            }
             .wrap-input{
                 display: flex;
             }
