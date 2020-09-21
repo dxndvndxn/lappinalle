@@ -6805,9 +6805,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     media: function media() {
       return this.$store.getters.media;
     }
-  },
-  watch: {
-    returnDataForItem: function returnDataForItem(newVal) {}
   }
 });
 
@@ -7076,6 +7073,8 @@ __webpack_require__.r(__webpack_exports__);
       this.deliveries[i].delChooze = true;
     },
     toPay: function toPay() {
+      var _this = this;
+
       if (this.deliveries[this.chozenDel].delivery_name === 'post-russia' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid && this.$v.indexPost.$invalid) {
         this.$v.$touch();
         return;
@@ -7107,31 +7106,20 @@ __webpack_require__.r(__webpack_exports__);
         passportData: this.passportData,
         whereGet: this.whereGet,
         comment: this.commentForPostman
-      }; // this.$store.dispatch('orderData', data);
+      }; // this.$store.dispatch('sentData', data);
 
-      this.$store.dispatch('sentData', data); //this.$router.push({name: 'choosePay'})
+      this.$store.dispatch('DeliveryData', data).then(function () {
+        return _this.$router.push({
+          name: 'choosePay'
+        });
+      });
     }
   },
   created: function created() {
     this.$Progress.start();
     this.$store.dispatch('GetAllDeliveries');
   },
-  mounted: function mounted() {
-    this.$Progress.finish();
-  },
-  watch: {
-    paySuccess: function paySuccess(newValue) {
-      if (newValue) {
-        this.$router.push({
-          name: 'paySuccess'
-        });
-      }
-    }
-  },
   computed: {
-    paySuccess: function paySuccess() {
-      return this.$store.getters.paySuccess;
-    },
     returnDeliveries: function returnDeliveries() {
       this.$Progress.finish();
       return this.$store.getters.GetAllDeliveries;
@@ -7150,7 +7138,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -7166,30 +7164,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ChoosePay",
   components: {
-    Back: _components_Back__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Back: _components_Back__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
       payments: [{
         payIcon: '../img/paycard-icon.png',
-        payUrl: '',
-        payActive: true
+        payUrl: 'https://3dsec.sberbank.ru/payment/rest/register.do',
+        payActive: true,
+        payName: 'Сбербанк'
       }, {
         payIcon: '../img/yandex-icon.png',
         payUrl: '',
-        payActive: false
+        payActive: false,
+        payName: 'Яндекс Деньги'
       }, {
         payIcon: '../img/qiwi-icon.png',
         payUrl: '',
-        payActive: false
+        payActive: false,
+        payName: 'QiWi'
       }, {
         payIcon: '../img/paypal-icon.png',
         payUrl: '',
-        payActive: false
-      }]
+        payActive: false,
+        payName: 'WebMoney'
+      }],
+      activeUrl: 'https://3dsec.sberbank.ru/payment/rest/register.do',
+      activePayName: 'Сбербанк',
+      lastId: null
     };
   },
   methods: {
@@ -7198,6 +7204,89 @@ __webpack_require__.r(__webpack_exports__);
         return el.payActive = false;
       });
       this.payments[i].payActive = true;
+      this.activeUrl = this.payments[i].payUrl;
+    },
+    GoPay: function GoPay() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this.$store.dispatch('SaveData', _this.activePayName);
+
+                _context2.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("".concat(_this.URI, "getLastIdOrder")).then(function (res) {
+                  _this.lastId = ++res.data;
+                }).then( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+                  var dataPay, formData;
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                      switch (_context.prev = _context.next) {
+                        case 0:
+                          if (!(_this.activePayName === 'Сбербанк')) {
+                            _context.next = 6;
+                            break;
+                          }
+
+                          dataPay = {
+                            orderNumber: 4,
+                            amount: _this.totalPrice
+                          };
+                          formData = new FormData();
+                          formData.append('data', JSON.stringify(dataPay));
+                          _context.next = 6;
+                          return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this.URI, "payment"), formData, {
+                            headers: {
+                              "Content-Type": "application/x-www-form-urlencoded"
+                            }
+                          }).then(function (res) {
+                            console.log(res.data);
+                            var data = res.data;
+
+                            _this.$router.push(data.formUrl);
+                          })["catch"](function (e) {
+                            return console.log(e);
+                          });
+
+                        case 6:
+                        case "end":
+                          return _context.stop();
+                      }
+                    }
+                  }, _callee);
+                })))["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    }
+  },
+  computed: {
+    paySuccess: function paySuccess() {
+      return this.$store.getters.paySuccess;
+    },
+    URI: function URI() {
+      return this.$store.getters.URI;
+    },
+    totalPrice: function totalPrice() {
+      return this.$store.getters.totalPrice;
+    }
+  },
+  watch: {
+    paySuccess: function paySuccess(newValue) {
+      if (newValue) {
+        this.$router.push({
+          name: 'paySuccess'
+        });
+      }
     }
   }
 });
@@ -7549,104 +7638,7 @@ __webpack_require__.r(__webpack_exports__);
     carousel: vue_owl_carousel__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   data: function data() {
-    return {
-      mainPic: '../../img/main-banet.png',
-      mainBanerH1: 'Распродажа',
-      mainBanerH2: 'Скидки до 25%',
-      mainBanerCollect: 'На осеннюю коллекцию',
-      mainBanerBtn: 'Перейти в раздел',
-      sliderBanersData: [{
-        name: 'Slider',
-        h1: 'Новинки для мальчиков',
-        sliderData: [{
-          sliderImg: '../../../img/malchiki1.jpg',
-          sliderLink: 'malchiki/item-4',
-          sliderTitle: 'Комплект LAPPINALLE',
-          sliderPrice: '5760'
-        }, {
-          sliderImg: '../../../img/malchiki2.jpg',
-          sliderLink: 'malchiki/item-9',
-          sliderTitle: 'Комплект JONATHAN STAR',
-          sliderPrice: '5760'
-        }, {
-          sliderImg: '../../../img/malchiki3.jpg',
-          sliderLink: 'malchiki/item-12',
-          sliderTitle: 'Комбинезон LAPPINALLE',
-          sliderPrice: '4680'
-        }, {
-          sliderImg: '../../../img/malchiki4.jpg',
-          sliderLink: 'malchiki/item-18',
-          sliderTitle: 'Комбинезон RASAVIL',
-          sliderPrice: '4140'
-        }, {
-          sliderImg: '../../../img/malchiki4.jpg',
-          sliderLink: 'malchiki/item-18',
-          sliderTitle: 'Комбинезон RASAVIL',
-          sliderPrice: '4140'
-        }, {
-          sliderImg: '../../../img/malchiki4.jpg',
-          sliderLink: 'malchiki/item-18',
-          sliderTitle: 'Комбинезон RASAVIL',
-          sliderPrice: '4140'
-        }, {
-          sliderImg: '../../../img/malchiki4.jpg',
-          sliderLink: 'malchiki/item-18',
-          sliderTitle: 'Комбинезон RASAVIL',
-          sliderPrice: '4140'
-        }, {
-          sliderImg: '../../../img/malchiki4.jpg',
-          sliderLink: 'malchiki/item-18',
-          sliderTitle: 'Комбинезон RASAVIL',
-          sliderPrice: '4140'
-        }]
-      }, {
-        name: 'Baner',
-        img: '../../../img/img_2-item-14.png',
-        banerData: {
-          h1: 'Комбинезон "DREAMLAND"',
-          sale: 25,
-          price: 7200,
-          btn: 'Подробнее',
-          flReverse: false,
-          link: 'malchiki/item-15'
-        }
-      }, {
-        name: 'Slider',
-        h1: 'Новинки для девочек',
-        sliderData: [{
-          sliderImg: '../../../img/devochki1.jpg',
-          sliderLink: 'devochki/item-6',
-          sliderTitle: 'Комплект LAPPINALLE',
-          sliderPrice: '5760'
-        }, {
-          sliderImg: '../../../img/devochki2.jpg',
-          sliderLink: 'devochki/item-10',
-          sliderTitle: 'Комплект JONATHAN STAR',
-          sliderPrice: '5670'
-        }, {
-          sliderImg: '../../../img/devochki3.jpg',
-          sliderLink: 'devochki/item-11',
-          sliderTitle: 'Комплект (курточка MOTIONS, п/к DREAMLAND)',
-          sliderPrice: '5670'
-        }, {
-          sliderImg: '../../../img/devochki4.jpg',
-          sliderLink: 'devochki/item-8',
-          sliderTitle: 'Комплект LAPPINALLE',
-          sliderPrice: '6750'
-        }]
-      }, {
-        name: 'Baner',
-        img: '../../../img/item-14/img_1-item-14.png',
-        banerData: {
-          h1: 'Комбинезон "DREAMLAND"',
-          sale: 25,
-          price: 7200,
-          btn: 'Подробнее',
-          fllReverse: true,
-          link: 'devochki/item-14'
-        }
-      }]
-    };
+    return {};
   },
   created: function created() {
     if (this.GetMainPageAdmin === null) this.$store.dispatch('GetMainPageAdmin');
@@ -19462,21 +19454,23 @@ var render = function() {
       0
     ),
     _vm._v(" "),
-    _vm._m(0)
+    _c("div", { staticClass: "choose-pay-button" }, [
+      _c(
+        "button",
+        {
+          staticClass: "classic-btn-sz btn",
+          on: {
+            click: function($event) {
+              return _vm.GoPay()
+            }
+          }
+        },
+        [_vm._v("Перейти к оплате")]
+      )
+    ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "choose-pay-button" }, [
-      _c("button", { staticClass: "classic-btn-sz btn" }, [
-        _vm._v("Перейти к оплате")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -20074,7 +20068,9 @@ var render = function() {
                       _c("div", { staticClass: "baner-title" }, [
                         _c("h1", [_vm._v(_vm._s(block.block_h1))]),
                         _vm._v(" "),
-                        _c("span", [_vm._v(_vm._s(block.block_sale))])
+                        _c("span", [
+                          _vm._v("-" + _vm._s(block.block_sale) + "%")
+                        ])
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "baner-sale" }, [
@@ -42166,7 +42162,14 @@ var routes = [{
   meta: {
     layout: 'Main'
   },
-  component: _views_ChoosePay__WEBPACK_IMPORTED_MODULE_13__["default"]
+  component: _views_ChoosePay__WEBPACK_IMPORTED_MODULE_13__["default"] // beforeEnter: ((to, from, next) =>{
+  //     if (to.name === 'choosePay' && (store.getters.deliveryData === null && store.getters.customerData.length === 0)){
+  //         next({name: 'ordering'});
+  //     } else {
+  //         next();
+  //     }
+  // })
+
 }, {
   path: '/paysuccess',
   name: 'paySuccess',
@@ -42363,7 +42366,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var URI = 'http://lappinalle.test/api/';
+var URI = 'https://lappinalle.ru/api/';
 var admin = {
   state: function state() {
     return {
@@ -42786,6 +42789,8 @@ var store = {
     // Закладки
     bookmarks: JSON.parse(localStorage.getItem('bookmark') || '[]'),
     bookmarkProducts: null,
+    // Данные по доставке
+    deliveryData: null,
     // Медиа
     tablet: 768,
     mobile: 576,
@@ -43416,35 +43421,26 @@ var store = {
                   data.forEach(function (el) {
                     el.product_img = el.product_img.split(', ');
                     el.product_img = el.product_img[0];
-                  }); // Проходимся по данным, которые пришли и ищем совпадения по id и вставляем нашу в корзину
-                  // dataCart.forEach(el => {
-                  //
-                  //     data.forEach(crEl => {
-                  //
-                  //         if (el.id === crEl.product_id) {
-                  //             el.totalCartData = crEl;
-                  //         }
-                  //         // try{
-                  //         //     crEl.product_img = crEl.product_img.split(', ');
-                  //         // }catch (e) {
-                  //         //     console.log(e)
-                  //         // }
-                  //
-                  //     });
-                  // });
-
+                  });
+                  var totalDataCart = [];
                   data.forEach(function (el) {
                     dataCart.forEach(function (elCart) {
                       if (el.product_id === elCart.id) {
-                        el.id = elCart.id;
-                        el.count = elCart.count;
-                        el.size = elCart.size;
-                        el.price = elCart.price;
+                        totalDataCart.push({
+                          id: elCart.id,
+                          count: elCart.count,
+                          price: elCart.price,
+                          size: elCart.size,
+                          product_description: el.product_description,
+                          product_id: el.product_id,
+                          product_img: el.product_img,
+                          product_price: el.product_price,
+                          product_title: el.product_title
+                        });
                       }
                     });
                   });
-                  console.log(data);
-                  state.cartProduct = data;
+                  state.cartProduct = totalDataCart;
                 })["catch"](function (e) {
                   console.log(e);
                 });
@@ -43572,6 +43568,16 @@ var store = {
         return el !== id;
       });
       window.localStorage.setItem('bookmark', JSON.stringify(state.bookmarks));
+    },
+    // Данные по доставке
+    DeliveryDataMutate: function DeliveryDataMutate(state, deliveryData) {
+      state.deliveryData = deliveryData;
+    },
+    // Сохраняем данные о заказе для добавления в БД после отплаты
+    SaveDataMutate: function SaveDataMutate(state, paymentName) {
+      state.customerData.paymentName = paymentName;
+      window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
+      window.localStorage.setItem('deliveryData', JSON.stringify(state.deliveryData));
     }
   },
   actions: {
@@ -43704,6 +43710,17 @@ var store = {
     RemoveBookmark: function RemoveBookmark(_ref37, id) {
       var commit = _ref37.commit;
       commit('RemoveBookmarkMutate', id);
+    },
+    DeliveryData: function DeliveryData(_ref38, deliveryData) {
+      var commit = _ref38.commit;
+      return new Promise(function (resolve, reject) {
+        commit('DeliveryDataMutate', deliveryData);
+        resolve(true);
+      });
+    },
+    SaveData: function SaveData(_ref39, pay) {
+      var commit = _ref39.commit;
+      commit('SaveDataMutate', pay);
     }
   },
   getters: {
@@ -43806,6 +43823,9 @@ var store = {
     },
     bookmarkProducts: function bookmarkProducts(state) {
       return state.bookmarkProducts;
+    },
+    deliveryData: function deliveryData(state) {
+      return state.deliveryData;
     }
   }
 };

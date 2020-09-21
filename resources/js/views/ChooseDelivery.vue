@@ -278,32 +278,16 @@
                     passportData: this.passportData,
                     whereGet: this.whereGet,
                     comment: this.commentForPostman
-
                 };
-                // this.$store.dispatch('orderData', data);
-                this.$store.dispatch('sentData', data);
-                //this.$router.push({name: 'choosePay'})
+                // this.$store.dispatch('sentData', data);
+                this.$store.dispatch('DeliveryData', data).then(() => this.$router.push({name: 'choosePay'}));
             }
         },
         created(){
             this.$Progress.start();
             this.$store.dispatch('GetAllDeliveries');
         },
-        mounted(){
-            this.$Progress.finish();
-        },
-        watch: {
-            paySuccess(newValue){
-                if (newValue) {
-                    this.$router.push({name: 'paySuccess'})
-                }
-
-            }
-        },
         computed: {
-            paySuccess(){
-                return this.$store.getters.paySuccess;
-            },
             returnDeliveries(){
                 this.$Progress.finish();
                 return this.$store.getters.GetAllDeliveries;

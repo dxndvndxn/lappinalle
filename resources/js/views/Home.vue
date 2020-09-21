@@ -50,7 +50,7 @@
                 <div class="baner">
                     <div class="baner-title">
                         <h1>{{block.block_h1}}</h1>
-                        <span>{{block.block_sale}}</span>
+                        <span>-{{block.block_sale}}%</span>
                     </div>
                     <div class="baner-sale">
                         <div class="sale-was">
@@ -77,47 +77,6 @@
         name: 'Home',
         components: {carousel},
         data: () =>({
-            mainPic: '../../img/main-banet.png',
-            mainBanerH1: 'Распродажа',
-            mainBanerH2: 'Скидки до 25%',
-            mainBanerCollect: 'На осеннюю коллекцию',
-            mainBanerBtn: 'Перейти в раздел',
-            sliderBanersData: [
-                {
-                    name: 'Slider',
-                    h1: 'Новинки для мальчиков',
-                    sliderData: [
-                        { sliderImg: '../../../img/malchiki1.jpg', sliderLink: 'malchiki/item-4', sliderTitle: 'Комплект LAPPINALLE', sliderPrice: '5760'},
-                        { sliderImg: '../../../img/malchiki2.jpg', sliderLink: 'malchiki/item-9', sliderTitle: 'Комплект JONATHAN STAR', sliderPrice: '5760'},
-                        { sliderImg: '../../../img/malchiki3.jpg', sliderLink: 'malchiki/item-12', sliderTitle: 'Комбинезон LAPPINALLE', sliderPrice: '4680'},
-                        { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/item-18', sliderTitle: 'Комбинезон RASAVIL', sliderPrice: '4140'},
-                        { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/item-18', sliderTitle: 'Комбинезон RASAVIL', sliderPrice: '4140'},
-                        { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/item-18', sliderTitle: 'Комбинезон RASAVIL', sliderPrice: '4140'},
-                        { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/item-18', sliderTitle: 'Комбинезон RASAVIL', sliderPrice: '4140'},
-                        { sliderImg: '../../../img/malchiki4.jpg', sliderLink: 'malchiki/item-18', sliderTitle: 'Комбинезон RASAVIL', sliderPrice: '4140'},
-                    ]
-                },
-                {
-                    name: 'Baner',
-                    img: '../../../img/img_2-item-14.png',
-                    banerData: {h1: 'Комбинезон "DREAMLAND"', sale: 25, price: 7200, btn: 'Подробнее', flReverse: false, link: 'malchiki/item-15' }
-                },
-                {
-                    name: 'Slider',
-                    h1: 'Новинки для девочек',
-                    sliderData: [
-                        { sliderImg: '../../../img/devochki1.jpg', sliderLink: 'devochki/item-6', sliderTitle: 'Комплект LAPPINALLE', sliderPrice: '5760'},
-                        { sliderImg: '../../../img/devochki2.jpg', sliderLink: 'devochki/item-10', sliderTitle: 'Комплект JONATHAN STAR', sliderPrice: '5670'},
-                        { sliderImg: '../../../img/devochki3.jpg', sliderLink: 'devochki/item-11', sliderTitle: 'Комплект (курточка MOTIONS, п/к DREAMLAND)', sliderPrice: '5670'},
-                        { sliderImg: '../../../img/devochki4.jpg', sliderLink: 'devochki/item-8', sliderTitle: 'Комплект LAPPINALLE', sliderPrice: '6750'},
-                    ]
-                },
-                {
-                    name: 'Baner',
-                    img: '../../../img/item-14/img_1-item-14.png',
-                    banerData: {h1: 'Комбинезон "DREAMLAND"', sale: 25, price: 7200, btn: 'Подробнее', fllReverse: true, link: 'devochki/item-14'}
-                }
-            ]
 
         }),
         created() {

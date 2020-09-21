@@ -413,11 +413,6 @@
             media(){
                 return this.$store.getters.media;
             }
-        },
-        watch: {
-            returnDataForItem(newVal){
-
-            }
         }
     }
 </script>

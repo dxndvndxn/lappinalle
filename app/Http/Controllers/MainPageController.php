@@ -74,8 +74,8 @@ class MainPageController extends Controller
                 foreach ($blocks as $i => $value) {
                     $products = DB::table('products')->select('product_id', 'product_img', 'product_title', 'product_price', 'product_sale', 'product_old_price')->where([
                         ['sex_id', $blocks[$i]['block_sex']],
-                        ['categories_id', $blocks[$i]['block_cat']],
-                        ['departments_id', $blocks[$i]['block_dep']]
+                        ['categories_id','like', $blocks[$i]['block_cat'] === null ? '%' : $blocks[$i]['block_cat']],
+                        ['departments_id', 'like', $blocks[$i]['block_dep'] === null ? '%' : $blocks[$i]['block_dep']]
                     ])->where('product_available', '=', 1)->orderBy('added_on', 'desc')->take(6)->get();
                     $blocks[$i]['alias'] = DB::table('sex')->where('sex_id', '=', $blocks[$i]['block_sex'])->value('sex_alias');
                     $blocks[$i]['block_carousel'] = $products;

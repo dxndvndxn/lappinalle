@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'http://lappinalle.test/api/';
+const URI = 'https://lappinalle.ru/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -289,6 +289,9 @@ const store = {
         // Закладки
         bookmarks: JSON.parse(localStorage.getItem('bookmark') || '[]'),
         bookmarkProducts: null,
+
+        // Данные по доставке
+        deliveryData: null,
 
         // Медиа
         tablet: 768,
@@ -836,7 +839,8 @@ const store = {
             });
 
             let unigIds = new Set(cardIds);
-                        await axios.get(`${state.SITE_URI}itemscard/${Array.from(unigIds).join(', ')}`)
+
+            await axios.get(`${state.SITE_URI}itemscard/${Array.from(unigIds).join(', ')}`)
                 .then(response => {
 
                     let dataCart = state.cart;
@@ -847,37 +851,29 @@ const store = {
                         el.product_img = el.product_img[0];
                     });
 
-                    // Проходимся по данным, которые пришли и ищем совпадения по id и вставляем нашу в корзину
-                    // dataCart.forEach(el => {
-                    //
-                    //     data.forEach(crEl => {
-                    //
-                    //         if (el.id === crEl.product_id) {
-                    //             el.totalCartData = crEl;
-                    //         }
-                    //         // try{
-                    //         //     crEl.product_img = crEl.product_img.split(', ');
-                    //         // }catch (e) {
-                    //         //     console.log(e)
-                    //         // }
-                    //
-                    //     });
-                    // });
+                    let totalDataCart = [];
                     data.forEach(el => {
 
                         dataCart.forEach(elCart => {
 
                             if (el.product_id === elCart.id) {
-
-                                el.id = elCart.id;
-                                el.count = elCart.count;
-                                el.size = elCart.size;
-                                el.price = elCart.price;
+                                totalDataCart.push(
+                                    {
+                                        id: elCart.id,
+                                        count: elCart.count,
+                                        price: elCart.price,
+                                        size: elCart.size,
+                                        product_description: el.product_description,
+                                        product_id: el.product_id,
+                                        product_img: el.product_img,
+                                        product_price: el.product_price,
+                                        product_title: el.product_title
+                                    })
                             }
                         })
                     });
-                    console.log(data)
-                    state.cartProduct = data;
+
+                    state.cartProduct = totalDataCart;
                 })
                 .catch(e => {
                     console.log(e)
@@ -990,7 +986,19 @@ const store = {
         RemoveBookmarkMutate(state, id) {
             state.bookmarks = state.bookmarks.filter(el => el !== id);
             window.localStorage.setItem('bookmark', JSON.stringify(state.bookmarks));
-        }
+        },
+
+        // Данные по доставке
+        DeliveryDataMutate(state, deliveryData){
+            state.deliveryData = deliveryData;
+        },
+
+        // Сохраняем данные о заказе для добавления в БД после отплаты
+        SaveDataMutate(state, paymentName){
+            state.customerData.paymentName = paymentName;
+            window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
+            window.localStorage.setItem('deliveryData', JSON.stringify(state.deliveryData));
+        },
 
     },
     actions: {
@@ -1094,6 +1102,15 @@ const store = {
         },
         RemoveBookmark({commit}, id){
             commit('RemoveBookmarkMutate', id);
+        },
+        DeliveryData({commit}, deliveryData){
+            return new Promise((resolve, reject) => {
+                commit('DeliveryDataMutate', deliveryData);
+                resolve(true)
+            })
+        },
+        SaveData({commit}, pay){
+            commit('SaveDataMutate', pay);
         }
     },
     getters:{
@@ -1196,7 +1213,10 @@ const store = {
         },
         bookmarkProducts: state => {
             return state.bookmarkProducts;
-        }
+        },
+        deliveryData: state => {
+            return state.deliveryData;
+        },
 
     },
 }
