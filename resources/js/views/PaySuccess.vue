@@ -18,11 +18,18 @@
     export default {
         name: "PaySuccess",
         data: () => ({
-           id: null
+
         }),
+        created() {
+            this.$Progress.start();
+            this.$store.dispatch('sentData');
+        },
         computed: {
             payID(){
-                return this.$store.getters.paySuccess;
+                if (this.$store.getters.payId !== false) {
+                    this.$Progress.finish();
+                    return this.$store.getters.payId;
+                }
             }
         },
         beforeDestroy(){

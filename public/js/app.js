@@ -7106,8 +7106,7 @@ __webpack_require__.r(__webpack_exports__);
         passportData: this.passportData,
         whereGet: this.whereGet,
         comment: this.commentForPostman
-      }; // this.$store.dispatch('sentData', data);
-
+      };
       this.$store.dispatch('DeliveryData', data).then(function () {
         return _this.$router.push({
           name: 'choosePay'
@@ -7209,84 +7208,71 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     GoPay: function GoPay() {
       var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var localTotalPrice, dataPay, formData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                _this.$store.dispatch('SaveData', _this.activePayName);
+                _this.$Progress.start();
 
-                _context2.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("".concat(_this.URI, "getLastIdOrder")).then(function (res) {
-                  _this.lastId = ++res.data;
-                }).then( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-                  var dataPay, formData;
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-                    while (1) {
-                      switch (_context.prev = _context.next) {
-                        case 0:
-                          if (!(_this.activePayName === 'Сбербанк')) {
-                            _context.next = 6;
-                            break;
-                          }
+                _this.$store.dispatch('sentData', _this.activePayName);
 
-                          dataPay = {
-                            orderNumber: 4,
-                            amount: _this.totalPrice
-                          };
-                          formData = new FormData();
-                          formData.append('data', JSON.stringify(dataPay));
-                          _context.next = 6;
-                          return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this.URI, "payment"), formData, {
-                            headers: {
-                              "Content-Type": "application/x-www-form-urlencoded"
-                            }
-                          }).then(function (res) {
-                            console.log(res.data);
-                            var data = res.data;
+                localTotalPrice = _this.totalPrice;
 
-                            _this.$router.push(data.formUrl);
-                          })["catch"](function (e) {
-                            return console.log(e);
-                          });
+                if (_this.returnDeliveryData.deliveryName === 'postman' && _this.totalPrice < 2000) {
+                  localTotalPrice = _this.totalPrice + 300;
+                }
 
-                        case 6:
-                        case "end":
-                          return _context.stop();
-                      }
-                    }
-                  }, _callee);
-                })))["catch"](function (e) {
-                  return console.log(e);
+                if (!(_this.activePayName === 'Сбербанк')) {
+                  _context.next = 10;
+                  break;
+                }
+
+                dataPay = {
+                  amount: localTotalPrice
+                };
+                formData = new FormData();
+                formData.append('data', JSON.stringify(dataPay));
+                _context.next = 10;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this.URI, "payment"), formData, {
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                  }
+                }).then(function (res) {
+                  console.log(res.data);
+                  console.log(res.data.formUrl);
+                  window.location = res.data.formUrl; // if (res.data[0].errorMessage !== undefined) console.log('Error')
+                })["catch"](function (e) {
+                  _this.$Progress.fail();
+
+                  console.log(e);
                 });
 
-              case 3:
+              case 10:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2);
+        }, _callee);
       }))();
     }
   },
+  created: function created() {
+    this.$Progress.start();
+  },
+  mounted: function mounted() {
+    this.$Progress.finish();
+  },
   computed: {
-    paySuccess: function paySuccess() {
-      return this.$store.getters.paySuccess;
-    },
     URI: function URI() {
       return this.$store.getters.URI;
     },
     totalPrice: function totalPrice() {
       return this.$store.getters.totalPrice;
-    }
-  },
-  watch: {
-    paySuccess: function paySuccess(newValue) {
-      if (newValue) {
-        this.$router.push({
-          name: 'paySuccess'
-        });
-      }
+    },
+    returnDeliveryData: function returnDeliveryData() {
+      return this.$store.getters.deliveryData;
     }
   }
 });
@@ -7942,13 +7928,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PaySuccess",
   data: function data() {
-    return {
-      id: null
-    };
+    return {};
+  },
+  created: function created() {
+    this.$Progress.start();
+    this.$store.dispatch('sentData');
   },
   computed: {
     payID: function payID() {
-      return this.$store.getters.paySuccess;
+      if (this.$store.getters.payId !== false) {
+        this.$Progress.finish();
+        return this.$store.getters.payId;
+      }
     }
   },
   beforeDestroy: function beforeDestroy() {
@@ -42782,7 +42773,7 @@ var store = {
     // Админ
     adminRawMenu: null,
     // Оплата товара
-    paySuccess: false,
+    payId: JSON.parse(localStorage.getItem('paiId') || 'false'),
     // Данные юзера
     userData: null,
     EU: null,
@@ -43492,30 +43483,47 @@ var store = {
       data.token = state.token;
       state.customerData = data;
     },
-    sentDataMutate: function sentDataMutate(state, data) {
-      var postData = [];
-      var localCart = [];
-      state.cart.forEach(function (el) {
-        localCart.push({
-          id: el.id,
-          count: el.count,
-          size: el.size,
-          price: el.price
-        });
-      });
-      console.log(state.customerData); // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
+    sentDataMutate: function sentDataMutate(state, payName) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18() {
+        var postData, localCart;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
+          while (1) {
+            switch (_context18.prev = _context18.next) {
+              case 0:
+                postData = [];
+                localCart = [];
+                state.cart.forEach(function (el) {
+                  localCart.push({
+                    id: el.id,
+                    count: el.count,
+                    size: el.size,
+                    price: el.price
+                  });
+                });
+                state.customerData.paymentName = payName; // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
 
-      postData.push({
-        customerData: state.customerData,
-        deliveryData: data,
-        orderData: localCart,
-        totalPrice: state.totalPrice
-      });
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "order"), postData).then(function (response) {
-        state.paySuccess = response.data;
-      })["catch"](function (e) {
-        console.log(e);
-      });
+                postData.push({
+                  customerData: state.customerData,
+                  deliveryData: state.deliveryData,
+                  orderData: localCart,
+                  totalPrice: state.totalPrice
+                });
+                _context18.next = 7;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "order"), postData).then(function (response) {
+                  console.log(response.data);
+                  state.payId = response.data;
+                  window.localStorage.setItem('payId', JSON.stringify(state.payId));
+                })["catch"](function (e) {
+                  console.log(e);
+                });
+
+              case 7:
+              case "end":
+                return _context18.stop();
+            }
+          }
+        }, _callee18);
+      }))();
     },
     GetUserDataMutate: function GetUserDataMutate(state) {
       if (state.token !== null) {
@@ -43539,17 +43547,17 @@ var store = {
     },
     // Получаем продукты для избранного
     BookmarkProductsMutate: function BookmarkProductsMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee19() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee19$(_context19) {
           while (1) {
-            switch (_context18.prev = _context18.next) {
+            switch (_context19.prev = _context19.next) {
               case 0:
                 if (!state.bookmarks.length) {
-                  _context18.next = 3;
+                  _context19.next = 3;
                   break;
                 }
 
-                _context18.next = 3;
+                _context19.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "bookmark/").concat(state.bookmarks.join(','))).then(function (res) {
                   state.EU = res.data.eu;
                   state.bookmarkProducts = res.data.products;
@@ -43557,10 +43565,10 @@ var store = {
 
               case 3:
               case "end":
-                return _context18.stop();
+                return _context19.stop();
             }
           }
-        }, _callee18);
+        }, _callee19);
       }))();
     },
     RemoveBookmarkMutate: function RemoveBookmarkMutate(state, id) {
@@ -43572,12 +43580,6 @@ var store = {
     // Данные по доставке
     DeliveryDataMutate: function DeliveryDataMutate(state, deliveryData) {
       state.deliveryData = deliveryData;
-    },
-    // Сохраняем данные о заказе для добавления в БД после отплаты
-    SaveDataMutate: function SaveDataMutate(state, paymentName) {
-      state.customerData.paymentName = paymentName;
-      window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
-      window.localStorage.setItem('deliveryData', JSON.stringify(state.deliveryData));
     }
   },
   actions: {
@@ -43687,9 +43689,9 @@ var store = {
       var commit = _ref31.commit;
       commit('customerDataMutate', data);
     },
-    sentData: function sentData(_ref32, data) {
+    sentData: function sentData(_ref32, payName) {
       var commit = _ref32.commit;
-      commit('sentDataMutate', data);
+      commit('sentDataMutate', payName);
     },
     GetUserData: function GetUserData(_ref33) {
       var commit = _ref33.commit;
@@ -43717,16 +43719,12 @@ var store = {
         commit('DeliveryDataMutate', deliveryData);
         resolve(true);
       });
-    },
-    SaveData: function SaveData(_ref39, pay) {
-      var commit = _ref39.commit;
-      commit('SaveDataMutate', pay);
     }
   },
   getters: {
     // Оплата товара успех или нет
-    paySuccess: function paySuccess(state) {
-      return state.paySuccess;
+    payId: function payId(state) {
+      return state.payId;
     },
     // Регистрация
     isLoggedIn: function isLoggedIn(state) {

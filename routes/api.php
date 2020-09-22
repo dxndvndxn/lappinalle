@@ -126,9 +126,7 @@ Route::get('/mainpage', 'MainPageController@index');
 //Апдейт главной страницы
 Route::post('/mainupd', 'MainPageController@update');
 
-// Получаем последний заказ
-Route::get('/getLastIdOrder', 'GetLastIdOrderController@index');
-
+// Оплата
 Route::post('/payment', 'SberController@sber');
 
 // УДАЛЕНИЕ

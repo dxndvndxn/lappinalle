@@ -83,6 +83,15 @@ class CheckoutOrderController extends Controller
                 $zakazn = DB::table('orders')->select('orders_id')->orderBy('orders_id', 'desc')->value('orders_id');
                 mail($email, "LAPPINALLE: ЗАКАЗ №".$zakazn, $mailer, $headers);
 
+                $maileradm = "$name, $email, $tel \n Корзина: ";
+
+                foreach ($tovar as $val) {
+                    $maileradm .= $val[0] . ', размер ' . $val[1] . ', ' . $val[2] . "шт. \n";
+                }
+
+                $maileradm .= 'Общая стоимость: ' . $totalPrice;
+
+                mail('info@lappinalle.ru', "LAPPINALLE: ЗАКАЗ №".$zakazn, $maileradm, $headers);
                 return $zakazn;
             }catch (Exception $e){
                 return $e;

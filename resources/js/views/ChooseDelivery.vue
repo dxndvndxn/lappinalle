@@ -279,7 +279,6 @@
                     whereGet: this.whereGet,
                     comment: this.commentForPostman
                 };
-                // this.$store.dispatch('sentData', data);
                 this.$store.dispatch('DeliveryData', data).then(() => this.$router.push({name: 'choosePay'}));
             }
         },

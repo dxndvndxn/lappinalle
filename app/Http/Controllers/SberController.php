@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 class SberController extends Controller
 {
@@ -15,8 +16,9 @@ class SberController extends Controller
             $decodeData = json_decode($data['data'], TRUE);
             $vars['userName'] = 'lappinalle-api';
             $vars['password'] = 'lappinalle';
-            $vars['orderNumber'] = $decodeData['orderNumber'];
-            $vars['amount'] = $decodeData['amount'];
+            $lastIdOrder = DB::table('orders')->select('orders_id')->orderBy('orders_id', 'desc')->value('orders_id');
+            $vars['orderNumber'] = ++$lastIdOrder;
+            $vars['amount'] = $decodeData['amount'] * 100;
             $vars['returnUrl'] = 'https://lappinalle.ru/paysuccess';
             $vars['failUrl'] = 'https://lappinalle.ru';
 
@@ -26,7 +28,13 @@ class SberController extends Controller
             curl_setopt($ch, CURLOPT_HEADER, false);
             $res = curl_exec($ch);
             curl_close($ch);
-
+            $res = json_decode($res, JSON_OBJECT_AS_ARRAY);
+//            if (empty($res['orderId'])){
+//                echo $res['errorMessage'];
+//            } else {
+//                header('Location: ' . $res['formUrl'], true);
+//            }
+//            header("Location: " . $res['formUrl'], true);
             return $res;
         }catch (\Exception $e){
             return  $e;

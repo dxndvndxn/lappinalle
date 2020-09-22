@@ -36,65 +36,58 @@
                 this.activeUrl = this.payments[i].payUrl;
             },
             async GoPay(){
-                this.$store.dispatch('SaveData', this.activePayName);
-                await axios.get(`${this.URI}getLastIdOrder`)
-                    .then(res => {
-                        this.lastId = ++res.data;
-                    })
-                   .then(async () => {
-                       if (this.activePayName === 'Сбербанк'){
+                this.$Progress.start();
+                this.$store.dispatch('sentData', this.activePayName);
 
-                           let dataPay = {
-                               orderNumber: 4,
-                               amount: this.totalPrice,
-                           }
+                let localTotalPrice = this.totalPrice;
 
-                           let formData = new FormData();
-                           formData.append('data', JSON.stringify(dataPay));
+                if (this.returnDeliveryData.deliveryName === 'postman' && this.totalPrice < 2000) {
+                    localTotalPrice = this.totalPrice + 300;
+                }
 
-                           await axios.post(`${this.URI}payment`, formData, {
-                               headers: {
-                                   "Content-Type": "application/x-www-form-urlencoded"
-                               }
-                               })
-                               .then(res => {
-                                   console.log(res.data)
-                                   let data = res.data;
-                                   this.$router.push(data.formUrl);
-                               })
-                               .catch(e => console.log(e))
-                           // await axios.get( `${this.activeUrl}?userName=lappinalle-api&password=lappinalle&orderNumber=${this.lastId}&returnUrl=https://lappinalle.ru/paysuccess&amount=${this.totalPrice}&failUrl=https://lappinalle.ru`,{
-                           //     headers: {
-                           //         "Content-Type": "application/x-www-form-urlencoded",
-                           //     }
-                           // })
-                           // .then(res => {
-                           //     console.log(res.data)
-                           // })
-                           // .catch(e => console.log(e))
-                       }
-                   })
-                .catch(e => console.log(e))
+                if (this.activePayName === 'Сбербанк'){
+
+
+                    let dataPay = {
+                        amount: localTotalPrice,
+                    }
+
+                    let formData = new FormData();
+                    formData.append('data', JSON.stringify(dataPay));
+
+                    await axios.post(`${this.URI}payment`, formData, {
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        }})
+                        .then(res => {
+                            console.log(res.data)
+                            console.log(res.data.formUrl)
+                            window.location = res.data.formUrl;
+                            // if (res.data[0].errorMessage !== undefined) console.log('Error')
+                        })
+                        .catch(e => {
+                            this.$Progress.fail();
+                            console.log(e)
+                        })
+                }
 
             }
         },
+        created() {
+            this.$Progress.start();
+        },
+        mounted() {
+            this.$Progress.finish();
+        },
         computed: {
-            paySuccess(){
-                return this.$store.getters.paySuccess;
-            },
             URI(){
                 return this.$store.getters.URI;
             },
-            totalPrice(){
+            totalPrice() {
                 return this.$store.getters.totalPrice;
-            }
-        },
-        watch: {
-            paySuccess(newValue){
-                if (newValue) {
-                    this.$router.push({name: 'paySuccess'})
-                }
-
+            },
+            returnDeliveryData(){
+                return this.$store.getters.deliveryData;
             }
         },
     }

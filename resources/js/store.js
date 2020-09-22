@@ -279,7 +279,7 @@ const store = {
         adminRawMenu: null,
 
         // Оплата товара
-        paySuccess: false,
+        payId: JSON.parse(localStorage.getItem('paiId') || 'false'),
 
         // Данные юзера
         userData: null,
@@ -931,19 +931,22 @@ const store = {
             state.customerData = data;
         },
 
-        sentDataMutate(state, data){
+       async sentDataMutate(state, payName){
             let postData = [];
             let localCart = [];
 
             state.cart.forEach(el => {
                 localCart.push({id: el.id, count: el.count, size: el.size, price: el.price})
             });
-            console.log(state.customerData)
+
+            state.customerData.paymentName = payName;
             // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
-            postData.push({customerData: state.customerData, deliveryData: data, orderData: localCart, totalPrice: state.totalPrice});
-            axios.post(`${state.SITE_URI}order`, postData)
+            postData.push({customerData: state.customerData, deliveryData: state.deliveryData, orderData: localCart, totalPrice: state.totalPrice});
+            await axios.post(`${state.SITE_URI}order`, postData)
                 .then(response => {
-                    state.paySuccess = response.data;
+                    console.log(response.data)
+                    state.payId = response.data;
+                    window.localStorage.setItem('payId', JSON.stringify(state.payId))
                 })
                 .catch(e => {
                     console.log(e);
@@ -991,13 +994,6 @@ const store = {
         // Данные по доставке
         DeliveryDataMutate(state, deliveryData){
             state.deliveryData = deliveryData;
-        },
-
-        // Сохраняем данные о заказе для добавления в БД после отплаты
-        SaveDataMutate(state, paymentName){
-            state.customerData.paymentName = paymentName;
-            window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
-            window.localStorage.setItem('deliveryData', JSON.stringify(state.deliveryData));
         },
 
     },
@@ -1085,8 +1081,8 @@ const store = {
         customerData({commit}, data){
             commit('customerDataMutate', data);
         },
-        sentData({commit}, data){
-            commit('sentDataMutate', data);
+        sentData({commit}, payName){
+            commit('sentDataMutate', payName);
         },
         GetUserData({commit}){
             commit('GetUserDataMutate');
@@ -1108,15 +1104,12 @@ const store = {
                 commit('DeliveryDataMutate', deliveryData);
                 resolve(true)
             })
-        },
-        SaveData({commit}, pay){
-            commit('SaveDataMutate', pay);
         }
     },
     getters:{
         // Оплата товара успех или нет
-        paySuccess: state => {
-            return state.paySuccess;
+        payId: state => {
+            return state.payId;
         },
         // Регистрация
         isLoggedIn: state => {
