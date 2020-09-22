@@ -5067,12 +5067,9 @@ __webpack_require__.r(__webpack_exports__);
         return this.$store.getters.countCart;
       },
       set: function set(val) {
+        console.log(val, 'countCart');
         return val;
       }
-    },
-    getUpdatedCartCount: function getUpdatedCartCount() {
-      this.getCartCount = this.$store.getters.updatedCart.cartCount;
-      return this.$store.getters.updatedCart.cartCount;
     },
     isLoggedIn: function isLoggedIn() {
       return this.$store.getters.isLoggedIn;
@@ -7209,7 +7206,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var localTotalPrice, dataPay, formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -7218,38 +7214,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this.$store.dispatch('sentData', _this.activePayName);
 
-                localTotalPrice = _this.totalPrice;
-
-                if (_this.returnDeliveryData.deliveryName === 'postman' && _this.totalPrice < 2000) {
-                  localTotalPrice = _this.totalPrice + 300;
-                }
-
-                if (!(_this.activePayName === 'Сбербанк')) {
-                  _context.next = 10;
-                  break;
-                }
-
-                dataPay = {
-                  amount: localTotalPrice
-                };
-                formData = new FormData();
-                formData.append('data', JSON.stringify(dataPay));
-                _context.next = 10;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this.URI, "payment"), formData, {
-                  headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                  }
-                }).then(function (res) {
-                  console.log(res.data);
-                  console.log(res.data.formUrl);
-                  window.location = res.data.formUrl; // if (res.data[0].errorMessage !== undefined) console.log('Error')
-                })["catch"](function (e) {
-                  _this.$Progress.fail();
-
-                  console.log(e);
-                });
-
-              case 10:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -7932,7 +7897,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.$Progress.start();
-    this.$store.dispatch('sentData');
+    this.$store.dispatch('ChangeStatusOrder');
   },
   computed: {
     payID: function payID() {
@@ -42153,21 +42118,32 @@ var routes = [{
   meta: {
     layout: 'Main'
   },
-  component: _views_ChoosePay__WEBPACK_IMPORTED_MODULE_13__["default"] // beforeEnter: ((to, from, next) =>{
-  //     if (to.name === 'choosePay' && (store.getters.deliveryData === null && store.getters.customerData.length === 0)){
-  //         next({name: 'ordering'});
-  //     } else {
-  //         next();
-  //     }
-  // })
-
+  component: _views_ChoosePay__WEBPACK_IMPORTED_MODULE_13__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (to.name === 'choosePay' && _store__WEBPACK_IMPORTED_MODULE_27__["default"].getters.deliveryData === null && _store__WEBPACK_IMPORTED_MODULE_27__["default"].getters.customerData.length === 0) {
+      next({
+        name: 'ordering'
+      });
+    } else {
+      next();
+    }
+  }
 }, {
   path: '/paysuccess',
   name: 'paySuccess',
   meta: {
     layout: 'Main'
   },
-  component: _views_PaySuccess__WEBPACK_IMPORTED_MODULE_14__["default"]
+  component: _views_PaySuccess__WEBPACK_IMPORTED_MODULE_14__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (to.name === 'paySuccess' && _store__WEBPACK_IMPORTED_MODULE_27__["default"].getters.payId === false) {
+      next({
+        name: 'Home'
+      });
+    } else {
+      next();
+    }
+  }
 }, {
   path: '/izbrannoe',
   name: 'bookmark',
@@ -42773,7 +42749,7 @@ var store = {
     // Админ
     adminRawMenu: null,
     // Оплата товара
-    payId: JSON.parse(localStorage.getItem('paiId') || 'false'),
+    payId: JSON.parse(localStorage.getItem('payId') || 'false'),
     // Данные юзера
     userData: null,
     EU: null,
@@ -43482,10 +43458,11 @@ var store = {
     customerDataMutate: function customerDataMutate(state, data) {
       data.token = state.token;
       state.customerData = data;
+      window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
     },
     sentDataMutate: function sentDataMutate(state, payName) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18() {
-        var postData, localCart;
+        var postData, localCart, localTotalPrice, dataPay, formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
           while (1) {
             switch (_context18.prev = _context18.next) {
@@ -43500,24 +43477,47 @@ var store = {
                     price: el.price
                   });
                 });
-                state.customerData.paymentName = payName; // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
+                state.customerData.paymentName = payName;
+                localTotalPrice = state.totalPrice;
+                console.log(localTotalPrice);
+
+                if (state.deliveryData.deliveryName === 'postman' && state.totalPrice < 2000) {
+                  localTotalPrice = state.totalPrice + 300;
+                }
 
                 postData.push({
                   customerData: state.customerData,
                   deliveryData: state.deliveryData,
                   orderData: localCart,
-                  totalPrice: state.totalPrice
+                  totalPrice: localTotalPrice
                 });
-                _context18.next = 7;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "order"), postData).then(function (response) {
-                  console.log(response.data);
-                  state.payId = response.data;
+
+                if (!(payName === 'Сбербанк')) {
+                  _context18.next = 15;
+                  break;
+                }
+
+                dataPay = {
+                  amount: localTotalPrice
+                };
+                postData.push(dataPay);
+                formData = new FormData();
+                formData.append('data', JSON.stringify(postData));
+                _context18.next = 15;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "payment"), formData, {
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                  }
+                }).then(function (res) {
+                  console.log(res.data);
+                  state.payId = res.data.id;
                   window.localStorage.setItem('payId', JSON.stringify(state.payId));
+                  window.location = res.data.formUrl;
                 })["catch"](function (e) {
                   console.log(e);
                 });
 
-              case 7:
+              case 15:
               case "end":
                 return _context18.stop();
             }
@@ -43538,7 +43538,9 @@ var store = {
       }
     },
     killPaySuccessMutate: function killPaySuccessMutate(state) {
-      state.paySuccess = false;
+      state.payId = false;
+      window.localStorage.removeItem('payId');
+      window.localStorage.removeItem('customerData');
     },
     // Добавляем закладку
     AddBookmarkMutate: function AddBookmarkMutate(state, id) {
@@ -43580,6 +43582,53 @@ var store = {
     // Данные по доставке
     DeliveryDataMutate: function DeliveryDataMutate(state, deliveryData) {
       state.deliveryData = deliveryData;
+    },
+    // Сменяем статус заказа
+    ChangeStatusOrderMutate: function ChangeStatusOrderMutate(state) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee20() {
+        var data, localCart, customerData, formData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee20$(_context20) {
+          while (1) {
+            switch (_context20.prev = _context20.next) {
+              case 0:
+                data = [];
+                localCart = [];
+                state.cart.forEach(function (el) {
+                  localCart.push({
+                    id: el.id,
+                    count: el.count,
+                    size: el.size,
+                    price: el.price
+                  });
+                });
+                customerData = window.localStorage.getItem('customerData');
+                data.push({
+                  customerData: JSON.parse(customerData),
+                  orderData: localCart,
+                  id: state.payId
+                });
+                formData = new FormData();
+                formData.append('data', JSON.stringify(data));
+                axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "changestatus"), formData).then(function (res) {
+                  console.log(res.data);
+
+                  if (res.data) {
+                    window.localStorage.removeItem('cart');
+                    window.localStorage.removeItem('totalPrice');
+                    state.countCart = 0;
+                    window.localStorage.removeItem('countCart');
+                  }
+                })["catch"](function (e) {
+                  return console.log(e);
+                });
+
+              case 8:
+              case "end":
+                return _context20.stop();
+            }
+          }
+        }, _callee20);
+      }))();
     }
   },
   actions: {
@@ -43719,6 +43768,10 @@ var store = {
         commit('DeliveryDataMutate', deliveryData);
         resolve(true);
       });
+    },
+    ChangeStatusOrder: function ChangeStatusOrder(_ref39) {
+      var commit = _ref39.commit;
+      commit('ChangeStatusOrderMutate');
     }
   },
   getters: {

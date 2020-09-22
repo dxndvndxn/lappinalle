@@ -283,19 +283,26 @@ const routes = [
         name: 'choosePay',
         meta: { layout: 'Main' },
         component: ChoosePay,
-        // beforeEnter: ((to, from, next) =>{
-        //     if (to.name === 'choosePay' && (store.getters.deliveryData === null && store.getters.customerData.length === 0)){
-        //         next({name: 'ordering'});
-        //     } else {
-        //         next();
-        //     }
-        // })
+        beforeEnter: ((to, from, next) =>{
+            if (to.name === 'choosePay' && (store.getters.deliveryData === null && store.getters.customerData.length === 0)){
+                next({name: 'ordering'});
+            } else {
+                next();
+            }
+        })
     },
     {
         path: '/paysuccess',
         name: 'paySuccess',
         meta: { layout: 'Main' },
-        component: PaySuccess
+        component: PaySuccess,
+        beforeEnter: ((to, from, next) =>{
+            if (to.name === 'paySuccess' && store.getters.payId === false){
+                next({name: 'Home'});
+            } else {
+                next();
+            }
+        })
     },
     {
         path: '/izbrannoe',

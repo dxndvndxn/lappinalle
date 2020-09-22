@@ -38,39 +38,6 @@
             async GoPay(){
                 this.$Progress.start();
                 this.$store.dispatch('sentData', this.activePayName);
-
-                let localTotalPrice = this.totalPrice;
-
-                if (this.returnDeliveryData.deliveryName === 'postman' && this.totalPrice < 2000) {
-                    localTotalPrice = this.totalPrice + 300;
-                }
-
-                if (this.activePayName === 'Сбербанк'){
-
-
-                    let dataPay = {
-                        amount: localTotalPrice,
-                    }
-
-                    let formData = new FormData();
-                    formData.append('data', JSON.stringify(dataPay));
-
-                    await axios.post(`${this.URI}payment`, formData, {
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        }})
-                        .then(res => {
-                            console.log(res.data)
-                            console.log(res.data.formUrl)
-                            window.location = res.data.formUrl;
-                            // if (res.data[0].errorMessage !== undefined) console.log('Error')
-                        })
-                        .catch(e => {
-                            this.$Progress.fail();
-                            console.log(e)
-                        })
-                }
-
             }
         },
         created() {

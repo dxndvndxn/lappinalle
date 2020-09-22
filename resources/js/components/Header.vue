@@ -293,12 +293,9 @@ BB9OAAAAAElFTkSuQmCC" />
                     return this.$store.getters.countCart;
                 },
                 set(val){
+                    console.log(val, 'countCart')
                     return val;
                 }
-            },
-            getUpdatedCartCount(){
-                this.getCartCount = this.$store.getters.updatedCart.cartCount;
-                return this.$store.getters.updatedCart.cartCount;
             },
             isLoggedIn(){
                 return this.$store.getters.isLoggedIn;

@@ -279,7 +279,7 @@ const store = {
         adminRawMenu: null,
 
         // Оплата товара
-        payId: JSON.parse(localStorage.getItem('paiId') || 'false'),
+        payId: JSON.parse(localStorage.getItem('payId') || 'false'),
 
         // Данные юзера
         userData: null,
@@ -929,6 +929,7 @@ const store = {
         customerDataMutate(state, data){
             data.token = state.token;
             state.customerData = data;
+            window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
         },
 
        async sentDataMutate(state, payName){
@@ -940,17 +941,38 @@ const store = {
             });
 
             state.customerData.paymentName = payName;
-            // Изменить orderDataMutate, чтобы customerData обновлялась, а не пушилась в массив
-            postData.push({customerData: state.customerData, deliveryData: state.deliveryData, orderData: localCart, totalPrice: state.totalPrice});
-            await axios.post(`${state.SITE_URI}order`, postData)
-                .then(response => {
-                    console.log(response.data)
-                    state.payId = response.data;
-                    window.localStorage.setItem('payId', JSON.stringify(state.payId))
-                })
-                .catch(e => {
-                    console.log(e);
-                })
+            let localTotalPrice = state.totalPrice;
+            console.log(localTotalPrice)
+            if (state.deliveryData.deliveryName === 'postman' && state.totalPrice < 2000) {
+               localTotalPrice = state.totalPrice + 300;
+            }
+
+            postData.push({customerData: state.customerData, deliveryData: state.deliveryData, orderData: localCart, totalPrice: localTotalPrice});
+
+           if (payName === 'Сбербанк'){
+
+               let dataPay = {
+                   amount: localTotalPrice,
+               }
+
+               postData.push(dataPay)
+               let formData = new FormData();
+               formData.append('data', JSON.stringify(postData));
+
+               await axios.post(`${state.SITE_URI}payment`, formData, {
+                   headers: {
+                       "Content-Type": "application/x-www-form-urlencoded"
+                   }})
+                   .then(res => {
+                       console.log(res.data)
+                       state.payId = res.data.id;
+                       window.localStorage.setItem('payId', JSON.stringify(state.payId))
+                       window.location = res.data.formUrl;
+                    })
+                   .catch(e => {
+                       console.log(e)
+                   })
+           }
         },
 
         GetUserDataMutate(state){
@@ -966,7 +988,9 @@ const store = {
         },
 
         killPaySuccessMutate(state){
-            state.paySuccess = false;
+            state.payId = false;
+            window.localStorage.removeItem('payId');
+            window.localStorage.removeItem('customerData');
         },
 
         // Добавляем закладку
@@ -995,6 +1019,33 @@ const store = {
         DeliveryDataMutate(state, deliveryData){
             state.deliveryData = deliveryData;
         },
+
+        // Сменяем статус заказа
+        async ChangeStatusOrderMutate(state){
+            let data = [];
+            let localCart = [];
+
+            state.cart.forEach(el => {
+                localCart.push({id: el.id, count: el.count, size: el.size, price: el.price})
+            });
+            let customerData = window.localStorage.getItem('customerData');
+            data.push({customerData: JSON.parse(customerData), orderData: localCart, id: state.payId});
+
+            let formData = new FormData();
+            formData.append('data', JSON.stringify(data));
+
+            axios.post(`${state.SITE_URI}changestatus`, formData)
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data) {
+                        window.localStorage.removeItem('cart');
+                        window.localStorage.removeItem('totalPrice');
+                        state.countCart = 0;
+                        window.localStorage.removeItem('countCart');
+                    }
+                })
+                .catch(e => console.log(e))
+        }
 
     },
     actions: {
@@ -1104,6 +1155,9 @@ const store = {
                 commit('DeliveryDataMutate', deliveryData);
                 resolve(true)
             })
+        },
+        ChangeStatusOrder({commit}){
+            commit('ChangeStatusOrderMutate');
         }
     },
     getters:{

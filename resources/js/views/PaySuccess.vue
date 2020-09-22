@@ -22,7 +22,7 @@
         }),
         created() {
             this.$Progress.start();
-            this.$store.dispatch('sentData');
+            this.$store.dispatch('ChangeStatusOrder');
         },
         computed: {
             payID(){
