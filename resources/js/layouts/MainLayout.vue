@@ -21,6 +21,6 @@ export default {
 
 <style lang="scss">
     .main{
-        height: 100%;
+        height: 100vh;
     }
 </style>

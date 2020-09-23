@@ -1045,10 +1045,10 @@ nav ul {
 .admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-track,
 .admin-crumbs ul::-webkit-scrollbar-track,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
+.wrap-size-grid::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track,
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track,
 .admin-categories .selected-categories::-webkit-scrollbar-track,
 .cart-cards::-webkit-scrollbar-track,
@@ -1059,10 +1059,10 @@ nav ul {
 .admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar,
 .admin-crumbs ul::-webkit-scrollbar,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
+.wrap-size-grid::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar,
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar,
 .admin-categories .selected-categories::-webkit-scrollbar,
 .cart-cards::-webkit-scrollbar,
@@ -1074,10 +1074,10 @@ nav ul {
 .admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-thumb,
 .admin-crumbs ul::-webkit-scrollbar-thumb,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
+.wrap-size-grid::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-thumb,
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-thumb,
 .admin-categories .selected-categories::-webkit-scrollbar-thumb,
 .cart-cards::-webkit-scrollbar-thumb,
@@ -1714,10 +1714,10 @@ nav ul {
 .admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-track,
 .admin-crumbs ul::-webkit-scrollbar-track,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
+.wrap-size-grid::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track,
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track,
 .admin-categories .selected-categories::-webkit-scrollbar-track,
 .cart-cards::-webkit-scrollbar-track,
@@ -1728,10 +1728,10 @@ nav ul {
 .admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar,
 .admin-crumbs ul::-webkit-scrollbar,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
+.wrap-size-grid::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar,
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar,
 .admin-categories .selected-categories::-webkit-scrollbar,
 .cart-cards::-webkit-scrollbar,
@@ -1743,10 +1743,10 @@ nav ul {
 .admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-thumb,
 .admin-crumbs ul::-webkit-scrollbar-thumb,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
+.wrap-size-grid::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-thumb,
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-thumb,
 .admin-categories .selected-categories::-webkit-scrollbar-thumb,
 .cart-cards::-webkit-scrollbar-thumb,
@@ -2139,10 +2139,10 @@ nav ul,
 .admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-track,
 .admin-crumbs ul::-webkit-scrollbar-track,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track,
+.wrap-size-grid::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track,
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track,
 .admin-categories .selected-categories::-webkit-scrollbar-track,
 .cart-cards::-webkit-scrollbar-track,
@@ -2153,10 +2153,10 @@ nav ul,
 .admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar,
 .admin-crumbs ul::-webkit-scrollbar,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar,
+.wrap-size-grid::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar,
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar,
 .admin-categories .selected-categories::-webkit-scrollbar,
 .cart-cards::-webkit-scrollbar,
@@ -2168,10 +2168,10 @@ nav ul,
 .admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-thumb,
 .admin-crumbs ul::-webkit-scrollbar-thumb,
 .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-thumb,
+.wrap-size-grid::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-thumb,
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-thumb,
 .admin-categories .selected-categories::-webkit-scrollbar-thumb,
 .cart-cards::-webkit-scrollbar-thumb,
@@ -2636,6 +2636,53 @@ nav ul,
   display: none;
 }
 
+.item-related-products {
+  margin-bottom: 30px;
+}
+
+.item-related-products .owl-nav {
+  width: 105%;
+  left: -2.5%;
+}
+
+@media screen and (max-width: 1090px) {
+  .item-related-products .owl-nav {
+    width: 108%;
+    left: -4.5%;
+  }
+}
+
+.item-related-products h1 {
+  font-family: "PtSans-Bold", sans-serif;
+  font-size: 33px;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.item-related-products .slide-title {
+  font-family: "PtSans-Regular", sans-serif;
+  font-size: 16px;
+  margin: 20px 0 10px;
+}
+
+.item-related-products .slide-price {
+  font-family: "PtSans-Bold", sans-serif;
+  font-size: 18px;
+  color: #848ccf;
+}
+
+.item-related-products .img-container {
+  width: 300px;
+  height: 300px;
+}
+
+.item-related-products .img-container img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 100%;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
   .catalog-item .bread {
     padding: 28px 0;
@@ -2768,9 +2815,26 @@ nav ul,
   .review-wrap .review-user-no {
     margin: 0 0 30px;
   }
+
+  .item-related-products .owl-nav {
+    width: 100%;
+    left: 0;
+  }
+
+  .item-related-products h1 {
+    font-size: 22px;
+  }
+
+  .item-related-products .img-container {
+    height: 320px;
+  }
 }
 
 @media screen and (max-width: 576px) {
+  .item-related-products h1 {
+    font-size: 18px;
+  }
+
   .item-title {
     font-size: 18px;
   }
@@ -2810,7 +2874,7 @@ nav ul,
   }
 
   .item-review h1 {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .review-wrap .review-user .user-text {
@@ -5191,34 +5255,6 @@ aside {
   grid-column-gap: 30px;
 }
 
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 40px);
-  grid-template-rows: 40px;
-  grid-column-gap: 14px;
-  grid-row-gap: 8px;
-  margin-bottom: 5px;
-  height: 134px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid::-webkit-scrollbar {
-  width: 5px;
-  background-color: #848ccf;
-}
-
-.admin-product-card-desc .wrap-card-sizes .size-grid .wrap-size-grid span {
-  background-color: #e7eff8;
-  font-family: "PtSans-Regular", sans-serif;
-  color: #585757;
-  height: 40px;
-  text-align: center;
-  padding-top: 11px;
-  box-sizing: border-box;
-  cursor: pointer;
-}
-
 .admin-product-card-desc .wrap-card-sizes .wrap-newsize input {
   padding: 5px 15px;
   -webkit-appearance: none;
@@ -5378,10 +5414,59 @@ aside {
   background-color: #848ccf;
 }
 
+.admin-product-photos-rew .new-functionality {
+  display: flex;
+}
+
+.admin-product-photos-rew .new-functionality .wrap-size-grid {
+  margin-top: 8px;
+  grid-template-columns: repeat(5, 40px);
+}
+
+.admin-product-photos-rew .new-functionality .related-products:nth-child(1) {
+  margin-right: 25px;
+}
+
+.admin-product-photos-rew .new-functionality .related-products .wrap-related-products {
+  display: flex;
+}
+
+.admin-product-photos-rew .new-functionality .related-products .wrap-related-products input {
+  padding: 5px 15px;
+}
+
 #loadImg,
 #loadVid {
   width: 0;
   height: 0;
+}
+
+.wrap-size-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 40px);
+  grid-template-rows: 40px;
+  grid-column-gap: 14px;
+  grid-row-gap: 8px;
+  margin-bottom: 5px;
+  height: 134px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.wrap-size-grid::-webkit-scrollbar {
+  width: 5px;
+  background-color: #848ccf;
+}
+
+.wrap-size-grid span {
+  background-color: #e7eff8;
+  font-family: "PtSans-Regular", sans-serif;
+  color: #585757;
+  height: 40px;
+  text-align: center;
+  padding-top: 11px;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 .admin-main-page button {
@@ -5649,6 +5734,12 @@ html,
 body {
   overflow-x: hidden;
   scroll-behavior: smooth;
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+  position: relative;
 }
 
 @font-face {

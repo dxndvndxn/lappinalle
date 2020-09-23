@@ -132,6 +132,7 @@ Route::post('/payment', 'SberController@sber');
 // Меняем статус
 Route::post('/changestatus', 'ChangeStatusOrderController@index');
 
+
 Route::fallback(function(){
     return response()->json([
         'message' => 'Page Not Found. If error persists, contact info@website.com'], 404);

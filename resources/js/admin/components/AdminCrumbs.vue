@@ -15,13 +15,23 @@
                 {{sz.sizes_number}}
             </li>
         </ul>
+        <ul v-if="allIds">
+            <li v-for="(id, i) in allIds" @click="addId(id.product_id)">
+                {{id.product_id}}
+            </li>
+        </ul>
+        <ul v-if="sizesWithoutSale">
+            <li v-for="(sz, i) in sizesWithoutSale" @click="chooseWithoutSale(sz.sizes_number)">
+                {{sz.sizes_number}}
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
     export default {
         name: "AdminCrumbs",
-        props: ['lvl', 'crumbs', 'sizes'],
+        props: ['lvl', 'crumbs', 'sizes', 'allIds', 'sizesWithoutSale'],
         data: () => ({
 
         }),
@@ -33,6 +43,12 @@
             },
             chooseSize(size, sizeId){
                 this.$emit('addNewSize', {size, sizeId})
+            },
+            addId(id){
+                this.$emit('addRelatedId', id)
+            },
+            chooseWithoutSale(size){
+                this.$emit('chooseWithoutSale', size)
             }
         }
         // created() {

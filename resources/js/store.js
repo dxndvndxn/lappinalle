@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'https://lappinalle.ru/api/';
+const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -765,7 +765,8 @@ const store = {
                             });
                         }
                     }
-
+                    stateItemData.relatedProducts = itemData.relatedProducts;
+                    stateItemData.eu = itemData.eu;
                     state.catalogItemStars = stars;
                     state.catalogItem = stateItemData;
                 }).catch(errors => console.log(errors))

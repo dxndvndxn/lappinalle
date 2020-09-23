@@ -13,7 +13,7 @@
                         <img v-bind:src="img.img" v-if="img.img" alt="" v-bind:class="img.clicked ? 'clicked-pic' : null">
                     </div>
                 </div>
-                <div class="wrap" v-else>
+                <div class="wrap" v-if="media.wind <= media.tablet && returnDataForItem.itemPics.length">
                         <carousel :dots="false" :lazyLoad="false" :autoWidth="false" :items="1">
                         <div class="item-pic" v-for="(img, i) in returnDataForItem.itemPics" v-if="img.img" :key="i">
                             <img v-bind:src="img.img" alt="">
@@ -246,6 +246,19 @@
                 :container-class="'pagination'">
             </paginate>
         </div>
+        {{returnDataForItem}}
+        <div class="item-related-products" v-if="returnDataForItem.relatedProducts.length">
+            <h1>К этом товару подходят</h1>
+            <carousel :dots="false" :lazyLoad="false" :autoWidth="false" :responsive="{0:{items:1,nav:true},769:{items:3,nav:true}}">
+                <div class="slide-wrap" v-for='(img, ii) in returnDataForItem.relatedProducts' :key="ii">
+                    <div class="img-container" @click="pushToProduct(img.product_id)">
+                        <img :src="img.product_img.split(',')[0]" alt="">
+                    </div>
+                    <span class="slide-title">{{img.product_title}}</span>
+                    <span class="slide-price" :class="img.product_old_price !== null ? 'sale' : null">{{parseInt(img.product_price) * returnDataForItem.eu}} ₽</span>
+                </div>
+            </carousel>
+        </div>
     </div>
 </template>
 
@@ -267,20 +280,22 @@
             reviewBool: false,
             reviewText: null,
             starReview: null,
-            successSentReview: false
+            successSentReview: false,
+            linkForRelated: null
         }),
-        created(){
+        async created(){
            this.$Progress.start();
 
            // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
            this.pageReview = +this.$route.query.page || 1;
 
            // Получаем данные товара
-           this.$store.dispatch('getItemData', this.$route.params.number);
+           await this.$store.dispatch('getItemData', this.$route.params.number);
 
            //Получаем отзывы
            this.getItemReview(this.pageReview);
 
+           this.linkForRelated = this.$route.params.gender;
        },
         methods: {
             // Кликаем по фотографии товара
@@ -373,15 +388,20 @@
                         }
                     })
                     .catch(e => console.log(e))
+            },
+            async pushToProduct(id){
+                await this.$router.push(`item-${id}`);
             }
         },
         computed: {
             // Возвращаем дату для товара
             returnDataForItem(){
-                if (this.$store.getters.catalogItem !== null){
-                    this.$Progress.finish();
-                    return this.$store.getters.catalogItem;
-                }
+                // if (this.$store.getters.catalogItem !== null){
+                //     this.$Progress.finish();
+                //     return this.$store.getters.catalogItem;
+                // }
+                this.$Progress.finish();
+                return this.$store.getters.catalogItem;
             },
             // Возвращаем отзывы для товара
             returnReviewForItem(){
@@ -412,6 +432,15 @@
             },
             media(){
                 return this.$store.getters.media;
+            }
+        },
+        watch: {
+           async $route(to){
+                console.log(to.name)
+                if (to.name === 'item'){
+                    this.$Progress.start();
+                   await this.$store.dispatch('getItemData', this.$route.params.number).then(() => window.screenTop);
+                }
             }
         }
     }

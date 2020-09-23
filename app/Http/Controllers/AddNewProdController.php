@@ -178,6 +178,18 @@ class AddNewProdController extends Controller
                 ->where('product_id', $productStr['id'])
                 ->update(['product_img' => $productStr['updatedImg']]);
         }
+
+        if (isset($productStr['relatedId'])) {
+            DB::table('products')
+                ->where('product_id', $productStr['id'])
+                ->update(['product_related' => $productStr['relatedId']]);
+        }
+
+        if (isset($productStr['sizeWithoutSale'])) {
+            DB::table('products')
+                ->where('product_id', $productStr['id'])
+                ->update(['product_sizes_without_sale' => $productStr['sizeWithoutSale']]);
+        }
         return true;
     }
 }

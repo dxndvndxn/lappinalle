@@ -394,7 +394,7 @@ const routes = [
         path: '/:gender/item-:number',
         name: 'item',
         meta: { layout: 'Main' },
-        component: Catalogitem
+        component: Catalogitem,
     },
     {
         path: '/:gender/:category/item-:number',

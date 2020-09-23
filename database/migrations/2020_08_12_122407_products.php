@@ -24,6 +24,8 @@ class Products extends Migration
             $table->text('product_video')->nullable()->collation('utf8_general_ci');
             $table->boolean('product_available')->default(1);
             $table->integer('product_vendor')->nullable();
+            $table->string('product_related', 100)->nullable()->collation('utf8_general_ci');
+            $table->string('product_sizes_without_sale', 100)->nullable()->collation('utf8_general_ci');
             $table->timestamp("added_on");
             $table->unsignedTinyInteger('sex_id')->nullable();
             $table->foreign('sex_id')->references('sex_id')->on('sex')->onDelete('cascade');

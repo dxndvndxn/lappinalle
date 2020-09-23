@@ -108,9 +108,6 @@
                     return val;
                 }
             },
-            // getProductCart(){
-            //     return this.$store.getters.cartProduct;
-            // },
             getTotalCount(){
                 this.countTotal(this.getProductCart);
                 return this.totalPrice;

@@ -44,32 +44,7 @@
         @include grid-temp(50%, 50%, 0px);
         grid-column-gap: 30px;
         .size-grid{
-            .wrap-size-grid{
-                @include variableColumns(4, 40px);
-                grid-template-rows: 40px;
-                grid-column-gap: 14px;
-                grid-row-gap: 8px;
-                margin-bottom: 5px;
-                height: 134px;
-                overflow-x: hidden;
-                overflow-y: scroll;
-                @extend %scrollbar;
-                &::-webkit-scrollbar
-                {
-                    width: 5px;
-                    background-color: $palepurpp;
-                }
-                span{
-                    background-color: $ocean;
-                    @include ptSans(400);
-                    color: $grey;
-                    height: 40px;
-                    text-align: center;
-                    padding-top: 11px;
-                    box-sizing: border-box;
-                    cursor: pointer;
-                }
-            }
+
         }
         .wrap-newsize{
             input{
@@ -208,8 +183,52 @@
             }
         }
     }
+    .new-functionality{
+        display: flex;
+        .wrap-size-grid{
+            margin-top: 8px;
+            grid-template-columns: repeat(5, 40px);
+        }
+        .related-products{
+            &:nth-child(1){
+                margin-right: 25px;
+            }
+            .wrap-related-products{
+                display: flex;
+                input{
+                    padding: 5px 15px;
+                }
+            }
+        }
+    }
 }
 #loadImg, #loadVid{
     width: 0;
     height: 0;
+}
+.wrap-size-grid{
+    @include variableColumns(4, 40px);
+    grid-template-rows: 40px;
+    grid-column-gap: 14px;
+    grid-row-gap: 8px;
+    margin-bottom: 5px;
+    height: 134px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    @extend %scrollbar;
+    &::-webkit-scrollbar
+    {
+        width: 5px;
+        background-color: $palepurpp;
+    }
+    span{
+        background-color: $ocean;
+        @include ptSans(400);
+        color: $grey;
+        height: 40px;
+        text-align: center;
+        padding-top: 11px;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
 }

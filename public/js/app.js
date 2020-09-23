@@ -2050,9 +2050,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminCrumbs",
-  props: ['lvl', 'crumbs', 'sizes'],
+  props: ['lvl', 'crumbs', 'sizes', 'allIds', 'sizesWithoutSale'],
   data: function data() {
     return {};
   },
@@ -2075,6 +2085,12 @@ __webpack_require__.r(__webpack_exports__);
         size: size,
         sizeId: sizeId
       });
+    },
+    addId: function addId(id) {
+      this.$emit('addRelatedId', id);
+    },
+    chooseWithoutSale: function chooseWithoutSale(size) {
+      this.$emit('chooseWithoutSale', size);
     }
   } // created() {
   //     if (this.getCrumbs === null) this.$store.dispatch('getMenuData');
@@ -3717,6 +3733,32 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3764,13 +3806,22 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       //Ошибка ввода
       errorInput: false,
       // Если отправляем кол-во товара размера первый раз
-      noSizesNoCount: false
+      noSizesNoCount: false,
+      // RELATED PRODUCTS
+      // Все id товаров
+      allIdsProducts: null,
+      // Кликалка показывание ids
+      activeAllIds: false,
+      // сопутствующие продукты
+      relatedProducts: [],
+      // РАЗМЕРЫ БЕЗ СКИДКИ
+      // Кликалка показывание размеров
+      activeSizesWithoutSale: false,
+      //размеры без скидки
+      sizesWithNoSale: []
     };
   },
   methods: {
-    // addSize(){
-    //     if (this.newSize) this.sizes.push(this.newSize)
-    // },
     pushImg: function pushImg() {
       var _this = this;
 
@@ -4236,13 +4287,43 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         oldPrice: this.priceProduct
       };
       this.updateProduct(this.$route.params.id, 'sale', dataSale);
+    },
+    // Добавляем сопутствующие товары
+    addRelatedId: function addRelatedId(id) {
+      var findRelatedId = this.relatedProducts.find(function (localId) {
+        return localId === id;
+      });
+      if (findRelatedId) return;
+      this.relatedProducts.push(id);
+      this.updateProduct(this.$route.params.id, 'relatedId', this.relatedProducts.join(','));
+    },
+    // Удоляем сопутствующие товары
+    deleteRelatedProducts: function deleteRelatedProducts(id) {
+      this.relatedProducts = this.relatedProducts.filter(function (localId) {
+        return localId !== id;
+      });
+      this.updateProduct(this.$route.params.id, 'relatedId', this.relatedProducts.join(','));
+    },
+    // Добавляем товары без скидки
+    chooseWithoutSale: function chooseWithoutSale(sz) {
+      var findSize = this.sizesWithNoSale.find(function (size) {
+        return size === sz;
+      });
+      if (findSize) return;
+      this.sizesWithNoSale.push(sz);
+      this.updateProduct(this.$route.params.id, 'sizeWithoutSale', this.sizesWithNoSale.join(','));
+    },
+    deleteSizeWithoutSale: function deleteSizeWithoutSale(sz) {
+      this.sizesWithNoSale = this.sizesWithNoSale.filter(function (size) {
+        return size !== sz;
+      });
+      this.updateProduct(this.$route.params.id, 'sizeWithoutSale', this.sizesWithNoSale.join(','));
     }
   },
   created: function created() {
     this.$Progress.start();
     this.$store.dispatch('GetAllSizes');
-    this.$store.dispatch('GetOneProduct', this.$route.params.id); // this.$store.dispatch('GetSizeForOneProduct');
-    // this.$store.dispatch('GetAllReviews')
+    this.$store.dispatch('GetOneProduct', this.$route.params.id);
   },
   watch: {
     files: function files(val) {
@@ -4259,10 +4340,21 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.saleProduct = newValue[0].product_sale ? newValue[0].product_price : null;
       this.nameProduct = newValue[0].product_title;
       this.video = newValue[0].product_video;
-      this.uploadedImgs = []; // Проверяем есть ли видео
+      this.uploadedImgs = [];
+      this.allIdsProducts = newValue.allIds; // Размеры без скидок
+
+      if (newValue[0].product_sizes_without_sale !== null) {
+        this.sizesWithNoSale = newValue[0].product_sizes_without_sale.split(',');
+      } // Сопутствующие товары
+
+
+      if (newValue[0].product_related !== null) {
+        this.relatedProducts = newValue[0].product_related.split(',');
+      } // Проверяем есть ли видео
       // Если есть, то ставим на главную видео
       // @this.videoOrImg это триггер, если тру, то в template ставить на главную превью видео
       // Есди нет, то триггер на false, соответственно на главую превью встает картинка
+
 
       if (newValue[0].product_video) {
         this.mainImg = this.video;
@@ -5881,9 +5973,6 @@ __webpack_require__.r(__webpack_exports__);
         return val;
       }
     },
-    // getProductCart(){
-    //     return this.$store.getters.cartProduct;
-    // },
     getTotalCount: function getTotalCount() {
       this.countTotal(this.getProductCart);
       return this.totalPrice;
@@ -6584,6 +6673,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6605,17 +6707,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       reviewBool: false,
       reviewText: null,
       starReview: null,
-      successSentReview: false
+      successSentReview: false,
+      linkForRelated: null
     };
   },
   created: function created() {
-    this.$Progress.start(); // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
+    var _this = this;
 
-    this.pageReview = +this.$route.query.page || 1; // Получаем данные товара
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _this.$Progress.start(); // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
 
-    this.$store.dispatch('getItemData', this.$route.params.number); //Получаем отзывы
 
-    this.getItemReview(this.pageReview);
+              _this.pageReview = +_this.$route.query.page || 1; // Получаем данные товара
+
+              _context.next = 4;
+              return _this.$store.dispatch('getItemData', _this.$route.params.number);
+
+            case 4:
+              //Получаем отзывы
+              _this.getItemReview(_this.pageReview);
+
+              _this.linkForRelated = _this.$route.params.gender;
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
     // Кликаем по фотографии товара
@@ -6678,7 +6802,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     addToCartOneClick: function addToCartOneClick(itemId, itemPrice) {
-      var _this = this;
+      var _this2 = this;
 
       // Если длинна вообще есть размеры, то проверяем выбраны ли размеры
       if (this.returnDataForItem.itemSizes.length) {
@@ -6693,7 +6817,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             });
           });
           this.$store.dispatch('addToCart', data).then(function () {
-            return _this.$router.push({
+            return _this2.$router.push({
               name: 'cart'
             });
           });
@@ -6707,7 +6831,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           size: null,
           price: itemPrice
         }]).then(function () {
-          return _this.$router.push({
+          return _this2.$router.push({
             name: 'cart'
           });
         });
@@ -6723,33 +6847,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     sentReview: function sentReview() {
-      var _this2 = this;
+      var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var review;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(_this2.reviewText == null && _this2.starReview == null)) {
-                  _context.next = 2;
+                if (!(_this3.reviewText == null && _this3.starReview == null)) {
+                  _context2.next = 2;
                   break;
                 }
 
-                return _context.abrupt("return");
+                return _context2.abrupt("return");
 
               case 2:
                 review = {
-                  review_text: _this2.reviewText,
-                  review_star: _this2.starReview,
+                  review_text: _this3.reviewText,
+                  review_star: _this3.starReview,
                   token: localStorage.getItem('token'),
-                  product_id: _this2.$route.params.number
+                  product_id: _this3.$route.params.number
                 };
-                _context.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(_this2.returnURI, "newreview"), review).then(function (res) {
+                _context2.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(_this3.returnURI, "newreview"), review).then(function (res) {
                   if (res.data) {
-                    _this2.reviewBool = !_this2.reviewBool;
-                    _this2.successSentReview = !_this2.successSentReview;
+                    _this3.reviewBool = !_this3.reviewBool;
+                    _this3.successSentReview = !_this3.successSentReview;
                   }
                 })["catch"](function (e) {
                   return console.log(e);
@@ -6757,20 +6881,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
+      }))();
+    },
+    pushToProduct: function pushToProduct(id) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _this4.$router.push("item-".concat(id));
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   },
   computed: {
     // Возвращаем дату для товара
     returnDataForItem: function returnDataForItem() {
-      if (this.$store.getters.catalogItem !== null) {
-        this.$Progress.finish();
-        return this.$store.getters.catalogItem;
-      }
+      // if (this.$store.getters.catalogItem !== null){
+      //     this.$Progress.finish();
+      //     return this.$store.getters.catalogItem;
+      // }
+      this.$Progress.finish();
+      return this.$store.getters.catalogItem;
     },
     // Возвращаем отзывы для товара
     returnReviewForItem: function returnReviewForItem() {
@@ -6801,6 +6946,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     media: function media() {
       return this.$store.getters.media;
+    }
+  },
+  watch: {
+    $route: function $route(to) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                console.log(to.name);
+
+                if (!(to.name === 'item')) {
+                  _context4.next = 5;
+                  break;
+                }
+
+                _this5.$Progress.start();
+
+                _context4.next = 5;
+                return _this5.$store.dispatch('getItemData', _this5.$route.params.number).then(function () {
+                  return window.screenTop;
+                });
+
+              case 5:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
     }
   }
 });
@@ -8366,7 +8543,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".main {\n  height: 100%;\n}", ""]);
+exports.push([module.i, ".main {\n  height: 100vh;\n}", ""]);
 
 // exports
 
@@ -10494,6 +10671,50 @@ var render = function() {
                 on: {
                   click: function($event) {
                     return _vm.chooseSize(sz.sizes_number, sz.sizes_id)
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n            " + _vm._s(sz.sizes_number) + "\n        "
+                )
+              ]
+            )
+          }),
+          0
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.allIds
+      ? _c(
+          "ul",
+          _vm._l(_vm.allIds, function(id, i) {
+            return _c(
+              "li",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.addId(id.product_id)
+                  }
+                }
+              },
+              [_vm._v("\n            " + _vm._s(id.product_id) + "\n        ")]
+            )
+          }),
+          0
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.sizesWithoutSale
+      ? _c(
+          "ul",
+          _vm._l(_vm.sizesWithoutSale, function(sz, i) {
+            return _c(
+              "li",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.chooseWithoutSale(sz.sizes_number)
                   }
                 }
               },
@@ -13607,6 +13828,140 @@ var render = function() {
               })
             ])
           : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "new-functionality" }, [
+        _c(
+          "div",
+          { staticClass: "related-products" },
+          [
+            _c("h1", { staticClass: "admin-h3" }, [
+              _vm._v("Сопутствующие товары")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-related-products" }, [
+              _c("input", {
+                staticClass: "input-transp",
+                attrs: { type: "text", placeholder: "№ товара", disabled: "" }
+              }),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-admin-arrow",
+                class: _vm.activeAllIds
+                  ? "admin-btn-arrow"
+                  : "admin-btn-arrow-pass",
+                on: {
+                  click: function($event) {
+                    _vm.activeAllIds = !_vm.activeAllIds
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _vm.activeAllIds
+              ? _c("AdminCrumbs", {
+                  attrs: { allIds: _vm.allIdsProducts },
+                  on: { addRelatedId: _vm.addRelatedId }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.relatedProducts.length
+              ? _c(
+                  "div",
+                  { staticClass: "wrap-size-grid" },
+                  _vm._l(_vm.relatedProducts, function(related, i) {
+                    return _c(
+                      "span",
+                      {
+                        on: {
+                          dblclick: function($event) {
+                            return _vm.deleteRelatedProducts(related)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(related) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  }),
+                  0
+                )
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "related-products" },
+          [
+            _c("h1", { staticClass: "admin-h3" }, [
+              _vm._v("Размеры без скидки")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "wrap-related-products" }, [
+              _c("input", {
+                staticClass: "input-transp",
+                attrs: {
+                  type: "text",
+                  placeholder: "Новый размер",
+                  disabled: ""
+                }
+              }),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-admin-arrow",
+                class: _vm.activeSizesWithoutSale
+                  ? "admin-btn-arrow"
+                  : "admin-btn-arrow-pass",
+                on: {
+                  click: function($event) {
+                    _vm.activeSizesWithoutSale = !_vm.activeSizesWithoutSale
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _vm.activeSizesWithoutSale
+              ? _c("AdminCrumbs", {
+                  attrs: { sizesWithoutSale: _vm.getAllSizes },
+                  on: { chooseWithoutSale: _vm.chooseWithoutSale }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.sizesWithNoSale.length
+              ? _c(
+                  "div",
+                  { staticClass: "wrap-size-grid" },
+                  _vm._l(_vm.sizesWithNoSale, function(sz, i) {
+                    return _c(
+                      "span",
+                      {
+                        on: {
+                          dblclick: function($event) {
+                            return _vm.deleteSizeWithoutSale(sz)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(sz) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  }),
+                  0
+                )
+              : _vm._e()
+          ],
+          1
+        )
       ])
     ])
   ])
@@ -16848,7 +17203,11 @@ var render = function() {
                   }),
                   0
                 )
-              : _c(
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.media.wind <= _vm.media.tablet &&
+            _vm.returnDataForItem.itemPics.length
+              ? _c(
                   "div",
                   { staticClass: "wrap" },
                   [
@@ -16874,6 +17233,7 @@ var render = function() {
                   ],
                   1
                 )
+              : _vm._e()
           ]),
           _vm._v(" "),
           _vm.media.wind > _vm.media.tablet
@@ -17986,7 +18346,80 @@ var render = function() {
               : _vm._e()
           ],
           1
-        )
+        ),
+        _vm._v("\n        " + _vm._s(_vm.returnDataForItem) + "\n        "),
+        _vm.returnDataForItem.relatedProducts.length
+          ? _c(
+              "div",
+              { staticClass: "item-related-products" },
+              [
+                _c("h1", [_vm._v("К этом товару подходят")]),
+                _vm._v(" "),
+                _c(
+                  "carousel",
+                  {
+                    attrs: {
+                      dots: false,
+                      lazyLoad: false,
+                      autoWidth: false,
+                      responsive: {
+                        0: { items: 1, nav: true },
+                        769: { items: 3, nav: true }
+                      }
+                    }
+                  },
+                  _vm._l(_vm.returnDataForItem.relatedProducts, function(
+                    img,
+                    ii
+                  ) {
+                    return _c("div", { key: ii, staticClass: "slide-wrap" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "img-container",
+                          on: {
+                            click: function($event) {
+                              return _vm.pushToProduct(img.product_id)
+                            }
+                          }
+                        },
+                        [
+                          _c("img", {
+                            attrs: {
+                              src: img.product_img.split(",")[0],
+                              alt: ""
+                            }
+                          })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "slide-title" }, [
+                        _vm._v(_vm._s(img.product_title))
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass: "slide-price",
+                          class: img.product_old_price !== null ? "sale" : null
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              parseInt(img.product_price) *
+                                _vm.returnDataForItem.eu
+                            ) + " ₽"
+                          )
+                        ]
+                      )
+                    ])
+                  }),
+                  0
+                )
+              ],
+              1
+            )
+          : _vm._e()
       ])
     : _vm._e()
 }
@@ -42333,7 +42766,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var URI = 'https://lappinalle.ru/api/';
+var URI = 'http://lappinalle.test/api/';
 var admin = {
   state: function state() {
     return {
@@ -43277,10 +43710,12 @@ var store = {
                               }
                             }
 
+                            stateItemData.relatedProducts = itemData.relatedProducts;
+                            stateItemData.eu = itemData.eu;
                             state.catalogItemStars = stars;
                             state.catalogItem = stateItemData;
 
-                          case 9:
+                          case 11:
                           case "end":
                             return _context14.stop();
                         }
