@@ -52,20 +52,21 @@
             :active-class="'sale'"
             :container-class="'pagination'">
         </paginate>
-        <paginate
-            v-if="catalogTotalPages && media.wind <= media.tablet"
-            v-model="updatedPage"
-            :page-range="3"
-            :page-count="Math.ceil(catalogTotalPages / 30)"
-            :click-handler="pageChange"
-            :prev-text="''"
-            :next-text="''"
-            :page-class="'pages'"
-            :prev-class="'this-page'"
-            :next-class="'next-page'"
-            :active-class="'sale'"
-            :container-class="'pagination'">
-        </paginate>
+            <paginate
+                v-if="catalogTotalPages && media.wind <= media.tablet"
+                v-model="updatedPage"
+                :page-range="3"
+                :break-view-text="''"
+                :page-count="Math.ceil(catalogTotalPages / 30)"
+                :click-handler="pageChange"
+                :prev-text="''"
+                :next-text="''"
+                :page-class="'pages'"
+                :prev-class="'this-page'"
+                :next-class="'next-page'"
+                :active-class="'sale'"
+                :container-class="'pagination'">
+            </paginate>
     </div>
 </template>
 

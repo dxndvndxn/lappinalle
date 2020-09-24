@@ -95,3 +95,10 @@
         }
     }
 }
+@media screen and (max-width: $mobile) {
+    .pagination{
+        .pages{
+            margin: 0 15px;
+        }
+    }
+}

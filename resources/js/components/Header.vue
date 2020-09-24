@@ -93,9 +93,13 @@ BB9OAAAAAElFTkSuQmCC" />
                         :class="categ[0].hover ? 'active-catg' : null"
                         @mouseleave="categ[0].hover = false"
                     >
-                        <router-link :to="{name: 'category', params: {gender: categ[0].sex_alias, category: categ[0].categories_alias}}" >
+                        <router-link v-if="value === 'Распродажа'" :to="{path: `${categ[0].sex_alias}?sale=true`}">
                             <span v-if="media.wind > media.tablet" @mouseover="showDepartment(value, categories, categ)" :class="value === 'Распродажа' ? 'sale' : null" @click="closeMenu()">{{value}}</span>
                             <span v-else @click="ClickShowDepartments(categ)" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
+                        </router-link>
+                        <router-link v-else :to="{name: 'category', params: {gender: categ[0].sex_alias, category: categ[0].categories_alias}}" >
+                            <span v-if="media.wind > media.tablet" @mouseover="showDepartment(value, categories, categ)" @click="closeMenu()">{{value}}</span>
+                            <span v-else @click="ClickShowDepartments(categ)">{{value}}</span>
                         </router-link>
                     </li>
                 </ul>

@@ -218,10 +218,9 @@ nav{
                 }
                 .back-to-categories{
                     @include ptSans(700);
+                    padding: 15px 35px!important;
                     a{
                         position: relative;
-                        width: 55%;
-                        display: inline-flex;
                         &:before{
                             transform: skew(45deg, -40deg);
                             content: "";
@@ -304,5 +303,17 @@ nav{
                 }
             }
         }
+    }
+}
+@media screen and (max-width: $mobile) {
+    header {
+        height: 59px;
+    }
+    nav {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        z-index: 9999;
     }
 }

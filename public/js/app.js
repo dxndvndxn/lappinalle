@@ -5007,6 +5007,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
   data: function data() {
@@ -6018,6 +6022,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -15224,62 +15229,109 @@ var render = function() {
                                 }
                               },
                               [
-                                _c(
-                                  "router-link",
-                                  {
-                                    attrs: {
-                                      to: {
-                                        name: "category",
-                                        params: {
-                                          gender: categ[0].sex_alias,
-                                          category: categ[0].categories_alias
+                                value === "Распродажа"
+                                  ? _c(
+                                      "router-link",
+                                      {
+                                        attrs: {
+                                          to: {
+                                            path:
+                                              categ[0].sex_alias + "?sale=true"
+                                          }
                                         }
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm.media.wind > _vm.media.tablet
-                                      ? _c(
-                                          "span",
-                                          {
-                                            class:
-                                              value === "Распродажа"
-                                                ? "sale"
-                                                : null,
-                                            on: {
-                                              mouseover: function($event) {
-                                                return _vm.showDepartment(
-                                                  value,
-                                                  _vm.categories,
-                                                  categ
-                                                )
+                                      },
+                                      [
+                                        _vm.media.wind > _vm.media.tablet
+                                          ? _c(
+                                              "span",
+                                              {
+                                                class:
+                                                  value === "Распродажа"
+                                                    ? "sale"
+                                                    : null,
+                                                on: {
+                                                  mouseover: function($event) {
+                                                    return _vm.showDepartment(
+                                                      value,
+                                                      _vm.categories,
+                                                      categ
+                                                    )
+                                                  },
+                                                  click: function($event) {
+                                                    return _vm.closeMenu()
+                                                  }
+                                                }
                                               },
-                                              click: function($event) {
-                                                return _vm.closeMenu()
-                                              }
+                                              [_vm._v(_vm._s(value))]
+                                            )
+                                          : _c(
+                                              "span",
+                                              {
+                                                class:
+                                                  value === "Распродажа"
+                                                    ? "sale"
+                                                    : null,
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.ClickShowDepartments(
+                                                      categ
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v(_vm._s(value))]
+                                            )
+                                      ]
+                                    )
+                                  : _c(
+                                      "router-link",
+                                      {
+                                        attrs: {
+                                          to: {
+                                            name: "category",
+                                            params: {
+                                              gender: categ[0].sex_alias,
+                                              category:
+                                                categ[0].categories_alias
                                             }
-                                          },
-                                          [_vm._v(_vm._s(value))]
-                                        )
-                                      : _c(
-                                          "span",
-                                          {
-                                            class:
-                                              value === "Распродажа"
-                                                ? "sale"
-                                                : null,
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.ClickShowDepartments(
-                                                  categ
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [_vm._v(_vm._s(value))]
-                                        )
-                                  ]
-                                )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm.media.wind > _vm.media.tablet
+                                          ? _c(
+                                              "span",
+                                              {
+                                                on: {
+                                                  mouseover: function($event) {
+                                                    return _vm.showDepartment(
+                                                      value,
+                                                      _vm.categories,
+                                                      categ
+                                                    )
+                                                  },
+                                                  click: function($event) {
+                                                    return _vm.closeMenu()
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v(_vm._s(value))]
+                                            )
+                                          : _c(
+                                              "span",
+                                              {
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.ClickShowDepartments(
+                                                      categ
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v(_vm._s(value))]
+                                            )
+                                      ]
+                                    )
                               ],
                               1
                             )
@@ -17048,6 +17100,7 @@ var render = function() {
         ? _c("paginate", {
             attrs: {
               "page-range": 3,
+              "break-view-text": "",
               "page-count": Math.ceil(_vm.catalogTotalPages / 30),
               "click-handler": _vm.pageChange,
               "prev-text": "",
@@ -43946,7 +43999,6 @@ var store = {
                 });
                 state.customerData.paymentName = payName;
                 localTotalPrice = state.totalPrice;
-                console.log(localTotalPrice);
 
                 if (state.deliveryData.deliveryName === 'postman' && state.totalPrice < 2000) {
                   localTotalPrice = state.totalPrice + 300;
@@ -43960,7 +44012,7 @@ var store = {
                 });
 
                 if (!(payName === 'Сбербанк')) {
-                  _context18.next = 15;
+                  _context18.next = 14;
                   break;
                 }
 
@@ -43970,7 +44022,7 @@ var store = {
                 postData.push(dataPay);
                 formData = new FormData();
                 formData.append('data', JSON.stringify(postData));
-                _context18.next = 15;
+                _context18.next = 14;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "payment"), formData, {
                   headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
@@ -43984,7 +44036,7 @@ var store = {
                   console.log(e);
                 });
 
-              case 15:
+              case 14:
               case "end":
                 return _context18.stop();
             }
@@ -44084,6 +44136,7 @@ var store = {
                     window.localStorage.removeItem('totalPrice');
                     state.countCart = 0;
                     window.localStorage.removeItem('countCart');
+                    state.cartProduct = null;
                   }
                 })["catch"](function (e) {
                   return console.log(e);

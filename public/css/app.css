@@ -1356,12 +1356,11 @@ nav .menu-bottom .menu-departments li a {
 
   nav .menu-bottom .menu-departments .back-to-categories {
     font-family: "PtSans-Bold", sans-serif;
+    padding: 15px 35px !important;
   }
 
   nav .menu-bottom .menu-departments .back-to-categories a {
     position: relative;
-    width: 55%;
-    display: inline-flex;
   }
 
   nav .menu-bottom .menu-departments .back-to-categories a:before {
@@ -1433,6 +1432,20 @@ nav .menu-bottom .menu-departments li a {
     right: -9px;
     bottom: -5px;
     font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  header {
+    height: 59px;
+  }
+
+  nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    z-index: 9999;
   }
 }
 
@@ -1665,6 +1678,30 @@ footer .bottom-foot span:nth-child(1) {
   .catalog-items {
     grid-template-columns: 100%;
     grid-row-gap: 35px;
+  }
+
+  .catalog-items .item-sizes {
+    background: #e7eff8;
+    height: 240px;
+    width: 35px;
+    left: 13px;
+    text-align: center;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding-top: 12px;
+  }
+
+  .catalog-items .item-sizes::-webkit-scrollbar-track {
+    background-color: #93b5e1;
+  }
+
+  .catalog-items .item-sizes::-webkit-scrollbar {
+    width: 6px;
+    background-color: #848ccf;
+  }
+
+  .catalog-items .item-sizes::-webkit-scrollbar-thumb {
+    background-color: #848ccf;
   }
 
   .catalog-items .item a img {
@@ -1945,7 +1982,8 @@ nav ul {
 
   .catalog-sidebar .sizing-cell button {
     background-color: #fff;
-    padding: 10px;
+    padding: 0;
+    height: 40px;
   }
 
   .catalog-sidebar .sidebar-price {
@@ -1968,7 +2006,7 @@ nav ul {
     position: absolute;
     content: "";
     top: 50%;
-    left: 45%;
+    left: 44%;
     height: 3px;
     width: 30px;
     background-color: #848ccf;
@@ -2123,6 +2161,12 @@ nav ul {
     top: 10px;
     left: 0%;
     background: #93b5e1;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .pagination .pages {
+    margin: 0 15px;
   }
 }
 

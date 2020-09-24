@@ -308,6 +308,7 @@ const store = {
         auth_error(state){
             state.status = false;
         },
+
         // Получаем категории и подкатегории меню
         async getMenuDataMutate(state){
             await axios.get(`${state.SITE_URI}menu`)
@@ -934,7 +935,7 @@ const store = {
             window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
         },
 
-       async sentDataMutate(state, payName){
+        async sentDataMutate(state, payName){
             let postData = [];
             let localCart = [];
 
@@ -944,7 +945,7 @@ const store = {
 
             state.customerData.paymentName = payName;
             let localTotalPrice = state.totalPrice;
-            console.log(localTotalPrice)
+
             if (state.deliveryData.deliveryName === 'postman' && state.totalPrice < 2000) {
                localTotalPrice = state.totalPrice + 300;
             }
@@ -1044,6 +1045,7 @@ const store = {
                         window.localStorage.removeItem('totalPrice');
                         state.countCart = 0;
                         window.localStorage.removeItem('countCart');
+                        state.cartProduct = null;
                     }
                 })
                 .catch(e => console.log(e))
