@@ -5,7 +5,6 @@
                 <h1 class="admin-h1">Карточка товара</h1>
                 <span class="card-name">{{this.nameProduct}}</span>
             </div>
-            <button class="admin-btn-complete width-300" @click="sentProductData()">Сохранить изменения</button>
         </div>
         <div class="admin-product-card-desc">
             <div class="wrap-card-desc">

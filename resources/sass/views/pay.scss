@@ -27,6 +27,19 @@
             width: 191px;
         }
     }
+    &-text{
+        @include ptSans(400);
+        font-size: $regFz;
+        line-height: 2;
+        &:nth-child(4){
+            margin-top: 50px;
+        }
+    }
+    //.pay-text{
+    //    &:nth-child(4){
+    //        margin-top: 30px;
+    //    }
+    //}
 }
 @media screen and (max-width: $tablet) {
     .pay{
@@ -41,6 +54,9 @@
             img{
                 margin-bottom: 25px;
             }
+        }
+        &-text{
+            font-size: $mini;
         }
     }
 }

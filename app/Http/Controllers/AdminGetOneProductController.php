@@ -18,7 +18,7 @@ class AdminGetOneProductController extends Controller
                 ->get();
         }
         $oneProduct['allSizes'] = $sizesData;
-        $oneProduct['allIds'] = DB::table('products')->select('product_id')->get();
+        $oneProduct['allIds'] = DB::table('products')->select('product_id')->orderBy('product_id', 'asc')->get();
         return $oneProduct;
     }
 }

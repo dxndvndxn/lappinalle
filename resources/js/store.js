@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'http://lappinalle.test/api/';
+const URI = 'https://lappinalle.ru/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -751,6 +751,7 @@ const store = {
                             stateItemData.itemDesc = itemData[el].product_description;
                             stateItemData.itemPrice = itemData[el].product_price;
 
+                            stateItemData.sizeWithoutSale = itemData[el].product_sizes_without_sale !== null ? itemData[el].product_sizes_without_sale.split(',') : [];
                         }
                         else if (el === 'stars'){
 
@@ -867,13 +868,13 @@ const store = {
                                         product_description: el.product_description,
                                         product_id: el.product_id,
                                         product_img: el.product_img,
-                                        product_price: el.product_price,
+                                        product_price: elCart.price ,
                                         product_title: el.product_title
                                     })
                             }
                         })
                     });
-
+                    console.log(totalDataCart)
                     state.cartProduct = totalDataCart;
                 })
                 .catch(e => {

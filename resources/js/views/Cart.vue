@@ -89,7 +89,7 @@
         created() {
             this.$Progress.start();
             if (this.getCart.length) this.$store.dispatch('getProductForCart');
-            console.log(this.$store.getters.cartProduct, 'cart')
+            // console.log(this.$store.getters.cartProduct, 'cart')
         },
         beforeDestroy(){
           this.$store.dispatch('totalPrice', this.totalPrice);

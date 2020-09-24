@@ -1,5 +1,5 @@
 .delivery{
-    @include margins-template(0, 270px, 60px);
+    @include margins-template(0, 180px, 60px);
     @media screen and (max-width: 1280px) {
         @include margins-template(0, 100px, 60px);
     }

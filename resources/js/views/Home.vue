@@ -80,6 +80,7 @@
 
         }),
         created() {
+            this.$Progress.start();
             if (this.GetMainPageAdmin === null) this.$store.dispatch('GetMainPageAdmin')
         },
 
@@ -88,6 +89,7 @@
                 return this.$store.getters.media;
             },
             GetMainPageAdmin(){
+                this.$Progress.finish();
                 return this.$store.getters.GetMainPageAdmin;
             }
         }

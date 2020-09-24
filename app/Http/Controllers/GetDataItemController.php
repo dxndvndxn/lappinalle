@@ -10,7 +10,7 @@ class GetDataItemController extends Controller
     public function index(Request $request, $number){
         // Забираем данные для товара
         $getItemData = DB::table('products')
-            ->select('product_id','product_title','product_price','product_description','product_img','product_video','product_old_price', 'product_related')
+            ->select('product_id','product_title','product_price','product_description','product_img','product_video','product_old_price', 'product_related', 'product_sizes_without_sale')
             ->where('product_id', '=', $number)->get();
 
         $reviewStar = DB::table('reviews')->select('reviews_star')->where('reviews.product_id', '=', $number)->get();

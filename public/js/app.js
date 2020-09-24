@@ -3758,7 +3758,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5953,8 +5952,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.$Progress.start();
-    if (this.getCart.length) this.$store.dispatch('getProductForCart');
-    console.log(this.$store.getters.cartProduct, 'cart');
+    if (this.getCart.length) this.$store.dispatch('getProductForCart'); // console.log(this.$store.getters.cartProduct, 'cart')
   },
   beforeDestroy: function beforeDestroy() {
     this.$store.dispatch('totalPrice', this.totalPrice);
@@ -6686,6 +6684,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -6708,38 +6710,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       reviewText: null,
       starReview: null,
       successSentReview: false,
-      linkForRelated: null
+      linkForRelated: null,
+      showPriceAsUsual: true
     };
   },
   created: function created() {
-    var _this = this;
+    this.$Progress.start(); // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _this.$Progress.start(); // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
+    this.pageReview = +this.$route.query.page || 1; // Получаем данные товара
 
+    this.$store.dispatch('getItemData', this.$route.params.number); //Получаем отзывы
 
-              _this.pageReview = +_this.$route.query.page || 1; // Получаем данные товара
-
-              _context.next = 4;
-              return _this.$store.dispatch('getItemData', _this.$route.params.number);
-
-            case 4:
-              //Получаем отзывы
-              _this.getItemReview(_this.pageReview);
-
-              _this.linkForRelated = _this.$route.params.gender;
-
-            case 6:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }))();
+    this.getItemReview(this.pageReview);
+    this.linkForRelated = this.$route.params.gender;
   },
   methods: {
     // Кликаем по фотографии товара
@@ -6750,11 +6733,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       this.returnDataForItem.itemPics[i].clicked = true;
     },
-    chozenSize: function chozenSize(i) {
+    chozenSize: function chozenSize(i, size) {
       this.returnDataForItem.itemSizes[i].active = !this.returnDataForItem.itemSizes[i].active;
       this.clickedSize = this.returnDataForItem.itemSizes.filter(function (el) {
         return el.active === true;
       });
+      var findSizeWithNoSale = this.returnDataForItem.sizeWithoutSale.find(function (sizeNosale) {
+        return sizeNosale === size;
+      });
+      findSizeWithNoSale ? this.showPriceAsUsual = false : this.showPriceAsUsual = true;
     },
     // Отправляем запрос во vuex на получение отзывов
     // item: id товара
@@ -6775,18 +6762,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.getItemReview(this.pageReview);
       this.$router.push("".concat(this.$route.path, "?page=").concat(this.pageReview));
     },
-    addToCart: function addToCart(itemId, itemPrice) {
+    addToCart: function addToCart(itemId, itemPrice, oldPrice) {
+      var _this = this;
+
       // Если длинна вообще есть размеры, то проверяем выбраны ли размеры
       if (this.returnDataForItem.itemSizes.length) {
         if (this.clickedSize !== null) {
           var data = [];
           this.clickedSize.forEach(function (el) {
-            data.push({
-              id: itemId,
-              count: 1,
-              size: el.sz,
-              price: itemPrice
+            var findSizeWithNoSale = _this.returnDataForItem.sizeWithoutSale.find(function (size) {
+              return size === el.sz;
             });
+
+            if (findSizeWithNoSale) {
+              data.push({
+                id: itemId,
+                count: 1,
+                size: el.sz,
+                price: oldPrice
+              });
+            } else {
+              data.push({
+                id: itemId,
+                count: 1,
+                size: el.sz,
+                price: itemPrice
+              });
+            }
           });
           this.$store.dispatch('addToCart', data);
         } else {
@@ -6801,7 +6803,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }]);
       }
     },
-    addToCartOneClick: function addToCartOneClick(itemId, itemPrice) {
+    addToCartOneClick: function addToCartOneClick(itemId, itemPrice, oldPrice) {
       var _this2 = this;
 
       // Если длинна вообще есть размеры, то проверяем выбраны ли размеры
@@ -6809,7 +6811,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         if (this.clickedSize !== null) {
           var data = [];
           this.clickedSize.forEach(function (el) {
-            data.push({
+            var findSizeWithNoSale = _this2.returnDataForItem.sizeWithoutSale.find(function (size) {
+              return size === el.sz;
+            });
+
+            if (findSizeWithNoSale) data.push({
+              id: itemId,
+              count: 1,
+              size: el.sz,
+              price: oldPrice
+            });else data.push({
               id: itemId,
               count: 1,
               size: el.sz,
@@ -6849,18 +6860,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     sentReview: function sentReview() {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var review;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if (!(_this3.reviewText == null && _this3.starReview == null)) {
-                  _context2.next = 2;
+                  _context.next = 2;
                   break;
                 }
 
-                return _context2.abrupt("return");
+                return _context.abrupt("return");
 
               case 2:
                 review = {
@@ -6869,7 +6880,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   token: localStorage.getItem('token'),
                   product_id: _this3.$route.params.number
                 };
-                _context2.next = 5;
+                _context.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(_this3.returnURI, "newreview"), review).then(function (res) {
                   if (res.data) {
                     _this3.reviewBool = !_this3.reviewBool;
@@ -6881,39 +6892,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2);
+        }, _callee);
       }))();
     },
     pushToProduct: function pushToProduct(id) {
       var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context3.next = 2;
+                _context2.next = 2;
                 return _this4.$router.push("item-".concat(id));
 
               case 2:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }))();
     }
   },
   computed: {
     // Возвращаем дату для товара
     returnDataForItem: function returnDataForItem() {
-      // if (this.$store.getters.catalogItem !== null){
-      //     this.$Progress.finish();
-      //     return this.$store.getters.catalogItem;
-      // }
       this.$Progress.finish();
       return this.$store.getters.catalogItem;
     },
@@ -6950,34 +6957,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   watch: {
     $route: function $route(to) {
-      var _this5 = this;
+      console.log(to.name);
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                console.log(to.name);
-
-                if (!(to.name === 'item')) {
-                  _context4.next = 5;
-                  break;
-                }
-
-                _this5.$Progress.start();
-
-                _context4.next = 5;
-                return _this5.$store.dispatch('getItemData', _this5.$route.params.number).then(function () {
-                  return window.screenTop;
-                });
-
-              case 5:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
+      if (to.name === 'item') {
+        this.$Progress.start();
+        this.$store.dispatch('getItemData', this.$route.params.number);
+      }
     }
   }
 });
@@ -7502,6 +7487,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -7636,19 +7623,19 @@ __webpack_require__.r(__webpack_exports__);
       imgText: [{
         id: 1,
         h1: 'Доставка Курьерская действительна при сумме заказа от 20000 рублей.',
-        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублейотказе или выкупе товара на сумму менее 2000 рублей стоимостькурьерской доставки 300 рублей.'
+        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублей отказе или выкупе товара на сумму менее 2000 рублей стоимость курьерской доставки 300 рублей.'
       }, {
         id: 2,
         h1: 'Доставка Почта России действительна при сумме заказа от 20000 рублей.',
-        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублейотказе или выкупе товара на сумму менее 2000 рублей стоимостькурьерской доставки 300 рублей.'
+        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублей отказе или выкупе товара на сумму менее 2000 рублей стоимость курьерской доставки 300 рублей.'
       }, {
         id: 3,
         h1: 'Доставка СДЭК действительна при сумме заказа от 20000 рублей.',
-        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублейотказе или выкупе товара на сумму менее 2000 рублей стоимостькурьерской доставки 300 рублей.'
+        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублей отказе или выкупе товара на сумму менее 2000 рублей стоимость курьерской доставки 300 рублей.'
       }, {
         id: 4,
         h1: 'Доставка ПЭК действительна при сумме заказа от 20000 рублей.',
-        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублейотказе или выкупе товара на сумму менее 2000 рублей стоимостькурьерской доставки 300 рублей.'
+        text: 'Также действует бесплатная курьерская доставка в пределах КАД  при заказе от 2000 рублей. При заказе на сумму менее 2000 рублей отказе или выкупе товара на сумму менее 2000 рублей стоимость курьерской доставки 300 рублей.'
       }],
       chosenText: 1
     };
@@ -7769,6 +7756,7 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   created: function created() {
+    this.$Progress.start();
     if (this.GetMainPageAdmin === null) this.$store.dispatch('GetMainPageAdmin');
   },
   computed: {
@@ -7776,6 +7764,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.media;
     },
     GetMainPageAdmin: function GetMainPageAdmin() {
+      this.$Progress.finish();
       return this.$store.getters.GetMainPageAdmin;
     }
   }
@@ -8001,6 +7990,21 @@ var isPhone = function isPhone(value) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13319,20 +13323,7 @@ var render = function() {
         _c("span", { staticClass: "card-name" }, [
           _vm._v(_vm._s(this.nameProduct))
         ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "admin-btn-complete width-300",
-          on: {
-            click: function($event) {
-              return _vm.sentProductData()
-            }
-          }
-        },
-        [_vm._v("Сохранить изменения")]
-      )
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "admin-product-card-desc" }, [
@@ -17356,20 +17347,34 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "item-main-info" }, [
             _c("div", { staticClass: "item-main-wrap" }, [
-              _vm.returnDataForItem.oldPrice
-                ? _c("div", { staticClass: "item-main-price" }, [
-                    _c("span", { staticClass: "through-line" }, [
-                      _vm._v(_vm._s(_vm.returnDataForItem.oldPrice) + " ₽")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "sale" }, [
-                      _vm._v(_vm._s(_vm.returnDataForItem.itemPrice) + " ₽")
-                    ])
+              _vm.showPriceAsUsual
+                ? _c("div", { staticClass: "price-wrap" }, [
+                    _vm.returnDataForItem.oldPrice
+                      ? _c("div", { staticClass: "item-main-price" }, [
+                          _c("span", { staticClass: "through-line" }, [
+                            _vm._v(
+                              _vm._s(_vm.returnDataForItem.oldPrice) + " ₽"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "sale" }, [
+                            _vm._v(
+                              _vm._s(_vm.returnDataForItem.itemPrice) + " ₽"
+                            )
+                          ])
+                        ])
+                      : _c("div", { staticClass: "item-main-price" }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.returnDataForItem.itemPrice) +
+                              " ₽\n                        "
+                          )
+                        ])
                   ])
                 : _c("div", { staticClass: "item-main-price" }, [
                     _vm._v(
                       "\n                        " +
-                        _vm._s(_vm.returnDataForItem.itemPrice) +
+                        _vm._s(_vm.returnDataForItem.oldPrice) +
                         " ₽\n                    "
                     )
                   ]),
@@ -17388,7 +17393,7 @@ var render = function() {
                       class: size.active ? "active-size" : null,
                       on: {
                         click: function($event) {
-                          return _vm.chozenSize(s)
+                          return _vm.chozenSize(s, size.sz)
                         }
                       }
                     },
@@ -17421,7 +17426,8 @@ var render = function() {
                       click: function($event) {
                         return _vm.addToCart(
                           _vm.returnDataForItem.itemId,
-                          _vm.returnDataForItem.itemPrice
+                          _vm.returnDataForItem.itemPrice,
+                          _vm.returnDataForItem.oldPrice
                         )
                       }
                     }
@@ -17489,7 +17495,8 @@ var render = function() {
                       click: function($event) {
                         return _vm.addToCartOneClick(
                           _vm.returnDataForItem.itemId,
-                          _vm.returnDataForItem.itemPrice
+                          _vm.returnDataForItem.itemPrice,
+                          _vm.returnDataForItem.oldPrice
                         )
                       }
                     }
@@ -18347,7 +18354,7 @@ var render = function() {
           ],
           1
         ),
-        _vm._v("\n        " + _vm._s(_vm.returnDataForItem) + "\n        "),
+        _vm._v(" "),
         _vm.returnDataForItem.relatedProducts.length
           ? _c(
               "div",
@@ -20115,30 +20122,41 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _c("div", { staticClass: "wrap-text" }, [
-          _c("p", [
-            _vm._v("\n                ИП И. ЖУРАВЛЕВА:\n                "),
-            _c("br"),
-            _vm._v(
-              "\n                Номер расчетного счета: 40802810355000078566\n                "
-            ),
-            _vm.media.wind <= _vm.media.tablet ? _c("br") : _vm._e(),
-            _vm._v(
-              "\n                Наименование банка: ПАО Сбербанк\n                "
-            ),
-            _vm.media.wind <= _vm.media.tablet ? _c("br") : _vm._e(),
-            _vm._v(
-              "\n                Корреспондентский счет: 30101810500000000653\n                "
-            ),
-            _vm.media.wind <= _vm.media.tablet ? _c("br") : _vm._e(),
-            _vm._v("\n                БИК: 044030653\n            ")
-          ])
-        ])
+        _vm._m(0)
       ]
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "wrap-text" }, [
+      _c("p", [
+        _vm._v("\n                ИП И. ЖУРАВЛЕВА:\n                "),
+        _c("br"),
+        _vm._v(
+          "\n                Санкт-Петербург, Старопутиловский вал, дом 6, литер А\n                "
+        ),
+        _c("br"),
+        _vm._v(
+          "\n                Номер расчетного счета: 40802810355000078566\n                "
+        ),
+        _c("br"),
+        _vm._v(
+          "\n                Наименование банка: ПАО Сбербанк\n                "
+        ),
+        _c("br"),
+        _vm._v(
+          "\n                Корреспондентский счет: 30101810500000000653\n                "
+        ),
+        _c("br"),
+        _vm._v("\n                БИК: 044030653\n            ")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -20909,18 +20927,19 @@ var render = function() {
       0
     ),
     _vm._v(" "),
-    _vm.media.wind > _vm.media.tablet
-      ? _c("h2", [_vm._v("Онлайн кошельки")])
-      : _vm._e(),
+    _c("p", { staticClass: "pay-text" }, [
+      _vm._v(
+        '\n            Для выбора оплаты товара с помощью банковской карты на соответствующей странице необходимо нажать кнопку "оплата заказа банковской картой". Оплата происходит через ПАО СБЕРБАНК с использованием банковских карт следующих платёжных систем:\n        '
+      )
+    ]),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "pay-icons" },
-      _vm._l(_vm.payIcons.lvlTwo, function(ic, ii) {
-        return _c("img", { attrs: { src: ic, alt: "" } })
-      }),
-      0
-    )
+    _vm._m(1),
+    _vm._v(" "),
+    _c("p", { staticClass: "pay-text" }, [
+      _vm._v(
+        '\n            При возникновении проблем с оплатой свяжитесь с нами по WhatsApp, электронной почте или через форму обратной связи на странице "Контакты".\n        '
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -20935,6 +20954,20 @@ var staticRenderFns = [
       },
       [_c("h2", [_vm._v("Банковской картой онлайн")])]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "pay-text" }, [
+      _vm._v("\n            МИР;\n            "),
+      _c("br"),
+      _vm._v("\n            VISA International;\n            "),
+      _c("br"),
+      _vm._v("\n            Mastercard Worldwide;\n            "),
+      _c("br"),
+      _vm._v("\n            JCB.\n        ")
+    ])
   }
 ]
 render._withStripped = true
@@ -42724,10 +42757,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   mode: 'history',
   routes: routes,
   scrollBehavior: function scrollBehavior(to, from, savedPosition) {
-    return {
-      x: 0,
-      y: 0
-    };
+    document.getElementById('app').scrollIntoView();
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
@@ -42766,7 +42796,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var URI = 'http://lappinalle.test/api/';
+var URI = 'https://lappinalle.ru/api/';
 var admin = {
   state: function state() {
     return {
@@ -43696,6 +43726,7 @@ var store = {
                                 if (itemData[el].product_old_price !== null) stateItemData.oldPrice = itemData[el].product_old_price;else stateItemData.oldPrice = false;
                                 stateItemData.itemDesc = itemData[el].product_description;
                                 stateItemData.itemPrice = itemData[el].product_price;
+                                stateItemData.sizeWithoutSale = itemData[el].product_sizes_without_sale !== null ? itemData[el].product_sizes_without_sale.split(',') : [];
                               } else if (el === 'stars') {
                                 itemData[el].forEach(function (element) {
                                   stars[element.reviews_star].push(element.reviews_star);
@@ -43836,12 +43867,13 @@ var store = {
                           product_description: el.product_description,
                           product_id: el.product_id,
                           product_img: el.product_img,
-                          product_price: el.product_price,
+                          product_price: elCart.price,
                           product_title: el.product_title
                         });
                       }
                     });
                   });
+                  console.log(totalDataCart);
                   state.cartProduct = totalDataCart;
                 })["catch"](function (e) {
                   console.log(e);

@@ -43,6 +43,7 @@
     .wrap-card-sizes{
         @include grid-temp(50%, 50%, 0px);
         grid-column-gap: 30px;
+        width: 430px;
         .size-grid{
 
         }
@@ -187,11 +188,12 @@
         display: flex;
         .wrap-size-grid{
             margin-top: 8px;
-            grid-template-columns: repeat(5, 40px);
         }
         .related-products{
+            width: 219px;
             &:nth-child(1){
                 margin-right: 25px;
+
             }
             .wrap-related-products{
                 display: flex;

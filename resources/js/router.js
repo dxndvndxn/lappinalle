@@ -395,6 +395,7 @@ const routes = [
         name: 'item',
         meta: { layout: 'Main' },
         component: Catalogitem,
+
     },
     {
         path: '/:gender/:category/item-:number',
@@ -432,8 +433,8 @@ const router = new VueRouter({
     history: true,
     mode: 'history',
     routes,
-    scrollBehavior (to, from, savedPosition){
-        return { x: 0, y: 0 }
+    scrollBehavior: (to, from, savedPosition) => {
+        document.getElementById('app').scrollIntoView();
     }
 });
 export default router;
