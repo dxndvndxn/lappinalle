@@ -11,7 +11,7 @@ class BasicDataController extends Controller
         ->leftJoin('categories', 'menu.categories_id', '=', 'categories.categories_id')
             ->leftJoin('sex', 'menu.sex_id', '=', 'sex.sex_id')
             ->leftJoin('departments', 'menu.departments_id', '=', 'departments.departments_id')
-            ->select('menu.sex_id', 'menu.categories_id', 'menu.departments_id', 'categories.categories_name', 'categories.categories_alias', 'sex.sex_name', 'sex.sex_alias','departments.departments_name','departments.departments_alias','menu_lvlmenu')
+            ->select('menu.menu_id', 'menu.sex_id', 'menu.categories_id', 'menu.departments_id', 'categories.categories_name', 'categories.categories_alias', 'sex.sex_name', 'sex.sex_alias','departments.departments_name','departments.departments_alias','menu_lvlmenu')
          ->get();
 
          $menu = [];

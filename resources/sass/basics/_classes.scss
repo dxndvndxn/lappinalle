@@ -376,7 +376,7 @@
             height: 3.5px;
             width: 12.5px;
             top: 12px;
-            left: 8px;
+            left: 9px;
         }
     }
 }
@@ -460,7 +460,7 @@
 .show{
     @media screen and (max-width: $tablet) {
         height: 100%;
-        padding: 18px 22px;
+        padding: 18px 0;
         transition: .2s all ease-out;
     }
 }

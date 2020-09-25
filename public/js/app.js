@@ -2233,6 +2233,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -2290,31 +2292,40 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminCategories",
   data: function data() {
     return {
-      clickedLvlOne: null,
-      selected: 'Мальчики | Верхняя одежда ЗИМА/...',
-      newSelected: null,
-      activeBtn: true
+      activeBtn: true,
+      // Показываем прокрутку для выбора гендера, категорий
+      showChooseCategory: false,
+      // Меняем алиас
+      changedAlias: null,
+      menu: null
     };
   },
   created: function created() {
-    if (!this.$store.getters.lastMenu.length && !this.$store.getters.topMenu.length) this.$store.dispatch('getMenuData');
+    this.$store.dispatch('getMenuData');
   },
   methods: {
+    focusAlias: function focusAlias(alias) {
+      this.changedAlias = alias;
+    },
+    addNewLavel: function addNewLavel(apiWhere) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI).concat(apiWhere)).then(function (res) {
+        console.log(res.data);
+
+        _this.$store.dispatch('getMenuData');
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+    },
+    changeGender: function changeGender(gender) {
+      this.changedName = gender;
+    },
     clickGen: function clickGen(gender) {
       this.menuAdmin[gender].activeGen = !this.menuAdmin[gender].activeGen;
     },
@@ -2335,14 +2346,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   computed: {
-    lvlOne: function lvlOne() {
-      return this.$store.getters.topMenu;
-    },
-    lvlTwo: function lvlTwo() {
-      return this.$store.getters.lastMenu;
-    },
     menuAdmin: function menuAdmin() {
       return this.$store.getters.menuAdmin;
+    },
+    getCrumbs: function getCrumbs() {
+      return this.$store.getters.adminRawMenu;
+    },
+    URI: function URI() {
+      return this.$store.getters.URI;
+    }
+  },
+  watch: {
+    menuAdmin: function menuAdmin(newValue) {
+      this.menu = newValue;
     }
   }
 });
@@ -6367,7 +6383,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: {
     // Возвращаем данные по каталогу
     returnCatalogData: function returnCatalogData() {
-      // this.$Progress.finish();
       if (this.$store.getters.catalogData !== null) {
         this.$Progress.finish();
         return this.$store.getters.catalogData;
@@ -6720,7 +6735,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   created: function created() {
-    this.$Progress.start(); // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
+    this.$Progress.start();
+    console.log(this.$store.getters.catalogItem); // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
 
     this.pageReview = +this.$route.query.page || 1; // Получаем данные товара
 
@@ -6923,11 +6939,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     }
   },
+  beforeDestroy: function beforeDestroy() {
+    this.$store.dispatch('DestroyCatalogItem');
+    console.log(this.$store.getters.catalogItem);
+  },
   computed: {
     // Возвращаем дату для товара
     returnDataForItem: function returnDataForItem() {
-      this.$Progress.finish();
-      return this.$store.getters.catalogItem;
+      if (this.$store.getters.catalogItem !== null) {
+        this.$Progress.finish();
+        return this.$store.getters.catalogItem;
+      }
     },
     // Возвращаем отзывы для товара
     returnReviewForItem: function returnReviewForItem() {
@@ -6962,8 +6984,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   watch: {
     $route: function $route(to) {
-      console.log(to.name);
-
       if (to.name === 'item') {
         this.$Progress.start();
         this.$store.dispatch('getItemData', this.$route.params.number);
@@ -10592,7 +10612,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "admin-crumbs" }, [
-    _vm.lvl === 1
+    _vm.lvl === "all"
       ? _c(
           "ul",
           _vm._l(_vm.crumbs, function(crmb, i) {
@@ -10909,49 +10929,66 @@ var render = function() {
         { staticClass: "admin-menu-gender" },
         _vm._l(_vm.menuAdmin, function(categ, gender, i) {
           return _c("li", [
-            _c("span", { staticClass: "input-pale-blu width-300" }, [
-              _vm._v(_vm._s(gender)),
-              _c("button", {
-                staticClass: "btn-admin-arrow",
-                class: _vm.menuAdmin[gender].activeGen
-                  ? "admin-btn-arrow"
-                  : "admin-btn-arrow-pass",
-                on: {
-                  click: function($event) {
-                    return _vm.clickGen(gender)
-                  }
+            _c("input", {
+              staticClass: "input-pale-blu width-300",
+              attrs: { type: "text" },
+              domProps: { value: gender },
+              on: {
+                focus: function($event) {
+                  return _vm.focusAlias(
+                    _vm.menuAdmin[gender].dataForChangeMenu.menu_alias
+                  )
+                },
+                change: function($event) {
+                  return _vm.changeGender(gender)
                 }
-              })
-            ]),
+              }
+            }),
+            _vm._v(" "),
+            _c("button", {
+              staticClass: "btn-admin-arrow",
+              class: _vm.menuAdmin[gender].activeGen
+                ? "admin-btn-arrow"
+                : "admin-btn-arrow-pass",
+              on: {
+                click: function($event) {
+                  return _vm.clickGen(gender)
+                }
+              }
+            }),
             _vm._v(" "),
             _c(
               "ul",
               { staticClass: "admin-menu-category" },
               _vm._l(categ, function(depart, cat, c) {
-                return _vm.menuAdmin[gender].activeGen
+                return _vm.menuAdmin[gender].activeGen &&
+                  cat !== "activeGen" &&
+                  cat !== "dataForChangeMenu"
                   ? _c("li", [
-                      cat !== "activeGen"
-                        ? _c(
-                            "span",
-                            { staticClass: "input-pale-blu width-300" },
-                            [
-                              _vm._v(
-                                "\n                            " + _vm._s(cat)
-                              ),
-                              _c("button", {
-                                staticClass: "btn-admin-arrow width-300",
-                                class: _vm.menuAdmin[gender][cat][0].activeCateg
-                                  ? "admin-btn-arrow"
-                                  : "admin-btn-arrow-pass",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.clickCateg(gender, cat)
-                                  }
-                                }
-                              })
-                            ]
-                          )
-                        : _vm._e(),
+                      _c("input", {
+                        staticClass: "input-pale-blu width-300",
+                        attrs: { type: "text" },
+                        domProps: { value: cat },
+                        on: {
+                          focus: function($event) {
+                            return _vm.focusAlias(
+                              _vm.menuAdmin[gender][cat][0].categories_alias
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("button", {
+                        staticClass: "btn-admin-arrow width-300",
+                        class: _vm.menuAdmin[gender][cat][0].activeCateg
+                          ? "admin-btn-arrow"
+                          : "admin-btn-arrow-pass",
+                        on: {
+                          click: function($event) {
+                            return _vm.clickCateg(gender, cat)
+                          }
+                        }
+                      }),
                       _vm._v(" "),
                       Object.keys(_vm.menuAdmin[gender]).length - 1 === c
                         ? _c(
@@ -10976,23 +11013,25 @@ var render = function() {
                         _vm._l(depart, function(dep, t) {
                           return dep.activeCateg && dep.department !== null
                             ? _c("li", [
-                                _c(
-                                  "span",
-                                  { staticClass: "input-pale-blu width-300" },
-                                  [
-                                    _vm._v(
-                                      "\n                                    " +
-                                        _vm._s(dep.department) +
-                                        "\n                                "
-                                    )
-                                  ]
-                                ),
+                                _c("input", {
+                                  staticClass: "input-pale-blu width-300",
+                                  attrs: { type: "text" },
+                                  domProps: { value: dep.department },
+                                  on: {
+                                    focus: function($event) {
+                                      return _vm.focusAlias(
+                                        dep.departments_alias
+                                      )
+                                    }
+                                  }
+                                }),
                                 _vm._v(" "),
                                 depart.length - 1 === t
                                   ? _c(
                                       "button",
                                       {
-                                        staticClass: "admin-btn-add width-300"
+                                        staticClass: "admin-btn-add width-300",
+                                        on: { click: _vm.addNewLavel }
                                       },
                                       [
                                         _vm._v(
@@ -11021,61 +11060,109 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _vm._m(0)
+      _c(
+        "button",
+        {
+          staticClass: "admin-btn-add width-300",
+          on: {
+            click: function($event) {
+              return _vm.addNewLavel("newsex")
+            }
+          }
+        },
+        [
+          _vm._v("Добавить раздел 1 уровня "),
+          _c("img", { attrs: { src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png") } })
+        ]
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "admin-categories-change width-300" }, [
       _c("h1", { staticClass: "admin-h1" }, [_vm._v("Свойства раздела")]),
       _vm._v(" "),
-      _c("div", { staticClass: "admin-categories-fields width-300" }, [
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Название")]),
-        _vm._v(" "),
+      _c("label", { staticClass: "admin-h3" }, [_vm._v("Алиас")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "wrap-inp-btn" }, [
         _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model.trim",
+              value: _vm.changedAlias,
+              expression: "changedAlias",
+              modifiers: { trim: true }
+            }
+          ],
           staticClass: "input-transp input-transp-p",
-          attrs: { type: "text", value: "Куркти" }
-        }),
-        _vm._v(" "),
-        _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "wrap-inp-btn" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.selected,
-                expression: "selected"
+          attrs: { type: "text" },
+          domProps: { value: _vm.changedAlias },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
               }
-            ],
-            staticClass: "input-transp input-transp-p",
-            attrs: { type: "text" },
-            domProps: { value: _vm.selected },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.selected = $event.target.value
-              }
+              _vm.changedAlias = $event.target.value.trim()
+            },
+            blur: function($event) {
+              return _vm.$forceUpdate()
             }
-          }),
-          _vm._v(" "),
-          _c("button", {
-            staticClass: "btn-admin-arrow",
-            class: _vm.activeBtn ? "admin-btn-arrow-pass" : "admin-btn-arrow",
-            on: {
-              click: function($event) {
-                _vm.activeBtn = !_vm.activeBtn
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _c("button", { staticClass: "admin-btn-complete" }, [
-          _vm._v("Сохранить изменения")
-        ]),
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "admin-categories-fields width-300" }, [
+        _vm.showChooseCategory
+          ? _c(
+              "div",
+              { staticClass: "wrap-admin-choose-category" },
+              [
+                _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "wrap-inp-btn" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selected,
+                        expression: "selected"
+                      }
+                    ],
+                    staticClass: "input-transp input-transp-p",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.selected },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.selected = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("button", {
+                    staticClass: "btn-admin-arrow",
+                    class: _vm.activeBtn
+                      ? "admin-btn-arrow-pass"
+                      : "admin-btn-arrow",
+                    on: {
+                      click: function($event) {
+                        _vm.activeBtn = !_vm.activeBtn
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm.activeBtn
+                  ? _c("AdminCrumbs", {
+                      attrs: { lvl: "all", crumbs: _vm.getCrumbs }
+                    })
+                  : _vm._e()
+              ],
+              1
+            )
+          : _vm._e(),
         _vm._v(" "),
         _c("button", { staticClass: "admin-btn-delete" }, [
           _vm._v("удалить раздел")
@@ -11084,43 +11171,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "admin-btn-add width-300" }, [
-      _vm._v("Добавить раздел 1 уровня "),
-      _c("img", { attrs: { src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png") } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "selected-categories input-transp-p" }, [
-      _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Мальчики | Верхняя одежда ЗИМА/ОСЕНЬ")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -11691,7 +11742,7 @@ var render = function() {
                         _vm._v(" "),
                         block.active
                           ? _c("AdminCrumbs", {
-                              attrs: { lvl: 1, crumbs: _vm.getCrumbs },
+                              attrs: { lvl: "all", crumbs: _vm.getCrumbs },
                               on: { addNewCategory: _vm.chooseCategoryCarousel }
                             })
                           : _vm._e()
@@ -17260,7 +17311,7 @@ var render = function() {
                       {
                         attrs: {
                           dots: false,
-                          lazyLoad: false,
+                          lazyLoad: true,
                           autoWidth: false,
                           items: 1
                         }
@@ -42849,7 +42900,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var URI = 'https://lappinalle.ru/api/';
+var URI = 'http://lappinalle.test/api/';
 var admin = {
   state: function state() {
     return {
@@ -43427,15 +43478,17 @@ var store = {
                       gendersObj[_i6] = [];
                       lastMenu[_i6] = {};
                       menuForAdmin[_i6] = {
-                        activeGen: false
+                        activeGen: false,
+                        dataForChangeMenu: {}
                       };
-                    } // Пушим данным по гендарным различиям
-
+                    }
                   } catch (err) {
                     _iterator.e(err);
                   } finally {
                     _iterator.f();
                   }
+
+                  console.log(menu); // Пушим данным по гендарным различиям
 
                   for (var _i4 in menu) {
                     var _iterator2 = _createForOfIteratorHelper(genders),
@@ -43447,6 +43500,15 @@ var store = {
 
                         if (k === menu[_i4].sex_name) {
                           gendersObj[k].push(menu[_i4]);
+                        }
+
+                        if (k === menu[_i4].sex_name && menu[_i4].menu_lvlmenu === 1) {
+                          menuForAdmin[k].dataForChangeMenu.menu_lvl = menu[_i4].menu_lvlmenu;
+                          menuForAdmin[k].dataForChangeMenu.menu_id = menu[_i4].menu_id;
+                          menuForAdmin[k].dataForChangeMenu.menu_sex = menu[_i4].sex_id;
+                          menuForAdmin[k].dataForChangeMenu.menu_cat = menu[_i4].categories_id;
+                          menuForAdmin[k].dataForChangeMenu.menu_dep = menu[_i4].departments_id;
+                          menuForAdmin[k].dataForChangeMenu.menu_alias = menu[_i4].sex_alias;
                         }
                       }
                     } catch (err) {
@@ -43499,7 +43561,9 @@ var store = {
                             menuForAdmin[g][c].push({
                               department: gendersObj[g][gg].departments_name,
                               category: c,
-                              activeCateg: false
+                              activeCateg: false,
+                              categories_alias: gendersObj[g][gg].categories_alias,
+                              departments_alias: gendersObj[g][gg].departments_alias
                             });
                           }
                         }
@@ -43523,6 +43587,7 @@ var store = {
 
                   state.lastMenu = lastMenu;
                   state.menuAdmin = menuForAdmin;
+                  console.log(state.menuAdmin);
                 });
 
               case 2:
@@ -44149,6 +44214,10 @@ var store = {
           }
         }, _callee20);
       }))();
+    },
+    // Убиваем данные по товару
+    DestroyCatalogItemMutate: function DestroyCatalogItemMutate(state) {
+      state.catalogItem = null;
     }
   },
   actions: {
@@ -44292,6 +44361,10 @@ var store = {
     ChangeStatusOrder: function ChangeStatusOrder(_ref39) {
       var commit = _ref39.commit;
       commit('ChangeStatusOrderMutate');
+    },
+    DestroyCatalogItem: function DestroyCatalogItem(_ref40) {
+      var commit = _ref40.commit;
+      commit('DestroyCatalogItemMutate');
     }
   },
   getters: {

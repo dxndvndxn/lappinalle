@@ -16,7 +16,7 @@ class Departments extends Migration
         Schema::create('departments', function(Blueprint $table){
             $table->tinyIncrements('departments_id');
             $table->string('departments_name', 50)->collation('utf8_general_ci');
-            $table->string('departments_alias', 60)->collation('utf8_general_ci');
+            $table->string('departments_alias', 60)->nullable()->collation('utf8_general_ci');
         });
     }
 

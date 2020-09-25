@@ -198,47 +198,41 @@
                 }
                 input{
                     background-color: #fff;
+                    border: none;
                 }
             }
         }
     }
 }
-@media screen and (max-width: $tablet) {
+@media screen and (max-width: $mobile) {
     .catalog-sidebar{
         .sidebar-sizing{
             span{
                 font-size: $mini;
             }
         }
-        .sizing-cell{
-
-            button{
-
-            }
-        }
         .sidebar-price{
-
             .price{
                 font-size: $mini;
             }
-            form{
-
-                &:before{
-
-                }
-                input{
-
-                }
+        }
+    }
+}
+@media screen and (max-width: $minimob) {
+    .catalog-sidebar{
+        .sidebar-sizing{
+            span{
+                font-size: $mini;
             }
         }
-        .sidebar-sale{
+        .sidebar-price{
             form{
-
-                label{
-
+                grid-column-gap: 40px;
+                &:before{
+                    left: 39.5%;
                 }
                 input{
-
+                    width: 110px;
                 }
             }
         }

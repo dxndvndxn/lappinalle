@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="wrap" v-if="media.wind <= media.tablet && returnDataForItem.itemPics.length">
-                        <carousel :dots="false" :lazyLoad="false" :autoWidth="false" :items="1">
+                        <carousel :dots="false" :lazyLoad="true" :autoWidth="false" :items="1">
                         <div class="item-pic" v-for="(img, i) in returnDataForItem.itemPics" v-if="img.img" :key="i">
                             <img v-bind:src="img.img" alt="">
                         </div>
@@ -290,7 +290,7 @@
         }),
         created(){
            this.$Progress.start();
-
+            console.log(this.$store.getters.catalogItem)
            // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
            this.pageReview = +this.$route.query.page || 1;
 
@@ -410,11 +410,17 @@
                 await this.$router.push(`item-${id}`);
             }
         },
+        beforeDestroy() {
+          this.$store.dispatch('DestroyCatalogItem')
+            console.log(this.$store.getters.catalogItem)
+        },
         computed: {
             // Возвращаем дату для товара
             returnDataForItem(){
-                this.$Progress.finish();
-                return this.$store.getters.catalogItem;
+                if (this.$store.getters.catalogItem !== null) {
+                    this.$Progress.finish();
+                    return this.$store.getters.catalogItem;
+                }
             },
             // Возвращаем отзывы для товара
             returnReviewForItem(){
@@ -449,7 +455,6 @@
         },
         watch: {
            $route(to){
-                console.log(to.name)
                 if (to.name === 'item'){
                     this.$Progress.start();
                     this.$store.dispatch('getItemData', this.$route.params.number);

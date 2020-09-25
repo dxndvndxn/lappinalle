@@ -37,7 +37,7 @@
                     </div>
                 </carousel>
             </div>
-                <div class="sale-baner" v-bind:class="((i + 1) % 2) === 0 ? 'fl-reverse' : null">
+            <div class="sale-baner" v-bind:class="((i + 1) % 2) === 0 ? 'fl-reverse' : null">
                 <img :src="block.block_img" alt="" v-if="media.wind > media.tablet">
                 <div class="wrap-img" v-else>
                     <img :src="block.block_img" alt="">
@@ -77,7 +77,6 @@
         name: 'Home',
         components: {carousel},
         data: () =>({
-
         }),
         created() {
             this.$Progress.start();

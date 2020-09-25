@@ -75,6 +75,18 @@ Route::post('/delprod', 'DelProdController@del');
 // Удаление размера
 Route::post('/removesize', 'AdminDeleteSizeController@remove');
 
+//Редактирование категории
+Route::post('/updmenu', 'AdmCategController@update');
+
+//Новый пол
+Route::post('/newsex', 'AdmCategController@newsex');
+
+//Новая категория
+Route::post('/newcat', 'AdmCategController@newcat');
+
+//Новый раздел
+Route::post('/newdep', 'AdmCategController@newdep');
+
 // SITE
 // Оформление заказа
 Route::post('/order', 'CheckoutOrderController@index');

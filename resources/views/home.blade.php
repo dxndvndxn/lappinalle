@@ -8,7 +8,7 @@
     <title>Lappinalle</title>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-{{--    <script src="https://app.frisbie.me/api/messageus/9d3c0fc3-a9e5-45db-cac6-.." defer></script>--}}
+{{--    <script type="text/javascript" src="https://app.frisbie.me/api/messageus/9d3c0fc3-a9e5-45db-cac6-08d852310b77" async defer></script>--}}
 </head>
 <body>
     <div id="app">

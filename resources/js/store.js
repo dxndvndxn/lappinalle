@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'https://lappinalle.ru/api/';
+const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -471,10 +471,11 @@ const store = {
                         gendersObj[i] = [];
                         lastMenu[i] = {};
                         menuForAdmin[i] = {
-                            activeGen: false
+                            activeGen: false,
+                            dataForChangeMenu: {}
                         };
                     }
-
+                    console.log(menu)
                     // Пушим данным по гендарным различиям
                     for (let i in menu){
 
@@ -482,6 +483,15 @@ const store = {
 
                             if (k === menu[i].sex_name) {
                                 gendersObj[k].push(menu[i]);
+                            }
+
+                            if (k === menu[i].sex_name && menu[i].menu_lvlmenu === 1){
+                                menuForAdmin[k].dataForChangeMenu.menu_lvl = menu[i].menu_lvlmenu;
+                                menuForAdmin[k].dataForChangeMenu.menu_id = menu[i].menu_id;
+                                menuForAdmin[k].dataForChangeMenu.menu_sex = menu[i].sex_id;
+                                menuForAdmin[k].dataForChangeMenu.menu_cat = menu[i].categories_id;
+                                menuForAdmin[k].dataForChangeMenu.menu_dep = menu[i].departments_id;
+                                menuForAdmin[k].dataForChangeMenu.menu_alias = menu[i].sex_alias;
                             }
                         }
                     }
@@ -499,6 +509,7 @@ const store = {
                             menuForAdmin[i][k] = [];
                         }
                     }
+
                     for (let g in gendersObj) {
 
                         for (let gg in gendersObj[g]) {
@@ -512,12 +523,15 @@ const store = {
                                         category: c,
                                         hover: false,
                                         sex_alias: gendersObj[g][gg].sex_alias,
-                                        categories_alias: gendersObj[g][gg].categories_alias}
+                                        categories_alias: gendersObj[g][gg].categories_alias
+                                    }
                                     );
                                     menuForAdmin[g][c].push({
                                         department: gendersObj[g][gg].departments_name,
                                         category: c,
-                                        activeCateg: false
+                                        activeCateg: false,
+                                        categories_alias: gendersObj[g][gg].categories_alias,
+                                        departments_alias: gendersObj[g][gg].departments_alias
                                     });
                                 }
                             }
@@ -537,6 +551,7 @@ const store = {
 
                     state.lastMenu = lastMenu;
                     state.menuAdmin = menuForAdmin;
+                    console.log(state.menuAdmin)
                 })
         },
 
@@ -1049,6 +1064,11 @@ const store = {
                     }
                 })
                 .catch(e => console.log(e))
+        },
+
+        // Убиваем данные по товару
+        DestroyCatalogItemMutate(state){
+            state.catalogItem = null;
         }
 
     },
@@ -1162,6 +1182,9 @@ const store = {
         },
         ChangeStatusOrder({commit}){
             commit('ChangeStatusOrderMutate');
+        },
+        DestroyCatalogItem({commit}){
+            commit('DestroyCatalogItemMutate');
         }
     },
     getters:{

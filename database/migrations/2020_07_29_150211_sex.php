@@ -16,7 +16,7 @@ class Sex extends Migration
         Schema::create('sex', function(Blueprint $table){
             $table->tinyIncrements('sex_id');
             $table->string('sex_name', 50)->collation('utf8_general_ci');
-            $table->string('sex_alias', 60)->collation('utf8_general_ci');
+            $table->string('sex_alias', 60)->nullable()->collation('utf8_general_ci');
         });
     }
 

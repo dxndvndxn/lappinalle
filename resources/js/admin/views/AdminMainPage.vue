@@ -62,7 +62,7 @@
                         <input type="text" class="input-pale-blu" v-if="block.block_sex == null && block.block_cat == null && block.block_dep == null">
                         <button class="btn-admin-arrow" @click="GetActiveBlock(i, block.block_id)" v-bind:class="block.active ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
                     </div>
-                    <AdminCrumbs v-if="block.active" v-bind:lvl="1" @addNewCategory="chooseCategoryCarousel" v-bind:crumbs="getCrumbs"/>
+                    <AdminCrumbs v-if="block.active" v-bind:lvl="'all'" @addNewCategory="chooseCategoryCarousel" v-bind:crumbs="getCrumbs"/>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Заголовок баннера</label>

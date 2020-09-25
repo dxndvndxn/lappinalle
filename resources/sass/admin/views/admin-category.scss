@@ -5,7 +5,7 @@
     }
     li{
         cursor: pointer;
-        span{
+        input{
             display: inline-block;
             margin-bottom: 5px;
             cursor: pointer;
@@ -56,24 +56,24 @@
             }
         }
     }
-    .selected-categories{
-        border: 2px solid $blu;
-        overflow-x: hidden;
-        @extend %scrollbar;
-        @include ptSans(400);
-        font-size: 14px;
-        height: 90px;
-        padding: 10px 20px !important;
-        margin-bottom: 20px;
-        &::-webkit-scrollbar
-        {
-            width: 10px;
-            background-color: $palepurpp;
-        }
-        li{
-            margin-bottom: 8px;
-        }
-    }
+    //.selected-categories{
+    //    border: 2px solid $blu;
+    //    overflow-x: hidden;
+    //    @extend %scrollbar;
+    //    @include ptSans(400);
+    //    font-size: 14px;
+    //    height: 90px;
+    //    padding: 10px 20px !important;
+    //    margin-bottom: 20px;
+    //    &::-webkit-scrollbar
+    //    {
+    //        width: 10px;
+    //        background-color: $palepurpp;
+    //    }
+    //    li{
+    //        margin-bottom: 8px;
+    //    }
+    //}
     .admin-btn-complete{
         margin-bottom: 20px;
     }

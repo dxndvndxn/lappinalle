@@ -330,7 +330,6 @@
         computed: {
             // Возвращаем данные по каталогу
             returnCatalogData(){
-                // this.$Progress.finish();
                 if (this.$store.getters.catalogData !== null){
                     this.$Progress.finish();
                     return this.$store.getters.catalogData;

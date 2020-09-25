@@ -538,7 +538,7 @@
     height: 3.5px;
     width: 12.5px;
     top: 12px;
-    left: 8px;
+    left: 9px;
   }
 }
 
@@ -739,7 +739,7 @@
 @media screen and (max-width: 768px) {
   .show {
     height: 100%;
-    padding: 18px 22px;
+    padding: 18px 0;
     transition: 0.2s all ease-out;
   }
 }
@@ -1050,7 +1050,6 @@ nav ul {
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track,
-.admin-categories .selected-categories::-webkit-scrollbar-track,
 .cart-cards::-webkit-scrollbar-track,
 .item-pics::-webkit-scrollbar-track {
   background-color: #93b5e1;
@@ -1064,7 +1063,6 @@ nav ul {
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar,
-.admin-categories .selected-categories::-webkit-scrollbar,
 .cart-cards::-webkit-scrollbar,
 .item-pics::-webkit-scrollbar {
   width: 18px;
@@ -1079,7 +1077,6 @@ nav ul {
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-thumb,
-.admin-categories .selected-categories::-webkit-scrollbar-thumb,
 .cart-cards::-webkit-scrollbar-thumb,
 .item-pics::-webkit-scrollbar-thumb {
   background-color: #848ccf;
@@ -1756,7 +1753,6 @@ nav ul {
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track,
-.admin-categories .selected-categories::-webkit-scrollbar-track,
 .cart-cards::-webkit-scrollbar-track,
 .item-pics::-webkit-scrollbar-track {
   background-color: #93b5e1;
@@ -1770,7 +1766,6 @@ nav ul {
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar,
-.admin-categories .selected-categories::-webkit-scrollbar,
 .cart-cards::-webkit-scrollbar,
 .item-pics::-webkit-scrollbar {
   width: 18px;
@@ -1785,7 +1780,6 @@ nav ul {
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-thumb,
-.admin-categories .selected-categories::-webkit-scrollbar-thumb,
 .cart-cards::-webkit-scrollbar-thumb,
 .item-pics::-webkit-scrollbar-thumb {
   background-color: #848ccf;
@@ -2037,16 +2031,35 @@ nav ul {
 
   .catalog-sidebar .sidebar-sale form input {
     background-color: #fff;
+    border: none;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 576px) {
   .catalog-sidebar .sidebar-sizing span {
     font-size: 16px;
   }
 
   .catalog-sidebar .sidebar-price .price {
     font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .catalog-sidebar .sidebar-sizing span {
+    font-size: 16px;
+  }
+
+  .catalog-sidebar .sidebar-price form {
+    grid-column-gap: 40px;
+  }
+
+  .catalog-sidebar .sidebar-price form:before {
+    left: 39.5%;
+  }
+
+  .catalog-sidebar .sidebar-price form input {
+    width: 110px;
   }
 }
 
@@ -2188,7 +2201,6 @@ nav ul,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track,
-.admin-categories .selected-categories::-webkit-scrollbar-track,
 .cart-cards::-webkit-scrollbar-track,
 .item-pics::-webkit-scrollbar-track {
   background-color: #93b5e1;
@@ -2202,7 +2214,6 @@ nav ul,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar,
-.admin-categories .selected-categories::-webkit-scrollbar,
 .cart-cards::-webkit-scrollbar,
 .item-pics::-webkit-scrollbar {
   width: 18px;
@@ -2217,7 +2228,6 @@ nav ul,
 .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-thumb,
 .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-thumb,
 .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-thumb,
-.admin-categories .selected-categories::-webkit-scrollbar-thumb,
 .cart-cards::-webkit-scrollbar-thumb,
 .item-pics::-webkit-scrollbar-thumb {
   background-color: #848ccf;
@@ -4363,6 +4373,15 @@ nav ul,
     margin-bottom: 0;
   }
 
+  .chozen-delivery-fill .wrap-checkbox input {
+    border-radius: 0;
+    border: none;
+  }
+
+  .chozen-delivery-fill .wrap-checkbox label {
+    font-size: 16px;
+  }
+
   .chozen-delivery-price {
     margin-bottom: 10px;
   }
@@ -5054,7 +5073,7 @@ aside {
   cursor: pointer;
 }
 
-.admin-categories li span {
+.admin-categories li input {
   display: inline-block;
   margin-bottom: 5px;
   cursor: pointer;
@@ -5063,7 +5082,7 @@ aside {
   box-sizing: border-box;
 }
 
-.admin-categories li span button {
+.admin-categories li input button {
   position: absolute;
   right: 0;
   top: 0;
@@ -5071,20 +5090,20 @@ aside {
   cursor: pointer;
 }
 
-.admin-categories li span button:before {
+.admin-categories li input button:before {
   left: 5px;
 }
 
-.admin-categories li span button:after {
+.admin-categories li input button:after {
   left: 15px;
 }
 
-.admin-categories li span .admin-btn-arrow-pass:before {
+.admin-categories li input .admin-btn-arrow-pass:before {
   left: 14px;
   top: 12px;
 }
 
-.admin-categories li span .admin-btn-arrow-pass:after {
+.admin-categories li input .admin-btn-arrow-pass:after {
   left: 14px;
   top: 22px;
 }
@@ -5111,25 +5130,6 @@ aside {
 
 .admin-categories .admin-categories-fields .input-transp-p:nth-child(2) {
   margin-bottom: 20px;
-}
-
-.admin-categories .selected-categories {
-  border: 2px solid #84B6E3;
-  overflow-x: hidden;
-  font-family: "PtSans-Regular", sans-serif;
-  font-size: 14px;
-  height: 90px;
-  padding: 10px 20px !important;
-  margin-bottom: 20px;
-}
-
-.admin-categories .selected-categories::-webkit-scrollbar {
-  width: 10px;
-  background-color: #848ccf;
-}
-
-.admin-categories .selected-categories li {
-  margin-bottom: 8px;
 }
 
 .admin-categories .admin-btn-complete {
