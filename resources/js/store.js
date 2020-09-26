@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
+// const URI = 'https://lappinalle.ru/api/';
 const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
@@ -489,13 +490,11 @@ const store = {
                                 menuForAdmin[k].dataForChangeMenu.menu_lvl = menu[i].menu_lvlmenu;
                                 menuForAdmin[k].dataForChangeMenu.menu_id = menu[i].menu_id;
                                 menuForAdmin[k].dataForChangeMenu.menu_sex = menu[i].sex_id;
-                                menuForAdmin[k].dataForChangeMenu.menu_cat = menu[i].categories_id;
-                                menuForAdmin[k].dataForChangeMenu.menu_dep = menu[i].departments_id;
                                 menuForAdmin[k].dataForChangeMenu.menu_alias = menu[i].sex_alias;
                             }
                         }
                     }
-
+                    console.log(gendersObj)
                     // Выбираем уникальные категории
                     let categories = new Set(listCategories);
                     let categoriesObj = {};
@@ -509,7 +508,6 @@ const store = {
                             menuForAdmin[i][k] = [];
                         }
                     }
-
                     for (let g in gendersObj) {
 
                         for (let gg in gendersObj[g]) {
@@ -531,7 +529,10 @@ const store = {
                                         category: c,
                                         activeCateg: false,
                                         categories_alias: gendersObj[g][gg].categories_alias,
-                                        departments_alias: gendersObj[g][gg].departments_alias
+                                        departments_alias: gendersObj[g][gg].departments_alias,
+                                        departments_id: gendersObj[g][gg].departments_id,
+                                        categories_id: gendersObj[g][gg].categories_id,
+                                        menu_id: gendersObj[g][gg].menu_id,
                                     });
                                 }
                             }

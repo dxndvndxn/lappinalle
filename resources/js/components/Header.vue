@@ -93,7 +93,7 @@ BB9OAAAAAElFTkSuQmCC" />
                         :class="categ[0].hover ? 'active-catg' : null"
                         @mouseleave="categ[0].hover = false"
                     >
-                        <router-link v-if="value === 'Распродажа'" :to="{path: `${categ[0].sex_alias}?sale=true`}">
+                        <router-link v-if="value === 'Распродажа'" :to="{name: 'gender', params: {gender: categ[0].sex_alias}, query: {sale: 'true', page: '1'}}" :replace="false" :append="false">
                             <span v-if="media.wind > media.tablet" @mouseover="showDepartment(value, categories, categ)" :class="value === 'Распродажа' ? 'sale' : null" @click="closeMenu()">{{value}}</span>
                             <span v-else @click="ClickShowDepartments(categ)" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
                         </router-link>
@@ -111,9 +111,6 @@ BB9OAAAAAElFTkSuQmCC" />
                         <router-link :to="{name: 'department', params: {gender: depart.sex_alias, category: depart.categories_alias, department: depart.departments_alias}}" >{{depart.department}}</router-link>
                     </li>
                 </ul>
-            </div>
-            <div class="menu-bottom" v-else>
-
             </div>
         </div>
         <vue-progress-bar v-if="media.wind > media.tablet"></vue-progress-bar>

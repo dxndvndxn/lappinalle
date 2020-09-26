@@ -325,6 +325,12 @@
                     this.sale = null;
                     this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
                 }
+
+                if (to.query.sale) {
+                    this.pageCatalog = 1;
+                    this.sale = this.$route.query.sale;
+                    this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
+                }
             }
         },
         computed: {
@@ -338,7 +344,9 @@
 
             // Возвращаем данные по кол-во товаров для пагинции
             catalogTotalPages(){
-              return this.$store.getters.catalogDataCellCount;
+                if (this.$store.getters.catalogDataCellCount !== null) {
+                    return this.$store.getters.catalogDataCellCount;
+                }
             },
 
             // Обнавляем текущую страницы с товарами

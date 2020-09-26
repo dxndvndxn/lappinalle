@@ -5069,6 +5069,14 @@ aside {
   justify-content: space-between;
 }
 
+.admin-categories .btn-add-3-lvl {
+  margin-left: 44px;
+}
+
+.admin-categories .btn-add-2-lvl {
+  margin-left: -55px;
+}
+
 .admin-categories li {
   cursor: pointer;
 }
@@ -5125,11 +5133,20 @@ aside {
 }
 
 .admin-categories .wrap-inp-btn input {
-  margin-bottom: 3px;
+  margin-bottom: 8px;
+  text-overflow: unset;
 }
 
 .admin-categories .admin-categories-fields .input-transp-p:nth-child(2) {
   margin-bottom: 20px;
+}
+
+.admin-categories .wrap-admin-choose-category {
+  margin-bottom: 8px;
+}
+
+.admin-categories .admin-h3 {
+  display: block;
 }
 
 .admin-categories .admin-btn-complete {

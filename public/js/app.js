@@ -2060,6 +2060,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminCrumbs",
   props: ['lvl', 'crumbs', 'sizes', 'allIds', 'sizesWithoutSale'],
@@ -2235,6 +2245,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_AdminCrumbs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/AdminCrumbs */ "./resources/js/admin/components/AdminCrumbs.vue");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -2292,9 +2303,28 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminCategories",
+  components: {
+    AdminCrumbs: _components_AdminCrumbs__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return {
       activeBtn: true,
@@ -2302,35 +2332,122 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       showChooseCategory: false,
       // Меняем алиас
       changedAlias: null,
-      menu: null
+      // Фокусированный id раздел 1 уровня
+      activeFocusId: null,
+      // Названия раздела, которой хотим по менять типа гендер, категория или подкатегория
+      activeNameOfWhatSectionNeedChange: null,
+      menu: null,
+      // Какой список категорий показывать
+      lvl: null,
+      // Для показывания списка строки в какой секции находится категории
+      sexId: null,
+      categId: null,
+      // id в таблице меню
+      menuId: null
     };
   },
   created: function created() {
     this.$store.dispatch('getMenuData');
   },
   methods: {
-    focusAlias: function focusAlias(alias) {
-      this.changedAlias = alias;
-    },
-    addNewLavel: function addNewLavel(apiWhere) {
+    changeCategory: function changeCategory(chozenCategory) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI).concat(apiWhere)).then(function (res) {
+      this.$Progress.start();
+      var data = {
+        changePosition: true,
+        sexId: chozenCategory.sexId,
+        categId: chozenCategory.categId,
+        menuId: this.menuId
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "updmenu"), data).then(function (res) {
         console.log(res.data);
 
         _this.$store.dispatch('getMenuData');
+
+        _this.$Progress.finish();
       })["catch"](function (e) {
         return console.log(e);
       });
     },
-    changeGender: function changeGender(gender) {
-      this.changedName = gender;
+    // Меняем алиас
+    changeAlias: function changeAlias() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      var data = {
+        alias: true,
+        section: this.activeNameOfWhatSectionNeedChange,
+        sectionId: this.activeFocusId,
+        newAlias: this.changedAlias
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "updmenu"), data).then(function (res) {
+        console.log(res.data);
+
+        _this2.$store.dispatch('getMenuData');
+
+        _this2.$Progress.finish();
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+    },
+    // Делаем фокус на input меню
+    // this.activeFocusId активный id сфокусированного инпута
+    focusAlias: function focusAlias(alias, activeId, nameOfSection, sexId, categId, menuId) {
+      this.changedAlias = alias;
+      this.activeFocusId = activeId;
+      this.activeNameOfWhatSectionNeedChange = nameOfSection;
+      this.sexId = sexId;
+      this.categId = categId;
+      this.menuId = menuId;
+      this.showChooseCategory = this.activeNameOfWhatSectionNeedChange === 'categories' || this.activeNameOfWhatSectionNeedChange === 'departments';
+      if (this.activeNameOfWhatSectionNeedChange === 'categories') this.lvl = 1;
+      if (this.activeNameOfWhatSectionNeedChange === 'departments') this.lvl = 2;
+    },
+    // Добавляем новый раздел
+    addNewLavel: function addNewLavel(apiWhere, sexId, catId) {
+      var _this3 = this;
+
+      this.$Progress.start();
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI).concat(apiWhere), {
+        sexId: sexId,
+        catId: catId
+      }).then(function (res) {
+        console.log(res.data);
+
+        _this3.$store.dispatch('getMenuData');
+
+        _this3.$Progress.finish();
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+    },
+    // Меняем названия меню категорий
+    changeMenuItemName: function changeMenuItemName(newGender, lvl, tableName, tableNameId, tableFieldName) {
+      var _this4 = this;
+
+      this.$Progress.start();
+      var data = {
+        lvl: lvl,
+        newGenderName: newGender,
+        menuItemId: this.activeFocusId,
+        tableName: tableName,
+        tableNameId: tableNameId,
+        tableFieldName: tableFieldName
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "updmenu"), data).then(function (res) {
+        _this4.$store.dispatch('getMenuData');
+
+        _this4.$Progress.finish();
+      })["catch"](function (e) {
+        return console.log(e);
+      });
     },
     clickGen: function clickGen(gender) {
-      this.menuAdmin[gender].activeGen = !this.menuAdmin[gender].activeGen;
+      this.menu[gender].activeGen = !this.menu[gender].activeGen;
     },
     clickCateg: function clickCateg(gen, cat) {
-      var _iterator = _createForOfIteratorHelper(this.menuAdmin[gen][cat]),
+      var _iterator = _createForOfIteratorHelper(this.menu[gen][cat]),
           _step;
 
       try {
@@ -5024,9 +5141,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
   data: function data() {
@@ -6378,6 +6492,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.sale = null;
         this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
       }
+
+      if (to.query.sale) {
+        this.pageCatalog = 1;
+        this.sale = this.$route.query.sale;
+        this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
+      }
     }
   },
   computed: {
@@ -6390,7 +6510,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     // Возвращаем данные по кол-во товаров для пагинции
     catalogTotalPages: function catalogTotalPages() {
-      return this.$store.getters.catalogDataCellCount;
+      if (this.$store.getters.catalogDataCellCount !== null) {
+        return this.$store.getters.catalogDataCellCount;
+      }
     },
     // Обнавляем текущую страницы с товарами
     updatedPage: {
@@ -6735,15 +6857,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   created: function created() {
-    this.$Progress.start();
-    console.log(this.$store.getters.catalogItem); // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
+    var _this = this;
 
-    this.pageReview = +this.$route.query.page || 1; // Получаем данные товара
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _this.$Progress.start(); // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
 
-    this.$store.dispatch('getItemData', this.$route.params.number); //Получаем отзывы
 
-    this.getItemReview(this.pageReview);
-    this.linkForRelated = this.$route.params.gender;
+              _this.pageReview = +_this.$route.query.page || 1; // Получаем данные товара
+
+              _context.next = 4;
+              return _this.$store.dispatch('getItemData', _this.$route.params.number);
+
+            case 4:
+              //Получаем отзывы
+              _this.getItemReview(_this.pageReview);
+
+              _this.linkForRelated = _this.$route.params.gender;
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
     // Кликаем по фотографии товара
@@ -6784,14 +6925,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$router.push("".concat(this.$route.path, "?page=").concat(this.pageReview));
     },
     addToCart: function addToCart(itemId, itemPrice, oldPrice) {
-      var _this = this;
+      var _this2 = this;
 
       // Если длинна вообще есть размеры, то проверяем выбраны ли размеры
       if (this.returnDataForItem.itemSizes.length) {
         if (this.clickedSize !== null) {
           var data = [];
           this.clickedSize.forEach(function (el) {
-            var findSizeWithNoSale = _this.returnDataForItem.sizeWithoutSale.find(function (size) {
+            var findSizeWithNoSale = _this2.returnDataForItem.sizeWithoutSale.find(function (size) {
               return size === el.sz;
             });
 
@@ -6825,14 +6966,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     addToCartOneClick: function addToCartOneClick(itemId, itemPrice, oldPrice) {
-      var _this2 = this;
+      var _this3 = this;
 
       // Если длинна вообще есть размеры, то проверяем выбраны ли размеры
       if (this.returnDataForItem.itemSizes.length) {
         if (this.clickedSize !== null) {
           var data = [];
           this.clickedSize.forEach(function (el) {
-            var findSizeWithNoSale = _this2.returnDataForItem.sizeWithoutSale.find(function (size) {
+            var findSizeWithNoSale = _this3.returnDataForItem.sizeWithoutSale.find(function (size) {
               return size === el.sz;
             });
 
@@ -6849,7 +6990,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             });
           });
           this.$store.dispatch('addToCart', data).then(function () {
-            return _this2.$router.push({
+            return _this3.$router.push({
               name: 'cart'
             });
           });
@@ -6863,7 +7004,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           size: null,
           price: itemPrice
         }]).then(function () {
-          return _this2.$router.push({
+          return _this3.$router.push({
             name: 'cart'
           });
         });
@@ -6879,33 +7020,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     sentReview: function sentReview() {
-      var _this3 = this;
+      var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var review;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(_this3.reviewText == null && _this3.starReview == null)) {
-                  _context.next = 2;
+                if (!(_this4.reviewText == null && _this4.starReview == null)) {
+                  _context2.next = 2;
                   break;
                 }
 
-                return _context.abrupt("return");
+                return _context2.abrupt("return");
 
               case 2:
                 review = {
-                  review_text: _this3.reviewText,
-                  review_star: _this3.starReview,
+                  review_text: _this4.reviewText,
+                  review_star: _this4.starReview,
                   token: localStorage.getItem('token'),
-                  product_id: _this3.$route.params.number
+                  product_id: _this4.$route.params.number
                 };
-                _context.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(_this3.returnURI, "newreview"), review).then(function (res) {
+                _context2.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(_this4.returnURI, "newreview"), review).then(function (res) {
                   if (res.data) {
-                    _this3.reviewBool = !_this3.reviewBool;
-                    _this3.successSentReview = !_this3.successSentReview;
+                    _this4.reviewBool = !_this4.reviewBool;
+                    _this4.successSentReview = !_this4.successSentReview;
                   }
                 })["catch"](function (e) {
                   return console.log(e);
@@ -6913,29 +7054,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
               case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    pushToProduct: function pushToProduct(id) {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return _this4.$router.push("item-".concat(id));
-
-              case 2:
-              case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
+      }))();
+    },
+    pushToProduct: function pushToProduct(id) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _this5.$router.push("item-".concat(id));
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   },
@@ -10654,6 +10795,72 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
+    _vm.lvl === 1
+      ? _c(
+          "ul",
+          _vm._l(_vm.crumbs, function(crmb, i) {
+            return crmb.menu_lvlmenu === 1
+              ? _c(
+                  "li",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.chooseCategory(
+                          crmb.sex_id,
+                          crmb.categories_id,
+                          crmb.departments_id
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " + _vm._s(crmb.sex_name) + "\n        "
+                    )
+                  ]
+                )
+              : _vm._e()
+          }),
+          0
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.lvl === 2
+      ? _c(
+          "ul",
+          _vm._l(_vm.crumbs, function(crmb, i) {
+            return crmb.menu_lvlmenu === 2
+              ? _c(
+                  "li",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.chooseCategory(
+                          crmb.sex_id,
+                          crmb.categories_id,
+                          crmb.departments_id
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(crmb.sex_name) +
+                        " " +
+                        _vm._s(crmb.categories_name !== null ? "|" : null) +
+                        " " +
+                        _vm._s(crmb.categories_name) +
+                        "\n        "
+                    )
+                  ]
+                )
+              : _vm._e()
+          }),
+          0
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _vm.lvl === 3
       ? _c(
           "ul",
@@ -10927,27 +11134,56 @@ var render = function() {
       _c(
         "ul",
         { staticClass: "admin-menu-gender" },
-        _vm._l(_vm.menuAdmin, function(categ, gender, i) {
+        _vm._l(_vm.menu, function(categ, gender, i) {
           return _c("li", [
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.trim",
+                  value: gender,
+                  expression: "gender",
+                  modifiers: { trim: true }
+                }
+              ],
               staticClass: "input-pale-blu width-300",
               attrs: { type: "text" },
               domProps: { value: gender },
               on: {
                 focus: function($event) {
                   return _vm.focusAlias(
-                    _vm.menuAdmin[gender].dataForChangeMenu.menu_alias
+                    _vm.menu[gender].dataForChangeMenu.menu_alias,
+                    _vm.menuAdmin[gender].dataForChangeMenu.menu_sex,
+                    "sex",
+                    null,
+                    null,
+                    null
                   )
                 },
                 change: function($event) {
-                  return _vm.changeGender(gender)
+                  return _vm.changeMenuItemName(
+                    gender,
+                    1,
+                    "sex",
+                    "sex_id",
+                    "sex_name"
+                  )
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  gender = $event.target.value.trim()
+                },
+                blur: function($event) {
+                  return _vm.$forceUpdate()
                 }
               }
             }),
             _vm._v(" "),
             _c("button", {
               staticClass: "btn-admin-arrow",
-              class: _vm.menuAdmin[gender].activeGen
+              class: _vm.menu[gender].activeGen
                 ? "admin-btn-arrow"
                 : "admin-btn-arrow-pass",
               on: {
@@ -10960,100 +11196,256 @@ var render = function() {
             _c(
               "ul",
               { staticClass: "admin-menu-category" },
-              _vm._l(categ, function(depart, cat, c) {
-                return _vm.menuAdmin[gender].activeGen &&
-                  cat !== "activeGen" &&
-                  cat !== "dataForChangeMenu"
-                  ? _c("li", [
-                      _c("input", {
-                        staticClass: "input-pale-blu width-300",
-                        attrs: { type: "text" },
-                        domProps: { value: cat },
+              [
+                _vm.menu[gender].activeGen &&
+                Object.keys(_vm.menu[gender]).length === 2
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "admin-btn-add width-300",
                         on: {
-                          focus: function($event) {
-                            return _vm.focusAlias(
-                              _vm.menuAdmin[gender][cat][0].categories_alias
+                          click: function($event) {
+                            return _vm.addNewLavel(
+                              "newcat",
+                              _vm.menu[gender].dataForChangeMenu.menu_sex,
+                              null
                             )
                           }
                         }
-                      }),
-                      _vm._v(" "),
-                      _c("button", {
-                        staticClass: "btn-admin-arrow width-300",
-                        class: _vm.menuAdmin[gender][cat][0].activeCateg
-                          ? "admin-btn-arrow"
-                          : "admin-btn-arrow-pass",
-                        on: {
-                          click: function($event) {
-                            return _vm.clickCateg(gender, cat)
+                      },
+                      [
+                        _vm._v(
+                          "\n                            Добавить раздел 2 уровня "
+                        ),
+                        _c("img", {
+                          attrs: { src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png") }
+                        })
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._l(categ, function(depart, cat, c) {
+                  return _vm.menu[gender].activeGen &&
+                    cat !== "activeGen" &&
+                    cat !== "dataForChangeMenu"
+                    ? _c("li", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.trim",
+                              value: cat,
+                              expression: "cat",
+                              modifiers: { trim: true }
+                            }
+                          ],
+                          staticClass: "input-pale-blu width-300",
+                          attrs: { type: "text" },
+                          domProps: { value: cat },
+                          on: {
+                            focus: function($event) {
+                              return _vm.focusAlias(
+                                _vm.menu[gender][cat][0].categories_alias,
+                                depart[0].categories_id,
+                                "categories",
+                                _vm.menuAdmin[gender].dataForChangeMenu
+                                  .menu_sex,
+                                null,
+                                depart[0].menu_id
+                              )
+                            },
+                            change: function($event) {
+                              return _vm.changeMenuItemName(
+                                cat,
+                                2,
+                                "categories",
+                                "categories_id",
+                                "categories_name"
+                              )
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              cat = $event.target.value.trim()
+                            },
+                            blur: function($event) {
+                              return _vm.$forceUpdate()
+                            }
                           }
-                        }
-                      }),
-                      _vm._v(" "),
-                      Object.keys(_vm.menuAdmin[gender]).length - 1 === c
-                        ? _c(
-                            "button",
-                            { staticClass: "admin-btn-add width-300" },
-                            [
-                              _vm._v(
-                                "\n                            Добавить раздел 2 уровня "
-                              ),
-                              _c("img", {
-                                attrs: {
-                                  src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png")
-                                }
-                              })
-                            ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c(
-                        "ul",
-                        { staticClass: "admin-menu-depart" },
-                        _vm._l(depart, function(dep, t) {
-                          return dep.activeCateg && dep.department !== null
-                            ? _c("li", [
-                                _c("input", {
-                                  staticClass: "input-pale-blu width-300",
-                                  attrs: { type: "text" },
-                                  domProps: { value: dep.department },
-                                  on: {
-                                    focus: function($event) {
-                                      return _vm.focusAlias(
-                                        dep.departments_alias
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                depart.length - 1 === t
-                                  ? _c(
-                                      "button",
-                                      {
-                                        staticClass: "admin-btn-add width-300",
-                                        on: { click: _vm.addNewLavel }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                    Добавить раздел 3 уровня "
-                                        ),
-                                        _c("img", {
-                                          attrs: {
-                                            src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png")
-                                          }
-                                        })
-                                      ]
-                                    )
-                                  : _vm._e()
-                              ])
-                            : _vm._e()
                         }),
-                        0
-                      )
-                    ])
-                  : _vm._e()
-              }),
-              0
+                        _vm._v(" "),
+                        _c("button", {
+                          staticClass: "btn-admin-arrow width-300",
+                          class: _vm.menu[gender][cat][0].activeCateg
+                            ? "admin-btn-arrow"
+                            : "admin-btn-arrow-pass",
+                          on: {
+                            click: function($event) {
+                              return _vm.clickCateg(gender, cat)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        depart[0].activeCateg &&
+                        depart[0].department == null &&
+                        depart.length === 1
+                          ? _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "admin-btn-add width-300 btn-add-3-lvl",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.addNewLavel(
+                                      "newdep",
+                                      _vm.menu[gender].dataForChangeMenu
+                                        .menu_sex,
+                                      depart[0].categories_id
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                Добавить раздел 3 уровня "
+                                ),
+                                _c("img", {
+                                  attrs: {
+                                    src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png")
+                                  }
+                                })
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "admin-menu-depart" },
+                          [
+                            _vm._l(depart, function(dep, t) {
+                              return dep.activeCateg && dep.department !== null
+                                ? _c("li", [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model.trim",
+                                          value: dep.department,
+                                          expression: "dep.department",
+                                          modifiers: { trim: true }
+                                        }
+                                      ],
+                                      staticClass: "input-pale-blu width-300",
+                                      attrs: { type: "text" },
+                                      domProps: { value: dep.department },
+                                      on: {
+                                        focus: function($event) {
+                                          return _vm.focusAlias(
+                                            dep.departments_alias,
+                                            dep.departments_id,
+                                            "departments",
+                                            _vm.menuAdmin[gender]
+                                              .dataForChangeMenu.menu_sex,
+                                            depart[0].categories_id,
+                                            dep.menu_id
+                                          )
+                                        },
+                                        change: function($event) {
+                                          return _vm.changeMenuItemName(
+                                            dep.department,
+                                            3,
+                                            "departments",
+                                            "departments_id",
+                                            "departments_name"
+                                          )
+                                        },
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            dep,
+                                            "department",
+                                            $event.target.value.trim()
+                                          )
+                                        },
+                                        blur: function($event) {
+                                          return _vm.$forceUpdate()
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    depart.length - 1 === t
+                                      ? _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "admin-btn-add width-300",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.addNewLavel(
+                                                  "newdep",
+                                                  _vm.menu[gender]
+                                                    .dataForChangeMenu.menu_sex,
+                                                  dep.categories_id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        Добавить раздел 3 уровня "
+                                            ),
+                                            _c("img", {
+                                              attrs: {
+                                                src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png")
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ])
+                                : _vm._e()
+                            }),
+                            _vm._v(" "),
+                            Object.keys(_vm.menu[gender]).length - 1 === c
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "admin-btn-add width-300 btn-add-2-lvl",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.addNewLavel(
+                                          "newcat",
+                                          _vm.menu[gender].dataForChangeMenu
+                                            .menu_sex,
+                                          null
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Добавить раздел 2 уровня "
+                                    ),
+                                    _c("img", {
+                                      attrs: {
+                                        src: __webpack_require__(/*! ../../../img/krest-btn.png */ "./resources/img/krest-btn.png")
+                                      }
+                                    })
+                                  ]
+                                )
+                              : _vm._e()
+                          ],
+                          2
+                        )
+                      ])
+                    : _vm._e()
+                })
+              ],
+              2
             )
           ])
         }),
@@ -11066,7 +11458,7 @@ var render = function() {
           staticClass: "admin-btn-add width-300",
           on: {
             click: function($event) {
-              return _vm.addNewLavel("newsex")
+              return _vm.addNewLavel("newsex", null, null)
             }
           }
         },
@@ -11097,6 +11489,9 @@ var render = function() {
           attrs: { type: "text" },
           domProps: { value: _vm.changedAlias },
           on: {
+            change: function($event) {
+              return _vm.changeAlias()
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -11118,45 +11513,47 @@ var render = function() {
               [
                 _c("label", { staticClass: "admin-h3" }, [_vm._v("Категория")]),
                 _vm._v(" "),
-                _c("div", { staticClass: "wrap-inp-btn" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selected,
-                        expression: "selected"
-                      }
-                    ],
-                    staticClass: "input-transp input-transp-p",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.selected },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                _c(
+                  "div",
+                  { staticClass: "wrap-inp-btn" },
+                  [
+                    _vm._l(_vm.getCrumbs, function(current, i) {
+                      return current.sex_id === _vm.sexId &&
+                        current.categories_id === _vm.categId &&
+                        current.departments_id === null
+                        ? _c("input", {
+                            staticClass: "input-transp input-transp-p",
+                            attrs: { type: "text", disabled: "" },
+                            domProps: {
+                              value:
+                                current.sex_name +
+                                (current.categories_name !== null
+                                  ? " | " + current.categories_name
+                                  : "")
+                            }
+                          })
+                        : _vm._e()
+                    }),
+                    _vm._v(" "),
+                    _c("button", {
+                      staticClass: "btn-admin-arrow",
+                      class: _vm.activeBtn
+                        ? "admin-btn-arrow-pass"
+                        : "admin-btn-arrow",
+                      on: {
+                        click: function($event) {
+                          _vm.activeBtn = !_vm.activeBtn
                         }
-                        _vm.selected = $event.target.value
                       }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("button", {
-                    staticClass: "btn-admin-arrow",
-                    class: _vm.activeBtn
-                      ? "admin-btn-arrow-pass"
-                      : "admin-btn-arrow",
-                    on: {
-                      click: function($event) {
-                        _vm.activeBtn = !_vm.activeBtn
-                      }
-                    }
-                  })
-                ]),
+                    })
+                  ],
+                  2
+                ),
                 _vm._v(" "),
                 _vm.activeBtn
                   ? _c("AdminCrumbs", {
-                      attrs: { lvl: "all", crumbs: _vm.getCrumbs }
+                      attrs: { lvl: _vm.lvl, crumbs: _vm.getCrumbs },
+                      on: { addNewCategory: _vm.changeCategory }
                     })
                   : _vm._e()
               ],
@@ -14575,7 +14972,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.total || _vm.catalogData
+  return _vm.total !== null || _vm.catalogData !== null
     ? _c(
         "div",
         { staticClass: "catalog-items" },
@@ -14658,14 +15055,16 @@ var render = function() {
                   }
                 },
                 [
-                  _c("img", {
-                    attrs: { src: item.product_img.split(",")[0], alt: "" },
-                    on: {
-                      mouseover: function($event) {
-                        return _vm.showElements(i)
-                      }
-                    }
-                  })
+                  item.product_img !== null
+                    ? _c("img", {
+                        attrs: { src: item.product_img.split(",")[0], alt: "" },
+                        on: {
+                          mouseover: function($event) {
+                            return _vm.showElements(i)
+                          }
+                        }
+                      })
+                    : _vm._e()
                 ]
               ),
               _vm._v(" "),
@@ -15286,9 +15685,14 @@ var render = function() {
                                       {
                                         attrs: {
                                           to: {
-                                            path:
-                                              categ[0].sex_alias + "?sale=true"
-                                          }
+                                            name: "gender",
+                                            params: {
+                                              gender: categ[0].sex_alias
+                                            },
+                                            query: { sale: "true", page: "1" }
+                                          },
+                                          replace: false,
+                                          append: false
                                         }
                                       },
                                       [
@@ -15490,7 +15894,7 @@ var render = function() {
                         )
                       : _vm._e()
                   ])
-                : _c("div", { staticClass: "menu-bottom" })
+                : _vm._e()
             ]
           )
         : _vm._e(),
@@ -42899,7 +43303,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]); // const URI = 'https://lappinalle.ru/api/';
+
 var URI = 'http://lappinalle.test/api/';
 var admin = {
   state: function state() {
@@ -43506,8 +43911,6 @@ var store = {
                           menuForAdmin[k].dataForChangeMenu.menu_lvl = menu[_i4].menu_lvlmenu;
                           menuForAdmin[k].dataForChangeMenu.menu_id = menu[_i4].menu_id;
                           menuForAdmin[k].dataForChangeMenu.menu_sex = menu[_i4].sex_id;
-                          menuForAdmin[k].dataForChangeMenu.menu_cat = menu[_i4].categories_id;
-                          menuForAdmin[k].dataForChangeMenu.menu_dep = menu[_i4].departments_id;
                           menuForAdmin[k].dataForChangeMenu.menu_alias = menu[_i4].sex_alias;
                         }
                       }
@@ -43516,8 +43919,9 @@ var store = {
                     } finally {
                       _iterator2.f();
                     }
-                  } // Выбираем уникальные категории
+                  }
 
+                  console.log(gendersObj); // Выбираем уникальные категории
 
                   var categories = new Set(listCategories);
                   var categoriesObj = {}; // Распределяем категории по гендеру
@@ -43563,7 +43967,10 @@ var store = {
                               category: c,
                               activeCateg: false,
                               categories_alias: gendersObj[g][gg].categories_alias,
-                              departments_alias: gendersObj[g][gg].departments_alias
+                              departments_alias: gendersObj[g][gg].departments_alias,
+                              departments_id: gendersObj[g][gg].departments_id,
+                              categories_id: gendersObj[g][gg].categories_id,
+                              menu_id: gendersObj[g][gg].menu_id
                             });
                           }
                         }

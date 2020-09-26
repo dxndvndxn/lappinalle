@@ -6,89 +6,105 @@ use Illuminate\Http\Request;
 
 class AdmCategController extends Controller
 {
-    private $letters = array(
-        'а' => 'a',   	'б' => 'b',     'в' => 'v',
-        'г' => 'g',   	'д' => 'd',   	'е' => 'e',
-        'ё' => 'e',   	'ж' => 'zh',  	'з' => 'z',
-        'и' => 'i',   	'й' => 'y',   	'к' => 'k',
-        'л' => 'l',   	'м' => 'm',   	'н' => 'n',
-        'о' => 'o',   	'п' => 'p',   	'р' => 'r',
-        'с' => 's',   	'т' => 't',   	'у' => 'u',
-        'ф' => 'f',   	'х' => 'h',   	'ц' => 'c',
-        'ч' => 'ch',  	'ш' => 'sh',  	'щ' => 'sch',
-        'ь' => '',   	'ы' => 'y',   	'ъ' => '',
-        'э' => 'e',   	'ю' => 'yu',  	'я' => 'ya',
-        'А' => 'A',   	'Б' => 'B',   	'В' => 'V',
-        'Г' => 'G',   	'Д' => 'D',   	'Е' => 'E',
-        'Ё' => 'E',   	'Ж' => 'Zh',  	'З' => 'Z',
-        'И' => 'I',   	'Й' => 'Y',   	'К' => 'K',
-        'Л' => 'L',   	'М' => 'M',   	'Н' => 'N',
-        'О' => 'O',   	'П' => 'P',   	'Р' => 'R',
-        'С' => 'S',   	'Т' => 'T',   	'У' => 'U',
-        'Ф' => 'F',   	'Х' => 'H',   	'Ц' => 'C',
-        'Ч' => 'Ch',  	'Ш' => 'Sh',  	'Щ' => 'Sch',
-        'Ь' => '',  	'Ы' => 'Y',   	'Ъ' => '_',
-        'Э' => 'E',   	'Ю' => 'Yu',  	'Я' => 'Ya',
-        'є' => 'ye', 	'ї' => 'yi', 	'і' => 'i',
-        'Є' => 'YE', 	'Ї' => 'YI', 	'І' => 'I',
-        ' ' => '_'
-    );
 
     public function update(Request $request) {
 
         //Получение данных редактируемого раздела (ID, Новое название, Уровень вложенности, Пол, Категория, Раздел)
         $requestData = $request->all();
-        $menu = json_decode($requestData['data'], TRUE);
-        $menu_id = $menu['menu_id'];
-        $menu_name = $menu['menu_name'];
-        $menu_lvl = $menu['menu_lvl'];
-        $menu_sex = $menu['menu_sex'];
-        $menu_cat = $menu['menu_cat'];
-        $menu_dep = $menu['menu_dep'];
+
+        if (isset($requestData['lvl'])) {
+            DB::table($requestData['tableName'])
+                ->where($requestData['tableNameId'], $requestData['menuItemId'])
+                ->update([$requestData['tableFieldName'] =>$requestData['newGenderName']]);
+            return true;
+        }
+
+        if (isset($requestData['alias'])) {
+            if ($requestData['section'] === 'sex') {
+                DB::table($requestData['section'])
+                    ->where('sex_id', $requestData['sectionId'])
+                    ->update(['sex_alias' => $requestData['newAlias']]);
+                return true;
+            }
+            if ($requestData['section'] === 'categories') {
+                DB::table($requestData['section'])
+                    ->where('categories_id', $requestData['sectionId'])
+                    ->update(['categories_alias' => $requestData['newAlias']]);
+                return true;
+            }
+            if ($requestData['section'] === 'departments') {
+                DB::table($requestData['section'])
+                    ->where('departments_id', $requestData['sectionId'])
+                    ->update(['departments_alias' => $requestData['newAlias']]);
+                return true;
+            }
+        }
+
+        if (isset($requestData['changePosition'])) {
+            if (isset($requestData['sexId']) && $requestData['categId'] === null){
+                DB::table('menu')
+                    ->where('menu_id', $requestData['menuId'])
+                    ->update(['sex_id' => $requestData['sexId']]);
+
+                return true;
+            }else{
+                DB::table('menu')
+                    ->where('menu_id', $requestData['menuId'])
+                    ->update(['sex_id' => $requestData['sexId']])
+                    ->update(['categories_id' => $requestData['categId']]);
+                return true;
+            }
+        }
+//        $menu = json_decode($requestData['data'], TRUE);
+//        $menu_id = $menu['menu_id'];
+//        $menu_name = $menu['menu_name'];
+//        $menu_lvl = $menu['menu_lvl'];
+//        $menu_sex = $menu['menu_sex'];
+//        $menu_cat = $menu['menu_cat'];
+//        $menu_dep = $menu['menu_dep'];
 
 
         // Изменение в таблице МЕНЮ значения пола
-        if (isset($menu['gender'])) {
-            DB::table('menu')
-                ->where('menu_id', $menu_id['menu_id'])
-                ->update(['sex_id' => $menu_sex['menu_sex']]);
-        }
-
-        //Изменение в таблице МЕНЮ значения категории
-        DB::table('menu')
-            ->where('menu_id', $menu_id['menu_id'])
-            ->update(['categories_id' => $menu_cat['menu_cat']]);
-
-        //Изменение в таблице МЕНЮ значения уровня вложенности
-        DB::table('menu')
-            ->where('menu_id', $menu_id['menu_id'])
-            ->update(['menu_lvlmenu' => $menu_lvl['menu_lvl']]);
+//        if (isset($menu['gender'])) {
+//            DB::table('menu')
+//                ->where('menu_id', $menu_id['menu_id'])
+//                ->update(['sex_id' => $menu_sex['menu_sex']]);
+//        }
+//
+//        //Изменение в таблице МЕНЮ значения категории
+//        DB::table('menu')
+//            ->where('menu_id', $menu_id['menu_id'])
+//            ->update(['categories_id' => $menu_cat['menu_cat']]);
+//
+//        //Изменение в таблице МЕНЮ значения уровня вложенности
+//        DB::table('menu')
+//            ->where('menu_id', $menu_id['menu_id'])
+//            ->update(['menu_lvlmenu' => $menu_lvl['menu_lvl']]);
 
 
 
         //Изменение в таблице SEX названия пола, если для редактирования выбран раздел 1 уровня
-        if ($menu_lvl == 1) {
-
-            DB::table('sex')
-                ->where('sex_id', $menu_sex['menu_sex'])
-                ->update(['sex_name' => $menu_name['menu_name']]);
-        }
-
-        //Изменение в таблице CATEGORIES названия категории, если для редактирования выбран раздел 2 уровня
-        if ($menu_lvl == 2) {
-
-            DB::table('categories')
-                ->where('categories_id', $menu_cat['menu_cat'])
-                ->update(['categories_name' => $menu_name['menu_name']]);
-        }
-
-        //Изменение в таблице DEPARTMENTS названия пола, если для редактирования выбран раздел 3 уровня
-        if ($menu_lvl == 3) {
-
-            DB::table('departments')
-                ->where('departments_id', $menu_dep['menu_dep'])
-                ->update(['departments_name' => $menu_name['menu_name']]);
-        }
+//        if ($menu_lvl == 1) {
+//            DB::table('sex')
+//                ->where('sex_id', $menu_sex['menu_sex'])
+//                ->update(['sex_name' => $menu_name['menu_name']]);
+//        }
+//
+//        //Изменение в таблице CATEGORIES названия категории, если для редактирования выбран раздел 2 уровня
+//        if ($menu_lvl == 2) {
+//
+//            DB::table('categories')
+//                ->where('categories_id', $menu_cat['menu_cat'])
+//                ->update(['categories_name' => $menu_name['menu_name']]);
+//        }
+//
+//        //Изменение в таблице DEPARTMENTS названия пола, если для редактирования выбран раздел 3 уровня
+//        if ($menu_lvl == 3) {
+//
+//            DB::table('departments')
+//                ->where('departments_id', $menu_dep['menu_dep'])
+//                ->update(['departments_name' => $menu_name['menu_name']]);
+//        }
     }
 
 
@@ -99,7 +115,7 @@ class AdmCategController extends Controller
             ->insert(
                 [
                     'sex_name' => 'Новый раздел',
-                    'sex_alias' => 'хуй'
+                    'sex_alias' => 'новый алиас'
                 ]
             );
 
@@ -117,17 +133,53 @@ class AdmCategController extends Controller
 
     // Добавление новой категории
     public function newcat(Request $request) {
+        $sexId = $request->only('sexId');
 
-        DB::table('categories')->insert(['categories_name' => 'Новый раздел',
-            'categories_alias' => 'newcategory']);
+        DB::table('categories')
+            ->insert(
+                [
+                    'categories_name' => 'Новый раздел',
+                    'categories_alias' => 'newcategory'
+                ]
+            );
+
+        $lastCatId = DB::table('categories')->select('categories_id')->orderBy('categories_id', 'desc')->value('categories_id');
+
+        DB::table('menu')
+            ->insert(
+                [
+                    'menu_lvlmenu' => 2,
+                    'sex_id' => $sexId['sexId'],
+                    'categories_id' => $lastCatId
+                ]
+            );
 
     }
 
     // Добавление нового раздела
     public function newdep(Request $request) {
+        $sexId = $request->only('sexId');
+        $catId = $request->only('catId');
 
-        DB::table('departments')->insert(['departments_name' => 'Новый раздел',
-            'departments_alias' => 'newdepartments']);
+        DB::table('departments')
+            ->insert(
+                [
+                    'departments_name' => 'Новый раздел',
+                    'departments_alias' => 'newdepartments'
+                ]
+            );
+
+        $lastDepId = DB::table('departments')->select('departments_id')->orderBy('departments_id', 'desc')->value('departments_id');
+
+        DB::table('menu')
+            ->insert(
+                [
+                    'menu_lvlmenu' => 3,
+                    'sex_id' => $sexId['sexId'],
+                    'categories_id' => $catId['catId'],
+                    'departments_id' => $lastDepId
+                ]
+            );
 
     }
 }

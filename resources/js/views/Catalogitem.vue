@@ -288,14 +288,14 @@
             linkForRelated: null,
             showPriceAsUsual: true
         }),
-        created(){
+        async created(){
            this.$Progress.start();
-            console.log(this.$store.getters.catalogItem)
+
            // Присваеваем переменной значения из урла, чтобы можно было кидать ссылки и открывались страница с отзывами указанными в урле
            this.pageReview = +this.$route.query.page || 1;
 
            // Получаем данные товара
-           this.$store.dispatch('getItemData', this.$route.params.number);
+           await this.$store.dispatch('getItemData', this.$route.params.number);
 
            //Получаем отзывы
            this.getItemReview(this.pageReview);
