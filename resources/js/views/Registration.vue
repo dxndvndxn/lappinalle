@@ -3,7 +3,7 @@
         <div class="reg-from" v-if="!regWhat">
             <h1 class="h-30 h1-m80">Регистрация</h1>
             <div v-if="error" class="error-log">
-                Ошибка регистрации
+                Данный email уже зарегестрирован
             </div>
             <form @submit.prevent="registerMe()" method="post">
                 <div class="input-wrap">
@@ -88,13 +88,14 @@
                     if (this.checkAgree) {
                         this.$Progress.start();
                         this.$store.dispatch('register', {name: this.name, email: this.email, password: this.pass })
-                            .then(() =>{
+                            .then((res) =>{
                                 this.$router.push({name: 'cabinet'})
                             })
-                            .catch((() => {
+                            .catch((e) => {
+                                console.log(e)
                                 this.$Progress.finish();
-                                this.err = true;
-                            }))
+                                this.error = true;
+                            })
                     }
                 }
             }

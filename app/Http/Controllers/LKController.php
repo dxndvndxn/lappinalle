@@ -75,43 +75,6 @@ class LKController extends Controller
         $lkall = [$lkdata, $wrapOrder];
 
         return $lkall;
-//        // Получаем все заказы у конкретного юзера
-//        $order = DB::table('orders')->select('orders_korzina')->where('lappiusers_id', '=', $id)->get();
-//
-//        $korzina = [];
-//
-//        // Получакм корзину конкретного юзера
-//        foreach ($order as $val) {
-//            $localArr = (array) $val;
-//            $localArr = explode('|', $localArr['orders_korzina']);
-//            if (array_pop($localArr) === "") array_slice($localArr, 1, -1);
-//            foreach ($localArr as $localVal) {
-//                array_push($korzina, $localVal);
-//            }
-//        }
-//
-//        $korzina_adm = [];
-//
-//        foreach ($korzina as $val) {
-//            $splashKorzina = explode(',', $val);
-//
-//            // Получаем название
-//            $prod_name = DB::table('products')->where('product_id', $splashKorzina[0])->select('product_title')->value('product_title');
-//
-//            // Получаем кол-во
-//            $prod_count = $splashKorzina[1];
-//
-//            // Получаем размер
-//            $prod_size = $splashKorzina[2] === '' ? 'Нет' : $splashKorzina[2];
-//
-//            // Получаем строку
-//            $stringKorzina = $prod_name . ', Размер: ' . $prod_size . ', Количество: ' . $prod_count;
-//            array_push($korzina_adm, [$splashKorzina[0], $stringKorzina]);
-//        }
-//
-//        $lkall = [$lkdata, $korzina_adm];
-//
-//        return $lkall;
     }
 
     public function update(Request $request) {

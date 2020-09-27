@@ -24,11 +24,16 @@ class LappiUserController extends Controller
     }
 
     public function Reg (Request $request) {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:50',
-            'email' => 'required|email|unique:lappiusers',
-            'password' => 'required|min:6'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:50',
+                'email' => 'required|email|unique:lappiusers',
+                'password' => 'required|min:6'
+            ]);
+        }catch (Exception $e){
+            return $e;
+        }
+
         if ($validator) {
                 $data = $request->all();
                 $name = $data['name'];
@@ -44,8 +49,6 @@ class LappiUserController extends Controller
                         'lappiusers_token' => $token
                     ]
                 );
-
-
 
             if ($register) {
                 return $token;

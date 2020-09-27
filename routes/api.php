@@ -87,6 +87,9 @@ Route::post('/newcat', 'AdmCategController@newcat');
 //Новый раздел
 Route::post('/newdep', 'AdmCategController@newdep');
 
+// Скачать накладную
+Route::post('/loadfile',  'FileController@kek');
+
 // SITE
 // Оформление заказа
 Route::post('/order', 'CheckoutOrderController@index');

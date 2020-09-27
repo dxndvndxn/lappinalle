@@ -77,56 +77,6 @@ class AdmCategController extends Controller
                 return true;
             }
         }
-//        $menu = json_decode($requestData['data'], TRUE);
-//        $menu_id = $menu['menu_id'];
-//        $menu_name = $menu['menu_name'];
-//        $menu_lvl = $menu['menu_lvl'];
-//        $menu_sex = $menu['menu_sex'];
-//        $menu_cat = $menu['menu_cat'];
-//        $menu_dep = $menu['menu_dep'];
-
-
-        // Изменение в таблице МЕНЮ значения пола
-//        if (isset($menu['gender'])) {
-//            DB::table('menu')
-//                ->where('menu_id', $menu_id['menu_id'])
-//                ->update(['sex_id' => $menu_sex['menu_sex']]);
-//        }
-//
-//        //Изменение в таблице МЕНЮ значения категории
-//        DB::table('menu')
-//            ->where('menu_id', $menu_id['menu_id'])
-//            ->update(['categories_id' => $menu_cat['menu_cat']]);
-//
-//        //Изменение в таблице МЕНЮ значения уровня вложенности
-//        DB::table('menu')
-//            ->where('menu_id', $menu_id['menu_id'])
-//            ->update(['menu_lvlmenu' => $menu_lvl['menu_lvl']]);
-
-
-
-        //Изменение в таблице SEX названия пола, если для редактирования выбран раздел 1 уровня
-//        if ($menu_lvl == 1) {
-//            DB::table('sex')
-//                ->where('sex_id', $menu_sex['menu_sex'])
-//                ->update(['sex_name' => $menu_name['menu_name']]);
-//        }
-//
-//        //Изменение в таблице CATEGORIES названия категории, если для редактирования выбран раздел 2 уровня
-//        if ($menu_lvl == 2) {
-//
-//            DB::table('categories')
-//                ->where('categories_id', $menu_cat['menu_cat'])
-//                ->update(['categories_name' => $menu_name['menu_name']]);
-//        }
-//
-//        //Изменение в таблице DEPARTMENTS названия пола, если для редактирования выбран раздел 3 уровня
-//        if ($menu_lvl == 3) {
-//
-//            DB::table('departments')
-//                ->where('departments_id', $menu_dep['menu_dep'])
-//                ->update(['departments_name' => $menu_name['menu_name']]);
-//        }
     }
 
 

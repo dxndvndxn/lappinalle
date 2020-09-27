@@ -10,7 +10,6 @@
                     <small v-if="errorAdd" class="small-invalid">Отредактируйте уже добавленный товар.</small>
                 </div>
             </div>
-            <button class="admin-btn-complete">Сохранить изменения</button>
             <div class="admin-products-search">
                 <input type="text" class="input-transp input-transp-p" v-model="searched" placeholder="поиск">
                 <button class="btn-admin-arrow" @click="activeBtn = !activeBtn" v-bind:class="activeBtn ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
@@ -300,8 +299,10 @@
         },
         computed: {
             returnAllProducts(){
-                this.$Progress.finish();
-                return this.$store.getters.adminProducts;
+                if (this.$store.getters.adminProducts !== null) {
+                    this.$Progress.finish();
+                    return this.$store.getters.adminProducts;
+                }
             },
             getCrumbs(){
                 return this.$store.getters.adminRawMenu;

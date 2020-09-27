@@ -1622,6 +1622,30 @@ footer .bottom-foot span:nth-child(1) {
   font-size: 20px;
 }
 
+.catalog-items .item-sizes {
+  background: #e7eff8;
+  height: 235px;
+  width: 35px;
+  left: 13px;
+  text-align: center;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-top: 12px;
+}
+
+.catalog-items .item-sizes::-webkit-scrollbar-track {
+  background-color: #93b5e1;
+}
+
+.catalog-items .item-sizes::-webkit-scrollbar {
+  width: 6px;
+  background-color: #848ccf;
+}
+
+.catalog-items .item-sizes::-webkit-scrollbar-thumb {
+  background-color: #848ccf;
+}
+
 .catalog-error {
   font-family: "PT Sans", sans-serif;
   font-weight: 400;
@@ -1675,30 +1699,6 @@ footer .bottom-foot span:nth-child(1) {
   .catalog-items {
     grid-template-columns: 100%;
     grid-row-gap: 35px;
-  }
-
-  .catalog-items .item-sizes {
-    background: #e7eff8;
-    height: 240px;
-    width: 35px;
-    left: 13px;
-    text-align: center;
-    overflow: hidden;
-    overflow-y: scroll;
-    padding-top: 12px;
-  }
-
-  .catalog-items .item-sizes::-webkit-scrollbar-track {
-    background-color: #93b5e1;
-  }
-
-  .catalog-items .item-sizes::-webkit-scrollbar {
-    width: 6px;
-    background-color: #848ccf;
-  }
-
-  .catalog-items .item-sizes::-webkit-scrollbar-thumb {
-    background-color: #848ccf;
   }
 
   .catalog-items .item a img {

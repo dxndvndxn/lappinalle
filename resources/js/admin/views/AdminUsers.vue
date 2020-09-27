@@ -1,6 +1,6 @@
 <template>
     <div class="admin-users">
-        <AdminTopSide v-bind:H="'Пользователи'" v-bind:btn="false"/>
+        <AdminTopSide v-bind:H="'Пользователи'"/>
         <div class="admin-users-list">
             <div class="list-cell">
                 <h1 class="admin-h3">

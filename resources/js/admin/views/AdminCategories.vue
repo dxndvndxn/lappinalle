@@ -105,6 +105,7 @@
             activeLvl: null
         }),
         created(){
+            this.$Progress.start();
              this.$store.dispatch('getMenuData');
         },
         methods: {
@@ -230,7 +231,10 @@
         },
         computed: {
             menuAdmin(){
-                return this.$store.getters.menuAdmin;
+                if (this.$store.getters.menuAdmin !== null) {
+                    this.$Progress.finish();
+                    return this.$store.getters.menuAdmin;
+                }
             },
             getCrumbs(){
                 return this.$store.getters.adminRawMenu;

@@ -1,6 +1,6 @@
 <template>
     <div class="admin-review-card">
-        <AdminTopSide v-bind:H="`ОТЗЫВ №${this.$route.params.id}`" v-bind:btn="true"/>
+        <AdminTopSide v-bind:H="`ОТЗЫВ №${this.$route.params.id}`"/>
         <div class="wrap-admin-review-card" v-for="(review, i) in returnGetOneReview">
             <div class="order-cl">
                 <div class="wrap-main-page admin-cl-lbl-inp">

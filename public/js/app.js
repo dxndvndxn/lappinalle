@@ -2226,10 +2226,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AdminTopSide",
-  props: ['H', 'btn']
+  props: ['H']
 });
 
 /***/ }),
@@ -2351,6 +2350,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     };
   },
   created: function created() {
+    this.$Progress.start();
     this.$store.dispatch('getMenuData');
   },
   methods: {
@@ -2498,7 +2498,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   computed: {
     menuAdmin: function menuAdmin() {
-      return this.$store.getters.menuAdmin;
+      if (this.$store.getters.menuAdmin !== null) {
+        this.$Progress.finish();
+        return this.$store.getters.menuAdmin;
+      }
     },
     getCrumbs: function getCrumbs() {
       return this.$store.getters.adminRawMenu;
@@ -2630,7 +2633,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
 //
 //
 //
@@ -3197,7 +3199,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3409,8 +3410,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     returnAllProducts: function returnAllProducts() {
-      this.$Progress.finish();
-      return this.$store.getters.adminProducts;
+      if (this.$store.getters.adminProducts !== null) {
+        this.$Progress.finish();
+        return this.$store.getters.adminProducts;
+      }
     },
     getCrumbs: function getCrumbs() {
       return this.$store.getters.adminRawMenu;
@@ -3690,6 +3693,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3723,8 +3732,50 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    changeStatus: function changeStatus(status) {
+    loadFile: function loadFile() {
       var _this = this;
+
+      this.$Progress.start();
+      var address = '';
+      var deliveryName = '';
+
+      if (this.orderInfo[0].orders_deliveryName === 'post-russia') {
+        deliveryName = 'Почта России';
+        address = this.orderInfo[0].orders_city + ', ' + this.orderInfo[0].orders_street + ', ' + 'дом ' + this.orderInfo[0].orders_house + ', ' + 'корпус ' + this.orderInfo[0].orders_corps + ', ' + 'кв ' + this.orderInfo[0].orders_apart + ', ' + 'почтовый индекс ' + this.orderInfo[0].orders_indexPost;
+      } else if (this.orderInfo[0].orders_deliveryName === 'sdek' || this.orderInfo[0].orders_deliveryName === 'pek') {
+        deliveryName = this.orderInfo[0].orders_deliveryName === 'sdek' ? 'СДЭК' : 'ПЭК';
+        address = this.orderInfo[0].orders_city + ', ' + this.orderInfo[0].orders_street + ', ' + 'дом ' + this.orderInfo[0].orders_house + ', ' + 'корпус ' + this.orderInfo[0].orders_corps + ', ' + 'кв ' + this.orderInfo[0].orders_apart;
+      } else if (this.orderInfo[0].orders_deliveryName === 'postman') {
+        deliveryName = 'Курьерская доставка';
+        address = 'Санкт-Петербург, ' + this.orderInfo[0].orders_street + ', ' + 'дом ' + this.orderInfo[0].orders_house + ', ' + 'корпус ' + this.orderInfo[0].orders_corps + ', ' + 'кв ' + this.orderInfo[0].orders_apart;
+      }
+
+      var data = {
+        id: this.orderInfo[0].orders_id,
+        name: this.orderInfo[0].orders_name,
+        tel: this.orderInfo[0].orders_tel,
+        email: this.orderInfo[0].orders_email,
+        adres: address,
+        del: deliveryName,
+        comment: this.orderInfo[0].orders_Comment,
+        korzina: this.orderProducts,
+        total_price: this.orderInfo[0].orders_totalPrice,
+        paymentName: this.orderInfo[0].orders_payment,
+        whereGet: this.orderInfo[0].orders_whereGet,
+        passport: this.orderInfo[0].orders_passportData,
+        status: this.orderInfo[0].orders_status,
+        data: this.orderInfo[0].created_at
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "loadfile"), data).then(function (res) {
+        window.location.href = res.data;
+
+        _this.$Progress.finish();
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+    },
+    changeStatus: function changeStatus(status) {
+      var _this2 = this;
 
       this.$Progress.start();
       this.actvieStatus = status;
@@ -3732,7 +3783,7 @@ __webpack_require__.r(__webpack_exports__);
         id: this.$route.params.id,
         status: status
       }).then(function (res) {
-        _this.$Progress.finish();
+        _this2.$Progress.finish();
       })["catch"](function (e) {
         return console.log(e);
       });
@@ -8505,14 +8556,16 @@ __webpack_require__.r(__webpack_exports__);
             name: this.name,
             email: this.email,
             password: this.pass
-          }).then(function () {
+          }).then(function (res) {
             _this.$router.push({
               name: 'cabinet'
             });
-          })["catch"](function () {
+          })["catch"](function (e) {
+            console.log(e);
+
             _this.$Progress.finish();
 
-            _this.err = true;
+            _this.error = true;
           });
         }
       }
@@ -11130,13 +11183,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "admin-header-side" }, [
-    _c("h1", { staticClass: "admin-h1" }, [_vm._v(_vm._s(_vm.H))]),
-    _vm._v(" "),
-    _vm.btn
-      ? _c("button", { staticClass: "admin-btn-complete width-300" }, [
-          _vm._v("Сохранить изменения")
-        ])
-      : _vm._e()
+    _c("h1", { staticClass: "admin-h1" }, [_vm._v(_vm._s(_vm.H))])
   ])
 }
 var staticRenderFns = []
@@ -11643,7 +11690,7 @@ var render = function() {
     "div",
     { staticClass: "admin-delivery" },
     [
-      _c("AdminTopSide", { attrs: { H: "Страница доставки", btn: true } }),
+      _c("AdminTopSide", { attrs: { H: "Страница доставки" } }),
       _vm._v(" "),
       _c("h2", { staticClass: "admin-h2" }, [
         _vm._v("Доступные варианты доставки")
@@ -11698,10 +11745,6 @@ var render = function() {
   return _c("div", { staticClass: "admin-main-page" }, [
     _c("div", { staticClass: "admin-main-page-header" }, [
       _c("h1", { staticClass: "admin-h1" }, [_vm._v("главная страница")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "admin-btn-complete width-300" }, [
-        _vm._v("Сохранить изменения")
-      ]),
       _vm._v(" "),
       _c(
         "button",
@@ -12499,7 +12542,7 @@ var render = function() {
     "div",
     { staticClass: "admin-orders" },
     [
-      _c("AdminTopSide", { attrs: { H: "Заказы", btn: false } }),
+      _c("AdminTopSide", { attrs: { H: "Заказы" } }),
       _vm._v(" "),
       _c(
         "div",
@@ -12688,10 +12731,6 @@ var render = function() {
               ])
             : _vm._e()
         ])
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "admin-btn-complete" }, [
-        _vm._v("Сохранить изменения")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "admin-products-search" }, [
@@ -13108,7 +13147,7 @@ var render = function() {
     "div",
     { staticClass: "admin-reviews" },
     [
-      _c("AdminTopSide", { attrs: { H: "отзывы", btn: false } }),
+      _c("AdminTopSide", { attrs: { H: "отзывы" } }),
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
@@ -13220,7 +13259,7 @@ var render = function() {
     "div",
     { staticClass: "admin-users" },
     [
-      _c("AdminTopSide", { attrs: { H: "Пользователи", btn: false } }),
+      _c("AdminTopSide", { attrs: { H: "Пользователи" } }),
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
@@ -13333,7 +13372,7 @@ var render = function() {
       _c(
         "div",
         { staticClass: "warp-head-order-card" },
-        [_c("AdminTopSide", { attrs: { H: "Подробности заказа", btn: true } })],
+        [_c("AdminTopSide", { attrs: { H: "Подробности заказа" } })],
         1
       ),
       _vm._v(" "),
@@ -13499,6 +13538,27 @@ var render = function() {
                     )
                   : _vm._e(),
                 _vm._v(" "),
+                order.orders_deliveryName === "pek" ||
+                order.orders_deliveryName === "sdek"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "wrap-main-page admin-cl-lbl-inp width-300"
+                      },
+                      [
+                        _c("label", { staticClass: "admin-h3" }, [
+                          _vm._v("До куда")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "input-pale-blu",
+                          attrs: { type: "text", disabled: "" },
+                          domProps: { value: order.orders_whereGet }
+                        })
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
                 order.orders_deliveryName === "post-russia"
                   ? _c(
                       "div",
@@ -13562,8 +13622,7 @@ var render = function() {
                               order.orders_corps +
                               ", " +
                               "кв " +
-                              order.orders_apart +
-                              ", "
+                              order.orders_apart
                           }
                         })
                       ]
@@ -13594,8 +13653,7 @@ var render = function() {
                               order.orders_corps +
                               ", " +
                               "кв " +
-                              order.orders_apart +
-                              ", "
+                              order.orders_apart
                           }
                         })
                       ]
@@ -13654,7 +13712,7 @@ var render = function() {
                     _c("input", {
                       staticClass: "input-pale-blu",
                       attrs: { type: "text", disabled: "" },
-                      domProps: { value: "Сбербанк Онлайн" }
+                      domProps: { value: order.orders_payment }
                     })
                   ]
                 ),
@@ -13765,7 +13823,7 @@ var render = function() {
                   { staticClass: "wrap-main-page admin-cl-lbl-inp width-300" },
                   [
                     _c("label", { staticClass: "admin-h3" }, [
-                      _vm._v("Стоимость с без учёта доставки")
+                      _vm._v("Стоимость")
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -13776,7 +13834,23 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm._m(0, true)
+                _c(
+                  "button",
+                  {
+                    staticClass: "admin-btn-add pdf width-300",
+                    on: {
+                      click: function($event) {
+                        return _vm.loadFile()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v("\n                скачать накладную "),
+                    _c("img", {
+                      attrs: { src: __webpack_require__(/*! ../../../img/pdf.png */ "./resources/img/pdf.png"), alt: "" }
+                    })
+                  ]
+                )
               ])
             ])
           : _vm._e()
@@ -13785,17 +13859,7 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "admin-btn-add pdf width-300" }, [
-      _vm._v("\n                скачать накладную "),
-      _c("img", { attrs: { src: __webpack_require__(/*! ../../../img/pdf.png */ "./resources/img/pdf.png"), alt: "" } })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -14512,9 +14576,7 @@ var render = function() {
     "div",
     { staticClass: "admin-review-card" },
     [
-      _c("AdminTopSide", {
-        attrs: { H: "ОТЗЫВ №" + this.$route.params.id, btn: true }
-      }),
+      _c("AdminTopSide", { attrs: { H: "ОТЗЫВ №" + this.$route.params.id } }),
       _vm._v(" "),
       _vm._l(_vm.returnGetOneReview, function(review, i) {
         return _c("div", { staticClass: "wrap-admin-review-card" }, [
@@ -14730,7 +14792,7 @@ var render = function() {
     "div",
     { staticClass: "user-card" },
     [
-      _c("AdminTopSide", { attrs: { H: "карточка пользователя", btn: true } }),
+      _c("AdminTopSide", { attrs: { H: "карточка пользователя" } }),
       _vm._v(" "),
       _c("div", { staticClass: "wrap-admin-order-card" }, [
         _c("div", { staticClass: "order-cl" }, [
@@ -21846,7 +21908,9 @@ var render = function() {
           _vm._v(" "),
           _vm.error
             ? _c("div", { staticClass: "error-log" }, [
-                _vm._v("\n            Ошибка регистрации\n        ")
+                _vm._v(
+                  "\n            Данный email уже зарегестрирован\n        "
+                )
               ])
             : _vm._e(),
           _vm._v(" "),

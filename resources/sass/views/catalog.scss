@@ -58,6 +58,31 @@
             font-size: $regFz + 2px;
         }
     }
+    .item-sizes{
+        background: $ocean;
+        height: 235px;
+        width: 35px;
+        left: 13px;
+        text-align: center;
+        overflow: hidden;
+        overflow-y: scroll;
+        padding-top: 12px;
+        &::-webkit-scrollbar-track
+        {
+            background-color: $paleblue;
+        }
+
+        &::-webkit-scrollbar
+        {
+            width: 6px;
+            background-color: $palepurpp;
+        }
+
+        &::-webkit-scrollbar-thumb
+        {
+            background-color: $palepurpp;
+        }
+    }
 }
 .catalog-error{
     font-family: "PT Sans", sans-serif;
@@ -105,31 +130,6 @@
     .catalog-items{
         grid-template-columns: 100%;
         grid-row-gap: 35px;
-        .item-sizes{
-            background: $ocean;
-            height: 240px;
-            width: 35px;
-            left: 13px;
-            text-align: center;
-            overflow: hidden;
-            overflow-y: scroll;
-            padding-top: 12px;
-            &::-webkit-scrollbar-track
-            {
-                background-color: $paleblue;
-            }
-
-            &::-webkit-scrollbar
-            {
-                width: 6px;
-                background-color: $palepurpp;
-            }
-
-            &::-webkit-scrollbar-thumb
-            {
-                background-color: $palepurpp;
-            }
-        }
         .item {
             a {
                 img {

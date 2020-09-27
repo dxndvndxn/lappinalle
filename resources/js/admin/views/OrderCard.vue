@@ -1,7 +1,7 @@
 <template>
     <div class="admin-order-card">
         <div class="warp-head-order-card">
-            <AdminTopSide v-bind:H="'Подробности заказа'" v-bind:btn="true"/>
+            <AdminTopSide v-bind:H="'Подробности заказа'"/>
         </div>
         <div class="wrap-admin-order-card" v-for="(order, i) in orderInfo" v-if="orderInfo !== null">
             <div class="order-cl">
@@ -43,6 +43,12 @@
                     <label class="admin-h3">Способ доставки</label>
                     <input type="text" class="input-pale-blu" value="Курьерская доставка" disabled>
                 </div>
+
+                <div class="wrap-main-page admin-cl-lbl-inp width-300" v-if="order.orders_deliveryName === 'pek' || order.orders_deliveryName === 'sdek'">
+                    <label class="admin-h3">До куда</label>
+                    <input type="text" class="input-pale-blu" :value="order.orders_whereGet" disabled>
+                </div>
+
                 <div class="wrap-main-page admin-cl-lbl-inp width-300" v-if="order.orders_deliveryName === 'post-russia'">
                     <label class="admin-h3">Адрес доставки</label>
                     <input type="text" class="input-pale-blu" :value="
@@ -60,7 +66,7 @@
                      + order.orders_street + ', '
                       + 'дом ' + order.orders_house + ', '
                        + 'корпус ' + order.orders_corps + ', '
-                        + 'кв ' + order.orders_apart + ', '
+                        + 'кв ' + order.orders_apart
                          " disabled>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300" v-else-if="order.orders_deliveryName === 'postman'">
@@ -70,7 +76,7 @@
                      + order.orders_street + ', '
                       + 'дом ' + order.orders_house + ', '
                        + 'корпус ' + order.orders_corps + ', '
-                        + 'кв ' + order.orders_apart + ', '
+                        + 'кв ' + order.orders_apart
                          " disabled>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300" v-if="order.orders_deliveryName === 'sdek' || order.orders_deliveryName === 'pek'">
@@ -83,7 +89,7 @@
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Способ оплаты</label>
-                    <input type="text" class="input-pale-blu" :value="'Сбербанк Онлайн'" disabled>
+                    <input type="text" class="input-pale-blu" :value="order.orders_payment" disabled>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Статус заказа</label>
@@ -105,10 +111,10 @@
                     </div>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
-                    <label class="admin-h3">Стоимость с без учёта доставки</label>
+                    <label class="admin-h3">Стоимость</label>
                     <input type="text" class="input-pale-blu" :value="order.orders_totalPrice + ' ₽'" disabled>
                 </div>
-                <button class="admin-btn-add pdf width-300">
+                <button class="admin-btn-add pdf width-300" @click="loadFile()">
                     скачать накладную <img src="../../../img/pdf.png" alt="">
                 </button>
             </div>
@@ -150,6 +156,64 @@
             this.$store.dispatch('GetOneOrder', {id: this.$route.params.id});
         },
         methods: {
+            loadFile(){
+                this.$Progress.start();
+                let address = '';
+                let deliveryName = '';
+
+                if (this.orderInfo[0].orders_deliveryName === 'post-russia') {
+                    deliveryName = 'Почта России';
+
+                    address = this.orderInfo[0].orders_city + ', '
+                        + this.orderInfo[0].orders_street + ', '
+                        + 'дом ' + this.orderInfo[0].orders_house + ', '
+                        + 'корпус ' + this.orderInfo[0].orders_corps + ', '
+                        + 'кв ' + this.orderInfo[0].orders_apart + ', '
+                        + 'почтовый индекс ' + this.orderInfo[0].orders_indexPost
+                }
+                else if (this.orderInfo[0].orders_deliveryName === 'sdek' || this.orderInfo[0].orders_deliveryName === 'pek') {
+                    deliveryName = this.orderInfo[0].orders_deliveryName === 'sdek' ? 'СДЭК' : 'ПЭК';
+
+                    address = this.orderInfo[0].orders_city + ', '
+                        + this.orderInfo[0].orders_street + ', '
+                        + 'дом ' + this.orderInfo[0].orders_house + ', '
+                        + 'корпус ' + this.orderInfo[0].orders_corps + ', '
+                        + 'кв ' + this.orderInfo[0].orders_apart
+                }
+                else if (this.orderInfo[0].orders_deliveryName === 'postman') {
+                    deliveryName = 'Курьерская доставка';
+
+                    address = 'Санкт-Петербург, '
+                        + this.orderInfo[0].orders_street + ', '
+                        + 'дом ' + this.orderInfo[0].orders_house + ', '
+                        + 'корпус ' + this.orderInfo[0].orders_corps + ', '
+                        + 'кв ' + this.orderInfo[0].orders_apart
+                }
+
+                let data = {
+                    id: this.orderInfo[0].orders_id,
+                    name: this.orderInfo[0].orders_name,
+                    tel: this.orderInfo[0].orders_tel,
+                    email: this.orderInfo[0].orders_email,
+                    adres: address,
+                    del: deliveryName,
+                    comment: this.orderInfo[0].orders_Comment,
+                    korzina: this.orderProducts,
+                    total_price: this.orderInfo[0].orders_totalPrice,
+                    paymentName: this.orderInfo[0].orders_payment,
+                    whereGet: this.orderInfo[0].orders_whereGet,
+                    passport: this.orderInfo[0].orders_passportData,
+                    status: this.orderInfo[0].orders_status,
+                    data: this.orderInfo[0].created_at,
+                }
+
+                axios.post(`${this.URI}loadfile`, data)
+                    .then(res => {
+                        window.location.href = res.data;
+                        this.$Progress.finish();
+                    })
+                    .catch(e => console.log(e))
+            },
             changeStatus(status){
                 this.$Progress.start();
                 this.actvieStatus = status;

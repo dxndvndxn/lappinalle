@@ -2,7 +2,6 @@
     <div class="admin-main-page">
         <div class="admin-main-page-header">
             <h1 class="admin-h1">главная страница</h1>
-            <button class="admin-btn-complete width-300">Сохранить изменения</button>
             <button class="admin-btn-add width-300" @click="uploadMainBaner(null, null, null, false, null,true)">
                 Добавить блок <img src="../../../img/krest-btn.png" alt="">
             </button>

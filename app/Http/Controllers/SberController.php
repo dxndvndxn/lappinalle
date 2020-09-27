@@ -18,6 +18,7 @@ class SberController extends Controller
         $email = $order[0]['customerData']['email'];
         $tel = $order[0]['customerData']['tel'];
         $token = $order[0]['customerData']['token'];
+        $paymentName = $order[0]['customerData']['paymentName'];
         $city = $order[0]['deliveryData']['city'];
         $street = $order[0]['deliveryData']['street'];
         $house = $order[0]['deliveryData']['house'];
@@ -60,7 +61,8 @@ class SberController extends Controller
                 'orders_whereGet' =>  $whereGet,
                 'orders_totalPrice' => $totalPrice,
                 'orders_Comment' => $comment,
-                'created_at' => Carbon::now(),
+                'orders_payment' => $paymentName,
+                'created_at' => Carbon::now()
             ]
         );
 

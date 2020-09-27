@@ -1,6 +1,6 @@
 <template>
     <div class="admin-delivery">
-        <AdminTopSide v-bind:H="'Страница доставки'" v-bind:btn="true"/>
+        <AdminTopSide v-bind:H="'Страница доставки'"/>
         <h2 class="admin-h2">Доступные варианты доставки</h2>
         <div class="delivery-vars">
             <div class="delivery-var" v-for="(del, i) in returnDeliveries">

@@ -1,6 +1,6 @@
 <template>
     <div class="user-card">
-        <AdminTopSide v-bind:H="'карточка пользователя'" v-bind:btn="true"/>
+        <AdminTopSide v-bind:H="'карточка пользователя'"/>
         <div class="wrap-admin-order-card">
             <div class="order-cl">
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">

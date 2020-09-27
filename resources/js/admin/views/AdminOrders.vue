@@ -1,6 +1,6 @@
 <template>
     <div class="admin-orders">
-        <AdminTopSide v-bind:H="'Заказы'" v-bind:btn="false"/>
+        <AdminTopSide v-bind:H="'Заказы'"/>
         <div class="orders">
             <div class="orders-list">
                 <div class="list-cell">

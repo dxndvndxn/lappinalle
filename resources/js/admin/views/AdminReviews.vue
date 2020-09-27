@@ -1,6 +1,6 @@
 <template>
     <div class="admin-reviews">
-        <AdminTopSide v-bind:H="'отзывы'" v-bind:btn="false"/>
+        <AdminTopSide v-bind:H="'отзывы'"/>
         <div class="admin-reviews-list">
             <div class="list-cell">
                 <h1 class="admin-h3">
