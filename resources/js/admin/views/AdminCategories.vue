@@ -4,7 +4,7 @@
             <h1 class="admin-h1">Категории</h1>
             <ul class="admin-menu-gender">
                 <li v-for="(categ, gender, i) in menu">
-                    <input type="text" class="input-pale-blu width-300" v-model.trim="gender" @focus="focusAlias(menu[gender].dataForChangeMenu.menu_alias, menuAdmin[gender].dataForChangeMenu.menu_sex, 'sex', null, null, null)" @change="changeMenuItemName(gender, 1, 'sex', 'sex_id', 'sex_name')">
+                    <input type="text" class="input-pale-blu width-300" v-model.trim="gender" @focus="focusAlias(menu[gender].dataForChangeMenu.menu_alias, menuAdmin[gender].dataForChangeMenu.menu_sex, 'sex', menuAdmin[gender].dataForChangeMenu.menu_sex, null, null, null, 1)" @change="changeMenuItemName(gender, 1, 'sex', 'sex_id', 'sex_name')">
                     <button @click="clickGen(gender)" class="btn-admin-arrow" v-bind:class="menu[gender].activeGen ? 'admin-btn-arrow' : 'admin-btn-arrow-pass'">
                     </button>
                     <ul class="admin-menu-category">
@@ -14,7 +14,7 @@
                         </button>
 
                         <li v-for="(depart, cat, c) in categ" v-if="menu[gender].activeGen && cat !== 'activeGen' && cat !== 'dataForChangeMenu'">
-                            <input type="text" class="input-pale-blu width-300" v-model.trim="cat" @focus="focusAlias(menu[gender][cat][0].categories_alias, depart[0].categories_id, 'categories', menuAdmin[gender].dataForChangeMenu.menu_sex, null, depart[0].menu_id)" @change="changeMenuItemName(cat, 2, 'categories', 'categories_id', 'categories_name')">
+                            <input type="text" class="input-pale-blu width-300" v-model.trim="cat" @focus="focusAlias(menu[gender][cat][0].categories_alias, depart[0].categories_id, 'categories', menuAdmin[gender].dataForChangeMenu.menu_sex, null, depart[0].menu_id, depart, 2)" @change="changeMenuItemName(cat, 2, 'categories', 'categories_id', 'categories_name')">
                             <button class="btn-admin-arrow width-300" @click="clickCateg(gender, cat)" v-bind:class="menu[gender][cat][0].activeCateg ? 'admin-btn-arrow' : 'admin-btn-arrow-pass'"></button>
                             <!--                                Если подкатегорий вообще не существует-->
                             <button class="admin-btn-add width-300 btn-add-3-lvl" v-if="depart[0].activeCateg && depart[0].department == null && depart.length === 1" @click="addNewLavel('newdep', menu[gender].dataForChangeMenu.menu_sex, depart[0].categories_id)">
@@ -23,7 +23,7 @@
                             <ul class="admin-menu-depart">
 
                                 <li v-for="(dep, t) in depart" v-if="dep.activeCateg && dep.department !== null">
-                                    <input type="text" class="input-pale-blu width-300" @focus="focusAlias(dep.departments_alias, dep.departments_id, 'departments', menuAdmin[gender].dataForChangeMenu.menu_sex, depart[0].categories_id, dep.menu_id)" v-model.trim="dep.department" @change="changeMenuItemName(dep.department, 3, 'departments', 'departments_id', 'departments_name')">
+                                    <input type="text" class="input-pale-blu width-300" @focus="focusAlias(dep.departments_alias, dep.departments_id, 'departments', menuAdmin[gender].dataForChangeMenu.menu_sex, depart[0].categories_id, dep.menu_id, null, 3)" v-model.trim="dep.department" @change="changeMenuItemName(dep.department, 3, 'departments', 'departments_id', 'departments_name')">
                                     <button class="admin-btn-add width-300" @click="addNewLavel('newdep', menu[gender].dataForChangeMenu.menu_sex, dep.categories_id)" v-if="depart.length - 1 === t">
                                         Добавить раздел 3 уровня <img src="../../../img/krest-btn.png">
                                     </button>
@@ -58,7 +58,7 @@
                     </div>
                     <AdminCrumbs v-if="activeBtn" @addNewCategory="changeCategory" v-bind:lvl="lvl" v-bind:crumbs="getCrumbs"/>
                 </div>
-                <button class="admin-btn-delete">удалить раздел</button>
+                <button class="admin-btn-delete" @click="deleteSection()">удалить раздел</button>
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@
             // Меняем алиас
             changedAlias: null,
 
-            // Фокусированный id раздел 1 уровня
+            // Фокусированный id
             activeFocusId: null,
 
             // Названия раздела, которой хотим по менять типа гендер, категория или подкатегория
@@ -95,20 +95,51 @@
             sexId: null,
             categId: null,
 
+            // Для смены гендера для подкатегории, если поменялась категория
+            departmentsIds: null,
+
             // id в таблице меню
-            menuId: null
+            menuId: null,
+
+            // Активный уровень
+            activeLvl: null
         }),
         created(){
              this.$store.dispatch('getMenuData');
         },
         methods: {
+            deleteSection(){
+                this.$Progress.start();
+                let data = {
+                    lvlForDelete: this.activeLvl,
+                    activeIdForAllTables: this.activeFocusId,
+                    deleteSection: true
+                }
+
+                axios.post(`${this.URI}updmenu`, data)
+                    .then(res => {
+                        console.log(res.data);
+                        this.$store.dispatch('getMenuData');
+                        this.$Progress.finish();
+                    })
+                    .catch(e => console.log(e))
+            },
             changeCategory(chozenCategory){
                 this.$Progress.start();
+                let departmentsId = []
+
+                if ( this.departmentsIds !== null) {
+                    this.departmentsIds.forEach(el => {
+                        if (el.department !== null) departmentsId.push(el.menu_id)
+                    })
+                }
+
                 let data = {
                     changePosition: true,
                     sexId: chozenCategory.sexId,
                     categId: chozenCategory.categId,
-                    menuId: this.menuId
+                    menuId: this.menuId,
+                    departmentsIds: departmentsId
                 }
 
                 axios.post(`${this.URI}updmenu`, data)
@@ -126,7 +157,7 @@
                     alias: true,
                     section: this.activeNameOfWhatSectionNeedChange,
                     sectionId: this.activeFocusId,
-                    newAlias: this.changedAlias,
+                    newAlias: this.changedAlias
                 }
 
                 axios.post(`${this.URI}updmenu`, data)
@@ -140,7 +171,7 @@
 
             // Делаем фокус на input меню
             // this.activeFocusId активный id сфокусированного инпута
-            focusAlias(alias, activeId, nameOfSection, sexId, categId, menuId){
+            focusAlias(alias, activeId, nameOfSection, sexId, categId, menuId, departIds, lvl){
                 this.changedAlias = alias;
                 this.activeFocusId = activeId;
                 this.activeNameOfWhatSectionNeedChange = nameOfSection;
@@ -148,7 +179,8 @@
                 this.categId = categId
                 this.menuId = menuId
                 this.showChooseCategory = this.activeNameOfWhatSectionNeedChange === 'categories' || this.activeNameOfWhatSectionNeedChange === 'departments';
-
+                this.departmentsIds = departIds
+                this.activeLvl = lvl;
 
                 if (this.activeNameOfWhatSectionNeedChange === 'categories') this.lvl = 1
                 if (this.activeNameOfWhatSectionNeedChange === 'departments') this.lvl = 2

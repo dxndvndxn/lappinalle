@@ -46,12 +46,34 @@ class AdmCategController extends Controller
                     ->where('menu_id', $requestData['menuId'])
                     ->update(['sex_id' => $requestData['sexId']]);
 
+                if (count($requestData['departmentsIds'])) {
+                    DB::table('menu')
+                        ->whereIn('menu_id', $requestData['departmentsIds'])
+                        ->update(['sex_id' => $requestData['sexId']]);
+                }
                 return true;
             }else{
                 DB::table('menu')
                     ->where('menu_id', $requestData['menuId'])
-                    ->update(['sex_id' => $requestData['sexId']])
+                    ->update(['sex_id' => $requestData['sexId']]);
+                DB::table('menu')
+                    ->where('menu_id', $requestData['menuId'])
                     ->update(['categories_id' => $requestData['categId']]);
+                return true;
+            }
+        }
+
+        if (isset($requestData['deleteSection'])) {
+            if ($requestData['lvlForDelete'] === 1) {
+                DB::table('sex')->where('sex_id', '=', $requestData['activeIdForAllTables'])->delete();
+                return true;
+            }
+            if ($requestData['lvlForDelete'] === 2) {
+                DB::table('categories')->where('categories_id', '=', $requestData['activeIdForAllTables'])->delete();
+                return true;
+            }
+            if ($requestData['lvlForDelete'] === 3) {
+                DB::table('departments')->where('departments_id', '=', $requestData['activeIdForAllTables'])->delete();
                 return true;
             }
         }

@@ -2332,7 +2332,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       showChooseCategory: false,
       // Меняем алиас
       changedAlias: null,
-      // Фокусированный id раздел 1 уровня
+      // Фокусированный id
       activeFocusId: null,
       // Названия раздела, которой хотим по менять типа гендер, категория или подкатегория
       activeNameOfWhatSectionNeedChange: null,
@@ -2342,23 +2342,26 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       // Для показывания списка строки в какой секции находится категории
       sexId: null,
       categId: null,
+      // Для смены гендера для подкатегории, если поменялась категория
+      departmentsIds: null,
       // id в таблице меню
-      menuId: null
+      menuId: null,
+      // Активный уровень
+      activeLvl: null
     };
   },
   created: function created() {
     this.$store.dispatch('getMenuData');
   },
   methods: {
-    changeCategory: function changeCategory(chozenCategory) {
+    deleteSection: function deleteSection() {
       var _this = this;
 
       this.$Progress.start();
       var data = {
-        changePosition: true,
-        sexId: chozenCategory.sexId,
-        categId: chozenCategory.categId,
-        menuId: this.menuId
+        lvlForDelete: this.activeLvl,
+        activeIdForAllTables: this.activeFocusId,
+        deleteSection: true
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "updmenu"), data).then(function (res) {
         console.log(res.data);
@@ -2370,16 +2373,24 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return console.log(e);
       });
     },
-    // Меняем алиас
-    changeAlias: function changeAlias() {
+    changeCategory: function changeCategory(chozenCategory) {
       var _this2 = this;
 
       this.$Progress.start();
+      var departmentsId = [];
+
+      if (this.departmentsIds !== null) {
+        this.departmentsIds.forEach(function (el) {
+          if (el.department !== null) departmentsId.push(el.menu_id);
+        });
+      }
+
       var data = {
-        alias: true,
-        section: this.activeNameOfWhatSectionNeedChange,
-        sectionId: this.activeFocusId,
-        newAlias: this.changedAlias
+        changePosition: true,
+        sexId: chozenCategory.sexId,
+        categId: chozenCategory.categId,
+        menuId: this.menuId,
+        departmentsIds: departmentsId
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "updmenu"), data).then(function (res) {
         console.log(res.data);
@@ -2391,28 +2402,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return console.log(e);
       });
     },
-    // Делаем фокус на input меню
-    // this.activeFocusId активный id сфокусированного инпута
-    focusAlias: function focusAlias(alias, activeId, nameOfSection, sexId, categId, menuId) {
-      this.changedAlias = alias;
-      this.activeFocusId = activeId;
-      this.activeNameOfWhatSectionNeedChange = nameOfSection;
-      this.sexId = sexId;
-      this.categId = categId;
-      this.menuId = menuId;
-      this.showChooseCategory = this.activeNameOfWhatSectionNeedChange === 'categories' || this.activeNameOfWhatSectionNeedChange === 'departments';
-      if (this.activeNameOfWhatSectionNeedChange === 'categories') this.lvl = 1;
-      if (this.activeNameOfWhatSectionNeedChange === 'departments') this.lvl = 2;
-    },
-    // Добавляем новый раздел
-    addNewLavel: function addNewLavel(apiWhere, sexId, catId) {
+    // Меняем алиас
+    changeAlias: function changeAlias() {
       var _this3 = this;
 
       this.$Progress.start();
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI).concat(apiWhere), {
-        sexId: sexId,
-        catId: catId
-      }).then(function (res) {
+      var data = {
+        alias: true,
+        section: this.activeNameOfWhatSectionNeedChange,
+        sectionId: this.activeFocusId,
+        newAlias: this.changedAlias
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "updmenu"), data).then(function (res) {
         console.log(res.data);
 
         _this3.$store.dispatch('getMenuData');
@@ -2422,9 +2423,42 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return console.log(e);
       });
     },
+    // Делаем фокус на input меню
+    // this.activeFocusId активный id сфокусированного инпута
+    focusAlias: function focusAlias(alias, activeId, nameOfSection, sexId, categId, menuId, departIds, lvl) {
+      this.changedAlias = alias;
+      this.activeFocusId = activeId;
+      this.activeNameOfWhatSectionNeedChange = nameOfSection;
+      this.sexId = sexId;
+      this.categId = categId;
+      this.menuId = menuId;
+      this.showChooseCategory = this.activeNameOfWhatSectionNeedChange === 'categories' || this.activeNameOfWhatSectionNeedChange === 'departments';
+      this.departmentsIds = departIds;
+      this.activeLvl = lvl;
+      if (this.activeNameOfWhatSectionNeedChange === 'categories') this.lvl = 1;
+      if (this.activeNameOfWhatSectionNeedChange === 'departments') this.lvl = 2;
+    },
+    // Добавляем новый раздел
+    addNewLavel: function addNewLavel(apiWhere, sexId, catId) {
+      var _this4 = this;
+
+      this.$Progress.start();
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI).concat(apiWhere), {
+        sexId: sexId,
+        catId: catId
+      }).then(function (res) {
+        console.log(res.data);
+
+        _this4.$store.dispatch('getMenuData');
+
+        _this4.$Progress.finish();
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+    },
     // Меняем названия меню категорий
     changeMenuItemName: function changeMenuItemName(newGender, lvl, tableName, tableNameId, tableFieldName) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.$Progress.start();
       var data = {
@@ -2436,9 +2470,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         tableFieldName: tableFieldName
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "updmenu"), data).then(function (res) {
-        _this4.$store.dispatch('getMenuData');
+        _this5.$store.dispatch('getMenuData');
 
-        _this4.$Progress.finish();
+        _this5.$Progress.finish();
       })["catch"](function (e) {
         return console.log(e);
       });
@@ -11155,9 +11189,11 @@ var render = function() {
                     _vm.menu[gender].dataForChangeMenu.menu_alias,
                     _vm.menuAdmin[gender].dataForChangeMenu.menu_sex,
                     "sex",
+                    _vm.menuAdmin[gender].dataForChangeMenu.menu_sex,
                     null,
                     null,
-                    null
+                    null,
+                    1
                   )
                 },
                 change: function($event) {
@@ -11251,7 +11287,9 @@ var render = function() {
                                 _vm.menuAdmin[gender].dataForChangeMenu
                                   .menu_sex,
                                 null,
-                                depart[0].menu_id
+                                depart[0].menu_id,
+                                depart,
+                                2
                               )
                             },
                             change: function($event) {
@@ -11348,7 +11386,9 @@ var render = function() {
                                             _vm.menuAdmin[gender]
                                               .dataForChangeMenu.menu_sex,
                                             depart[0].categories_id,
-                                            dep.menu_id
+                                            dep.menu_id,
+                                            null,
+                                            3
                                           )
                                         },
                                         change: function($event) {
@@ -11561,9 +11601,18 @@ var render = function() {
             )
           : _vm._e(),
         _vm._v(" "),
-        _c("button", { staticClass: "admin-btn-delete" }, [
-          _vm._v("удалить раздел")
-        ])
+        _c(
+          "button",
+          {
+            staticClass: "admin-btn-delete",
+            on: {
+              click: function($event) {
+                return _vm.deleteSection()
+              }
+            }
+          },
+          [_vm._v("удалить раздел")]
+        )
       ])
     ])
   ])
