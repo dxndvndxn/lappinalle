@@ -36,8 +36,9 @@
             top: 15px;
             right: 15px;
         }
-        a{
+        .item-img-wrap{
             @include flexin(center);
+            cursor: pointer;
             img{
                 width: 300px;
                 height: 300px;
@@ -131,7 +132,7 @@
         grid-template-columns: 100%;
         grid-row-gap: 35px;
         .item {
-            a {
+            .item-img-wrap {
                 img {
                     width: 320px;
                     height: 320px;

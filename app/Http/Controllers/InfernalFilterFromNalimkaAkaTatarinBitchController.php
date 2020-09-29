@@ -56,24 +56,26 @@ class InfernalFilterFromNalimkaAkaTatarinBitchController extends Controller
             switch ($sortmode){
                 case 'low':
                     if (count($activesizes)){
-                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price")
+                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price", 'sex.sex_alias')
                             ->where('product_available', '=', 1)
-                            ->where('sex_id', '=', $sexid)
-                            ->where('categories_id', 'like', $catid)
-                            ->where('departments_id', 'like', $depid)
+                            ->where('products.sex_id', '=', $sexid)
+                            ->where('products.categories_id', 'like', $catid)
+                            ->where('products.departments_id', 'like', $depid)
                             ->where('product_sale', 'like', $activesale)
                             ->whereBetween('product_price', [$min, $max])
                             ->orderBy('product_price', 'asc')
                             ->whereIn('product_id', $activesizes)
+                            ->leftJoin('sex', 'products.sex_id', '=', 'sex.sex_id')
                             ->paginate(30);
                     }else{
-                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price")
+                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price",'sex.sex_alias')
                             ->where('product_available', '=', 1)
-                            ->where('sex_id', '=', $sexid)
-                            ->where('categories_id', 'like', $catid)
-                            ->where('departments_id', 'like', $depid)
+                            ->where('products.sex_id', '=', $sexid)
+                            ->where('products.categories_id', 'like', $catid)
+                            ->where('products.departments_id', 'like', $depid)
                             ->where('product_sale', 'like', $activesale)
                             ->whereBetween('product_price', [$min, $max])
+                            ->leftJoin('sex', 'products.sex_id', '=', 'sex.sex_id')
                             ->orderBy('product_price', 'asc')
                             ->paginate(30);
                     }
@@ -86,25 +88,27 @@ class InfernalFilterFromNalimkaAkaTatarinBitchController extends Controller
                     break;
                 case 'high':
                     if (count($activesizes)){
-                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price")
+                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price", 'sex.sex_alias')
                             ->where('product_available', '=', 1)
-                            ->where('sex_id', '=', $sexid)
-                            ->where('categories_id', 'like', $catid)
-                            ->where('departments_id', 'like', $depid)
+                            ->where('products.sex_id', '=', $sexid)
+                            ->where('products.categories_id', 'like', $catid)
+                            ->where('products.departments_id', 'like', $depid)
                             ->where('product_sale', 'like', $activesale)
                             ->whereBetween('product_price', [$min, $max])
                             ->orderBy('product_price', 'desc')
+                            ->leftJoin('sex', 'products.sex_id', '=', 'sex.sex_id')
                             ->whereIn('product_id', $activesizes)
                             ->paginate(30);
                     }else{
-                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price")
+                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price", 'sex.sex_alias')
                             ->where('product_available', '=', 1)
-                            ->where('sex_id', '=', $sexid)
-                            ->where('categories_id', 'like', $catid)
-                            ->where('departments_id', 'like', $depid)
+                            ->where('products.sex_id', '=', $sexid)
+                            ->where('products.categories_id', 'like', $catid)
+                            ->where('products.departments_id', 'like', $depid)
                             ->where('product_sale', 'like', $activesale)
                             ->whereBetween('product_price', [$min, $max])
                             ->orderBy('product_price', 'desc')
+                            ->leftJoin('sex', 'products.sex_id', '=', 'sex.sex_id')
                             ->paginate(30);
                     }
                     $alldata['myData'] = $sortData;
@@ -116,25 +120,27 @@ class InfernalFilterFromNalimkaAkaTatarinBitchController extends Controller
                     break;
                 default:
                     if (count($activesizes)){
-                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price")
+                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price", 'sex.sex_alias')
                             ->where('product_available', '=', 1)
-                            ->where('sex_id', '=', $sexid)
-                            ->where('categories_id', 'like', $catid)
-                            ->where('departments_id', 'like', $depid)
+                            ->where('products.sex_id', '=', $sexid)
+                            ->where('products.categories_id', 'like', $catid)
+                            ->where('products.departments_id', 'like', $depid)
                             ->where('product_sale', 'like', $activesale)
                             ->whereBetween('product_price', [$min, $max])
                             ->whereIn('product_id', $activesizes)
                             ->orderBy('product_id', 'desc')
+                            ->leftJoin('sex', 'products.sex_id', '=', 'sex.sex_id')
                             ->paginate(30);
                     }else{
-                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price")
+                        $sortData = DB::table('products')->select("product_id","product_title", "product_price", "product_img", "product_old_price", 'sex.sex_alias')
                             ->where('product_available', '=', 1)
-                            ->where('sex_id', '=', $sexid)
-                            ->where('categories_id', 'like', $catid)
-                            ->where('departments_id', 'like', $depid)
+                            ->where('products.sex_id', '=', $sexid)
+                            ->where('products.categories_id', 'like', $catid)
+                            ->where('products.departments_id', 'like', $depid)
                             ->where('product_sale', 'like', $activesale)
                             ->orderBy('product_id', 'desc')
                             ->whereBetween('product_price', [$min, $max])
+                            ->leftJoin('sex', 'products.sex_id', '=', 'sex.sex_id')
                             ->paginate(30);
                     }
                     $alldata['myData'] = $sortData;

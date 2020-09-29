@@ -19,7 +19,7 @@
                 <li>
                     <label for="tel" v-if="media.wind > media.tablet">Телефон: </label>
                     <input type="tel" id="tel" v-bind:class="basicData ? 'active-input' : null" v-model.trim="userData.userTel" v-bind:placeholder="media.wind <= media.tablet ? 'Телефон' : null">
-                    <small v-if="$v.userData.userTel.$dirty && !$v.userData.userTel.phoneValid" class="small-invalid">Поле Телефон заполнено не корректно</small>
+                    <small v-if="($v.userData.userTel.$dirty && !$v.userData.userTel.phoneValid) && (userData.userTel !== null)" class="small-invalid">Поле Телефон заполнено не корректно</small>
                 </li>
                 <li>
                     <label for="email" v-if="media.wind > media.tablet">E-mail: </label>
@@ -75,11 +75,15 @@
                 <li>
                     <label v-if="media.wind > media.tablet">Новый пароль: </label>
                     <input type="password" v-model.trim="userData.userNewPass" v-bind:class="basicDataPass ? 'active-input' : null" v-bind:placeholder="media.wind <= media.tablet ? 'Новый пароль' : null">
+                    <small v-if="!$v.userData.userNewPass.minLength && $v.userData.userNewPass.$dirty" class="small-invalid">Пароль должен быть не менее 6 символов</small>
                 </li>
             </ul>
             <button class="btn">
                 сохранить изменения
             </button>
+            <p v-if="successUpdate" class="reviewleave-success">
+                Ваши данные успешно сохранены
+            </p>
         </form>
         <div class="cabinet-user-order" v-else-if="tabs[1].active">
             <div class="user-order-wrap" v-for="(ord, i) in orderData">
@@ -149,7 +153,10 @@
             basicDataPass: false,
 
             // Ошибка пароля
-            passError: false
+            passError: false,
+
+            // Успешный апдейт
+            successUpdate: false
         }),
         validations: {
             userData: {
@@ -195,7 +202,11 @@
                 this.tabs.forEach(el => el.active = !el.active);
             },
             async changeData(){
-                if (this.$v.userData.$invalid){
+                if (this.$v.userData.$invalid && !this.$v.userData.userTel.$invalid){
+                    if (this.userData.userTel !== null && this.$v.userData.userTel.$invalid) {
+                        this.$v.$touch();
+                        return;
+                    }
                     this.$v.$touch();
                     return;
                 }else{
@@ -205,6 +216,9 @@
                     if (!this.passError) {
                         await axios.post(`${this.URI}lkupd`, formData)
                             .then(res => {
+                                if (res.data) {
+                                    this.successUpdate = true;
+                                }
                                 console.log(res.data);
                             })
                             .catch(e => console.log(e))
@@ -223,7 +237,10 @@
                     .then(res => {
                         this.passError = !res.data;
                     })
-                    .catch(e => console.log(e))
+                    .catch(e => {
+                        console.log(e)
+                        this.passError = true;
+                    })
             }
         },
         created() {

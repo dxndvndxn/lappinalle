@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-// const URI = 'https://lappinalle.ru/api/';
-const URI = 'http://lappinalle.test/api/';
+const URI = 'https://lappinalle.ru/api/';
+// const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -293,6 +293,9 @@ const store = {
 
         // Данные по доставке
         deliveryData: null,
+
+        // результаты поиска
+        searchResult: [],
 
         // Медиа
         tablet: 768,
@@ -720,74 +723,9 @@ const store = {
         },
 
         // Получаем дату для конкретного товара
-        async getItemDataMutate(state, data){
-            await axios.get(`${state.SITE_URI}item-${data}`)
-                .then(async (response) => {
-                    let itemData = await response.data;
-                    let stateItemData = {};
-                    let pics = null;
-                    let stars = {
-                        5: [],
-                        4: [],
-                        3: [],
-                        2: [],
-                        1: [],
-                    };
-                    // Пробегаемся по массиву с данными
-                    // Первым элементом идёт сам товар
-                    // Присваеваем значения этого элемента @stateItemData
-                    for (let el in itemData){
-
-                        if (el == 0) {
-                            stateItemData.itemTitle = itemData[el].product_title;
-                            stateItemData.itemPrice = itemData[el].product_price;
-                            pics = itemData[el].product_img.split(',');
-                            stateItemData.itemPics = [];
-                            stateItemData.itemId = itemData[el].product_id;
-                            stateItemData.itemSizes = [];
-
-                            // Пушим картинки
-                            pics.forEach((img, ii) => {
-                                if (ii === 0) {
-                                    stateItemData.itemPics.push({img: img, clicked: true, video: false})
-                                } else if(img !== ' ') {
-                                    stateItemData.itemPics.push({img: img, clicked: false, video: false})
-                                }
-                            });
-
-                            // Если видео, то ставим его первым в массив с картинками, ставим ему ckicked true, скороее всего будет добавляться картинка как превье этого видео
-                            if (itemData[el].product_video !== null){
-                                stateItemData.itemPics[0].clicked = false;
-                                stateItemData.itemPics.unshift({video: itemData[el].product_video, clicked: true});
-                            }
-
-                            // Если sale
-                            if (itemData[el].product_old_price !== null) stateItemData.oldPrice = itemData[el].product_old_price;
-                            else stateItemData.oldPrice = false;
-
-                            stateItemData.itemDesc = itemData[el].product_description;
-                            stateItemData.itemPrice = itemData[el].product_price;
-
-                            stateItemData.sizeWithoutSale = itemData[el].product_sizes_without_sale !== null ? itemData[el].product_sizes_without_sale.split(',') : [];
-                        }
-                        else if (el === 'stars'){
-
-                            itemData[el].forEach(element => {
-                                stars[element.reviews_star].push(element.reviews_star)
-                            });
-                        }
-                        else if (el === 'sizes'){
-
-                            itemData[el].forEach(element => {
-                                stateItemData.itemSizes.push({sz: element.sizes_number, active: false})
-                            });
-                        }
-                    }
-                    stateItemData.relatedProducts = itemData.relatedProducts;
-                    stateItemData.eu = itemData.eu;
-                    state.catalogItemStars = stars;
-                    state.catalogItem = stateItemData;
-                }).catch(errors => console.log(errors))
+        getItemDataMutate(state, data){
+            state.catalogItemStars = data.stars;
+            state.catalogItem = data.stateItemData;
         },
 
         // Получаем отзывы
@@ -1070,10 +1008,26 @@ const store = {
         // Убиваем данные по товару
         DestroyCatalogItemMutate(state){
             state.catalogItem = null;
+        },
+
+        SearchResultMutate(state, data){
+            state.searchResult = data;
         }
 
     },
     actions: {
+        SearchProduct({commit}, word){
+            return new Promise((resolve, reject) => {
+                axios.post(`${URI}search`, {search: word})
+                    .then(res => {
+                        commit('SearchResultMutate', res.data)
+                        resolve(true)
+                    })
+                    .catch(e => {
+                        reject(false)
+                    })
+            })
+        },
         register({commit}, user){
             return new Promise((resolve, reject) => {
                 axios({url: `${URI}register`, data: user, method: 'POST' })
@@ -1094,10 +1048,14 @@ const store = {
             return new Promise((resolve, reject) => {
                 axios({url: `${URI}login`, data: user, method: 'POST' })
                     .then(resp => {
-                        const token = resp.data;
-                        localStorage.setItem('token', token);
-                        commit('auth_success', token);
-                        resolve(resp)
+                        if (resp.data !== 0) {
+                            const token = resp.data;
+                            localStorage.setItem('token', token);
+                            commit('auth_success', token);
+                            resolve(resp)
+                        }else{
+                            reject(false)
+                        }
                     })
                     .catch(err => {
                         commit('auth_error');
@@ -1122,8 +1080,79 @@ const store = {
             commit('getCatalogDataMutate',data);
         },
         getItemData({commit}, data){
-            commit('getItemDataMutate', data);
+            return new Promise((resolve, reject) => {
+                axios.get(`${URI}item-${data}`)
+                    .then((response) => {
+                        let itemData = response.data;
+                        let stateItemData = {};
+                        let pics = null;
+                        let stars = {
+                            5: [],
+                            4: [],
+                            3: [],
+                            2: [],
+                            1: [],
+                        };
+                        // Пробегаемся по массиву с данными
+                        // Первым элементом идёт сам товар
+                        // Присваеваем значения этого элемента @stateItemData
+                        for (let el in itemData) {
+
+                            if (el == 0) {
+                                stateItemData.itemTitle = itemData[el].product_title;
+                                stateItemData.itemPrice = itemData[el].product_price;
+                                pics = itemData[el].product_img.split(',');
+                                stateItemData.itemPics = [];
+                                stateItemData.itemId = itemData[el].product_id;
+                                stateItemData.itemSizes = [];
+                                stateItemData.sex_alias = itemData[el].sex_alias;
+
+                                // Пушим картинки
+                                pics.forEach((img, ii) => {
+                                    if (ii === 0) {
+                                        stateItemData.itemPics.push({img: img, clicked: true, video: false})
+                                    } else if (img !== ' ') {
+                                        stateItemData.itemPics.push({img: img, clicked: false, video: false})
+                                    }
+                                });
+
+                                // Если видео, то ставим его первым в массив с картинками, ставим ему ckicked true, скороее всего будет добавляться картинка как превье этого видео
+                                if (itemData[el].product_video !== null) {
+                                    stateItemData.itemPics[0].clicked = false;
+                                    stateItemData.itemPics.unshift({video: itemData[el].product_video, clicked: true});
+                                }
+
+                                // Если sale
+                                if (itemData[el].product_old_price !== null) stateItemData.oldPrice = itemData[el].product_old_price;
+                                else stateItemData.oldPrice = false;
+
+                                stateItemData.itemDesc = itemData[el].product_description;
+                                stateItemData.itemPrice = itemData[el].product_price;
+
+                                stateItemData.sizeWithoutSale = itemData[el].product_sizes_without_sale !== null ? itemData[el].product_sizes_without_sale.split(',') : [];
+                            } else if (el === 'stars') {
+
+                                itemData[el].forEach(element => {
+                                    stars[element.reviews_star].push(element.reviews_star)
+                                });
+                            } else if (el === 'sizes') {
+
+                                itemData[el].forEach(element => {
+                                    stateItemData.itemSizes.push({sz: element.sizes_number, active: false})
+                                });
+                            }
+                        }
+                        stateItemData.relatedProducts = itemData.relatedProducts;
+                        stateItemData.eu = itemData.eu;
+                        commit('getItemDataMutate', {stars: stars, stateItemData: stateItemData});
+                        resolve(true);
+                    }).catch(errors => {
+                        reject(false)
+                        console.log(errors)
+                    })
+            })
         },
+
         getItemReviews({commit}, data){
             commit('getItemReviewsMutate', data);
         },
@@ -1292,6 +1321,9 @@ const store = {
         deliveryData: state => {
             return state.deliveryData;
         },
+        searchResult: state => {
+            return state.searchResult;
+        }
 
     },
 }

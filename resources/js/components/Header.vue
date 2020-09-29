@@ -4,9 +4,9 @@
         <div class="menu-top">
             <ul class="grid-nav-top container">
                 <li class="wrap-hamburger">
-                    <form class="nav-search" v-if="media.wind > media.tablet">
+                    <form class="nav-search" @submit.prevent v-if="media.wind > media.tablet">
                         <div class="search">
-                            <input type="search" id="search" placeholder="Поиск">
+                            <input type="search" id="search" @change="searchProduct()" v-model.trim="search" placeholder="Поиск">
                             <label for="search">
                                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="22px" height="24px" viewBox="0 0 22 24" enable-background="new 0 0 22 24">
                                     <image width="22" height="24" x="0" y="0" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAYCAQAAABUt8XAAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
@@ -72,13 +72,13 @@ BB9OAAAAAElFTkSuQmCC" />
                 </li>
             </ul>
         </div>
-        <div class="menu-wrap" v-if="menuHide" @mouseleave="unHoverTopMenu()">
+        <div class="menu-wrap" :class="{hideMenu: hideMenuWhenMove}" v-if="menuHide" @mouseleave="unHoverTopMenu()">
             <div class="menu-middle">
                 <ul class="container genders" v-bind:class="returnWidth" >
                     <li v-for="(gen, k) in $store.getters.topMenu"
                         :key="k"
                     >
-                        <router-link :to="{name: 'gender', params: {gender: gen.url}}">
+                        <router-link :to="{name: 'gender', params: {gender: gen.url}}" active-class="active-top-menu">
                             <span v-if="media.wind > media.tablet" @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'" @click="closeMenu()">{{gen.title}}</span>
                             <span v-else @click="ClickShowCategories(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</span>
                         </router-link>
@@ -138,11 +138,26 @@ BB9OAAAAAElFTkSuQmCC" />
             // Скрываем категории
             categoriesHide: true,
 
+            // Скрываем меню при переходе
+            hideMenuWhenMove: true,
+
+            // Модель поиска
+            search: null
+
         }),
         beforeMount() {
             this.$Progress.start();
         },
         methods: {
+            searchProduct(){
+                this.$Progress.start();
+                this.$store.dispatch('SearchProduct', this.search)
+                    .then((res) => {
+                        if (res) {
+                            this.$router.push({name: 'searching'})
+                        }
+                    })
+            },
             // Наводим на главное меню
             hoverTopMenu(genderTitle, k){
 
@@ -198,7 +213,12 @@ BB9OAAAAAElFTkSuQmCC" />
             // МОБИЛКА
             // Открываем меню в мобилке
             EatHamburger(){
-                this.menuHide = !this.menuHide;
+                if (this.menuHide) {
+                    this.menuHide = false;
+                    return
+                }
+                this.menuHide = true;
+                this.hideMenuWhenMove = false;
             },
 
             // Открываем гендеров
@@ -312,6 +332,28 @@ BB9OAAAAAElFTkSuQmCC" />
             categories(val){
                 this.categories = val;
             },
+            $route(to, from){
+                if (this.media.wind <= this.media.tablet) {
+                   if (to.name === 'gender' && from.name !== 'gender') {
+                       this.hideMenuWhenMove = true;
+                       this.menuHide = false;
+                   }
+                    if (to.name === 'category' && from.name !== 'category') {
+                        this.hideMenuWhenMove = true;
+                        this.menuHide = false;
+                    }
+                    if (to.name === 'department' && from.name !== 'department') {
+                        this.hideMenuWhenMove = true;
+                        this.menuHide = false;
+                    }
+                    if (to.name === 'item') {
+                        this.hideMenuWhenMove = true;
+                        this.menuHide = false;
+                    }
+                // || to.name === 'category' || to.name === 'department' || to.name === 'item'))
+                    // this.menuHide = false;
+                }
+            }
             // isLoggedIn(newVal){
             //
             // }

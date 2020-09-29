@@ -126,6 +126,14 @@ class LKController extends Controller
             DB::table('lappiusers')
                 ->where('lappiusers_id', $id)
                 ->update(['lappiusers_ipost' => $upd['userPostI']]);
+
+            if ($upd['userNewPass'] !== null) {
+                $hpass = password_hash($upd['userNewPass'], PASSWORD_DEFAULT);
+                DB::table('lappiusers')
+                    ->where('lappiusers_id', $id)
+                    ->update(['lappiusers_password' => $hpass]);
+            }
+
             return 'Yes';
         }catch (Exception $e){
             return $e;

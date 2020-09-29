@@ -72,7 +72,7 @@ class SberController extends Controller
             $vars['orderNumber'] = $lastIdOrder;
             $vars['amount'] = $order[1]['amount'] * 100;
             $vars['returnUrl'] = 'https://lappinalle.ru/paysuccess';
-            $vars['failUrl'] = 'https://lappinalle.ru';
+            $vars['failUrl'] = 'https://lappinalle.ru/payfail';
 
             $ch = curl_init('https://3dsec.sberbank.ru/payment/rest/register.do?' . http_build_query($vars));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -76,7 +76,7 @@
 }
 
 .active-top-menu {
-  padding-bottom: 3px;
+  padding-bottom: 1px;
   border-bottom: 3px solid #fff;
 }
 
@@ -324,6 +324,12 @@
   text-align: center;
   font-size: 28px;
   font-family: "PtSans-Regular", sans-serif;
+}
+
+@media screen and (max-width: 768px) {
+  .h-30-ease {
+    font-size: 18px;
+  }
 }
 
 .classic-input {
@@ -776,6 +782,12 @@
   transition: all ease-in-out 0.2s;
   transform: scale(1);
   fill: #93b5e1;
+}
+
+@media screen and (max-width: 768px) {
+  .hideMenu {
+    display: none !important;
+  }
 }
 
 .active-admin-tab {
@@ -1384,6 +1396,10 @@ nav .menu-bottom .menu-departments li a {
 }
 
 @media screen and (max-width: 576px) {
+  nav .menu-bottom {
+    overflow-y: scroll;
+  }
+
   nav .menu-bottom .menu-categories li a {
     font-size: 16px;
   }
@@ -1595,12 +1611,13 @@ footer .bottom-foot span:nth-child(1) {
   right: 15px;
 }
 
-.catalog-items .item a {
+.catalog-items .item .item-img-wrap {
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
 
-.catalog-items .item a img {
+.catalog-items .item .item-img-wrap img {
   width: 300px;
   height: 300px;
   -o-object-fit: contain;
@@ -1701,7 +1718,7 @@ footer .bottom-foot span:nth-child(1) {
     grid-row-gap: 35px;
   }
 
-  .catalog-items .item a img {
+  .catalog-items .item .item-img-wrap img {
     width: 320px;
     height: 320px;
     -o-object-fit: contain;
@@ -2520,7 +2537,7 @@ nav ul,
   height: 50px;
   box-sizing: border-box;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   margin-bottom: 10px;
 }
@@ -2529,6 +2546,7 @@ nav ul,
   fill: #bd5583;
   width: 30px;
   height: 30px;
+  margin-left: 16px;
 }
 
 .btn-buynow {

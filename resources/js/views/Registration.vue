@@ -1,6 +1,6 @@
 <template>
     <div class="registration">
-        <div class="reg-from" v-if="!regWhat">
+        <div class="reg-from">
             <h1 class="h-30 h1-m80">Регистрация</h1>
             <div v-if="error" class="error-log">
                 Данный email уже зарегестрирован
@@ -38,12 +38,6 @@
                 </div>
             </form>
         </div>
-        <div class="reg-success" v-else>
-            <h1 class="h-30-ease h1-m80">Вы успешно зарегистрированы в системе.</h1>
-            <div class="added-links">
-                <router-link :to="{path: 'login'}" class="link-first">Вход</router-link>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -57,7 +51,6 @@
             pass: null,
             passRepeat: null,
             checkAgree: false,
-            regWhat: false,
             error: false
         }),
         validations: {

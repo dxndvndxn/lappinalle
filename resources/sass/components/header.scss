@@ -248,6 +248,7 @@ nav{
     }
     @media screen and (max-width: $mobile) {
         .menu-bottom{
+            overflow-y: scroll;
             .menu-categories{
                 li{
                     a{

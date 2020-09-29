@@ -3720,6 +3720,58 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('products')->insert([
             [
+                'product_title' => 'Комплект Jonathan Star',
+                'product_price' => rand(10, 90),
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../img/img_1-item-1.png, ../img/img_1-item-2.png, ../img/img_3-item-1.png',
+                'sex_id' => 1,
+                'categories_id' => 1,
+                'departments_id' => 1,
+                'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
+                'product_sale' => 0,
+                'product_old_price' => null,
+                'product_video' => '../img/video_1'
+            ],
+            [
+                'product_title' => 'Краги',
+                'product_price' => rand(10, 90),
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../img/img_1-item-1.png, ../img/img_1-item-2.png, ../img/img_3-item-1.png',
+                'sex_id' => 1,
+                'categories_id' => 1,
+                'departments_id' => 1,
+                'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
+                'product_sale' => 0,
+                'product_old_price' => null,
+                'product_video' => '../img/video_1'
+            ],
+            [
+                'product_title' => 'Перчатки',
+                'product_price' => rand(10, 90),
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../img/img_1-item-1.png, ../img/img_1-item-2.png, ../img/img_3-item-1.png',
+                'sex_id' => 1,
+                'categories_id' => 1,
+                'departments_id' => 1,
+                'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
+                'product_sale' => 0,
+                'product_old_price' => null,
+                'product_video' => '../img/video_1'
+            ],
+            [
+                'product_title' => 'Шапка',
+                'product_price' => rand(10, 90),
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '../img/img_1-item-1.png, ../img/img_1-item-2.png, ../img/img_3-item-1.png',
+                'sex_id' => 1,
+                'categories_id' => 1,
+                'departments_id' => 1,
+                'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
+                'product_sale' => 0,
+                'product_old_price' => null,
+                'product_video' => '../img/video_1'
+            ],
+            [
                 'product_title' => 'Test',
                 'product_price' => rand(10, 90),
                 'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',

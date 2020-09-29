@@ -81,7 +81,7 @@ class LappiUserController extends Controller
             if ($vpas) {
                 return $newS["lappiusers_token"];
             }else{
-                return 0;
+                return false;
             }
         }
     }

@@ -30,7 +30,8 @@ import OrderCard from "./admin/views/OrderCard";
 import UserCard from "./admin/views/UserCard";
 import AdminReviews from "./admin/views/AdminReviews";
 import ReviewCard from "./admin/views/ReviewCard";
-
+import PayFail from "./views/PayFail";
+import Searching from "./views/Searching";
 // export default {
 //     mode: 'history',
 //     routes: [
@@ -305,6 +306,12 @@ const routes = [
         })
     },
     {
+        path: '/payfail',
+        name: 'PayFail',
+        meta: { layout: 'Main' },
+        component: PayFail
+    },
+    {
         path: '/izbrannoe',
         name: 'bookmark',
         meta: { layout: 'Main' },
@@ -315,6 +322,12 @@ const routes = [
         name: 'ReturnProduct',
         meta: { layout: 'Main' },
         component: ReturnProduct
+    },
+    {
+        path: '/searching',
+        name: 'searching',
+        meta: { layout: 'Main' },
+        component: Searching
     },
     {
         path: '/adminalle',

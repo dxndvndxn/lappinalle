@@ -147,6 +147,11 @@ Route::post('/payment', 'SberController@sber');
 // Меняем статус
 Route::post('/changestatus', 'ChangeStatusOrderController@index');
 
+// Смена пароля
+Route::post('/changepass', 'NewPassController@newpass');
+
+// Поиск
+Route::post('/search', 'SearchController@search');
 
 Route::fallback(function(){
     return response()->json([

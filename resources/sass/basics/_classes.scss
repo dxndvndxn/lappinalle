@@ -26,7 +26,7 @@
     transition: .2s all ease;
 }
 .active-top-menu{
-    padding-bottom: 3px;
+    padding-bottom: 1px;
     border-bottom: 3px solid #fff;
 }
 .unactive-top-menu{
@@ -220,6 +220,9 @@
     text-align: center;
     font-size: $bigFz + 4px;
     @include ptSans(400);
+    @media screen and (max-width: $tablet) {
+        font-size: $regFz;
+    }
 }
 
 .classic-input{
@@ -494,9 +497,13 @@
     fill: $paleblue;
 }
 
-
-
-
+.hideMenu{
+    //height: 0% !important;
+    //transition: all ease-in 0.2s;
+    @media screen and (max-width: $tablet) {
+        display: none !important;
+    }
+}
 // Админ классы
 .active-admin-tab{
     font-family: 'PT Sans', sans-serif !important;

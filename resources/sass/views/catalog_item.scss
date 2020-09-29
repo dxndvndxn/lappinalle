@@ -131,13 +131,14 @@
     padding: 15px 22px;
     height: 50px;
     box-sizing: border-box;
-    @include flexin(space-around);
+    @include flexin(center);
     align-items: center;
     margin-bottom: 10px;
     svg{
         fill: $purpp;
         width: 30px;
         height: 30px;
+        margin-left: 16px;
     }
 }
 .btn-buynow{

@@ -28,6 +28,7 @@
 
 <script>
     import {email, minLength, required} from 'vuelidate/lib/validators';
+    import axios from 'axios';
     export default {
         name: "Reset",
         data: () => ({
@@ -45,16 +46,21 @@
                     this.$v.$touch();
                     return;
                 }
-                if (this.email){
-                    this.$Progress.start();
-                    await setTimeout(() => {
-                        console.log(this.email)
-                        this.resetWhat = true;
-                        this.$Progress.finish();
-                    }, 5000);
 
-                }
+                this.$Progress.start();
+                axios.post(`${this.URI}changepass`, {email: this.email})
+                .then(res => {
+                    console.log(res.data)
+                    if (res.data) this.resetWhat = true;
+                    this.$Progress.finish();
+                })
+                .catch(e => console.log(e))
             }
+        },
+        computed: {
+            URI(){
+                return this.$store.getters.URI;
+            },
         }
     }
 </script>
