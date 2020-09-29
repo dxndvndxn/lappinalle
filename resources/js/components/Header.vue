@@ -1,5 +1,5 @@
 <template>
-    <nav>
+    <nav :class="{transitionNav: menuHide, transitionOutNav: !menuHide, transitionNavBig: showMenu}">
         <vue-progress-bar v-if="media.wind <= media.tablet"></vue-progress-bar>
         <div class="menu-top">
             <ul class="grid-nav-top container">
@@ -72,47 +72,49 @@ BB9OAAAAAElFTkSuQmCC" />
                 </li>
             </ul>
         </div>
-        <div class="menu-wrap" :class="{hideMenu: hideMenuWhenMove}" v-if="menuHide" @mouseleave="unHoverTopMenu()">
-            <div class="menu-middle">
-                <ul class="container genders" v-bind:class="returnWidth" >
-                    <li v-for="(gen, k) in $store.getters.topMenu"
-                        :key="k"
-                    >
-                        <router-link :to="{name: 'gender', params: {gender: gen.url}}" active-class="active-top-menu">
-                            <span v-if="media.wind > media.tablet" @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'" @click="closeMenu()">{{gen.title}}</span>
-                            <span v-else @click="ClickShowCategories(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</span>
-                        </router-link>
-                    </li>
-                </ul>
+        <transition name="fade">
+            <div class="menu-wrap" v-if="menuHide" @mouseleave="unHoverTopMenu()">
+                <div class="menu-middle">
+                    <ul class="container genders" v-bind:class="returnWidth" >
+                        <li v-for="(gen, k) in $store.getters.topMenu"
+                            :key="k"
+                        >
+                            <router-link :to="{name: 'gender', params: {gender: gen.url}}" active-class="active-top-menu">
+                                <span v-if="media.wind > media.tablet" @mouseover="hoverTopMenu(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'" @click="closeMenu()">{{gen.title}}</span>
+                                <span v-else @click="ClickShowCategories(gen.title, k)" :class="gen.hover ? 'active-top-menu' : 'unactive-top-menu'">{{gen.title}}</span>
+                            </router-link>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu-bottom" v-if="showMenu">
+                    <ul class="menu-categories" v-if="categoriesHide">
+                        <li
+                            v-for="(categ, value, i) in categories"
+                            :key="i+'c'"
+                            :class="categ[0].hover ? 'active-catg' : null"
+                            @mouseleave="categ[0].hover = false"
+                        >
+                            <router-link v-if="value === 'Распродажа'" :to="{name: 'gender', params: {gender: categ[0].sex_alias}, query: {sale: 'true', page: '1'}}" :replace="false" :append="false">
+                                <span v-if="media.wind > media.tablet" @mouseover="showDepartment(value, categories, categ)" :class="value === 'Распродажа' ? 'sale' : null" @click="closeMenu()">{{value}}</span>
+                                <span v-else @click="ClickShowDepartments(categ)" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
+                            </router-link>
+                            <router-link v-else :to="{name: 'category', params: {gender: categ[0].sex_alias, category: categ[0].categories_alias}}" >
+                                <span v-if="media.wind > media.tablet" @mouseover="showDepartment(value, categories, categ)" @click="closeMenu()">{{value}}</span>
+                                <span v-else @click="ClickShowDepartments(categ)">{{value}}</span>
+                            </router-link>
+                        </li>
+                    </ul>
+                    <ul class="menu-departments" v-if="departmentsHide" @mouseover="hoverCategories()" @mouseleave="getChosenCategory !== null ? categories[getChosenCategory][0].hover = false : true">
+                        <li v-if="media.wind <= media.tablet" class="back-to-categories" @click="backToCategories()">
+                            <router-link :to="{name: 'category', params: {gender: getDepartments[0].sex_alias, category: getDepartments[0].categories_alias}}">{{getDepartments[0].category}}</router-link>
+                        </li>
+                        <li  v-for="(depart, d) in getDepartments" v-if="depart.department !== null" :key="d+'d'" @click="closeMenu()">
+                            <router-link :to="{name: 'department', params: {gender: depart.sex_alias, category: depart.categories_alias, department: depart.departments_alias}}" >{{depart.department}}</router-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="menu-bottom" v-if="showMenu">
-                <ul class="menu-categories" v-if="categoriesHide">
-                    <li
-                        v-for="(categ, value, i) in categories"
-                        :key="i+'c'"
-                        :class="categ[0].hover ? 'active-catg' : null"
-                        @mouseleave="categ[0].hover = false"
-                    >
-                        <router-link v-if="value === 'Распродажа'" :to="{name: 'gender', params: {gender: categ[0].sex_alias}, query: {sale: 'true', page: '1'}}" :replace="false" :append="false">
-                            <span v-if="media.wind > media.tablet" @mouseover="showDepartment(value, categories, categ)" :class="value === 'Распродажа' ? 'sale' : null" @click="closeMenu()">{{value}}</span>
-                            <span v-else @click="ClickShowDepartments(categ)" :class="value === 'Распродажа' ? 'sale' : null">{{value}}</span>
-                        </router-link>
-                        <router-link v-else :to="{name: 'category', params: {gender: categ[0].sex_alias, category: categ[0].categories_alias}}" >
-                            <span v-if="media.wind > media.tablet" @mouseover="showDepartment(value, categories, categ)" @click="closeMenu()">{{value}}</span>
-                            <span v-else @click="ClickShowDepartments(categ)">{{value}}</span>
-                        </router-link>
-                    </li>
-                </ul>
-                <ul class="menu-departments" v-if="departmentsHide" @mouseover="hoverCategories()" @mouseleave="getChosenCategory !== null ? categories[getChosenCategory][0].hover = false : true">
-                    <li v-if="media.wind <= media.tablet" class="back-to-categories" @click="backToCategories()">
-                        <router-link :to="{name: 'category', params: {gender: getDepartments[0].sex_alias, category: getDepartments[0].categories_alias}}">{{getDepartments[0].category}}</router-link>
-                    </li>
-                    <li  v-for="(depart, d) in getDepartments" v-if="depart.department !== null" :key="d+'d'" @click="closeMenu()">
-                        <router-link :to="{name: 'department', params: {gender: depart.sex_alias, category: depart.categories_alias, department: depart.departments_alias}}" >{{depart.department}}</router-link>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        </transition>
         <vue-progress-bar v-if="media.wind > media.tablet"></vue-progress-bar>
     </nav>
 </template>
@@ -213,12 +215,15 @@ BB9OAAAAAElFTkSuQmCC" />
             // МОБИЛКА
             // Открываем меню в мобилке
             EatHamburger(){
-                if (this.menuHide) {
-                    this.menuHide = false;
-                    return
-                }
-                this.menuHide = true;
-                this.hideMenuWhenMove = false;
+                // if (this.menuHide) {
+                //     this.menuHide = false;
+                //     return
+                // }
+                // this.menuHide = true;
+                // this.hideMenuWhenMove = false;
+                this.departmentsHide = false;
+                this.categoriesHide = false;
+                this.menuHide = !this.menuHide;
             },
 
             // Открываем гендеров
@@ -332,28 +337,28 @@ BB9OAAAAAElFTkSuQmCC" />
             categories(val){
                 this.categories = val;
             },
-            $route(to, from){
-                if (this.media.wind <= this.media.tablet) {
-                   if (to.name === 'gender' && from.name !== 'gender') {
-                       this.hideMenuWhenMove = true;
-                       this.menuHide = false;
-                   }
-                    if (to.name === 'category' && from.name !== 'category') {
-                        this.hideMenuWhenMove = true;
-                        this.menuHide = false;
-                    }
-                    if (to.name === 'department' && from.name !== 'department') {
-                        this.hideMenuWhenMove = true;
-                        this.menuHide = false;
-                    }
-                    if (to.name === 'item') {
-                        this.hideMenuWhenMove = true;
-                        this.menuHide = false;
-                    }
-                // || to.name === 'category' || to.name === 'department' || to.name === 'item'))
-                    // this.menuHide = false;
-                }
-            }
+            // $route(to, from){
+            //     if (this.media.wind <= this.media.tablet) {
+            //        if (to.name === 'gender' && from.name !== 'gender') {
+            //            this.hideMenuWhenMove = true;
+            //            this.menuHide = false;
+            //        }
+            //         if (to.name === 'category' && from.name !== 'category') {
+            //             this.hideMenuWhenMove = true;
+            //             this.menuHide = false;
+            //         }
+            //         if (to.name === 'department' && from.name !== 'department') {
+            //             this.hideMenuWhenMove = true;
+            //             this.menuHide = false;
+            //         }
+            //         if (to.name === 'item') {
+            //             this.hideMenuWhenMove = true;
+            //             this.menuHide = false;
+            //         }
+            //     // || to.name === 'category' || to.name === 'department' || to.name === 'item'))
+            //         // this.menuHide = false;
+            //     }
+            // }
             // isLoggedIn(newVal){
             //
             // }

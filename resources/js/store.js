@@ -479,7 +479,7 @@ const store = {
                             dataForChangeMenu: {}
                         };
                     }
-                    console.log(menu)
+
                     // Пушим данным по гендарным различиям
                     for (let i in menu){
 
@@ -497,7 +497,7 @@ const store = {
                             }
                         }
                     }
-                    console.log(gendersObj)
+
                     // Выбираем уникальные категории
                     let categories = new Set(listCategories);
                     let categoriesObj = {};
@@ -555,7 +555,7 @@ const store = {
 
                     state.lastMenu = lastMenu;
                     state.menuAdmin = menuForAdmin;
-                    console.log(state.menuAdmin)
+
                 })
         },
 

@@ -5272,6 +5272,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
   data: function data() {
@@ -5356,13 +5358,15 @@ __webpack_require__.r(__webpack_exports__);
     // МОБИЛКА
     // Открываем меню в мобилке
     EatHamburger: function EatHamburger() {
-      if (this.menuHide) {
-        this.menuHide = false;
-        return;
-      }
-
-      this.menuHide = true;
-      this.hideMenuWhenMove = false;
+      // if (this.menuHide) {
+      //     this.menuHide = false;
+      //     return
+      // }
+      // this.menuHide = true;
+      // this.hideMenuWhenMove = false;
+      this.departmentsHide = false;
+      this.categoriesHide = false;
+      this.menuHide = !this.menuHide;
     },
     // Открываем гендеров
     ClickShowCategories: function ClickShowCategories(genderTitle, k) {
@@ -5462,32 +5466,29 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     categories: function categories(val) {
       this.categories = val;
-    },
-    $route: function $route(to, from) {
-      if (this.media.wind <= this.media.tablet) {
-        if (to.name === 'gender' && from.name !== 'gender') {
-          this.hideMenuWhenMove = true;
-          this.menuHide = false;
-        }
-
-        if (to.name === 'category' && from.name !== 'category') {
-          this.hideMenuWhenMove = true;
-          this.menuHide = false;
-        }
-
-        if (to.name === 'department' && from.name !== 'department') {
-          this.hideMenuWhenMove = true;
-          this.menuHide = false;
-        }
-
-        if (to.name === 'item') {
-          this.hideMenuWhenMove = true;
-          this.menuHide = false;
-        } // || to.name === 'category' || to.name === 'department' || to.name === 'item'))
-        // this.menuHide = false;
-
-      }
-    } // isLoggedIn(newVal){
+    } // $route(to, from){
+    //     if (this.media.wind <= this.media.tablet) {
+    //        if (to.name === 'gender' && from.name !== 'gender') {
+    //            this.hideMenuWhenMove = true;
+    //            this.menuHide = false;
+    //        }
+    //         if (to.name === 'category' && from.name !== 'category') {
+    //             this.hideMenuWhenMove = true;
+    //             this.menuHide = false;
+    //         }
+    //         if (to.name === 'department' && from.name !== 'department') {
+    //             this.hideMenuWhenMove = true;
+    //             this.menuHide = false;
+    //         }
+    //         if (to.name === 'item') {
+    //             this.hideMenuWhenMove = true;
+    //             this.menuHide = false;
+    //         }
+    //     // || to.name === 'category' || to.name === 'department' || to.name === 'item'))
+    //         // this.menuHide = false;
+    //     }
+    // }
+    // isLoggedIn(newVal){
     //
     // }
 
@@ -7029,6 +7030,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -7052,7 +7057,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       starReview: null,
       successSentReview: false,
       linkForRelated: null,
-      showPriceAsUsual: true
+      showPriceAsUsual: true // координаты
+
     };
   },
   created: function created() {
@@ -7086,6 +7092,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
+    getXY: function getXY(event) {
+      console.log(event.clientX); // x coordinate
+
+      console.log(event.clientY); // y coordinate
+    },
+    ZoomImg: function ZoomImg(event) {
+      var container = this.$refs.zoom;
+      var imgZoom = container.children[1];
+      var e = {
+        w: imgZoom.offsetWidth,
+        h: imgZoom.offsetHeight
+      };
+      var c = {
+        x: Math.round((event.clientX - (container.offsetLeft - window.scrollX)) / (e.w / 40)),
+        y: Math.round((event.clientY - (container.offsetTop - window.scrollY)) / (e.h / 95))
+      };
+      imgZoom.style.backgroundPosition = c.x + '% ' + c.y + '%'; // console.log(c)
+    },
     // Кликаем по фотографии товара
     clickItemPic: function clickItemPic(i) {
       this.mainPic = i;
@@ -15561,6 +15585,13 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
+    {
+      class: {
+        transitionNav: _vm.menuHide,
+        transitionOutNav: !_vm.menuHide,
+        transitionNavBig: _vm.showMenu
+      }
+    },
     [
       _vm.media.wind <= _vm.media.tablet ? _c("vue-progress-bar") : _vm._e(),
       _vm._v(" "),
@@ -15908,287 +15939,254 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm.menuHide
-        ? _c(
-            "div",
-            {
-              staticClass: "menu-wrap",
-              class: { hideMenu: _vm.hideMenuWhenMove },
-              on: {
-                mouseleave: function($event) {
-                  return _vm.unHoverTopMenu()
+      _c("transition", { attrs: { name: "fade" } }, [
+        _vm.menuHide
+          ? _c(
+              "div",
+              {
+                staticClass: "menu-wrap",
+                on: {
+                  mouseleave: function($event) {
+                    return _vm.unHoverTopMenu()
+                  }
                 }
-              }
-            },
-            [
-              _c("div", { staticClass: "menu-middle" }, [
-                _c(
-                  "ul",
-                  { staticClass: "container genders", class: _vm.returnWidth },
-                  _vm._l(_vm.$store.getters.topMenu, function(gen, k) {
-                    return _c(
-                      "li",
-                      { key: k },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            attrs: {
-                              to: {
-                                name: "gender",
-                                params: { gender: gen.url }
-                              },
-                              "active-class": "active-top-menu"
-                            }
-                          },
-                          [
-                            _vm.media.wind > _vm.media.tablet
-                              ? _c(
-                                  "span",
-                                  {
-                                    class: gen.hover
-                                      ? "active-top-menu"
-                                      : "unactive-top-menu",
-                                    on: {
-                                      mouseover: function($event) {
-                                        return _vm.hoverTopMenu(gen.title, k)
-                                      },
-                                      click: function($event) {
-                                        return _vm.closeMenu()
-                                      }
-                                    }
-                                  },
-                                  [_vm._v(_vm._s(gen.title))]
-                                )
-                              : _c(
-                                  "span",
-                                  {
-                                    class: gen.hover
-                                      ? "active-top-menu"
-                                      : "unactive-top-menu",
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.ClickShowCategories(
-                                          gen.title,
-                                          k
-                                        )
-                                      }
-                                    }
-                                  },
-                                  [_vm._v(_vm._s(gen.title))]
-                                )
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  }),
-                  0
-                )
-              ]),
-              _vm._v(" "),
-              _vm.showMenu
-                ? _c("div", { staticClass: "menu-bottom" }, [
-                    _vm.categoriesHide
-                      ? _c(
-                          "ul",
-                          { staticClass: "menu-categories" },
-                          _vm._l(_vm.categories, function(categ, value, i) {
-                            return _c(
-                              "li",
-                              {
-                                key: i + "c",
-                                class: categ[0].hover ? "active-catg" : null,
-                                on: {
-                                  mouseleave: function($event) {
-                                    categ[0].hover = false
-                                  }
-                                }
-                              },
-                              [
-                                value === "Распродажа"
-                                  ? _c(
-                                      "router-link",
-                                      {
-                                        attrs: {
-                                          to: {
-                                            name: "gender",
-                                            params: {
-                                              gender: categ[0].sex_alias
-                                            },
-                                            query: { sale: "true", page: "1" }
-                                          },
-                                          replace: false,
-                                          append: false
-                                        }
-                                      },
-                                      [
-                                        _vm.media.wind > _vm.media.tablet
-                                          ? _c(
-                                              "span",
-                                              {
-                                                class:
-                                                  value === "Распродажа"
-                                                    ? "sale"
-                                                    : null,
-                                                on: {
-                                                  mouseover: function($event) {
-                                                    return _vm.showDepartment(
-                                                      value,
-                                                      _vm.categories,
-                                                      categ
-                                                    )
-                                                  },
-                                                  click: function($event) {
-                                                    return _vm.closeMenu()
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v(_vm._s(value))]
-                                            )
-                                          : _c(
-                                              "span",
-                                              {
-                                                class:
-                                                  value === "Распродажа"
-                                                    ? "sale"
-                                                    : null,
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.ClickShowDepartments(
-                                                      categ
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v(_vm._s(value))]
-                                            )
-                                      ]
-                                    )
-                                  : _c(
-                                      "router-link",
-                                      {
-                                        attrs: {
-                                          to: {
-                                            name: "category",
-                                            params: {
-                                              gender: categ[0].sex_alias,
-                                              category:
-                                                categ[0].categories_alias
-                                            }
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _vm.media.wind > _vm.media.tablet
-                                          ? _c(
-                                              "span",
-                                              {
-                                                on: {
-                                                  mouseover: function($event) {
-                                                    return _vm.showDepartment(
-                                                      value,
-                                                      _vm.categories,
-                                                      categ
-                                                    )
-                                                  },
-                                                  click: function($event) {
-                                                    return _vm.closeMenu()
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v(_vm._s(value))]
-                                            )
-                                          : _c(
-                                              "span",
-                                              {
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.ClickShowDepartments(
-                                                      categ
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v(_vm._s(value))]
-                                            )
-                                      ]
-                                    )
-                              ],
-                              1
-                            )
-                          }),
-                          0
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.departmentsHide
-                      ? _c(
-                          "ul",
-                          {
-                            staticClass: "menu-departments",
-                            on: {
-                              mouseover: function($event) {
-                                return _vm.hoverCategories()
-                              },
-                              mouseleave: function($event) {
-                                _vm.getChosenCategory !== null
-                                  ? (_vm.categories[
-                                      _vm.getChosenCategory
-                                    ][0].hover = false)
-                                  : true
+              },
+              [
+                _c("div", { staticClass: "menu-middle" }, [
+                  _c(
+                    "ul",
+                    {
+                      staticClass: "container genders",
+                      class: _vm.returnWidth
+                    },
+                    _vm._l(_vm.$store.getters.topMenu, function(gen, k) {
+                      return _c(
+                        "li",
+                        { key: k },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              attrs: {
+                                to: {
+                                  name: "gender",
+                                  params: { gender: gen.url }
+                                },
+                                "active-class": "active-top-menu"
                               }
-                            }
-                          },
-                          [
-                            _vm.media.wind <= _vm.media.tablet
-                              ? _c(
-                                  "li",
-                                  {
-                                    staticClass: "back-to-categories",
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.backToCategories()
+                            },
+                            [
+                              _vm.media.wind > _vm.media.tablet
+                                ? _c(
+                                    "span",
+                                    {
+                                      class: gen.hover
+                                        ? "active-top-menu"
+                                        : "unactive-top-menu",
+                                      on: {
+                                        mouseover: function($event) {
+                                          return _vm.hoverTopMenu(gen.title, k)
+                                        },
+                                        click: function($event) {
+                                          return _vm.closeMenu()
+                                        }
                                       }
+                                    },
+                                    [_vm._v(_vm._s(gen.title))]
+                                  )
+                                : _c(
+                                    "span",
+                                    {
+                                      class: gen.hover
+                                        ? "active-top-menu"
+                                        : "unactive-top-menu",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.ClickShowCategories(
+                                            gen.title,
+                                            k
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(gen.title))]
+                                  )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _vm.showMenu
+                  ? _c("div", { staticClass: "menu-bottom" }, [
+                      _vm.categoriesHide
+                        ? _c(
+                            "ul",
+                            { staticClass: "menu-categories" },
+                            _vm._l(_vm.categories, function(categ, value, i) {
+                              return _c(
+                                "li",
+                                {
+                                  key: i + "c",
+                                  class: categ[0].hover ? "active-catg" : null,
+                                  on: {
+                                    mouseleave: function($event) {
+                                      categ[0].hover = false
                                     }
-                                  },
-                                  [
-                                    _c(
-                                      "router-link",
-                                      {
-                                        attrs: {
-                                          to: {
-                                            name: "category",
-                                            params: {
-                                              gender:
-                                                _vm.getDepartments[0].sex_alias,
-                                              category:
-                                                _vm.getDepartments[0]
-                                                  .categories_alias
+                                  }
+                                },
+                                [
+                                  value === "Распродажа"
+                                    ? _c(
+                                        "router-link",
+                                        {
+                                          attrs: {
+                                            to: {
+                                              name: "gender",
+                                              params: {
+                                                gender: categ[0].sex_alias
+                                              },
+                                              query: { sale: "true", page: "1" }
+                                            },
+                                            replace: false,
+                                            append: false
+                                          }
+                                        },
+                                        [
+                                          _vm.media.wind > _vm.media.tablet
+                                            ? _c(
+                                                "span",
+                                                {
+                                                  class:
+                                                    value === "Распродажа"
+                                                      ? "sale"
+                                                      : null,
+                                                  on: {
+                                                    mouseover: function(
+                                                      $event
+                                                    ) {
+                                                      return _vm.showDepartment(
+                                                        value,
+                                                        _vm.categories,
+                                                        categ
+                                                      )
+                                                    },
+                                                    click: function($event) {
+                                                      return _vm.closeMenu()
+                                                    }
+                                                  }
+                                                },
+                                                [_vm._v(_vm._s(value))]
+                                              )
+                                            : _c(
+                                                "span",
+                                                {
+                                                  class:
+                                                    value === "Распродажа"
+                                                      ? "sale"
+                                                      : null,
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.ClickShowDepartments(
+                                                        categ
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [_vm._v(_vm._s(value))]
+                                              )
+                                        ]
+                                      )
+                                    : _c(
+                                        "router-link",
+                                        {
+                                          attrs: {
+                                            to: {
+                                              name: "category",
+                                              params: {
+                                                gender: categ[0].sex_alias,
+                                                category:
+                                                  categ[0].categories_alias
+                                              }
                                             }
                                           }
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          _vm._s(_vm.getDepartments[0].category)
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm._l(_vm.getDepartments, function(depart, d) {
-                              return depart.department !== null
+                                        },
+                                        [
+                                          _vm.media.wind > _vm.media.tablet
+                                            ? _c(
+                                                "span",
+                                                {
+                                                  on: {
+                                                    mouseover: function(
+                                                      $event
+                                                    ) {
+                                                      return _vm.showDepartment(
+                                                        value,
+                                                        _vm.categories,
+                                                        categ
+                                                      )
+                                                    },
+                                                    click: function($event) {
+                                                      return _vm.closeMenu()
+                                                    }
+                                                  }
+                                                },
+                                                [_vm._v(_vm._s(value))]
+                                              )
+                                            : _c(
+                                                "span",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.ClickShowDepartments(
+                                                        categ
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [_vm._v(_vm._s(value))]
+                                              )
+                                        ]
+                                      )
+                                ],
+                                1
+                              )
+                            }),
+                            0
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.departmentsHide
+                        ? _c(
+                            "ul",
+                            {
+                              staticClass: "menu-departments",
+                              on: {
+                                mouseover: function($event) {
+                                  return _vm.hoverCategories()
+                                },
+                                mouseleave: function($event) {
+                                  _vm.getChosenCategory !== null
+                                    ? (_vm.categories[
+                                        _vm.getChosenCategory
+                                      ][0].hover = false)
+                                    : true
+                                }
+                              }
+                            },
+                            [
+                              _vm.media.wind <= _vm.media.tablet
                                 ? _c(
                                     "li",
                                     {
-                                      key: d + "d",
+                                      staticClass: "back-to-categories",
                                       on: {
                                         click: function($event) {
-                                          return _vm.closeMenu()
+                                          return _vm.backToCategories()
                                         }
                                       }
                                     },
@@ -16198,33 +16196,77 @@ var render = function() {
                                         {
                                           attrs: {
                                             to: {
-                                              name: "department",
+                                              name: "category",
                                               params: {
-                                                gender: depart.sex_alias,
+                                                gender:
+                                                  _vm.getDepartments[0]
+                                                    .sex_alias,
                                                 category:
-                                                  depart.categories_alias,
-                                                department:
-                                                  depart.departments_alias
+                                                  _vm.getDepartments[0]
+                                                    .categories_alias
                                               }
                                             }
                                           }
                                         },
-                                        [_vm._v(_vm._s(depart.department))]
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.getDepartments[0].category
+                                            )
+                                          )
+                                        ]
                                       )
                                     ],
                                     1
                                   )
-                                : _vm._e()
-                            })
-                          ],
-                          2
-                        )
-                      : _vm._e()
-                  ])
-                : _vm._e()
-            ]
-          )
-        : _vm._e(),
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm._l(_vm.getDepartments, function(depart, d) {
+                                return depart.department !== null
+                                  ? _c(
+                                      "li",
+                                      {
+                                        key: d + "d",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.closeMenu()
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "router-link",
+                                          {
+                                            attrs: {
+                                              to: {
+                                                name: "department",
+                                                params: {
+                                                  gender: depart.sex_alias,
+                                                  category:
+                                                    depart.categories_alias,
+                                                  department:
+                                                    depart.departments_alias
+                                                }
+                                              }
+                                            }
+                                          },
+                                          [_vm._v(_vm._s(depart.department))]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  : _vm._e()
+                              })
+                            ],
+                            2
+                          )
+                        : _vm._e()
+                    ])
+                  : _vm._e()
+              ]
+            )
+          : _vm._e()
+      ]),
       _vm._v(" "),
       _vm.media.wind > _vm.media.tablet ? _c("vue-progress-bar") : _vm._e()
     ],
@@ -18085,50 +18127,11 @@ var render = function() {
                       _c(
                         "svg",
                         {
-                          class: _vm.chooseSvg ? null : "fill-svg",
-                          attrs: {
-                            id: "3d",
-                            xmlns: "http://www.w3.org/2000/svg",
-                            viewBox: "0 0 468.29 326.47"
-                          },
-                          on: {
-                            click: function($event) {
-                              _vm.chooseSvg = !_vm.chooseSvg
-                            }
-                          }
-                        },
-                        [
-                          _c("defs"),
-                          _c("title", [_vm._v("icon_3d")]),
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M458.8,294.47c-.43,3.09-1.39,5.43-.95,7.47,6.42,30.18-8.65,43.78-35.22,53.16-30.79,10.87-60,26.32-90.21,38.87-5.86,2.43-14.29,2.87-20,.5q-60-24.83-119.18-51.74c-4.93-2.26-9.73-10.47-10.13-16.25-2.14-30.76-1.87-30.22-30.54-41.33-16.45-6.37-33.49-12.9-47.72-23-24.93-17.73-25.42-44.18,0-60.9,19.14-12.6,41.67-20.45,63.48-28.14,10.76-3.79,16.49-7.73,14.35-19.54-3.57-19.65,4.52-30.11,23.21-37.22,36.28-13.8,71.46-30.55,107.41-45.28,5.32-2.18,13.12-1.88,18.48.4,36.28,15.44,72,32.26,108.36,47.44,13.09,5.46,20.67,12.44,17.53,27.28-4,18.69,5.77,24.46,21.93,29.22,18.85,5.55,38,13.17,54.25,24.07,27.42,18.36,27.13,45.54-.29,64.27C518.64,273.89,500.9,279.9,484.12,287,476,290.43,467.23,292.05,458.8,294.47ZM328.48,382.84c33.07-14.36,64.53-27.78,95.79-41.65C450.33,329.63,450.5,328.83,445,298c-25.67,1.76-51.15,11.26-77,6.32-.22-2.29-.44-4.59-.65-6.88l78.77-11.65V141.26c-23,9.68-45,18.52-66.61,28.15-17.22,7.67-40.51,12.09-49.18,25.72s-3.3,37-2.64,56c.62,17.6-6.5,37,10.2,50.9C325.77,315.53,324.24,329.05,328.48,382.84ZM260.43,252l56,32.4c0-17.56-2.08-31.87.41-45.31,6.35-34.28-6.64-52.64-39.37-62.94-28.17-8.86-54.59-23.4-83.82-36.33,0,47.69-.13,92,.26,136.39,0,3.46,3.27,9.48,5.77,9.92,19.36,3.41,38.91,5.74,60.73,8.72ZM438.06,131.09c-38.8-17.27-73.6-33-108.69-48.07-4.41-1.89-11-1.63-15.5.26-28.58,12-56.86,24.85-85.27,37.32-7.5,3.3-15.12,6.32-24.68,10.29,35.18,16,67.32,30.83,99.72,45.07,6.84,3,16.08,7.34,21.77,5C362.11,165.82,398.14,149,438.06,131.09Zm20.4,150.25c27.85-5.32,52.71-12.45,73-30.41,14.47-12.82,14.69-26,.41-38.71-20.64-18.41-46.11-25.24-73.41-30.69ZM182,177c-26.64,12.67-50.36,21.78-71.72,34.83C94.8,221.23,94,236,105.64,247.33c20.93,20.43,48.11,26.93,76.32,34.25Zm11.77,120.4c2.33,15.57-8.19,32.16,14.18,40.59,30,11.32,59,25.58,88.48,38.34,5.89,2.54,12.24,4,19.2,6.22V319.44l-55.35,32.32V306.64Zm127.74,4.37-49.81-29.5V331.4Z",
-                              transform: "translate(-85.95 -69.57)"
-                            }
-                          }),
-                          _c("path", {
-                            attrs: { transform: "translate(-85.95 -69.57)" }
-                          }),
-                          _c("path", {
-                            attrs: { transform: "translate(-85.95 -69.57)" }
-                          })
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "svg",
-                        {
-                          class: _vm.chooseSvg ? "fill-svg" : null,
+                          class: "fill-svg",
                           attrs: {
                             id: "camera",
                             xmlns: "http://www.w3.org/2000/svg",
                             viewBox: "0 0 413.19 358.83"
-                          },
-                          on: {
-                            click: function($event) {
-                              _vm.chooseSvg = !_vm.chooseSvg
-                            }
                           }
                         },
                         [
@@ -18187,11 +18190,35 @@ var render = function() {
                 _vm._v(" "),
                 _vm.returnDataForItem.itemPics[_vm.mainPic].video === false ||
                 _vm.mainPic > 0
-                  ? _c("img", {
-                      attrs: {
-                        src: _vm.returnDataForItem.itemPics[_vm.mainPic].img
-                      }
-                    })
+                  ? _c(
+                      "div",
+                      {
+                        ref: "zoom",
+                        staticClass: "item-wrap-img",
+                        on: { mousemove: _vm.ZoomImg }
+                      },
+                      [
+                        _c("div", {
+                          staticClass: "img normal",
+                          style: {
+                            backgroundImage:
+                              "url(" +
+                              _vm.returnDataForItem.itemPics[_vm.mainPic].img +
+                              ")"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass: "img zoom",
+                          style: {
+                            backgroundImage:
+                              "url(" +
+                              _vm.returnDataForItem.itemPics[_vm.mainPic].img +
+                              ")"
+                          }
+                        })
+                      ]
+                    )
                   : _vm._e()
               ])
             : _vm._e(),
@@ -44300,14 +44327,13 @@ var store = {
                         activeGen: false,
                         dataForChangeMenu: {}
                       };
-                    }
+                    } // Пушим данным по гендарным различиям
+
                   } catch (err) {
                     _iterator.e(err);
                   } finally {
                     _iterator.f();
                   }
-
-                  console.log(menu); // Пушим данным по гендарным различиям
 
                   for (var _i4 in menu) {
                     var _iterator2 = _createForOfIteratorHelper(genders),
@@ -44333,9 +44359,8 @@ var store = {
                     } finally {
                       _iterator2.f();
                     }
-                  }
+                  } // Выбираем уникальные категории
 
-                  console.log(gendersObj); // Выбираем уникальные категории
 
                   var categories = new Set(listCategories);
                   var categoriesObj = {}; // Распределяем категории по гендеру
@@ -44408,7 +44433,6 @@ var store = {
 
                   state.lastMenu = lastMenu;
                   state.menuAdmin = menuForAdmin;
-                  console.log(state.menuAdmin);
                 });
 
               case 2:

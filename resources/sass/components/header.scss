@@ -247,7 +247,11 @@ nav{
         }
     }
     @media screen and (max-width: $mobile) {
+        .menu-wrap{
+            height: auto;
+        }
         .menu-bottom{
+            position: static;
             overflow-y: scroll;
             .menu-categories{
                 li{
@@ -307,14 +311,10 @@ nav{
     }
 }
 @media screen and (max-width: $mobile) {
-    header {
-        height: 59px;
-    }
+    //header {
+    //    height: 59px;
+    //}
     nav {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        z-index: 9999;
+        transition: all .4s;
     }
 }

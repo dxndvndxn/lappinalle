@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="wrap-bread">
+            <div class="wrap-bread">
             <div class="bread container">
                 <div></div>
                 <Breadcrumbs v-if="media.wind > media.tablet"/>
