@@ -64,6 +64,7 @@
 }
 .admin-product-photos-rew{
     @include flexin(space-between);
+    margin-bottom: 50px;
     form{
         width: fit-content;
     }

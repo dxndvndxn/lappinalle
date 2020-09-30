@@ -43,7 +43,12 @@
                 <div class="total-price">
                     Итого: <span>{{getTotalCount}} &#8381;</span>
                 </div>
-                <button class="classic-btn-sz btn" @click="pushToOrder">Оформить заказ</button>
+                <button class="classic-btn-sz btn" @click="pushToOrder">
+                    Оформить заказ
+                    <div class="spinner-wrap" v-if="checkAmount">
+                        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                    </div>
+                </button>
             </div>
         </div>
         <div class="cart-no bookmark-text" v-if="getProductCart == null || getProductCart.length === 0">
@@ -59,7 +64,8 @@
         components: {Back},
         data: () => ({
             totalPrice: null,
-            thatCart: []
+            thatCart: [],
+            checkAmount: false
         }),
         methods:{
             countTotal(arr){
@@ -83,7 +89,10 @@
                 this.getProductCart = this.getUpdatedCart;
             },
             pushToOrder(){
-                this.$router.push({ name: 'ordering' })
+                let checkAmount = [];
+                this.getProductCart.forEach(el => checkAmount.push({catalog_size_id: el.catalog_size_id, amount: el.count}))
+                this.$store.dispatch('CheckAmount', checkAmount)
+                // this.$router.push({ name: 'ordering' })
             }
         },
         created() {
@@ -123,7 +132,6 @@
         watch: {
             getProductCart(newVal){
                 this.$Progress.finish();
-                console.log(newVal, 'getProductCart')
                 this.getProductCart = newVal;
             },
 

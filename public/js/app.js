@@ -6231,6 +6231,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Cart",
@@ -6240,7 +6245,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       totalPrice: null,
-      thatCart: []
+      thatCart: [],
+      checkAmount: false
     };
   },
   methods: {
@@ -6279,9 +6285,14 @@ __webpack_require__.r(__webpack_exports__);
       this.getProductCart = this.getUpdatedCart;
     },
     pushToOrder: function pushToOrder() {
-      this.$router.push({
-        name: 'ordering'
+      var checkAmount = [];
+      this.getProductCart.forEach(function (el) {
+        return checkAmount.push({
+          catalog_size_id: el.catalog_size_id,
+          amount: el.count
+        });
       });
+      this.$store.dispatch('CheckAmount', checkAmount); // this.$router.push({ name: 'ordering' })
     }
   },
   created: function created() {
@@ -6320,7 +6331,6 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     getProductCart: function getProductCart(newVal) {
       this.$Progress.finish();
-      console.log(newVal, 'getProductCart');
       this.getProductCart = newVal;
     }
   }
@@ -7034,6 +7044,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -7092,11 +7106,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
-    getXY: function getXY(event) {
-      console.log(event.clientX); // x coordinate
-
-      console.log(event.clientY); // y coordinate
-    },
     ZoomImg: function ZoomImg(event) {
       var container = this.$refs.zoom;
       var imgZoom = container.children[1];
@@ -7164,14 +7173,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 id: itemId,
                 count: 1,
                 size: el.sz,
-                price: oldPrice
+                price: oldPrice,
+                catalog_size_id: el.catalog_size_id
               });
             } else {
               data.push({
                 id: itemId,
                 count: 1,
                 size: el.sz,
-                price: itemPrice
+                price: itemPrice,
+                catalog_size_id: el.catalog_size_id
               });
             }
           });
@@ -7305,7 +7316,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   beforeDestroy: function beforeDestroy() {
     this.$store.dispatch('DestroyCatalogItem');
-    console.log(this.$store.getters.catalogItem);
   },
   computed: {
     // Возвращаем дату для товара
@@ -7344,6 +7354,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     media: function media() {
       return this.$store.getters.media;
+    },
+    myCart: function myCart() {
+      return this.$store.getters.cart;
     }
   },
   watch: {
@@ -17668,7 +17681,12 @@ var render = function() {
                 staticClass: "classic-btn-sz btn",
                 on: { click: _vm.pushToOrder }
               },
-              [_vm._v("Оформить заказ")]
+              [
+                _vm._v("\n                Оформить заказ\n                "),
+                _vm.checkAmount
+                  ? _c("div", { staticClass: "spinner-wrap" }, [_vm._m(0)])
+                  : _vm._e()
+              ]
             )
           ])
         ])
@@ -17681,7 +17699,19 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "lds-ring" }, [
+      _c("div"),
+      _c("div"),
+      _c("div"),
+      _c("div")
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -18268,7 +18298,13 @@ var render = function() {
                   return _c(
                     "button",
                     {
-                      class: size.active ? "active-size" : null,
+                      class: {
+                        activeSize: size.active,
+                        activeSize:
+                          _vm.myCart.find(function(cartSize) {
+                            return cartSize.size === size.sz
+                          }) && !size.active
+                      },
                       on: {
                         click: function($event) {
                           return _vm.chozenSize(s, size.sz)
@@ -18311,7 +18347,9 @@ var render = function() {
                     }
                   },
                   [
-                    _vm._v("Добавить в корзину "),
+                    _vm._v(
+                      "\n                            Добавить в корзину\n                            "
+                    ),
                     _c(
                       "svg",
                       {
@@ -43742,9 +43780,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var URI = 'https://lappinalle.ru/api/'; // const URI = 'http://lappinalle.test/api/';
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]); // const URI = 'https://lappinalle.ru/api/';
 
+var URI = 'http://lappinalle.test/api/';
 var admin = {
   state: function state() {
     return {
@@ -44655,29 +44693,34 @@ var store = {
       var notFound = []; // Проверяем есть ли в сторадже продукты, которые добавил пользователь
 
       item.forEach(function (el) {
-        if (state.cart.find(function (product) {
+        // if (state.cart.find(product => (product.id === el.id && product.size === el.size))){
+        //     found.push(el)
+        // }else{
+        //     notFound.push(el)
+        // }
+        if (!state.cart.find(function (product) {
           return product.id === el.id && product.size === el.size;
         })) {
-          found.push(el);
-        } else {
           notFound.push(el);
         }
       }); // Если есть, то проходимся по уже существующему массиву с корзиной
       // Находим данный товары и увеличиваем его кол-во
 
-      if (found.length) {
-        // Проходимся по уже существующему массиву с товарами в корзине
-        state.cart.forEach(function (oldProduct) {
-          // Проходимся по массиву в котором нашли совпадения с уже существующими товарами в сторадже
-          found.forEach(function (newProduct) {
-            if (oldProduct.id === newProduct.id && oldProduct.size === newProduct.size) {
-              oldProduct.count++;
-              state.countCart++;
-            }
-          });
-        });
-        window.localStorage.setItem('cart', JSON.stringify(state.cart));
-        window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+      if (found.length) {// Проходимся по уже существующему массиву с товарами в корзине
+        // state.cart.forEach(oldProduct => {
+        //
+        //     // Проходимся по массиву в котором нашли совпадения с уже существующими товарами в сторадже
+        //     found.forEach(newProduct => {
+        //
+        //         if (oldProduct.id === newProduct.id && oldProduct.size === newProduct.size){
+        //             oldProduct.count++;
+        //             state.countCart++;
+        //         }
+        //     });
+        //
+        // });
+        // window.localStorage.setItem('cart', JSON.stringify(state.cart));
+        // window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
       } // Если не нашли совпадения в сторадже, то просто добавляем новые
 
 
@@ -44720,6 +44763,7 @@ var store = {
                           count: elCart.count,
                           price: elCart.price,
                           size: elCart.size,
+                          catalog_size_id: elCart.catalog_size_id,
                           product_description: el.product_description,
                           product_id: el.product_id,
                           product_img: el.product_img,
@@ -44729,7 +44773,6 @@ var store = {
                       }
                     });
                   });
-                  console.log(totalDataCart);
                   state.cartProduct = totalDataCart;
                 })["catch"](function (e) {
                   console.log(e);
@@ -44831,10 +44874,9 @@ var store = {
                     "Content-Type": "application/x-www-form-urlencoded"
                   }
                 }).then(function (res) {
-                  console.log(res.data);
-                  state.payId = res.data.id;
-                  window.localStorage.setItem('payId', JSON.stringify(state.payId));
-                  window.location = res.data.formUrl;
+                  console.log(res.data, 'НАЛИМКА БЕКЕНДЕР');
+                  state.payId = res.data.id; // window.localStorage.setItem('payId', JSON.stringify(state.payId))
+                  // window.location = res.data.formUrl;
                 })["catch"](function (e) {
                   console.log(e);
                 });
@@ -45042,6 +45084,7 @@ var store = {
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "item-").concat(data)).then(function (response) {
           var itemData = response.data;
+          console.log(itemData);
           var stateItemData = {};
           var pics = null;
           var stars = {
@@ -45101,7 +45144,8 @@ var store = {
               itemData[el].forEach(function (element) {
                 stateItemData.itemSizes.push({
                   sz: element.sizes_number,
-                  active: false
+                  active: false,
+                  catalog_size_id: element.catalog_size_id
                 });
               });
             }
@@ -45202,6 +45246,18 @@ var store = {
     DestroyCatalogItem: function DestroyCatalogItem(_ref40) {
       var commit = _ref40.commit;
       commit('DestroyCatalogItemMutate');
+    },
+    CheckAmount: function CheckAmount(_ref41, check) {
+      var commit = _ref41.commit;
+      // return new Promise((resolve, reject) => {
+      //     commit('DeliveryDataMutate', deliveryData);
+      //     resolve(true)
+      // })
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "check-amount-catalog_size_id"), check).then(function (res) {
+        console.log(res.data);
+      })["catch"](function (e) {
+        return console.log(e);
+      });
     }
   },
   getters: {

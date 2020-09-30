@@ -177,6 +177,14 @@
     @include flexin(center);
     align-items: center;
     margin-bottom: 10px;
+    position: relative;
+    //.spinner-wrap{
+    //    width: 98%;
+    //    height: 90%;
+    //    position: absolute;
+    //    background-color: #fff;
+    //    left: 1%;
+    //}
     svg{
         fill: $purpp;
         width: 30px;

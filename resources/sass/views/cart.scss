@@ -151,6 +151,16 @@
     &-total{
         @include flexin(center);
         margin-bottom: 70px;
+        button{
+            position: relative;
+            .spinner-wrap{
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                background-color: $purpp;
+                top: 0;
+            }
+        }
         .total-price{
             @include ptSans(400);
             font-size: 40px;

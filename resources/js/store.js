@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'https://lappinalle.ru/api/';
-// const URI = 'http://lappinalle.test/api/';
+// const URI = 'https://lappinalle.ru/api/';
+const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -748,9 +748,12 @@ const store = {
             // Проверяем есть ли в сторадже продукты, которые добавил пользователь
             item.forEach(el => {
 
-                if (state.cart.find(product => (product.id === el.id && product.size === el.size))){
-                    found.push(el)
-                }else{
+                // if (state.cart.find(product => (product.id === el.id && product.size === el.size))){
+                //     found.push(el)
+                // }else{
+                //     notFound.push(el)
+                // }
+                if (!state.cart.find(product => (product.id === el.id && product.size === el.size))){
                     notFound.push(el)
                 }
             });
@@ -760,19 +763,20 @@ const store = {
             if (found.length) {
 
                 // Проходимся по уже существующему массиву с товарами в корзине
-                state.cart.forEach(oldProduct => {
-
-                    // Проходимся по массиву в котором нашли совпадения с уже существующими товарами в сторадже
-                    found.forEach(newProduct => {
-                        if (oldProduct.id === newProduct.id && oldProduct.size === newProduct.size){
-                            oldProduct.count++;
-                            state.countCart++;
-                        }
-                    });
-
-                });
-                window.localStorage.setItem('cart', JSON.stringify(state.cart));
-                window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
+                // state.cart.forEach(oldProduct => {
+                //
+                //     // Проходимся по массиву в котором нашли совпадения с уже существующими товарами в сторадже
+                //     found.forEach(newProduct => {
+                //
+                //         if (oldProduct.id === newProduct.id && oldProduct.size === newProduct.size){
+                //             oldProduct.count++;
+                //             state.countCart++;
+                //         }
+                //     });
+                //
+                // });
+                // window.localStorage.setItem('cart', JSON.stringify(state.cart));
+                // window.localStorage.setItem('countCart', JSON.stringify(state.countCart));
             }
             // Если не нашли совпадения в сторадже, то просто добавляем новые
             if(notFound.length){
@@ -820,16 +824,17 @@ const store = {
                                         count: elCart.count,
                                         price: elCart.price,
                                         size: elCart.size,
+                                        catalog_size_id: elCart.catalog_size_id,
                                         product_description: el.product_description,
                                         product_id: el.product_id,
                                         product_img: el.product_img,
-                                        product_price: elCart.price ,
+                                        product_price: elCart.price,
                                         product_title: el.product_title
                                     })
                             }
                         })
                     });
-                    console.log(totalDataCart)
+
                     state.cartProduct = totalDataCart;
                 })
                 .catch(e => {
@@ -921,10 +926,10 @@ const store = {
                        "Content-Type": "application/x-www-form-urlencoded"
                    }})
                    .then(res => {
-                       console.log(res.data)
+                       console.log(res.data, 'НАЛИМКА БЕКЕНДЕР')
                        state.payId = res.data.id;
-                       window.localStorage.setItem('payId', JSON.stringify(state.payId))
-                       window.location = res.data.formUrl;
+                       // window.localStorage.setItem('payId', JSON.stringify(state.payId))
+                       // window.location = res.data.formUrl;
                     })
                    .catch(e => {
                        console.log(e)
@@ -1084,6 +1089,7 @@ const store = {
                 axios.get(`${URI}item-${data}`)
                     .then((response) => {
                         let itemData = response.data;
+                        console.log(itemData)
                         let stateItemData = {};
                         let pics = null;
                         let stars = {
@@ -1138,7 +1144,7 @@ const store = {
                             } else if (el === 'sizes') {
 
                                 itemData[el].forEach(element => {
-                                    stateItemData.itemSizes.push({sz: element.sizes_number, active: false})
+                                    stateItemData.itemSizes.push({sz: element.sizes_number, active: false, catalog_size_id: element.catalog_size_id})
                                 });
                             }
                         }
@@ -1215,6 +1221,17 @@ const store = {
         },
         DestroyCatalogItem({commit}){
             commit('DestroyCatalogItemMutate');
+        },
+        CheckAmount({commit}, check){
+            // return new Promise((resolve, reject) => {
+            //     commit('DeliveryDataMutate', deliveryData);
+            //     resolve(true)
+            // })
+            axios.post(`${URI}check-amount-catalog_size_id`, check)
+                .then(res => {
+                    console.log(res.data)
+                })
+                .catch(e => console.log(e))
         }
     },
     getters:{

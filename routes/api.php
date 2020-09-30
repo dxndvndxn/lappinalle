@@ -112,6 +112,9 @@ Route::get('/menu', 'BasicDataController@index');
 // Получем данные по определенному товару
 Route::get('/item-{number}', 'GetDataItemController@index');
 
+// Чекаем кол-во товара на данный конкретный размер
+Route::post('/check-amount-catalog_size_id', 'CheckAmountOfProductController@CheckAmount');
+
 // Получем данные для корзины
 Route::get('/itemscard/{ids}', 'GetItemsForCartController@index');
 
@@ -152,6 +155,7 @@ Route::post('/changepass', 'NewPassController@newpass');
 
 // Поиск
 Route::post('/search', 'SearchController@search');
+
 
 Route::fallback(function(){
     return response()->json([

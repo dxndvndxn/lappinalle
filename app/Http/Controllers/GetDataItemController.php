@@ -20,7 +20,7 @@ class GetDataItemController extends Controller
             ->where('product_id', '=', $number)
             ->where('catalog_size_amount', '>', 0)
             ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
-            ->select('sizes_number')
+            ->select('sizes_number', 'catalog_size_id')
             ->get();
 
         $dataNreview = [];
