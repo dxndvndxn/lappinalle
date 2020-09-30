@@ -6176,7 +6176,18 @@ var isPhoneCabinet = function isPhoneCabinet(value) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
 //
 //
 //
@@ -6240,13 +6251,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Cart",
   components: {
-    Back: _components_Back__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Back: _components_Back__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
       totalPrice: null,
       thatCart: [],
-      checkAmount: false
+      checkAmount: false,
+      amountError: false,
+      errorProductsAmount: []
     };
   },
   methods: {
@@ -6285,14 +6298,55 @@ __webpack_require__.r(__webpack_exports__);
       this.getProductCart = this.getUpdatedCart;
     },
     pushToOrder: function pushToOrder() {
-      var checkAmount = [];
-      this.getProductCart.forEach(function (el) {
-        return checkAmount.push({
-          catalog_size_id: el.catalog_size_id,
-          amount: el.count
-        });
-      });
-      this.$store.dispatch('CheckAmount', checkAmount); // this.$router.push({ name: 'ordering' })
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var checkAmount;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                checkAmount = [];
+                _this2.errorProductsAmount = [];
+                _this2.amountError = false;
+                _this2.checkAmount = !_this2.checkAmount;
+
+                _this2.getProductCart.forEach(function (el) {
+                  return checkAmount.push({
+                    catalog_size_id: el.catalog_size_id,
+                    amount: el.count
+                  });
+                });
+
+                _context.next = 7;
+                return _this2.$store.dispatch('CheckAmount', checkAmount).then(function (res) {
+                  _this2.checkAmount = !_this2.checkAmount;
+                  res.forEach(function (el) {
+                    if (!el.amount) {
+                      var findIndexProduct = _this2.getProductCart.findIndex(function (elProd) {
+                        return elProd.catalog_size_id === el.catalog_size_id;
+                      });
+
+                      _this2.errorProductsAmount.push(_this2.getProductCart[findIndexProduct]);
+                    }
+                  });
+
+                  if (_this2.errorProductsAmount.length) {
+                    _this2.amountError = true;
+                  } else {
+                    _this2.$router.push({
+                      name: 'ordering'
+                    });
+                  }
+                });
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   created: function created() {
@@ -7701,8 +7755,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Back__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Back */ "./resources/js/components/Back.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -7723,7 +7775,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ChoosePay",
@@ -7755,7 +7814,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       activeUrl: 'https://3dsec.sberbank.ru/payment/rest/register.do',
       activePayName: 'Сбербанк',
-      lastId: null
+      lastId: null,
+      checkAmount: false,
+      amountError: false,
+      errorProductsAmount: []
     };
   },
   methods: {
@@ -7770,15 +7832,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var checkAmount;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.$Progress.start();
+                checkAmount = [];
+                _this.errorProductsAmount = [];
+                _this.amountError = false;
+                _this.checkAmount = !_this.checkAmount;
 
-                _this.$store.dispatch('sentData', _this.activePayName);
+                _this.getProductCart.forEach(function (el) {
+                  return checkAmount.push({
+                    catalog_size_id: el.catalog_size_id,
+                    amount: el.count
+                  });
+                });
 
-              case 2:
+                _context.next = 7;
+                return _this.$store.dispatch('CheckAmount', checkAmount).then(function (res) {
+                  _this.checkAmount = !_this.checkAmount;
+                  res.forEach(function (el) {
+                    if (!el.amount) {
+                      var findIndexProduct = _this.getProductCart.findIndex(function (elProd) {
+                        return elProd.catalog_size_id === el.catalog_size_id;
+                      });
+
+                      _this.errorProductsAmount.push(_this.getProductCart[findIndexProduct]);
+                    }
+                  });
+
+                  if (_this.errorProductsAmount.length) {
+                    _this.amountError = true;
+                  } else {
+                    _this.$Progress.start();
+
+                    _this.$store.dispatch('sentData', _this.activePayName);
+                  }
+                });
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -7789,9 +7882,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   created: function created() {
     this.$Progress.start();
+    this.$store.dispatch('getProductForCart');
   },
-  mounted: function mounted() {
-    this.$Progress.finish();
+  beforeDestroy: function beforeDestroy() {
+    this.errorProductsAmount = [];
+    this.amountError = false;
+    this.checkAmount = false;
   },
   computed: {
     URI: function URI() {
@@ -7802,6 +7898,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     returnDeliveryData: function returnDeliveryData() {
       return this.$store.getters.deliveryData;
+    },
+    myCart: function myCart() {
+      return this.$store.getters.cart;
+    },
+    getProductCart: function getProductCart() {
+      if (this.$store.getters.cartProduct !== null) {
+        this.$Progress.finish();
+        return this.$store.getters.cartProduct;
+      }
     }
   }
 });
@@ -17573,123 +17678,144 @@ var render = function() {
     ),
     _vm._v(" "),
     _vm.getProductCart !== null
-      ? _c("div", { staticClass: "cart-wrap" }, [
-          _c(
-            "div",
-            { staticClass: "cart-cards" },
-            _vm._l(_vm.getProductCart, function(card, c) {
-              return _c("div", { staticClass: "card" }, [
-                _vm.media.wind < _vm.media.tablet
-                  ? _c("div", { staticClass: "card-name" }, [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(card.product_title) +
-                          "\n                "
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-img" }, [
-                  _c("img", { attrs: { src: card.product_img, alt: "" } })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-info" }, [
-                  _vm.media.wind > _vm.media.tablet
+      ? _c(
+          "div",
+          { staticClass: "cart-wrap" },
+          [
+            _c(
+              "div",
+              { staticClass: "cart-cards" },
+              _vm._l(_vm.getProductCart, function(card, c) {
+                return _c("div", { staticClass: "card" }, [
+                  _vm.media.wind < _vm.media.tablet
                     ? _c("div", { staticClass: "card-name" }, [
                         _vm._v(
-                          "\n                        " +
+                          "\n                    " +
                             _vm._s(card.product_title) +
-                            "\n                    "
+                            "\n                "
                         )
                       ])
                     : _vm._e(),
                   _vm._v(" "),
-                  _c("div", { staticClass: "card-counts" }, [
-                    card.size !== null
-                      ? _c("div", { staticClass: "card-size" }, [
-                          _vm._v("\n                            Размер: "),
-                          _c("span", [_vm._v(" " + _vm._s(card.size))])
+                  _c("div", { staticClass: "card-img" }, [
+                    _c("img", { attrs: { src: card.product_img, alt: "" } })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-info" }, [
+                    _vm.media.wind > _vm.media.tablet
+                      ? _c("div", { staticClass: "card-name" }, [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(card.product_title) +
+                              "\n                    "
+                          )
                         ])
                       : _vm._e(),
                     _vm._v(" "),
-                    _c("div", { staticClass: "card-amount" }, [
-                      _vm._v("\n                            Количество:  "),
-                      _c("span", [_vm._v(" " + _vm._s(card.count))]),
+                    _c("div", { staticClass: "card-counts" }, [
+                      card.size !== null
+                        ? _c("div", { staticClass: "card-size" }, [
+                            _vm._v("\n                            Размер: "),
+                            _c("span", [_vm._v(" " + _vm._s(card.size))])
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c("div", { staticClass: "change-amount" }, [
-                        _c("button", {
-                          staticClass: "change-plus",
-                          on: {
-                            click: function($event) {
-                              return _vm.itemPlus(c, card.id, card.size)
-                            }
-                          }
-                        }),
+                      _c("div", { staticClass: "card-amount" }, [
+                        _vm._v("\n                            Количество:  "),
+                        _c("span", [_vm._v(" " + _vm._s(card.count))]),
                         _vm._v(" "),
-                        _c("button", {
-                          staticClass: "change-minus",
-                          on: {
-                            click: function($event) {
-                              return _vm.itemMinus(c, card.id, card.size)
+                        _c("div", { staticClass: "change-amount" }, [
+                          _c("button", {
+                            staticClass: "change-plus",
+                            on: {
+                              click: function($event) {
+                                return _vm.itemPlus(c, card.id, card.size)
+                              }
                             }
-                          }
-                        })
+                          }),
+                          _vm._v(" "),
+                          _c("button", {
+                            staticClass: "change-minus",
+                            on: {
+                              click: function($event) {
+                                return _vm.itemMinus(c, card.id, card.size)
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-price" }, [
+                        _vm._v("Цена: "),
+                        _c("span", [
+                          _vm._v(
+                            _vm._s(card.count * +card.product_price) + " ₽"
+                          )
+                        ])
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "card-price" }, [
-                      _vm._v("Цена: "),
-                      _c("span", [
-                        _vm._v(_vm._s(card.count * +card.product_price) + " ₽")
-                      ])
+                    _c("div", { staticClass: "card-desc" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(card.product_description) +
+                          "\n                    "
+                      )
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "card-desc" }, [
+                  _c("div", { staticClass: "card-close" }, [
+                    _c("span", {
+                      staticClass: "close-btn",
+                      on: {
+                        click: function($event) {
+                          return _vm.removeCard(card.id, card.size, card.count)
+                        }
+                      }
+                    })
+                  ])
+                ])
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _vm._l(_vm.errorProductsAmount, function(product, i) {
+              return _vm.amountError
+                ? _c("p", { staticClass: "errorAmountProduct" }, [
                     _vm._v(
-                      "\n                        " +
-                        _vm._s(card.product_description) +
-                        "\n                    "
+                      "\n            Товар " +
+                        _vm._s(product.product_title) +
+                        " с " +
+                        _vm._s(product.size) +
+                        " размером отсутствует в необходимом количестве на складе.\n        "
                     )
                   ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-close" }, [
-                  _c("span", {
-                    staticClass: "close-btn",
-                    on: {
-                      click: function($event) {
-                        return _vm.removeCard(card.id, card.size, card.count)
-                      }
-                    }
-                  })
-                ])
-              ])
+                : _vm._e()
             }),
-            0
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "cart-total" }, [
-            _c("div", { staticClass: "total-price" }, [
-              _vm._v("\n                Итого: "),
-              _c("span", [_vm._v(_vm._s(_vm.getTotalCount) + " ₽")])
-            ]),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "classic-btn-sz btn",
-                on: { click: _vm.pushToOrder }
-              },
-              [
-                _vm._v("\n                Оформить заказ\n                "),
-                _vm.checkAmount
-                  ? _c("div", { staticClass: "spinner-wrap" }, [_vm._m(0)])
-                  : _vm._e()
-              ]
-            )
-          ])
-        ])
+            _c("div", { staticClass: "cart-total" }, [
+              _c("div", { staticClass: "total-price" }, [
+                _vm._v("\n                Итого: "),
+                _c("span", [_vm._v(_vm._s(_vm.getTotalCount) + " ₽")])
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "classic-btn-sz btn",
+                  on: { click: _vm.pushToOrder }
+                },
+                [
+                  _vm._v("\n                Оформить заказ\n                "),
+                  _vm.checkAmount
+                    ? _c("div", { staticClass: "spinner-wrap" }, [_vm._m(0)])
+                    : _vm._e()
+                ]
+              )
+            ])
+          ],
+          2
+        )
       : _vm._e(),
     _vm._v(" "),
     _vm.getProductCart == null || _vm.getProductCart.length === 0
@@ -18299,11 +18425,14 @@ var render = function() {
                     "button",
                     {
                       class: {
-                        activeSize: size.active,
                         activeSize:
+                          size.active ||
                           _vm.myCart.find(function(cartSize) {
-                            return cartSize.size === size.sz
-                          }) && !size.active
+                            return (
+                              cartSize.id === _vm.returnDataForItem.itemId &&
+                              cartSize.size === size.sz
+                            )
+                          })
                       },
                       on: {
                         click: function($event) {
@@ -20738,51 +20867,87 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "choose-pay container" }, [
-    _c(
-      "div",
-      { staticClass: "choose-pay-header h1-m50" },
-      [
-        _c("Back", { attrs: { color: "grey", word: "Способ доставки" } }),
-        _c("h1", { staticClass: "h1-bold-grey" }, [_vm._v("Способ оплаты")])
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "choose-pay-img chozen-imgs" },
-      _vm._l(_vm.payments, function(pay, i) {
-        return _c("img", {
-          class: pay.payActive ? "chozenImg" : null,
-          attrs: { src: pay.payIcon, alt: "" },
-          on: {
-            click: function($event) {
-              return _vm.clickPay(i)
-            }
-          }
-        })
-      }),
-      0
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "choose-pay-button" }, [
+  return _c(
+    "div",
+    { staticClass: "choose-pay container" },
+    [
       _c(
-        "button",
-        {
-          staticClass: "classic-btn-sz btn",
-          on: {
-            click: function($event) {
-              return _vm.GoPay()
+        "div",
+        { staticClass: "choose-pay-header h1-m50" },
+        [
+          _c("Back", { attrs: { color: "grey", word: "Способ доставки" } }),
+          _c("h1", { staticClass: "h1-bold-grey" }, [_vm._v("Способ оплаты")])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "choose-pay-img chozen-imgs" },
+        _vm._l(_vm.payments, function(pay, i) {
+          return _c("img", {
+            class: pay.payActive ? "chozenImg" : null,
+            attrs: { src: pay.payIcon, alt: "" },
+            on: {
+              click: function($event) {
+                return _vm.clickPay(i)
+              }
             }
-          }
-        },
-        [_vm._v("Перейти к оплате")]
-      )
-    ])
-  ])
+          })
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.errorProductsAmount, function(product, i) {
+        return _vm.amountError
+          ? _c("p", { staticClass: "errorAmountProduct" }, [
+              _vm._v(
+                "\n        Товар " +
+                  _vm._s(product.product_title) +
+                  " с " +
+                  _vm._s(product.size) +
+                  " размером отсутствует в необходимом количестве на складе.\n    "
+              )
+            ])
+          : _vm._e()
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "choose-pay-button" }, [
+        _c(
+          "button",
+          {
+            staticClass: "classic-btn-sz btn",
+            on: {
+              click: function($event) {
+                return _vm.GoPay()
+              }
+            }
+          },
+          [
+            _vm._v("\n            Перейти к оплате\n            "),
+            _vm.checkAmount
+              ? _c("div", { staticClass: "spinner-wrap" }, [_vm._m(0)])
+              : _vm._e()
+          ]
+        )
+      ])
+    ],
+    2
+  )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "lds-ring" }, [
+      _c("div"),
+      _c("div"),
+      _c("div"),
+      _c("div")
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -43555,16 +43720,14 @@ var routes = [{
   meta: {
     layout: 'Main'
   },
-  component: _views_ChoosePay__WEBPACK_IMPORTED_MODULE_13__["default"],
-  beforeEnter: function beforeEnter(to, from, next) {
-    if (to.name === 'choosePay' && _store__WEBPACK_IMPORTED_MODULE_27__["default"].getters.deliveryData === null && _store__WEBPACK_IMPORTED_MODULE_27__["default"].getters.customerData.length === 0) {
-      next({
-        name: 'ordering'
-      });
-    } else {
-      next();
-    }
-  }
+  component: _views_ChoosePay__WEBPACK_IMPORTED_MODULE_13__["default"] // beforeEnter: ((to, from, next) =>{
+  //     if (to.name === 'choosePay' && (store.getters.deliveryData === null && store.getters.customerData.length === 0)){
+  //         next({name: 'ordering'});
+  //     } else {
+  //         next();
+  //     }
+  // })
+
 }, {
   path: '/paysuccess',
   name: 'paySuccess',
@@ -44840,7 +45003,8 @@ var store = {
                     id: el.id,
                     count: el.count,
                     size: el.size,
-                    price: el.price
+                    price: el.price,
+                    catalog_size_id: el.catalog_size_id
                   });
                 });
                 state.customerData.paymentName = payName;
@@ -45249,14 +45413,14 @@ var store = {
     },
     CheckAmount: function CheckAmount(_ref41, check) {
       var commit = _ref41.commit;
-      // return new Promise((resolve, reject) => {
-      //     commit('DeliveryDataMutate', deliveryData);
-      //     resolve(true)
-      // })
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "check-amount-catalog_size_id"), check).then(function (res) {
-        console.log(res.data);
-      })["catch"](function (e) {
-        return console.log(e);
+      return new Promise(function (resolve, reject) {
+        var formData = new FormData();
+        formData.append('data', JSON.stringify(check));
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "check-amount-catalog_size_id"), formData).then(function (res) {
+          resolve(res.data);
+        })["catch"](function (e) {
+          return console.log(e);
+        });
       });
     }
   },

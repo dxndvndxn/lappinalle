@@ -32,6 +32,7 @@ class SberController extends Controller
         $totalPrice = $order[0]['totalPrice'];
         $korzina = '';
         $kor = count($order[0]['orderData']);
+        $orderCart = $order[0]['orderData'];
         $k = 0;
 
         // ID юзера
@@ -41,6 +42,13 @@ class SberController extends Controller
             $korzina.= $order[0]['orderData'][$k]['id'].','.$order[0]['orderData'][$k]['count'].','.$order[0]['orderData'][$k]['size'].','.$order[0]['orderData'][$k]['price'].'|';
             $k++;
         }
+
+        foreach ($orderCart as $value){
+            $amountOfProduct = DB::table('catalog_size')->where('catalog_size_id', $value['catalog_size_id'])->value('catalog_size_amount');
+            $totalCount = $amountOfProduct - $value['count'];
+            DB::table('catalog_size')->where('catalog_size_id', $value['catalog_size_id'])->update(['catalog_size_amount' => $totalCount]);
+        }
+
 
         DB::table('orders')->insert(
             [

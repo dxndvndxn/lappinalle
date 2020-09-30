@@ -6,15 +6,22 @@
         <div class="choose-pay-img chozen-imgs">
             <img :src="pay.payIcon" v-for="(pay, i) in payments" v-bind:class="pay.payActive ? 'chozenImg' : null" alt="" @click="clickPay(i)">
         </div>
+        <p v-if="amountError" v-for="(product, i) in errorProductsAmount" class="errorAmountProduct">
+            Товар {{product.product_title}} с {{product.size}} размером отсутствует в необходимом количестве на складе.
+        </p>
         <div class="choose-pay-button">
-            <button class="classic-btn-sz btn" @click="GoPay()">Перейти к оплате</button>
+            <button class="classic-btn-sz btn" @click="GoPay()">
+                Перейти к оплате
+                <div class="spinner-wrap" v-if="checkAmount">
+                    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                </div>
+            </button>
         </div>
     </div>
 </template>
 
 <script>
     import Back from "../components/Back";
-    import axios from "axios";
     export default {
         name: "ChoosePay",
         components: {Back},
@@ -27,7 +34,10 @@
             ],
             activeUrl: 'https://3dsec.sberbank.ru/payment/rest/register.do',
             activePayName: 'Сбербанк',
-            lastId: null
+            lastId: null,
+            checkAmount: false,
+            amountError: false,
+            errorProductsAmount: []
         }),
         methods: {
             clickPay(i){
@@ -36,15 +46,42 @@
                 this.activeUrl = this.payments[i].payUrl;
             },
             async GoPay(){
-                this.$Progress.start();
-                this.$store.dispatch('sentData', this.activePayName);
+                let checkAmount = [];
+                this.errorProductsAmount = [];
+                this.amountError = false;
+                this.checkAmount = !this.checkAmount;
+
+                this.getProductCart.forEach(el => checkAmount.push({catalog_size_id: el.catalog_size_id, amount: el.count}))
+
+                await this.$store.dispatch('CheckAmount', checkAmount)
+                    .then(res => {
+                        this.checkAmount = !this.checkAmount;
+
+                        res.forEach(el => {
+
+                            if (!el.amount) {
+                                let findIndexProduct = this.getProductCart.findIndex(elProd => elProd.catalog_size_id === el.catalog_size_id);
+                                this.errorProductsAmount.push(this.getProductCart[findIndexProduct]);
+                            }
+                        })
+
+                        if (this.errorProductsAmount.length) {
+                            this.amountError = true;
+                        }else{
+                            this.$Progress.start();
+                            this.$store.dispatch('sentData', this.activePayName);
+                        }
+                    })
             }
         },
         created() {
             this.$Progress.start();
+            this.$store.dispatch('getProductForCart');
         },
-        mounted() {
-            this.$Progress.finish();
+        beforeDestroy() {
+            this.errorProductsAmount = [];
+            this.amountError = false;
+            this.checkAmount = false;
         },
         computed: {
             URI(){
@@ -55,6 +92,15 @@
             },
             returnDeliveryData(){
                 return this.$store.getters.deliveryData;
+            },
+            myCart(){
+                return this.$store.getters.cart;
+            },
+            getProductCart(){
+                if (this.$store.getters.cartProduct !== null){
+                    this.$Progress.finish();
+                    return this.$store.getters.cartProduct;
+                }
             }
         },
     }

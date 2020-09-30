@@ -39,6 +39,9 @@
                     </div>
                 </div>
             </div>
+            <p v-if="amountError" v-for="(product, i) in errorProductsAmount" class="errorAmountProduct">
+                Товар {{product.product_title}} с {{product.size}} размером отсутствует в необходимом количестве на складе.
+            </p>
             <div class="cart-total">
                 <div class="total-price">
                     Итого: <span>{{getTotalCount}} &#8381;</span>
@@ -65,7 +68,9 @@
         data: () => ({
             totalPrice: null,
             thatCart: [],
-            checkAmount: false
+            checkAmount: false,
+            amountError: false,
+            errorProductsAmount: []
         }),
         methods:{
             countTotal(arr){
@@ -88,11 +93,29 @@
                 this.$store.dispatch('removeCard', {id, size, count});
                 this.getProductCart = this.getUpdatedCart;
             },
-            pushToOrder(){
+            async pushToOrder(){
                 let checkAmount = [];
+                this.errorProductsAmount = [];
+                this.amountError = false;
+                this.checkAmount = !this.checkAmount;
                 this.getProductCart.forEach(el => checkAmount.push({catalog_size_id: el.catalog_size_id, amount: el.count}))
-                this.$store.dispatch('CheckAmount', checkAmount)
-                // this.$router.push({ name: 'ordering' })
+                await this.$store.dispatch('CheckAmount', checkAmount)
+                    .then(res => {
+                        this.checkAmount = !this.checkAmount;
+                        res.forEach(el => {
+
+                            if (!el.amount) {
+                                let findIndexProduct = this.getProductCart.findIndex(elProd => elProd.catalog_size_id === el.catalog_size_id);
+                                this.errorProductsAmount.push(this.getProductCart[findIndexProduct]);
+                            }
+                        })
+
+                        if (this.errorProductsAmount.length) {
+                            this.amountError = true;
+                        }else{
+                            this.$router.push({ name: 'ordering' })
+                        }
+                    })
             }
         },
         created() {

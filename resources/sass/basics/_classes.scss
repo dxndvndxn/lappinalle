@@ -569,6 +569,19 @@
     animation-delay: -0.15s;
 }
 
+.errorAmountProduct{
+    @include ptSans(700);
+    color: $purpp;
+    font-size: $bigFz;
+}
+.spinner-wrap{
+    width: 98%;
+    height: 100%;
+    position: absolute;
+    background-color: $purpp;
+    top: 0;
+}
+
 // Админ классы
 .active-admin-tab{
     font-family: 'PT Sans', sans-serif !important;

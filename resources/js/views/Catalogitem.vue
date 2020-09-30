@@ -53,7 +53,7 @@
                     <span class="sizes" v-if="returnDataForItem.itemSizes.length">Размеры</span>
                     <div class="item-main-sizes">
 
-                        <button v-for="(size, s) in returnDataForItem.itemSizes" @click="chozenSize(s, size.sz)" :class="{activeSize: size.active, activeSize: myCart.find(cartSize => cartSize.size === size.sz) && !size.active}">
+                        <button v-for="(size, s) in returnDataForItem.itemSizes" @click="chozenSize(s, size.sz)" :class="{activeSize: size.active || myCart.find(cartSize => (cartSize.id === returnDataForItem.itemId && cartSize.size === size.sz))}">
                             {{size.sz}}
                         </button>
 

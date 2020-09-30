@@ -9,6 +9,10 @@
         display: flex;
         justify-content: center;
         margin-bottom: 100px;
+        button{
+            position: relative;
+            outline: none;
+        }
     }
 }
 @media screen and (max-width: $tablet) {

@@ -899,7 +899,7 @@ const store = {
             let localCart = [];
 
             state.cart.forEach(el => {
-                localCart.push({id: el.id, count: el.count, size: el.size, price: el.price})
+                localCart.push({id: el.id, count: el.count, size: el.size, price: el.price, catalog_size_id: el.catalog_size_id})
             });
 
             state.customerData.paymentName = payName;
@@ -1223,15 +1223,15 @@ const store = {
             commit('DestroyCatalogItemMutate');
         },
         CheckAmount({commit}, check){
-            // return new Promise((resolve, reject) => {
-            //     commit('DeliveryDataMutate', deliveryData);
-            //     resolve(true)
-            // })
-            axios.post(`${URI}check-amount-catalog_size_id`, check)
-                .then(res => {
-                    console.log(res.data)
-                })
-                .catch(e => console.log(e))
+            return new Promise((resolve, reject) => {
+                let formData = new FormData;
+                formData.append('data', JSON.stringify(check));
+                axios.post(`${URI}check-amount-catalog_size_id`, formData)
+                    .then(res => {
+                        resolve(res.data)
+                    })
+                    .catch(e => console.log(e))
+            })
         }
     },
     getters:{
