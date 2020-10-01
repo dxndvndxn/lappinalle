@@ -60,6 +60,9 @@ Route::post('/admorder', 'AdmOrdersController@order');
 //Смена статуса заказа
 Route::post('/ordstatus', 'AdmOrdersController@status');
 
+//Вернуть товар
+Route::post('/returnproduct', 'AdmOrdersController@red');
+
 //Админка карточка пользователя
 Route::post('/lkadm', 'LKController@admin');
 
@@ -156,6 +159,8 @@ Route::post('/changepass', 'NewPassController@newpass');
 // Поиск
 Route::post('/search', 'SearchController@search');
 
+// Поиск в админке
+Route::post('/searchadmin', 'SearchController@SearchAdmin');
 
 Route::fallback(function(){
     return response()->json([

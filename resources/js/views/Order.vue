@@ -67,8 +67,7 @@
         },
         mounted() {
             this.$Progress.start();
-            this.$store.dispatch('GetUserData')
-                .then(() => this.$Progress.finish());
+            this.$store.dispatch('GetUserData').then(() => this.$Progress.finish());
         },
         computed: {
             isLoggedIn(){
@@ -83,6 +82,7 @@
                 this.name = user[0][1];
                 this.email = user[0][2];
                 this.tel = user[0][3];
+                this.$Progress.finish()
             }
         }
     }

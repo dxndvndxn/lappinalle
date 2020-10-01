@@ -3198,7 +3198,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3210,7 +3209,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       searched: null,
       errorAdd: false,
-      activeBtn: null,
       // Переменная для стрелки, где добавить новый товар
       activeAddNew: false,
       // Контейнер для нового товара
@@ -3230,44 +3228,68 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
-    addNewProduct: function addNewProduct() {
+    searchProducts: function searchProducts() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!_this.newProduct.length) {
-                  _context.next = 3;
+                _this.$Progress.start();
+
+                _this.$store.dispatch('AdminSearchProduct', _this.searched).then(function (res) {
+                  if (res) {
+                    _this.$Progress.finish();
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    addNewProduct: function addNewProduct() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!_this2.newProduct.length) {
+                  _context2.next = 3;
                   break;
                 }
 
-                _this.errorAdd = true;
-                return _context.abrupt("return");
+                _this2.errorAdd = true;
+                return _context2.abrupt("return");
 
               case 3:
-                if (_this.returnAllProducts.length !== 0) {
+                if (_this2.returnAllProducts.length !== 0) {
                   try {
-                    _this.newId = +_this.returnAllProducts[0].product_id;
+                    _this2.newId = +_this2.returnAllProducts[0].product_id;
                   } catch (e) {
                     console.log(e);
                   }
                 }
 
                 data = {
-                  id: ++_this.newId
+                  id: ++_this2.newId
                 };
-                _context.next = 7;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "addprod"), data).then(function (res) {
-                  console.log('Success created item with id ', _this.newId);
+                _context2.next = 7;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this2.URI, "addprod"), data).then(function (res) {
+                  console.log('Success created item with id ', _this2.newId);
                 })["catch"](function (er) {
                   return console.log(er);
                 });
 
               case 7:
-                _this.newProduct.push({
+                _this2.newProduct.push({
                   id: null,
                   name: null,
                   category: null,
@@ -3276,30 +3298,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 8:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
     },
     // @whatNeedToChange - имя поля, которое надо поменять
     // @newValue - новое значение
     updateProduct: function updateProduct(id, whatNeedToChange, newValue) {
-      var _this2 = this;
+      var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var stringData, formData;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 stringData = _defineProperty({
                   id: id
                 }, whatNeedToChange, newValue);
                 formData = new FormData();
                 formData.append('stringData', JSON.stringify(stringData));
-                _context2.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this2.URI, "updprod"), formData).then(function (res) {
+                _context3.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this3.URI, "updprod"), formData).then(function (res) {
                   console.log('Success change', whatNeedToChange);
                 })["catch"](function (e) {
                   return console.log(e);
@@ -3307,10 +3329,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     // Меняем свежо добавленное название
@@ -3335,29 +3357,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     // Определяем активный продукт
     openCategory: function openCategory(id, i) {
-      this.returnAllProducts.forEach(function (el) {
-        return el.active = false;
-      });
+      // this.returnAllProducts.forEach(el => el.active = false);
+      this.returnAllProducts[i].active = !this.returnAllProducts[i].active; // if (this.activeProduct !== null){
+      //
+      //     if (id === this.activeProduct.id) {
+      //         this.returnAllProducts[i].active = false;
+      //         return;
+      //     }
+      // }
 
-      if (this.activeProduct !== null) {
-        if (id === this.activeProduct.id) {
-          this.returnAllProducts[i].active = false;
-          return;
-        }
-      }
-
-      this.returnAllProducts[i].active = true;
       this.activeProduct = {
         id: id,
         i: i
       };
     },
     addNewCategoryForFresh: function addNewCategoryForFresh(data) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.getCrumbs.forEach(function (el) {
         if (el.sex_id === data.sexId && el.categories_id === data.categId && el.departments_id === data.departId) {
-          _this3.newAddedCategory = el.sex_name + ' | ' + el.categories_name + ' | ' + el.departments_name;
+          _this4.newAddedCategory = el.sex_name + ' | ' + el.categories_name + ' | ' + el.departments_name;
         }
       });
       this.updateProduct(this.newId, 'category', {
@@ -3367,12 +3386,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     addNewCategory: function addNewCategory(data) {
-      var _this4 = this;
+      var _this5 = this;
 
       // Если input категории не заполнено
       this.getCrumbs.forEach(function (el) {
         if (el.sex_id === data.sexId && el.categories_id === data.categId && el.departments_id === data.departId) {
-          _this4.returnAllProducts[_this4.activeProduct.i].name = el.sex_name + ' | ' + el.categories_name + ' | ' + el.departments_name;
+          _this5.returnAllProducts[_this5.activeProduct.i].name = el.sex_name + ' | ' + el.categories_name + ' | ' + el.departments_name;
         }
       }); // Если input категории заполненеы, меняем на новые
 
@@ -3387,7 +3406,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     removeProduct: function removeProduct(id) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.$Progress.start();
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(this.URI, "delprod"), {
@@ -3395,9 +3414,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }).then(function (res) {
         console.log(res.data);
 
-        _this5.$Progress.start();
+        _this6.$Progress.start();
 
-        _this5.$store.dispatch('AdminGetAllPrducts');
+        _this6.$store.dispatch('AdminGetAllPrducts');
       })["catch"](function (e) {
         return console.log(e);
       });
@@ -3732,8 +3751,39 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    loadFile: function loadFile() {
+    ReturnProduct: function ReturnProduct(i) {
       var _this = this;
+
+      console.log(this.orderProducts[i].split(', '));
+      var splited = this.orderProducts[i].split(', ');
+      var data = {
+        order_id: this.orderInfo[0].orders_id
+      };
+      splited.forEach(function (el, i) {
+        if (i === 0) {
+          data.product_id = +el.split(': ')[1];
+        }
+
+        if (i === 2) {
+          data.size = el.split(': ')[1];
+        }
+
+        if (i === 3) {
+          data.amount = +el.split(': ')[1];
+        }
+      });
+      this.$Progress.start();
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "returnproduct"), data).then(function (res) {
+        console.log(res.data);
+
+        _this.$store.dispatch('GetOneOrder', {
+          id: _this.$route.params.id
+        });
+      });
+      console.log(data);
+    },
+    loadFile: function loadFile() {
+      var _this2 = this;
 
       this.$Progress.start();
       var address = '';
@@ -3769,13 +3819,13 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(this.URI, "loadfile"), data).then(function (res) {
         window.location.href = res.data;
 
-        _this.$Progress.finish();
+        _this2.$Progress.finish();
       })["catch"](function (e) {
         return console.log(e);
       });
     },
     changeStatus: function changeStatus(status) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$Progress.start();
       this.actvieStatus = status;
@@ -3783,7 +3833,7 @@ __webpack_require__.r(__webpack_exports__);
         id: this.$route.params.id,
         status: status
       }).then(function (res) {
-        _this2.$Progress.finish();
+        _this3.$Progress.finish();
       })["catch"](function (e) {
         return console.log(e);
       });
@@ -3799,6 +3849,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     returnOneProduct: function returnOneProduct(newValue) {
+      console.log(newValue);
       this.orderInfo = newValue[0];
       this.orderProducts = newValue[1];
       this.actvieStatus = this.orderInfo[0].orders_status;
@@ -6052,13 +6103,18 @@ var isPhoneCabinet = function isPhoneCabinet(value) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this.$v.userData.$invalid && !_this.$v.userData.userTel.$invalid)) {
-                  _context.next = 8;
+                if (!(_this.$v.userData.$invalid && _this.userData.userTel === null && !_this.$v.userData.userTel.$invalid)) {
+                  _context.next = 5;
                   break;
                 }
 
+                _this.$v.$touch();
+
+                return _context.abrupt("return");
+
+              case 5:
                 if (!(_this.userData.userTel !== null && _this.$v.userData.userTel.$invalid)) {
-                  _context.next = 4;
+                  _context.next = 10;
                   break;
                 }
 
@@ -6066,32 +6122,31 @@ var isPhoneCabinet = function isPhoneCabinet(value) {
 
                 return _context.abrupt("return");
 
-              case 4:
-                _this.$v.$touch();
+              case 10:
+                _this.$Progress.start();
 
-                return _context.abrupt("return");
-
-              case 8:
                 formData = new FormData();
                 formData.append('userUpdate', JSON.stringify(_this.userData));
 
                 if (_this.passError) {
-                  _context.next = 13;
+                  _context.next = 16;
                   break;
                 }
 
-                _context.next = 13;
+                _context.next = 16;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_this.URI, "lkupd"), formData).then(function (res) {
                   if (res.data) {
                     _this.successUpdate = true;
                   }
+
+                  _this.$Progress.finish();
 
                   console.log(res.data);
                 })["catch"](function (e) {
                   return console.log(e);
                 });
 
-              case 13:
+              case 16:
               case "end":
                 return _context.stop();
             }
@@ -6321,6 +6376,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 7;
                 return _this2.$store.dispatch('CheckAmount', checkAmount).then(function (res) {
                   _this2.checkAmount = !_this2.checkAmount;
+                  console.log(res);
                   res.forEach(function (el) {
                     if (!el.amount) {
                       var findIndexProduct = _this2.getProductCart.findIndex(function (elProd) {
@@ -7596,7 +7652,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -7658,7 +7713,6 @@ __webpack_require__.r(__webpack_exports__);
       maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["maxLength"])(20)
     },
     corps: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
       maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["maxLength"])(20)
     },
     apart: {
@@ -7677,6 +7731,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     whereGet: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
+    },
+    commentForPostman: {
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["maxLength"])(150)
     }
   },
   methods: {
@@ -7690,53 +7747,80 @@ __webpack_require__.r(__webpack_exports__);
     toPay: function toPay() {
       var _this = this;
 
-      if (this.deliveries[this.chozenDel].delivery_name === 'post-russia' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid && this.$v.indexPost.$invalid) {
+      if (this.$v.corps.$invalid) {
         this.$v.$touch();
         return;
       }
 
-      if (this.deliveries[this.chozenDel].delivery_name === 'postman' && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid) {
+      if (this.$v.commentForPostman.$invalid) {
         this.$v.$touch();
         return;
       }
 
-      if (this.deliveries[this.chozenDel].delivery_name === 'sdek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid && this.$v.passportData.$invalid && this.$v.whereGet.$invalid) {
+      if (this.deliveries[this.chozenDel].delivery_name === 'post-russia' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid && this.$v.indexPost.$invalid) {
         this.$v.$touch();
         return;
-      }
-
-      if (this.deliveries[this.chozenDel].delivery_name === 'pek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid && this.$v.passportData.$invalid && this.$v.whereGet.$invalid) {
+      } else if (this.deliveries[this.chozenDel].delivery_name === 'postman' && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid) {
         this.$v.$touch();
         return;
-      }
-
-      var data = {
-        city: this.city,
-        house: this.house,
-        apart: this.apart,
-        corps: this.corps,
-        street: this.street,
-        indexPost: this.indexPost,
-        deliveryName: this.deliveries[this.chozenDel].delivery_name,
-        passportData: this.passportData,
-        whereGet: this.whereGet,
-        comment: this.commentForPostman
-      };
-      this.$store.dispatch('DeliveryData', data).then(function () {
-        return _this.$router.push({
-          name: 'choosePay'
+      } else if (this.deliveries[this.chozenDel].delivery_name === 'sdek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid) {
+        this.$v.$touch();
+        return;
+      } else if (this.deliveries[this.chozenDel].delivery_name === 'pek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid) {
+        this.$v.$touch();
+        return;
+      } else if ((this.deliveries[this.chozenDel].delivery_name === 'pek' || this.deliveries[this.chozenDel].delivery_name === 'sdek') && this.$v.passportData.$invalid) {
+        this.$v.$touch();
+        return;
+      } else if ((this.deliveries[this.chozenDel].delivery_name === 'pek' || this.deliveries[this.chozenDel].delivery_name === 'sdek') && this.$v.whereGet.$invalid) {
+        this.$v.$touch();
+        return;
+      } else {
+        var data = {
+          city: this.city,
+          house: this.house,
+          apart: this.apart,
+          corps: this.corps,
+          street: this.street,
+          indexPost: this.indexPost,
+          deliveryName: this.deliveries[this.chozenDel].delivery_name,
+          passportData: this.passportData,
+          whereGet: this.whereGet,
+          comment: this.commentForPostman
+        };
+        this.$store.dispatch('DeliveryData', data).then(function () {
+          return _this.$router.push({
+            name: 'choosePay'
+          });
         });
-      });
+      }
     }
   },
   created: function created() {
     this.$Progress.start();
     this.$store.dispatch('GetAllDeliveries');
+    this.$store.dispatch('GetUserData');
   },
   computed: {
     returnDeliveries: function returnDeliveries() {
       this.$Progress.finish();
       return this.$store.getters.GetAllDeliveries;
+    },
+    getUserData: function getUserData() {
+      return this.$store.getters.userData;
+    }
+  },
+  watch: {
+    getUserData: function getUserData(user) {
+      if (user !== null) {
+        this.city = user[0][4];
+        this.street = user[0][5];
+        this.house = user[0][6];
+        this.corps = user[0][7];
+        this.apart = user[0][8];
+        this.indexPost = user[0][9];
+        this.$Progress.finish();
+      }
     }
   }
 });
@@ -7888,6 +7972,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.errorProductsAmount = [];
     this.amountError = false;
     this.checkAmount = false;
+  },
+  mounted: function mounted() {
+    this.$Progress.finish();
   },
   computed: {
     URI: function URI() {
@@ -8481,6 +8568,7 @@ var isPhone = function isPhone(value) {
       this.name = user[0][1];
       this.email = user[0][2];
       this.tel = user[0][3];
+      this.$Progress.finish();
     }
   }
 });
@@ -13056,9 +13144,10 @@ var render = function() {
           directives: [
             {
               name: "model",
-              rawName: "v-model",
+              rawName: "v-model.trim",
               value: _vm.searched,
-              expression: "searched"
+              expression: "searched",
+              modifiers: { trim: true }
             }
           ],
           staticClass: "input-transp input-transp-p",
@@ -13069,22 +13158,24 @@ var render = function() {
               if ($event.target.composing) {
                 return
               }
-              _vm.searched = $event.target.value
+              _vm.searched = $event.target.value.trim()
+            },
+            blur: function($event) {
+              return _vm.$forceUpdate()
             }
           }
         }),
         _vm._v(" "),
-        _c("button", {
-          staticClass: "btn-admin-arrow",
-          class: _vm.activeBtn ? "admin-btn-arrow-pass" : "admin-btn-arrow",
-          on: {
-            click: function($event) {
-              _vm.activeBtn = !_vm.activeBtn
+        _c("button", { staticClass: "btn-admin-purpp" }, [
+          _c("img", {
+            attrs: { src: __webpack_require__(/*! ../../../img/Lupa.png */ "./resources/img/Lupa.png"), alt: "" },
+            on: {
+              click: function($event) {
+                return _vm.searchProducts()
+              }
             }
-          }
-        }),
-        _vm._v(" "),
-        _vm._m(0)
+          })
+        ])
       ])
     ]),
     _vm._v(" "),
@@ -13092,7 +13183,7 @@ var render = function() {
       "div",
       { staticClass: "admin-products-list" },
       [
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
         _vm._l(_vm.newProduct, function(prd, i) {
           return _c("div", { staticClass: "products-list" }, [
@@ -13147,8 +13238,8 @@ var render = function() {
                   _c("button", {
                     staticClass: "btn-admin-arrow",
                     class: _vm.activeAddNew
-                      ? "admin-btn-arrow-pass"
-                      : "admin-btn-arrow",
+                      ? "admin-btn-arrow"
+                      : "admin-btn-arrow-pass",
                     on: {
                       click: function($event) {
                         _vm.activeAddNew = !_vm.activeAddNew
@@ -13197,7 +13288,7 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _vm._m(2, true),
+              _vm._m(1, true),
               _vm._v(" "),
               _c(
                 "div",
@@ -13392,14 +13483,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "btn-admin-purpp" }, [
-      _c("img", { attrs: { src: __webpack_require__(/*! ../../../img/Lupa.png */ "./resources/img/Lupa.png"), alt: "" } })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -14128,6 +14211,11 @@ var render = function() {
                           attrs: {
                             src: __webpack_require__(/*! ../../../img/returnBack.png */ "./resources/img/returnBack.png"),
                             alt: ""
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.ReturnProduct(i)
+                            }
                           }
                         })
                       ])
@@ -19703,9 +19791,7 @@ var render = function() {
                   ],
                   staticClass: "classic-input",
                   class: {
-                    invalid:
-                      (_vm.$v.corps.$dirty && !_vm.$v.corps.required) ||
-                      (_vm.$v.corps.$dirty && !_vm.$v.corps.maxLength)
+                    invalid: _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
                   },
                   attrs: {
                     type: "text",
@@ -19725,12 +19811,6 @@ var render = function() {
                     }
                   }
                 }),
-                _vm._v(" "),
-                _vm.$v.corps.$dirty && !_vm.$v.corps.required
-                  ? _c("small", { staticClass: "small-invalid" }, [
-                      _vm._v("Поле Корпус должно быть заполнено")
-                    ])
-                  : _vm._e(),
                 _vm._v(" "),
                 _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
                   ? _c("small", { staticClass: "small-invalid" }, [
@@ -19952,9 +20032,7 @@ var render = function() {
                   ],
                   staticClass: "classic-input",
                   class: {
-                    invalid:
-                      (_vm.$v.corps.$dirty && !_vm.$v.corps.required) ||
-                      (_vm.$v.corps.$dirty && !_vm.$v.corps.maxLength)
+                    invalid: _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
                   },
                   attrs: {
                     type: "text",
@@ -19974,12 +20052,6 @@ var render = function() {
                     }
                   }
                 }),
-                _vm._v(" "),
-                _vm.$v.corps.$dirty && !_vm.$v.corps.required
-                  ? _c("small", { staticClass: "small-invalid" }, [
-                      _vm._v("Поле Корпус должно быть заполнено")
-                    ])
-                  : _vm._e(),
                 _vm._v(" "),
                 _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
                   ? _c("small", { staticClass: "small-invalid" }, [
@@ -20037,27 +20109,45 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _c("textarea", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.commentForPostman,
-                    expression: "commentForPostman"
-                  }
-                ],
-                staticClass: "classic-input comment-postman",
-                attrs: { placeholder: "Комментарий", autocomplete: "on" },
-                domProps: { value: _vm.commentForPostman },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "input-wrap" }, [
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.commentForPostman,
+                      expression: "commentForPostman",
+                      modifiers: { trim: true }
                     }
-                    _vm.commentForPostman = $event.target.value
+                  ],
+                  staticClass: "classic-input comment-postman",
+                  class: {
+                    invalidComment:
+                      _vm.$v.commentForPostman.$dirty &&
+                      !_vm.$v.commentForPostman.maxLength
+                  },
+                  attrs: { placeholder: "Комментарий", autocomplete: "on" },
+                  domProps: { value: _vm.commentForPostman },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.commentForPostman = $event.target.value.trim()
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
                   }
-                }
-              })
+                }),
+                _vm._v(" "),
+                _vm.$v.commentForPostman.$dirty &&
+                !_vm.$v.commentForPostman.maxLength
+                  ? _c("small", { staticClass: "small-invalid" }, [
+                      _vm._v("Поле Квартира заполнено не корректно")
+                    ])
+                  : _vm._e()
+              ])
             ])
           : _vm._e(),
         _vm._v(" "),
@@ -20223,9 +20313,7 @@ var render = function() {
                   ],
                   staticClass: "classic-input",
                   class: {
-                    invalid:
-                      (_vm.$v.corps.$dirty && !_vm.$v.corps.required) ||
-                      (_vm.$v.corps.$dirty && !_vm.$v.corps.maxLength)
+                    invalid: _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
                   },
                   attrs: {
                     type: "text",
@@ -20245,12 +20333,6 @@ var render = function() {
                     }
                   }
                 }),
-                _vm._v(" "),
-                _vm.$v.corps.$dirty && !_vm.$v.corps.required
-                  ? _c("small", { staticClass: "small-invalid" }, [
-                      _vm._v("Поле Корпус должно быть заполнено")
-                    ])
-                  : _vm._e(),
                 _vm._v(" "),
                 _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
                   ? _c("small", { staticClass: "small-invalid" }, [
@@ -20586,9 +20668,7 @@ var render = function() {
                   ],
                   staticClass: "classic-input",
                   class: {
-                    invalid:
-                      (_vm.$v.corps.$dirty && !_vm.$v.corps.required) ||
-                      (_vm.$v.corps.$dirty && !_vm.$v.corps.maxLength)
+                    invalid: _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
                   },
                   attrs: {
                     type: "text",
@@ -20608,12 +20688,6 @@ var render = function() {
                     }
                   }
                 }),
-                _vm._v(" "),
-                _vm.$v.corps.$dirty && !_vm.$v.corps.required
-                  ? _c("small", { staticClass: "small-invalid" }, [
-                      _vm._v("Поле Корпус должно быть заполнено")
-                    ])
-                  : _vm._e(),
                 _vm._v(" "),
                 _vm.$v.corps.$dirty && !_vm.$v.corps.maxLength
                   ? _c("small", { staticClass: "small-invalid" }, [
@@ -21162,7 +21236,7 @@ var render = function() {
                 }
               ],
               class: {
-                invalid:
+                invalidComment:
                   (_vm.$v.text.$dirty && !_vm.$v.text.required) ||
                   (_vm.$v.text.$dirty && !_vm.$v.text.maxLength)
               },
@@ -43720,14 +43794,16 @@ var routes = [{
   meta: {
     layout: 'Main'
   },
-  component: _views_ChoosePay__WEBPACK_IMPORTED_MODULE_13__["default"] // beforeEnter: ((to, from, next) =>{
-  //     if (to.name === 'choosePay' && (store.getters.deliveryData === null && store.getters.customerData.length === 0)){
-  //         next({name: 'ordering'});
-  //     } else {
-  //         next();
-  //     }
-  // })
-
+  component: _views_ChoosePay__WEBPACK_IMPORTED_MODULE_13__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (to.name === 'choosePay' && _store__WEBPACK_IMPORTED_MODULE_27__["default"].getters.deliveryData === null && _store__WEBPACK_IMPORTED_MODULE_27__["default"].getters.customerData.length === 0) {
+      next({
+        name: 'ordering'
+      });
+    } else {
+      next();
+    }
+  }
 }, {
   path: '/paysuccess',
   name: 'paySuccess',
@@ -44035,6 +44111,7 @@ var admin = {
               case 0:
                 _context3.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "admin-product-").concat(id)).then(function (res) {
+                  console.log(res.data);
                   state.oneProduct = res.data;
                 })["catch"](function (e) {
                   return console.log(e);
@@ -44090,6 +44167,9 @@ var admin = {
     },
     GetMainPageAdminMutate: function GetMainPageAdminMutate(state, data) {
       state.GetMainPageAdmin = data;
+    },
+    AdminSearchProductMutate: function AdminSearchProductMutate(state, data) {
+      state.adminProducts = data;
     }
   },
   actions: {
@@ -44274,6 +44354,34 @@ var admin = {
           }
         }, _callee11);
       }))();
+    },
+    AdminSearchProduct: function AdminSearchProduct(_ref12, word) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                commit = _ref12.commit;
+                return _context12.abrupt("return", new Promise(function (resolve, reject) {
+                  axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "searchadmin"), {
+                    search: word
+                  }).then(function (res) {
+                    console.log(res.data);
+                    resolve(true);
+                    commit('AdminSearchProductMutate', res.data);
+                  })["catch"](function (e) {
+                    reject(false);
+                  });
+                }));
+
+              case 2:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12);
+      }))();
     }
   },
   getters: {
@@ -44388,12 +44496,12 @@ var store = {
     },
     // Получаем категории и подкатегории меню
     getMenuDataMutate: function getMenuDataMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                _context12.next = 2;
+                _context13.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "menu")).then(function (response) {
                   // массив с изначальной датой
                   var menu = response.data; // Сырые данные меню
@@ -44638,10 +44746,10 @@ var store = {
 
               case 2:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12);
+        }, _callee13);
       }))();
     },
     sideBarDepartMutate: function sideBarDepartMutate(state, data) {
@@ -44717,31 +44825,31 @@ var store = {
     },
     // Получаем дату в каталог по категориям
     getCatalogDataMutate: function getCatalogDataMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
         var params;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
                 params = null;
-                _context13.t0 = Object.keys(data.params).length;
-                _context13.next = _context13.t0 === 1 ? 4 : _context13.t0 === 2 ? 6 : _context13.t0 === 3 ? 8 : 10;
+                _context14.t0 = Object.keys(data.params).length;
+                _context14.next = _context14.t0 === 1 ? 4 : _context14.t0 === 2 ? 6 : _context14.t0 === 3 ? 8 : 10;
                 break;
 
               case 4:
                 params = data.params.gender + '/' + 'null' + '/' + 'null';
-                return _context13.abrupt("break", 10);
+                return _context14.abrupt("break", 10);
 
               case 6:
                 params = data.params.gender + '/' + data.params.category + '/' + 'null';
-                return _context13.abrupt("break", 10);
+                return _context14.abrupt("break", 10);
 
               case 8:
                 params = data.params.gender + '/' + data.params.category + '/' + data.params.department;
-                return _context13.abrupt("break", 10);
+                return _context14.abrupt("break", 10);
 
               case 10:
-                _context13.next = 12;
+                _context14.next = 12;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "filter/").concat(params, "/").concat(data.sort, "/").concat(data.sale, "/").concat(data.min, "/").concat(data.max, "/").concat(data.sizes, "?page=").concat(data.page)).then(function (response) {
                   // Получаем данные для отображения товаров в каталоге по гендеру
                   var itemCell = response.data; // Устанавливаем min и max
@@ -44815,10 +44923,10 @@ var store = {
 
               case 12:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee13);
+        }, _callee14);
       }))();
     },
     // Получаем дату для конкретного товара
@@ -44828,12 +44936,12 @@ var store = {
     },
     // Получаем отзывы
     getItemReviewsMutate: function getItemReviewsMutate(state, data) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
-                _context14.next = 2;
+                _context15.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemsreview-").concat(data.item, "?page=").concat(data.page)).then(function (response) {
                   var reviews = response.data;
                   state.catalogItemReview = reviews.data;
@@ -44844,10 +44952,10 @@ var store = {
 
               case 2:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14);
+        }, _callee15);
       }))();
     },
     // Добавляем товары в корзину
@@ -44898,18 +45006,18 @@ var store = {
     },
     // Получаем товары для корзины
     getProductForCartMutate: function getProductForCartMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16() {
         var cardIds, unigIds;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context15.prev = _context15.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
                 cardIds = [];
                 state.cart.forEach(function (el) {
                   cardIds.push(el.id);
                 });
                 unigIds = new Set(cardIds);
-                _context15.next = 5;
+                _context16.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "itemscard/").concat(Array.from(unigIds).join(', '))).then(function (response) {
                   var dataCart = state.cart;
                   var data = response.data;
@@ -44943,10 +45051,10 @@ var store = {
 
               case 5:
               case "end":
-                return _context15.stop();
+                return _context16.stop();
             }
           }
-        }, _callee15);
+        }, _callee16);
       }))();
     },
     // Удаляем карточку товара
@@ -44990,11 +45098,11 @@ var store = {
       window.localStorage.setItem('customerData', JSON.stringify(state.customerData));
     },
     sentDataMutate: function sentDataMutate(state, payName) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17() {
         var postData, localCart, localTotalPrice, dataPay, formData;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
           while (1) {
-            switch (_context16.prev = _context16.next) {
+            switch (_context17.prev = _context17.next) {
               case 0:
                 postData = [];
                 localCart = [];
@@ -45022,7 +45130,7 @@ var store = {
                 });
 
                 if (!(payName === 'Сбербанк')) {
-                  _context16.next = 14;
+                  _context17.next = 14;
                   break;
                 }
 
@@ -45032,7 +45140,7 @@ var store = {
                 postData.push(dataPay);
                 formData = new FormData();
                 formData.append('data', JSON.stringify(postData));
-                _context16.next = 14;
+                _context17.next = 14;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(state.SITE_URI, "payment"), formData, {
                   headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
@@ -45047,10 +45155,10 @@ var store = {
 
               case 14:
               case "end":
-                return _context16.stop();
+                return _context17.stop();
             }
           }
-        }, _callee16);
+        }, _callee17);
       }))();
     },
     GetUserDataMutate: function GetUserDataMutate(state) {
@@ -45077,17 +45185,17 @@ var store = {
     },
     // Получаем продукты для избранного
     BookmarkProductsMutate: function BookmarkProductsMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
           while (1) {
-            switch (_context17.prev = _context17.next) {
+            switch (_context18.prev = _context18.next) {
               case 0:
                 if (!state.bookmarks.length) {
-                  _context17.next = 3;
+                  _context18.next = 3;
                   break;
                 }
 
-                _context17.next = 3;
+                _context18.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(state.SITE_URI, "bookmark/").concat(state.bookmarks.join(','))).then(function (res) {
                   state.EU = res.data.eu;
                   state.bookmarkProducts = res.data.products;
@@ -45095,10 +45203,10 @@ var store = {
 
               case 3:
               case "end":
-                return _context17.stop();
+                return _context18.stop();
             }
           }
-        }, _callee17);
+        }, _callee18);
       }))();
     },
     RemoveBookmarkMutate: function RemoveBookmarkMutate(state, id) {
@@ -45113,11 +45221,11 @@ var store = {
     },
     // Сменяем статус заказа
     ChangeStatusOrderMutate: function ChangeStatusOrderMutate(state) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee19() {
         var data, localCart, customerData, formData;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee19$(_context19) {
           while (1) {
-            switch (_context18.prev = _context18.next) {
+            switch (_context19.prev = _context19.next) {
               case 0:
                 data = [];
                 localCart = [];
@@ -45153,10 +45261,10 @@ var store = {
 
               case 8:
               case "end":
-                return _context18.stop();
+                return _context19.stop();
             }
           }
-        }, _callee18);
+        }, _callee19);
       }))();
     },
     // Убиваем данные по товару
@@ -45168,8 +45276,8 @@ var store = {
     }
   },
   actions: {
-    SearchProduct: function SearchProduct(_ref12, word) {
-      var commit = _ref12.commit;
+    SearchProduct: function SearchProduct(_ref13, word) {
+      var commit = _ref13.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("".concat(URI, "search"), {
           search: word
@@ -45181,8 +45289,8 @@ var store = {
         });
       });
     },
-    register: function register(_ref13, user) {
-      var commit = _ref13.commit;
+    register: function register(_ref14, user) {
+      var commit = _ref14.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
           url: "".concat(URI, "register"),
@@ -45200,8 +45308,8 @@ var store = {
         });
       });
     },
-    login: function login(_ref14, user) {
-      var commit = _ref14.commit;
+    login: function login(_ref15, user) {
+      var commit = _ref15.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default()({
           url: "".concat(URI, "login"),
@@ -45223,28 +45331,28 @@ var store = {
         });
       });
     },
-    getMenuData: function getMenuData(_ref15) {
-      var commit = _ref15.commit;
+    getMenuData: function getMenuData(_ref16) {
+      var commit = _ref16.commit;
       commit('getMenuDataMutate');
     },
-    showDepartments: function showDepartments(_ref16, data) {
-      var commit = _ref16.commit;
+    showDepartments: function showDepartments(_ref17, data) {
+      var commit = _ref17.commit;
       commit('sideBarDepartMutate', data);
     },
-    showDepartAfterUpdated: function showDepartAfterUpdated(_ref17, data) {
-      var commit = _ref17.commit;
+    showDepartAfterUpdated: function showDepartAfterUpdated(_ref18, data) {
+      var commit = _ref18.commit;
       commit('sideBarDepartMutateAfterUpdated', data);
     },
-    backToCategory: function backToCategory(_ref18, data) {
-      var commit = _ref18.commit;
+    backToCategory: function backToCategory(_ref19, data) {
+      var commit = _ref19.commit;
       commit('backToCategoryMutate', data);
     },
-    getCatalogData: function getCatalogData(_ref19, data) {
-      var commit = _ref19.commit;
+    getCatalogData: function getCatalogData(_ref20, data) {
+      var commit = _ref20.commit;
       commit('getCatalogDataMutate', data);
     },
-    getItemData: function getItemData(_ref20, data) {
-      var commit = _ref20.commit;
+    getItemData: function getItemData(_ref21, data) {
+      var commit = _ref21.commit;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("".concat(URI, "item-").concat(data)).then(function (response) {
           var itemData = response.data;
@@ -45328,91 +45436,91 @@ var store = {
         });
       });
     },
-    getItemReviews: function getItemReviews(_ref21, data) {
-      var commit = _ref21.commit;
+    getItemReviews: function getItemReviews(_ref22, data) {
+      var commit = _ref22.commit;
       commit('getItemReviewsMutate', data);
     },
-    showSaleProducts: function showSaleProducts(_ref22, data) {
-      var commit = _ref22.commit;
+    showSaleProducts: function showSaleProducts(_ref23, data) {
+      var commit = _ref23.commit;
       commit('showSaleProductsMutate', data);
     },
-    showCashProducts: function showCashProducts(_ref23, data) {
-      var commit = _ref23.commit;
+    showCashProducts: function showCashProducts(_ref24, data) {
+      var commit = _ref24.commit;
       commit('showCashProductsMutate', data);
     },
-    sortByAction: function sortByAction(_ref24, data) {
-      var commit = _ref24.commit;
+    sortByAction: function sortByAction(_ref25, data) {
+      var commit = _ref25.commit;
       commit('sortByActionMutate', data);
     },
-    showSizeProducts: function showSizeProducts(_ref25, data) {
-      var commit = _ref25.commit;
+    showSizeProducts: function showSizeProducts(_ref26, data) {
+      var commit = _ref26.commit;
       commit('showSizeProductsMutate', data);
     },
-    addToCart: function addToCart(_ref26, data) {
-      var commit = _ref26.commit;
+    addToCart: function addToCart(_ref27, data) {
+      var commit = _ref27.commit;
       commit('addToCartMutate', data);
     },
-    getProductForCart: function getProductForCart(_ref27) {
-      var commit = _ref27.commit;
+    getProductForCart: function getProductForCart(_ref28) {
+      var commit = _ref28.commit;
       commit('getProductForCartMutate');
     },
-    removeCard: function removeCard(_ref28, data) {
-      var commit = _ref28.commit;
+    removeCard: function removeCard(_ref29, data) {
+      var commit = _ref29.commit;
       commit('removeCardMutate', data);
     },
-    totalPrice: function totalPrice(_ref29, data) {
-      var commit = _ref29.commit;
+    totalPrice: function totalPrice(_ref30, data) {
+      var commit = _ref30.commit;
       commit('totalPriceMutate', data);
     },
-    changeCountCart: function changeCountCart(_ref30, data) {
-      var commit = _ref30.commit;
+    changeCountCart: function changeCountCart(_ref31, data) {
+      var commit = _ref31.commit;
       commit('changeCountCartMutate', data);
     },
-    customerData: function customerData(_ref31, data) {
-      var commit = _ref31.commit;
+    customerData: function customerData(_ref32, data) {
+      var commit = _ref32.commit;
       commit('customerDataMutate', data);
     },
-    sentData: function sentData(_ref32, payName) {
-      var commit = _ref32.commit;
+    sentData: function sentData(_ref33, payName) {
+      var commit = _ref33.commit;
       commit('sentDataMutate', payName);
     },
-    GetUserData: function GetUserData(_ref33) {
-      var commit = _ref33.commit;
+    GetUserData: function GetUserData(_ref34) {
+      var commit = _ref34.commit;
       commit('GetUserDataMutate');
     },
-    killPaySuccess: function killPaySuccess(_ref34) {
-      var commit = _ref34.commit;
+    killPaySuccess: function killPaySuccess(_ref35) {
+      var commit = _ref35.commit;
       commit('killPaySuccessMutate');
     },
-    AddBookmark: function AddBookmark(_ref35, id) {
-      var commit = _ref35.commit;
+    AddBookmark: function AddBookmark(_ref36, id) {
+      var commit = _ref36.commit;
       commit('AddBookmarkMutate', id);
     },
-    BookmarkProducts: function BookmarkProducts(_ref36) {
-      var commit = _ref36.commit;
+    BookmarkProducts: function BookmarkProducts(_ref37) {
+      var commit = _ref37.commit;
       commit('BookmarkProductsMutate');
     },
-    RemoveBookmark: function RemoveBookmark(_ref37, id) {
-      var commit = _ref37.commit;
+    RemoveBookmark: function RemoveBookmark(_ref38, id) {
+      var commit = _ref38.commit;
       commit('RemoveBookmarkMutate', id);
     },
-    DeliveryData: function DeliveryData(_ref38, deliveryData) {
-      var commit = _ref38.commit;
+    DeliveryData: function DeliveryData(_ref39, deliveryData) {
+      var commit = _ref39.commit;
       return new Promise(function (resolve, reject) {
         commit('DeliveryDataMutate', deliveryData);
         resolve(true);
       });
     },
-    ChangeStatusOrder: function ChangeStatusOrder(_ref39) {
-      var commit = _ref39.commit;
+    ChangeStatusOrder: function ChangeStatusOrder(_ref40) {
+      var commit = _ref40.commit;
       commit('ChangeStatusOrderMutate');
     },
-    DestroyCatalogItem: function DestroyCatalogItem(_ref40) {
-      var commit = _ref40.commit;
+    DestroyCatalogItem: function DestroyCatalogItem(_ref41) {
+      var commit = _ref41.commit;
       commit('DestroyCatalogItemMutate');
     },
-    CheckAmount: function CheckAmount(_ref41, check) {
-      var commit = _ref41.commit;
+    CheckAmount: function CheckAmount(_ref42, check) {
+      var commit = _ref42.commit;
       return new Promise(function (resolve, reject) {
         var formData = new FormData();
         formData.append('data', JSON.stringify(check));

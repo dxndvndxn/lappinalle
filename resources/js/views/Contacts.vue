@@ -39,7 +39,7 @@
                     <button class="btn" v-if="media.wind > media.tablet">Отправить</button>
                 </div>
                 <div class="wrap-textarea">
-                    <textarea v-model.trim="text" :class="{invalid: ($v.text.$dirty && !$v.text.required) || ($v.text.$dirty && !$v.text.maxLength)}" placeholder="Текст сообщения"></textarea>
+                    <textarea v-model.trim="text" :class="{invalidComment: ($v.text.$dirty && !$v.text.required) || ($v.text.$dirty && !$v.text.maxLength)}" placeholder="Текст сообщения"></textarea>
                     <small v-if="$v.text.$dirty && !$v.text.maxLength" class="small-invalid">Поле Текст заполнено не корректно</small>
                     <small v-else-if="$v.text.$dirty && !$v.text.required" class="small-invalid">Поле Текст должно быть заполнено</small>
                     <button class="btn" v-if="media.wind < media.tablet">Отправить</button>

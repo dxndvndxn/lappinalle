@@ -81,6 +81,24 @@ class SberController extends Controller
             $vars['amount'] = $order[1]['amount'] * 100;
             $vars['returnUrl'] = 'https://lappinalle.ru/paysuccess';
             $vars['failUrl'] = 'https://lappinalle.ru/payfail';
+            $vars['additionalOfdParams'] = NULL;
+
+
+            $c = count($order[0]['orderData']);
+            $i = 0;
+            $vars['orderBundle'] = ['cartItems' => ['items' => []]];
+
+            while ($i < $c) {
+                $vars['orderBundle']['cartItems']['items'][$i]['positionId'] = $i+1;
+                $itemname = DB::table('products')->where('product_id', '=', $order[0]['orderData'][$i]['id'])->select('product_title')->value('product_title');
+                $vars['orderBundle']['cartItems']['items'][$i]['name'] = $itemname.' - Размер: '.$order[0]['orderData'][$i]['size'];
+                $vars['orderBundle']['cartItems']['items'][$i]['quantity'] = ['value' => $order[0]['orderData'][$i]['count'], 'measure' => 'шт.'];
+                $vars['orderBundle']['cartItems']['items'][$i]['itemCode'] = (string)$order[0]['orderData'][$i]['id'];
+                $vars['orderBundle']['cartItems']['items'][$i]['itemAmount'] = $order[0]['orderData'][$i]['price'] * 100 * (int)$vars['orderBundle']['cartItems']['items'][$i]['quantity']['value'];
+                $i++;
+            }
+
+            $vars['orderBundle'] = json_encode($vars['orderBundle']);
 
             $ch = curl_init('https://3dsec.sberbank.ru/payment/rest/register.do?' . http_build_query($vars));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -90,12 +108,7 @@ class SberController extends Controller
             curl_close($ch);
             $res = json_decode($res, JSON_OBJECT_AS_ARRAY);
             $res['id'] = $lastIdOrder;
-//            if (empty($res['orderId'])){
-//                echo $res['errorMessage'];
-//            } else {
-//                header('Location: ' . $res['formUrl'], true);
-//            }
-//            header("Location: " . $res['formUrl'], true);
+
             return $res;
         }catch (\Exception $e){
             return  $e;

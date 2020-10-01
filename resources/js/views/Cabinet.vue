@@ -202,14 +202,16 @@
                 this.tabs.forEach(el => el.active = !el.active);
             },
             async changeData(){
-                if (this.$v.userData.$invalid && !this.$v.userData.userTel.$invalid){
-                    if (this.userData.userTel !== null && this.$v.userData.userTel.$invalid) {
-                        this.$v.$touch();
-                        return;
-                    }
+                if (this.$v.userData.$invalid && (this.userData.userTel === null && !this.$v.userData.userTel.$invalid)){
                     this.$v.$touch();
                     return;
-                }else{
+                }
+                else if (this.userData.userTel !== null && this.$v.userData.userTel.$invalid){
+                    this.$v.$touch();
+                    return;
+                }
+                else{
+                    this.$Progress.start();
                     let formData = new FormData();
                     formData.append('userUpdate',  JSON.stringify(this.userData));
 
@@ -219,6 +221,7 @@
                                 if (res.data) {
                                     this.successUpdate = true;
                                 }
+                                this.$Progress.finish();
                                 console.log(res.data);
                             })
                             .catch(e => console.log(e))

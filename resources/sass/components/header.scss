@@ -318,3 +318,8 @@ nav{
         transition: all .4s;
     }
 }
+@media screen and (max-width: 335px) {
+    .grid-nav-top{
+        grid-template-columns: .5fr 1fr 1fr;
+    }
+}

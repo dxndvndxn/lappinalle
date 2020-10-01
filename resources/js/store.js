@@ -67,6 +67,7 @@ const admin = {
        async GetOneProductMutate(state, id){
             await axios.get(`${state.SITE_URI}admin-product-${id}`)
                 .then(res => {
+                    console.log(res.data)
                     state.oneProduct = res.data;
                 })
                 .catch(e => console.log(e))
@@ -103,6 +104,9 @@ const admin = {
         },
         GetMainPageAdminMutate(state, data) {
             state.GetMainPageAdmin = data;
+        },
+        AdminSearchProductMutate(state, data){
+            state.adminProducts = data;
         }
     },
     actions: {
@@ -171,7 +175,7 @@ const admin = {
 
         async GetMainPageAdmin({commit}){
             return new Promise((resolve, reject) => {
-                axios.get(`${URI}mainpage`)
+                 axios.get(`${URI}mainpage`)
                     .then(resp => {
                         console.log(resp.data)
                         commit('GetMainPageAdminMutate', resp.data);
@@ -179,6 +183,19 @@ const admin = {
                     })
                     .catch(err => {
                         reject(err)
+                    })
+            })
+        },
+        async AdminSearchProduct({commit}, word){
+            return new Promise((resolve, reject) => {
+                axios.post(`${URI}searchadmin`, {search: word})
+                    .then(res => {
+                        console.log(res.data)
+                        resolve(true)
+                        commit('AdminSearchProductMutate', res.data)
+                    })
+                    .catch(e => {
+                        reject(false)
                     })
             })
         }

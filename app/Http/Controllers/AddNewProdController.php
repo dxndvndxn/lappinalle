@@ -22,6 +22,11 @@ class AddNewProdController extends Controller
         return true;
     }
 
+    public function getExtension($filename) {
+        $img = explode(".", $filename);
+        return end($img);
+    }
+
     public function update(Request $request) {
         $product = $request->all();
         $productStr = json_decode($product['stringData'], true);
@@ -111,9 +116,9 @@ class AddNewProdController extends Controller
                 ->value('product_img');
 
             // Если в БД есть уже фотки, то
-            // @imgArr - разделяем строку на массив по запятой
-            // @countFrom - длина для определения названия следующей фотографии (минус 1 так в массиве в конце добавляется пустая строка)
-            // @imgPath - присваиваем уже существующую строку из БД
+            // $imgArr - разделяем строку на массив по запятой
+            // $countFrom - длина для определения названия следующей фотографии (минус 1 так в массиве в конце добавляется пустая строка)
+            // $imgPath - присваиваем уже существующую строку из БД
             // Дальше в цикле добавляем $countFrom в название новой фотографии
             if ($imgString !== NULL){
 
@@ -125,9 +130,19 @@ class AddNewProdController extends Controller
 
                     if ($request->hasFile("img-$prd")) {
                         $img = $request->file("img-$prd");
-                        $img->move(public_path() . "/img/item-$product_id", "img_$countFrom-item-$product_id" . ".png");
-                        $imgPath .= "/img/item-$product_id/" . "img_$countFrom-item-$product_id" . ".png" . ", ";
-                        $countFrom += $countFrom;
+                        $nameFile = $request->file("img-$prd")->getClientOriginalName();
+                        $ext = pathinfo($nameFile, PATHINFO_EXTENSION);
+
+                        if ($ext === 'jpg') {
+                            $img->move(public_path() . "/img/item-$product_id", "img_$countFrom-item-$product_id" . ".jpg");
+                            $imgPath .= "/img/item-$product_id/" . "img_$countFrom-item-$product_id" . ".jpg" . ", ";
+                            $countFrom += $countFrom;
+                        }
+                        if ($ext === 'png') {
+                            $img->move(public_path() . "/img/item-$product_id", "img_$countFrom-item-$product_id" . ".png");
+                            $imgPath .= "/img/item-$product_id/" . "img_$countFrom-item-$product_id" . ".png" . ", ";
+                            $countFrom += $countFrom;
+                        }
                     }
                 }
 
@@ -141,8 +156,17 @@ class AddNewProdController extends Controller
 
                     if ($request->hasFile("img-$prd")) {
                         $img = $request->file("img-$prd");
-                        $img->move(public_path() . "/img/item-$product_id", "img_$prd-item-$product_id" . ".png");
-                        $imgPath .= "/img/item-$product_id/" . "img_$prd-item-$product_id" . ".png" . ", ";
+                        $nameFile = $request->file("img-$prd")->getClientOriginalName();
+                        $ext = pathinfo($nameFile, PATHINFO_EXTENSION);
+
+                        if ($ext == 'jpg') {
+                            $img->move(public_path() . "/img/item-$product_id", "img_$prd-item-$product_id" . ".jpg");
+                            $imgPath .= "/img/item-$product_id/" . "img_$prd-item-$product_id" . ".jpg" . ", ";
+                        }
+                        if ($ext == 'png') {
+                            $img->move(public_path() . "/img/item-$product_id", "img_$prd-item-$product_id" . ".png");
+                            $imgPath .= "/img/item-$product_id/" . "img_$prd-item-$product_id" . ".png" . ", ";
+                        }
                     }
                 }
 

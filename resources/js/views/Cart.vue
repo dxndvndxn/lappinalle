@@ -99,9 +99,11 @@
                 this.amountError = false;
                 this.checkAmount = !this.checkAmount;
                 this.getProductCart.forEach(el => checkAmount.push({catalog_size_id: el.catalog_size_id, amount: el.count}))
+
                 await this.$store.dispatch('CheckAmount', checkAmount)
                     .then(res => {
                         this.checkAmount = !this.checkAmount;
+                        console.log(res)
                         res.forEach(el => {
 
                             if (!el.amount) {

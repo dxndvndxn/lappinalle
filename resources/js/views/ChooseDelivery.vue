@@ -24,8 +24,7 @@
                     <small v-if="$v.house.$dirty && !$v.house.maxLength" class="small-invalid">Поле Дом заполнено не корректно</small>
                 </div>
                 <div class="input-wrap">
-                    <input type="text" class="classic-input" v-model.trim="corps" :class="{invalid: ($v.corps.$dirty && !$v.corps.required) || ($v.corps.$dirty && !$v.corps.maxLength)}" placeholder="Корпус" autocomplete="on">
-                    <small v-if="$v.corps.$dirty && !$v.corps.required" class="small-invalid">Поле Корпус должно быть заполнено</small>
+                    <input type="text" class="classic-input" v-model.trim="corps" :class="{invalid: $v.corps.$dirty && !$v.corps.maxLength}" placeholder="Корпус" autocomplete="on">
                     <small v-if="$v.corps.$dirty && !$v.corps.maxLength" class="small-invalid">Поле Корпус заполнено не корректно</small>
                 </div>
                 <div class="input-wrap">
@@ -51,8 +50,7 @@
                     <small v-if="$v.house.$dirty && !$v.house.maxLength" class="small-invalid">Поле Дом заполнено не корректно</small>
                 </div>
                 <div class="input-wrap">
-                    <input type="text" class="classic-input" v-model.trim="corps" :class="{invalid: ($v.corps.$dirty && !$v.corps.required) || ($v.corps.$dirty && !$v.corps.maxLength)}" placeholder="Корпус" autocomplete="on">
-                    <small v-if="$v.corps.$dirty && !$v.corps.required" class="small-invalid">Поле Корпус должно быть заполнено</small>
+                    <input type="text" class="classic-input" v-model.trim="corps" :class="{invalid:$v.corps.$dirty && !$v.corps.maxLength}" placeholder="Корпус" autocomplete="on">
                     <small v-if="$v.corps.$dirty && !$v.corps.maxLength" class="small-invalid">Поле Корпус заполнено не корректно</small>
                 </div>
                 <div class="input-wrap">
@@ -60,9 +58,12 @@
                     <small v-if="$v.apart.$dirty && !$v.apart.required" class="small-invalid">Поле Квартира должно быть заполнено</small>
                     <small v-if="$v.apart.$dirty && !$v.apart.maxLength" class="small-invalid">Поле Квартира заполнено не корректно</small>
                 </div>
-                <textarea class="classic-input comment-postman" v-model="commentForPostman" placeholder="Комментарий" autocomplete="on">
+                <div class="input-wrap">
+                    <textarea class="classic-input comment-postman" v-model.trim="commentForPostman" :class="{invalidComment: $v.commentForPostman.$dirty && !$v.commentForPostman.maxLength }" placeholder="Комментарий" autocomplete="on">
 
-                </textarea>
+                    </textarea>
+                    <small v-if="$v.commentForPostman.$dirty && !$v.commentForPostman.maxLength" class="small-invalid">Поле Квартира заполнено не корректно</small>
+                </div>
             </div>
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'sdek'">
                 <div class="input-wrap">
@@ -81,8 +82,7 @@
                     <small v-if="$v.house.$dirty && !$v.house.maxLength" class="small-invalid">Поле Дом заполнено не корректно</small>
                 </div>
                 <div class="input-wrap">
-                    <input type="text" class="classic-input" v-model.trim="corps" :class="{invalid: ($v.corps.$dirty && !$v.corps.required) || ($v.corps.$dirty && !$v.corps.maxLength)}" placeholder="Корпус" autocomplete="on">
-                    <small v-if="$v.corps.$dirty && !$v.corps.required" class="small-invalid">Поле Корпус должно быть заполнено</small>
+                    <input type="text" class="classic-input" v-model.trim="corps" :class="{invalid: $v.corps.$dirty && !$v.corps.maxLength}" placeholder="Корпус" autocomplete="on">
                     <small v-if="$v.corps.$dirty && !$v.corps.maxLength" class="small-invalid">Поле Корпус заполнено не корректно</small>
                 </div>
                 <div class="input-wrap">
@@ -118,8 +118,7 @@
                     <small v-if="$v.house.$dirty && !$v.house.maxLength" class="small-invalid">Поле Дом заполнено не корректно</small>
                 </div>
                 <div class="input-wrap">
-                    <input type="text" class="classic-input" v-model.trim="corps" :class="{invalid: ($v.corps.$dirty && !$v.corps.required) || ($v.corps.$dirty && !$v.corps.maxLength)}" placeholder="Корпус" autocomplete="on">
-                    <small v-if="$v.corps.$dirty && !$v.corps.required" class="small-invalid">Поле Корпус должно быть заполнено</small>
+                    <input type="text" class="classic-input" v-model.trim="corps" :class="{invalid: $v.corps.$dirty && !$v.corps.maxLength}" placeholder="Корпус" autocomplete="on">
                     <small v-if="$v.corps.$dirty && !$v.corps.maxLength" class="small-invalid">Поле Корпус заполнено не корректно</small>
                 </div>
                 <div class="input-wrap">
@@ -224,7 +223,6 @@
                 maxLength: maxLength(20)
             },
             corps: {
-                required,
                 maxLength: maxLength(20)
             },
             apart: {
@@ -241,8 +239,10 @@
             },
             whereGet: {
                 required
+            },
+            commentForPostman: {
+                maxLength: maxLength(150)
             }
-
         },
         methods: {
             clickDel(i){
@@ -251,46 +251,78 @@
                 this.deliveries[i].delChooze = true;
             },
             toPay(){
-                if (this.deliveries[this.chozenDel].delivery_name === 'post-russia' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid && this.$v.indexPost.$invalid){
+                if (this.$v.corps.$invalid){
                     this.$v.$touch();
                     return;
                 }
-                if (this.deliveries[this.chozenDel].delivery_name === 'postman' && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid){
+                if (this.$v.commentForPostman.$invalid){
                     this.$v.$touch();
                     return;
                 }
-                if (this.deliveries[this.chozenDel].delivery_name === 'sdek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid && this.$v.passportData.$invalid && this.$v.whereGet.$invalid){
+                if (this.deliveries[this.chozenDel].delivery_name === 'post-russia' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid && this.$v.indexPost.$invalid){
+                    this.$v.$touch();
+                    return;
+                } else if (this.deliveries[this.chozenDel].delivery_name === 'postman' && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid){
+                    this.$v.$touch();
+                    return;
+                } else if (this.deliveries[this.chozenDel].delivery_name === 'sdek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid) {
+                    this.$v.$touch();
+                    return;
+                }else if (this.deliveries[this.chozenDel].delivery_name === 'pek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid) {
                     this.$v.$touch();
                     return;
                 }
-                if (this.deliveries[this.chozenDel].delivery_name === 'pek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.corps.$invalid && this.$v.apart.$invalid && this.$v.passportData.$invalid && this.$v.whereGet.$invalid){
+                else if ((this.deliveries[this.chozenDel].delivery_name === 'pek' || this.deliveries[this.chozenDel].delivery_name === 'sdek') && this.$v.passportData.$invalid){
                     this.$v.$touch();
                     return;
                 }
-                let data = {
-                    city: this.city,
-                    house: this.house,
-                    apart: this.apart,
-                    corps: this.corps,
-                    street: this.street,
-                    indexPost: this.indexPost,
-                    deliveryName: this.deliveries[this.chozenDel].delivery_name,
-                    passportData: this.passportData,
-                    whereGet: this.whereGet,
-                    comment: this.commentForPostman
-                };
-                this.$store.dispatch('DeliveryData', data).then(() => this.$router.push({name: 'choosePay'}));
+                else if ((this.deliveries[this.chozenDel].delivery_name === 'pek' || this.deliveries[this.chozenDel].delivery_name === 'sdek') && this.$v.whereGet.$invalid){
+                    this.$v.$touch();
+                    return;
+                }
+                else {
+                    let data = {
+                        city: this.city,
+                        house: this.house,
+                        apart: this.apart,
+                        corps: this.corps,
+                        street: this.street,
+                        indexPost: this.indexPost,
+                        deliveryName: this.deliveries[this.chozenDel].delivery_name,
+                        passportData: this.passportData,
+                        whereGet: this.whereGet,
+                        comment: this.commentForPostman
+                    };
+                    this.$store.dispatch('DeliveryData', data).then(() => this.$router.push({name: 'choosePay'}));
+                }
             }
         },
         created(){
             this.$Progress.start();
             this.$store.dispatch('GetAllDeliveries');
+            this.$store.dispatch('GetUserData');
         },
         computed: {
             returnDeliveries(){
                 this.$Progress.finish();
                 return this.$store.getters.GetAllDeliveries;
             },
+            getUserData(){
+                return this.$store.getters.userData;
+            },
+        },
+        watch:{
+            getUserData(user){
+                if (user !== null){
+                    this.city = user[0][4]
+                    this.street = user[0][5]
+                    this.house = user[0][6]
+                    this.corps = user[0][7]
+                    this.apart = user[0][8]
+                    this.indexPost = user[0][9]
+                    this.$Progress.finish()
+                }
+            }
         }
     }
 </script>

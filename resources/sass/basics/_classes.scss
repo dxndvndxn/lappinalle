@@ -581,7 +581,9 @@
     background-color: $purpp;
     top: 0;
 }
-
+.invalidComment{
+    border: 2px solid $purpp !important;
+}
 // Админ классы
 .active-admin-tab{
     font-family: 'PT Sans', sans-serif !important;

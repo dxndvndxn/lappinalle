@@ -78,7 +78,7 @@ class AdmOrdersController extends Controller
             $prod_count = $val[1];
             $prod_name = (array)$prod_name[0];
 
-            $korzina_adm[$i] = $prod_name['product_title'] . ', Размер: ' . $prod_size . ', Количество: ' . $prod_count;
+            $korzina_adm[$i] = 'ID товара: ' . $val[0] .', '. $prod_name['product_title'] . ', Размер: ' . $prod_size . ', Количество: ' . $prod_count;
             $i++;
         }
         $totalOrder = [];
@@ -99,5 +99,81 @@ class AdmOrdersController extends Controller
         DB::table('orders')
             ->where('orders_id', $id)
             ->update(['orders_status' => $status]);
+    }
+
+    public function red(Request $request) {
+//        try {
+//            $fromFront = $request->all();
+//            $prod_id = $fromFront['product_id'];
+//            $size = $fromFront['size'];
+//            $amount = $fromFront['amount'];
+//            $order_id = $fromFront['order_id'];
+//
+//            $size_id = DB::table('sizes')->where('sizes_number', $size['size'])->value('sizes_id');
+//
+//            DB::table('catalog_sizes')->where([
+//                ['sizes_id', $size_id],
+//                ['product_id', $prod_id['product_id']]
+//            ])->increment('catalog_sizes_amount', $amount);
+//
+//            $korzina = DB::table('orders')->where('orders_id', $order_id['order_id'])->value('orders_korzina');
+//            $korzina = explode('|', $korzina);
+//            foreach($korzina as $val) {
+//                $v1 = strpos($val, $prod_id);
+//                if ($v1 !== false) {
+//                    $v1 = strpos($val, $size);
+//                    if ($v1 !== false) {
+//                        unset($val);
+//                    }
+//                }
+//            }
+//
+//            $newkor = '';
+//            foreach ($korzina as $val) {
+//                $newkor.=$val."|";
+//            }
+//
+//            DB::table('orders')->where('orders_id', $order_id['order_id'])->update('orders_korzina', $newkor);
+//            return true;
+//        }catch (Exception $e) {
+//            return $e;
+//        }
+        try {
+            $prod_id = $request->only('product_id');
+            $size = $request->only('size');
+            $amount = $request->only('amount');
+            $order_id = $request->only('order_id');
+
+            $size_id = DB::table('sizes')->where('sizes_number', $size['size'])->value('sizes_id');
+
+            DB::table('catalog_size')->where([
+                ['sizes_id', $size_id],
+                ['product_id', $prod_id['product_id']]
+            ])->increment('catalog_size_amount', (int)$amount);
+
+            $korzina = DB::table('orders')->where('orders_id', $order_id['order_id'])->value('orders_korzina');
+            $korzina = explode('|', $korzina);
+
+            foreach($korzina as $val) {
+                $v1 = strpos($val, $prod_id);
+                if ($v1 !== false) {
+                    $v1 = strpos($val, $size);
+                    if ($v1 !== false) {
+                        unset($val);
+                    }
+                }
+            }
+
+            $newkor = '';
+            foreach ($korzina as $val) {
+                $newkor.=$val."|";
+            }
+
+            DB::table('orders')->where('orders_id', $order_id['order_id'])->update('orders_korzina', $newkor);
+            return true;
+        }catch (Exception $e){
+            return $e;
+        }
+
     }
 }

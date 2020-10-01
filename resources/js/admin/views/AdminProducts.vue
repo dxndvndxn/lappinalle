@@ -11,9 +11,8 @@
                 </div>
             </div>
             <div class="admin-products-search">
-                <input type="text" class="input-transp input-transp-p" v-model="searched" placeholder="поиск">
-                <button class="btn-admin-arrow" @click="activeBtn = !activeBtn" v-bind:class="activeBtn ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
-                <button class="btn-admin-purpp"><img src="../../../img/Lupa.png" alt=""></button>
+                <input type="text" class="input-transp input-transp-p" v-model.trim="searched" placeholder="поиск">
+                <button class="btn-admin-purpp"><img src="../../../img/Lupa.png" @click="searchProducts()" alt=""></button>
             </div>
         </div>
         <div class="admin-products-list">
@@ -49,7 +48,7 @@
                                :value="newAddedCategory"
                                disabled
                         >
-                        <button class="btn-admin-arrow" @click="activeAddNew = !activeAddNew" v-bind:class="activeAddNew ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
+                        <button class="btn-admin-arrow" @click="activeAddNew = !activeAddNew" v-bind:class="activeAddNew ? 'admin-btn-arrow' : 'admin-btn-arrow-pass'"></button>
                     </div>
                     <AdminCrumbs v-if="activeAddNew" v-bind:lvl="3" @addNewCategoryForFresh="addNewCategoryForFresh" v-bind:crumbs="getCrumbs"/>
                 </div>
@@ -134,7 +133,6 @@
         data: () => ({
             searched: null,
             errorAdd: false,
-            activeBtn: null,
 
             // Переменная для стрелки, где добавить новый товар
             activeAddNew: false,
@@ -163,6 +161,15 @@
 
         }),
         methods: {
+           async searchProducts(){
+               this.$Progress.start();
+               this.$store.dispatch('AdminSearchProduct', this.searched)
+                   .then((res) => {
+                       if (res) {
+                           this.$Progress.finish();
+                       }
+                   })
+            },
            async addNewProduct(){
 
                 if (this.newProduct.length) {
@@ -238,17 +245,16 @@
 
             // Определяем активный продукт
             openCategory(id, i){
-               this.returnAllProducts.forEach(el => el.active = false);
+               // this.returnAllProducts.forEach(el => el.active = false);
+                this.returnAllProducts[i].active = !this.returnAllProducts[i].active;
+               // if (this.activeProduct !== null){
+               //
+               //     if (id === this.activeProduct.id) {
+               //         this.returnAllProducts[i].active = false;
+               //         return;
+               //     }
+               // }
 
-               if (this.activeProduct !== null){
-
-                   if (id === this.activeProduct.id) {
-                       this.returnAllProducts[i].active = false;
-                       return;
-                   }
-               }
-
-                this.returnAllProducts[i].active = true;
                 this.activeProduct = {
                     id, i
                 }

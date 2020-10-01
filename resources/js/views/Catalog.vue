@@ -129,7 +129,6 @@
                         }else{
 
                             if (this.$route.query.size) {
-
                                 idsSizes = this.sizes.join(',') + ',';
                             }
                         }

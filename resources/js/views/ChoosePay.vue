@@ -83,6 +83,9 @@
             this.amountError = false;
             this.checkAmount = false;
         },
+        mounted() {
+            this.$Progress.finish();
+        },
         computed: {
             URI(){
                 return this.$store.getters.URI;

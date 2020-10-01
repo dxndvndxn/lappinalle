@@ -37,3 +37,19 @@
         }
     }
 }
+@media screen and (max-width: 366px) {
+    .registration{
+        form{
+            .check-agree{
+                width: auto;
+                input{
+                    height: 40px;
+                }
+                label{
+                    font-size: $mini;
+                    line-height: 1.4;
+                }
+            }
+        }
+    }
+}

@@ -107,7 +107,7 @@
                     <label class="admin-h3">Корзина</label>
                     <div class="wrap-admin-order" v-for="(product, i) in orderProducts">
                         <input type="text" class="input-pale-blu" :value="product" disabled>
-                        <img src="../../../img/returnBack.png" alt="">
+                        <img @click="ReturnProduct(i)" src="../../../img/returnBack.png" alt="">
                     </div>
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
@@ -156,6 +156,33 @@
             this.$store.dispatch('GetOneOrder', {id: this.$route.params.id});
         },
         methods: {
+            ReturnProduct(i){
+                console.log(this.orderProducts[i].split(', '))
+                let splited = this.orderProducts[i].split(', ');
+                let data = {
+                    order_id: this.orderInfo[0].orders_id,
+                }
+
+                splited.forEach((el, i) => {
+
+                    if (i === 0) {
+                        data.product_id = +el.split(': ')[1];
+                    }
+                    if (i === 2) {
+                        data.size = el.split(': ')[1];
+                    }
+                    if (i === 3) {
+                        data.amount = +el.split(': ')[1];
+                    }
+                })
+                this.$Progress.start();
+                axios.post(`${this.URI}returnproduct`, data)
+                .then(res => {
+                    console.log(res.data)
+                    this.$store.dispatch('GetOneOrder', {id: this.$route.params.id});
+                })
+                console.log(data)
+            },
             loadFile(){
                 this.$Progress.start();
                 let address = '';
@@ -235,6 +262,7 @@
         },
         watch: {
             returnOneProduct(newValue){
+                console.log(newValue)
                 this.orderInfo = newValue[0];
                 this.orderProducts = newValue[1];
                 this.actvieStatus = this.orderInfo[0].orders_status;
