@@ -11,4 +11,15 @@ class AllSizesController extends Controller
         $sizes = DB::table('sizes')->get();
         return $sizes;
     }
+    public function newsize(Request $request) {
+
+        $newsize = $request->only('newsize');
+        DB::table('sizes')->insert(['sizes_number' => $newsize['newsize']]);
+        return true;
+    }
+    public function DeleteNewSize(Request $request){
+        $deletedSize = $request->only('sizeId');
+        DB::table('sizes')->where('sizes_id', $deletedSize['sizeId'])->delete();
+        return true;
+    }
 }

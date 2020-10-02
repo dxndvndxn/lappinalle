@@ -31,14 +31,4 @@
     .admin-img-logo{
         object-fit: contain;
     }
-    .admin-logout{
-        border: none;
-        background: none;
-        cursor: pointer;
-        @include ptSans(700);
-        font-size: 18px;
-        text-transform: uppercase;
-        color: #fff;
-        padding: 0;
-    }
 }

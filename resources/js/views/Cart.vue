@@ -103,7 +103,7 @@
                 await this.$store.dispatch('CheckAmount', checkAmount)
                     .then(res => {
                         this.checkAmount = !this.checkAmount;
-                        console.log(res)
+
                         res.forEach(el => {
 
                             if (!el.amount) {

@@ -259,24 +259,35 @@
                     this.$v.$touch();
                     return;
                 }
-                if (this.deliveries[this.chozenDel].delivery_name === 'post-russia' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid && this.$v.indexPost.$invalid){
-                    this.$v.$touch();
-                    return;
-                } else if (this.deliveries[this.chozenDel].delivery_name === 'postman' && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid){
-                    this.$v.$touch();
-                    return;
-                } else if (this.deliveries[this.chozenDel].delivery_name === 'sdek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid) {
-                    this.$v.$touch();
-                    return;
-                }else if (this.deliveries[this.chozenDel].delivery_name === 'pek' && this.$v.city.$invalid && this.$v.street.$invalid && this.$v.house.$invalid && this.$v.apart.$invalid) {
+                if (this.deliveries[this.chozenDel].delivery_name === 'post-russia'){
+                    if (this.$v.city.$invalid || this.$v.street.$invalid || this.$v.house.$invalid || this.$v.apart.$invalid || this.$v.indexPost.$invalid){
+                        this.$v.$touch();
+                        return;
+                    }
+                }
+                if (this.deliveries[this.chozenDel].delivery_name === 'postman'){
+                    if (this.$v.street.$invalid || this.$v.house.$invalid || this.$v.apart.$invalid) {
+                        this.$v.$touch();
+                        return;
+                    }
+                }
+                if (this.deliveries[this.chozenDel].delivery_name === 'sdek') {
+                    if (this.$v.city.$invalid || this.$v.street.$invalid || this.$v.house.$invalid || this.$v.apart.$invalid){
+                        this.$v.$touch();
+                        return;
+                    }
+                }
+                if (this.deliveries[this.chozenDel].delivery_name === 'pek') {
+                    if (this.$v.city.$invalid || this.$v.street.$invalid || this.$v.house.$invalid || this.$v.apart.$invalid) {
+                        this.$v.$touch();
+                        return;
+                    }
+                }
+                if ((this.deliveries[this.chozenDel].delivery_name === 'pek' || this.deliveries[this.chozenDel].delivery_name === 'sdek') && this.$v.passportData.$invalid){
                     this.$v.$touch();
                     return;
                 }
-                else if ((this.deliveries[this.chozenDel].delivery_name === 'pek' || this.deliveries[this.chozenDel].delivery_name === 'sdek') && this.$v.passportData.$invalid){
-                    this.$v.$touch();
-                    return;
-                }
-                else if ((this.deliveries[this.chozenDel].delivery_name === 'pek' || this.deliveries[this.chozenDel].delivery_name === 'sdek') && this.$v.whereGet.$invalid){
+                if ((this.deliveries[this.chozenDel].delivery_name === 'pek' || this.deliveries[this.chozenDel].delivery_name === 'sdek') && this.$v.whereGet.$invalid){
                     this.$v.$touch();
                     return;
                 }

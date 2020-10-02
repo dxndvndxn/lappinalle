@@ -4,8 +4,8 @@
             <div class="admin-logo">
                 Панель администратора
             </div>
-            <img src="../../../img/logo-admin.png" class="admin-img-logo" alt="">
-            <button class="admin-logout">Выйти</button>
+            <router-link :to="{name: 'Home'}"><img src="../../../img/logo-admin.png" class="admin-img-logo" alt=""></router-link>
+            <div></div>
         </div>
         <vue-progress-bar></vue-progress-bar>
     </div>

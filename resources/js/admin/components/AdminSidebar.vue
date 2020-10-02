@@ -22,6 +22,7 @@
                 {name: 'Заказы', path: 'AdminOrders', active: false},
                 {name: 'Пользователи', path: 'AdminUsers', active: false},
                 {name: 'Отзывы', path: 'AdminReviews', active: false},
+                {name: 'Размеры', path: 'AdminNewSizes', active: false},
             ]
         }),
         methods: {

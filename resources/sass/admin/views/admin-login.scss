@@ -1,0 +1,11 @@
+.admin-login{
+    .wrap-admin-login{
+        @include flexin(center);
+        align-items: center;
+        height: 100vh;
+        button{
+            width: 100%;
+            height: 50px;
+        }
+    }
+}

@@ -9,10 +9,11 @@
 <script>
     import MainLayout from "./layouts/MainLayout";
     import AdminLayout from "./admin/AdminLayout";
+    import LoginAdminLayout from "./admin/LoginAdminLayout";
     export default {
         name: "Appi",
         components: {
-            MainLayout, AdminLayout
+            MainLayout, AdminLayout, LoginAdminLayout
         },
         computed:{
             layout(){

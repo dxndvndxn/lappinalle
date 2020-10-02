@@ -196,4 +196,26 @@ class LKController extends Controller
             return false;
         }
     }
+
+    public function adminIn(Request $request) {
+        $fromFront = $request->all();
+        if (isset($fromFront['login'])){
+            $user = $fromFront['login'];
+            $pass = $fromFront['pass'];
+            $vpas = password_verify($pass, '$2y$10$py6DuxLJEetC5oxv6yopVeZzE7OnPTnxKagnyGUU28N1UNL7Zh2Wq');
+
+            if ($user === "lappiadmin" && $vpas) {
+                return "127.0.0.1";
+            }else{
+                return false;
+            }
+        }
+        if (isset($fromFront['check'])){
+            if ($fromFront['check'] === "127.0.0.1") {
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
 }

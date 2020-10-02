@@ -48,6 +48,12 @@ Route::post('/updprod', 'AddNewProdController@update');
 // Получаем все размеры для карточки товара
 Route::get('/adminallsizes','AllSizesController@index');
 
+// Добавляем новый размер
+Route::post('/addnewsize','AllSizesController@newsize');
+
+// Удалить новый размер
+Route::post('/deletenewsize','AllSizesController@DeleteNewSize');
+
 // Email
 Route::post('/mailer', 'MailerController@send');
 
@@ -65,7 +71,7 @@ Route::post('/returnproduct', 'AdmOrdersController@red');
 
 //Админка карточка пользователя
 Route::post('/lkadm', 'LKController@admin');
-
+Route::post('/lkadm', 'LKController@adminIn');
 //Админка все пользователи
 Route::get('/adminusers', 'AdminUsersController@index');
 

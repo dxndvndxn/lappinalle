@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-// const URI = 'https://lappinalle.ru/api/';
-const URI = 'http://lappinalle.test/api/';
+const URI = 'https://lappinalle.ru/api/';
+// const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -36,7 +36,8 @@ const admin = {
         GetAllDeliveries: null,
 
         // ГЛАВНАЯ
-        GetMainPageAdmin: null
+        GetMainPageAdmin: null,
+        mamakusa: JSON.parse(window.sessionStorage.getItem('mamakusa') || 'null')
     }),
     mutations: {
         // Получаем все товары СТРАНИЧКА ТОВАРЫ
@@ -107,6 +108,10 @@ const admin = {
         },
         AdminSearchProductMutate(state, data){
             state.adminProducts = data;
+        },
+        Mamasa(state, data){
+            state.mamakusa = data;
+            window.sessionStorage.setItem('mamakusa', JSON.stringify(state.mamakusa));
         }
     },
     actions: {
@@ -198,6 +203,63 @@ const admin = {
                         reject(false)
                     })
             })
+        },
+        Mamase({commit}, data) {
+            return new Promise((resolve, reject) => {
+                axios.post(`${URI}lkadm`, data)
+                    .then(res => {
+                        console.log(res.data)
+                        if (!res.data){
+                            resolve(false)
+                        }else{
+                            commit('Mamasa', res.data);
+                            resolve(true)
+                        }
+                    })
+                    .catch(e => {
+                        reject(e)
+                    })
+            })
+        },
+        CheckMamaSe({commit}, check) {
+            return new Promise((resolve, reject) => {
+                let data = {
+                    check: check
+                }
+                axios.post(`${URI}lkadm`, data)
+                    .then(res => {
+                        resolve(true)
+                    })
+                    .catch(e => {
+                        reject(e)
+                    })
+            })
+        },
+        AddNewSize({commit}, size){
+            return new Promise(resolve => {
+                axios.post(`${URI}addnewsize`, {newsize: size})
+                    .then(res => {
+                        if (res.data){
+                            resolve(true)
+                        }else{
+                            resolve(false)
+                        }
+                    })
+                    .catch(e => console.log(e))
+            })
+        },
+        DeleteNewSize({commit}, sizeId){
+            return new Promise(resolve => {
+                axios.post(`${URI}deletenewsize`, {sizeId})
+                    .then(res => {
+                        if (res.data){
+                            resolve(true)
+                        }else{
+                            resolve(false)
+                        }
+                    })
+                    .catch(e => console.log(e))
+            })
         }
     },
     getters: {
@@ -239,6 +301,9 @@ const admin = {
         },
         GetMainPageAdmin: state => {
             return state.GetMainPageAdmin;
+        },
+        mamakusa: state => {
+            return state.mamakusa;
         }
     }
 };
@@ -945,8 +1010,8 @@ const store = {
                    .then(res => {
                        console.log(res.data, 'НАЛИМКА БЕКЕНДЕР')
                        state.payId = res.data.id;
-                       // window.localStorage.setItem('payId', JSON.stringify(state.payId))
-                       // window.location = res.data.formUrl;
+                       window.localStorage.setItem('payId', JSON.stringify(state.payId))
+                       window.location = res.data.formUrl;
                     })
                    .catch(e => {
                        console.log(e)

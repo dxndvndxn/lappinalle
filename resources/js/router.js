@@ -32,151 +32,14 @@ import AdminReviews from "./admin/views/AdminReviews";
 import ReviewCard from "./admin/views/ReviewCard";
 import PayFail from "./views/PayFail";
 import Searching from "./views/Searching";
-// export default {
-//     mode: 'history',
-//     routes: [
-//         {
-//             path: '/',
-//             name: 'Home',
-//             meta: {
-//                 layout: 'Main',
-//                 auth: undefined
-//             },
-//             component: Home
-//         },
-//         {
-//             path: '/kontacty',
-//             name: 'contact',
-//             meta: { layout: 'Main' },
-//             component: Contacts
-//         },
-//         {
-//             path: '/oplata',
-//             name: 'oplata',
-//             meta: { layout: 'Main' },
-//             component: Pay
-//         },
-//         {
-//             path: '/dostavka',
-//             name: 'dostavka',
-//             meta: { layout: 'Main' },
-//             component: Delivery
-//         },
-//         {
-//             path: '/login',
-//             name: 'login',
-//             meta: {
-//                 layout: 'Main',
-//                 auth: false
-//             },
-//             component: Login
-//         },
-//         {
-//             path: '/registration',
-//             name: 'registration',
-//             meta: {
-//                 layout: 'Main',
-//                 auth: false
-//             },
-//             component: Registration
-//         },
-//         {
-//             path: '/cabinet',
-//             name: 'cabinet',
-//             meta: {
-//                 layout: 'Main',
-//                 auth: true
-//             },
-//             component: Cabinet
-//         },
-//         {
-//             path: '/reset',
-//             name: 'reset',
-//             meta: { layout: 'Main' },
-//             component: Reset
-//         },
-//         {
-//             path: '/korzina',
-//             name: 'cart',
-//             meta: { layout: 'Main' },
-//             component: Cart
-//         },
-//         {
-//             path: '/oformleniezakaza',
-//             name: 'ordering',
-//             meta: { layout: 'Main' },
-//             component: Order
-//         },
-//         {
-//             path: '/vybordostavki',
-//             name: 'chooseDelivery',
-//             meta: { layout: 'Main' },
-//             component: ChooseDelivery
-//         },
-//         {
-//             path: '/vyboroplaty',
-//             name: 'choosePay',
-//             meta: { layout: 'Main' },
-//             component: ChoosePay
-//         },
-//         {
-//             path: '/paysuccess',
-//             name: 'paySuccess',
-//             meta: { layout: 'Main' },
-//             component: PaySuccess
-//         },
-//         {
-//             path: '/izbrannoe',
-//             name: 'bookmark',
-//             meta: { layout: 'Main' },
-//             component: Bookmark
-//         },
-//         {
-//             path: '/:gender',
-//             name: 'gender',
-//             meta: { layout: 'Main' },
-//             component: Catalog
-//         },
-//         {
-//             path: '/:gender/item-:number',
-//             name: 'item',
-//             meta: { layout: 'Main' },
-//             component: Catalogitem
-//         },
-//         {
-//             path: '/:gender/:category/item-:number',
-//             name: 'item',
-//             meta: { layout: 'Main' },
-//             component: Catalogitem
-//         },
-//         {
-//             path: '/:gender/:category/:department/item-:number',
-//             name: 'item',
-//             meta: { layout: 'Main' },
-//             component: Catalogitem
-//         },
-//         {
-//             path: '/:gender/:category',
-//             name: 'category',
-//             meta: { layout: 'Main' },
-//             component: Catalog
-//         },
-//         {
-//             path: '/:gender/:category/:department',
-//             name: 'department',
-//             meta: { layout: 'Main' },
-//             component: Catalog
-//         },
-//
-//     ]
-// }
+import AdminNewSizes from "./admin/views/AdminNewSizes";
+
 const routes = [
     {
         path: '/',
         name: 'Home',
         meta: {
-            layout: 'Main',
-            auth: undefined
+            layout: 'Main'
         },
         component: Home
     },
@@ -332,76 +195,170 @@ const routes = [
     {
         path: '/adminalle',
         name: 'admin',
-        meta: { layout: 'Admin' },
+        meta: { layout: 'LoginAdmin'},
         component: Admin,
         children: [
             {
                 path: 'categories',
                 component: AdminCategories,
                 meta: { layout: 'Admin' },
-                name: 'AdminCategories'
+                name: 'AdminCategories',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa)
+                            .then((res) => {
+                                next()
+                            })
+                            .catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             },
             {
                 path: 'products',
                 component: AdminProducts,
                 meta: { layout: 'Admin' },
-                name: 'AdminProducts'
+                name: 'AdminProducts',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             },
             {
                 path: 'card-:id',
                 component: ProductCard,
                 meta: { layout: 'Admin' },
                 name: 'ProductCart',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             },
             {
                 path: 'pages',
                 component: AdminMainPage,
                 meta: { layout: 'Admin' },
-                name: 'AdminMainPage'
+                name: 'AdminMainPage',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             },
             {
                 path: 'orders',
                 component: AdminOrders,
                 meta: { layout: 'Admin' },
-                name: 'AdminOrders'
+                name: 'AdminOrders',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             },
             {
                 path: 'order-:id',
                 component: OrderCard,
                 meta: { layout: 'Admin' },
-                name: 'OrderCard'
+                name: 'OrderCard',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             },
             {
                 path: 'users',
                 component: AdminUsers,
                 meta: { layout: 'Admin' },
-                name: 'AdminUsers'
+                name: 'AdminUsers',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             },
             {
                 path: 'user-:id',
                 component: UserCard,
                 meta: { layout: 'Admin' },
-                name: 'UserCard'
+                name: 'UserCard',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             },
             {
                 path: 'delivery',
                 component: AdminDelivery,
                 meta: { layout: 'Admin' },
-                name: 'AdminDelivery'
+                name: 'AdminDelivery',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             },
             {
                 path: 'reviews',
                 component: AdminReviews,
                 meta: { layout: 'Admin' },
-                name: 'AdminReviews'
+                name: 'AdminReviews',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             },
             {
                 path: 'review-:id',
                 component: ReviewCard,
                 meta: { layout: 'Admin' },
-                name: 'ReviewCard'
+                name: 'ReviewCard',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
+            },
+            {
+                path: 'newsizes',
+                component: AdminNewSizes,
+                meta: { layout: 'Admin' },
+                name: 'AdminNewSizes',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
             }
-        ]
+        ],
     },
     {
         path: '/:gender/item-:number',

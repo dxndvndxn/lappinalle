@@ -1,0 +1,42 @@
+.admin-new-sizes{
+    .wrap-new-size-grid{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(40px, 64.8px));
+        grid-template-rows: 40px;
+        grid-column-gap: 14px;
+        grid-row-gap: 8px;
+        margin-top: 60px;
+        span{
+            background-color: $ocean;
+            font-family: "PtSans-Regular", sans-serif;
+            color: $grey;
+            height: 40px;
+            text-align: center;
+            padding-top: 11px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+    }
+    .wrap-add-new-sizes{
+        display: flex;
+        input{
+            padding: 15px;
+        }
+        button{
+            width: 40px;
+            height: 40px;
+            @include flexin(center);
+            align-items: center;
+            cursor: pointer;
+            img{
+                object-fit: contain;
+                transform: rotate(45deg);
+            }
+        }
+    }
+    .error-size{
+        font-size: $regFz;
+        color: $purpp;
+        @include ptSans(700);
+    }
+}
