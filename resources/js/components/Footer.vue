@@ -7,6 +7,7 @@
             <router-link tag="dd" to="/dostavka"><a href="#">Доставка</a></router-link>
             <router-link tag="dd" to="/returnproduct"><a href="#">Гарантии и возврат товара</a></router-link>
             <router-link tag="dd" to="/privacy"><a href="#">Политика конфедециальности</a></router-link>
+            <router-link tag="dd" to="/useraccept"><a href="#">Пользовательское Соглашение</a></router-link>
         </dl>
         <dl class="right-foot">
             <dt>Каталог</dt>

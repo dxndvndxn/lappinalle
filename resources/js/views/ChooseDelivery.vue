@@ -37,6 +37,17 @@
                     <small v-if="$v.indexPost.$dirty && !$v.indexPost.required" class="small-invalid">Поле Индекс должно быть заполнено</small>
                     <small v-if="$v.indexPost.$dirty && !$v.indexPost.maxLength" class="small-invalid">Поле Индекс заполнено не корректно</small>
                 </div>
+                <div class="accept-checkbox">
+                    <label>
+                        <router-link :to="{name: 'UserAccept'}">
+                            Выражаю согласие с условиями
+                            политики конфиденциальности
+                            и пользовательского соглашения
+                        </router-link>
+                    </label>
+                    <input v-model.trim="checkAgree" type="checkbox" @click="checkAgree = !checkAgree"
+                           v-bind:class="checkAgree ? 'active-size' : null">
+                </div>
             </div>
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'postman'">
                 <div class="input-wrap">
@@ -63,6 +74,17 @@
 
                     </textarea>
                     <small v-if="$v.commentForPostman.$dirty && !$v.commentForPostman.maxLength" class="small-invalid">Поле Квартира заполнено не корректно</small>
+                </div>
+                <div class="accept-checkbox">
+                    <label>
+                        <router-link :to="{name: 'UserAccept'}">
+                            Выражаю согласие с условиями
+                            политики конфиденциальности
+                            и пользовательского соглашения
+                        </router-link>
+                    </label>
+                    <input v-model.trim="checkAgree" type="checkbox" @click="checkAgree = !checkAgree"
+                           v-bind:class="checkAgree ? 'active-size' : null">
                 </div>
             </div>
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'sdek'">
@@ -100,6 +122,17 @@
                     <label for="stock">До пункта выдачи <input type="radio" id="stock" name="whatList" value="До пункта выдачи" v-model="whereGet"></label>
                     <small v-if="$v.whereGet.$dirty && !$v.whereGet.required" class="small-invalid">Пожалуйста, укажите способ доставки</small>
                 </div>
+                <div class="accept-checkbox">
+                    <label>
+                        <router-link :to="{name: 'UserAccept'}">
+                            Выражаю согласие с условиями
+                            политики конфиденциальности
+                            и пользовательского соглашения
+                        </router-link>
+                    </label>
+                    <input v-model.trim="checkAgree" type="checkbox" @click="checkAgree = !checkAgree"
+                           v-bind:class="checkAgree ? 'active-size' : null">
+                </div>
             </div>
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'pek'">
                 <div class="input-wrap">
@@ -136,19 +169,30 @@
                     <label for="stock">До пункта выдачи <input type="radio" id="stock" name="whatList" value="До пункта выдачи" v-model="whereGet"></label>
                     <small v-if="$v.whereGet.$dirty && !$v.whereGet.required" class="small-invalid">Пожалуйста, укажите способ доставки</small>
                 </div>
+                <div class="accept-checkbox">
+                    <label>
+                        <router-link :to="{name: 'UserAccept'}">
+                            Выражаю согласие с условиями
+                            политики конфиденциальности
+                            и пользовательского соглашения
+                        </router-link>
+                    </label>
+                    <input v-model.trim="checkAgree" type="checkbox" @click="checkAgree = !checkAgree"
+                           v-bind:class="checkAgree ? 'active-size' : null">
+                </div>
             </div>
             <div class="chozen-delivery-text">
                 <p>
                     {{deliveries[chozenDel].delText}}
                 </p>
-                <div class="chozen-delivery-price" v-if="deliveries[chozenDel].delivery_name === 'postman'">
-                    Стоимость доставки:
-                    <span v-if="$store.getters.totalPrice >= deliveries[chozenDel].freeShip">0 &#8381;</span>
-                    <span v-else>{{deliveries[chozenDel].delPrice + ' &#8381;'}} </span>
-                </div>
-                <div class="chozen-delivery-total" v-if="deliveries[chozenDel].delivery_name === 'postman'">
-                    Итоговая стоимость: <span>{{$store.getters.totalPrice >= 2000 ? $store.getters.totalPrice : $store.getters.totalPrice + 300}} &#8381;</span>
-                </div>
+<!--                <div class="chozen-delivery-price" v-if="deliveries[chozenDel].delivery_name === 'postman'">-->
+<!--                    Стоимость доставки:-->
+<!--                    <span v-if="$store.getters.totalPrice >= deliveries[chozenDel].freeShip">0 &#8381;</span>-->
+<!--                    <span v-else>{{deliveries[chozenDel].delPrice + ' &#8381;'}} </span>-->
+<!--                </div>-->
+<!--                <div class="chozen-delivery-total" v-if="deliveries[chozenDel].delivery_name === 'postman'">-->
+<!--                    Итоговая стоимость: <span>{{$store.getters.totalPrice >= 2000 ? $store.getters.totalPrice : $store.getters.totalPrice + 300}} &#8381;</span>-->
+<!--                </div>-->
             </div>
             <div class="chozen-delivery-btn">
                 <button class="classic-btn-sz btn">следующий шаг</button>
@@ -207,7 +251,8 @@
             passportData: null,
             chozenDel: 0,
             whereGet: null,
-            commentForPostman: null
+            commentForPostman: null,
+            checkAgree: null
         }),
         validations: {
             city: {
@@ -242,6 +287,9 @@
             },
             commentForPostman: {
                 maxLength: maxLength(150)
+            },
+            checkAgree: {
+                required
             }
         },
         methods: {
@@ -256,6 +304,10 @@
                     return;
                 }
                 if (this.$v.commentForPostman.$invalid){
+                    this.$v.$touch();
+                    return;
+                }
+                if (this.$v.checkAgree.$invalid || !this.checkAgree){
                     this.$v.$touch();
                     return;
                 }

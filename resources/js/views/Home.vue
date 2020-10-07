@@ -21,7 +21,7 @@
                 <carousel :nav="true" :dots="false" :lazyLoad="true" v-if="media.wind > media.tablet">
                     <div class="slide-wrap" v-for='(img, ii) in block.block_carousel' :key="ii">
                         <router-link :to="{path: `${block.alias}/item-${img.product_id}`}" class="img-container">
-                            <img :src="img.product_img.split(',')[0]" alt="">
+                            <img v-if="img.product_img !== null" :src="img.product_img.split(',')[0]" alt="">
                         </router-link>
                         <span class="slide-title">{{img.product_title}}</span>
                         <span class="slide-price" :class="img.product_sale !== 0 ? 'sale' : null">{{parseInt(img.product_price) * parseInt(block.eu)}} ₽</span>
@@ -30,7 +30,7 @@
                 <carousel class="carousel-mobile" :nav="false" :dots="false" :lazyLoad="true" :loop="true" :margin="50" :autoWidth="true" :items="1" v-else>
                     <div class="slide-wrap" v-for='(img, ii) in block.block_carousel' :key="ii">
                         <router-link :to="{path: `${block.alias}/item-${img.product_id}`}" class="img-container">
-                            <img :src="img.product_img.split(',')[0]" alt="">
+                            <img v-if="img.product_img !== null" :src="img.product_img.split(',')[0]" alt="">
                         </router-link>
                         <span class="slide-title">{{img.product_title}}</span>
                         <span class="slide-price" :class="img.product_sale !== 0 ? 'sale' : null">{{parseInt(img.product_price) * parseInt(block.eu)}} ₽</span>
@@ -77,10 +77,10 @@
         name: 'Home',
         components: {carousel},
         data: () =>({
+
         }),
         created() {
             this.$Progress.start();
-            if (this.GetMainPageAdmin === null) this.$store.dispatch('GetMainPageAdmin')
         },
 
         computed: {

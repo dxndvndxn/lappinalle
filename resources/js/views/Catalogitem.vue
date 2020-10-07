@@ -324,7 +324,7 @@
                 };
 
                 let c = {
-                    x: Math.round((event.clientX - (container.offsetLeft - window.scrollX)) / (e.w / 40)),
+                    x: Math.round((event.clientX - (container.offsetLeft - window.scrollX)) / (e.w / 30)),
                     y: Math.round((event.clientY - (container.offsetTop - window.scrollY)) / (e.h / 95))
                 };
                 imgZoom.style.backgroundPosition = c.x + '% ' + c.y + '%';
@@ -401,8 +401,8 @@
                         let data = [];
                         this.clickedSize.forEach(el => {
                             let findSizeWithNoSale = this.returnDataForItem.sizeWithoutSale.find(size => size === el.sz);
-                            if (findSizeWithNoSale) data.push({id: itemId, count: 1, size: el.sz, price: oldPrice});
-                            else data.push({id: itemId, count: 1, size: el.sz, price: itemPrice});
+                            if (findSizeWithNoSale) data.push({id: itemId, count: 1, size: el.sz, price: oldPrice, catalog_size_id: el.catalog_size_id});
+                            else data.push({id: itemId, count: 1, size: el.sz, price: itemPrice, catalog_size_id: el.catalog_size_id});
                         });
                         this.$store.dispatch('addToCart', data).then(() => this.$router.push({name: 'cart'}));
                     }else{

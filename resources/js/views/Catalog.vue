@@ -1,7 +1,7 @@
 <template>
     <div>
-            <div class="wrap-bread">
-            <div class="bread container">
+        <div class="wrap-bread">
+            <div class="bread container" :id="'sorting'">
                 <div></div>
                 <Breadcrumbs v-if="media.wind > media.tablet"/>
                 <div class="sort">
@@ -240,7 +240,7 @@
 
                             res.data.forEach(el => {
 
-                                let findSize = localSizes.find(size => +size === el.sizes_number);
+                                let findSize = localSizes.find(size => +size == el.sizes_number);
 
                                 if (findSize) this.sizes.push(el.product_id)
                             })
@@ -252,6 +252,7 @@
                             });
 
                             this.sizeStr = queryStr;
+
                         })
                 }
 

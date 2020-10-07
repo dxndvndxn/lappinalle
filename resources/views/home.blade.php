@@ -12,7 +12,12 @@
 </head>
 <body>
     <div id="app">
-      <Appi></Appi>
+{{--      <Appi></Appi>--}}
     </div>
+
+{{--    {!! $ssr !!}--}}
+{{--    <script src="{{ asset('js/manifest.js') }}" type="text/javascript"></script>--}}
+{{--    <script src="{{ asset('js/vendor.js') }}" type="text/javascript"></script>--}}
+{{--    <script src="{{ asset('js/entry-client.js') }}" type="text/javascript"></script>--}}
 </body>
 </html>

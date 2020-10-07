@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :id="'app'">
         <component :is='layout'>
             <router-view></router-view>
         </component>
@@ -28,6 +28,10 @@
                 if (to.name === 'category' || to.name === 'department' || to.name === 'item') {
                     this.$store.dispatch('showDepartments', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender});
                 }
+            },
+            layout(value){
+                return value;
+
             }
         }
     }

@@ -23,7 +23,6 @@
 
 <script>
     import Back from "../components/Back";
-    import axios from 'axios'
     export default {
         name: "Delivery",
         components: {

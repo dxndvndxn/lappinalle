@@ -5,22 +5,23 @@
     }
     h1{
         margin-top: 80px;
+        margin-bottom: 50px;
     }
     a{
-        text-decoration: none;
         color: $palepurpp;
     }
     h2{
-        font-size: $bigFz + 2px;
+        font-size: $regFz;
         margin: 50px 0;
         @include ptSans(700);
-        text-align: center;
+        text-align: left;
         text-transform: uppercase;
     }
     &-icons{
         @include flexin(space-between);
         @include border(top, 3px, $palepurpp);
         @include border(bottom, 3px, $palepurpp);
+        margin-bottom: 50px;
         img{
             object-fit: contain;
             height: 155px;
@@ -51,11 +52,15 @@
             @include flex-column(column);
             align-items: center;
             border: none;
+            margin-bottom: 25px;
             img{
                 margin-bottom: 25px;
             }
         }
         &-text{
+            font-size: $mini;
+        }
+        h2{
             font-size: $mini;
         }
     }

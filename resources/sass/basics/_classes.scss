@@ -498,39 +498,24 @@
     transform: scale(1);
     fill: $paleblue;
 }
-
+.autoHeight{
+    height: auto !important;
+}
 // МЕНЮ АНИМАЦИЯ
-.fade-enter-active, .fade-leave-active {
-    @media screen and (max-width: $mobile) {
-        transform: translate3d(0, 0%,0);
-        visibility:visible;
-        height: 100% !important;
-        transition: all ease .4s;
-    }
-}
-
-.fade-enter, .fade-leave-to {
-    @media screen and (max-width: $mobile) {
-        transform:translate3d(0, -100%,0);
-        height: 0 !important;
-        transition: all ease-in .4s;
-    }
-}
-.transitionNavBig{
-    @media screen and (max-width: $mobile) {
-        height: auto !important;
-    }
-}
-.transitionNav{
-    @media screen and (max-width: $mobile) {
-        height: 120px;
-    }
-}
-.transitionOutNav{
-    @media screen and (max-width: $mobile) {
-        height: 59px !important;
-    }
-}
+//.fade-enter-active, .fade-leave-active {
+//    @media screen and (max-width: $mobile) {
+//        visibility:visible;
+//        opacity: 1;
+//        transition: all ease-in-out .4s;
+//    }
+//}
+//
+//.fade-enter, .fade-leave-to {
+//    @media screen and (max-width: $mobile) {
+//        opacity: 0;
+//        transition: opacity ease-in .4s;
+//    }
+//}
 
 // СПИНЕР
 @keyframes lds-ring {
@@ -579,7 +564,7 @@
     height: 100%;
     position: absolute;
     background-color: $purpp;
-    top: 0;
+    top: -2.5px;
 }
 .invalidComment{
     border: 2px solid $purpp !important;

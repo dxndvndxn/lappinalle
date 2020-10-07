@@ -76,7 +76,9 @@
         },
         created() {
             this.$Progress.start();
-            this.$store.dispatch('getProductForCart');
+            if (!this.getProductCart.length) {
+                this.$store.dispatch('getProductForCart');
+            }
         },
         beforeDestroy() {
             this.errorProductsAmount = [];
@@ -89,9 +91,6 @@
         computed: {
             URI(){
                 return this.$store.getters.URI;
-            },
-            totalPrice() {
-                return this.$store.getters.totalPrice;
             },
             returnDeliveryData(){
                 return this.$store.getters.deliveryData;

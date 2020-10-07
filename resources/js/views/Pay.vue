@@ -5,7 +5,6 @@
             <Back v-bind:color="'grey'" v-bind:word="'Назад'"/>
             <h1 class="h-30">Оплата</h1>
         </div>
-        <a href="../../Primer_Oplaty_Platezha_Po_Ie.docx" download><h2>Банковской картой онлайн</h2></a>
         <div class="pay-icons" id="iconsPay">
             <img :src="ic" v-for="(ic, i) in payIcons.lvlOne" alt="">
         </div>
@@ -24,6 +23,7 @@
         <p class="pay-text">
             При возникновении проблем с оплатой свяжитесь с нами по WhatsApp, электронной почте или через форму обратной связи на странице "Контакты".
         </p>
+        <a href="../../Primer_Oplaty_Platezha_Po_Ie.docx" download><h2>Подробней о способе оплаты банковской картой</h2></a>
 <!--        <h2 v-if="media.wind > media.tablet">Онлайн кошельки</h2>-->
 <!--        <div class="pay-icons">-->
 <!--            <img :src="ic" v-for="(ic, ii) in payIcons.lvlTwo" alt="">-->

@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-const URI = 'https://lappinalle.ru/api/';
-// const URI = 'http://lappinalle.test/api/';
+// const URI = 'https://lappinalle.ru/api/';
+const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -350,7 +350,7 @@ const store = {
         // Корзина
         cart: JSON.parse(localStorage.getItem('cart') || '[]'),
         countCart: JSON.parse(localStorage.getItem('countCart') || '0'),
-        cartProduct: null,
+        cartProduct: [],
         updatedCart: {
             cart: null,
             cartCount: null
@@ -382,7 +382,10 @@ const store = {
         // Медиа
         tablet: 768,
         mobile: 576,
-        wind: window.innerWidth
+        wind: window.innerWidth,
+
+        // Печеньки
+        cookie: JSON.parse(sessionStorage.getItem('cookie') || 'false')
     },
     mutations: {
         // Регистрация
@@ -874,54 +877,8 @@ const store = {
         },
 
         // Получаем товары для корзины
-        async getProductForCartMutate(state){
-            let cardIds = [];
-
-            state.cart.forEach(el => {
-                cardIds.push(el.id);
-            });
-
-            let unigIds = new Set(cardIds);
-
-            await axios.get(`${state.SITE_URI}itemscard/${Array.from(unigIds).join(', ')}`)
-                .then(response => {
-
-                    let dataCart = state.cart;
-                    let data = response.data;
-
-                    data.forEach(el => {
-                        el.product_img = el.product_img.split(', ');
-                        el.product_img = el.product_img[0];
-                    });
-
-                    let totalDataCart = [];
-                    data.forEach(el => {
-
-                        dataCart.forEach(elCart => {
-
-                            if (el.product_id === elCart.id) {
-                                totalDataCart.push(
-                                    {
-                                        id: elCart.id,
-                                        count: elCart.count,
-                                        price: elCart.price,
-                                        size: elCart.size,
-                                        catalog_size_id: elCart.catalog_size_id,
-                                        product_description: el.product_description,
-                                        product_id: el.product_id,
-                                        product_img: el.product_img,
-                                        product_price: elCart.price,
-                                        product_title: el.product_title
-                                    })
-                            }
-                        })
-                    });
-
-                    state.cartProduct = totalDataCart;
-                })
-                .catch(e => {
-                    console.log(e)
-                })
+        async getProductForCartMutate(state, totalDataCart){
+            state.cartProduct = totalDataCart;
         },
 
         // Удаляем карточку товара
@@ -945,11 +902,6 @@ const store = {
 
             state.updatedCart.cart = state.cartProduct;
             state.updatedCart.cartCount = state.countCart;
-        },
-
-        totalPriceMutate(state, data){
-            state.totalPrice = data;
-            window.localStorage.setItem('totalPrice', JSON.stringify(state.totalPrice));
         },
 
         changeCountCartMutate(state, data){
@@ -985,12 +937,12 @@ const store = {
             });
 
             state.customerData.paymentName = payName;
-            let localTotalPrice = state.totalPrice;
-
-            if (state.deliveryData.deliveryName === 'postman' && state.totalPrice < 2000) {
-               localTotalPrice = state.totalPrice + 300;
-            }
-
+            let localTotalPrice = 0;
+            //
+            // if (state.deliveryData.deliveryName === 'postman' && state.totalPrice < 2000) {
+            //    localTotalPrice = state.totalPrice + 300;
+            // }
+            state.cartProduct.forEach(el => localTotalPrice += el.product_price)
             postData.push({customerData: state.customerData, deliveryData: state.deliveryData, orderData: localCart, totalPrice: localTotalPrice});
 
            if (payName === 'Сбербанк'){
@@ -1099,6 +1051,10 @@ const store = {
 
         SearchResultMutate(state, data){
             state.searchResult = data;
+        },
+        MutateCookie(state){
+            state.cookie = true;
+            window.sessionStorage.setItem('cookie', JSON.stringify(state.cookie));
         }
 
     },
@@ -1259,8 +1215,60 @@ const store = {
         addToCart({commit}, data){
             commit('addToCartMutate', data);
         },
-        getProductForCart({commit}){
-            commit('getProductForCartMutate');
+       async getProductForCart({commit}){
+           let cart = JSON.parse(localStorage.getItem('cart') || '[]')
+
+            if (cart.length) {
+                let cardIds = [];
+
+                cart.forEach(el => {
+                    cardIds.push(el.id);
+                });
+
+                let unigIds = new Set(cardIds);
+
+                return new Promise(resolve => {
+                    axios.get(`${URI}itemscard/${Array.from(unigIds).join(', ')}`)
+                        .then(response => {
+                            let data = response.data;
+
+                            data.forEach(el => {
+                                el.product_img = el.product_img.split(', ');
+                                el.product_img = el.product_img[0];
+                                el.product_sizes_without_sale = el.product_sizes_without_sale !== null ? el.product_sizes_without_sale.split(',') : []
+                            });
+
+                            let totalDataCart = [];+
+                            data.forEach(el => {
+
+                                cart.forEach(elCart => {
+
+                                    if (el.product_id === elCart.id) {
+                                        totalDataCart.push(
+                                            {
+                                                id: elCart.id,
+                                                count: elCart.count,
+                                                price: elCart.price,
+                                                size: elCart.size,
+                                                catalog_size_id: elCart.catalog_size_id,
+                                                product_description: el.product_description,
+                                                product_id: el.product_id,
+                                                product_img: el.product_img,
+                                                product_price: el.product_sizes_without_sale.find(sz => sz == elCart.size) ? el.product_old_price : el.product_price,
+                                                product_title: el.product_title
+                                            })
+                                    }
+                                })
+                            });
+
+                            commit('getProductForCartMutate', totalDataCart);
+                            resolve(true)
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
+                })
+            }
         },
         removeCard({commit}, data){
             commit('removeCardMutate', data);
@@ -1314,6 +1322,9 @@ const store = {
                     })
                     .catch(e => console.log(e))
             })
+        },
+        CloseCookie({commit}){
+            commit('MutateCookie')
         }
     },
     getters:{
@@ -1389,9 +1400,6 @@ const store = {
         updatedCart: state => {
             return state.updatedCart;
         },
-        totalPrice: state => {
-            return state.totalPrice;
-        },
         customerData: state => {
             return state.customerData;
         },
@@ -1422,6 +1430,9 @@ const store = {
         },
         searchResult: state => {
             return state.searchResult;
+        },
+        cookie: state => {
+            return state.cookie;
         }
 
     },

@@ -25,6 +25,7 @@
 @import "views/bookmark";
 @import "views/cabinet";
 @import "views/retunproduct";
+@import "components/cookie";
 
 // Админ часть
 @import "admin/components/adminsidebar";
@@ -45,6 +46,7 @@
 html,body{
     overflow-x: hidden;
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
     height: 100%;
 }
 #app{

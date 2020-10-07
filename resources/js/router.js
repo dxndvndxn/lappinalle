@@ -33,6 +33,7 @@ import ReviewCard from "./admin/views/ReviewCard";
 import PayFail from "./views/PayFail";
 import Searching from "./views/Searching";
 import AdminNewSizes from "./admin/views/AdminNewSizes";
+import UserAccept from "./views/UserAccept";
 
 const routes = [
     {
@@ -41,7 +42,20 @@ const routes = [
         meta: {
             layout: 'Main'
         },
-        component: Home
+        component: Home,
+        beforeEnter: ((to, from, next) => {
+             if (store.getters.GetMainPageAdmin === null) {
+                 store.dispatch('GetMainPageAdmin')
+                     .then(res => {
+                         if (res) next();
+                     })
+                     .catch(e => {
+                         console.log(e)
+                     })
+             }else{
+                 next()
+             }
+        })
     },
     {
         path: '/kontacty',
@@ -75,7 +89,6 @@ const routes = [
         },
         component: Login,
         beforeEnter: ((to, from, next) =>{
-            console.log(store.getters.isLoggedIn)
             if (store.getters.isLoggedIn){
                 next({name: 'cabinet'});
             }else {
@@ -121,7 +134,17 @@ const routes = [
         path: '/korzina',
         name: 'cart',
         meta: { layout: 'Main' },
-        component: Cart
+        component: Cart,
+        beforeEnter: ((to, from, next) =>{
+            if (store.getters.cart.length){
+                store.dispatch('getProductForCart')
+                    .then(res => {
+                        if (res) next();
+                    })
+            }else {
+                next();
+            }
+        })
     },
     {
         path: '/oformleniezakaza',
@@ -185,6 +208,12 @@ const routes = [
         name: 'ReturnProduct',
         meta: { layout: 'Main' },
         component: ReturnProduct
+    },
+    {
+        path: '/useraccept',
+        name: 'UserAccept',
+        meta: { layout: 'Main' },
+        component: UserAccept
     },
     {
         path: '/searching',
@@ -365,19 +394,37 @@ const routes = [
         name: 'item',
         meta: { layout: 'Main' },
         component: Catalogitem,
+        beforeEnter: ((to, from, next) => {
+            store.dispatch('getItemData', to.params.number)
+                .then(res => {
+                    if (res) next();
+                })
+        })
 
     },
     {
         path: '/:gender/:category/item-:number',
         name: 'item',
         meta: { layout: 'Main' },
-        component: Catalogitem
+        component: Catalogitem,
+        beforeEnter: ((to, from, next) => {
+            store.dispatch('getItemData', to.params.number)
+                .then(res => {
+                    if (res) next();
+                })
+        })
     },
     {
         path: '/:gender/:category/:department/item-:number',
         name: 'item',
         meta: { layout: 'Main' },
-        component: Catalogitem
+        component: Catalogitem,
+        beforeEnter: ((to, from, next) => {
+            store.dispatch('getItemData', to.params.number)
+                .then(res => {
+                    if (res) next();
+                })
+        })
     },
     {
         path: '/:gender',

@@ -1,0 +1,55 @@
+.cookie-bar{
+    background-color: $palepurpp;
+    width: 100vw;
+    height: 50px;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 60px;
+    z-index: 9999;
+    p{
+        @include ptSans(700);
+        color: #fff;
+        font-size: $mini;
+    }
+    button{
+        margin-left: 25px;
+    }
+}
+@media screen and (max-width: 1285px) {
+    .cookie-bar{
+        width: auto;
+    }
+}
+@media screen and (max-width: $tablet) {
+    .cookie-bar{
+        padding: 0 22px;
+    }
+    p{
+        font-size: $tiny;
+    }
+}
+
+@media screen and (max-width: $mobile) {
+    .cookie-bar{
+        padding: 0 16px;
+        width: auto;
+        p{
+            width: 81%;
+            font-size: 12px;
+        }
+        button{
+            width: 40px !important;
+        }
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .cookie-bar{
+       height: 60px;
+        p{
+            font-size: 10px;
+        }
+    }
+}
