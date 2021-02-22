@@ -1,7 +1,5 @@
 @import "setup/variables";
 @import "setup/mixins";
-@import "basics/template";
-@import "basics/classes";
 @import "components/header";
 @import "components/footer";
 @import "views/catalog";
@@ -25,6 +23,9 @@
 @import "views/bookmark";
 @import "views/cabinet";
 @import "views/retunproduct";
+@import "views/aboutbrand";
+@import "views/abouttech";
+@import "views/privacy";
 @import "components/cookie";
 
 // Админ часть
@@ -43,6 +44,8 @@
 @import "admin/views/admin-reviewcard";
 @import "admin/views/admin-login";
 @import "admin/views/admin-newsizes";
+@import "basics/classes";
+@import "basics/template";
 html,body{
     overflow-x: hidden;
     scroll-behavior: smooth;

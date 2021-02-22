@@ -40,6 +40,7 @@
         .wrap-checkbox{
             @include flex-column(column);
             align-items: flex-start;
+            margin-bottom: 40px;
             input{
                 width: 40px;
                 height: 40px;

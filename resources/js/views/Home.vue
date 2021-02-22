@@ -1,5 +1,8 @@
 <template>
     <div class="home" v-if="GetMainPageAdmin !== null">
+        <div class="lappi-header__wrap" v-if="media.wind > media.tablet">
+            <img src="/img/lappi_header.png" alt="Финская одежда" class="lappi_header">
+        </div>
         <div class="home-baner">
             <img :src="GetMainPageAdmin[0][0]" alt="">
             <div class="baner-block">
@@ -13,6 +16,16 @@
                         {{GetMainPageAdmin[0][4]}}
                     </router-link>
                 </button>
+            </div>
+        </div>
+        <div class="home-baner">
+            <div class="relate-links">
+                <router-link :to="{path: '/aboutbrand'}" class="relate-link__link">
+                    <span>О нас</span>
+                </router-link>
+                <router-link :to="{path: '/abouttech'}" class="relate-link__link">
+                    <span>О технологиях</span>
+                </router-link>
             </div>
         </div>
         <div class="home-conveyor home-baner" v-for="(block, i) in GetMainPageAdmin[1]" :key="i">
@@ -37,7 +50,7 @@
                     </div>
                 </carousel>
             </div>
-            <div class="sale-baner" v-bind:class="((i + 1) % 2) === 0 ? 'fl-reverse' : null">
+            <div class="sale-baner" v-bind:class="((i + 1) % 2) === 0 && media.wind > media.tablet ? 'fl-reverse' : null">
                 <img :src="block.block_img" alt="" v-if="media.wind > media.tablet">
                 <div class="wrap-img" v-else>
                     <img :src="block.block_img" alt="">
@@ -68,6 +81,11 @@
                 </div>
             </div>
         </div>
+        <div class="home-baner" v-if='GetMainPageAdmin[0][6] !== null && GetMainPageAdmin[0][6] !== ""'>
+            <div class="home-video">
+                <iframe width="100%" height="500" :src="GetMainPageAdmin[0][6]" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -76,13 +94,27 @@
     export default {
         name: 'Home',
         components: {carousel},
-        data: () =>({
-
+        data:() => ({
+            title: null
         }),
+        metaInfo(){
+            return {
+                title: 'Lappinalle - Детская одежды из Финляндии',
+                meta: [
+                    {
+                        name: 'description',
+                        content: 'Магазин детской одежды из Финляндии',
+                    },
+                    { 
+                        name: 'keywords', 
+                        content: 'детская одежда, одежда из Финляндии, детская одежда из Финляндии'
+                    },
+                ]
+            }
+        },
         created() {
             this.$Progress.start();
         },
-
         computed: {
             media(){
                 return this.$store.getters.media;

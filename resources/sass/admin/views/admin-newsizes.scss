@@ -1,7 +1,7 @@
-.admin-new-sizes{
+.admin-new-smth{
     .wrap-new-size-grid{
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(40px, 64.8px));
+        grid-template-columns: repeat(auto-fill, minmax(40px, 150px));
         grid-template-rows: 40px;
         grid-column-gap: 14px;
         grid-row-gap: 8px;

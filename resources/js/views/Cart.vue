@@ -73,6 +73,11 @@
             amountError: false,
             errorProductsAmount: []
         }),
+        metaInfo(){
+            return {
+                title: "Корзина"
+            }
+        },
         methods:{
             countTotal(arr){
                 this.totalPrice = 0;

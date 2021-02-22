@@ -15,8 +15,13 @@ class GetEUController extends Controller
         $lastTime = $lastData[0]['Date'];
 
         // Сравниваем время которое в файле и время которое сейчас
-        if($lastTime + (3600 * 24) < $timestamp){
-            $xml = simplexml_load_string(file_get_contents('http://www.cbr.ru/scripts/XML_daily.asp'));
+        if($lastTime + (3600 * 99) < $timestamp){
+
+            try{
+                $xml = simplexml_load_string(file_get_contents('http://www.cbr.ru/scripts/XML_daily.asp'));
+            }catch(\Exception $e){
+                return $lastData[1]['EU'];
+            }
 
             //Возвращаем json
             $json = json_encode($xml);

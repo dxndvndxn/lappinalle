@@ -8,7 +8,7 @@
                     <form>
                         <label for="sort">Сортировать</label>
                         <select name="sort" id="sort" @change="selectSort()" v-model="selected">
-                            <option v-for="(sort, s) in sortBy" v-bind:value="sort.value">
+                            <option v-for="(sort, s) in sortBy" v-bind:value="sort.value" :key="s">
                                 {{sort.value}}
                             </option>
                         </select>
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="catalog container">
-            <Sidebar :class="showSidebar ? 'show' : 'hide'" v-bind:showSidebar="showSidebar" @showSaleProducts="showSaleProducts" @showSizeProducts="showSizeProductsPlease" @showCashProducts="showCashProducts"/>
+            <Sidebar :class="showSidebar ? 'show' : 'hide'" v-bind:showSidebar="showSidebar" @showSaleProducts="showSaleProducts" @showSizeProducts="showSizeProductsPlease" @showCashProducts="showCashProducts" @showBrandProducts="showBrandProducts"/>
             <div class="bread bread-mobile" v-if="media.wind <= media.tablet">
                 <div></div>
                 <Breadcrumbs/>
@@ -78,8 +78,8 @@
     export default {
         name: "Catalog",
         data: () => ({
-            sortBy: [{value: 'новейшие товары', name: 'new'}, {value: 'по нарастающей цене', name: 'low'}, {value: 'по убывающей цене', name: 'high'}],
-            selected: 'новейшие товары',
+            sortBy: [{value: 'старые товары', name: 'old'}, {value: 'новые товары', name: 'new'}, {value: 'по нарастающей цене', name: 'low'}, {value: 'по убывающей цене', name: 'high'}],
+            selected: 'старые товары',
             pageCatalog: 1,
             whataFunc: null,
             rollbackPage: true,
@@ -99,10 +99,23 @@
             // Скидка
             sale: null,
 
+            // Бренды
+            brands: null,
+            brandsStr: null,
+
             // МОБИЛКА
             showSidebar: true
 
         }),
+        metaInfo(){
+            return {
+                title: "Каталог",
+                // meta: [{
+                //     name: 'description',
+                //     content: this.content,
+                // }]
+            }
+        },
         components: {
             Sidebar, Breadcrumbs, CatalogCell
         },
@@ -113,6 +126,8 @@
                 let idsSizes = '';
 
                 let query = ``;
+
+                if (this.brandsStr !== null) query += `${this.brandsStr}`
 
                 if (this.sort !== null) query += `sortBy=${this.sort}&`
 
@@ -150,13 +165,13 @@
                     min: JSON.stringify(this.min),
                     max: JSON.stringify(this.max),
                     sale: this.sale ? 1 : JSON.stringify(null),
-                    params: this.$route.params
+                    params: this.$route.params,
+                    brands: this.brands ? this.brands : JSON.stringify(null)
                 }
 
                 this.$store.dispatch('getCatalogData', parameters);
                 this.$router.push(`${this.$route.path}?${query}page=${page}`)
                     .catch((e)=>{console.log(e)});
-
             },
 
             // Обработчик по нажатию на страницы пагинации
@@ -197,6 +212,9 @@
                     case 'по убывающей цене':
                         this.sort = 'high';
                         break;
+                    case 'новые товары':
+                        this.sort = 'new';
+                        break;
                     default:
                         this.sort = null;
                         break;
@@ -218,6 +236,29 @@
 
                 this.pageCatalog = 1;
                 this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
+            },
+
+            showBrandProducts(brands){
+                let queryBrands = ''
+                let localBrands = ''
+
+                brands.forEach(br => {
+                    if (br.brands_name.indexOf("&")) {
+                        let splitted = br.brands_name.split('&')
+                        let correctBrand = splitted.join('$')
+                        queryBrands += `brand=${correctBrand}&`
+                        localBrands += `${br.brands_name},`
+                    }else{
+                        queryBrands += `brand=${br.brands_name}&`
+                        localBrands += `${br.brands_name},`
+                    }
+                })
+
+                this.brandsStr = queryBrands
+                this.brands = localBrands
+
+                this.pageCatalog = 1;
+                this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
             }
         },
         async created() {
@@ -227,6 +268,7 @@
             if (this.$route.query.size) {
 
                     let localSizes = [];
+
                     if (typeof(this.$route.query.size) !== "object") {
                         localSizes.push(this.$route.query.size)
                     }else{
@@ -252,9 +294,8 @@
                             });
 
                             this.sizeStr = queryStr;
-
                         })
-                }
+            }
 
             // Если запрос на sale
             if (this.$route.query.sale) {
@@ -285,6 +326,26 @@
                 }
             }
 
+            if (this.$route.query.brand) {
+                this.brandsStr = this.$route.query.brand
+
+                if (Array.isArray(this.$route.query.brand)) {
+                    let queryBrands = ``
+                    let brands = ``
+
+                    this.$route.query.brand.forEach(brand => {
+                        queryBrands += `brand=${brand}&`
+                        brands += `${brand},`
+                    })
+
+                    this.brandsStr = queryBrands
+                    this.brands = brands
+                }else{
+                    this.brandsStr = `brand=${this.$route.query.brand}&`
+                    this.brands = `${this.$route.query.brand},`
+                }
+            }
+
             this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
 
             // МОБИЛКА
@@ -293,6 +354,7 @@
         },
         watch: {
             $route(to, from){
+                console.log(to)
                 // Если пришли к страницы гендер
                 if (to.name === 'gender' && !this.$route.query.page) {
                     this.pageCatalog = 1;
@@ -301,6 +363,7 @@
                     this.min = null;
                     this.max = null;
                     this.sale = null;
+                    this.brandsStr = null;
                     this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
                 }
 
@@ -312,6 +375,7 @@
                     this.min = null;
                     this.max = null;
                     this.sale = null;
+                    this.brandsStr = null;
                     this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
                 }
 
@@ -323,6 +387,7 @@
                     this.min = null;
                     this.max = null;
                     this.sale = null;
+                    this.brandsStr = null;
                     this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
                 }
 
@@ -330,6 +395,10 @@
                     this.pageCatalog = 1;
                     this.sale = this.$route.query.sale;
                     this.InfernalFilterFromDanilkaOnFront(this.pageCatalog);
+                }
+
+                if (to.query.page) {
+                    this.InfernalFilterFromDanilkaOnFront(to.query.page);
                 }
             }
         },
@@ -371,7 +440,7 @@
                 return this.$store.getters.URI;
             },
 
-        }
+        },
     }
 </script>
 

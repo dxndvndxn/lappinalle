@@ -76,6 +76,58 @@
                 object-fit: contain;
                 cursor: pointer;
             }
+            .moveUp{
+                position: relative;
+                cursor: pointer;
+                width: 10px;
+                height: 5px;
+                &:before{
+                    position: absolute;
+                    content: '';
+                    top: 12px;
+                    left: 0;
+                    width: 13px;
+                    height: 5px;
+                    transform: rotateZ(-32deg);
+                    background-color: $palepurpp;
+                }
+                &:after{
+                    position: absolute;
+                    content: '';
+                    top: 12px;
+                    left: 8px;
+                    width: 13px;
+                    height: 5px;
+                    transform: rotateZ(32deg);
+                    background-color: $palepurpp;
+                }
+            }
+            .moveDown{
+                position: relative;
+                cursor: pointer;
+                width: 10px;
+                height: 5px;
+                &:before{
+                    position: absolute;
+                    content: '';
+                    top: 25px;
+                    left: 0;
+                    width: 13px;
+                    height: 5px;
+                    transform: rotateZ(32deg);
+                    background-color: $palepurpp;
+                }
+                &:after{
+                    position: absolute;
+                    content: '';
+                    top: 25px;
+                    left: 8px;
+                    width: 13px;
+                    height: 5px;
+                    transform: rotateZ(-32deg);
+                    background-color: $palepurpp;
+                }
+            }
         }
     }
 }

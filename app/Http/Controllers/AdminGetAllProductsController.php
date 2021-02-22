@@ -11,8 +11,11 @@ class AdminGetAllProductsController extends Controller
     {
         $allProducts = DB::table('catalog_size')
             ->rightJoin('products', 'catalog_size.product_id', '=', 'products.product_id')
-            ->select('products.product_price', 'catalog_size_amount', 'products.product_id', 'products.product_title', 'products.product_vendor','products.sex_id', 'products.categories_id', 'products.departments_id')
-            ->orderBy('products.product_id', 'desc')
+            ->leftJoin('sex', 'products.sex_id', '=', 'sex.sex_id')
+            ->leftJoin('categories', 'products.categories_id', '=', 'categories.categories_id')
+            ->leftJoin('departments', 'products.departments_id', '=', 'departments.departments_id')
+            ->select('departments.departments_alias', 'categories.categories_alias', 'sex.sex_alias', 'products.product_price', 'catalog_size_amount', 'products.product_id', 'products.product_title', 'products.product_vendor','products.sex_id', 'products.categories_id', 'products.departments_id', 'products.product_position')
+            ->orderBy('products.product_position', 'desc')
             ->get();
 
         $totalProduct = [];

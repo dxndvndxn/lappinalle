@@ -64,7 +64,12 @@
 
 <script>
     export default {
-        name: "ReturnProduct"
+        name: "ReturnProduct",
+        metaInfo(){
+            return {
+                title: "Возврат товара"
+            }
+        },
     }
 </script>
 

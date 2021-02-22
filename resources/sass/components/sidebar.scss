@@ -2,6 +2,7 @@
 @import "../setup/extends";
 .catalog-sidebar{
     @include ptSans(400);
+    margin-bottom: 25px;
    a{
        color: #000;
        text-decoration: none;
@@ -44,16 +45,13 @@
 .sidebar-sizing {
     margin-bottom: 55px;
     span{
-        @include ptSans(700);
-        font-size: $regFz;
-        text-transform: uppercase;
-        margin-bottom: 25px;
-        display: inline-block;
+        @extend %H-sidebar;
     }
     .sizing-cell{
-        width: 230px;
+        width: 97%;
         box-sizing: border-box;
-        @include variableColumns(4, 1fr);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(35px, 70px));
         grid-column-gap: 5px;
         grid-row-gap: 5px;
         button{
@@ -69,11 +67,7 @@
 .sidebar-price{
     margin-bottom: 55px;
     .price{
-        @include ptSans(700);
-        font-size: $regFz;
-        text-transform: uppercase;
-        margin-bottom: 25px;
-        display: inline-block;
+        @extend %H-sidebar;
     }
     form{
         width: 210px;
@@ -111,6 +105,34 @@
     }
     input{
         @extend %checkbox;
+    }
+}
+.sidebar-brands{
+    margin-bottom: 55px;
+    .brands{
+        @extend %H-sidebar;
+    }
+    .brands-list{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 160px));
+        grid-column-gap: 16px;
+        grid-row-gap: 16px;
+        min-height: 200px;
+        max-height: 400px;
+        transition: all .2s ease-in;
+        overflow: hidden;
+        li{
+            @include flexin(space-between);
+            align-items: center;
+        }
+        .brands__btn{
+            margin-left: 16px;
+            background-color: $ocean;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            appearance: none;
+        }
     }
 }
 @media screen and (max-width: $tablet) {
@@ -202,6 +224,19 @@
                 }
             }
         }
+        .sidebar-brands{
+            margin-bottom: 18px;
+            .brands{
+                text-transform: none;
+                margin-bottom: 18px;
+            }
+            .brands-list{
+                .brands__btn{
+                    background-color: #fff;
+                    margin-left: 35px;
+                }
+            }
+        }
     }
 }
 @media screen and (max-width: $mobile) {
@@ -214,6 +249,16 @@
         .sidebar-price{
             .price{
                 font-size: $mini;
+            }
+        }
+        .sidebar-brands{
+            .brands{
+                font-size: $mini;
+            }
+            .brands-list{
+                li{
+                    font-size: $mini - 1px;
+                }
             }
         }
     }

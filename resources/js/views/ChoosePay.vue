@@ -4,9 +4,9 @@
             <Back v-bind:color="'grey'" v-bind:word="'Способ доставки'"/><h1 class="h1-bold-grey">Способ оплаты</h1>
         </div>
         <div class="choose-pay-img chozen-imgs">
-            <img :src="pay.payIcon" v-for="(pay, i) in payments" v-bind:class="pay.payActive ? 'chozenImg' : null" alt="" @click="clickPay(i)">
+            <img :src="pay.payIcon" v-for="(pay, i) in payments" :key=i v-bind:class="pay.payActive ? 'chozenImg' : null" alt="" @click="clickPay(i)">
         </div>
-        <p v-if="amountError" v-for="(product, i) in errorProductsAmount" class="errorAmountProduct">
+        <p v-if="amountError" v-for="(product, i) in errorProductsAmount" :key="i" class="errorAmountProduct">
             Товар {{product.product_title}} с {{product.size}} размером отсутствует в необходимом количестве на складе.
         </p>
         <div class="choose-pay-button">
@@ -26,19 +26,27 @@
         name: "ChoosePay",
         components: {Back},
         data: () => ({
+            // payments: [
+            //     {payIcon: '../img/paycard-icon.png', payUrl: 'https://3dsec.sberbank.ru/payment/rest/register.do', payActive: true, payName: 'Сбербанк'},
+            //     {payIcon: '../img/yandex-icon.png', payUrl: '', payActive: false, payName: 'Яндекс Деньги'},
+            //     {payIcon: '../img/qiwi-icon.png', payUrl: '', payActive: false, payName: 'QiWi'},
+            //     {payIcon: '../img/paypal-icon.png', payUrl: '', payActive: false, payName: 'WebMoney'},
+            // ],
             payments: [
-                {payIcon: '../img/paycard-icon.png', payUrl: 'https://3dsec.sberbank.ru/payment/rest/register.do', payActive: true, payName: 'Сбербанк'},
-                {payIcon: '../img/yandex-icon.png', payUrl: '', payActive: false, payName: 'Яндекс Деньги'},
-                {payIcon: '../img/qiwi-icon.png', payUrl: '', payActive: false, payName: 'QiWi'},
-                {payIcon: '../img/paypal-icon.png', payUrl: '', payActive: false, payName: 'WebMoney'},
+                {payIcon: '../img/paycard-icon.png', payActive: true, payName: 'Сбербанк'}
             ],
-            activeUrl: 'https://3dsec.sberbank.ru/payment/rest/register.do',
+            // activeUrl: 'https://3dsec.sberbank.ru/payment/rest/register.do',
             activePayName: 'Сбербанк',
             lastId: null,
             checkAmount: false,
             amountError: false,
             errorProductsAmount: []
         }),
+        metaInfo(){
+            return {
+                title: "Выбор оплаты"
+            }
+        },
         methods: {
             clickPay(i){
                 this.payments.forEach(el => el.payActive = false);

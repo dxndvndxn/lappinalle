@@ -48,6 +48,7 @@
                     <input v-model.trim="checkAgree" type="checkbox" @click="checkAgree = !checkAgree"
                            v-bind:class="checkAgree ? 'active-size' : null">
                 </div>
+                <small v-if="$v.checkAgree.$dirty && !$v.checkAgree.required" class="small-invalid">Пожалуйста, подтвердите согласие с условиями политики конфиденциальности и пользовательского соглашения</small>
             </div>
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'postman'">
                 <div class="input-wrap">
@@ -86,6 +87,7 @@
                     <input v-model.trim="checkAgree" type="checkbox" @click="checkAgree = !checkAgree"
                            v-bind:class="checkAgree ? 'active-size' : null">
                 </div>
+                <small v-if="$v.checkAgree.$dirty && !$v.checkAgree.required" class="small-invalid">Пожалуйста, подтвердите согласие с условиями политики конфиденциальности и пользовательского соглашения</small>
             </div>
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'sdek'">
                 <div class="input-wrap">
@@ -112,11 +114,11 @@
                     <small v-if="$v.apart.$dirty && !$v.apart.required" class="small-invalid">Поле Квартира должно быть заполнено</small>
                     <small v-if="$v.apart.$dirty && !$v.apart.maxLength" class="small-invalid">Поле Квартира заполнено не корректно</small>
                 </div>
-                <div class="input-wrap">
+                <!-- <div class="input-wrap">
                     <input type="text" class="classic-input" v-model.trim="passportData" :class="{invalid: ($v.passportData.$dirty && !$v.passportData.required) || ($v.passportData.$dirty && !$v.passportData.validFormat)}" placeholder="Серия и номер паспорта" autocomplete="on">
                     <small v-if="$v.passportData.$dirty && !$v.passportData.required" class="small-invalid">Серия и номер паспорта должно быть заполнено</small>
                     <small v-else-if="$v.passportData.$dirty && !$v.passportData.validFormat" class="small-invalid">Серия и номер паспорта должны быть в формате 1234 567890</small>
-                </div>
+                </div> -->
                 <div class="wrap-checkbox">
                     <label for="adress">До адреса <input type="radio" id="adress" name="whatList" value="До адреса" v-model="whereGet" ></label>
                     <label for="stock">До пункта выдачи <input type="radio" id="stock" name="whatList" value="До пункта выдачи" v-model="whereGet"></label>
@@ -133,6 +135,7 @@
                     <input v-model.trim="checkAgree" type="checkbox" @click="checkAgree = !checkAgree"
                            v-bind:class="checkAgree ? 'active-size' : null">
                 </div>
+                <small v-if="$v.checkAgree.$dirty && !$v.checkAgree.required" class="small-invalid">Пожалуйста, подтвердите согласие с условиями политики конфиденциальности и пользовательского соглашения</small>
             </div>
             <div class="fill-inputs" v-if="deliveries[chozenDel].delivery_name === 'pek'">
                 <div class="input-wrap">
@@ -180,6 +183,7 @@
                     <input v-model.trim="checkAgree" type="checkbox" @click="checkAgree = !checkAgree"
                            v-bind:class="checkAgree ? 'active-size' : null">
                 </div>
+                <small v-if="$v.checkAgree.$dirty && !$v.checkAgree.required" class="small-invalid">Пожалуйста, подтвердите согласие с условиями политики конфиденциальности и пользовательского соглашения</small>
             </div>
             <div class="chozen-delivery-text">
                 <p>
@@ -212,10 +216,7 @@
                 {
                     delivery_name: 'postman',
                     delImg: '../img/postman-icon.png',
-                    delText: 'Действует бесплатная курьерская доставка по СПБ\n' +
-                        'в пределах КАД при заказе от 2000 рублей. При заказе на сумму\n' +
-                        'менее 2000 рублей, отказе или выкупе товара на сумму менее\n' +
-                        '2000 рублей стоимость курьерской доставки по СПБ 300 рублей.',
+                    delText: 'БЕСПЛАТНАЯ КУРЬЕРСКАЯ ДОСТАВКА ПО САНКТ-ПЕТЕРБУРГУ В ПРЕДЕЛАХ КАД ПРИ ЗАКАЗЕ НА СУММУ ОТ 2000 РУБ. ПРИ ЗАКАЗЕ НА СУММУ МЕНЕЕ 2000 РУБ, ОТКАЗЕ ОТ ЗАКАЗА ИЛИ ВЫКУПЕ ЗАКАЗА НА СУММУ МЕНЕЕ 2000 РУБ, СТОИМОСТЬ КУРЬЕРСКОЙ ДОСТАВКИ СОСТАВИТ 300 РУБ.',
                     delPrice: 300,
                     delChooze: true,
                     freeShip: 2000
@@ -223,7 +224,7 @@
                 {
                     delivery_name: 'post-russia',
                     delImg: '../img/post-icon.png',
-                    delText: '',
+                    delText: 'ПО РОССИИ ДОСТАВКА ПОЧТОЙ РОССИИ ЗАКАЗОВ ОТ 2000 РУБ. ПРИ ЗАКАЗЕ НА СУММУ ОТ 5000 РУБ ДОСТАВКА ПО РОССИИ ПОЧТОЙ РОССИИ БЕСПЛАТНАЯ (ЗА ИСКЛЮЧЕНИЕМ ДОСТАВКИ В ТРУДНОДОСТУПНЫЕ РАЙОНЫ, ОПЛАЧИВАЕМЫЕ ПО ИНДИВИДУАЛЬНЫМ ТАРИФАМ).ПРИ ЗАКАЗЕ НА СУММУ МЕНЕЕ 2000 РУБ, ПОМИМО ПОЧТОВЫХ РАСХОДОВ, ОПЛАЧИВАЮТСЯ КУРЬЕРСКИЕ УСЛУГИ В РАЗМЕРЕ 300 РУБ.',
                     delPrice: null,
                     delChooze: false
                 },
@@ -237,7 +238,7 @@
                 {
                     delivery_name: 'pek',
                     delImg: '../img/pek-icon.png',
-                    delText: 'Доставка ПЭК действительна при сумме заказа от 20000 рублей. При выборе доставки до пункта выдачи детали сообщит менеджер.',
+                    delText: 'Доставка ПЭК действительна при сумме заказа от 2000 рублей. При выборе доставки до пункта выдачи детали сообщит менеджер.',
                     delPrice: null,
                     delChooze: false
                 },
@@ -254,6 +255,11 @@
             commentForPostman: null,
             checkAgree: null
         }),
+        metaInfo(){
+            return {
+                title: "Выбор доставки"
+            }
+        },
         validations: {
             city: {
                 required,
@@ -299,6 +305,10 @@
                 this.deliveries[i].delChooze = true;
             },
             toPay(){
+                if (this.$v.checkAgree.$invalid){
+                    this.$v.$touch()
+                    return;
+                }
                 if (this.$v.corps.$invalid){
                     this.$v.$touch();
                     return;
@@ -335,7 +345,7 @@
                         return;
                     }
                 }
-                if ((this.deliveries[this.chozenDel].delivery_name === 'pek' || this.deliveries[this.chozenDel].delivery_name === 'sdek') && this.$v.passportData.$invalid){
+                if (this.deliveries[this.chozenDel].delivery_name === 'pek' && this.$v.passportData.$invalid){
                     this.$v.$touch();
                     return;
                 }

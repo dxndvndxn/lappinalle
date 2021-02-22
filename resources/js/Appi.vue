@@ -17,7 +17,9 @@
         },
         computed:{
             layout(){
-                return this.$route.meta.layout + 'Layout'
+                if (this.$route.meta.layout !== undefined){
+                    return this.$route.meta.layout + 'Layout'
+                }
             }
         },
         watch: {

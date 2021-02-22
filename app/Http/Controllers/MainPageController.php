@@ -24,8 +24,9 @@ class MainPageController extends Controller
             $main_h3 = $main['mainpage_main_h3'];
             $main_but_text = $main['mainpage_main_but_text'];
             $main_but_href = $main['mainpage_main_but_href'];
+            $main_video = $main['mainpage_main_video'];
 
-            $main = [$main_img, $main_h1, $main_h2, $main_h3, $main_but_text, $main_but_href];
+            $main = [$main_img, $main_h1, $main_h2, $main_h3, $main_but_text, $main_but_href, $main_video];
 
             $block_count = DB::table('mainpage')->count();
             $id = DB::table('mainpage')->select('mainpage_id')->skip(1)->take(2)->value('mainpage_id');
@@ -58,10 +59,11 @@ class MainPageController extends Controller
                         'block_img' => $block_data['mainpage_main_img'],
                         'active' => false,
                         'block_carousel' => null,
+                        'block_carousel_id' => explode(',', $block_data['mainpage_block_carousel_products_id']),
                         'alias' => null,
                         'eu' => GetEUController::EU()
                     ];
-
+                    $blocks[$i]['block_carousel_id'][0] == '' ? $blocks[$i]['block_carousel_id'] = [] : null;
                     $block_count--;
                     $i++;
                     $id++;
@@ -72,11 +74,12 @@ class MainPageController extends Controller
                 $productsWrap = [];
 
                 foreach ($blocks as $i => $value) {
-                    $products = DB::table('products')->select('product_id', 'product_img', 'product_title', 'product_price', 'product_sale', 'product_old_price')->where([
-                        ['sex_id', $blocks[$i]['block_sex']],
-                        ['categories_id','like', $blocks[$i]['block_cat'] === null ? '%' : $blocks[$i]['block_cat']],
-                        ['departments_id', 'like', $blocks[$i]['block_dep'] === null ? '%' : $blocks[$i]['block_dep']]
-                    ])->where('product_available', '=', 1)->orderBy('added_on', 'desc')->take(6)->get();
+                    // $products = DB::table('products')->select('product_id', 'product_img', 'product_title', 'product_price', 'product_sale', 'product_old_price')->where([
+                    //     ['sex_id', $blocks[$i]['block_sex']],
+                    //     ['categories_id','like', $blocks[$i]['block_cat'] === null ? '%' : $blocks[$i]['block_cat']],
+                    //     ['departments_id', 'like', $blocks[$i]['block_dep'] === null ? '%' : $blocks[$i]['block_dep']]
+                    // ])->where('product_available', '=', 1)->orderBy('added_on', 'desc')->take(6)->get();
+                    $products = DB::table('products')->select('product_id', 'product_img', 'product_title', 'product_price', 'product_sale', 'product_old_price')->whereIn('product_id', $blocks[$i]['block_carousel_id'])->where('product_available', '=', 1)->orderBy('added_on', 'desc')->get();
                     $blocks[$i]['alias'] = DB::table('sex')->where('sex_id', '=', $blocks[$i]['block_sex'])->value('sex_alias');
                     $blocks[$i]['block_carousel'] = $products;
                 }
@@ -163,6 +166,12 @@ class MainPageController extends Controller
                     ->update(['mainpage_main_but_href' => $stringData['mainpage_main_but_href']]);
                 return true;
             }
+            if (isset($stringData['mainpage_main_video'])){
+                DB::table('mainpage')
+                    ->where('mainpage_id', $id)
+                    ->update(['mainpage_main_video' => $stringData['mainpage_main_video']]);
+                return true;
+            }
         }
         else{
             if (isset($stringData['removeBlock'])) {
@@ -197,6 +206,13 @@ class MainPageController extends Controller
                 DB::table('mainpage')
                     ->where('mainpage_id', $id)
                     ->update(['mainpage_name' => $stringData['mainpage_name']]);
+                return true;
+            }
+
+            if (isset($stringData['addedIds'])) {
+                DB::table('mainpage')
+                ->where('mainpage_id', $id)
+                ->update(['mainpage_block_carousel_products_id' => $stringData['addedIds']]);
                 return true;
             }
 
@@ -252,5 +268,9 @@ class MainPageController extends Controller
                 return true;
             }
         }
+    }
+
+    public function getAllIds(Request $request){
+        return DB::table('products')->select('product_id')->orderBy('product_id', 'asc')->get();
     }
 }

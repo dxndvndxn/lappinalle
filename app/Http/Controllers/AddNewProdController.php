@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use DB;
 use Exception;
+use Illuminate\Support\Facades\File;
+use Illuminate\Filesystem\Filesystem;
+
 class AddNewProdController extends Controller
 {
     public function add(Request $request) {
@@ -17,6 +20,10 @@ class AddNewProdController extends Controller
         DB::table('products')->insert([
             ['added_on' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
+
+        DB::table('products')
+            ->where('product_id', $product_id)
+            ->update(['product_position' => $product_id]);
 
         Storage::makeDirectory(public_path() ."/img/item-$product_id");
         return true;
@@ -214,6 +221,208 @@ class AddNewProdController extends Controller
                 ->where('product_id', $productStr['id'])
                 ->update(['product_sizes_without_sale' => $productStr['sizeWithoutSale']]);
         }
+
+        if (isset($productStr['newBrand'])) {
+            DB::table('products')
+                ->where('product_id', $productStr['id'])
+                ->update(['brands_id' => $productStr['newBrand']]);
+        }
+
+        if (isset($productStr["updateImgPaths"])) {
+            DB::table('products')
+                ->where('product_id', $productStr['id'])
+                ->update(['product_img' => $productStr['updateImgPaths']]);
+        }
+
+        // Меняем позицию
+        if (isset($productStr['move'])) {
+            $productMove = DB::table('products')->where('product_id', $productStr['id'])->select('product_position')->value('product_position');
+
+                if ($productStr['move'][0] == 'Up') {
+                
+                    $TempPosition = DB::table('products')->where('product_id', $productStr['move'][1])->select('product_position')->value('product_position');
+                    
+                    DB::table('products')
+                    ->where('product_position', $TempPosition)
+                    ->update(['product_position' => $productMove]);
+                    
+                    DB::table('products')
+                    ->where('product_id', $productStr['id'])
+                    ->update(['product_position' => $TempPosition]);
+                }
+                elseif ($productStr['move'][0] == 'Down') {
+
+                    $TempPosition = DB::table('products')->where('product_id', $productStr['move'][1])->select('product_position')->value('product_position');
+                    
+                    DB::table('products')
+                    ->where('product_position', $TempPosition)
+                    ->update(['product_position' => $productMove]);
+                    
+                    DB::table('products')
+                    ->where('product_id', $productStr['id'])
+                    ->update(['product_position' => $TempPosition]);
+                    
+                }
+            // $productMove = DB::table('products')->where('product_id', $productStr['id'])->get(); 
+            // $productMoveProcessed = [];
+
+            // $fileSys = new Filesystem();
+
+            // if (!$fileSys->exists(public_path('/img/tempy'))) {
+            //     $fileSys->makeDirectory(public_path('/img/tempy'));
+            // }
+
+            // foreach ($productMove as $tape) {
+            //     array_push($productMoveProcessed, (array)$tape);
+            // }
+
+            // if ($productStr['move'][0] == 'Up') {
+            //     $productDowner = DB::table('products')->where('product_id', $productStr['move'][1])->get(); 
+            //     $productDownerProcessed = [];
+                
+            //     foreach ($productDowner as $tape) {
+            //         array_push($productDownerProcessed, (array)$tape);
+            //     }
+
+            //     $replaceId = $productStr['id'];
+            //     $searchId = $productDownerProcessed[0]['product_id'];
+               
+            //     $this->updateDataInProducts($productDownerProcessed[0], $searchId, $replaceId);
+
+            //     // Меняем значения для продукта, который хотим понизить на низший
+            //     $productMoveReplaceId = $productStr['move'][1];
+            //     $productMoveSearchId = $productMoveProcessed[0]['product_id'];
+
+            //     $this->updateDataInProducts($productMoveProcessed[0], $productMoveSearchId, $productMoveReplaceId);
+
+            //     // Перемещаем файлы нижнего продукта во временную папку
+            //     $productDownerFiles = File::files(public_path("/img/item-$searchId"));
+            //     $this->moveFiles($productDownerFiles, $searchId, $replaceId, 'tempy', $fileSys);
+
+            //     // Перемещаем файлы продукта, который двигаем, в папку нижнего продукта
+            //     $productMoveFiles = File::files(public_path("/img/item-$productMoveSearchId"));
+            //     $this->moveFiles($productMoveFiles, $productMoveSearchId, $productMoveReplaceId, 'moveToCertainFolder', $fileSys);
+
+            //     // Перемещаем из временной папки в действующую
+            //     $productTempFiles = File::files(public_path("/img/tempy"));
+            //     $this->moveFiles($productTempFiles, null, $replaceId, 'fromTampy', $fileSys);
+                
+            //     $this->changeRowsInDB($productMoveProcessed[0], $productDownerProcessed[0], $productMoveReplaceId, $replaceId);
+            // }
+            // elseif ($productStr['move'][0] == 'Down') {
+            //     $productDowner = DB::table('products')->where('product_id', $productStr['move'][1])->get(); 
+            //     $productDownerProcessed = [];
+                
+            //     foreach ($productDowner as $tape) {
+            //         array_push($productDownerProcessed, (array)$tape);
+            //     }
+
+            //     // Меняем значения для нижнего продукта на высший
+            //     $replaceId = $productStr['id'];
+            //     $searchId = $productDownerProcessed[0]['product_id'];
+               
+            //     $this->updateDataInProducts($productDownerProcessed[0], $searchId, $replaceId);
+
+            //     // Меняем значения для продукта, который хотим понизить на низший
+            //     $productMoveReplaceId = $productStr['move'][1];
+            //     $productMoveSearchId = $productMoveProcessed[0]['product_id'];
+
+            //     $this->updateDataInProducts($productMoveProcessed[0], $productMoveSearchId, $productMoveReplaceId);
+
+            //     // Перемещаем файлы нижнего продукта во временную папку
+            //     $productDownerFiles = File::files(public_path("/img/item-$searchId"));
+            //     $this->moveFiles($productDownerFiles, $searchId, $replaceId, 'tempy', $fileSys);
+
+            //     // Перемещаем файлы продукта, который двигаем, в папку нижнего продукта
+            //     $productMoveFiles = File::files(public_path("/img/item-$productMoveSearchId"));
+            //     $this->moveFiles($productMoveFiles, $productMoveSearchId, $productMoveReplaceId, 'moveToCertainFolder', $fileSys);
+
+            //     // Перемещаем из временной папки в действующую
+            //     $productTempFiles = File::files(public_path("/img/tempy"));
+            //     $this->moveFiles($productTempFiles, null, $replaceId, 'fromTampy', $fileSys);
+
+            //     $this->changeRowsInDB($productMoveProcessed[0], $productDownerProcessed[0], $productMoveReplaceId, $replaceId);
+            // }
+        }
         return true;
     }
+
+    public function moveFiles($arr, $searchedId, $replacedId, $place, $sysObj){
+        if ($place === 'tempy') {
+            foreach ($arr as $file) {
+                $fileClearPath = pathinfo($file, PATHINFO_BASENAME);
+                $freshPath = str_replace("-$searchedId", "-$replacedId", $fileClearPath);
+
+                $sysObj->move(public_path("/img/item-$searchedId/$fileClearPath"), public_path("/img/tempy/$freshPath"));
+            }
+        }
+        elseif ($place === 'moveToCertainFolder') {
+            foreach ($arr as $file) {
+                $fileClearPath = pathinfo($file, PATHINFO_BASENAME);
+                $freshPath = str_replace("-$searchedId", "-$replacedId", $fileClearPath);
+
+                $sysObj->move(public_path("/img/item-$searchedId/$fileClearPath"), public_path("/img/item-$replacedId/$freshPath"));
+            }
+        }
+        elseif ($place === 'fromTampy') {
+            foreach ($arr as $file) {
+                $fileClearPath = pathinfo($file, PATHINFO_BASENAME);
+
+                $sysObj->move(public_path("/img/tempy/$fileClearPath"), public_path("/img/item-$replacedId/$fileClearPath"));
+            }
+        }
+    }
+
+    public function updateDataInProducts($arr, $searcheId, $replaceId){
+        foreach ($arr as $tape => $value) {
+            if ($arr['product_img'] !== NULL) {
+                $imgPathArr = explode(', ', $arr['product_img']);
+                $freshPathArr = [];
+                
+                foreach ($imgPathArr as $path) {
+                   $freshPath = str_replace("-$searcheId", "-$replaceId", $path);
+                   array_push($freshPathArr, $freshPath);
+                }
+
+                $arr['product_img']  = implode(", ", $freshPathArr);
+             }
+
+             if ($arr['product_video'] !== NULL) {
+                 $totalVideoPath = str_replace("-$searcheId", "-$replaceId", $arr['product_video']);
+                 $arr['product_video'] = $totalVideoPath;
+             }
+       }
+    }
+
+    public function changeRowsInDB($movingProductArr, $closedProductArr, $moveId, $closeId){
+        foreach ($movingProductArr as $colName => $value) {
+            if ($colName === 'product_id') continue;
+
+            DB::table('products')
+                 ->where('product_id', $moveId)
+                 ->update([$colName => $value]);
+        } 
+
+        foreach ($closedProductArr as $colName => $value) {
+             if ($colName === 'product_id') continue;
+         
+             DB::table('products')
+                 ->where('product_id', $closeId)
+                 ->update([$colName => $value]);
+         }
+    }
 }
+// foreach ($productDownerFiles as $file) {
+                //     $fileClearPath = pathinfo($file, PATHINFO_BASENAME);
+                //     $freshPath = str_replace("-$searchId", "-$replaceId", $fileClearPath);
+                //     $fileSys->move(public_path("/img/item-$searchId/$fileClearPath"), public_path("/img/tempy/$freshPath"));
+                // }
+// foreach ($productMoveFiles as $file) {
+                //     $fileClearPath = pathinfo($file, PATHINFO_BASENAME);
+                //     $freshPath = str_replace("-$productMoveSearchId", "-$productMoveReplaceId", $fileClearPath);
+                //     $fileSys->move(public_path("/img/item-$productMoveSearchId/$fileClearPath"), public_path("/img/item-$productMoveReplaceId/$freshPath"));
+                // }                
+// foreach ($productTempFiles as $file) {
+                //     $fileClearPath = pathinfo($file, PATHINFO_BASENAME);
+                //     $fileSys->move(public_path("/img/tempy/$fileClearPath"), public_path("/img/item-$replaceId/$fileClearPath"));
+                // }                

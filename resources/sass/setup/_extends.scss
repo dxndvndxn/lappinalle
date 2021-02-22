@@ -37,3 +37,12 @@
     background: none;
     border: none;
 }
+
+%H-sidebar{
+    @include ptSans(700);
+    font-size: $regFz;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    display: inline-block;
+    
+}

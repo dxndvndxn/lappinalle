@@ -158,6 +158,11 @@
             // Успешный апдейт
             successUpdate: false
         }),
+        metaInfo(){
+            return {
+                title: "Кабинет"
+            }
+        },
         validations: {
             userData: {
                 userName: {

@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Vuex from  'vuex'
 import axios from 'axios'
 Vue.use(Vuex);
-// const URI = 'https://lappinalle.ru/api/';
-const URI = 'http://lappinalle.test/api/';
+const URI = 'https://lappinalle.ru/api/';
+// const URI = 'http://lappinalle.test/api/';
 const admin = {
     state: () => ({
         SITE_URI: URI,
@@ -37,7 +37,13 @@ const admin = {
 
         // ГЛАВНАЯ
         GetMainPageAdmin: null,
-        mamakusa: JSON.parse(window.sessionStorage.getItem('mamakusa') || 'null')
+        mamakusa: JSON.parse(window.sessionStorage.getItem('mamakusa') || 'null'),
+
+        // ВСЕ ID товара
+        getAllIds: null,
+
+        // Все бренды
+        allBrands: null
     }),
     mutations: {
         // Получаем все товары СТРАНИЧКА ТОВАРЫ
@@ -112,6 +118,15 @@ const admin = {
         Mamasa(state, data){
             state.mamakusa = data;
             window.sessionStorage.setItem('mamakusa', JSON.stringify(state.mamakusa));
+        },
+
+        // Присваиваем в стейт все IDs
+        GetAllIdsMutate(state, data){
+            state.getAllIds = data;
+        },
+
+        getAllBrandsMutate(state, data){
+            state.allBrands = data
         }
     },
     actions: {
@@ -260,6 +275,35 @@ const admin = {
                     })
                     .catch(e => console.log(e))
             })
+        },
+        GetAllIds({commit}){
+            return new Promise(resolve => {
+                axios.get(`${URI}getAllIds`)
+                    .then(res => {
+                        commit('GetAllIdsMutate', res.data)
+                    })
+                    .catch(e => console.log(e))
+            })
+        },
+        async getAllBrands({commit}){
+            await axios.get(`${URI}allBrands`)
+                .then(res => {
+                    commit('getAllBrandsMutate', res.data);
+                })
+                .catch(e => console.log)
+        },
+        ManageBrand({commit}, data){
+            return new Promise(resolve => {
+                axios.post(`${URI}manageBrands`, data)
+                    .then(res => {
+                        if (res.data){
+                            resolve(true)
+                        }else{
+                            resolve(false)
+                        }
+                    })
+                    .catch(e => console.log(e))
+            })
         }
     },
     getters: {
@@ -304,7 +348,11 @@ const admin = {
         },
         mamakusa: state => {
             return state.mamakusa;
-        }
+        },
+        getAllIds: state => {
+            return state.getAllIds;
+        },
+        allBrands: state => state.allBrands
     }
 };
 const store = {
@@ -340,6 +388,7 @@ const store = {
         filterMin: null,
         filterMax: null,
         filterSizes: null,
+        filterBrands: null,
 
         // Данные по меню для админа
         menuAdmin: null,
@@ -385,7 +434,7 @@ const store = {
         wind: window.innerWidth,
 
         // Печеньки
-        cookie: JSON.parse(sessionStorage.getItem('cookie') || 'false')
+        cookie: JSON.parse(window.localStorage.getItem('cookie') || 'false')
     },
     mutations: {
         // Регистрация
@@ -739,9 +788,9 @@ const store = {
                     break;
             }
 
-            await axios.get(`${state.SITE_URI}filter/${params}/${data.sort}/${data.sale}/${data.min}/${data.max}/${data.sizes}?page=${data.page}`)
+            await axios.get(`${state.SITE_URI}filter/${params}/${data.sort}/${data.sale}/${data.min}/${data.max}/${data.sizes}/${data.brands}?page=${data.page}`)
                 .then(response => {
-
+                    console.log(response.data)
                     // Получаем данные для отображения товаров в каталоге по гендеру
                     let itemCell = response.data;
 
@@ -755,6 +804,12 @@ const store = {
 
                     state.EU = itemCell.eu;
                     delete itemCell.eu;
+
+                    state.filterBrands = state.filterBrands ?? itemCell.brands;
+
+                    if (state.filterBrands == null) state.filterBrands.forEach(brand => brand.active = false)
+
+                    delete itemCell.brands
 
                     // Создаем массив для размеров и пушим все размеры
                     let localSize = [];
@@ -804,7 +859,8 @@ const store = {
 
                     // Получаем общее число товаров для пагинации
                     state.catalogDataCellCount = itemCell.myData.total;
-                });
+                })
+                .catch(e => console.log(e.data))
         },
 
         // Получаем дату для конкретного товара
@@ -960,7 +1016,6 @@ const store = {
                        "Content-Type": "application/x-www-form-urlencoded"
                    }})
                    .then(res => {
-                       console.log(res.data, 'НАЛИМКА БЕКЕНДЕР')
                        state.payId = res.data.id;
                        window.localStorage.setItem('payId', JSON.stringify(state.payId))
                        window.location = res.data.formUrl;
@@ -1050,24 +1105,25 @@ const store = {
         },
 
         SearchResultMutate(state, data){
-            state.searchResult = data;
+            state.EU = data[1];
+            state.searchResult = data[0];
         },
         MutateCookie(state){
             state.cookie = true;
-            window.sessionStorage.setItem('cookie', JSON.stringify(state.cookie));
+            window.localStorage.setItem('cookie', JSON.stringify(state.cookie));
         }
-
     },
     actions: {
         SearchProduct({commit}, word){
             return new Promise((resolve, reject) => {
                 axios.post(`${URI}search`, {search: word})
                     .then(res => {
+                        console.log(res)
                         commit('SearchResultMutate', res.data)
                         resolve(true)
                     })
                     .catch(e => {
-                        reject(false)
+                        console.log(e)
                     })
             })
         },
@@ -1091,7 +1147,8 @@ const store = {
             return new Promise((resolve, reject) => {
                 axios({url: `${URI}login`, data: user, method: 'POST' })
                     .then(resp => {
-                        if (resp.data !== 0) {
+                        console.log(resp.data)
+                        if (resp.data !== 'error') {
                             const token = resp.data;
                             localStorage.setItem('token', token);
                             commit('auth_success', token);
@@ -1127,7 +1184,6 @@ const store = {
                 axios.get(`${URI}item-${data}`)
                     .then((response) => {
                         let itemData = response.data;
-                        console.log(itemData)
                         let stateItemData = {};
                         let pics = null;
                         let stars = {
@@ -1238,7 +1294,7 @@ const store = {
                                 el.product_sizes_without_sale = el.product_sizes_without_sale !== null ? el.product_sizes_without_sale.split(',') : []
                             });
 
-                            let totalDataCart = [];+
+                            let totalDataCart = [];
                             data.forEach(el => {
 
                                 cart.forEach(elCart => {
@@ -1433,7 +1489,8 @@ const store = {
         },
         cookie: state => {
             return state.cookie;
-        }
+        },
+        filterBrands: state => state.filterBrands
 
     },
 }

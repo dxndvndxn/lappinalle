@@ -33,6 +33,11 @@
             pass: null,
             err: false
         }),
+        metaInfo(){
+            return {
+                title: "Логин"
+            }
+        },
         validations: {
             email: {
                 email, required
@@ -50,7 +55,13 @@
                 }else{
                     this.$Progress.start();
                     this.$store.dispatch('login', {email: this.email, password: this.pass })
-                        .then(() => this.$router.push({name: 'cabinet'}))
+                        .then((res) => {
+                            if (res){
+                                this.$router.push({name: 'cabinet'})
+                            }else{
+                                this.err = true
+                            }
+                        })
                         .catch((() => {
                             this.$Progress.finish();
                             this.err = true

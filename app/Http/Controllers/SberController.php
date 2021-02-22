@@ -94,7 +94,8 @@ class SberController extends Controller
                 $vars['orderBundle']['cartItems']['items'][$i]['name'] = $itemname.' - Размер: '.$order[0]['orderData'][$i]['size'];
                 $vars['orderBundle']['cartItems']['items'][$i]['quantity'] = ['value' => $order[0]['orderData'][$i]['count'], 'measure' => 'шт.'];
                 $vars['orderBundle']['cartItems']['items'][$i]['itemCode'] = (string)$order[0]['orderData'][$i]['id'].'-'.$order[0]['orderData'][$i]['size'];
-                $vars['orderBundle']['cartItems']['items'][$i]['itemAmount'] = $order[0]['orderData'][$i]['price'] * 100 * (int)$vars['orderBundle']['cartItems']['items'][$i]['quantity']['value'];
+//                $vars['orderBundle']['cartItems']['items'][$i]['itemAmount'] = $order[0]['orderData'][$i]['price'] * 100 * (int)$vars['orderBundle']['cartItems']['items'][$i]['quantity']['value'];
+                $vars['orderBundle']['cartItems']['items'][$i]['itemPrice'] = $order[0]['orderData'][$i]['price'] * 100;
                 $i++;
             }
 

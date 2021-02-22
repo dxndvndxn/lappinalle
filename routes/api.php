@@ -72,6 +72,7 @@ Route::post('/returnproduct', 'AdmOrdersController@red');
 //Админка карточка пользователя
 Route::post('/lkadm', 'LKController@admin');
 Route::post('/lkadm', 'LKController@adminIn');
+
 //Админка все пользователи
 Route::get('/adminusers', 'AdminUsersController@index');
 
@@ -99,12 +100,14 @@ Route::post('/newdep', 'AdmCategController@newdep');
 // Скачать накладную
 Route::post('/loadfile',  'FileController@kek');
 
+Route::get('/getAllIds', 'MainPageController@getAllIds');
+
 // SITE
 // Оформление заказа
 Route::post('/order', 'CheckoutOrderController@index');
 
 // Самый охуевший в мире фильтр + выдача каталога
-Route::get('/filter/{sexalias}/{catalias}/{depalias}/{sortmode}/{sale}/{min}/{max}/{sizes}', 'InfernalFilterFromNalimkaAkaTatarinBitchController@universal');
+Route::get('/filter/{sexalias}/{catalias}/{depalias}/{sortmode}/{sale}/{min}/{max}/{sizes}/{brands}', 'InfernalFilterFromNalimkaAkaTatarinBitchController@universal');
 
 // Получаем все размеры для sidebar
 Route::get('/allsizesforsidebar', 'AllSizeForSideBarController@index');
@@ -167,6 +170,12 @@ Route::post('/search', 'SearchController@search');
 
 // Поиск в админке
 Route::post('/searchadmin', 'SearchController@SearchAdmin');
+
+// Все бренды 
+Route::get('/allBrands', 'AllBrandsController@getAllBrands');
+
+// Управление брендами
+Route::post('/manageBrands', 'AllBrandsController@manageAllBrands');
 
 Route::fallback(function(){
     return response()->json([

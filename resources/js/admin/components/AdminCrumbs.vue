@@ -35,17 +35,25 @@
                 {{sz.sizes_number}}
             </li>
         </ul>
+        <ul v-if="allBrands">
+            <li v-for="(brand, i) in allBrands" :key="i" @click="addBrand(brand.brands_id)">
+                {{brand.brands_name}}
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
     export default {
         name: "AdminCrumbs",
-        props: ['lvl', 'crumbs', 'sizes', 'allIds', 'sizesWithoutSale'],
+        props: ['lvl', 'crumbs', 'sizes', 'allIds', 'sizesWithoutSale', 'allBrands'],
         data: () => ({
 
         }),
         methods: {
+            addBrand(brandId){
+                this.$emit('addBrand', brandId)
+            },
             chooseCategory(sexId, categId, departId){
                 // триггеры для страницы AdminProducts
                 this.$emit('addNewCategory', {sexId, categId, departId});

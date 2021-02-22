@@ -91,7 +91,12 @@
 
 <script>
     export default {
-        name: "UserAccept"
+        name: "UserAccept",
+        metaInfo(){
+            return {
+                title: "Пользовательское Соглашение "
+            }
+        },
     }
 </script>
 

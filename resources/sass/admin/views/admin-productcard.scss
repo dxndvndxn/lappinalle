@@ -192,9 +192,12 @@
         }
         .related-products{
             width: 219px;
-            &:nth-child(1){
-                margin-right: 25px;
+            &:first-child{
+                margin-left: 7px;
 
+            }
+            &:not(:last-child){
+                margin-right: 7px;
             }
             .wrap-related-products{
                 display: flex;
@@ -208,9 +211,12 @@
 #loadImg, #loadVid{
     width: 0;
     height: 0;
+    visibility: hidden;
 }
 .wrap-size-grid{
-    @include variableColumns(4, 40px);
+    // @include variableColumns(4, 40px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
     grid-template-rows: 40px;
     grid-column-gap: 14px;
     grid-row-gap: 8px;

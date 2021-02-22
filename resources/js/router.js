@@ -15,6 +15,8 @@ import ChoosePay from "./views/ChoosePay";
 import PaySuccess from "./views/PaySuccess";
 import Bookmark from "./views/Bookmark";
 import Cabinet from "./views/Cabinet";
+import AboutBrand from "./views/AboutBrand";
+import AboutTech from "./views/AboutTech";
 import Admin from './admin/Admin';
 import AdminCategories from "./admin/views/AdminCategories";
 import AdminProducts from "./admin/views/AdminProducts";
@@ -34,6 +36,7 @@ import PayFail from "./views/PayFail";
 import Searching from "./views/Searching";
 import AdminNewSizes from "./admin/views/AdminNewSizes";
 import UserAccept from "./views/UserAccept";
+import AdminNewBrand from "./admin/views/AdminNewBrand";
 
 const routes = [
     {
@@ -210,6 +213,18 @@ const routes = [
         component: ReturnProduct
     },
     {
+        path: '/aboutbrand',
+        name: 'AboutBrand',
+        meta: { layout: 'Main' },
+        component: AboutBrand
+    },
+    {
+        path: '/abouttech',
+        name: 'AboutTech',
+        meta: { layout: 'Main' },
+        component: AboutTech
+    },
+    {
         path: '/useraccept',
         name: 'UserAccept',
         meta: { layout: 'Main' },
@@ -379,6 +394,19 @@ const routes = [
                 component: AdminNewSizes,
                 meta: { layout: 'Admin' },
                 name: 'AdminNewSizes',
+                beforeEnter: ((to, from, next) => {
+                    if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
+                        store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))
+                    }else{
+                        next('/adminalle')
+                    }
+                })
+            },
+            {
+                path: 'newbrands',
+                component: AdminNewBrand,
+                meta: { layout: 'Admin' },
+                name: 'AdminNewBrand',
                 beforeEnter: ((to, from, next) => {
                     if(to.matched.some(record => record.meta.layout === 'Admin' && store.getters.mamakusa !== null)) {
                         store.dispatch('CheckMamaSe', store.getters.mamakusa).then(() => next()).catch(e => console.log(e))

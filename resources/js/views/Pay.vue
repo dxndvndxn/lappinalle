@@ -38,6 +38,11 @@
         components:{
           Back
         },
+        metaInfo(){
+            return {
+                title: "Варианты оплаты"
+            }
+        },
         data: () => ({
             payIcons: {lvlOne: ['../img/Mk.png', '../img/Viza.png', '../img/Mir.png'], lvlTwo: ['../../img/yandex-icon.png', '../../img/qiwi-icon.png', '../../img/paypal-icon.png']}
         }),

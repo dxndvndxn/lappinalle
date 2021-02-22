@@ -28,7 +28,7 @@
 @media screen and (max-width: $tablet) {
     .pagination{
         @include template(0px, 22px);
-        margin-bottom: 55px;
+        margin: 0 0 35px;
         .this-page{
             transform: rotate(90deg);
             position: absolute;

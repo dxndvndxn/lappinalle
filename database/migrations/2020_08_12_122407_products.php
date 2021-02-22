@@ -26,6 +26,7 @@ class Products extends Migration
             $table->integer('product_vendor')->nullable();
             $table->string('product_related', 100)->nullable()->collation('utf8_general_ci');
             $table->string('product_sizes_without_sale', 100)->nullable()->collation('utf8_general_ci');
+            $table->integer("product_position")->nullable();
             $table->timestamp("added_on");
             $table->unsignedTinyInteger('sex_id')->nullable();
             $table->foreign('sex_id')->references('sex_id')->on('sex')->onDelete('cascade');
@@ -33,6 +34,8 @@ class Products extends Migration
             $table->foreign('categories_id')->references('categories_id')->on('categories')->onDelete('cascade');
             $table->unsignedTinyInteger('departments_id')->nullable();
             $table->foreign('departments_id')->references('departments_id')->on('departments')->onDelete('cascade');
+            $table->unsignedTinyInteger('brands_id')->nullable();
+            $table->foreign('brands_id')->references('brands_id')->on('brands')->onDelete('cascade');
         });
     }
 

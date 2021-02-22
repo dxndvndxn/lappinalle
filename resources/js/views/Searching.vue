@@ -12,6 +12,11 @@
     import Back from "../components/Back";
     export default {
         name: "Searching",
+        metaInfo(){
+            return {
+                title: "Поиск"
+            }
+        },
         components: {
             CatalogCell, Back
         },

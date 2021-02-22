@@ -20,6 +20,11 @@
         data: () => ({
 
         }),
+        metaInfo(){
+            return {
+                title: "Успешная оплата"
+            }
+        },
         created() {
             this.$Progress.start();
             this.$store.dispatch('ChangeStatusOrder');

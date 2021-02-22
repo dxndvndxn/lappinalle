@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -43,18 +44,15 @@ EOT;
         return ob_get_clean();
     }
 
-    public function index()
+    public function index(Request $request)
     {
-//        $v8 = new \V8Js();
-//        $ssr = $v8->executeString(
-//            'let hi = "Hi";
-//            let Mark = "Mark"
-//            hi + Mark
-//
-//        ');
-
 //        $ssr = $this->render();
 //        return view('home', ['ssr' => $ssr]);
-        return view('home');
+        if ($request->path() !== '/') {
+            return view('home');
+        }else {
+            return view('index');
+        }
+        // return view('home');
     }
 }

@@ -295,9 +295,18 @@
             successSentReview: false,
             linkForRelated: null,
             showPriceAsUsual: true,
-
-            // координаты
+            title: null,
+            content: null
         }),
+        metaInfo(){
+            return {
+                title: this.title,
+                meta: [{
+                    name: 'description',
+                    content: this.content,
+                }]
+            }
+        },
         async created(){
            this.$Progress.start();
 
@@ -493,6 +502,10 @@
                     this.$Progress.start();
                     this.$store.dispatch('getItemData', this.$route.params.number);
                 }
+            },
+            returnDataForItem(data){
+             this.title = data.itemTitle
+             this.content = data.itemDesc
             }
         }
     }

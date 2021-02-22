@@ -53,6 +53,11 @@
             checkAgree: false,
             error: false
         }),
+        metaInfo(){
+            return {
+                title: "Регистрация"
+            }
+        },
         validations: {
             name: {
                 required,

@@ -13,7 +13,7 @@
                     <label for="main-head" class="admin-h3">Главная картинка</label>
                     <img :src="mainpage_main_img" alt="" class="admin-main-img">
                     <label for="loadMainImg" class="admin-btn-add">Добавить изображение <img src="../../../img/purpp-krest.png" alt=""></label>
-                    <input type="file" value="Добавить изображение" id="loadMainImg" ref="mainImg" @change="uploadMainBaner(null,null, 1, true, null,false)" accept="image/jpeg,image/png">
+                    <input type="file" value="Добавить изображение" id="loadMainImg" ref="mainImg" @change="uploadMainBaner(null, null, 1, true, null, false)" accept="image/jpeg,image/png">
                 </div>
                 <div class="wrap-main-page width-300 admin-cl-lbl-inp">
                     <label for="main-head" class="admin-h3">Заголовок</label>
@@ -34,7 +34,13 @@
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Ссылка</label>
                     <div class="wrap-input">
-                        <input type="text" class="input-pale-blu" @change="uploadMainBaner('mainpage_main_but_href', mainpage_main_but_href, 1, null,false)" v-model.trim="mainpage_main_but_href">
+                        <input type="text" class="input-pale-blu" @change="uploadMainBaner('mainpage_main_but_href', mainpage_main_but_href, 1, null, false)" v-model.trim="mainpage_main_but_href">
+                    </div>
+                </div>
+                <div class="wrap-main-page admin-cl-lbl-inp width-300">
+                    <label class="admin-h3">Видео</label>
+                    <div class="wrap-input">
+                        <input type="text" class="input-pale-blu" @change="uploadMainBaner('mainpage_main_video', mainpage_main_video, 1, null, false)" v-model.trim="mainpage_main_video">
                     </div>
                 </div>
             </div>
@@ -52,7 +58,18 @@
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Карусель</label>
-                    <div class="wrap-input">
+                    <div class="wrap-related-products">
+                        <input type="text" placeholder="№ товара" class="input-transp" disabled>
+                        <button class="btn-admin-arrow" @click="GetActiveBlock(i, block.block_id)" v-bind:class="block.active ? 'admin-btn-arrow' : 'admin-btn-arrow-pass'"></button>
+                    </div>
+                    <AdminCrumbs v-if="block.active" @addRelatedId="addNeededId" v-bind:allIds="getAllIds"/>
+                    <div class="wrap-size-grid" v-if="block.block_carousel_id.length">
+                        <span v-for="(id, ii) in block.block_carousel_id" :key="ii" @dblclick="removeAddedId(id, i, block.block_id)">
+                            {{id}}
+                        </span>
+                    </div>
+
+                    <!-- <div class="wrap-input">
                         <input type="text" class="input-pale-blu"
                                v-for="(current, i) in getCrumbs"
                                :value="current.sex_name + (current.categories_name !== null ? ' | ' + current.categories_name : '') + (current.departments_name !== null ? ' | ' + current.departments_name : '')"
@@ -61,7 +78,7 @@
                         <input type="text" class="input-pale-blu" v-if="block.block_sex == null && block.block_cat == null && block.block_dep == null">
                         <button class="btn-admin-arrow" @click="GetActiveBlock(i, block.block_id)" v-bind:class="block.active ? 'admin-btn-arrow-pass' : 'admin-btn-arrow'"></button>
                     </div>
-                    <AdminCrumbs v-if="block.active" v-bind:lvl="'all'" @addNewCategory="chooseCategoryCarousel" v-bind:crumbs="getCrumbs"/>
+                    <AdminCrumbs v-if="block.active" v-bind:lvl="'all'" @addNewCategory="chooseCategoryCarousel" v-bind:crumbs="getCrumbs"/> -->
                 </div>
                 <div class="wrap-main-page admin-cl-lbl-inp width-300">
                     <label class="admin-h3">Заголовок баннера</label>
@@ -105,6 +122,7 @@
             mainpage_main_but_text: null,
             mainpage_main_but_href: null,
             mainpage_main_img: null,
+            mainpage_main_video: null,
 
             // Остальные блоки
             blocks: null,
@@ -112,9 +130,14 @@
 
             // Активный блок
             activeId: null,
+            activeI: null,
 
             // Счет блоков
-            blockNumber: 1
+            blockNumber: 1,
+
+            // Все id товаров
+            allIdsProducts: null,
+
         }),
         methods: {
             async uploadMainBaner(name, value, id, img, i, addBlock) {
@@ -223,7 +246,10 @@
             // Получаем активный ID
             GetActiveBlock(i, id) {
                 this.activeId = id;
+                this.activeI = i;
                 this.blocks[i].active = !this.blocks[i].active;
+
+                this.getAllIds == null ? this.$store.dispatch('GetAllIds') : null 
             },
 
             // Удаление блока
@@ -246,6 +272,58 @@
                     }
                 })
                 .catch(()=> this.$Progress.fail())
+            },
+
+            // Добавляем нужные товары по id и удаление по id
+            addNeededId(id){
+                let addedId = this.blocks[this.activeI].block_carousel_id.find(localId => localId == id)
+
+                if (addedId) return
+
+                this.blocks[this.activeI].block_carousel_id.push(id);
+
+                let localData = {
+                    id: this.activeId,
+                    addedIds: this.blocks[this.activeI].block_carousel_id.join(',')
+                }
+                
+                let formData = new FormData();
+                formData.append('data', JSON.stringify(localData));
+
+                this.$Progress.start()
+                axios.post(`${this.URI}mainupd`, formData)
+                    .then(res => {
+                        this.$store.dispatch('GetMainPageAdmin')
+                            .then(res => {
+                                if (res) this.$Progress.finish()
+                            })
+                            .catch(e => this.$Progress.fail())
+                    })
+                    .catch(e => console.log(e))
+            },
+
+            // Удаляем добавленные товары в карусель по ID
+            removeAddedId(id, i, activeId) {
+                this.blocks[i].block_carousel_id = this.blocks[i].block_carousel_id.filter(localId => localId !== id)
+
+                let localData = {
+                    id: activeId,
+                    addedIds: this.blocks[i].block_carousel_id.join(',')
+                }
+                
+                let formData = new FormData();
+                formData.append('data', JSON.stringify(localData));
+
+                this.$Progress.start()
+                axios.post(`${this.URI}mainupd`, formData)
+                    .then(res => {
+                        this.$store.dispatch('GetMainPageAdmin')
+                            .then(res => {
+                                if (res) this.$Progress.finish()
+                            })
+                            .catch(e => this.$Progress.fail())
+                    })
+                    .catch(e => console.log(e))
             }
         },
         created() {
@@ -266,9 +344,11 @@
                  this.mainpage_main_h3 = newValue[0][3];
                  this.mainpage_main_but_text = newValue[0][4];
                  this.mainpage_main_but_href = newValue[0][5];
+                 this.mainpage_main_video = newValue[0][6];
 
                  this.blocks = newValue[1];
 
+                 console.log(this.blocks)
             },
             blocks(newValue) {
                 this.blocks = newValue;
@@ -288,6 +368,9 @@
                 set(val){
                     return val;
                 }
+            },
+            getAllIds(){
+                return this.$store.getters.getAllIds;
             }
         }
     }

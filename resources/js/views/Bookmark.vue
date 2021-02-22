@@ -19,6 +19,11 @@
         data: () => ({
             bookmark: []
         }),
+        metaInfo(){
+            return {
+                title: "Избранное"
+            }
+        },
         methods: {
           removeBook(id){
               let i = this.bookmark.findIndex(el => el.product_id === id);

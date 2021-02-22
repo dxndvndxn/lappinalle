@@ -8,7 +8,9 @@ use DB;
 class AdminGetOneProductController extends Controller
 {
     public function index(Request $request, $id){
-        $oneProduct = DB::table('products')->where('product_id', '=', $id)->get();
+        $oneProduct = DB::table('products')->where('product_id', '=', $id)
+            ->leftJoin('brands', 'products.brands_id', '=', 'brands.brands_id')
+            ->get();
         $sizesData = DB::table('catalog_size')->where('product_id', '=', $id)
             ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
             ->select('sizes_number', 'sizes.sizes_id', 'catalog_size_amount', 'catalog_size_id')
@@ -19,6 +21,7 @@ class AdminGetOneProductController extends Controller
         }
         $oneProduct['allSizes'] = $sizesData;
         $oneProduct['allIds'] = DB::table('products')->select('product_id')->orderBy('product_id', 'asc')->get();
+        $oneProduct['allBrands'] = DB::table('brands')->get();
         return $oneProduct;
     }
 }

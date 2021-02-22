@@ -59,7 +59,6 @@ class LappiUserController extends Controller
     }
 
     public function Log (Request $request) {
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:6'
@@ -81,7 +80,7 @@ class LappiUserController extends Controller
             if ($vpas) {
                 return $newS["lappiusers_token"];
             }else{
-                return false;
+                return 'error';
             }
         }
     }

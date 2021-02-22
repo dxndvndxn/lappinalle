@@ -1,4 +1,7 @@
 .choose-pay{
+    .chozen-imgs{
+        justify-content: space-around;
+    }
     &-header{
         @include grid-temp(1fr, 1fr, 1fr);
         h1{

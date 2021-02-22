@@ -4940,19 +4940,6 @@ class DatabaseSeeder extends Seeder
                 'product_old_price' => 50,
                 'product_video' => '/img/video_1'
             ],
-            [
-                'product_title' => 'Test2',
-                'product_price' => rand(20, 49),
-                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
-                'product_img' => '/img/img_1-item-1.png, /img/img_1-item-2.png, /img/img_3-item-1.png',
-                'sex_id' => 1,
-                'categories_id' => 1,
-                'departments_id' => 2,
-                'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
-                'product_sale' => 1,
-                'product_old_price' => 50,
-                'product_video' => '/img/video_1'
-            ],
 
         ]);
         DB::table('sizes')->insert([
@@ -5427,5 +5414,111 @@ class DatabaseSeeder extends Seeder
                 'mainpage_block_but_href' => null
             ]
         ]);
+
+        DB::table('brands')->insert([
+            [
+                'brands_name' => 'LappiNalle',
+            ],
+            [
+                'brands_name' => 'DreamLand',
+            ],
+            [
+                'brands_name' => 'Jonathan',
+            ],
+            [
+                'brands_name' => 'Motions',
+            ],
+            [
+                'brands_name' => 'Rasavil',
+            ],
+            [
+                'brands_name' => 'Kivat',
+            ],
+            [
+                'brands_name' => 'Ticket to Heaven',
+            ],
+            [
+                'brands_name' => 'Reima',
+            ],
+            [
+                'brands_name' => 'Dan&Dani',
+            ],
+
+            
+        ]);
+
+        DB::table('products')->insert([
+            [
+                'product_title' => 'Test2',
+                'product_price' => rand(20, 49),
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '/img/img_1-item-1.png, /img/img_1-item-2.png, /img/img_3-item-1.png',
+                'sex_id' => 1,
+                'categories_id' => 1,
+                'departments_id' => 2,
+                'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
+                'product_sale' => 1,
+                'product_old_price' => 50,
+                'product_video' => '/img/video_1',
+                'brands_id' => 1
+            ],
+            [
+                'product_title' => 'Test2',
+                'product_price' => rand(20, 49),
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '/img/img_1-item-1.png, /img/img_1-item-2.png, /img/img_3-item-1.png',
+                'sex_id' => 1,
+                'categories_id' => 1,
+                'departments_id' => 2,
+                'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
+                'product_sale' => 1,
+                'product_old_price' => 50,
+                'product_video' => '/img/video_1',
+                'brands_id' => 2
+            ],
+            [
+                'product_title' => 'Test2',
+                'product_price' => rand(20, 49),
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '/img/img_1-item-1.png, /img/img_1-item-2.png, /img/img_3-item-1.png',
+                'sex_id' => 1,
+                'categories_id' => 1,
+                'departments_id' => 2,
+                'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
+                'product_sale' => 1,
+                'product_old_price' => 50,
+                'product_video' => '/img/video_1',
+                'brands_id' => 3
+            ],
+            [
+                'product_title' => 'Test2',
+                'product_price' => rand(20, 49),
+                'product_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consequat dui tortor, at consequat lacus elementum eu. Nulla luctus lorem dui, semper ullamcorper ante rhoncus ornare. Morbi elit dui, aliquet suscipit facilisis pellentesque, pellentesque ut arcu. Suspendisse commodo lobortis sapien eu convallis. Quisque vehicula lectus eu felis tempus, et tristique dolor dapibus. In gravida efficitur enim, ut venenatis elit posuere vitae. Morbi a faucibus odio, in vulputate elit. Maecenas aliquam, ligula ac mollis rhoncus, turpis augue egestas nibh, sed efficitur libero sapien a justo. Nullam sed eros magna.',
+                'product_img' => '/img/img_1-item-1.png, /img/img_1-item-2.png, /img/img_3-item-1.png',
+                'sex_id' => 1,
+                'categories_id' => 1,
+                'departments_id' => 2,
+                'added_on' => Carbon::now()->format('Y-m-d H:i:s'),
+                'product_sale' => 1,
+                'product_old_price' => 50,
+                'product_video' => '/img/video_1',
+                'brands_id' => 4
+            ],
+        ]);
+
+        $allProducts = DB::table('products')->select('product_id')->get();
+
+        $allProductsProccessed = [];
+
+        foreach ($allProducts as $tape) {
+            array_push($allProductsProccessed, (array)$tape);
+
+        }
+        
+        foreach ($allProductsProccessed as $prdId => $value) {
+            DB::table('products')->where('product_id', $value['product_id'])
+                ->update(['product_position' => $value['product_id']]);
+        }
+
     }
 }

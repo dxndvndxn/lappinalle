@@ -1,29 +1,31 @@
 <template>
-    <div class="admin-new-sizes">
+    <div class="admin-new-smth">
         <AdminTopSide v-bind:H="'РАЗМЕРЫ'"/>
-        <div class="wrap-add-new-sizes width-300">
-            <input type="text" placeholder="Новый размер" v-model.trim="newsize" class="input-transp">
-            <button @click="addNewSize" class="input-transp"><img src="../../../img/krest-btn.png"></button>
-        </div>
+        <AdminAddSmth :myPlaceholder="'Новый размер'" :addFunc="addNewSize" />
         <p v-if="error" class="error-size">Такой размер уже существует</p>
-        <div class="wrap-new-size-grid" v-if="GetAllSizes !== null">
-            <span v-for="(sz, i) in GetAllSizes" @dblclick="deleteSizeWithoutSale(sz.sizes_id)">
-                            {{sz.sizes_number}}
+        <!-- <div class="wrap-new-size-grid" v-if="GetAllSizes !== null">
+            <span v-for="(sz, i) in GetAllSizes" @dblclick="deleteSizeWithoutSale(sz.sizes_id)" :key="i">
+                    {{sz.sizes_number}}
             </span>
-        </div>
+        </div> -->
+        <GridData :dataGrid="GetAllSizes" :afterDot="'sizes_number'" :id="'sizes_id'" :funcDel="deleteSizeWithoutSale"/>
     </div>
 </template>
 
 <script>
     import AdminTopSide from "../components/AdminTopSide";
+    import AdminAddSmth from "../components/AdminAddSmth";
+    import GridData from "../components/GridData";
+
     export default {
         name: "AdminNewSizes",
         data: () => ({
-           newsize: null,
             error: false
         }),
         components: {
-            AdminTopSide
+            AdminTopSide,
+            AdminAddSmth,
+            GridData
         },
         methods: {
             deleteSizeWithoutSale(szId){
@@ -36,12 +38,12 @@
                         else this.$Progress.fail()
                     })
             },
-            addNewSize(){
-                let findSize = this.GetAllSizes.find(sz => sz.sizes_number == this.newsize)
+            addNewSize(str){
+                let findSize = this.GetAllSizes.find(sz => sz.sizes_number == str)
 
                 if (!findSize){
                     this.$Progress.start()
-                    this.$store.dispatch('AddNewSize', this.newsize)
+                    this.$store.dispatch('AddNewSize', str)
                         .then(res => {
                             if (res) {
                                 this.$store.dispatch('GetAllSizes');

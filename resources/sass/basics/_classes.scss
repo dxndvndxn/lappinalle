@@ -730,3 +730,21 @@
 .activeNullSize{
     border: 1px solid $purpp;
 }
+.showScroll{
+    overflow-y: scroll !important;
+    &::-webkit-scrollbar-track
+    {
+        background-color: $paleblue;
+    }
+
+    &::-webkit-scrollbar
+    {
+        width: 7px;
+        background-color: $palepurpp;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+        background-color: $palepurpp;
+    }
+}

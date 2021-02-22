@@ -6,7 +6,11 @@ import store from "./store";
 import Paginate from 'vuejs-paginate';
 import VueProgressBar from "vue-progressbar";
 import Vuelidate from "vuelidate/src";
+import VueMeta from 'vue-meta'
 
+Vue.use(VueMeta, {
+    refreshOnceOnNavigation: true
+})
 Vue.component('paginate', Paginate);
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
@@ -28,20 +32,36 @@ const options = {
 };
 
 Vue.use(VueProgressBar, options);
-
-const app = new Vue({
-    el: '#app',
-    store,
-    router,
-    render: h => h(Appi),
-    components: {
-        Appi
-    }
-});
-// export default new Vue({
+// axios.defaults.headers.common = {
+//     'X-CSRF-TOKEN': 'window.Laravel.csrfToken'
+// };
+store.dispatch('GetMainPageAdmin').then(() => {
+    new Vue({
+        el: '#app',
+        store,
+        router,
+        render: h => h(Appi),
+        components: {
+            Appi
+        },
+        mounted(){
+            const event = new Event('renderer-ready');
+            window.document.dispatchEvent(event)
+        }
+    });
+})
+// const app = new Vue({
 //     el: '#app',
 //     store,
 //     router,
 //     render: h => h(Appi),
+//     components: {
+//         Appi
+//     }
+// });
+// export default new Vue({
+//     el: '#app',
+//     store,
+//     router
 // });
 

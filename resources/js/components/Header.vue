@@ -7,7 +7,7 @@
                     <form class="nav-search" @submit.prevent v-if="media.wind > media.tablet">
                         <div class="search">
                             <input type="search" id="search" @change="searchProduct()" v-model.trim="search" placeholder="Поиск">
-                            <label for="search">
+                            <label for="search" @click="searchProduct()">
                                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="22px" height="24px" viewBox="0 0 22 24" enable-background="new 0 0 22 24">
                                     <image width="22" height="24" x="0" y="0" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAYCAQAAABUt8XAAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
 AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElN
@@ -237,7 +237,7 @@ BB9OAAAAAElFTkSuQmCC" />
 
                 // Открываем категории
                 this.categoriesHide = true;
-                setTimeout(() => document.getElementById('sorting').scrollIntoView(), 500 )
+                // setTimeout(() => document.getElementById('sorting').scrollIntoView(), 500 )
             },
 
             // Открываем подкатегории
@@ -249,7 +249,7 @@ BB9OAAAAAElFTkSuQmCC" />
                 // Скрываем категории, чтобы открыть подкатегории
                 this.categoriesHide = false;
 
-                setTimeout(() => document.getElementById('sorting').scrollIntoView(), 500 )
+                // setTimeout(() => document.getElementById('sorting').scrollIntoView(), 500 )
             },
 
             backToCategories(){
@@ -259,19 +259,13 @@ BB9OAAAAAElFTkSuQmCC" />
                 // Открываем категории
                 this.categoriesHide = true;
 
-                setTimeout(() => document.getElementById('sorting').scrollIntoView(), 500 )
+                // setTimeout(() => document.getElementById('sorting').scrollIntoView(), 500 )
             }
         },
         // Получаем меню
         created(){
             if (!this.$store.getters.lastMenu.length && !this.$store.getters.topMenu.length) this.$store.dispatch('getMenuData');
             this.$Progress.finish();
-
-            // @media tablet 768px
-            // Скрываем меню
-            if (this.media.wind <= this.media.tablet) {
-                this.menuHide = !this.menuHide;
-            }
         },
         // Котролируем ширину меню
         updated() {
@@ -343,198 +337,6 @@ BB9OAAAAAElFTkSuQmCC" />
 
     }
 </script>
-<!--<template>-->
-<!--  <nav>-->
-<!--      <div class="menu-top">-->
-<!--          <ul class="grid-nav-top container">-->
-<!--              <li>-->
-<!--                  <form class="nav-search">-->
-<!--                      <div class="search">-->
-<!--                          <input type="search" id="search" placeholder="Поиск">-->
-<!--                          <label for="search"><img src="../../img/search.png" alt=""></label>-->
-<!--                      </div>-->
-<!--                  </form>-->
-<!--              </li>-->
-<!--              <router-link class="flexin-center logo" tag="li" to="/"><a href="#">Lappinalle</a></router-link>-->
-<!--              <li class="nav-icons">-->
-<!--                  <ul class="nav-icons-items">-->
-<!--                      <router-link tag="li" to="/cabinet"><a href=""><img src="../../img/cabinet.png" alt=""></a></router-link>-->
-<!--                      <router-link tag="li" to="/bookmark"><a href=""><img src="../../img/bookmark.png" alt=""></a></router-link>-->
-<!--                      <router-link tag="li" to="/cart"><a href=""><img src="../../img/cart.png" alt=""></a></router-link>-->
-<!--                  </ul>-->
-<!--              </li>-->
-<!--          </ul>-->
-<!--      </div>-->
-<!--      <div class="menu-wrap" @mouseleave="unHoverTopMenu()">-->
-<!--          <div class="menu-middle">-->
-<!--              <ul class="container genders" v-bind:class="returnWidth" >-->
-<!--                  <router-link-->
-<!--                          v-for="(link, i) in getTopMenu"-->
-<!--                      :key="i"-->
-<!--                      tag="li"-->
-<!--                      :to="link.url"-->
-<!--                      :exact="link.exact"-->
-<!--                  >-->
-<!--                      <a href="#" @mouseover="hoverTopMenu(link.title, getTopMenu, i)" :class="link.hover ? 'active-top-menu': 'unactive-top-menu'">{{link.title}}</a>-->
-<!--                  </router-link>-->
-<!--              </ul>-->
-<!--          </div>-->
-<!--          <div class="menu-bottom" v-if="showMenu">-->
-<!--              <ul @mouseover="hoverMenu()" class="menu-categories" v-if="getTopMenu.length">-->
-<!--                  <router-link v-for="(value, catg, i) in getBottomMenu[getChosenCatg]"-->
-<!--                               :key="i"-->
-<!--                               tag="li"-->
-<!--                               active-class="active"-->
-<!--                               :to="getBottomMenu[getChosenCatg][catg][0].categories_alias"-->
-<!--                               :exact='catg.exact'-->
-<!--                               :class="getBottomMenu[getChosenCatg][catg][0].hover ? 'active-catg' : null"-->
-<!--                  >-->
-<!--                      <a href="#" @mouseover="mouseOverDept(value, getBottomMenu[getChosenCatg], catg)" @mouseleave="getBottomMenu[getChosenCatg][catg][0].hover = false" :class="catg === 'Распродажа' ? 'sale' : null">{{catg}}</a>-->
-<!--                  </router-link>-->
-<!--              </ul>-->
-<!--              <ul class="menu-departments" @mouseover="doHoverCatg()" v-if="returnDepart.length" @mouseleave="getBottomMenu[getChosenCatg][hoverCatg][0].hover = false">-->
-<!--                  <router-link-->
-<!--                      v-for="(valueIn, k) in returnDepart"-->
-<!--                      :key="k"-->
-<!--                      tag="li"-->
-<!--                      active-class="active"-->
-<!--                      :to="valueIn.departments_alias"-->
-<!--                      :exact='valueIn.exact'-->
-<!--                  >-->
-<!--                      <a href="#">{{valueIn.department}}</a>-->
-<!--                  </router-link>-->
-<!--              </ul>-->
-<!--          </div>-->
-<!--          <div class="menu-bottom" v-else>-->
-
-<!--          </div>-->
-<!--      </div>-->
-<!--  </nav>-->
-<!--</template>-->
-
-<!--<script>-->
-<!--export default {-->
-<!--    name: "Header",-->
-<!--    data:() => ({-->
-<!--        lastMenu: null,-->
-<!--        topMenuLength: null,-->
-<!--        showMenu: false,-->
-<!--        departments: null,-->
-<!--        hoverCatg: null,-->
-<!--        chosenCatg: null-->
-
-<!--    }),-->
-<!--    methods: {-->
-<!--        // Наводим на главное меню-->
-<!--        hoverTopMenu(item, topMenu, i){-->
-<!--            // Получаем меню категории для выбранного айтема меню-->
-<!--            this.chosenCatg = item;-->
-
-<!--            // Полуаем подкатегории для катергории по номер 1-->
-<!--            for (let i in this.getBottomMenu[item]) {-->
-<!--                this.departments = this.getBottomMenu[item][i];-->
-<!--                break;-->
-<!--            }-->
-<!--            console.log(this.departments)-->
-<!--            // Показываем меню-->
-<!--            this.showMenu = true;-->
-
-<!--            // Делаем hover на topMenu-->
-<!--            for (let cat in topMenu) {-->
-
-<!--                topMenu[cat].hover = false;-->
-<!--            }-->
-<!--            topMenu[i].hover = true;-->
-
-<!--        },-->
-
-<!--        // Уюираем мышку с лавного меню-->
-<!--        unHoverTopMenu(){-->
-<!--            this.showMenu = false;-->
-
-<!--            for (let cat in this.getTopMenu) {-->
-
-<!--                this.getTopMenu[cat].hover = false;-->
-<!--            }-->
-<!--        },-->
-
-<!--        // Показывае меню с категориями и подкатегориями-->
-<!--        hoverMenu(){-->
-<!--            this.showMenu = true;-->
-<!--        },-->
-
-<!--        // Показываем категории-->
-<!--        mouseOverDept(k, menu, catg){-->
-<!--            this.departments = k;-->
-<!--            this.hoverCatg = catg;-->
-<!--            menu[catg][0].hover = true;-->
-<!--        },-->
-
-<!--        doHoverCatg(){-->
-<!--            this.lastMenu[this.hoverCatg][0].hover = true;-->
-<!--        }-->
-<!--    },-->
-<!--    // Получаем меню-->
-<!--    created(){-->
-<!--        if (!this.$store.getters.lastMenu.length && !this.$store.getters.topMenu.length) this.$store.dispatch('getMenuData');-->
-<!--        // console.log(this.lastMenu)-->
-<!--    },-->
-<!--    // Котролируем ширину меню-->
-<!--    updated() {-->
-<!--        this.topMenuLength = this.getTopMenu.length;-->
-<!--        console.log(1)-->
-<!--    },-->
-<!--    computed: {-->
-<!--        // Следим за шириной меню-->
-<!--        getTopMenuLength(){-->
-<!--            return this.topMenuLength;-->
-<!--        },-->
-
-<!--        // Отдаем ширину меню-->
-<!--        returnWidth(){-->
-<!--            let width = {-->
-<!--                2: 'width-300',-->
-<!--                3: 'width-500',-->
-<!--                4: 'width-600',-->
-<!--                5: 'width-700',-->
-<!--                6: 'width-800',-->
-<!--                7: 'width-900',-->
-<!--                8: 'width-1000'-->
-<!--            };-->
-<!--            let resultWidth = null;-->
-
-<!--            for (let wd in width){-->
-
-<!--                if (this.topMenuLength == wd) resultWidth = width[wd];-->
-<!--            }-->
-
-<!--            if (resultWidth === null) {-->
-<!--                resultWidth = 'width-default';-->
-<!--            }-->
-<!--            return resultWidth;-->
-<!--        },-->
-
-<!--        // Отдаем категории-->
-<!--        returnDepart(){-->
-<!--            return this.departments;-->
-<!--        },-->
-
-<!--        // Отдаем категории и подкатегории-->
-<!--        getBottomMenu(){-->
-<!--          return this.$store.getters.lastMenu;-->
-<!--        },-->
-
-<!--        // Отдаем мальчки, девочики ..-->
-<!--        getTopMenu(){-->
-<!--            return this.$store.getters.topMenu;-->
-<!--        },-->
-
-<!--        getChosenCatg(){-->
-<!--            return this.chosenCatg;-->
-<!--        }-->
-<!--    }-->
-<!--}-->
-<!--</script>-->
 
 <style lang = "scss">
 

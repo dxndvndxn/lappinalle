@@ -65,27 +65,13 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-            <div class="products-list" v-for="(prd, i) in returnAllProducts">
+            <div class="products-list" v-for="(prd, i) in returnAllProducts" :key="i">
                 <div class="list-name">
                     <div class="admin-h3">
                         {{prd.product_id}}.
                     </div>
                     <input type="text" class="input-pale-blu" @change="changeProductTitle(prd.product_id, i)" ref="title" :value="prd.product_title">
                 </div>
-
-
-
-
                 <div class="list-category">
                     <div class="wrap-list-input" v-if="prd.sex_id || prd.categories_id || prd.departments_id">
                         <input type="text" class="input-pale-blu"
@@ -117,6 +103,12 @@
                     <div class="list-set">
                         <router-link :to="{path: `card-${prd.product_id}`}"><img src="../../../img/admin-set.png" alt=""></router-link>
                         <img src="../../../img/krest-btn.png" alt="" @click="removeProduct(prd.product_id)">
+                        <div class="move-wrap">
+                            <div class="moveUp" @click="move(prd.product_id, 'Up', i === 0 ? null : returnAllProducts[i - 1].product_id)">
+                            </div>
+                            <div class="moveDown" @click="move(prd.product_id, 'Down', i === returnAllProducts.length - 1 ? null : returnAllProducts[i + 1].product_id)">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -161,6 +153,26 @@
 
         }),
         methods: {
+           move(id, whereMove, closeId){
+               if (whereMove === 'Up' && this.returnAllProducts[0].product_id === id) {
+                   return
+               }
+               else if (whereMove === 'Down' && this.returnAllProducts[this.returnAllProducts.length - 1].product_id === id) {
+                    return
+               }
+               this.$Progress.start();
+
+               return new Promise(resolve => {
+                   let makeAction = this.updateProduct(id, 'move', [whereMove, closeId]);
+
+                   if (makeAction) setTimeout(() => resolve(true), 500)
+
+               })
+               .then(res => {
+                   this.$store.dispatch('AdminGetAllPrducts')
+                   this.$Progress.finish();
+               })
+           },
            async searchProducts(){
                this.$Progress.start();
                this.$store.dispatch('AdminSearchProduct', this.searched)
@@ -213,8 +225,9 @@
 
                await axios.post(`${this.URI}updprod`, formData)
                    .then(res => {
-
+                       console.log(res.data)
                        console.log('Success change', whatNeedToChange)
+                       return true;
                    })
                    .catch(e => console.log(e))
             },
@@ -298,7 +311,7 @@
         },
         created() {
             this.$Progress.start();
-            this.$store.dispatch('AdminGetAllPrducts');
+            if (this.$store.getters.adminProducts == null) this.$store.dispatch('AdminGetAllPrducts');
 
             if (this.getCrumbs === null) this.$store.dispatch('getMenuData');
 

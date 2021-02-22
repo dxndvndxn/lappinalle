@@ -8,7 +8,12 @@
 
 <script>
     export default {
-        name: "PayFail"
+        name: "PayFail",
+        metaInfo(){
+            return {
+                title: "Ошибка оплаты"
+            }
+        },
     }
 </script>
 

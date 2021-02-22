@@ -36,6 +36,11 @@
             email: '',
             tel: null,
         }),
+        metaInfo(){
+            return {
+                title: "Контактные данные"
+            }
+        },
         validations: {
             name: {
                 required,

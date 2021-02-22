@@ -193,6 +193,7 @@ nav{
         }
         .menu-bottom{
             grid-template-columns: 100%;
+            position: relative;
             .menu-categories{
                 background-color: $ocean;
                 padding: 15px 0;

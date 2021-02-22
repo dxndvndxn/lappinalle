@@ -22,6 +22,7 @@
             <span>Размер</span>
             <div class="sizing-cell">
                 <button type="button" v-for="(el, size, s) in localSizes"
+                       :key="s"
                        @click="clickSize(size)"
                        v-bind:class="el.active ? 'active-size' : null">
                     {{size}}
@@ -40,6 +41,16 @@
                 <label for="max" v-if="(media.wind > media.tablet)">До</label><input type="number" @focusout="showProductsByCashMax(max)" v-model.number="max" id="max" :placeholder="getMinMax.max"><span v-if="(media.wind > media.tablet)">&#8381;</span>
             </form>
         </div>
+        <div v-if="showSidebar" class="sidebar-brands">
+            <span class="brands">
+                Бренды
+            </span>
+            <ul class="brands-list" @mouseover="showScroll = true"  @mouseleave="showScroll = false" v-bind:class="showScroll ? 'showScroll' : null">
+                <li v-for="(brand, i) in sideBarBrands" :key="i">
+                    {{brand.brands_name}} <input type="checkbox" class="brands__btn" v-bind:class="brand.active ? 'active-size' : null" @change='clickBrand(i)'>
+                </li>
+            </ul>
+        </div>
         <div v-if="showSidebar" class="sidebar-sale">
             <form>
                 <label for="sale">Распродажа</label><input type="checkbox" @change="showSales"  v-model="checkSale" v-bind:class="checkSale ? 'active-size' : null" id="sale">
@@ -57,7 +68,8 @@
             min: null,
             max: null,
             sizesArr: null,
-            localSizes: null
+            localSizes: null,
+            showScroll: false
         }),
         computed: {
             getSidebar(){
@@ -71,15 +83,32 @@
             },
             media(){
                 return this.$store.getters.media;
+            },
+            // Возвращаем данные по каталогу
+            sideBarBrands:{
+                get(){
+                    if (this.$store.getters.filterBrands !== null){
+                        return this.$store.getters.filterBrands;
+                    }
+                },
+                set(value){
+                    return value 
+                }
             }
         },
         created(){
             this.checkSale = this.$route.query.sale ? this.$route.query.sale : false;
             this.min = this.$route.query.min ? this.$route.query.min : null;
             this.max = this.$route.query.max ? this.$route.query.max : null;
+
             this.$store.dispatch('showDepartAfterUpdated', {categoryAlias: this.$route.params.category, gen: this.$route.params.gender, newSidebar: this.getSidebar})
         },
         methods:{
+            clickBrand(i){
+                this.sideBarBrands[i].active = !this.sideBarBrands[i].active
+                let pickedBrands = this.sideBarBrands.filter(br => br.active)
+                this.$emit('showBrandProducts', pickedBrands)
+            },
             showDepartments(categoryAlias, gen){
                 this.$store.dispatch('showDepartments', {categoryAlias, gen});
             },
@@ -88,7 +117,7 @@
                 if (this.checkSale){
                     this.$emit('showSaleProducts', this.checkSale);
                 } else{
-                    this.$emit('showSaleProducts',this.checkSale);
+                    this.$emit('showSaleProducts', this.checkSale);
                 }
             },
             clickSize(size){
@@ -150,7 +179,7 @@
                             this.$route.query.size.forEach(el => {
 
                                 if (sz === el) sizes[sz].active = true;
-                            });
+                            })
                         }
                     }
                     this.localSizes = sizes;
@@ -160,7 +189,56 @@
             },
             checkSale(val){
                 this.checkSale = val;
+            },
+            sideBarBrands(activeBrands){
+                // if (this.$route.query.brand) {
+                // console.log(this.$route.query.brand)
+                // if (Array.isArray(this.$route.query.brand)) {
+                //   this.$route.query.brand.forEach(queryBrand => {
+                //       let searchedBrand = this.brands.findIndex(brand => brand.name == queryBrand)
+                //       this.brands[searchedBrand].active = !this.brands[searchedBrand].active
+                //   })
+                // }else{
+                //   let searchedBrand = this.brands.findIndex(brand => brand.name == this.$route.query.brand)
+                //   this.brands[searchedBrand].active = !this.brands[searchedBrand].active
+                // }
+                // }
+                if (this.$route.query.brand){
+                    console.log(this.$route.query.brand);
+                    if(Array.isArray(this.$route.query.brand)){
+                        activeBrands.forEach((brand, i) => {
+                            activeBrands[i].active = false
+
+                            if (brand.brands_name.indexOf("&")){
+                                let splitted = brand.brands_name.split('&')
+                                let correctBrand = splitted.join('$')
+                                let searchedBrand = this.$route.query.brand.find(queryBrand => queryBrand == correctBrand)
+                                if (searchedBrand) activeBrands[i].active = true
+                            }
+
+                            let searchedBrand = this.$route.query.brand.find(queryBrand => queryBrand == brand.brands_name)
+                            if (searchedBrand){
+                                activeBrands[i].active = true
+                            } 
+                        })
+                        this.sideBarBrands = activeBrands
+                        console.log(this.sideBarBrands)
+                    }else{
+                        if (this.$route.query.brand.indexOf("$")) {
+                            let splitted = this.$route.query.brand.split('$')
+                            let correctBrand = splitted.join('&')
+
+                            let findedBrand = activeBrands.findIndex(br => br.brands_name == correctBrand)
+                            activeBrands[findedBrand].active = !activeBrands[findedBrand].active
+                        }else{
+                            let findedBrand = activeBrands.findIndex(br => br.brands_name == this.$route.query.brand)
+                            activeBrands[findedBrand].active = !activeBrands[findedBrand].active
+                        }
+                        this.sideBarBrands = activeBrands
+                    }
+                }
             }
+
         }
     }
 </script>

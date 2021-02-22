@@ -35,6 +35,11 @@
             email: null,
             resetWhat: false
         }),
+        metaInfo(){
+            return {
+                title: "Новый пароль"
+            }
+        },
         validations: {
             email: {
                 email, required
