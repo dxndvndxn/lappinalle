@@ -35,7 +35,7 @@ class AllSizeForSideBarController extends Controller
         $sizeData = array();
 
         //поиск всех размеров по товарам в разделе
-        foreach ($prodDara as $i) {
+        foreach ($prodData as $i) {
             $sizeData = DB::table('catalog_size')->select("sizes_id")
                 ->where('product_id', '=', $i)
                 ->get();
