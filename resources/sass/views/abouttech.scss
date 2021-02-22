@@ -1,0 +1,25 @@
+    .about-tech{
+            h1{
+                @include ptSans(700);
+                font-size: 21px;
+                line-height: 1.5;
+                color: #848ccf;
+            }
+            p {
+                @include ptSans(400);
+                font-size: 14px;
+                line-height: 1.5;
+            }
+        img{
+            width: 700px;
+            &:last-child{
+            margin-bottom: 55px;
+            }
+            @media screen and (max-width: 768px){
+                width: 100%;
+            }
+        }
+        &:last-child{
+            margin-bottom: 55px;
+        }
+    }
