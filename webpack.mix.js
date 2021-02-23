@@ -1,4 +1,3 @@
-const routesJSON = require('./routesJSON.json')
 const mix = require('laravel-mix')
 const PrerenderSpaPlugin = require('prerender-spa-plugin')
 const path = require('path')

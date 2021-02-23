@@ -1,11 +1,14 @@
-@charset "UTF-8";
-.admin-categories ul, .admin-sidebar__tabs .admin-sidebar__tab, .crumbs ul, .catalog-sidebar ul, nav ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.main {
+  height: 100vh;
+}html[data-v-ab30752a], body[data-v-ab30752a] {
+  height: 100%;
 }
-
-.admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar-track, .admin-crumbs ul::-webkit-scrollbar-track, .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track, .wrap-size-grid::-webkit-scrollbar-track, .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track, .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track, .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track, .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track, .cart-cards::-webkit-scrollbar-track, .item-pics::-webkit-scrollbar-track {
+html #app[data-v-ab30752a], body #app[data-v-ab30752a] {
+  height: 100%;
+}
+html #app > div[data-v-ab30752a], body #app > div[data-v-ab30752a] {
+  height: 100%;
+}ebkit-scrollbar-track, .admin-crumbs ul::-webkit-scrollbar-track, .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar-track, .wrap-size-grid::-webkit-scrollbar-track, .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar-track, .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar-track, .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar-track, .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar-track, .cart-cards::-webkit-scrollbar-track, .item-pics::-webkit-scrollbar-track {
   background-color: #93b5e1;
 }
 .admin-review-card .wrap-admin-review-card .order-cl .review-text textarea::-webkit-scrollbar, .admin-crumbs ul::-webkit-scrollbar, .admin-main-page .admin-main-wrap .wrap-main-page .wrap-links::-webkit-scrollbar, .wrap-size-grid::-webkit-scrollbar, .admin-product-photos-rew .admin-reviews .review-text::-webkit-scrollbar, .admin-product-photos-rew .admin-reviews .users-reviews::-webkit-scrollbar, .admin-product-photos-rew .admin-photos .uploaded-content::-webkit-scrollbar, .admin-product-card-desc .wrap-card-desc textarea::-webkit-scrollbar, .cart-cards::-webkit-scrollbar, .item-pics::-webkit-scrollbar {

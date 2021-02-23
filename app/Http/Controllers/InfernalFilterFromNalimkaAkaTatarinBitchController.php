@@ -42,7 +42,7 @@ class InfernalFilterFromNalimkaAkaTatarinBitchController extends Controller
             if ($sale !== 'null') {
                 $activesale = 1;
             }
-            
+
             $productMin = DB::table('products')
                 ->where('product_available', '=', 1)
                 ->where('sex_id', '=', $sexid)
@@ -68,6 +68,8 @@ class InfernalFilterFromNalimkaAkaTatarinBitchController extends Controller
                 ->join('products', 'catalog_size.product_id', '=', 'products.product_id')->select('sizes_number', 'products.product_id')
                 ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
                 ->get();
+
+
 
             $dataBrands = DB::table('brands')->select('brands_name')->get();
 
@@ -130,11 +132,39 @@ class InfernalFilterFromNalimkaAkaTatarinBitchController extends Controller
                         }
                     }
                     $alldata['myData'] = $sortData;
-                    $alldata['sizes'] = $dataSizes;
                     $alldata['brands'] = $dataBrands;
                     $alldata['min'] = (int)$productMin * $realEU;
                     $alldata['max'] = (int)$productMax * $realEU;
                     $alldata['eu'] = $realEU;
+
+                    //id всех товаров в нужном разделе
+                    $prodData = DB::table('products')->select("product_id")
+                        ->where('product_available', '=', 1)
+                        ->where('sex_id', '=', $sexid)
+                        ->where('categories_id', 'like', $catid)
+                        ->where('departments_id', 'like', $depid)
+                        ->get();
+
+                    $prodArr = [];
+                    $prodId = [];
+
+                    foreach ($prodData as $i) {
+                        array_push($prodArr, (array) $i);
+                    }
+                    foreach ($prodArr as $i) {
+                        array_push($prodId, $i['product_id']);
+                    }
+                    $prodId = array_values($prodId);
+
+                    $sizeData = DB::table('catalog_size')
+                        ->whereIn('catalog_size.product_id', $prodId)
+                        ->join('products', 'catalog_size.product_id', '=', 'products.product_id')
+                        ->select('sizes_number', 'products.product_id')
+                        ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                        ->get();
+
+                    $alldata['sizes'] = $sizeData;
+
                     return $alldata;
                     break;
                 case 'high':
@@ -192,11 +222,39 @@ class InfernalFilterFromNalimkaAkaTatarinBitchController extends Controller
                         }
                     }
                     $alldata['myData'] = $sortData;
-                    $alldata['sizes'] = $dataSizes;
                     $alldata['brands'] = $dataBrands;
                     $alldata['min'] = (int)$productMin * $realEU;
                     $alldata['max'] = (int)$productMax * $realEU;
                     $alldata['eu'] = $realEU;
+
+                    //id всех товаров в нужном разделе
+                    $prodData = DB::table('products')->select("product_id")
+                        ->where('product_available', '=', 1)
+                        ->where('sex_id', '=', $sexid)
+                        ->where('categories_id', 'like', $catid)
+                        ->where('departments_id', 'like', $depid)
+                        ->get();
+
+                    $prodArr = [];
+                    $prodId = [];
+
+                    foreach ($prodData as $i) {
+                        array_push($prodArr, (array) $i);
+                    }
+                    foreach ($prodArr as $i) {
+                        array_push($prodId, $i['product_id']);
+                    }
+                    $prodId = array_values($prodId);
+
+                    $sizeData = DB::table('catalog_size')
+                        ->whereIn('catalog_size.product_id', $prodId)
+                        ->join('products', 'catalog_size.product_id', '=', 'products.product_id')
+                        ->select('sizes_number', 'products.product_id')
+                        ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                        ->get();
+
+                    $alldata['sizes'] = $sizeData;
+
                     return $alldata;
                     break;
                 case 'new':
@@ -254,11 +312,39 @@ class InfernalFilterFromNalimkaAkaTatarinBitchController extends Controller
                         }
                     }
                     $alldata['myData'] = $sortData;
-                    $alldata['sizes'] = $dataSizes;
                     $alldata['brands'] = $dataBrands;
                     $alldata['min'] = (int)$productMin * $realEU;
                     $alldata['max'] = (int)$productMax * $realEU;
                     $alldata['eu'] = $realEU;
+
+                    //id всех товаров в нужном разделе
+                    $prodData = DB::table('products')->select("product_id")
+                        ->where('product_available', '=', 1)
+                        ->where('sex_id', '=', $sexid)
+                        ->where('categories_id', 'like', $catid)
+                        ->where('departments_id', 'like', $depid)
+                        ->get();
+
+                    $prodArr = [];
+                    $prodId = [];
+
+                    foreach ($prodData as $i) {
+                        array_push($prodArr, (array) $i);
+                    }
+                    foreach ($prodArr as $i) {
+                        array_push($prodId, $i['product_id']);
+                    }
+                    $prodId = array_values($prodId);
+
+                    $sizeData = DB::table('catalog_size')
+                        ->whereIn('catalog_size.product_id', $prodId)
+                        ->join('products', 'catalog_size.product_id', '=', 'products.product_id')
+                        ->select('sizes_number', 'products.product_id')
+                        ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                        ->get();
+
+                    $alldata['sizes'] = $sizeData;
+
                     return $alldata;
                     break;
                 default:
@@ -321,6 +407,35 @@ class InfernalFilterFromNalimkaAkaTatarinBitchController extends Controller
                     $alldata['min'] = (int)$productMin * $realEU;
                     $alldata['max'] = (int)$productMax * $realEU;
                     $alldata['eu'] = $realEU;
+
+                    //id всех товаров в нужном разделе
+                    $prodData = DB::table('products')->select("product_id")
+                        ->where('product_available', '=', 1)
+                        ->where('sex_id', '=', $sexid)
+                        ->where('categories_id', 'like', $catid)
+                        ->where('departments_id', 'like', $depid)
+                        ->get();
+
+                    $prodArr = [];
+                    $prodId = [];
+
+                    foreach ($prodData as $i) {
+                        array_push($prodArr, (array) $i);
+                    }
+                    foreach ($prodArr as $i) {
+                        array_push($prodId, $i['product_id']);
+                    }
+                    $prodId = array_values($prodId);
+
+                    $sizeData = DB::table('catalog_size')
+                        ->whereIn('catalog_size.product_id', $prodId)
+                        ->join('products', 'catalog_size.product_id', '=', 'products.product_id')
+                        ->select('sizes_number', 'products.product_id')
+                        ->join('sizes', 'catalog_size.sizes_id', '=', 'sizes.sizes_id')
+                        ->get();
+
+                    $alldata['sizes'] = $sizeData;
+
                     return $alldata;
                     break;
             }
